@@ -1,0 +1,70 @@
+{
+	"name": "tmlanguage-syntax-highlighter",
+	"displayName": "Text Mate Language Syntax Highlighter",
+	"publisher": "RedCMD",
+	"description": "Syntax Highlighting for Json based Text Mate Language",
+	"icon": "images/TextMate-logo-icon.png",
+	"version": "1.0.0",
+	"engines": {
+		"vscode": "^1.47.0"
+	},
+	"keywords": [
+		"tmlanguage",
+		"text mate",
+		"regex",
+		"regexp"
+	],
+	"categories": [
+		"Programming Languages",
+		"Snippets"
+	],
+	"contributes": {
+		"languages": [
+			{
+				"id": "json-tmlanguage",
+				"aliases": [
+					"RedCMD.JSON.TextMateLanguage"
+				],
+				"extensions": [
+					".tmLanguage.json",
+					".JSON-tmLanguage"
+				],
+				"filenames": [
+					"tmLanguage.json"
+				],
+				"configuration": "./language-configuration.json"
+			},
+			{
+				"id": "regex-tmlanguage",
+				"aliases": [
+					"RedCMD.Regex.TextMateLanguage"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "json-tmlanguage",
+				"scopeName": "source.syntax.json.tmlanguage",
+				"path": "./syntaxes/json.tmLanguage.json"
+			},
+			{
+				"language": "regex-tmlanguage",
+				"scopeName": "source.syntax.regex.tmlanguage",
+				"path": "./syntaxes/regex.tmLanguage.json"
+			}
+		],
+		"snippets": [
+			{
+				"language": "json-tmlanguage",
+				"path": "./snippets/tmlanguage.snippets.json"
+			}
+		]
+	},
+	"__metadata": {
+		"id": "7f5ff7e8-575f-4fbf-bff6-201486b6327e",
+		"publisherId": "6d229866-9775-4c10-9f86-f22eaa70eb66",
+		"publisherDisplayName": "RedCMD",
+		"installedTimestamp": 1627819702262
+	}
+}

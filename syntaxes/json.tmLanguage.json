@@ -1,0 +1,621 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"scopeName": "source.syntax.json.tmlanguage",
+	"name": "TextMate Language JSON",
+	"fileTypes": [
+		".tmLanguage.json"
+	],
+	"patterns": [
+		{ "include": "#json" },
+		{ "include": "#invalid" }
+	],
+	"repository": {
+		"json": {
+			"comment": "{ ... }",
+			"begin": "^\\s*{",
+			"end": "}\\s*$",
+			"patterns": [
+				{ 
+					"begin": "(?<={)|,",
+					"end": "(?<=[]}\"]|true|false|null|\\d+)",
+					"patterns": [
+						{ "include": "#name"				},
+						{ "include": "#scopeName"			},
+						{ "include": "#$schema"				},
+						{ "include": "#uuid"				},
+						{ "include": "#fileTypes"			},
+						{ "include": "#patterns"			},
+						{ "include": "#repository"			},
+						{ "include": "#injectionSelector"	},
+						{ "include": "#comment"				},
+						{ "include": "#json-item"			},
+						{ "include": "#invalid"				}
+					]
+				},
+				{ "include": "#invalid"	}
+			]
+		},
+		"$schema": {
+			"comment": "\"$schem\": \"...\"",
+			"begin": "\"(\\$)(schema)\"",
+			"end": "(?!\\G)(?<=\")",
+			"beginCaptures": {
+				"1": { "name": "keyword.tmlanguage" },
+				"2": { "name": "entity.name.function.tmlanguage" }
+			},
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=\")",
+					"patterns": [
+						{ "include": "#string" },
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"name": {
+			"comment": "\"name\": \"...\"",
+			"begin": "\"(name)\"",
+			"end": "(?!\\G)(?<=\")",
+			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=\")",
+					"patterns": [
+						{ "include": "#string" },
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"scopeName": {
+			"comment": "\"scopeName\": \"...\"",
+			"begin": "\"(scopeName)\"",
+			"end": "(?!\\G)(?<=\")",
+			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=\")",
+					"patterns": [
+						{ "include": "#string" },
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"uuid": {
+			"comment": "\"uuid\": \"00000000-0000-0000-0000-000000000000\"",
+			"begin": "\"(uuid)\"",
+			"end": "(?!\\G)(?<=\")",
+			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=\")",
+					"patterns": [
+						{
+							"match": "\"([a-z\\d]{8})-([a-z\\d]{4})-([a-z\\d]{4})-([a-z\\d]{4})-([a-z\\d]{12})\"",
+							"captures": {
+								"1": { "name": "constant.numeric.tmlanguage"	},
+								"2": { "name": "constant.numeric.tmlanguage"	},
+								"3": { "name": "constant.numeric.tmlanguage"	},
+								"4": { "name": "constant.numeric.tmlanguage"	},
+								"5": { "name": "constant.numeric.tmlanguage"	}
+							}
+						},
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"fileTypes": {
+			"comment": "\"fileTypes\": [ \"...\" ]",
+			"begin": "\"(fileTypes)\"",
+			"end": "(?<=])",
+			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=])",
+					"patterns": [
+						{
+							"begin": "\\[",
+							"end": "]",
+							"patterns": [
+								{
+									"begin": "(?<=\\[)|,",
+									"end": "(?<=\")",
+									"patterns": [
+										{ "include": "#string"	},
+										{ "include": "#invalid"	}
+									]
+								},
+								{ "include": "#invalid" }
+							]
+						},
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"injectionSelector": {
+			"comment": "\"injectionSelector\": \"...\"",
+			"begin": "\"(injectionSelector)\"",
+			"end": "(?!\\G)(?<=\")",
+			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=\")",
+					"patterns": [
+						{
+							"match": "\"([LR]:)?(.*?(?<!\\\\)\\\\{2}*|.*?)\"\"",
+							"captures": {
+								"1": { "name": "entity.name.function.tmlanguage"	},
+								"2": {
+									"name": "string.tmlanguage",
+									"patterns": [ { "include": "#escape-characters" } ]
+								}
+							}
+						},
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"patterns": {
+			"comment": "\"patterns\": [ ... ]",
+			"begin": "\"(patterns)\"",
+			"end": "(?<=])",
+			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=])",
+					"patterns": [
+						{
+							"begin": "\\[",
+							"end": "]",
+							"patterns": [
+								{
+									"begin": "(?<=\\[)|,",
+									"end": "(?<=})",
+									"patterns": [
+										{
+											"begin": "{",
+											"end": "}",
+											"patterns": [
+												{
+													"begin": "(?<={)|,",
+													"end": "(?!\\G)(?<=[]}\"]|true|false|null|\\d+)",
+													"patterns": [
+														{ "include": "#name-scope"			},
+														{ "include": "#match"				},
+														{ "include": "#include"				},
+														{ "include": "#patterns"			},
+														{ "include": "#captures"			},
+														{ "include": "#applyEndPatternLast"	},
+														{ "include": "#comment"				},
+														{ "include": "#json-item"			},
+														{ "include": "#invalid"				}
+													]
+												},
+												{ "include": "#invalid" }
+											]
+										},
+										{ "include": "#invalid" }
+									]
+								},
+								{ "include": "#invalid" }
+							]
+						},
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"repository": {
+			"comment": "\"repository\": { \"...\": { ... } }",
+			"begin": "\"(repository)\"",
+			"end": "(?<=})",
+			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=})",
+					"patterns": [
+						{
+							"begin": "{",
+							"end": "}",
+							"patterns": [
+								{
+									"begin": "(?<={)|,",
+									"end": "(?<=})",
+									"patterns": [
+										{
+											"begin": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+											"end": "(?<=})",
+											"beginCaptures": {
+												"1": {
+													"name": "variable.string.tmlanguage",
+													"patterns": [ { "include": "#escape-characters" } ]
+												}
+											},
+											"patterns": [
+												{
+													"begin": ":",
+													"end": "(?<=})",
+													"patterns": [
+														{
+															"begin": "{",
+															"end": "}",
+															"patterns": [
+																{
+																	"begin": "(?<={)|,",
+																	"end": "(?<=[]}\"]|true|false|null|\\d+)",
+																	"patterns": [
+																		{ "include": "#name-scope"			},
+																		{ "include": "#match"				},
+																		{ "include": "#captures"			},
+																		{ "include": "#patterns"			},
+																		{ "include": "#applyEndPatternLast"	},
+																		{ "include": "#comment"				},
+																		{ "include": "#json-item"			},
+																		{ "include": "#invalid"				}
+																	]
+																},
+																{ "include": "#invalid" }
+															]
+														},
+														{ "include": "#invalid" }
+													]
+												},
+												{ "include": "#invalid" }
+											]
+										},
+										{ "include": "#invalid" }
+									]
+								},
+								{ "include": "#comment" },
+								{ "include": "#invalid" }
+							]
+						},
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"name-scope": {
+			"comment": "\"name\": \"...\"",
+			"begin": "\"((?:contentN|n)ame)\"",
+			"end": "(?!\\G)(?<=\")",
+			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=\")",
+					"patterns": [
+						{
+							"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+							"captures": {
+								"1": {
+									"name": "$1..string",
+									"patterns": [
+										{ "include": "#escape-characters" } ,
+										{ "match": "\\$\\d+", "name": "constant.character.escape.tmlanguage" }
+									]
+								}
+							}
+						},
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"match": {
+			"comment": "\"match\": \"...\"",
+			"begin": "\"(match|begin|while|end)\"",
+			"end": "(?!\\G)(?<=\")",
+			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=\")",
+					"patterns": [
+						{
+							"begin": "\"",
+							"end": "\"",
+							"patterns": [ { "include": "source.syntax.regex.tmlanguage" } ]
+						},
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"include": {
+			"comment": "\"include\": \"#...\"",
+			"begin": "\"(include)\"",
+			"end": "(?!\\G)(?<=\")",
+			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=\")",
+					"patterns": [
+						{
+							"match": "\"(?:((\\$)(base|self)|([^#]*)(#)?(.*?))(?<=[^\\\\]\\\\{2}*)|\\g<1>)\"",
+							"captures": {
+								"2": { "name": "keyword.tmlanguage" },
+								"3": { "name": "entity.name.function.tmlanguage" },
+								"4": {
+									"name": "string.tmlanguage",
+									"patterns": [ { "include": "#escape-characters" } ]
+								},
+								"5": { "name": "keyword.tmlanguage" },
+								"6": {
+									"name": "variable.string.tmlanguage",
+									"patterns": [ { "include": "#escape-characters" } ]
+								}
+							}
+						},
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"captures": {
+			"comment": "\"captures\": { ... }",
+			"begin": "\"((?:beginC|whileC|endC|c)aptures)\"",
+			"end": "(?<=})",
+			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=})",
+					"patterns": [
+						{
+							"begin": "{",
+							"end": "}",
+							"patterns": [
+								{
+									"begin": "(?<={)|,",
+									"end": "(?!\\G)(?<=[}\"])",
+									"patterns": [
+										{ "include": "#capture-item" },
+										{ "include": "#include"		 },
+										{ "include": "#invalid"		 }
+									]
+								},
+								{ "include": "#invalid" }
+							]
+						},
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"capture-item": {
+			"comment": "\"1\": { ... }",
+			"begin": "\"(\\d+)\"",
+			"end": "(?<=})",
+			"beginCaptures": { "1": { "name": "constant.numeric.tmlanguage" } },
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=})",
+					"patterns": [
+						{
+							"begin": "{",
+							"end": "}",
+							"patterns": [
+								{
+									"begin": "(?<={)|,",
+									"end": "(?!\\G)(?<=[]\"])",
+									"patterns": [
+										{ "include": "#name-scope"	},
+										{ "include": "#patterns"	},
+										{ "include": "#json-item"	},
+										{ "include": "#invalid"		}
+									]
+								},
+								{ "include": "#invalid" }
+							]
+						},
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"applyEndPatternLast": {
+			"comment": "\"applyEndPatternLast\": true",
+			"begin": "\"(applyEndPatternLast)\"",
+			"end": "(?!\\G)(?<=true|false|null|\\d+)",
+			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=true|false|null|\\d+)",
+					"patterns": [
+						{
+							"match": "true|false|null|\\d+",
+							"name": "keyword.control.tmlanguage"
+						},
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"comment": {
+			"comment": "\"comment\": \"...\"",
+			"begin": "\"(comment)\"",
+			"end": "(?!\\G)(?<=\")",
+			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=\")",
+					"patterns": [
+						{
+							"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+							"captures": {
+								"1": {
+									"name": "comment.tmlanguage",
+									"patterns": [
+										{
+											"match": "(\\\\)[^\\s.]",
+											"captures": { "1": { "name": "constant.character.escape.tmlanguage" } }
+										},
+										{
+											"match": "\\\\",
+											"name": "invalid.tmlanguage markup.underline.tmlanguage"
+										}
+									]
+								}
+							}
+						},
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"string": {
+			"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+			"captures": {
+				"1": {
+					"name": "string.tmlanguage",
+					"patterns": [ { "include": "#escape-characters" } ]
+				}
+			}
+		},
+		"json-item": {
+			"comment": "\"...\": ...",
+			"begin": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+			"end": "(?!\\G)(?<=[]}\"]|true|false|null|\\d+)",
+			"beginCaptures": {
+				"0": {
+					"name": "variable.string.tmlanguage",
+					"patterns": [
+						{
+							"match": "\\\\(\"|\\\\)",
+							"name": "constant.character.escape.tmlanguage"
+						},
+						{
+							"match": "\\\\.",
+							"name": "invalid.tmlanguage markup.underline.tmlanguage"
+						}
+					]
+				}
+			},
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=[]}\"]|true|false|null|\\d+)",
+					"patterns": [
+						{ "include": "#json-dictionary" },
+						{ "include": "#json-array" },
+						{ "include": "#json-value" },
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"json-dictionary": {
+			"comment": "{ ... }",
+			"begin": "{",
+			"end": "}",
+			"patterns": [
+				{
+					"begin": "(?<={)|,",
+					"end": "(?<=[]}\"]|true|false|null|\\d+)",
+					"patterns": [
+						{ "include": "#json-item"	},
+						{ "include": "#invalid"		}
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"json-array": {
+			"comment": "[ ... ]",
+			"begin": "\\[",
+			"end": "]",
+			"patterns": [
+				{
+					"begin": "(?<=\\[)|,",
+					"end": "(?<=[]}\"]|true|false|null|\\d+)",
+					"patterns": [
+						{ "include": "#json-dictionary"	},
+						{ "include": "#json-array"		},
+						{ "include": "#json-value"		},
+						{ "include": "#invalid"			}
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"json-value": {
+			"comment": "\"...\"",
+			"match": "(\"(.*?(?<!\\\\)\\\\{2}*|.*?)\")|(true|false|null)|(\\d+)",
+			"captures": {
+				"1": {
+					"name": "string.tmlanguage",
+					"patterns": [
+						{
+							"match": "\\\\(\"|\\\\)",
+							"name": "constant.character.escape.tmlanguage"
+						},
+						{
+							"match": "\\\\.",
+							"name": "invalid.tmlanguage markup.underline.tmlanguage"
+						}
+					]
+				},
+				"2": { "name": "keyword.control.tmlanguage" },
+				"3": { "name": "constant.numeric.tmlanguage" }
+			}
+		},
+		"escape-characters": {
+			"patterns": [
+				{
+					"match": "(\\\\)/",
+					"captures": { "1": { "name": "invalid.tmlanguage" } }
+				},
+				{
+					"match": "(\\\\)[\"\\\\]",
+					"captures": {
+						"1": {
+							"name": "constant.character.escape.tmlanguage"
+						}
+					}
+				},
+				{
+					"match": "\\\\.?|\"",
+					"name": "invalid.tmlanguage markup.underline.tmlanguage"
+				}
+			]
+		},
+		"invalid": {
+			"match": "\\S",
+			"name": "invalid.string.tmlanguage"
+		}
+	}
+}

@@ -1,0 +1,291 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"scopeName": "source.syntax.regex.tmlanguage",
+	"name": "TextMate Language Regex",
+	"patterns": [
+		{ "include": "#character-type"			},
+		{ "include": "#characters"				},
+		{ "include": "#literal-characters"		},
+		{ "include": "#anchor"					},
+		{ "include": "#unicode"					},
+		{ "include": "#escape-character"		},
+		{ "include": "#conditional-named"		},
+		{ "include": "#capture-group-comment"	},
+		{ "include": "#capture-group-extended"	},
+		{ "include": "#non-capture-group"		},
+		{ "include": "#capture-group-name"		},
+		{ "include": "#capture-group"			},
+		{ "include": "#character-class"			},
+		{ "include": "#subroutine"				},
+		{ "include": "#invalid"					},
+		{ "include": "#quantifier"				},
+		{ "include": "#alternation"				},
+		{ "include": "#regex"					}
+	],
+	"repository": {
+		"$self-extended": {
+			"patterns": [
+				{ "include": "#comment-extended"		},
+				{ "include": "$self"					}
+			]
+		},
+		"comment-extended": {
+			"comment": "#...\n",
+			"match": "(?x)#test\n(#)(.*?)(\\\\n|(?=\"))",
+			"captures": {
+				"1": { "name": "support.function.tmlanguage"			},
+				"2": { "name": "comment.tmlanguage"						},
+				"3": { "name": "constant.character.escape.tmlanguage"	}
+			}
+		},
+		"escape-character": {
+			"comment": "\\[ \\{ \\} \\( \\) \\$ \\? \\| \\^ \\* \\+ \\. \\\\ \" \b \f \n \r \t",
+			"match": "(\\\\{2})([\\[{}()$?|^*+.])|(\\\\{3})(\\\\)|(\\\\\")|(\\\\[bfnrt])",
+			"captures": {
+				"1": { "name": "constant.character.escape.string.tmlanguage" },
+				"2": { "name": "strong.string.tmlanguage"					 },
+				"3": { "name": "constant.character.escape.string.tmlanguage" },
+				"4": { "name": "strong.tmlanguage"							 },
+				"5": { "name": "string.tmlanguage"							 },
+				"6": { "name": "constant.character.escape.string.tmlanguage" }
+			}
+		},
+		"capture-group": {
+			"comment": "( ... )",
+			"begin": "\\(",
+			"end": "\\)",
+			"captures": {
+				"0": { "name": "meta.embedded.tmlanguage strong.tmlanguage constant.character.set.regexp.tmlanguage" }
+			},
+			"patterns": [ { "include": "$self" } ]
+		},
+		"capture-group-comment": {
+			"comment": "(?#...)",
+			"begin": "(\\()(\\?#)(?#comment)",
+			"end": "\\)",
+			"beginCaptures": {
+				"1": { "name": "meta.embedded.tmlanguage markup.italic.tmlanguage constant.character.set.regexp.tmlanguage" },
+				"2": { "name": "support.function.tmlanguage" }
+			},
+			"endCaptures": {
+				"0": { "name": "meta.embedded.tmlanguage markup.italic.tmlanguage constant.character.set.regexp.tmlanguage" }
+			},
+			"contentName": "comment.tmlanguage",
+			"patterns": [
+				{ "match": "\\\\\"", "name": "string.tmlanguage" },
+				{ "match": "\"", "name": "invalid.string.tmlanguage" }
+			]
+		},
+		"capture-group-option": {
+			"comment": "(?x)...",
+			"begin": "(\\()(\\?x)(\\))",
+			"end": "(?=\")",
+			"beginCaptures": {
+				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage" },
+				"2": { "name": "support.function.tmlanguage" },
+				"3": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage" }
+			},
+			"patterns": [ { "include": "#$self-extended" } ]
+		},
+		"non-capture-group": {
+			"comment": "(?:...) (?>...) (?!...) (?<!...) (?<=...) (?imx-:...) (?imx-)",
+			"begin": "(\\()(\\?(?::|>|<?[!=]|[imx-]+(?::|([^)]*))))",
+			"end": "\\)",
+			"beginCaptures": {
+				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage" },
+				"2": { "name": "support.function.tmlanguage" },
+				"3": { "name": "invalid.string.tmlanguage"		 }
+			},
+			"endCaptures": {
+				"0": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage" }
+			},
+			"patterns": [ { "include": "$self" } ]
+		},
+		"capture-group-name": {
+			"comment": "(?<name>...) (?'name'...)",
+			"begin": "(\\()(\\?)(<|(?<quote>'))(\\S+?)((?(<quote>)'|>))",
+			"end": "\\)",
+			"beginCaptures": {
+				"1": { "name": "meta.embedded.tmlanguage strong.tmlanguage constant.character.set.regexp.tmlanguage" },
+				"2": { "name": "support.function.tmlanguage" },
+				"3": { "name": "support.function.tmlanguage" },
+				"5": { "patterns": [
+					{ "match": "\\w+", "name": "markup.bold.tmlanguage" },
+					{ "match": "\\W+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
+				] },
+				"6": { "name": "support.function.tmlanguage" }
+			},
+			"endCaptures": {
+				"0": { "name": "meta.embedded.tmlanguage strong.tmlanguage constant.character.set.regexp.tmlanguage" }
+			},
+			"patterns": [ { "include": "$self" } ]
+		},
+		"conditional-named": {
+			"comment": "(?(<name>)...) (?('name')...)",
+			"begin": "(\\()(\\?)(\\()(<|(?<quote>'))(\\S+?)((?(<quote>)'|>))([^)]*)(\\))",
+			"end": "\\)",
+			"beginCaptures": {
+				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage" },
+				"2": { "name": "support.function.tmlanguage" },
+				"3": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage" },
+				"4": { "name": "support.function.tmlanguage" },
+				"6": { "patterns": [
+					{ "match": "\\w+", "name": "markup.bold.tmlanguage" },
+					{ "match": "\\W+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
+				] },
+				"7": { "name": "support.function.tmlanguage" },
+				"8": { "name": "invalid.string.tmlanguage"		 },
+				"9": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage" }
+			},
+			"endCaptures": {
+				"0": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage" }
+			},
+			"patterns": [ { "include": "$self" } ]
+		},
+		"character-class": {
+			"comment": "[...] [^...]",
+			"begin": "(\\[)(\\^)?(])?",
+			"end": "]",
+			"beginCaptures": {
+				"1": { "name": "meta.embedded.tmlanguage support.class.tmlanguage"	},
+				"2": { "name": "strong.tmlanguage support.function.tmlanguage"		},
+				"3": { "name": "markup.italic.string.tmlanguage"					}
+			},
+			"endCaptures": {
+				"0": { "name": "meta.embedded.tmlanguage support.class.tmlanguage" }
+			},
+			"patterns": [
+				{ "include": "#unicode"					},
+				{ "include": "#character-class-range"	},
+				{ "include": "#character-class-escape"	},
+				{ "include": "#character-class-posix"	},
+				{ "include": "#character-class"			},
+				{ "include": "#character-class-regex"	}
+			]
+		},
+		"character-class-escape": {
+			"comment": "\\] \\[ \\^ \\- \\\\ \\D \\H \\S \\W \\b \\f \\n \\r \\t \n \t. \"",
+			"match": "(?i)(?:(\\G\\\\{2})(]))|(\\\\{2})([]\\[^-])|(\\\\{3})(\\\\)|(\\\\{2}[DHSWbfnrt])|(\\\\[nt])|(\\\\\")|(\\\\{2}|(\\\\.|\"))",
+			"captures": {
+				"1":  { "name": "invalid.tmlanguage"					},
+				"2":  { "name": "markup.italic.string.tmlanguage"		},
+				"3":  { "name": "constant.character.escape.tmlanguage"	},
+				"4":  { "name": "markup.italic.string.tmlanguage"		},
+				"5":  { "name": "constant.character.escape.tmlanguage"	},
+				"6":  { "name": "markup.italic.tmlanguage"				},
+				"7":  { "name": "variable.other.enummember.tmlanguage"	},
+				"8":  { "name": "constant.character.escape.tmlanguage"	},
+				"9":  { "name": "string.tmlanguage"						},
+				"10": { "name": "invalid.string.tmlanguage"				},
+				"11": { "name": "markup.underline.tmlanguage"			}
+			}
+		},
+		"character-class-range": {
+			"comment": "0-9 a-z A-Z .-. &&",
+			"match": "(\\d-\\d)|([[:lower:]]-[[:lower:]]|[[:upper:]]-[[:upper:]])|((?:[^]\\[\\\\]|(\\\\{3})\\\\)-[^]\\[\\\\])|(&&)",
+			"captures": {
+				"1": { "name": "constant.numeric.tmlanguage"			},
+				"2": { "name": "variable.other.enummember.tmlanguage"	},
+				"3": { "name": "support.class.tmlanguage"				},
+				"4": { "name": "constant.character.escape.tmlanguage"	},
+				"5": { "name": "keyword.other.operator.tmlanguage"		}
+			}
+		},
+		"character-class-posix": {
+			"comment": "[:...:] [:^...:]",
+			"match": "(\\[:\\^?)(?:(\\s*:])|([^]]+)(:]))",
+			"captures": {
+				"1": { "name": "support.function.tmlanguage" },
+				"2": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage" },
+				"3": { "patterns": [ { "include": "#character-class-posix-value" } ] },
+				"4": { "name": "support.function.tmlanguage" }
+			}
+		},
+		"character-class-posix-value": {
+			"match": "(.*\\s.*)|(.*?)(alnum|alpha|ascii|blank|cntrl|x?digit|graph|lower|print|punct|space|upper|word)(.*)|(.+)",
+			"captures": {
+				"1": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage"	},
+				"2": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage"	},
+				"3": { "name": "variable.other.enummember.tmlanguage"					},
+				"4": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage"	},
+				"5": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage"	}
+			}
+		},
+		"character-class-regex": {
+			"match": ".",
+			"name": "markup.italic.string.tmlanguage"
+		},
+		"character-type": {
+			"match": "(?i)\\\\{2}([BDHSW])|\\.",
+			"name": "variable.other.enummember.tmlanguage"
+		},
+		"characters": {
+			"match": "\\\\{2}(?:[abefnrtv]|[CM]-x|M-\\\\C-x)",
+			"name": "variable.other.enummember.tmlanguage"
+		},
+		"literal-characters": {
+			"comment": "\\777 \\xFF \\cZZ \\x{13FFF}",
+			"match": "\\\\{2}(?:0|[0-7]{2,3}|x\\h{,2}|c[a-zA-Z]|x\\{1?[0-3]?\\h{,4}})",
+			"name": "variable.other.enummember.tmlanguage"
+		},
+		"subroutine": {
+			"comment": "\\g<99>",
+			"match": "(\\\\{2}g)(<)(\\d+)(>)",
+			"captures": {
+				"1": { "name": "string.regexp.tmlanguage"	 },
+				"2": { "name": "support.function.tmlanguage" },
+				"3": { "name": "constant.numeric.tmlanguage" },
+				"4": { "name": "support.function.tmlanguage" }
+			}
+		},
+		"quantifier": {
+			"comment": "+ * ? {1,9}",
+			"match": "([+*?])|\\G({(?<invalid>\\d+)?,?(?(<invalid>)\\d*|\\d+)})|({)(?<number>\\d+)?(,)?((?(<number>)\\d*|\\d+))(})",
+			"captures": {
+				"1": { "name": "keyword.tmlanguage"										},
+				"2": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage"	},
+				"4": { "name": "meta.embedded.tmlanguage keyword.tmlanguage"			},
+				"5": { "name": "constant.numeric.tmlanguage"							},
+				"6": { "name": "keyword.control.tmlanguage"								},
+				"7": { "name": "constant.numeric.tmlanguage"							},
+				"8": { "name": "meta.embedded.tmlanguage keyword.tmlanguage"			}
+			}
+		},
+		"anchor": {
+			"comment": "$ ^ \\A \\B \\b \\G \\Z \\z",
+			"match": "[$^]|\\\\{2}[ABbGZz]",
+			"name": "variable.tmlanguage"
+		},
+		"alternation": {
+			"comment": "|",
+			"match": "\\|",
+			"name": "keyword.other.operator.tmlanguage"
+		},
+		"unicode": {
+			"comment": "Unicode example format for °  \\u00b0",
+			"match": "(\\\\{2}u)([^\"]{,4})",
+			"captures": {
+				"1": { "name": "variable.other.enummember.tmlanguage" },
+				"2": { "patterns": [
+					{ "match": "\\h+", "name": "constant.numeric.tmlanguage" },
+					{ "match": "\\H+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
+				] }
+			}
+		},
+		"regex": {
+			"match": ".",
+			"name": "entity.name.label.tmlanguage strong.string.tmlanguage"
+		},
+		"invalid": {
+			"match": "\\\\{2}|(\\\\.|\\G[+*?]|\\)|\")",
+			"captures": {
+				"0": { "name": "invalid.string.tmlanguage"	 },
+				"1": { "name": "markup.underline.tmlanguage" }
+			}
+		},
+		"test": {
+			"match": "{2,3}{2,3}({2,3}(?:{2,3}))[a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘] \\g<0> \\x55 QabcE $ \\$ \\111111111111111111111111111 a\bcde\fghijklm\nopq\rs\tuvwxyz bfnrt \\a\\b\\c\\d\\e\\f\\g\\h\\i\\j\\k\\l\\m\\n\\o\\p\\q\\r\\s\\t\\u0000\\v\\w\\x\\y\\z",
+			"name": "test.tmlanguage"
+		}
+	}
+}
