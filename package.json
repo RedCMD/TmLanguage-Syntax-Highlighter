@@ -5,6 +5,10 @@
 	"description": "Syntax Highlighting for Json based Text Mate Language",
 	"icon": "images/TextMate-logo-icon.png",
 	"version": "1.1.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter.git"
+	},
 	"engines": {
 		"vscode": "^1.47.0"
 	},
