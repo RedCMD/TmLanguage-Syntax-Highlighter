@@ -600,12 +600,12 @@
 					"captures": { "1": { "name": "invalid.tmlanguage" } }
 				},
 				{
-					"match": "(\\\\)[\"\\\\bfnrt]",
-					"captures": {
-						"1": {
-							"name": "constant.character.escape.tmlanguage"
-						}
-					}
+					"match": "(\\\\)[\\\\\"]",
+					"captures": { "1": { "name": "constant.character.escape.tmlanguage" } }
+				},
+				{
+					"match": "\\\\[bfnrt]",
+					"name": "constant.character.escape.tmlanguage"
 				},
 				{
 					"match": "\\\\.?|\"|(?! )\\s",
