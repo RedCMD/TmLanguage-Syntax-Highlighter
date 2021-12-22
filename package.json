@@ -59,12 +59,6 @@
 				"scopeName": "source.syntax.regex.tmlanguage",
 				"path": "./syntaxes/regex.tmLanguage.json"
 			}
-		],
-		"snippets": [
-			{
-				"language": "json-tmlanguage",
-				"path": "./snippets/tmlanguage.snippets.json"
-			}
 		]
 	},
 	"__metadata": {

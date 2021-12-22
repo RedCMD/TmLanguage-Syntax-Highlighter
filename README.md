@@ -1,5 +1,5 @@
 # TmLanguage-Syntax-Highlighter
-Syntax Highlighting and Snippets for JSON based TextMate Language and Regex
+Syntax Highlighting for JSON based TextMate Language and Regex
 
 [![Marketplace Version](https://vsmarketplacebadge.apphb.com/version-short/redcmd.tmlanguage-syntax-highlighter.svg)](https://marketplace.visualstudio.com/items?itemName=redcmd.tmlanguage-syntax-highlighter)
 [![Downloads](https://vsmarketplacebadge.apphb.com/downloads-short//RedCMD.tmlanguage-syntax-highlighter.svg)](https://marketplace.visualstudio.com/items?itemName=RedCMD.tmlanguage-syntax-highlighter)
