@@ -153,7 +153,15 @@
 							"end": "]",
 							"patterns": [
 								{
-									"begin": "(?<=\\[)|,",
+									"begin": "(?<=\\[)",
+									"end": "(?<=\")|(?=])",
+									"patterns": [
+										{ "include": "#string"	},
+										{ "include": "#invalid"	}
+									]
+								},
+								{
+									"begin": ",",
 									"end": "(?<=\")",
 									"patterns": [
 										{ "include": "#string"	},
@@ -252,31 +260,18 @@
 							"end": "]",
 							"patterns": [
 								{
-									"begin": "(?<=\\[)|,",
+									"begin": "(?<=\\[)",
+									"end": "(?<=})|(?=])",
+									"patterns": [
+										{ "include": "#pattern-item" },
+										{ "include": "#invalid" }
+									]
+								},
+								{
+									"begin": ",",
 									"end": "(?<=})",
 									"patterns": [
-										{
-											"begin": "{",
-											"end": "}",
-											"patterns": [
-												{
-													"begin": "(?<={)|,",
-													"end": "(?!\\G)(?<=[]}\"]|true|false|null|-?\\d+)",
-													"patterns": [
-														{ "include": "#name-scope"			},
-														{ "include": "#match"				},
-														{ "include": "#include"				},
-														{ "include": "#patterns"			},
-														{ "include": "#captures"			},
-														{ "include": "#applyEndPatternLast"	},
-														{ "include": "#comment"				},
-														{ "include": "#json-item"			},
-														{ "include": "#invalid"				}
-													]
-												},
-												{ "include": "#invalid" }
-											]
-										},
+										{ "include": "#pattern-item" },
 										{ "include": "#invalid" }
 									]
 								},
@@ -289,8 +284,46 @@
 				{ "include": "#invalid" }
 			]
 		},
+		"pattern-item": {
+			"comment": "{ ... }",
+			"begin": "{",
+			"end": "}",
+			"patterns": [
+				{
+					"begin": "(?<={)",
+					"end": "(?!\\G)(?<=[]}\"]|true|false|null|-?\\d+)|(?=})",
+					"patterns": [
+						{ "include": "#name-scope"			},
+						{ "include": "#match"				},
+						{ "include": "#include"				},
+						{ "include": "#patterns"			},
+						{ "include": "#captures"			},
+						{ "include": "#applyEndPatternLast"	},
+						{ "include": "#comment"				},
+						{ "include": "#json-item"			},
+						{ "include": "#invalid"				}
+					]
+				},
+				{
+					"begin": ",",
+					"end": "(?!\\G)(?<=[]}\"]|true|false|null|-?\\d+)",
+					"patterns": [
+						{ "include": "#name-scope"			},
+						{ "include": "#match"				},
+						{ "include": "#include"				},
+						{ "include": "#patterns"			},
+						{ "include": "#captures"			},
+						{ "include": "#applyEndPatternLast"	},
+						{ "include": "#comment"				},
+						{ "include": "#json-item"			},
+						{ "include": "#invalid"				}
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
 		"repository": {
-			"comment": "\"repository\": { \"...\": { ... } }",
+			"comment": "\"repository\": { ... }",
 			"begin": "\"(repository)\"",
 			"end": "(?<=})",
 			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
@@ -304,56 +337,82 @@
 							"end": "}",
 							"patterns": [
 								{
-									"begin": "(?<={)|,",
+									"begin": "(?<={)",
+									"end": "(?<=})|(?=})",
+									"patterns": [
+										{ "include": "#repository-item" },
+										{ "include": "#invalid" }
+									]
+								},
+								{
+									"begin": ",",
 									"end": "(?<=})",
 									"patterns": [
-										{
-											"begin": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
-											"end": "(?<=})",
-											"beginCaptures": {
-												"1": {
-													"name": "variable.string.tmlanguage",
-													"patterns": [ { "include": "#escape-characters" } ]
-												}
-											},
-											"patterns": [
-												{
-													"begin": ":",
-													"end": "(?<=})",
-													"patterns": [
-														{
-															"begin": "{",
-															"end": "}",
-															"patterns": [
-																{
-																	"begin": "(?<={)|,",
-																	"end": "(?<=[]}\"]|true|false|null|-?\\d+)",
-																	"patterns": [
-																		{ "include": "#name-scope"			},
-																		{ "include": "#match"				},
-																		{ "include": "#captures"			},
-																		{ "include": "#patterns"			},
-																		{ "include": "#repository"			},
-																		{ "include": "#applyEndPatternLast"	},
-																		{ "include": "#disabled"			},
-																		{ "include": "#comment"				},
-																		{ "include": "#json-item"			},
-																		{ "include": "#invalid"				}
-																	]
-																},
-																{ "include": "#invalid" }
-															]
-														},
-														{ "include": "#invalid" }
-													]
-												},
-												{ "include": "#invalid" }
-											]
-										},
+										{ "include": "#repository-item" },
 										{ "include": "#invalid" }
 									]
 								},
 								{ "include": "#comment" },
+								{ "include": "#invalid" }
+							]
+						},
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"repository-item": {
+			"comment": "\"...\": { ... }",
+			"begin": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+			"end": "(?<=})",
+			"beginCaptures": {
+				"1": {
+					"name": "variable.string.tmlanguage",
+					"patterns": [ { "include": "#escape-characters" } ]
+				}
+			},
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=})",
+					"patterns": [
+						{
+							"begin": "{",
+							"end": "}",
+							"patterns": [
+								{
+									"begin": "(?<={)",
+									"end": "(?<=[]}\"]|true|false|null|-?\\d+)|(?=})",
+									"patterns": [
+										{ "include": "#name-scope"			},
+										{ "include": "#match"				},
+										{ "include": "#captures"			},
+										{ "include": "#patterns"			},
+										{ "include": "#repository"			},
+										{ "include": "#applyEndPatternLast"	},
+										{ "include": "#disabled"			},
+										{ "include": "#comment"				},
+										{ "include": "#json-item"			},
+										{ "include": "#invalid"				}
+									]
+								},
+								{
+									"begin": ",",
+									"end": "(?<=[]}\"]|true|false|null|-?\\d+)",
+									"patterns": [
+										{ "include": "#name-scope"			},
+										{ "include": "#match"				},
+										{ "include": "#captures"			},
+										{ "include": "#patterns"			},
+										{ "include": "#repository"			},
+										{ "include": "#applyEndPatternLast"	},
+										{ "include": "#disabled"			},
+										{ "include": "#comment"				},
+										{ "include": "#json-item"			},
+										{ "include": "#invalid"				}
+									]
+								},
 								{ "include": "#invalid" }
 							]
 						},
@@ -459,7 +518,16 @@
 							"end": "}",
 							"patterns": [
 								{
-									"begin": "(?<={)|,",
+									"begin": "(?<={)",
+									"end": "(?!\\G)(?<=[}\"])|(?=})",
+									"patterns": [
+										{ "include": "#capture-item" },
+										{ "include": "#include"		 },
+										{ "include": "#invalid"		 }
+									]
+								},
+								{
+									"begin": ",",
 									"end": "(?!\\G)(?<=[}\"])",
 									"patterns": [
 										{ "include": "#capture-item" },
@@ -491,7 +559,17 @@
 							"end": "}",
 							"patterns": [
 								{
-									"begin": "(?<={)|,",
+									"begin": "(?<={)",
+									"end": "(?!\\G)(?<=[]\"])|(?=})",
+									"patterns": [
+										{ "include": "#name-scope"	},
+										{ "include": "#patterns"	},
+										{ "include": "#json-item"	},
+										{ "include": "#invalid"		}
+									]
+								},
+								{
+									"begin": ",",
 									"end": "(?!\\G)(?<=[]\"])",
 									"patterns": [
 										{ "include": "#name-scope"	},
@@ -652,7 +730,15 @@
 			"end": "}",
 			"patterns": [
 				{
-					"begin": "(?<={)|,",
+					"begin": "(?<={)",
+					"end": "(?<=[]}\"]|true|false|null|-?\\d+)|(?=})",
+					"patterns": [
+						{ "include": "#json-item"	},
+						{ "include": "#invalid"		}
+					]
+				},
+				{
+					"begin": ",",
 					"end": "(?<=[]}\"]|true|false|null|-?\\d+)",
 					"patterns": [
 						{ "include": "#json-item"	},
@@ -668,7 +754,17 @@
 			"end": "]",
 			"patterns": [
 				{
-					"begin": "(?<=\\[)|,",
+					"begin": "(?<=\\[)",
+					"end": "(?<=[]}\"]|true|false|null|-?\\d+)|(?=])",
+					"patterns": [
+						{ "include": "#json-dictionary"	},
+						{ "include": "#json-array"		},
+						{ "include": "#json-value"		},
+						{ "include": "#invalid"			}
+					]
+				},
+				{
+					"begin": ",",
 					"end": "(?<=[]}\"]|true|false|null|-?\\d+)",
 					"patterns": [
 						{ "include": "#json-dictionary"	},
