@@ -73,9 +73,9 @@
 								"1": { "name": "support.function.tmlanguage" },
 								"2": {
 									"patterns": [
-										{ "match": "(?<!\\.)\\.(?!$)",	"name": "keyword.operator.tmlanguage"	},
-										{ "match": "[\\w\\d-]+",		"name": "string.tmlanguage"				},
-										{ "match": "\\\\[\"\\\\bfnrt]",	"name": "invalid.tmlanguage"			},
+										{ "match": "(?<!\\.|\")\\.(?!$)",	"name": "keyword.operator.tmlanguage"	},
+										{ "match": "[\\w\\d-]+",			"name": "string.tmlanguage"				},
+										{ "match": "\\\\[\"\\\\bfnrt]",		"name": "invalid.tmlanguage"			},
 										{ "include": "#escape-characters"	},
 										{ "include": "#invalid"				}
 									]
