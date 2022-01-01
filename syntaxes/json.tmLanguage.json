@@ -190,7 +190,7 @@
 						{
 							"match": "\"([LR]:)?(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
 							"captures": {
-								"1": { "name": "entity.name.function.tmlanguage"	},
+								"1": { "name": "entity.name.function.tmlanguage" },
 								"2": {
 									"patterns": [
 										{ "match": "(?<!\\.|\")\\.(?!$)",	"name": "keyword.operator.tmlanguage"	},
@@ -487,16 +487,22 @@
 					"end": "(?<=\")",
 					"patterns": [
 						{
-							"match": "\"(?:((\\$)(base|self)|([^#\"]*)(#)?(.*?))(?<=[^\\\\]\\\\{2}*)|\\g<1>)\"",
+							"match": "\"(?:((\\$)(base|self)|(text|source)?([^#\"]*)(#)?(.*?))(?<=[^\\\\]\\\\{2}*)|\\g<1>)\"",
 							"captures": {
 								"2": { "name": "keyword.tmlanguage" },
 								"3": { "name": "entity.name.function.tmlanguage" },
-								"4": {
-									"name": "string.tmlanguage",
-									"patterns": [ { "include": "#escape-characters" } ]
+								"4": { "name": "entity.name.function.tmlanguage" },
+								"5": {
+									"patterns": [
+										{ "match": "(?<![\\s.\"])\\.(?=[^\\s#\"])",	"name": "keyword.operator.tmlanguage"	},
+										{ "match": "[\\w\\d-]+",					"name": "string.tmlanguage"				},
+										{ "match": "\\\\[\"\\\\bfnrt]",				"name": "invalid.tmlanguage"			},
+										{ "include": "#escape-characters"	},
+										{ "include": "#invalid"				}
+									]
 								},
-								"5": { "name": "keyword.tmlanguage" },
-								"6": {
+								"6": { "name": "keyword.tmlanguage" },
+								"7": {
 									"name": "variable.string.tmlanguage",
 									"patterns": [ { "include": "#escape-characters" } ]
 								}
