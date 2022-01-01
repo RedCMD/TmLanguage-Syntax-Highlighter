@@ -188,12 +188,17 @@
 					"end": "(?<=\")",
 					"patterns": [
 						{
-							"match": "\"([LR]:)?(.*?(?<!\\\\)\\\\{2}*|.*?)\"\"",
+							"match": "\"([LR]:)?(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
 							"captures": {
 								"1": { "name": "entity.name.function.tmlanguage"	},
 								"2": {
-									"name": "string.tmlanguage",
-									"patterns": [ { "include": "#escape-characters" } ]
+									"patterns": [
+										{ "match": "(?<!\\.|\")\\.(?!$)",	"name": "keyword.operator.tmlanguage"	},
+										{ "match": "[\\w\\d-]+",			"name": "string.tmlanguage"				},
+										{ "match": "\\\\[\"\\\\bfnrt]",		"name": "invalid.tmlanguage"			},
+										{ "include": "#escape-characters"	},
+										{ "include": "#invalid"				}
+									]
 								}
 							}
 						},
