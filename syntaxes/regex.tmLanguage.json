@@ -106,7 +106,7 @@
 		},
 		"non-capture-group": {
 			"comment": "(?:...) (?>...) (?!...) (?<!...) (?<=...) (?imx-:...) (?imx-) |#[imx-]+(?::|([^)]*))\n",
-			"begin": "(\\()(\\?(?::|>|<?[!=]))",
+			"begin": "(\\()(\\?(?>:|>|<?[!=]))",
 			"end": "\\)",
 			"beginCaptures": {
 				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage" },
@@ -119,7 +119,7 @@
 		},
 		"non-capture-group-extended": {
 			"comment": "(?:...) (?>...) (?!...) (?<!...) (?<=...) (?imx-:...) (?imx-)",
-			"begin": "(\\()(\\?(?::|>|<?[!=]))",
+			"begin": "(\\()(\\?(?>:|>|<?[!=]))",
 			"end": "\\)",
 			"beginCaptures": {
 				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage" },
@@ -366,7 +366,7 @@
 		},
 		"character-class-posix": {
 			"comment": "[:...:] [:^...:]",
-			"match": "(\\[:\\^?)(?:(\\s*:])|([^]]+)(:]))",
+			"match": "(\\[:\\^?)(?>(\\s*:])|([^]]+)(:]))",
 			"captures": {
 				"1": { "name": "support.function.tmlanguage" },
 				"2": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage" },
@@ -395,12 +395,12 @@
 		},
 		"characters": {
 			"comment": "\\a \\e \\f \\n \\r \\t \\v \\C-x \\M-x",
-			"match": "\\\\{2}(?:[aefnrtv]|[CM]-x|M-\\\\C-x)",
+			"match": "\\\\{2}(?>[aefnrtv]|[CM]-x|M-\\\\C-x)",
 			"name": "punctuation.definition.list.begin.markdown"
 		},
 		"literal-characters": {
 			"comment": "\\777 \\xFF \\cZZ \\x{13FFF}",
-			"match": "\\\\{2}(?:[0-7]{2,3}|0{1,2}|x\\h{,2}|c(?:[a-zA-Z]|(.))|x\\{1?[0-3]?\\h{,4}})",
+			"match": "\\\\{2}(?>[0-7]{2,3}|0{1,2}|x\\h{,2}|c(?>[a-zA-Z]|(.))|x\\{1?[0-3]?\\h{,4}})",
 			"captures": {
 				"0": { "name": "punctuation.definition.list.begin.markdown"				},
 				"1": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage"	}
@@ -409,7 +409,7 @@
 		},
 		"subroutine": {
 			"comment": "\\g<99>",
-			"match": "(\\\\{2}g)(?:(<)([^>\"]*)(>)?|(')([^'\"]*)(')?)",
+			"match": "(\\\\{2}g)(?>(<)([^>\"]*)(>)?|(')([^'\"]*)(')?)",
 			"captures": {
 				"1": { "name": "string.regexp.tmlanguage"	 },
 				"2": { "name": "support.function.tmlanguage" },
@@ -469,7 +469,7 @@
 		},
 		"invalid": {
 			"comment": "\\ \/ \\. +*? ) \"",
-			"match": "\\\\(?:\\\\|(?=/))|(\\\\.|\\G[+*?]|\\)|\")",
+			"match": "\\\\(?>\\\\|(?=/))|(\\\\.|\\G[+*?]|\\)|\")",
 			"captures": {
 				"0": { "name": "invalid.string.tmlanguage" },
 				"1": { "name": "markup.underline.tmlanguage" }
