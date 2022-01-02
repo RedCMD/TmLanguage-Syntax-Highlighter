@@ -426,9 +426,8 @@
 			}
 		},
 		"test": {
-			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3}))[a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘] \\g<99> \\x55 QabcE $ \\$ \\111111111111111111111111111 a\bcde\fghijklm\nopq\rs\tuvwxyz bfnrt \\a\\b\\c\\d\\e\\f\\g\\h\\i\\j\\k\\l\\m\\n\\o\\p\\q\\r\\s\\t\\u0000\\v\\w\\x\\y\\z ° |||  aA  ab#comment\n (?-x) #comment\n/",
-			"name": "test.tmlanguage",
-			"disabled": 1
+			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}[a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘] \\g<99> \\x55 QabcE $ \\$ \\111111111111111111111111111 a\bcde\fghijklm\nopq\rs\tuvwxyz bfnrt \\a\\b\\cb\\d\\e\\f\\g\\h\\i\\j\\k\\l\\m\\n\\o\\p\\q\\r\\s\\t\\u0000\\v\\w\\x\\y\\z ° ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ `1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>? \\A\\B\\C\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M\\N\\O\\P\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z  bb Q.E q.e a$abc#comment\n (?-x) #comment\n/z",
+			"name": "test.tmlanguage"
 		}
 	}
 }
