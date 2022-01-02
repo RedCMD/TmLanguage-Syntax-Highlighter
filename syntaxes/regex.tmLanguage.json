@@ -359,7 +359,7 @@
 		},
 		"subroutine": {
 			"comment": "\\g<99>",
-			"match": "(\\\\{2}g)(<)(.[^>\"]*)?(>)?",
+			"match": "(\\\\{2}g)(?:(<)([^>\"]*)(>)?|(')([^'\"]*)(')?)",
 			"captures": {
 				"1": { "name": "string.regexp.tmlanguage"	 },
 				"2": { "name": "support.function.tmlanguage" },
@@ -367,7 +367,13 @@
 					{ "match": "\\d+", "name": "constant.numeric.tmlanguage" },
 					{ "match": "\\D+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
 				] },
-				"4": { "name": "support.function.tmlanguage" }
+				"4": { "name": "support.function.tmlanguage" },
+				"5": { "name": "support.function.tmlanguage" },
+				"6": { "patterns": [
+					{ "match": "\\d+", "name": "constant.numeric.tmlanguage" },
+					{ "match": "\\D+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
+				] },
+				"7": { "name": "support.function.tmlanguage" }
 			}
 		},
 		"quantifier": {
