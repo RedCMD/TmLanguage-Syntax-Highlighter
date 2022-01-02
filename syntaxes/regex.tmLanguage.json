@@ -44,12 +44,11 @@
 		},
 		"comment-extended": {
 			"comment": "#...\n",
-			"match": "(?x)#comment\n (\\#)(.*?)(\\\\n|(?=\")|$)|(\\s+)",
+			"match": "(?x)#comment\n (\\#).*?(\\\\n|(?=\")|$)|\\s+",
 			"captures": {
+				"0": { "name": "comment.tmlanguage"						},
 				"1": { "name": "support.function.tmlanguage"			},
-				"2": { "name": "comment.tmlanguage"						},
-				"3": { "name": "constant.character.escape.tmlanguage"	},
-				"4": { "name": "comment.tmlanguage"						}
+				"2": { "name": "constant.character.escape.tmlanguage"	}
 			}
 		},
 		"escape-character": {
