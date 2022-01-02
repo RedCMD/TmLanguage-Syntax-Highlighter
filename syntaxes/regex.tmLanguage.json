@@ -53,15 +53,30 @@
 		},
 		"escape-character": {
 			"comment": "\\[ \\{ \\} \\( \\) \\$ \\? \\| \\^ \\* \\+ \\. \\\\ \" \b \f \n \r \t",
-			"match": "(\\\\{2})([\\[{}()$?|^*+.])|(\\\\{3})(\\\\)|(\\\\\")|(\\\\[bfnrt])",
-			"captures": {
-				"1": { "name": "constant.character.escape.string.tmlanguage" },
-				"2": { "name": "strong.string.tmlanguage"					 },
-				"3": { "name": "constant.character.escape.string.tmlanguage" },
-				"4": { "name": "strong.tmlanguage"							 },
-				"5": { "name": "string.tmlanguage"							 },
-				"6": { "name": "constant.character.escape.string.tmlanguage" }
-			}
+			"patterns": [
+				{
+					"match": "(\\\\{2})([\\[{}()$?|^*+.])",
+					"captures": {
+						"1": { "name": "constant.character.escape.tmlanguage" },
+						"2": { "name": "strong.string.tmlanguage" }
+					}
+				},
+				{
+					"match": "(\\\\{3})(\\\\)",
+					"captures": {
+						"1": { "name": "constant.character.escape.tmlanguage" },
+						"2": { "name": "strong.tmlanguage" }
+					}
+				},
+				{
+					"match": "\\\\\"",
+					"name": "string.tmlanguage"
+				},
+				{
+					"match": "\\\\[bfnrt]",
+					"name": "constant.character.escape.tmlanguage"
+				}
+			]
 		},
 		"escape-character-extended": {
 			"comment": "\\#",
