@@ -44,7 +44,7 @@
 		},
 		"comment-extended": {
 			"comment": "#...\n",
-			"match": "(?x)#comment\n (\\#).*?(\\\\n|(?=\")|$)|\\s+",
+			"match": "(?x)#comment\n (\\#).*?(\\\\n|(?=\")|$)|\\ ",
 			"captures": {
 				"0": { "name": "comment.tmlanguage"						},
 				"1": { "name": "support.function.tmlanguage"			},
@@ -80,7 +80,7 @@
 		},
 		"escape-character-extended": {
 			"comment": "\\#",
-			"match": "(\\\\{2})(#)",
+			"match": "(\\\\{2})(#| )",
 			"captures": {
 				"1": { "name": "constant.character.escape.string.tmlanguage" },
 				"2": { "name": "strong.string.tmlanguage"					 }
