@@ -396,7 +396,6 @@
 										{ "include": "#patterns"			},
 										{ "include": "#repository"			},
 										{ "include": "#applyEndPatternLast"	},
-										{ "include": "#disabled"			},
 										{ "include": "#comment"				},
 										{ "include": "#json-item"			},
 										{ "include": "#invalid"				}
@@ -412,7 +411,6 @@
 										{ "include": "#patterns"			},
 										{ "include": "#repository"			},
 										{ "include": "#applyEndPatternLast"	},
-										{ "include": "#disabled"			},
 										{ "include": "#comment"				},
 										{ "include": "#json-item"			},
 										{ "include": "#invalid"				}
@@ -622,26 +620,6 @@
 				{ "include": "#invalid" }
 			]
 		},
-		"disabled": {
-			"comment": "\"disabled\": 1",
-			"begin": "\"(disabled)\"",
-			"end": "(?!\\G)(?<=-?[01])",
-			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
-			"patterns": [
-				{
-					"begin": ":",
-					"end": "(?<=-?[01])",
-					"patterns": [
-						{
-							"match": "-?0|1",
-							"name": "constant.numeric.tmlanguage"
-						},
-						{ "include": "#invalid" }
-					]
-				},
-				{ "include": "#invalid" }
-			]
-		},
 		"comment": {
 			"comment": "\"comment\": \"...\"",
 			"begin": "\"(comment)\"",
@@ -810,8 +788,7 @@
 		},
 		"invalid": {
 			"match": "\\S",
-			"name": "invalid.string.tmlanguage",
-			"Disabled": 1
+			"name": "invalid.string.tmlanguage"
 		}
 	}
 }
