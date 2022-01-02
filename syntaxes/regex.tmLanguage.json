@@ -414,16 +414,66 @@
 				"1": { "name": "string.regexp.tmlanguage"	 },
 				"2": { "name": "support.function.tmlanguage" },
 				"3": { "patterns": [
-					{ "match": "\\d+", "name": "constant.numeric.tmlanguage" },
-					{ "match": "\\D+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
+						{
+							"match": "\\d.*",
+							"captures": {
+								"0": {
+									"patterns": [
+										{ "match": "\\d+", "name": "constant.numeric.tmlanguage" },
+										{ "match": "\\D+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
+									]
+								}
+							}
+						},
+						{
+							"match": "\\w.*",
+							"captures": {
+								"0": {
+									"patterns": [
+										{ "match": "\\w+", "name": "markup.bold.tmlanguage" },
+										{ "match": "\\W+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
+									]
+								}
+							}
+						},
+						{ "match": "\\W+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
 				] },
 				"4": { "name": "support.function.tmlanguage" },
 				"5": { "name": "support.function.tmlanguage" },
 				"6": { "patterns": [
-					{ "match": "\\d+", "name": "constant.numeric.tmlanguage" },
-					{ "match": "\\D+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
+						{
+							"match": "\\d.*",
+							"captures": {
+								"0": {
+									"patterns": [
+										{ "match": "\\d+", "name": "constant.numeric.tmlanguage" },
+										{ "match": "\\D+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
+									]
+								}
+							}
+						},
+						{
+							"match": "\\w.*",
+							"captures": {
+								"0": {
+									"patterns": [
+										{ "match": "\\w+", "name": "markup.bold.tmlanguage" },
+										{ "match": "\\W+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
+									]
+								}
+							}
+						},
+						{ "match": "\\W+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
 				] },
 				"7": { "name": "support.function.tmlanguage" }
+			}
+		},
+		"backreference": {
+			"comment": "\\1",
+			"match": "(\\\\{2})(\\d+)",
+			"captures": {
+				"1": { "name": "string.regexp.tmlanguage"	 },
+				"2": { "name": "constant.numeric.tmlanguage" }
 			}
 		},
 		"quantifier": {
