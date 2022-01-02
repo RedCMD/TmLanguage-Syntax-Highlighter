@@ -381,15 +381,15 @@
 		},
 		"quantifier": {
 			"comment": "+ * ? {1,9}",
-			"match": "((?!\\G)[+*?])|\\G({(?<invalid>\\d+)?,?(?(<invalid>)\\d*|\\d+)})|({)(?<number>\\d+)?(,)?((?(<number>)\\d*|\\d+))(})",
+			"match": "(?!\\G)([+*?])|\\G({\\d+,?\\d*}|{,\\d+})|({)(?<number>\\d+)?(,)?((?(<number>)\\d*|\\d+))(})",
 			"captures": {
-				"1": { "name": "keyword.tmlanguage"										},
-				"2": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage"	},
-				"4": { "name": "meta.embedded.tmlanguage keyword.tmlanguage"			},
-				"5": { "name": "constant.numeric.tmlanguage"							},
-				"6": { "name": "keyword.control.tmlanguage"								},
-				"7": { "name": "constant.numeric.tmlanguage"							},
-				"8": { "name": "meta.embedded.tmlanguage keyword.tmlanguage"			}
+				"1": { "name": "keyword.tmlanguage"								},
+				"2": { "name": "invalid.tmlanguage markup.underline.tmlanguage"	},
+				"3": { "name": "meta.embedded.tmlanguage keyword.tmlanguage"	},
+				"4": { "name": "constant.numeric.tmlanguage"					},
+				"5": { "name": "keyword.control.tmlanguage"						},
+				"6": { "name": "constant.numeric.tmlanguage"					},
+				"7": { "name": "meta.embedded.tmlanguage keyword.tmlanguage"	}
 			}
 		},
 		"anchor": {
