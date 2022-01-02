@@ -9,6 +9,7 @@
 		{ "include": "#anchor"								},
 		{ "include": "#unicode"								},
 		{ "include": "#subroutine"							},
+		{ "include": "#backreference"						},
 		{ "include": "#alternation"							},
 		{ "include": "#quantifier"							},
 		{ "include": "#character-class"						},
