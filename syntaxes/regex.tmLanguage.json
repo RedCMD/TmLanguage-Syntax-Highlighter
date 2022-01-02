@@ -408,7 +408,7 @@
 			
 		},
 		"subroutine": {
-			"comment": "\\g<99>",
+			"comment": "\\g<99> \\g'test'",
 			"match": "(\\\\{2}g)(?>(<)([^>\"]*)(>)?|(')([^'\"]*)(')?)",
 			"captures": {
 				"1": { "name": "string.regexp.tmlanguage"	 },
@@ -478,16 +478,30 @@
 		},
 		"quantifier": {
 			"comment": "+ * ? {1,9}",
-			"match": "(?!\\G)([+*?])|\\G({\\d+,?\\d*}|{,\\d+})|({)(?<number>\\d+)?(,)?((?(<number>)\\d*|\\d+))(})",
-			"captures": {
-				"1": { "name": "keyword.tmlanguage"								},
-				"2": { "name": "invalid.tmlanguage markup.underline.tmlanguage"	},
-				"3": { "name": "meta.embedded.tmlanguage keyword.tmlanguage"	},
-				"4": { "name": "constant.numeric.tmlanguage"					},
-				"5": { "name": "keyword.control.tmlanguage"						},
-				"6": { "name": "constant.numeric.tmlanguage"					},
-				"7": { "name": "meta.embedded.tmlanguage keyword.tmlanguage"	}
-			}
+			"patterns": [
+				{
+					"match": "\\G[+*?]",
+					"name": "invalid.tmlanguage markup.underline.tmlanguage"
+				},
+				{
+					"match": "[+*?]",
+					"name": "keyword.tmlanguage"
+				},
+				{
+					"match": "\\G(?>{\\d+,?\\d*}|{,\\d+})",
+					"name": "invalid.tmlanguage markup.underline.tmlanguage"
+				},
+				{
+					"match": "({)(?<number>\\d+)?(,)?((?(<number>)\\d*|\\d+))(})",
+					"captures": {
+						"1": { "name": "keyword.tmlanguage"			 },
+						"2": { "name": "constant.numeric.tmlanguage" },
+						"3": { "name": "keyword.control.tmlanguage"	 },
+						"4": { "name": "constant.numeric.tmlanguage" },
+						"5": { "name": "keyword.tmlanguage"			 }
+					}
+				}
+			]
 		},
 		"anchor": {
 			"comment": "$ ^ \\A \\B \\b \\G \\K \\Z \\z",
@@ -518,8 +532,8 @@
 			"name": "entity.name.label.tmlanguage strong.string.tmlanguage"
 		},
 		"invalid": {
-			"comment": "\\ \/ \\. +*? ) \"",
-			"match": "\\\\(?>\\\\|(?=/))|(\\\\.|\\G[+*?]|\\)|\")",
+			"comment": "\\ \/ \\. ) \"",
+			"match": "\\\\(?>\\\\|(?=/))|(\\\\.|\\)|\")",
 			"captures": {
 				"0": { "name": "invalid.string.tmlanguage" },
 				"1": { "name": "markup.underline.tmlanguage" }
