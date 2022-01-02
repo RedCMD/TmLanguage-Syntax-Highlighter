@@ -290,9 +290,10 @@
 			]
 		},
 		"character-class-escape": {
-			"comment": "\\] \\[ \\^ \\- \\\\ \\D \\H \\S \\W \\b \\f \\n \\r \\t \n \t. \"",
-			"match": "(?i)(?:(\\G\\\\{2})(]))|(\\\\{2})([]\\[^-])|(\\\\{3})(\\\\)|(\\\\{2}[DHSWbfnrt])|(\\\\[nt])|(\\\\\")|(\\\\{2}|(\\\\.|\"))",
-			"captures": {
+			"patterns": [
+				{
+					"match": "\\G(\\\\{2})(])",
+					"captures": {
 				"1":  { "name": "invalid.tmlanguage"					},
 				"2":  { "name": "markup.italic.string.tmlanguage"		},
 				"3":  { "name": "constant.character.escape.tmlanguage"	},
