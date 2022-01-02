@@ -344,12 +344,13 @@
 			"name": "markup.italic.string.tmlanguage"
 		},
 		"character-type": {
-			"match": "(?i)\\\\{2}([BDHSW])|\\.",
+			"match": "(?i)\\\\{2}([DHSW])|\\.",
 			"name": "variable.other.enummember.tmlanguage"
 		},
 		"characters": {
-			"match": "\\\\{2}(?:[abefnrtv]|[CM]-x|M-\\\\C-x)",
-			"name": "variable.other.enummember.tmlanguage"
+			"comment": "\\a \\e \\f \\n \\r \\t \\v \\C-x \\M-x",
+			"match": "\\\\{2}(?:[aefnrtv]|[CM]-x|M-\\\\C-x)",
+			"name": "punctuation.definition.list.begin.markdown"
 		},
 		"literal-characters": {
 			"comment": "\\777 \\xFF \\cZZ \\x{13FFF}",
@@ -383,8 +384,8 @@
 			}
 		},
 		"anchor": {
-			"comment": "$ ^ \\A \\B \\b \\G \\Z \\z",
-			"match": "[$^]|\\\\{2}[ABbGZz]",
+			"comment": "$ ^ \\A \\B \\b \\G \\K \\Z \\z",
+			"match": "[$^]|\\\\{2}[ABbGKZz]",
 			"name": "variable.tmlanguage"
 		},
 		"unicode": {
