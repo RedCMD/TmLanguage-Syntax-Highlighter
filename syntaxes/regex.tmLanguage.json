@@ -410,7 +410,7 @@
 			
 		},
 		"subroutine": {
-			"comment": "\\g<99> \\g'test'",
+			"comment": "\\g<99> \\g'name'",
 			"match": "(\\\\{2}g)(?>(<)([^>\"]*)(>)?|(')([^'\"]*)(')?)",
 			"captures": {
 				"1": { "name": "string.regexp.tmlanguage" },
@@ -471,12 +471,77 @@
 			}
 		},
 		"backreference": {
-			"comment": "\\1",
-			"match": "(\\\\{2})(\\d+)",
-			"captures": {
-				"1": { "name": "string.regexp.tmlanguage"	 },
-				"2": { "name": "constant.numeric.tmlanguage" }
-			}
+			"patterns": [
+				{
+					"comment": "\\1",
+					"match": "(\\\\{2})(\\d+)",
+					"captures": {
+						"1": { "name": "string.regexp.tmlanguage"	 },
+						"2": { "name": "constant.numeric.tmlanguage" }
+					}
+				},
+				{
+					"comment": "\\k<99> \\k'name'",
+					"match": "(\\\\{2}k)(?>(<)([^>\"]*)(>)?|(')([^'\"]*)(')?)",
+					"captures": {
+						"1": { "name": "string.regexp.tmlanguage" },
+						"2": { "name": "meta.embedded.tmlanguage support.function.tmlanguage" },
+						"3": { "patterns": [
+								{
+									"match": "\\d.*",
+									"captures": {
+										"0": {
+											"patterns": [
+												{ "match": "\\d+", "name": "constant.numeric.tmlanguage" },
+												{ "match": "\\D+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
+											]
+										}
+									}
+								},
+								{
+									"match": "\\w.*",
+									"captures": {
+										"0": {
+											"patterns": [
+												{ "match": "\\w+", "name": "markup.bold.tmlanguage" },
+												{ "match": "\\W+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
+											]
+										}
+									}
+								},
+								{ "match": "\\W+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
+						] },
+						"4": { "name": "meta.embedded.tmlanguage support.function.tmlanguage" },
+						"5": { "name": "meta.embedded.tmlanguage support.function.tmlanguage" },
+						"6": { "patterns": [
+								{
+									"match": "\\d.*",
+									"captures": {
+										"0": {
+											"patterns": [
+												{ "match": "\\d+", "name": "constant.numeric.tmlanguage" },
+												{ "match": "\\D+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
+											]
+										}
+									}
+								},
+								{
+									"match": "\\w.*",
+									"captures": {
+										"0": {
+											"patterns": [
+												{ "match": "\\w+", "name": "markup.bold.tmlanguage" },
+												{ "match": "\\W+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
+											]
+										}
+									}
+								},
+								{ "match": "\\W+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
+						] },
+						"7": { "name": "meta.embedded.tmlanguage support.function.tmlanguage" }
+					}
+				}
+			]
 		},
 		"quantifier": {
 			"comment": "+ * ? {1,9}",
