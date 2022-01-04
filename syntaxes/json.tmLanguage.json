@@ -15,7 +15,7 @@
 			"begin": "^\\s*{",
 			"end": "}\\s*$",
 			"patterns": [
-				{ 
+				{
 					"begin": "(?<={)|,",
 					"end": "(?<=[]}\"]|true|false|null|-?\\d+)",
 					"patterns": [
