@@ -63,14 +63,14 @@
 					"match": "(\\\\{2})([\\[{}()$?|^*+.])",
 					"captures": {
 						"1": { "name": "constant.character.escape.tmlanguage" },
-						"2": { "name": "strong.string.tmlanguage" }
+						"2": { "name": "entity.name.label.tmlanguage strong.string.tmlanguage" }
 					}
 				},
 				{
 					"match": "(\\\\{3})(\\\\)",
 					"captures": {
 						"1": { "name": "constant.character.escape.tmlanguage" },
-						"2": { "name": "strong.tmlanguage" }
+						"2": { "name": "entity.name.label.tmlanguage strong.tmlanguage" }
 					}
 				},
 				{
@@ -87,8 +87,8 @@
 			"comment": "\\#",
 			"match": "(\\\\{2})(#| )",
 			"captures": {
-				"1": { "name": "constant.character.escape.string.tmlanguage" },
-				"2": { "name": "strong.string.tmlanguage"					 }
+				"1": { "name": "constant.character.escape.tmlanguage" },
+				"2": { "name": "entity.name.label.tmlanguage strong.tmlanguage" }
 			}
 		},
 		"capture-group": {
