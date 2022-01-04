@@ -400,14 +400,73 @@
 			"match": "\\\\{2}(?>[aefnrtv]|[CM]-x|M-\\\\C-x)",
 			"name": "punctuation.definition.list.begin.markdown"
 		},
-		"literal-characters": {
-			"comment": "\\777 \\xFF \\cZZ \\x{13FFF}",
-			"match": "\\\\{2}(?>[0-7]{2,3}|0{1,2}|x\\h{,2}|c(?>[a-zA-Z]|(.))|x\\{1?[0-3]?\\h{,4}})",
-			"captures": {
-				"0": { "name": "punctuation.definition.list.begin.markdown"				},
-				"1": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage"	}
-			}
-			
+		"unicode": {
+			"comment": "\\777 \\xFF \\cZ \\x{13FFF} \\u0000 \\p{L}",
+			"patterns": [
+				{
+					"match": "(\\\\{2})([0-7]{2,3})",
+					"captures": {
+						"1": { "name": "punctuation.definition.list.begin.markdown.tmlanguage" },
+						"2": { "name": "constant.numeric.tmlanguage" }
+					}
+				},
+				{
+					"match": "(\\\\{2}x)(\\h{1,2})",
+					"captures": {
+						"1": { "name": "punctuation.definition.list.begin.markdown.tmlanguage" },
+						"2": { "name": "constant.numeric.tmlanguage" }
+					}
+				},
+				{
+					"match": "(\\\\{2}x\\{)(1[0-3]\\h{4}|\\h{,5})(})",
+					"captures": {
+						"1": { "name": "meta.embedded.tmlanguage punctuation.definition.list.begin.markdown.tmlanguage" },
+						"2": { "name": "constant.numeric.tmlanguage" },
+						"3": { "name": "meta.embedded.tmlanguage punctuation.definition.list.begin.markdown.tmlanguage" }
+					}
+				},
+				{
+					"match": "(\\\\{2}c)(?>([a-zA-Z])|(.))",
+					"captures": {
+						"1": { "name": "punctuation.definition.list.begin.markdown.tmlanguage" },
+						"2": { "name": "markup.bold.tmlanguage" },
+						"3": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
+					}
+				},
+				{
+					"match": "(\\\\{2}u)([^\"]{,4})",
+					"captures": {
+						"1": { "name": "punctuation.definition.list.begin.markdown.tmlanguage" },
+						"2": {
+							"patterns": [
+								{ "match": "\\h+", "name": "constant.numeric.tmlanguage" },
+								{ "match": "\\H+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
+							]
+						}
+					}
+				},
+				{
+					"match": "(\\\\{2}p{)([^}]+)(})?",
+					"captures": {
+						"1": { "name": "meta.embedded.tmlanguage punctuation.definition.list.begin.markdown.tmlanguage" },
+						"2": {
+							"patterns": [
+								{
+									"match": "(.*\\s(?<!\n).*)|(.*?)((?>(?>Lower|Upper|Title)case_|Cased_|Modifier_|Other_)?Letter|(?>Non_Spacing_|Spacing_Combining_|Enclosing_)?Mark|(?>Space_|Line_|Paragraph_)?Separator|(?>Math_|Currency_|Modifier_|Other_)?Symbol|(?>Decimal_Digit_|Letter_|Other_)?Number|(?>Dash_|Open_|Close_|Initial_|Final_|Connector_|Other_)?Punctuation|Other|Control|Format|Private_Use|Surrogate|Unassigned|L[lut&mo]?|M[nce]?|Z[slp]?|S[mcko]?|N[dlo]?|P[dseifco]?|C[cfosn]?)(.*)|(.+)",
+									"captures": {
+										"1": { "name": "invalid.string1.tmlanguage markup.underline.tmlanguage" },
+										"2": { "name": "invalid.string2.tmlanguage markup.underline.tmlanguage" },
+										"3": { "name": "variable.other.enummember.tmlanguage" },
+										"4": { "name": "invalid.string3.tmlanguage markup.underline.tmlanguage" },
+										"5": { "name": "invalid.string4.tmlanguage markup.underline.tmlanguage" }
+									}
+								}
+							]
+						},
+						"3": { "name": "meta.embedded.tmlanguage punctuation.definition.list.begin.markdown.tmlanguage" }
+					}
+				}
+			]
 		},
 		"subroutine": {
 			"comment": "\\g<99> \\g'name'",
@@ -575,19 +634,6 @@
 			"match": "[$^]|\\\\{2}[ABbGKZz]",
 			"name": "variable.tmlanguage"
 		},
-		"unicode": {
-			"comment": "Unicode example format for °  \\u00b0",
-			"match": "(\\\\{2}u)([^\"]{,4})",
-			"captures": {
-				"1": { "name": "variable.other.enummember.tmlanguage" },
-				"2": {
-					"patterns": [
-						{ "match": "\\h+", "name": "constant.numeric.tmlanguage" },
-						{ "match": "\\H+", "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
-					]
-				}
-			}
-		},
 		"alternation": {
 			"comment": "|",
 			"match": "\\|",
@@ -607,7 +653,7 @@
 			}
 		},
 		"test": {
-			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}[a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘] \\g<99> \\x55 QabcE $ \\$ \\111111111111111111111111111 a\bcde\fghijklm\nopq\rs\tuvwxyz bfnrt \\a\\b\\cb\\d\\e\\f\\g\\h\\i\\j\\k\\l\\m\\n\\o\\p\\q\\r\\s\\t\\u0000\\v\\w\\x\\y\\z ° ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ `1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>? \\A\\B\\C\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M\\N\\O\\P\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z  bb Q.E q.e a$abc#comment\n (?-x) #comment\n/z",
+			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}[a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘] \\g<99> \\x555 QabcE $ \\$ \\111111111111111111111111111 a\bcde\fghijklm\nopq\rs\tuvwxyz bfnrt \\a\\b\\cZ\\d\\e\\f\\g\\h\\i\\j\\k\\l\\m\\n\\o\\p\\q\\r\\s\\t\\u0000\\v\\w\\x\\y\\z ° ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ `1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>? \\A\\B\\C\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M\\N\\O\\P\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z \\x{201E} \\p{L} \\p{-LetterLaaLaa--LL--LL--} At aT Q.E q.e a$abc#comment\n (?-x) #comment\n/z",
 			"name": "test.tmlanguage"
 		}
 	}
