@@ -677,6 +677,16 @@
 					"name": "constant.character.escape.tmlanguage"
 				},
 				{
+					"match": "(\\\\u)(.{4})",
+					"captures": {
+						"1": { "name": "constant.character.escape.tmlanguage" },
+						"2": {
+							"name": "constant.numeric.tmlanguage",
+							"patterns": [ { "match": "\\H+", "name": "invalid.tmlanguage markup.underline.tmlanguage" } ]
+						}
+					}
+				},
+				{
 					"match": "\\\\.?|\"|(?! )\\s",
 					"name": "invalid.tmlanguage markup.underline.tmlanguage"
 				}
@@ -778,6 +788,10 @@
 							"patterns": [
 								{
 									"match": "\\\\[\"\\\\/bfnrt]",
+									"name": "constant.character.escape.tmlanguage"
+								},
+								{
+									"match": "\\\\u\\h{4}",
 									"name": "constant.character.escape.tmlanguage"
 								},
 								{
