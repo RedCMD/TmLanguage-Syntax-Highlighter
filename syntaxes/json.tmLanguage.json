@@ -768,25 +768,35 @@
 			]
 		},
 		"json-value": {
-			"comment": "\"...\"",
-			"match": "(\"(?:.*?(?<!\\\\)\\\\{2}*|.*?)\")|(true|false|null)|(-?\\d+)",
-			"captures": {
-				"1": {
-					"name": "string.tmlanguage",
-					"patterns": [
-						{
-							"match": "\\\\[\"\\\\/bfnrt]",
-							"name": "constant.character.escape.tmlanguage"
-						},
-						{
-							"match": "\\\\.",
-							"name": "invalid.tmlanguage markup.underline.tmlanguage"
+			"patterns": [
+				{
+					"comment": "\"...\"",
+					"match": "\"(?:.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+					"captures": {
+						"0": {
+							"name": "string.tmlanguage",
+							"patterns": [
+								{
+									"match": "\\\\[\"\\\\/bfnrt]",
+									"name": "constant.character.escape.tmlanguage"
+								},
+								{
+									"match": "\\\\.",
+									"name": "invalid.tmlanguage"
+								}
+							]
 						}
-					]
+					}
 				},
-				"2": { "name": "keyword.control.tmlanguage" },
-				"3": { "name": "constant.numeric.tmlanguage" }
-			}
+				{
+					"match": "true|false|null",
+					"name": "keyword.control.tmlanguage"
+				},
+				{
+					"match": "-?\\d+",
+					"name": "constant.numeric.tmlanguage"
+				}
+			]
 		},
 		"invalid": {
 			"match": "\\S",
