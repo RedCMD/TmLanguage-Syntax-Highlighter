@@ -412,7 +412,7 @@
 			"name": "markup.italic.string.tmlanguage"
 		},
 		"character-type": {
-			"match": "(?i)\\\\{2}([DHSW])|\\.",
+			"match": "\\\\{2}([DdHhSsWwX])|\\.",
 			"name": "variable.other.enummember.tmlanguage"
 		},
 		"characters": {
