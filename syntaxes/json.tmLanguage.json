@@ -813,8 +813,16 @@
 			]
 		},
 		"invalid": {
-			"match": "\\S",
-			"name": "invalid.string.tmlanguage"
+			"patterns": [
+				{
+					"match": "//.*",
+					"name": "invalid.string.tmlanguage markup.underline.tmlanguage"
+				},
+				{
+					"match": "\\S",
+					"name": "invalid.string.tmlanguage"
+				}
+			]
 		}
 	}
 }
