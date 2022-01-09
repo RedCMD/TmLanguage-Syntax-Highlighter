@@ -33,7 +33,8 @@
 				],
 				"extensions": [
 					".tmLanguage.json",
-					".JSON-tmLanguage"
+					".JSON-tmLanguage",
+					".tmGrammar.json"
 				],
 				"filenames": [
 					"tmLanguage.json"
@@ -44,6 +45,14 @@
 				"id": "regex-tmlanguage",
 				"aliases": [
 					"RedCMD.Regex.TextMateLanguage"
+				],
+				"extensions": [
+					".regex.json",
+					".tmRegexLanguage.json",
+					".JSON-regex-tmLanguage"
+				],
+				"filenames": [
+					"regex.json"
 				],
 				"configuration": "./language-configuration.json"
 			}

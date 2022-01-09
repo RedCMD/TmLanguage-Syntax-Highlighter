@@ -1,6 +1,6 @@
 {
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-	"scopeName": "source.syntax.regex.tmlanguage",
+	"scopeName": "source.syntax.regex.tmLanguage",
 	"name": "TextMate Language Regex",
 	"patterns": [
 		{ "include": "#character-type"						},
@@ -49,7 +49,7 @@
 				"1": { "name": "support.function.tmlanguage" },
 				"2": {
 					"name": "comment.tmlanguage",
-					"patterns": [ { "include": "source.syntax.json.tmlanguage#escape-characters" } ]
+					"patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ]
 				},
 				"3": { "name": "constant.character.escape.tmlanguage" },
 				"4": { "name": "comment.tmlanguage" }
@@ -296,7 +296,7 @@
 				"0": { "name": "meta.embedded.tmlanguage markup.italic.tmlanguage constant.character.set.regexp.tmlanguage" }
 			},
 			"contentName": "comment.tmlanguage",
-			"patterns": [ { "include": "source.syntax.json.tmlanguage#escape-characters" } ]
+			"patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ]
 		},
 		"character-class": {
 			"comment": "[...] [^...]",

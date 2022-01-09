@@ -1,6 +1,6 @@
 {
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-	"scopeName": "source.syntax.json.tmlanguage",
+	"scopeName": "source.syntax.json.tmLanguage",
 	"name": "TextMate Language JSON",
 	"fileTypes": [
 		".tmLanguage.json"
@@ -221,7 +221,7 @@
 						{
 							"begin": "\"",
 							"end": "\"",
-							"patterns": [ { "include": "source.syntax.regex.tmlanguage" } ]
+							"patterns": [ { "include": "source.syntax.regex.tmLanguage" } ]
 						},
 						{ "include": "#invalid" }
 					]
@@ -242,7 +242,7 @@
 						{
 							"begin": "\"",
 							"end": "\"",
-							"patterns": [ { "include": "source.syntax.regex.tmlanguage" } ]
+							"patterns": [ { "include": "source.syntax.regex.tmLanguage" } ]
 						},
 						{ "include": "#invalid" }
 					]
@@ -468,7 +468,7 @@
 						{
 							"begin": "\"",
 							"end": "\"",
-							"patterns": [ { "include": "source.syntax.regex.tmlanguage" } ]
+							"patterns": [ { "include": "source.syntax.regex.tmLanguage" } ]
 						},
 						{ "include": "#invalid" }
 					]
