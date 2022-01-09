@@ -6,9 +6,9 @@
 		{ "include": "#character-type"						},
 		{ "include": "#characters"							},
 		{ "include": "#anchor"								},
-		{ "include": "#unicode"								},
 		{ "include": "#subroutine"							},
 		{ "include": "#backreference"						},
+		{ "include": "#unicode"								},
 		{ "include": "#alternation"							},
 		{ "include": "#quantifier"							},
 		{ "include": "#character-class"						},
@@ -424,7 +424,7 @@
 			"comment": "\\777 \\xFF \\cZ \\x{13FFF} \\u0000 \\p{L} \\C-\\M-]",
 			"patterns": [
 				{
-					"match": "(\\\\{2})([0-7]{2,3})",
+					"match": "(\\\\{2})([0-7]{1,3})",
 					"captures": {
 						"1": { "name": "punctuation.definition.list.begin.markdown.tmlanguage" },
 						"2": { "name": "constant.numeric.tmlanguage" }
@@ -519,10 +519,11 @@
 			"patterns": [
 				{
 					"comment": "\\1",
-					"match": "(\\\\{2})(\\d+)",
+					"match": "(\\\\{2})([1-9]\\d{,2})(\\d*)",
 					"captures": {
 						"1": { "name": "string.regexp.tmlanguage"	 },
-						"2": { "name": "constant.numeric.tmlanguage" }
+						"2": { "name": "constant.numeric.tmlanguage" },
+						"3": { "name": "invalid.tmlanguage"			 }
 					}
 				},
 				{
