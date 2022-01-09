@@ -324,7 +324,7 @@
 				{
 					"match": "\\G(\\\\{2})(])",
 					"captures": {
-						"1": { "name": "invalid.tmlanguage" },
+						"1": { "name": "punctuation.definition.tag.tmlanguage" },
 						"2": { "name": "markup.italic.string.tmlanguage" }
 					}
 				},
@@ -352,12 +352,12 @@
 				},
 				{
 					"match": "\\\\{2}",
-					"name": "invalid.tmlanguage"
+					"name": "punctuation.definition.tag.tmlanguage"
 				},
 				{
 					"match": "(\\\\)(/)",
 					"captures": {
-						"1": { "name": "invalid.tmlanguage" },
+						"1": { "name": "punctuation.definition.tag.tmlanguage" },
 						"2": { "name": "markup.italic.string.tmlanguage" }
 					}
 				},
@@ -475,11 +475,7 @@
 								{
 									"match": "(?i)(.*\\s(?<!\n).*)|(.*?)(Common|Arabic|Armenian|Bengali|Bopomofo|Braille|Buhid|Canadian_Aboriginal|Cherokee|Cyrillic|Devanagari|Ethiopic|Georgian|Greek|Gujarati|Gurmukhi|Han|Hangul|Hanunoo|Hebrew|Hiragana|Inherited|Kannada|Katakana|Khmer|Lao|Latin|Limbu|Malayalam|Mongolian|Myanmar|Ogham|Oriya|Runic|Sinhala|Syriac|Tagalog|Tagbanwa|TaiLe|Tamil|Telugu|Thaana|Thai|Tibetan|Yi|InBasic_Latin|InLatin-1_Supplement|InLatin_Extended-A|InLatin_Extended-B|InIPA_Extensions|InSpacing_Modifier_Letters|InCombining_Diacritical_Marks|InGreek_and_Coptic|InCyrillic|InCyrillic_Supplementary|InArmenian|InHebrew|InArabic|InSyriac|InThaana|InDevanagari|InBengali|InGurmukhi|InGujarati|InOriya|InTamil|InTelugu|InKannada|InMalayalam|InSinhala|InThai|InLao|InTibetan|InMyanmar|InGeorgian|InHangul_Jamo|InEthiopic|InCherokee|InUnified_Canadian_Aboriginal_Syllabics|InOgham|InRunic|InTagalog|InHanunoo|InBuhid|InTagbanwa|InKhmer|InMongolian|InLimbu|InTai_Le|InKhmer_Symbols|InPhonetic_Extensions|InLatin_Extended_Additional|InGreek_Extended|InGeneral_Punctuation|InSuperscripts_and_Subscripts|InCurrency_Symbols|InCombining_Diacritical_Marks_for_Symbols|InLetterlike_Symbols|InNumber_Forms|InArrows|InMathematical_Operators|InMiscellaneous_Technical|InControl_Pictures|InOptical_Character_Recognition|InEnclosed_Alphanumerics|InBox_Drawing|InBlock_Elements|InGeometric_Shapes|InMiscellaneous_Symbols|InDingbats|InMiscellaneous_Mathematical_Symbols-A|InSupplemental_Arrows-A|InBraille_Patterns|InSupplemental_Arrows-B|InMiscellaneous_Mathematical_Symbols-B|InSupplemental_Mathematical_Operators|InMiscellaneous_Symbols_and_Arrows|InCJK_Radicals_Supplement|InKangxi_Radicals|InIdeographic_Description_Characters|InCJK_Symbols_and_Punctuation|InHiragana|InKatakana|InBopomofo|InHangul_Compatibility_Jamo|InKanbun|InBopomofo_Extended|InKatakana_Phonetic_Extensions|InEnclosed_CJK_Letters_and_Months|InCJK_Compatibility|InCJK_Unified_Ideographs_Extension_A|InYijing_Hexagram_Symbols|InCJK_Unified_Ideographs|InYi_Syllables|InYi_Radicals|InHangul_Syllables|InHigh_Surrogates|InHigh_Private_Use_Surrogates|InLow_Surrogates|InPrivate_Use_Area|InCJK_Compatibility_Ideographs|InAlphabetic_Presentation_Forms|InArabic_Presentation_Forms-A|InVariation_Selectors|InCombining_Half_Marks|InCJK_Compatibility_Forms|InSmall_Form_Variants|InArabic_Presentation_Forms-B|InHalfwidth_and_Fullwidth_Forms|InSpecials|(?>(?>Lower|Upper|Title)case_|Cased_|Modifier_|Other_)?Letter|(?>Non_Spacing_|Spacing_Combining_|Enclosing_)?Mark|(?>Space_|Line_|Paragraph_)?Separator|(?>Math_|Currency_|Modifier_|Other_)?Symbol|(?>Decimal_Digit_|Letter_|Other_)?Number|(?>Dash_|Open_|Close_|Initial_|Final_|Connector_|Other_)?Punctuation|Other|Control|Format|Private_Use|Surrogate|Unassigned|L[lut&mo]?|M[nce]?|Z[slp]?|S[mcko]?|N[dlo]?|P[dseifco]?|C[cfosn]?)(.*)|(.+)",
 									"captures": {
-										"1": { "name": "invalid.string1.tmlanguage markup.underline.tmlanguage" },
-										"2": { "name": "invalid.string2.tmlanguage markup.underline.tmlanguage" },
-										"3": { "name": "variable.other.enummember.tmlanguage" },
-										"4": { "name": "invalid.string3.tmlanguage markup.underline.tmlanguage" },
-										"5": { "name": "invalid.string4.tmlanguage markup.underline.tmlanguage" }
+										"5": { "name": "punctuation.definition.tag.tmlanguage" }
 									}
 								}
 							]
@@ -571,14 +567,14 @@
 		},
 		"invalid": {
 			"comment": "\\ \/ \\. ) \"",
-			"match": "\\\\(?>\\\\|(?=/))|(\\\\.|\\)|\")",
+			"match": "(\\\\(?>\\\\|(?=/)))|(\\\\.|\\)|\")",
 			"captures": {
-				"0": { "name": "invalid.string.tmlanguage" },
-				"1": { "name": "markup.underline.tmlanguage" }
+				"1": { "name": "punctuation.definition.tag.tmlanguage" },
+				"2": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
 			}
 		},
 		"test": {
-			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}[a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘] \\g<99> \\x555 QabcE $ \\$ \\111111111111111111111111111 a\bcde\fghijklm\nopq\rs\t\u0000vwxyz bfnrtu \\a\\b\\cZ\\d\\e\\f\\g<0>\\h\\i\\j\\k'0'\\l\\m\\n\\o\\p\\q\\r\\s\\t\\u0000\\v\\w\\x\\y\\z ° ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ `1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>? \\A\\B\\C\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M\\N\\O\\P\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z \\x{201E} \\p{L} \\p{-LetterLaaLaa--LL--LL--} At aT Q.E q.e a$abc#comment\n (?-x) #comment\n/z",
+			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}[a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘] \\g<99> \\x555 QabcE $ \\$ \\111111111111111111111111111 a\bcde\fghijklm\nopq\rs\t\u0000vwxyz bfnrtu \\a\\b\\cZ\\d\\e\\f\\g<0>\\h\\i\\j\\k'0'\\l\\m\\n\\o\\p\\q\\r\\s\\t\\u0000\\v\\w\\x\\y\\z ° ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ `1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>? \\A\\B\\C\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M\\N\\O\\P\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z \\x{201E} \\p{L} \\p{-LetterLaaLaa--LL--LL--} \\`\\1\\2\\3\\4\\5\\6\\7\\8\\9\\0\\-\\=\\[\\]\\\\\\;\\'\\,\\.\\/\\ \\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\{\\}\\|\\:\\\"\\<\\>\\?  At aT Q.E q.e a$abc#comment\n (?-x) #comment\n/z",
 			"name": "test.tmlanguage"
 		}
 	}

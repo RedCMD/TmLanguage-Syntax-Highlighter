@@ -666,7 +666,7 @@
 			"patterns": [
 				{
 					"match": "(\\\\)/",
-					"captures": { "1": { "name": "invalid.tmlanguage" } }
+					"captures": { "1": { "name": "punctuation.definition.tag.tmlanguage" } }
 				},
 				{
 					"match": "(\\\\)[\\\\\"]",
