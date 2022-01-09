@@ -438,19 +438,20 @@
 					}
 				},
 				{
-					"match": "(\\\\{2}x\\{)(1[0-3]\\h{4}|\\h{,5})(})",
+					"match": "(\\\\{2}x\\{)(1[0-3]\\h{4}|\\h{1,5})([^}]*)(})",
 					"captures": {
 						"1": { "name": "meta.embedded.tmlanguage punctuation.definition.list.begin.markdown.tmlanguage" },
 						"2": { "name": "constant.numeric.tmlanguage" },
-						"3": { "name": "meta.embedded.tmlanguage punctuation.definition.list.begin.markdown.tmlanguage" }
+						"3": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage" },
+						"4": { "name": "meta.embedded.tmlanguage punctuation.definition.list.begin.markdown.tmlanguage" }
 					}
 				},
 				{
-					"match": "(\\\\{2}c)(?>([a-zA-Z])|(.))",
+					"match": "(\\\\{2}c)([^a-zA-Z]*)([a-zA-Z])?",
 					"captures": {
 						"1": { "name": "punctuation.definition.list.begin.markdown.tmlanguage" },
-						"2": { "name": "markup.bold.tmlanguage" },
-						"3": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
+						"2": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage" },
+						"3": { "name": "markup.bold.tmlanguage" }
 					}
 				},
 				{
@@ -592,7 +593,7 @@
 			}
 		},
 		"test": {
-			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}[a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘] \\g<99> \\x555 QabcE $ \\$ \\111111111111111111111111111 a\bcde\fghijklm\nopq\rs\t\u0000vwxyz bfnrtu \\a\\b\\cZ\\d\\e\\f\\g<0>\\h\\i\\j\\k'0'\\l\\m\\n\\o\\p{L}\\q\\r\\s\\t\\u0000\\v\\w\\x\\y\\z ° ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ `1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>? \\A\\B\\C-]\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P{L}\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z \\x{201E} \\p{L} \\p{-LetterLaaLaa--LL--LL--} \\`\\1\\2\\3\\4\\5\\6\\7\\8\\9\\0\\-\\=\\[\\]\\\\\\;\\'\\,\\.\\/\\ \\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\{\\}\\|\\:\\\"\\<\\>\\?  At aT Q.E q.e a$abc#comment\n (?-x) #comment\n/z",
+			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}[a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘] \\g<99> \\x555 QabcE $ \\$ \\1234567890 abcde\fghijklm\nopq\rs\t\u0000vwxyz bfnrtu \\a\\b\\cZ\\d\\e\\f\\g<0>\\h\\i\\j\\k'0'\\l\\m\\n\\o\\p{L}\\q\\r\\s\\t\\u0000\\v\\w\\x{13FFFF}\\y\\z °Ççë£ ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ `1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>?   \\A\\B\\C-]\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P{L}\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z \\x{201E} \\p{L} \\p{-LetterLaaLaa--LL--LL--} \\`\\1\\2\\3\\4\\5\\6\\7\\8\\9\\0\\-\\=\\[\\]\\\\\\;\\'\\,\\.\\/\\ \\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\{\\}\\|\\:\\\"\\<\\>\\? At aT aa 1000 Q.E q.e a$abc#comment\n (?-x) #comment\n/z",
 			"name": "test.tmlanguage"
 		}
 	}
