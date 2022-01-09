@@ -27,7 +27,7 @@
 	"contributes": {
 		"languages": [
 			{
-				"id": "json-tmlanguage",
+				"id": "json-tmLanguage",
 				"aliases": [
 					"RedCMD.JSON.TextMateLanguage"
 				],
@@ -42,7 +42,7 @@
 				"configuration": "./language-configuration.json"
 			},
 			{
-				"id": "regex-tmlanguage",
+				"id": "regex-tmLanguage",
 				"aliases": [
 					"RedCMD.Regex.TextMateLanguage"
 				],
@@ -59,13 +59,13 @@
 		],
 		"grammars": [
 			{
-				"language": "json-tmlanguage",
-				"scopeName": "source.syntax.json.tmlanguage",
+				"language": "json-tmLanguage",
+				"scopeName": "source.syntax.json.tmLanguage",
 				"path": "./syntaxes/json.tmLanguage.json"
 			},
 			{
-				"language": "regex-tmlanguage",
-				"scopeName": "source.syntax.regex.tmlanguage",
+				"language": "regex-tmLanguage",
+				"scopeName": "source.syntax.regex.tmLanguage",
 				"path": "./syntaxes/regex.tmLanguage.json"
 			}
 		]
