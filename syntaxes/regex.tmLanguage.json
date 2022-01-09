@@ -416,12 +416,12 @@
 			"name": "variable.other.enummember.tmlanguage"
 		},
 		"characters": {
-			"comment": "\\a \\e \\f \\n \\r \\t \\v \\C-x \\M-x",
-			"match": "\\\\{2}(?>[aefnrtv]|[CM]-x|M-\\\\C-x)",
+			"comment": "\\a \\e \\f \\n \\r \\t \\v",
+			"match": "\\\\{2}[aefnrtv]",
 			"name": "punctuation.definition.list.begin.markdown"
 		},
 		"unicode": {
-			"comment": "\\777 \\xFF \\cZ \\x{13FFF} \\u0000 \\p{L}",
+			"comment": "\\777 \\xFF \\cZ \\x{13FFF} \\u0000 \\p{L} \\C-\\M-]",
 			"patterns": [
 				{
 					"match": "(\\\\{2})([0-7]{2,3})",
@@ -487,6 +487,17 @@
 							]
 						},
 						"4": { "name": "meta.embedded.tmlanguage punctuation.definition.list.begin.markdown.tmlanguage" }
+					}
+				},
+				{
+					"match": "\\\\{2}[CM]([^-]*)-?(?>(\\\\{3})(\\\\)|\\g<0>|(\\\\{2})?(\\\\u.{,4}|\\\\?.))",
+					"captures": {
+						"0": { "name": "punctuation.definition.list.begin.markdown.tmlanguage" },
+						"1": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage" },
+						"2": { "name": "constant.character.escape.tmlanguage" },
+						"3": { "name": "markup.bold.tmlanguage" },
+						"4": { "name": "punctuation.definition.tag.tmlanguage" },
+						"5": { "name": "markup.bold.string.tmlanguage", "patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ] }
 					}
 				}
 			]
@@ -580,7 +591,7 @@
 			}
 		},
 		"test": {
-			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}[a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘] \\g<99> \\x555 QabcE $ \\$ \\111111111111111111111111111 a\bcde\fghijklm\nopq\rs\t\u0000vwxyz bfnrtu \\a\\b\\cZ\\d\\e\\f\\g<0>\\h\\i\\j\\k'0'\\l\\m\\n\\o\\p{L}\\q\\r\\s\\t\\u0000\\v\\w\\x\\y\\z ° ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ `1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>? \\A\\B\\C\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M\\N\\O\\P{L}\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z \\x{201E} \\p{L} \\p{-LetterLaaLaa--LL--LL--} \\`\\1\\2\\3\\4\\5\\6\\7\\8\\9\\0\\-\\=\\[\\]\\\\\\;\\'\\,\\.\\/\\ \\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\{\\}\\|\\:\\\"\\<\\>\\?  At aT Q.E q.e a$abc#comment\n (?-x) #comment\n/z",
+			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}[a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘] \\g<99> \\x555 QabcE $ \\$ \\111111111111111111111111111 a\bcde\fghijklm\nopq\rs\t\u0000vwxyz bfnrtu \\a\\b\\cZ\\d\\e\\f\\g<0>\\h\\i\\j\\k'0'\\l\\m\\n\\o\\p{L}\\q\\r\\s\\t\\u0000\\v\\w\\x\\y\\z ° ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ `1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>? \\A\\B\\C-]\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P{L}\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z \\x{201E} \\p{L} \\p{-LetterLaaLaa--LL--LL--} \\`\\1\\2\\3\\4\\5\\6\\7\\8\\9\\0\\-\\=\\[\\]\\\\\\;\\'\\,\\.\\/\\ \\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\{\\}\\|\\:\\\"\\<\\>\\?  At aT Q.E q.e a$abc#comment\n (?-x) #comment\n/z",
 			"name": "test.tmlanguage"
 		}
 	}
