@@ -129,7 +129,7 @@
 			"end": "\\)",
 			"beginCaptures": {
 				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage" },
-				"2": { "name": "support.function.tmlanguage" }
+				"2": { "name": "support.function.string.tmlanguage" }
 			},
 			"endCaptures": {
 				"0": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage" }
@@ -142,7 +142,7 @@
 			"end": "\\)",
 			"beginCaptures": {
 				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage" },
-				"2": { "name": "support.function.tmlanguage" }
+				"2": { "name": "support.function.string.tmlanguage" }
 			},
 			"endCaptures": {
 				"0": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage" }
@@ -155,7 +155,7 @@
 			"end": "\\)",
 			"beginCaptures": {
 				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage markup.italic.tmlanguage" },
-				"2": { "name": "support.function.tmlanguage" }
+				"2": { "name": "support.function.string.tmlanguage" }
 			},
 			"endCaptures": {
 				"0": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage markup.italic.tmlanguage" }
@@ -168,7 +168,7 @@
 			"end": "\\)",
 			"beginCaptures": {
 				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage markup.italic.tmlanguage" },
-				"2": { "name": "support.function.tmlanguage" }
+				"2": { "name": "support.function.string.tmlanguage" }
 			},
 			"endCaptures": {
 				"0": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage markup.italic.tmlanguage" }
