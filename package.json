@@ -4,7 +4,7 @@
 	"publisher": "RedCMD",
 	"description": "Syntax Highlighting for Json based Text Mate Language",
 	"icon": "images/TextMate-logo-icon.png",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter.git"
