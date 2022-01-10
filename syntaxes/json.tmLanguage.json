@@ -687,8 +687,8 @@
 					}
 				},
 				{
-					"match": "\\\\.?|\"|(?! )\\s",
-					"name": "invalid.tmlanguage markup.underline.tmlanguage"
+					"match": "\\\\.?|\"|[\\x0-\\x1F]|\\x7F",
+					"name": "invalid.string.tmlanguage markup.underline.tmlanguage"
 				}
 			]
 		},
