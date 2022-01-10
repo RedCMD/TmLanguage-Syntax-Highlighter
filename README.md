@@ -8,11 +8,13 @@ Syntax Highlighting for JSON based TextMate Language and Regex
 
 
 ## Features
-Big update, almost supports 100% of the textmate specification
+Big update, almost supports 100% of the textmate specification  
+Fixed `\\{\\,\\}` regex matcher causing enormous amounts of lag: [Github Issue](https://github.com/microsoft/vscode-textmate/issues/166)
 
+Example code:  
 ![example-code](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/images/Example%20Code%20V1.2.png?raw=true)
 
-Highlights scope names with their own themed colour in realtime
+Highlights scope names with their own themed colour in realtime:  
 ![list-of-VSCode-Dark+-scopenames-and-their-colours](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/images/VSCode%20Dark+%20theme%20coloured%20scope-names.png?raw=true)
 
 Invalid code is highlighted in red and underlined  
@@ -43,9 +45,10 @@ If you would like me to add support for a theme, please just message me
 
 
 ### Todo
-* Support JSON Keys: `"information_for_contributors"`, `"version"` and `"injections"`
+* Support JSON Key `"injections"`
 * Support posix's super buggy behaviour: [Github Issue - Funky Posix Classes](https://github.com/microsoft/vscode-textmate/issues/165)
 * Fix char ranges in character classes or wait for vscode to fix textmate bug (`[\\\\-\\\\]`): [Github Issue - Subroutines breaking tokenization](https://github.com/microsoft/vscode-textmate/issues/164)
 * Allow spaces, underscores and dashes in all places inside Unicode Categorys `\\p{  Let _te--r}`: [Github - List of unicode properties](https://github.com/kkos/oniguruma/blob/bb31b4d402ee3f3a3bc4855c9d0271f43a3e4793/doc/UNICODE_PROPERTIES)
-* Correctly mark unnecessary backslahes infront of `&` inside character classes when mix with `&` based char ranges
-* Correctly mark unnecessary backslahes around `\\{1\\,9\\}`
+* Correctly mark unnecessary backslahes infront of `&` inside character classes when mixed with `&` based char ranges
+* Try* to fix contention between backreferences `\\1` and character codes `\\1`
+* Detect and limit backreferences/subroutines/conditional-capture-groups `\\1`/`\\k<1>`/`\\g<1>`/`(?(<1>))` to the actual amount of capture groups available
