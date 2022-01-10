@@ -1,4 +1,10 @@
 {
+	"information_for_contributors": [
+		"This file has been converted from https://github.com/textmate/html.tmbundle/blob/master/Syntaxes/HTML.plist",
+		"If you want to provide a fix or improvement, please create a pull request against the original repository.",
+		"Once accepted there, we are happy to receive an update request."
+	],
+	"version": "https://github.com/textmate/html.tmbundle/commit/0c3d5ee54de3a993f747f54186b73a4d2d3c44a2",
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"scopeName": "source.syntax.json.tmLanguage",
 	"name": "TextMate Language JSON",
@@ -19,6 +25,8 @@
 					"begin": "(?<={)|,",
 					"end": "(?<=[]}\"]|true|false|null|-?\\d+)",
 					"patterns": [
+						{ "include": "#infoContributors"	},
+						{ "include": "#version"				},
 						{ "include": "#$schema"				},
 						{ "include": "#scopeName"			},
 						{ "include": "#name"				},
@@ -35,6 +43,62 @@
 					]
 				},
 				{ "include": "#invalid"	}
+			]
+		},
+		"infoContributors": {
+			"comment": "\"information_for_contributors\": [ \"...\" ]",
+			"begin": "\"(information_for_contributors)\"",
+			"end": "(?<=])",
+			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=])",
+					"patterns": [
+						{
+							"begin": "\\[",
+							"end": "]",
+							"patterns": [
+								{
+									"begin": "(?<=\\[)",
+									"end": "(?<=\")|(?=])",
+									"patterns": [
+										{ "include": "#string"	},
+										{ "include": "#invalid"	}
+									]
+								},
+								{
+									"begin": ",",
+									"end": "(?<=\")",
+									"patterns": [
+										{ "include": "#string"	},
+										{ "include": "#invalid"	}
+									]
+								},
+								{ "include": "#invalid" }
+							]
+						},
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"version": {
+			"comment": "\"version\": \"...\"",
+			"begin": "\"(version)\"",
+			"end": "(?!\\G)(?<=\")",
+			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=\")",
+					"patterns": [
+						{ "include": "#string" },
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
 			]
 		},
 		"$schema": {
