@@ -470,22 +470,24 @@
 		},
 		"character-class-posix": {
 			"comment": "[:...:] [:^...:]",
-			"match": "(\\[:\\^?)(?>(\\s*:])|([^]]+)(:]))",
+			"match": "(\\[(:\\^?))(?>(\\s*:])|([^]]+)((:)]))",
 			"captures": {
 				"1": { "name": "meta.embedded.tmlanguage support.function.tmlanguage" },
-				"2": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage" },
-				"3": { "patterns": [ { "include": "#character-class-posix-value" } ] },
-				"4": { "name": "meta.embedded.tmlanguage support.function.tmlanguage" }
+				"2": { "name": "strong.tmlanguage" },
+				"3": { "name": "invalid.tmlanguage markup.underline.tmlanguage" },
+				"4": { "patterns": [ { "include": "#character-class-posix-value" } ] },
+				"5": { "name": "meta.embedded.tmlanguage support.function.tmlanguage" },
+				"6": { "name": "strong.tmlanguage" }
 			}
 		},
 		"character-class-posix-value": {
-			"match": "(.*\\s.*)|(.*?)(alnum|alpha|ascii|blank|cntrl|x?digit|graph|lower|print|punct|space|upper|word)(.*)|(.+)",
+			"match": "(.*\\s.*)|(.*?)((?i)alnum|alpha|ascii|blank|cntrl|x?digit|graph|lower|print|punct|space|upper|word)(.*)|(.+)",
 			"captures": {
-				"1": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage"	},
-				"2": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage"	},
-				"3": { "name": "variable.other.enummember.tmlanguage"					},
-				"4": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage"	},
-				"5": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage"	}
+				"1": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage" },
+				"2": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage" },
+				"3": { "name": "variable.other.enummember.tmlanguage", "patterns": [ { "match": "[A-Z]", "name": "invalid.tmlanguage markup.italic.tmlanguage" } ] },
+				"4": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage" },
+				"5": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage" }
 			}
 		},
 		"character-class-regex": {
@@ -678,8 +680,7 @@
 			"name": "invalid.string.tmlanguage markup.underline.tmlanguage"
 		},
 		"test": {
-			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}[a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘] \\g<99> \\x555 QabcE $ \\$ \\1234567890 abcde\fghijklm\nopq\rs\t\u0000vwxyz bfnrtu \\a\\b\\cZ\\d\\e\\f\\g<0>\\h\\i\\j\\k'0'\\l\\m\\n\\o\\p{L}\\q\\r\\s\\t\\u0000\\v\\w\\x{13FFFF}\\y\\z °Ççë£ ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ `1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>?   \\A\\B\\C-]\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P{L}\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z \\x{201E} \\p{L} \\p{-LetterLaaLaa--LL--LL--} \\`\\1\\2\\3\\4\\5\\6\\7\\8\\9\\0\\-\\=\\[\\]\\\\\\;\\'\\,\\.\\/\\ \\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\{\\}\\|\\:\\\"\\<\\>\\? At aT aa 1000 Q.E q.e a$abc#comment\n (?-x) #comment\n/z",
-			"name": "test.tmlanguage"
+			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}[a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘] \\g<99> \\x555 QabcE $ \\$ \\1234567890 abcde\fghijklm\nopq\rs\t\u0000vwxyz bfnrtu \\a\\b\\cZ\\d\\e\\f\\g<0>\\h\\i\\j\\k'0'\\l\\m\\n\\o\\p{L}\\q\\r\\s\\t\\u0000\\v\\w\\x{13FFFF}\\y\\z °Ççë£ ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ `1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>?   \\A\\B\\C-]\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P{L}\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z \\x{201E} \\p{L} \\p{-LetterLaaLaa--LL--LL--} \\`\\1\\2\\3\\4\\5\\6\\7\\8\\9\\0\\-\\=\\[\\]\\\\\\;\\'\\,\\.\\/\\ \\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\{\\}\\|\\:\\\"\\<\\>\\? [[:^upper:]] At aT aa 1000 Q.E q.e a$abc#comment\n (?-x) #comment\n/z"
 		}
 	}
 }
