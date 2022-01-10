@@ -69,15 +69,26 @@
 					}
 				},
 				{
-					"match": "\\\\{2}(?={(?!\\d*,\\d*}))|(?<!{\\d*\\\\{2}?,\\d*)\\\\{2}(?=})",
-					"name": "punctuation.definition.tag.tmlanguage"
+					"comment": "note to self. DO NOT use optional quantifiers in look behinds. It WILL tank performance. (?<={\\d*)",
+					"comment1": "seems to only be when it tries to match something, then match something else afterwards that is optional between 0 and infinity; being *, {,9999} and (.+)? (?<=pq*)",
+					"match1": "(?<={\\d*)\\\\{2}(?=,\\d*})",
+					"name1": "constant.character.escape.tmlanguage"
 				},
 				{
-					"match": "(?<={\\d*)\\\\{2}(?=,\\d*})",
-					"name": "constant.character.escape.tmlanguage"
+					"match": "(\\\\{2})?({(?>\\d+)?)(?>((?(<1>)(\\\\{2})|(\\\\{2})))?(,))?((?(<3>)\\d*|\\d+))(?(<4>)(\\\\{2})|\\g<4>)?(})",
+					"captures": {
+						"1": { "name": "constant.character.escape.tmlanguage"					},
+						"2": { "name": "entity.name.label.tmlanguage strong.string.tmlanguage"	},
+						"3": { "name": "punctuation.definition.tag.tmlanguage"					},
+						"5": { "name": "constant.character.escape.tmlanguage"					},
+						"6": { "name": "entity.name.label.tmlanguage strong.tmlanguage"			},
+						"7": { "name": "entity.name.label.tmlanguage strong.tmlanguage"			},
+						"8": { "name": "punctuation.definition.tag.tmlanguage"					},
+						"9": { "name": "entity.name.label.tmlanguage strong.string.tmlanguage"	}
+					}
 				},
 				{
-					"match": "(\\\\{2})([\\[{}()$?|^*+.])",
+					"match": "(\\\\{2})([\\[()$?|^*+.])",
 					"captures": {
 						"1": { "name": "constant.character.escape.tmlanguage" },
 						"2": { "name": "entity.name.label.tmlanguage strong.string.tmlanguage" }
