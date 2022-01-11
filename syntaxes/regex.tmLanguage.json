@@ -417,11 +417,18 @@
 					}
 				},
 				{
+					"match": "(\\\\{2})(&)(?=&)",
+					"captures": {
+						"1": { "name": "constant.character.escape.tmlanguage"	},
+						"2": { "name": "markup.italic.string.tmlanguage"		}
+					}
+				},
+				{
 					"match": "(&)(\\\\{2})(&)",
 					"captures": {
-						"1": { "name": "markup.italic.string.tmlanguage" },
-						"2": { "name": "constant.character.escape.tmlanguage" },
-						"3": { "name": "markup.italic.string.tmlanguage" }
+						"1": { "name": "markup.italic.string.tmlanguage"		},
+						"2": { "name": "constant.character.escape.tmlanguage"	},
+						"3": { "name": "markup.italic.string.tmlanguage"		}
 					}
 				},
 				{ "include": "#character-type" },
@@ -507,7 +514,7 @@
 			]
 		},
 		"character-class-range-test": {
-			"match": "([^^-_-a-b 0-9 a-z A-Z A-z a-Z\\- 0-a \\s-a a-\\s--- \\s \\s-\\s [:alnum:]-a \"-a \/-a \n-a \\\\-\\\\ \\777-a \\ca-a \\x55-a \\p{L}-a \\u0000-a \\u-agh \\x{0000}-\\x{001F} \u00b0-a \\C-\\M-\u00b0-a && \\&& \\\\&& \\&\\&   a-])"
+			"match": "([^^-_-a-b 0-9 a-z A-Z A-z a-Z\\- 0-a \\s-a a-\\s--- \\s \\s-\\s [:alnum:]-a \"-a \/-a \n-a \\\\-\\\\ \\777-a \\ca-a \\x55-a \\p{L}-a \\u0000-a \\u-agh \\x{0000}-\\x{001F} \u00b0-a \\C-\\M-\u00b0-a a-])"
 		},
 		"character-class-posix": {
 			"comment": "[:...:] [:^...:]",
