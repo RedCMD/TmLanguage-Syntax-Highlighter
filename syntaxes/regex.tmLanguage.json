@@ -163,26 +163,28 @@
 		"capture-group-lookaround": {
 			"comment": "(?!...) (?<!...) (?<=...)",
 			"begin": "(\\()(\\?<?[!=])",
-			"end": "\\)",
+			"end": "(\\))([+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
 			"beginCaptures": {
 				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage markup.italic.tmlanguage" },
 				"2": { "name": "support.function.string.tmlanguage" }
 			},
 			"endCaptures": {
-				"0": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage markup.italic.tmlanguage" }
+				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage markup.italic.tmlanguage" },
+				"2": { "name": "invalid.tmlanguage markup.underline.tmlanguage" }
 			},
 			"patterns": [ { "include": "$self" } ]
 		},
 		"capture-group-lookaround-extended": {
 			"comment": "(?!...) (?<!...) (?<=...)",
 			"begin": "(\\()(\\?<?[!=])",
-			"end": "\\)",
+			"end": "(\\))([+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
 			"beginCaptures": {
 				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage markup.italic.tmlanguage" },
 				"2": { "name": "support.function.string.tmlanguage" }
 			},
 			"endCaptures": {
-				"0": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage markup.italic.tmlanguage" }
+				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage markup.italic.tmlanguage" },
+				"2": { "name": "invalid.tmlanguage markup.underline.tmlanguage" }
 			},
 			"patterns": [ { "include": "#$self-extended" } ]
 		},
