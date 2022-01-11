@@ -375,30 +375,9 @@
 		"character-class-escape": {
 			"patterns": [
 				{
-					"match": "(\\\\{3})(\\\\)",
-					"captures": {
-						"1": { "name": "constant.character.escape.tmlanguage" },
-						"2": { "name": "markup.italic.tmlanguage" }
-					}
-				},
-				{
 					"match": "\\G(\\\\{2})([]-])",
 					"captures": {
 						"1": { "name": "punctuation.definition.tag.tmlanguage" },
-						"2": { "name": "markup.italic.string.tmlanguage" }
-					}
-				},
-				{
-					"match": "(\\\\{2})(-)(?=])",
-					"captures": {
-						"1": { "name": "punctuation.definition.tag.tmlanguage" },
-						"2": { "name": "markup.italic.string.tmlanguage" }
-					}
-				},
-				{
-					"match": "(\\\\{2})([]\\[-])",
-					"captures": {
-						"1": { "name": "constant.character.escape.tmlanguage" },
 						"2": { "name": "markup.italic.string.tmlanguage" }
 					}
 				},
@@ -410,7 +389,21 @@
 					}
 				},
 				{
-					"match": "(\\\\{2})(&)(?=(\\\\{2})?&)",
+					"match": "(\\\\{3})(\\\\)",
+					"captures": {
+						"1": { "name": "constant.character.escape.tmlanguage" },
+						"2": { "name": "markup.italic.tmlanguage" }
+					}
+				},
+				{
+					"match": "(\\\\{2})(-)(?=])",
+					"captures": {
+						"1": { "name": "punctuation.definition.tag.tmlanguage" },
+						"2": { "name": "markup.italic.string.tmlanguage" }
+					}
+				},
+				{
+					"match": "(\\\\{2})([]\\[-])",
 					"captures": {
 						"1": { "name": "constant.character.escape.tmlanguage" },
 						"2": { "name": "markup.italic.string.tmlanguage" }
@@ -453,7 +446,7 @@
 					"name": "constant.character.escape.tmlanguage"
 				},
 				{
-					"match": "\\\\.?|\"|(?! )\\s",
+					"match": "\\\\.?|\"|[\\x0-\\x1F]|\\x7F",
 					"name": "invalid.string.tmlanguage markup.underline.tmlanguage"
 				}
 			]
@@ -464,35 +457,35 @@
 					"match": "([\\\\-\\x{FFFFFFFF}]-[\\x0-Z])(\\\\{2}(?=-))?",
 					"captures": {
 						"1": { "name": "invalid.string.tmlanguage markup.underline.tmlanguage" },
-						"2": { "name": "punctuation.definition.tag.tmlanguage" }
+						"2": { "name": "punctuation.definition.tag.tmlanguage"	}
 					}
 				},
 				{
 					"match": "(\\d-\\d)(\\\\{2}(?=-))?",
 					"captures": {
-						"1": { "name": "constant.numeric.tmlanguage" },
-						"2": { "name": "punctuation.definition.tag.tmlanguage" }
+						"1": { "name": "constant.numeric.tmlanguage"			},
+						"2": { "name": "punctuation.definition.tag.tmlanguage"	}
 					}
 				},
 				{
 					"match": "([[:upper:]]-[[:upper:]])(\\\\{2}(?=-))?",
 					"captures": {
-						"1": { "name": "variable.other.enummember.tmlanguage" },
-						"2": { "name": "punctuation.definition.tag.tmlanguage" }
+						"1": { "name": "variable.other.enummember.tmlanguage"	},
+						"2": { "name": "punctuation.definition.tag.tmlanguage"	}
 					}
 				},
 				{
 					"match": "([[:lower:]]-[[:lower:]])(\\\\{2}(?=-))?",
 					"captures": {
-						"1": { "name": "variable.other.enummember.tmlanguage" },
-						"2": { "name": "punctuation.definition.tag.tmlanguage" }
+						"1": { "name": "variable.other.enummember.tmlanguage"	},
+						"2": { "name": "punctuation.definition.tag.tmlanguage"	}
 					}
 				},
 				{
 					"match": "(&&)(\\\\{2}(?=-))?",
 					"captures": {
-						"1": { "name": "keyword.other.operator.tmlanguage" },
-						"2": { "name": "punctuation.definition.tag.tmlanguage" }
+						"1": { "name": "keyword.other.operator.tmlanguage"		},
+						"2": { "name": "punctuation.definition.tag.tmlanguage"	}
 					}
 				},
 				{
@@ -512,6 +505,9 @@
 					}
 				}
 			]
+		},
+		"character-class-&&-test": {
+			"match": "( [& \\& && \\&& &\\& \\&\\& &&& \\&&& \\&\\&& \\&&\\& &&&& \\&&&& &\\&&& &&\\&& &&&\\& \\&\\&&& \\&&\\&& \\&&&\\& &\\&\\&& &\\&&\\& &&\\&\\& \\&\\&\\&& \\&\\&&\\& \\&&\\&\\& &\\&\\&\\& \\&\\&\\&\\& ])"
 		},
 		"character-class-range-test": {
 			"match": "([^^-_-a-b 0-9 a-z A-Z A-z a-Z\\- 0-a \\s-a a-\\s--- \\s \\s-\\s [:alnum:]-a \"-a \/-a \n-a \\\\-\\\\ \\777-a \\ca-a \\x55-a \\p{L}-a \\u0000-a \\u-agh \\x{0000}-\\x{001F} \u00b0-a \\C-\\M-\u00b0-a a-])"
