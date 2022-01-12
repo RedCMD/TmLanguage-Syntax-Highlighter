@@ -71,22 +71,16 @@
 					}
 				},
 				{
-					"comment": "note to self. DO NOT use optional quantifiers in look behinds. It WILL tank performance. (?<={\\d*)",
-					"comment1": "seems to only be when it tries to match something, then match something else afterwards that is optional between 0 and infinity; being *, {,9999} and (.+)? (?<=pq*)",
-					"match1": "(?<={\\d*)\\\\{2}(?=,\\d*})",
-					"name1": "constant.character.escape.tmlanguage"
-				},
-				{
-					"match": "(\\\\{2})?({(?>\\d+)?)(?>((?(<1>)(\\\\{2})|(\\\\{2})))?(,))?((?(<3>)\\d*|\\d+))(?(<4>)(\\\\{2})|\\g<4>)?(})",
+					"match": "(\\\\{2})?({(\\d+)?)(?>((?(<1>)(\\\\{2})|(\\\\{2})))?(,))?((?(<3>)\\d*|\\d+))(?(<4>)(\\\\{2})|\\g<4>)?(})",
 					"captures": {
-						"1": { "name": "constant.character.escape.tmlanguage"					},
-						"2": { "name": "entity.name.label.tmlanguage strong.string.tmlanguage"	},
-						"3": { "name": "punctuation.definition.tag.tmlanguage"					},
-						"5": { "name": "constant.character.escape.tmlanguage"					},
-						"6": { "name": "entity.name.label.tmlanguage strong.tmlanguage"			},
-						"7": { "name": "entity.name.label.tmlanguage strong.tmlanguage"			},
-						"8": { "name": "punctuation.definition.tag.tmlanguage"					},
-						"9": { "name": "entity.name.label.tmlanguage strong.string.tmlanguage"	}
+						"1":  { "name": "constant.character.escape.tmlanguage"					},
+						"2":  { "name": "entity.name.label.tmlanguage strong.string.tmlanguage"	},
+						"5":  { "name": "punctuation.definition.tag.tmlanguage"					},
+						"6":  { "name": "constant.character.escape.tmlanguage"					},
+						"7":  { "name": "entity.name.label.tmlanguage strong.tmlanguage"		},
+						"8":  { "name": "entity.name.label.tmlanguage strong.tmlanguage"		},
+						"9":  { "name": "punctuation.definition.tag.tmlanguage"					},
+						"10": { "name": "entity.name.label.tmlanguage strong.string.tmlanguage"	}
 					}
 				},
 				{
@@ -764,21 +758,38 @@
 					"name": "invalid.tmlanguage markup.underline.tmlanguage"
 				},
 				{
-					"match": "[+*?]",
-					"name": "keyword.tmlanguage"
-				},
-				{
 					"match": "\\G{(?>\\d+,?\\d*|,\\d+)}",
 					"name": "invalid.tmlanguage markup.underline.tmlanguage"
 				},
 				{
-					"match": "({)(?<number>\\d+)?(,)?((?(<number>)\\d*|\\d+))(})",
+					"comment": "As soon as theres a {0} quantifier, all other quantifiers are nullified",
+					"match": "(\\g<4>)?({0*,?0+})((?(<1>)\\g<4>?|((?>[+*?]++|{(?>\\d+,?\\d*|,\\d+)})+)))",
+					"captures": {
+						"1": { "name": "meta.embedded.tmlanguage punctuation.definition.tag.tmlanguage" },
+						"2": { "patterns": [ {"include": "#quantifier"} ] },
+						"3": { "name": "meta.embedded.tmlanguage punctuation.definition.tag.tmlanguage" }
+					}
+				},
+				{
+					"comment": "+ * ? ++ +? *+ *? ?+ ?? \n  ? creates a lazy quantifier and + a possessive quantifier",
+					"match": "[+*?]([+?])?",
+					"captures": {
+						"0": { "name": "keyword.tmlanguage" },
+						"1": { "name": "strong.tmlanguage" }
+					}
+				},
+				{
+					"match": "({)(?<number>(0*)\\d+)?(,)?((?(<number>)(?>(0*)\\d+)?|(0*)\\d+))(})(\\?)?",
 					"captures": {
 						"1": { "name": "meta.embedded.tmlanguage keyword.tmlanguage" },
 						"2": { "name": "constant.numeric.tmlanguage" },
-						"3": { "name": "keyword.control.tmlanguage" },
-						"4": { "name": "constant.numeric.tmlanguage" },
-						"5": { "name": "meta.embedded.tmlanguage keyword.tmlanguage" }
+						"3": { "name": "punctuation.definition.tag.tmlanguage" },
+						"4": { "name": "keyword.control.tmlanguage" },
+						"5": { "name": "constant.numeric.tmlanguage" },
+						"6": { "name": "punctuation.definition.tag.tmlanguage" },
+						"7": { "name": "punctuation.definition.tag.tmlanguage" },
+						"8": { "name": "meta.embedded.tmlanguage keyword.tmlanguage" },
+						"9": { "name": "keyword.tmlanguage strong.tmlanguage" }
 					}
 				}
 			]
@@ -804,7 +815,7 @@
 			"name": "invalid.string.tmlanguage markup.underline.tmlanguage"
 		},
 		"test": {
-			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3} () (?<= (?= (?>) )? ) (?= (?= )? ) [a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘] \\g<99> \\x555 QabcE $ \\$ \\1234567890 abcde\fghijklm\nopq\rs\t\u0000vwxyz bfnrtu \\a\\b\\cZ\\d\\e\\f\\g<0>\\h\\i\\j\\k'0'\\l\\m\\n\\o\\p{L}\\q\\r\\s\\t\\u0000\\v\\w\\x{13FFFF}\\y\\z °Ççë£ ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ `1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>?   \\A\\B\\C-]\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P{L}\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z \\x{201E} \\p{L} \\p{-LetterLaaLaa--LL--LL--} \\`\\1\\2\\3\\4\\5\\6\\7\\8\\9\\0\\-\\=\\[\\]\\\\\\;\\'\\,\\.\\/\\ \\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\{\\}\\|\\:\\\"\\<\\>\\? [[:^upper:]] At aT aa 1000 Q.E q.e a$abc#comment\n (?-x) #comment\n/z"
+			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}{,3}{2,}{2} {000} *{0} {0}* *{0}* {0}{0}{0} {0}{2,3} {2,3}{0}{2,3} {2,3\\} () (?<= (?= (?>) )? ) (?= (?= )? ) [a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘] \\g<99> \\x555 QabcE $ \\$ \\1234567890 abcde\fghijklm\nopq\rs\t\u0000vwxyz bfnrtu \\a\\b\\cZ\\d\\e\\f\\g<0>\\h\\i\\j\\k'0'\\l\\m\\n\\o\\p{L}\\q\\r\\s\\t\\u0000\\v\\w\\x{13FFFF}\\y\\z °Ççë£ ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ`1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>?   \\A\\B\\C-]\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P{L}\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z \\x{201E} \\p{L} \\p{-L etterLaaLaa--LL--LL--} \\`\\1\\2\\3\\4\\5\\6\\7\\8\\9\\0\\-\\=\\[\\]\\\\\\;\\'\\,\\.\\/\\ \\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\{\\}\\|\\:\\\"\\<\\>\\? [[:^upper:]] At aT aa 1000 Q.E q.e a$abc#comment\n (?-x) #comment\n/z"
 		}
 	}
 }
