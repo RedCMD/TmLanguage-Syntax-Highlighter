@@ -1,10 +1,5 @@
 {
-	"information_for_contributors": [
-		"This file has been converted from https://github.com/textmate/html.tmbundle/blob/master/Syntaxes/HTML.plist",
-		"If you want to provide a fix or improvement, please create a pull request against the original repository.",
-		"Once accepted there, we are happy to receive an update request."
-	],
-	"version": "https://github.com/textmate/html.tmbundle/commit/0c3d5ee54de3a993f747f54186b73a4d2d3c44a2",
+	"version": "https://https://github.com/RedCMD/TmLanguage-Syntax-Highlighter",
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"scopeName": "source.syntax.json.tmLanguage",
 	"name": "TextMate Language JSON",
@@ -606,7 +601,7 @@
 							"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
 							"captures": {
 								"1": {
-									"name": "$1..string",
+									"name": "$1.regex",
 									"patterns": [
 										{ "include": "#escape-characters" } ,
 										{ "match": "\\$\\d+", "name": "constant.character.escape.tmlanguage" }
@@ -657,15 +652,7 @@
 								"2": { "name": "keyword.tmlanguage" },
 								"3": { "name": "entity.name.function.tmlanguage" },
 								"4": { "name": "entity.name.function.tmlanguage" },
-								"5": {
-									"patterns": [
-										{ "match": "(?<![\\s.\"])\\.(?=[^\\s#\"])",	"name": "keyword.operator.tmlanguage"	},
-										{ "match": "[\\w\\d-]+",					"name": "string.tmlanguage"				},
-										{ "match": "\\\\[\"\\\\bfnrt]",				"name": "invalid.tmlanguage"			},
-										{ "include": "#escape-characters"	},
-										{ "include": "#invalid"				}
-									]
-								},
+								"5": { "patterns": [ { "include": "#scope-string" } ] },
 								"6": { "name": "keyword.tmlanguage" },
 								"7": {
 									"name": "variable.string.tmlanguage",

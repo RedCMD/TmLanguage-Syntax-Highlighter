@@ -157,12 +157,12 @@
 		{ "name": "punctuation.definition.list.begin.markdown" },
 		{ "name": "header" },
 		{ "name": "constant.regexp" },
-		{ "name": "keyword.operator.delete" },
-		{ "name": "keyword.control" },
-		{ "name": "source.cpp keyword.operator.new" },
-		{ "name": "keyword.other.using" },
-		{ "name": "keyword.other.operator" },
 		{ "name": "entity.name.operator" },
+		{ "name": "keyword.control" },
+		{ "name": "keyword.operator.delete" },
+		{ "name": "keyword.other.operator" },
+		{ "name": "keyword.other.using" },
+		{ "name": "source.cpp keyword.operator.new" },
 		{ "name": "punctuation.definition.tag" }
 	]
 }

@@ -1,4 +1,5 @@
 {
+	"version": "https://https://github.com/RedCMD/TmLanguage-Syntax-Highlighter",
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"scopeName": "source.syntax.regex.tmLanguage",
 	"name": "TextMate Language Regex",
@@ -558,7 +559,7 @@
 				{
 					"match": "(&&)(\\\\{2}(?=-))?",
 					"captures": {
-						"1": { "name": "keyword.other.operator.tmlanguage"		},
+						"1": { "name": "keyword.control.tmlanguage"				},
 						"2": { "name": "punctuation.definition.tag.tmlanguage"	}
 					}
 				},
@@ -581,21 +582,19 @@
 			]
 		},
 		"character-class-&&-test": {
-			"match": "( [& \\& && \\&& &\\& \\&\\& &&& \\&&& \\&\\&& \\&&\\& &&&& \\&&&& &\\&&& &&\\&& &&&\\& \\&\\&&& \\&&\\&& \\&&&\\& &\\&\\&& &\\&&\\& &&\\&\\& \\&\\&\\&& \\&\\&&\\& \\&&\\&\\& &\\&\\&\\& \\&\\&\\&\\& ])"
+			"match": "( [& \\& && \\&& &\\& \\&\\& &&& \\&&& &\\&& &&\\& \\&\\&& \\&&\\& &\\&\\& \\&\\&\\& &&&& \\&&&& &\\&&& &&\\&& &&&\\& \\&\\&&& \\&&\\&& \\&&&\\& &\\&\\&& &\\&&\\& &&\\&\\& \\&\\&\\&& \\&\\&&\\& \\&&\\&\\& &\\&\\&\\& \\&\\&\\&\\& ])"
 		},
 		"character-class-range-test": {
 			"match": "([^^-_-a-b 0-9 a-z A-Z A-z a-Z\\- 0-a \\s-a a-\\s--- \\s \\s-\\s [:alnum:]-a \"-a \/-a \n-a \\\\-\\\\ \\777-a \\ca-a \\x55-a \\p{L}-a \\u0000-a \\u-agh \\x{0000}-\\x{001F} \u00b0-a \\C-\\M-\u00b0-a a-])"
 		},
 		"character-class-posix": {
 			"comment": "[:...:] [:^...:]",
-			"match": "(\\[(:\\^?))(?>(\\s*:])|([^]]+)((:)]))",
+			"match": "(\\[:\\^?)(?>(\\s*:])|([^]]+)(:]))",
 			"captures": {
 				"1": { "name": "meta.embedded.tmlanguage support.function.tmlanguage" },
-				"2": { "name": "strong.tmlanguage" },
-				"3": { "name": "invalid.tmlanguage markup.underline.tmlanguage" },
-				"4": { "patterns": [ { "include": "#character-class-posix-value" } ] },
-				"5": { "name": "meta.embedded.tmlanguage support.function.tmlanguage" },
-				"6": { "name": "strong.tmlanguage" }
+				"2": { "name": "invalid.tmlanguage markup.underline.tmlanguage" },
+				"3": { "patterns": [ { "include": "#character-class-posix-value" } ] },
+				"4": { "name": "meta.embedded.tmlanguage support.function.tmlanguage" }
 			}
 		},
 		"character-class-posix-value": {
@@ -610,7 +609,7 @@
 		},
 		"character-class-regex": {
 			"comment": ".",
-			"match": ".",
+			"match": ".[^]\\x0-\\x1F\"&\\[\\\\\\x7F-]*(?!-)",
 			"name": "markup.italic.string.tmlanguage"
 		},
 		"character-type": {
@@ -802,11 +801,11 @@
 		"alternation": {
 			"comment": "|",
 			"match": "\\|",
-			"name": "keyword.other.operator.tmlanguage"
+			"name": "keyword.control.tmlanguage"
 		},
 		"regex": {
-			"comment": "Match anything left over. Style it bold and colour with very light gray",
-			"match": ".",
+			"comment": "Match anything left over and all non-special charaters",
+			"match": ".[^\\x0-\\x20\"-$(-+.?\\[\\\\^{|\\x7F]*",
 			"name": "entity.name.label.tmlanguage strong.string.tmlanguage"
 		},
 		"invalid": {
@@ -815,7 +814,7 @@
 			"name": "invalid.string.tmlanguage markup.underline.tmlanguage"
 		},
 		"test": {
-			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}{,3}{2,}{2} {000} *{0} {0}* *{0}* {0}{0}{0} {0}{2,3} {2,3}{0}{2,3} {2,3\\} () (?<= (?= (?>) )? ) (?= (?= )? ) [a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘] \\g<99> \\x555 QabcE $ \\$ \\1234567890 abcde\fghijklm\nopq\rs\t\u0000vwxyz bfnrtu \\a\\b\\cZ\\d\\e\\f\\g<0>\\h\\i\\j\\k'0'\\l\\m\\n\\o\\p{L}\\q\\r\\s\\t\\u0000\\v\\w\\x{13FFFF}\\y\\z °Ççë£ ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ`1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>?   \\A\\B\\C-]\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P{L}\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z \\x{201E} \\p{L} \\p{-L etterLaaLaa--LL--LL--} \\`\\1\\2\\3\\4\\5\\6\\7\\8\\9\\0\\-\\=\\[\\]\\\\\\;\\'\\,\\.\\/\\ \\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\{\\}\\|\\:\\\"\\<\\>\\? [[:^upper:]] At aT aa 1000 Q.E q.e a$abc#comment\n (?-x) #comment\n/z"
+			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}{,3}{2,}{2} {000} *{0} {0}* *{0}* {0}{0}{0} {0}{2,3} {2,3}{0}{2,3} {2,3\\} () (?<= (?= (?>) )? ) (?= (?= )? ) [a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘] \\g<99> \\x555 QabcE $ \\$ \\1234567890 abcde\fghijklm\nopq\rs\t\u0000vwxyz bfnrtu \\a\\b\\cZ\\d\\e\\f\\g<0>\\h\\i\\j\\k'0'\\l\\m\\n\\o\\p{L}\\q\\r\\s\\t\\u0000\\v\\w\\x{13FFFF}\\y\\z °Ççë£ ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ`1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>?   \\A\\B\\C-]\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P{L}\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z \\x{201E} \\p{L} \\p{-L etterLaaLaa--LL--LL--} \\`\\1\\2\\3\\4\\5\\6\\7\\8\\9\\0\\-\\=\\[\\]\\\\\\;\\'\\,\\.\\/\\ \\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\{\\}\\|\\:\\\"\\<\\>\\? [[:^upper:]] At aT aa 1000 Q.E q.e a$abc#comment\n (?-x) #notcomment\n/z"
 		}
 	}
 }
