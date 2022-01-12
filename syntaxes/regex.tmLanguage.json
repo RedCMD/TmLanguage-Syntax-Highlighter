@@ -319,7 +319,17 @@
 			"endCaptures": {
 				"0": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage" }
 			},
-			"patterns": [ { "include": "$self" } ]
+			"patterns": [
+				{
+					"begin": "\\G",
+					"end": "\\||(?=\\))",
+					"endCaptures": {
+						"0": { "name": "strong.tmlanguage keyword.control.tmlanguage" }
+					},
+					"patterns": [ { "include": "$self" } ]
+				},
+				{ "include": "$self" }
+			]
 		},
 		"capture-group-conditional-extended": {
 			"comment": "(?(<name>)...) (?('5')...)",
@@ -338,7 +348,17 @@
 			"endCaptures": {
 				"0": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage" }
 			},
-			"patterns": [ { "include": "#$self-extended" } ]
+			"patterns": [
+				{
+					"begin": "\\G",
+					"end": "\\||(?=\\))",
+					"endCaptures": {
+						"0": { "name": "strong.tmlanguage keyword.control.tmlanguage" }
+					},
+					"patterns": [ { "include": "#$self-extended" } ]
+				},
+				{ "include": "#$self-extended" }
+			]
 		},
 		"capture-group-name": {
 			"comment": "(?<name>...) (?'name'...)",
