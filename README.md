@@ -51,5 +51,4 @@ If you would like me to add support for a theme, please just message me
 * Allow spaces, underscores and dashes in all places inside Unicode Categorys `\\p{  Let _te--r}`: [Github - List of unicode properties](https://github.com/kkos/oniguruma/blob/bb31b4d402ee3f3a3bc4855c9d0271f43a3e4793/doc/UNICODE_PROPERTIES)
 * Try* to fix contention between backreferences `\\1` and character codes `\\1`
 * Detect and limit backreferences/subroutines/conditional-capture-groups `\\1`/`\\k<1>`/`\\g<1>`/`(?(<1>))` to the actual amount of capture groups available
-* Dis-allow lookaround capture groups inside lookbehind capture groups
 * Detect invalid character class ranges `z-a`

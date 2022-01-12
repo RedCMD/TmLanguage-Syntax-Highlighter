@@ -19,7 +19,8 @@
 		{ "include": "#capture-group-modify"				},
 		{ "include": "#capture-group-modify-extended"		},
 		{ "include": "#capture-group-conditional"			},
-		{ "include": "#capture-group-lookaround"			},
+		{ "include": "#capture-group-lookbehind"			},
+		{ "include": "#capture-group-lookahead"				},
 		{ "include": "#capture-group-comment"				},
 		{ "include": "#capture-group-name"					},
 		{ "include": "#capture-group"						},
@@ -39,7 +40,8 @@
 				{ "include": "#capture-group-modify-extended"		},
 				{ "include": "#capture-group-modify"				},
 				{ "include": "#capture-group-conditional-extended"	},
-				{ "include": "#capture-group-lookaround-extended"	},
+				{ "include": "#capture-group-lookbehind-extended"	},
+				{ "include": "#capture-group-lookahead-extended"	},
 				{ "include": "#capture-group-name-extended"			},
 				{ "include": "#capture-group-extended"				},
 				{ "include": "$self"								}
@@ -160,13 +162,13 @@
 			},
 			"patterns": [ { "include": "#$self-extended" } ]
 		},
-		"capture-group-lookaround": {
-			"comment": "(?!...) (?<!...) (?<=...)",
-			"begin": "(\\()(\\?<?[!=])",
+		"capture-group-lookahead": {
+			"comment": "(?=...) (?!...)",
+			"begin": "(\\()(\\?[!=])",
 			"end": "(\\))([+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
 			"beginCaptures": {
 				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage markup.italic.tmlanguage" },
-				"2": { "name": "support.function.string.tmlanguage" }
+				"2": { "name": "support.function.tmlanguage" }
 			},
 			"endCaptures": {
 				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage markup.italic.tmlanguage" },
@@ -174,9 +176,23 @@
 			},
 			"patterns": [ { "include": "$self" } ]
 		},
-		"capture-group-lookaround-extended": {
-			"comment": "(?!...) (?<!...) (?<=...)",
-			"begin": "(\\()(\\?<?[!=])",
+		"capture-group-lookahead-extended": {
+			"comment": "(?=...) (?!...)",
+			"begin": "(\\()(\\?[!=])",
+			"end": "(\\))([+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
+			"beginCaptures": {
+				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage markup.italic.tmlanguage" },
+				"2": { "name": "support.function.tmlanguage" }
+			},
+			"endCaptures": {
+				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage markup.italic.tmlanguage" },
+				"2": { "name": "invalid.tmlanguage markup.underline.tmlanguage" }
+			},
+			"patterns": [ { "include": "#$self-extended" } ]
+		},
+		"capture-group-lookbehind": {
+			"comment": "(?<=...) (?<!...)",
+			"begin": "(\\()(\\?<[!=])",
 			"end": "(\\))([+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
 			"beginCaptures": {
 				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage markup.italic.tmlanguage" },
@@ -186,7 +202,51 @@
 				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage markup.italic.tmlanguage" },
 				"2": { "name": "invalid.tmlanguage markup.underline.tmlanguage" }
 			},
-			"patterns": [ { "include": "#$self-extended" } ]
+			"patterns": [
+				{ "include": "#capture-group-lookaround-invalid" },
+				{ "include": "$self" }
+			]
+		},
+		"capture-group-lookbehind-extended": {
+			"comment": "(?<=...) (?<!...)",
+			"begin": "(\\()(\\?<[!=])",
+			"end": "(\\))([+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
+			"beginCaptures": {
+				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage markup.italic.tmlanguage" },
+				"2": { "name": "support.function.string.tmlanguage" }
+			},
+			"endCaptures": {
+				"1": { "name": "meta.embedded.tmlanguage constant.character.set.regexp.tmlanguage markup.italic.tmlanguage" },
+				"2": { "name": "invalid.tmlanguage markup.underline.tmlanguage" }
+			},
+			"patterns": [
+				{ "include": "#capture-group-lookaround-invalid-extended" },
+				{ "include": "#$self-extended" }
+			]
+		},
+		"capture-group-lookaround-invalid": {
+			"comment": "(?=...) (?!...) (?<=...) (?<!...)",
+			"begin": "\\(\\?<?[!=]",
+			"end": "\\)(?>[+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
+			"captures": {
+				"0": { "name": "invalid.tmlanguage markup.underline.tmlanguage" }
+			},
+			"patterns": [
+				{ "include": "#capture-group-lookaround-invalid" },
+				{ "include": "$self" }
+			]
+		},
+		"capture-group-lookaround-invalid-extended": {
+			"comment": "(?=...) (?!...) (?<=...) (?<!...)",
+			"begin": "\\(\\?<?[!=]",
+			"end": "\\)(?>[+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
+			"captures": {
+				"0": { "name": "invalid.tmlanguage markup.underline.tmlanguage" }
+			},
+			"patterns": [
+				{ "include": "#capture-group-lookaround-invalid-extended" },
+				{ "include": "#$self-extended" }
+			]
 		},
 		"capture-group-modify": {
 			"comment": "(?-imx)...",
@@ -724,7 +784,7 @@
 			"name": "invalid.string.tmlanguage markup.underline.tmlanguage"
 		},
 		"test": {
-			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}[a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘] \\g<99> \\x555 QabcE $ \\$ \\1234567890 abcde\fghijklm\nopq\rs\t\u0000vwxyz bfnrtu \\a\\b\\cZ\\d\\e\\f\\g<0>\\h\\i\\j\\k'0'\\l\\m\\n\\o\\p{L}\\q\\r\\s\\t\\u0000\\v\\w\\x{13FFFF}\\y\\z °Ççë£ ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ `1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>?   \\A\\B\\C-]\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P{L}\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z \\x{201E} \\p{L} \\p{-LetterLaaLaa--LL--LL--} \\`\\1\\2\\3\\4\\5\\6\\7\\8\\9\\0\\-\\=\\[\\]\\\\\\;\\'\\,\\.\\/\\ \\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\{\\}\\|\\:\\\"\\<\\>\\? [[:^upper:]] At aT aa 1000 Q.E q.e a$abc#comment\n (?-x) #comment\n/z"
+			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3} () (?<= (?= (?>) )? ) (?= (?= )? ) [a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘] \\g<99> \\x555 QabcE $ \\$ \\1234567890 abcde\fghijklm\nopq\rs\t\u0000vwxyz bfnrtu \\a\\b\\cZ\\d\\e\\f\\g<0>\\h\\i\\j\\k'0'\\l\\m\\n\\o\\p{L}\\q\\r\\s\\t\\u0000\\v\\w\\x{13FFFF}\\y\\z °Ççë£ ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ `1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>?   \\A\\B\\C-]\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P{L}\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z \\x{201E} \\p{L} \\p{-LetterLaaLaa--LL--LL--} \\`\\1\\2\\3\\4\\5\\6\\7\\8\\9\\0\\-\\=\\[\\]\\\\\\;\\'\\,\\.\\/\\ \\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\{\\}\\|\\:\\\"\\<\\>\\? [[:^upper:]] At aT aa 1000 Q.E q.e a$abc#comment\n (?-x) #comment\n/z"
 		}
 	}
 }
