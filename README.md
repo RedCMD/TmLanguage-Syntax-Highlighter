@@ -45,7 +45,6 @@ If you would like me to add support for a theme, please just message me
 
 
 ### Todo
-* Support JSON Key `"injections"`
 * Support posix's super buggy behaviour: [Github Issue - Funky Posix Classes](https://github.com/microsoft/vscode-textmate/issues/165)
 * Fix char ranges in character classes or wait for vscode to fix textmate bug (`[\\\\-\\\\]`): [Github Issue - Subroutines breaking tokenization](https://github.com/microsoft/vscode-textmate/issues/164)
 * Allow spaces, underscores and dashes in all places inside Unicode Categorys `\\p{  Let _te--r}`: [Github - List of unicode properties](https://github.com/kkos/oniguruma/blob/bb31b4d402ee3f3a3bc4855c9d0271f43a3e4793/doc/UNICODE_PROPERTIES)

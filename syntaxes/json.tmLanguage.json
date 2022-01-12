@@ -32,6 +32,7 @@
 						{ "include": "#name"				},
 						{ "include": "#uuid"				},
 						{ "include": "#fileTypes"			},
+						{ "include": "#injections"			},
 						{ "include": "#injectionSelector"	},
 						{ "include": "#firstLineMatch"		},
 						{ "include": "#foldingMarker"		},
@@ -252,24 +253,124 @@
 					"end": "(?<=\")",
 					"patterns": [
 						{
-							"match": "\"([LR]:)?(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+							"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
 							"captures": {
-								"1": { "name": "entity.name.function.tmlanguage" },
-								"2": {
-									"patterns": [
-										{ "match": "(?<!\\.|\")\\.(?!$)",	"name": "keyword.operator.tmlanguage"	},
-										{ "match": "[\\w\\d-]+",			"name": "string.tmlanguage"				},
-										{ "match": "\\\\[\"\\\\bfnrt]",		"name": "invalid.tmlanguage"			},
-										{ "include": "#escape-characters"	},
-										{ "include": "#invalid"				}
-									]
-								}
+								"1": { "patterns": [
+									{ "include": "#injection-string" },
+									{ "include": "#invalid" }
+								] }
 							}
 						},
 						{ "include": "#invalid" }
 					]
 				},
 				{ "include": "#invalid" }
+			]
+		},
+		"injections": {
+			"comment": "\"injections\": { ... }",
+			"begin": "\"(injections)\"",
+			"end": "(?<=})",
+			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=})",
+					"patterns": [
+						{
+							"begin": "{",
+							"end": "}",
+							"patterns": [
+								{
+									"begin": "(?<={)",
+									"end": "(?<=})|(?=})",
+									"patterns": [
+										{ "include": "#injection" },
+										{ "include": "#invalid" }
+									]
+								},
+								{
+									"begin": ",",
+									"end": "(?<=})",
+									"patterns": [
+										{ "include": "#injection" },
+										{ "include": "#invalid" }
+									]
+								},
+								{ "include": "#invalid" }
+							]
+						},
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"injection": {
+			"comment": "\"...\": { ... }",
+			"begin": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+			"end": "(?<=})",
+			"beginCaptures": { "1": { "patterns": [ { "include": "#injection-string" } ] } },
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=})",
+					"patterns": [
+						{
+							"begin": "{",
+							"end": "}",
+							"patterns": [
+								{
+									"begin": "(?<={)",
+									"end": "(?<=[]\"])|(?=})",
+									"patterns": [
+										{ "include": "#patterns" },
+										{ "include": "#comment" },
+										{ "include": "#invalid" }
+									]
+								},
+								{
+									"begin": ",",
+									"end": "(?<=[]\"])",
+									"patterns": [
+										{ "include": "#patterns" },
+										{ "include": "#comment" },
+										{ "include": "#invalid" }
+									]
+								},
+								{ "include": "#invalid" }
+							]
+						},
+						{ "include": "#invalid" }
+					]
+				},
+				{ "include": "#invalid" }
+			]
+		},
+		"injection-string": {
+			"patterns": [
+				{
+					"match": "[LR]:",
+					"name": "entity.name.function.tmlanguage"
+				},
+				{
+					"match": "\\s+-\\s+",
+					"name": "entity.name.function.tmlanguage"
+				},
+				{
+					"match": "\\|",
+					"name": "keyword.control.tmlanguage"
+				},
+				{ "match": "[(),]" },
+				{
+					"match": "[\\\\\\w*.-]+",
+					"captures": { "0": {
+						"patterns": [
+							{ "match": "\\*", "name": "entity.name.function.tmlanguage" },
+							{ "include": "#scope-string" }
+						]
+					} }
+				}
 			]
 		},
 		"firstLineMatch": {
@@ -715,6 +816,15 @@
 					]
 				},
 				{ "include": "#invalid" }
+			]
+		},
+		"scope-string": {
+			"patterns": [
+				{ "match": "(?<![\\s.\"])\\.(?=[^\\s#\"])",	"name": "keyword.operator.tmlanguage"	},
+				{ "match": "[\\w\\d-]+",					"name": "string.tmlanguage"				},
+				{ "match": "\\\\[\"\\\\bfnrt]",				"name": "invalid.tmlanguage"			},
+				{ "include": "#escape-characters"	},
+				{ "include": "#invalid"				}
 			]
 		},
 		"string": {
