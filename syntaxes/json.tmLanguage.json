@@ -17,8 +17,9 @@
 			"end": "}\\s*$",
 			"patterns": [
 				{
-					"begin": "(?<={)|,",
-					"end": "(?<=[]}\"]|true|false|null|-?\\d+)",
+					"begin": "\\G|,",
+					"end": "(?<=[]}\"]|true|false|null|\\d+)|(?((?!\\1))(})|(?=}))",
+					"endCaptures": { "1": { "name": "markup.italic.tm invalid.tm" } },
 					"patterns": [
 						{ "include": "#infoContributors"	},
 						{ "include": "#version"				},
@@ -45,7 +46,7 @@
 			"comment": "\"information_for_contributors\": [ \"...\" ]",
 			"begin": "\"(information_for_contributors)\"",
 			"end": "(?<=])",
-			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"beginCaptures": { "1": { "name": "keyword.tm" } },
 			"patterns": [
 				{
 					"begin": ":",
@@ -53,19 +54,12 @@
 					"patterns": [
 						{
 							"begin": "\\[",
-							"end": "]",
+							"end": "(?<=])|]",
 							"patterns": [
 								{
-									"begin": "(?<=\\[)",
-									"end": "(?<=\")|(?=])",
-									"patterns": [
-										{ "include": "#string"	},
-										{ "include": "#invalid"	}
-									]
-								},
-								{
-									"begin": ",",
-									"end": "(?<=\")",
+									"begin": "\\G|(,)",
+									"end": "(?<=\")|(?((?!\\1))(])|(?=]))",
+									"endCaptures": { "1": { "name": "markup.italic.tm invalid.tm" } },
 									"patterns": [
 										{ "include": "#string"	},
 										{ "include": "#invalid"	}
@@ -84,7 +78,7 @@
 			"comment": "\"version\": \"...\"",
 			"begin": "\"(version)\"",
 			"end": "(?!\\G)(?<=\")",
-			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"beginCaptures": { "1": { "name": "keyword.tm" } },
 			"patterns": [
 				{
 					"begin": ":",
@@ -102,8 +96,8 @@
 			"begin": "\"(\\$)(schema)\"",
 			"end": "(?!\\G)(?<=\")",
 			"beginCaptures": {
-				"1": { "name": "keyword.tmlanguage" },
-				"2": { "name": "support.function.tmlanguage" }
+				"1": { "name": "keyword.tm" },
+				"2": { "name": "support.function.tm" }
 			},
 			"patterns": [
 				{
@@ -121,29 +115,15 @@
 			"comment": "\"scopeName\": \"...\"",
 			"begin": "\"(scopeName)\"",
 			"end": "(?!\\G)(?<=\")",
-			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"beginCaptures": { "1": { "name": "keyword.tm" } },
 			"patterns": [
 				{
 					"begin": ":",
-					"end": "(?<=\")",
-					"patterns": [
-						{
-							"match": "\"(text|source)?(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
-							"captures": {
-								"1": { "name": "support.function.tmlanguage" },
-								"2": {
-									"patterns": [
-										{ "match": "(?<!\\.|\")\\.(?!$)",	"name": "keyword.operator.tmlanguage"	},
-										{ "match": "[\\w\\d-]+",			"name": "string.tmlanguage"				},
-										{ "match": "\\\\[\"\\\\bfnrt]",		"name": "invalid.tmlanguage"			},
-										{ "include": "#escape-characters"	},
-										{ "include": "#invalid"				}
-									]
-								}
-							}
-						},
-						{ "include": "#invalid" }
-					]
+					"end": "\"(text|source)?(.*?(?<!\\\\)\\\\{2}*|.*)\"",
+					"endCaptures": {
+						"1": { "name": "support.function.tm" },
+						"2": { "patterns": [ { "include": "#scope-string" } ] }
+					}
 				},
 				{ "include": "#invalid" }
 			]
@@ -152,7 +132,7 @@
 			"comment": "\"name\": \"...\"",
 			"begin": "\"(name)\"",
 			"end": "(?!\\G)(?<=\")",
-			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"beginCaptures": { "1": { "name": "keyword.tm" } },
 			"patterns": [
 				{
 					"begin": ":",
@@ -169,31 +149,25 @@
 			"comment": "\"uuid\": \"00000000-0000-0000-0000-000000000000\"",
 			"begin": "\"(uuid)\"",
 			"end": "(?!\\G)(?<=\")",
-			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"beginCaptures": { "1": { "name": "keyword.tm" } },
 			"patterns": [
 				{
 					"begin": ":",
-					"end": "(?<=\")",
-					"patterns": [
-						{
-							"match": "\"(?i:([a-z\\d]{1,8})(?:-(?:([a-z\\d]{1,4})(?:-(?:([a-z\\d]{1,4})(?:-(?:([a-z\\d]{1,4})(?:-(?:([a-z\\d]{1,12})?)?)?)?)?)?)?)?)?)?(.*?)\"",
-							"captures": {
-								"1": { "name": "constant.numeric.tmlanguage" },
-								"2": { "name": "constant.numeric.tmlanguage" },
-								"3": { "name": "constant.numeric.tmlanguage" },
-								"4": { "name": "constant.numeric.tmlanguage" },
-								"5": { "name": "constant.numeric.tmlanguage" },
-								"6": {
-									"patterns": [
-										{ "match": "\\\\[\"\\\\bfnrt]",	"name": "invalid.tmlanguage" },
-										{ "include": "#escape-characters" },
-										{ "include": "#invalid" }
-									]
-								}
-							}
-						},
-						{ "include": "#invalid" }
-					]
+					"end": "\"(?i:([a-z\\d]{1,8})(?:-(?:([a-z\\d]{1,4})(?:-(?:([a-z\\d]{1,4})(?:-(?:([a-z\\d]{1,4})(?:-(?:([a-z\\d]{1,12})?)?)?)?)?)?)?)?)?)?(.*?)\"",
+					"endCaptures": {
+						"1": { "name": "constant.numeric.tm" },
+						"2": { "name": "constant.numeric.tm" },
+						"3": { "name": "constant.numeric.tm" },
+						"4": { "name": "constant.numeric.tm" },
+						"5": { "name": "constant.numeric.tm" },
+						"6": {
+							"patterns": [
+								{ "match": "\\\\[\"\\\\bfnrt]",	"name": "invalid.tm" },
+								{ "include": "#escape-characters" },
+								{ "include": "#invalid" }
+							]
+						}
+					}
 				},
 				{ "include": "#invalid" }
 			]
@@ -202,7 +176,7 @@
 			"comment": "\"fileTypes\": [ \"...\" ]",
 			"begin": "\"(fileTypes)\"",
 			"end": "(?<=])",
-			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"beginCaptures": { "1": { "name": "keyword.tm" } },
 			"patterns": [
 				{
 					"begin": ":",
@@ -210,22 +184,15 @@
 					"patterns": [
 						{
 							"begin": "\\[",
-							"end": "]",
+							"end": "(?<=])|]",
 							"patterns": [
 								{
-									"begin": "(?<=\\[)",
-									"end": "(?<=\")|(?=])",
+									"begin": "\\G|(,)",
+									"end": "(?<=\")|(?((?!\\1))(])|(?=]))",
+									"endCaptures": { "1": { "name": "markup.italic.tm invalid.tm" } },
 									"patterns": [
-										{ "include": "#string"	},
-										{ "include": "#invalid"	}
-									]
-								},
-								{
-									"begin": ",",
-									"end": "(?<=\")",
-									"patterns": [
-										{ "include": "#string"	},
-										{ "include": "#invalid"	}
+										{ "include": "#string" },
+										{ "include": "#invalid" }
 									]
 								},
 								{ "include": "#invalid" }
@@ -241,19 +208,21 @@
 			"comment": "\"injectionSelector\": \"...\"",
 			"begin": "\"(injectionSelector)\"",
 			"end": "(?!\\G)(?<=\")",
-			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"beginCaptures": { "1": { "name": "keyword.tm" } },
 			"patterns": [
 				{
 					"begin": ":",
 					"end": "(?<=\")",
 					"patterns": [
 						{
-							"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+							"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
 							"captures": {
-								"1": { "patterns": [
-									{ "include": "#injection-string" },
-									{ "include": "#invalid" }
-								] }
+								"1": {
+									"patterns": [
+										{ "include": "#injection-string" },
+										{ "include": "#invalid" }
+									]
+								}
 							}
 						},
 						{ "include": "#invalid" }
@@ -266,7 +235,7 @@
 			"comment": "\"injections\": { ... }",
 			"begin": "\"(injections)\"",
 			"end": "(?<=})",
-			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"beginCaptures": { "1": { "name": "keyword.tm" } },
 			"patterns": [
 				{
 					"begin": ":",
@@ -274,24 +243,52 @@
 					"patterns": [
 						{
 							"begin": "{",
-							"end": "}",
+							"end": "(?<=})",
 							"patterns": [
 								{
-									"begin": "(?<={)",
-									"end": "(?<=})|(?=})",
+									"begin": "\\G|(,)",
+									"end": "(?<=\")|(?((?!\\1))(})|})",
+									"endCaptures": { "1": { "name": "markup.italic.tm invalid.tm" } },
 									"patterns": [
-										{ "include": "#injection" },
+										{
+											"comment": "\"...\": { ... }",
+											"begin": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
+											"end": "(?<=})",
+											"beginCaptures": { "1": { "patterns": [ { "include": "#injection-string" } ] } },
+											"patterns": [
+												{
+													"begin": ":",
+													"end": "(?<=})",
+													"patterns": [
+														{
+															"begin": "{",
+															"end": "(?<=})",
+															"patterns": [
+																{
+																	"begin": "\\G|(,)",
+																	"end": "(?<=[]\"])|(?((?!\\1))(})|})",
+																	"endCaptures": { "1": { "name": "markup.italic.tm invalid.tm" } },
+																	"patterns": [
+																		{ "include": "#patterns"	},
+																		{ "include": "#comment"		},
+																		{ "include": "#json-item"	},
+																		{ "include": "#invalid"		}
+																	]
+																},
+																{ "match": "}" },
+																{ "include": "#invalid" }
+															]
+														},
+														{ "include": "#invalid" }
+													]
+												},
+												{ "include": "#invalid" }
+											]
+										},
 										{ "include": "#invalid" }
 									]
 								},
-								{
-									"begin": ",",
-									"end": "(?<=})",
-									"patterns": [
-										{ "include": "#injection" },
-										{ "include": "#invalid" }
-									]
-								},
+								{ "match": "}" },
 								{ "include": "#invalid" }
 							]
 						},
@@ -299,80 +296,13 @@
 					]
 				},
 				{ "include": "#invalid" }
-			]
-		},
-		"injection": {
-			"comment": "\"...\": { ... }",
-			"begin": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
-			"end": "(?<=})",
-			"beginCaptures": { "1": { "patterns": [ { "include": "#injection-string" } ] } },
-			"patterns": [
-				{
-					"begin": ":",
-					"end": "(?<=})",
-					"patterns": [
-						{
-							"begin": "{",
-							"end": "}",
-							"patterns": [
-								{
-									"begin": "(?<={)",
-									"end": "(?<=[]\"])|(?=})",
-									"patterns": [
-										{ "include": "#patterns" },
-										{ "include": "#comment" },
-										{ "include": "#invalid" }
-									]
-								},
-								{
-									"begin": ",",
-									"end": "(?<=[]\"])",
-									"patterns": [
-										{ "include": "#patterns" },
-										{ "include": "#comment" },
-										{ "include": "#invalid" }
-									]
-								},
-								{ "include": "#invalid" }
-							]
-						},
-						{ "include": "#invalid" }
-					]
-				},
-				{ "include": "#invalid" }
-			]
-		},
-		"injection-string": {
-			"patterns": [
-				{
-					"match": "[LR]:",
-					"name": "entity.name.function.tmlanguage"
-				},
-				{
-					"match": "\\s+-\\s+",
-					"name": "entity.name.function.tmlanguage"
-				},
-				{
-					"match": "\\|",
-					"name": "keyword.control.tmlanguage"
-				},
-				{ "match": "[(),]" },
-				{
-					"match": "[\\\\\\w*.-]+",
-					"captures": { "0": {
-						"patterns": [
-							{ "match": "\\*", "name": "entity.name.function.tmlanguage" },
-							{ "include": "#scope-string" }
-						]
-					} }
-				}
 			]
 		},
 		"firstLineMatch": {
 			"comment": "\"firstLineMatch\": \"...\"",
 			"begin": "\"(firstLineMatch)\"",
 			"end": "(?!\\G)(?<=\")",
-			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"beginCaptures": { "1": { "name": "keyword.tm" } },
 			"patterns": [
 				{
 					"begin": ":",
@@ -391,9 +321,9 @@
 		},
 		"foldingMarker": {
 			"comment": "\"foldingStartMarker\": \"...\"",
-			"begin": "\"(foldingSt(?:art|op)Marker)\"",
+			"begin": "\"(foldingSt(?>art|op)Marker)\"",
 			"end": "(?!\\G)(?<=\")",
-			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"beginCaptures": { "1": { "name": "keyword.tm" } },
 			"patterns": [
 				{
 					"begin": ":",
@@ -414,7 +344,7 @@
 			"comment": "\"patterns\": [ ... ]",
 			"begin": "\"(patterns)\"",
 			"end": "(?<=])",
-			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"beginCaptures": { "1": { "name": "keyword.tm" } },
 			"patterns": [
 				{
 					"begin": ":",
@@ -422,21 +352,38 @@
 					"patterns": [
 						{
 							"begin": "\\[",
-							"end": "]",
+							"end": "(?<=])|]",
 							"patterns": [
 								{
-									"begin": "(?<=\\[)",
-									"end": "(?<=})|(?=])",
+									"begin": "\\G|(,)",
+									"end": "(?<=})|(?((?!\\1))(])|(?=]))",
+									"endCaptures": { "1": { "name": "markup.italic.tm invalid.tm" } },
 									"patterns": [
-										{ "include": "#pattern-item" },
-										{ "include": "#invalid" }
-									]
-								},
-								{
-									"begin": ",",
-									"end": "(?<=})",
-									"patterns": [
-										{ "include": "#pattern-item" },
+										{
+											"comment": "{ ... }",
+											"begin": "{",
+											"end": "}",
+											"patterns": [
+												{
+													"begin": "\\G|(,)",
+													"end": "(?<=[]}\"]|true|false|null|\\d+)|(?((?!\\1))(})|(?=}))",
+													"endCaptures": { "1": { "name": "markup.italic.tm invalid.tm" } },
+													"patterns": [
+														{ "include": "#name-scope"			},
+														{ "include": "#match"				},
+														{ "include": "#include"				},
+														{ "include": "#captures"			},
+														{ "include": "#patterns"			},
+														{ "include": "#repository"			},
+														{ "include": "#applyEndPatternLast"	},
+														{ "include": "#comment"				},
+														{ "include": "#json-item"			},
+														{ "include": "#invalid"				}
+													]
+												},
+												{ "include": "#invalid" }
+											]
+										},
 										{ "include": "#invalid" }
 									]
 								},
@@ -444,46 +391,6 @@
 							]
 						},
 						{ "include": "#invalid" }
-					]
-				},
-				{ "include": "#invalid" }
-			]
-		},
-		"pattern-item": {
-			"comment": "{ ... }",
-			"begin": "{",
-			"end": "}",
-			"patterns": [
-				{
-					"begin": "(?<={)",
-					"end": "(?!\\G)(?<=[]}\"]|true|false|null|-?\\d+)|(?=})",
-					"patterns": [
-						{ "include": "#name-scope"			},
-						{ "include": "#match"				},
-						{ "include": "#include"				},
-						{ "include": "#patterns"			},
-						{ "include": "#captures"			},
-						{ "include": "#repository"			},
-						{ "include": "#applyEndPatternLast"	},
-						{ "include": "#comment"				},
-						{ "include": "#json-item"			},
-						{ "include": "#invalid"				}
-					]
-				},
-				{
-					"begin": ",",
-					"end": "(?!\\G)(?<=[]}\"]|true|false|null|-?\\d+)",
-					"patterns": [
-						{ "include": "#name-scope"			},
-						{ "include": "#match"				},
-						{ "include": "#include"				},
-						{ "include": "#patterns"			},
-						{ "include": "#captures"			},
-						{ "include": "#repository"			},
-						{ "include": "#applyEndPatternLast"	},
-						{ "include": "#comment"				},
-						{ "include": "#json-item"			},
-						{ "include": "#invalid"				}
 					]
 				},
 				{ "include": "#invalid" }
@@ -493,7 +400,7 @@
 			"comment": "\"repository\": { ... }",
 			"begin": "\"(repository)\"",
 			"end": "(?<=})",
-			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"beginCaptures": { "1": { "name": "keyword.tm" } },
 			"patterns": [
 				{
 					"begin": ":",
@@ -504,78 +411,55 @@
 							"end": "}",
 							"patterns": [
 								{
-									"begin": "(?<={)",
-									"end": "(?<=})|(?=})",
+									"begin": "\\G|(,)",
+									"end": "(?<=})|(?((?!\\1))(})|(?=}))",
+									"endCaptures": { "1": { "name": "markup.italic.tm invalid.tm" } },
 									"patterns": [
-										{ "include": "#repository-item" },
+										{
+											"comment": "\"...\": { ... }",
+											"begin": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
+											"end": "(?<=})",
+											"beginCaptures": {
+												"1": {
+													"name": "variable.string.tm",
+													"patterns": [ { "include": "#escape-characters" } ]
+												}
+											},
+											"patterns": [
+												{
+													"begin": ":",
+													"end": "(?<=})",
+													"patterns": [
+														{
+															"begin": "{",
+															"end": "}",
+															"patterns": [
+																{
+																	"begin": "\\G|(,)",
+																	"end": "(?<=[]}\"]|true|false|null|\\d+)|(?((?!\\1))(})|(?=}))",
+																	"endCaptures": { "1": { "name": "markup.italic.tm invalid.tm" } },
+																	"patterns": [
+																		{ "include": "#name-scope"			},
+																		{ "include": "#match"				},
+																		{ "include": "#captures"			},
+																		{ "include": "#patterns"			},
+																		{ "include": "#repository"			},
+																		{ "include": "#applyEndPatternLast"	},
+																		{ "include": "#comment"				},
+																		{ "include": "#json-item"			},
+																		{ "include": "#invalid"				}
+																	]
+																},
+																{ "include": "#invalid" }
+															]
+														},
+														{ "include": "#invalid" }
+													]
+												},
+												{ "include": "#invalid" }
+											]
+										},
 										{ "include": "#invalid" }
-									]
-								},
-								{
-									"begin": ",",
-									"end": "(?<=})",
-									"patterns": [
-										{ "include": "#repository-item" },
-										{ "include": "#invalid" }
-									]
-								},
-								{ "include": "#comment" },
-								{ "include": "#invalid" }
-							]
-						},
-						{ "include": "#invalid" }
-					]
-				},
-				{ "include": "#invalid" }
-			]
-		},
-		"repository-item": {
-			"comment": "\"...\": { ... }",
-			"begin": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
-			"end": "(?<=})",
-			"beginCaptures": {
-				"1": {
-					"name": "variable.string.tmlanguage",
-					"patterns": [ { "include": "#escape-characters" } ]
-				}
-			},
-			"patterns": [
-				{
-					"begin": ":",
-					"end": "(?<=})",
-					"patterns": [
-						{
-							"begin": "{",
-							"end": "}",
-							"patterns": [
-								{
-									"begin": "(?<={)",
-									"end": "(?<=[]}\"]|true|false|null|-?\\d+)|(?=})",
-									"patterns": [
-										{ "include": "#name-scope"			},
-										{ "include": "#match"				},
-										{ "include": "#captures"			},
-										{ "include": "#patterns"			},
-										{ "include": "#repository"			},
-										{ "include": "#applyEndPatternLast"	},
-										{ "include": "#comment"				},
-										{ "include": "#json-item"			},
-										{ "include": "#invalid"				}
-									]
-								},
-								{
-									"begin": ",",
-									"end": "(?<=[]}\"]|true|false|null|-?\\d+)",
-									"patterns": [
-										{ "include": "#name-scope"			},
-										{ "include": "#match"				},
-										{ "include": "#captures"			},
-										{ "include": "#patterns"			},
-										{ "include": "#repository"			},
-										{ "include": "#applyEndPatternLast"	},
-										{ "include": "#comment"				},
-										{ "include": "#json-item"			},
-										{ "include": "#invalid"				}
 									]
 								},
 								{ "include": "#invalid" }
@@ -591,35 +475,30 @@
 			"comment": "\"name\": \"...\"",
 			"begin": "\"((?:contentN|n)ame)\"",
 			"end": "(?!\\G)(?<=\")",
-			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"beginCaptures": { "1": { "name": "keyword.tm" } },
 			"patterns": [
 				{
 					"begin": ":",
-					"end": "(?<=\")",
-					"patterns": [
-						{
-							"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
-							"captures": {
-								"1": {
-									"name": "$1.regex",
-									"patterns": [
-										{ "include": "#escape-characters" } ,
-										{ "match": "\\$\\d+", "name": "constant.character.escape.tmlanguage" }
-									]
-								}
-							}
-						},
-						{ "include": "#invalid" }
-					]
+					"end": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
+					"endCaptures": {
+						"1": {
+							"name": "$1.regex",
+							"patterns": [
+								{ "include": "#escape-characters" } ,
+								{ "match": "\\$\\d+", "name": "constant.character.escape.tm" }
+							]
+						}
+					},
+					"contentName": "invalid.tm"
 				},
 				{ "include": "#invalid" }
 			]
 		},
 		"match": {
 			"comment": "\"match\": \"...\"",
-			"begin": "\"(match|begin|while|end)\"",
+			"begin": "\"(match|begin|while|end|wordPattern)\"",
 			"end": "(?!\\G)(?<=\")",
-			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"beginCaptures": { "1": { "name": "keyword.tm" } },
 			"patterns": [
 				{
 					"begin": ":",
@@ -640,22 +519,22 @@
 			"comment": "\"include\": \"#...\"",
 			"begin": "\"(include)\"",
 			"end": "(?!\\G)(?<=\")",
-			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"beginCaptures": { "1": { "name": "keyword.tm" } },
 			"patterns": [
 				{
 					"begin": ":",
 					"end": "(?<=\")",
 					"patterns": [
 						{
-							"match": "\"(?:((\\$)(base|self)|(text|source)?([^#\"]*)(#)?(.*?))(?<=[^\\\\]\\\\{2}*)|\\g<1>)\"",
+							"match": "\"(?:(\\$)(base|self)|(text|source)?([^#\"]*)(#)?(.*?(?<!\\\\)\\\\{2}*|.*))\"",
 							"captures": {
-								"2": { "name": "keyword.tmlanguage" },
-								"3": { "name": "entity.name.function.tmlanguage" },
-								"4": { "name": "entity.name.function.tmlanguage" },
-								"5": { "patterns": [ { "include": "#scope-string" } ] },
-								"6": { "name": "keyword.tmlanguage" },
-								"7": {
-									"name": "variable.string.tmlanguage",
+								"1": { "name": "keyword.tm" },
+								"2": { "name": "entity.name.function.tm" },
+								"3": { "name": "entity.name.function.tm" },
+								"4": { "patterns": [ { "include": "#scope-string" } ] },
+								"5": { "name": "keyword.tm" },
+								"6": {
+									"name": "variable.string.tm",
 									"patterns": [ { "include": "#escape-characters" } ]
 								}
 							}
@@ -670,7 +549,7 @@
 			"comment": "\"captures\": { ... }",
 			"begin": "\"((?:beginC|whileC|endC|c)aptures)\"",
 			"end": "(?<=})",
-			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"beginCaptures": { "1": { "name": "keyword.tm" } },
 			"patterns": [
 				{
 					"begin": ":",
@@ -681,62 +560,46 @@
 							"end": "}",
 							"patterns": [
 								{
-									"begin": "(?<={)",
-									"end": "(?!\\G)(?<=[}\"])|(?=})",
+									"begin": "\\G|(,)",
+									"end": "(?<=[}\"])|(?((?!\\1))(})|(?=}))",
+									"endCaptures": { "1": { "name": "markup.italic.tm invalid.tm" } },
 									"patterns": [
-										{ "include": "#capture-item" },
-										{ "include": "#include"		 },
-										{ "include": "#invalid"		 }
-									]
-								},
-								{
-									"begin": ",",
-									"end": "(?!\\G)(?<=[}\"])",
-									"patterns": [
-										{ "include": "#capture-item" },
-										{ "include": "#include"		 },
-										{ "include": "#invalid"		 }
-									]
-								},
-								{ "include": "#invalid" }
-							]
-						},
-						{ "include": "#invalid" }
-					]
-				},
-				{ "include": "#invalid" }
-			]
-		},
-		"capture-item": {
-			"comment": "\"1\": { ... }",
-			"begin": "\"(\\d+)\"",
-			"end": "(?<=})",
-			"beginCaptures": { "1": { "name": "constant.numeric.tmlanguage" } },
-			"patterns": [
-				{
-					"begin": ":",
-					"end": "(?<=})",
-					"patterns": [
-						{
-							"begin": "{",
-							"end": "}",
-							"patterns": [
-								{
-									"begin": "(?<={)",
-									"end": "(?!\\G)(?<=[]\"])|(?=})",
-									"patterns": [
-										{ "include": "#name-scope"	},
-										{ "include": "#patterns"	},
-										{ "include": "#json-item"	},
-										{ "include": "#invalid"		}
-									]
-								},
-								{
-									"begin": ",",
-									"end": "(?!\\G)(?<=[]\"])",
-									"patterns": [
-										{ "include": "#name-scope"	},
-										{ "include": "#patterns"	},
+										{
+											"comment": "\"1\": { ... }",
+											"begin": "\"(\\d+)\"",
+											"end": "(?<=})",
+											"beginCaptures": { "1": { "name": "constant.numeric.tm" } },
+											"patterns": [
+												{
+													"begin": ":",
+													"end": "(?<=})",
+													"patterns": [
+														{
+															"begin": "{",
+															"end": "}",
+															"patterns": [
+																{
+																	"begin": "\\G|(,)",
+																	"end": "(?<=[]\"])|(?((?!\\1))(})|(?=}))",
+																	"endCaptures": { "1": { "name": "markup.italic.tm invalid.tm" } },
+																	"patterns": [
+																		{ "include": "#name-scope"	},
+																		{ "include": "#patterns"	},
+																		{ "include": "#comment"		},
+																		{ "include": "#json-item"	},
+																		{ "include": "#invalid"		}
+																	]
+																},
+																{ "include": "#invalid" }
+															]
+														},
+														{ "include": "#invalid" }
+													]
+												},
+												{ "include": "#invalid" }
+											]
+										},
+										{ "include": "#include"		},
 										{ "include": "#json-item"	},
 										{ "include": "#invalid"		}
 									]
@@ -753,23 +616,17 @@
 		"applyEndPatternLast": {
 			"comment": "\"applyEndPatternLast\": true",
 			"begin": "\"(applyEndPatternLast)\"",
-			"end": "(?!\\G)(?<=true|false|null|\\d+)",
-			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"end": "(?<!\\G)(?>(true|false|null)|(-?\\d+))",
+			"beginCaptures": { "1": { "name": "keyword.tm" } },
+			"endCaptures": {
+				"1": { "name": "keyword.control.tm" },
+				"2": { "name": "constant.numeric.tmLanguage" }
+			},
 			"patterns": [
 				{
-					"begin": ":",
-					"end": "(?<=true|false|null|\\d+)",
-					"patterns": [
-						{
-							"match": "true|false|null",
-							"name": "keyword.control.tmlanguage"
-						},
-						{
-							"match": "\\d+",
-							"name": "constant.numeric.tmLanguage"
-						},
-						{ "include": "#invalid" }
-					]
+					"begin": "\\G",
+					"end": ":",
+					"contentName": "invalid.regex.tm"
 				},
 				{ "include": "#invalid" }
 			]
@@ -778,21 +635,21 @@
 			"comment": "\"comment\": \"...\"",
 			"begin": "\"(comment)\"",
 			"end": "(?!\\G)(?<=\")",
-			"beginCaptures": { "1": { "name": "keyword.tmlanguage" } },
+			"beginCaptures": { "1": { "name": "keyword.tm" } },
 			"patterns": [
 				{
 					"begin": ":",
 					"end": "(?<=\")",
 					"patterns": [
 						{
-							"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+							"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
 							"captures": {
 								"1": {
-									"name": "comment.tmlanguage",
+									"name": "comment.tm",
 									"patterns": [
 										{
 											"match": "(\\\\)/",
-											"captures": { "1": { "name": "constant.character.escape.tmlanguage" } }
+											"captures": { "1": { "name": "constant.character.escape.tm" } }
 										},
 										{ "include": "#escape-characters" }
 									]
@@ -805,20 +662,48 @@
 				{ "include": "#invalid" }
 			]
 		},
+		"injection-string": {
+			"patterns": [
+				{
+					"match": "[LR]:",
+					"name": "entity.name.function.tm"
+				},
+				{
+					"match": "\\s+-\\s+",
+					"name": "entity.name.function.tm"
+				},
+				{
+					"match": "\\|",
+					"name": "keyword.control.tm"
+				},
+				{ "match": "[(),]" },
+				{
+					"match": "[\\\\\\w*.-]+",
+					"captures": {
+						"0": {
+							"patterns": [
+								{ "match": "\\*", "name": "entity.name.function.tm" },
+								{ "include": "#scope-string" }
+							]
+						}
+					}
+				}
+			]
+		},
 		"scope-string": {
 			"patterns": [
-				{ "match": "(?<![\\s.\"])\\.(?=[^\\s#\"])",	"name": "keyword.operator.tmlanguage"	},
-				{ "match": "[\\w\\d-]+",					"name": "string.tmlanguage"				},
-				{ "match": "\\\\[\"\\\\bfnrt]",				"name": "invalid.tmlanguage"			},
-				{ "include": "#escape-characters"	},
-				{ "include": "#invalid"				}
+				{ "match": "(?<![\\s.\"])\\.(?=[^\\s#\"])",	"name": "keyword.operator.tm"	},
+				{ "match": "[\\w-]+",						"name": "string.tm"				},
+				{ "match": "\\\\[\"\\\\bfnrt]|\\\\u\\h{4}",	"name": "invalid.tm"			},
+				{ "include": "#escape-characters" },
+				{ "match": ".[^.\\w\\\\]*",					"name": "markup.italic.tm invalid.regex.tm"	}
 			]
 		},
 		"string": {
-			"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+			"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
 			"captures": {
 				"1": {
-					"name": "string.tmlanguage",
+					"name": "string.tm",
 					"patterns": [ { "include": "#escape-characters" } ]
 				}
 			}
@@ -827,55 +712,46 @@
 			"patterns": [
 				{
 					"match": "(\\\\)/",
-					"captures": { "1": { "name": "punctuation.definition.tag.tmlanguage" } }
+					"captures": { "1": { "name": "punctuation.definition.tag.tm" } }
 				},
 				{
 					"match": "(\\\\)[\\\\\"]",
-					"captures": { "1": { "name": "constant.character.escape.tmlanguage" } }
+					"captures": { "1": { "name": "constant.character.escape.tm" } }
 				},
 				{
 					"match": "\\\\[bfnrt]",
-					"name": "constant.character.escape.tmlanguage"
+					"name": "constant.character.escape.tm"
 				},
 				{
 					"match": "(\\\\u)(.{4})",
 					"captures": {
-						"1": { "name": "constant.character.escape.tmlanguage" },
+						"1": { "name": "constant.character.escape.tm" },
 						"2": {
-							"name": "constant.numeric.tmlanguage",
-							"patterns": [ { "match": "\\H+", "name": "invalid.tmlanguage markup.underline.tmlanguage" } ]
+							"name": "constant.numeric.tm",
+							"patterns": [ { "match": "\\H+", "name": "invalid.tm markup.underline.tm" } ]
 						}
 					}
 				},
 				{
 					"match": "\\\\.?|\"|[\\x0-\\x1F]|\\x7F",
-					"name": "invalid.string.tmlanguage markup.underline.tmlanguage"
+					"name": "invalid.string.tm markup.underline.tm"
 				}
 			]
 		},
 		"json-item": {
 			"comment": "\"...\": ...",
-			"begin": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
-			"end": "(?!\\G)(?<=[]}\"]|true|false|null|-?\\d+)",
+			"begin": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
+			"end": "(?!\\G)(?<=[]}\"]|true|false|null|\\d+)",
 			"beginCaptures": {
 				"0": {
-					"name": "variable.string.tmlanguage",
-					"patterns": [
-						{
-							"match": "\\\\(\"|\\\\)",
-							"name": "constant.character.escape.tmlanguage"
-						},
-						{
-							"match": "\\\\.",
-							"name": "invalid.tmlanguage markup.underline.tmlanguage"
-						}
-					]
+					"name": "variable.string.tm",
+					"patterns": [ { "include": "#json-escape" } ]
 				}
 			},
 			"patterns": [
 				{
 					"begin": ":",
-					"end": "(?<=[]}\"]|true|false|null|-?\\d+)",
+					"end": "(?<=[]}\"]|true|false|null|\\d+)",
 					"patterns": [
 						{ "include": "#json-dictionary" },
 						{ "include": "#json-array" },
@@ -892,19 +768,12 @@
 			"end": "}",
 			"patterns": [
 				{
-					"begin": "(?<={)",
-					"end": "(?<=[]}\"]|true|false|null|-?\\d+)|(?=})",
+					"begin": "\\G|(,)",
+					"end": "(?<=[]}\"]|true|false|null|\\d+)|(?((?!\\1))(})|(?=}))",
+					"endCaptures": { "1": { "name": "markup.italic.tm invalid.tm" } },
 					"patterns": [
-						{ "include": "#json-item"	},
-						{ "include": "#invalid"		}
-					]
-				},
-				{
-					"begin": ",",
-					"end": "(?<=[]}\"]|true|false|null|-?\\d+)",
-					"patterns": [
-						{ "include": "#json-item"	},
-						{ "include": "#invalid"		}
+						{ "include": "#json-item" },
+						{ "include": "#invalid" }
 					]
 				},
 				{ "include": "#invalid" }
@@ -916,18 +785,9 @@
 			"end": "]",
 			"patterns": [
 				{
-					"begin": "(?<=\\[)",
-					"end": "(?<=[]}\"]|true|false|null|-?\\d+)|(?=])",
-					"patterns": [
-						{ "include": "#json-dictionary"	},
-						{ "include": "#json-array"		},
-						{ "include": "#json-value"		},
-						{ "include": "#invalid"			}
-					]
-				},
-				{
-					"begin": ",",
-					"end": "(?<=[]}\"]|true|false|null|-?\\d+)",
+					"begin": "\\G|(,)",
+					"end": "(?<=[]}\"]|true|false|null|\\d+)|(?((?!\\1))(])|(?=]))",
+					"endCaptures": { "1": { "name": "markup.italic.tm invalid.tm" } },
 					"patterns": [
 						{ "include": "#json-dictionary"	},
 						{ "include": "#json-array"		},
@@ -938,38 +798,63 @@
 				{ "include": "#invalid" }
 			]
 		},
-		"json-value": {
+		"json-value-laggy": {
 			"patterns": [
 				{
 					"comment": "\"...\"",
-					"match": "\"(?:.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+					"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
+					"name": "string.tm",
 					"captures": {
-						"0": {
-							"name": "string.tmlanguage",
+						"1": {
 							"patterns": [
-								{
-									"match": "\\\\[\"\\\\/bfnrt]",
-									"name": "constant.character.escape.tmlanguage"
-								},
-								{
-									"match": "\\\\u\\h{4}",
-									"name": "constant.character.escape.tmlanguage"
-								},
-								{
-									"match": "\\\\.",
-									"name": "invalid.tmlanguage"
-								}
+								{ "comment": "applying patterns inside captures causes quite the performance loss" },
+								{ "include": "#json-escape" }
 							]
 						}
 					}
 				},
 				{
 					"match": "true|false|null",
-					"name": "keyword.control.tmlanguage"
+					"name": "constant.language.tm"
 				},
 				{
 					"match": "-?\\d+",
-					"name": "constant.numeric.tmlanguage"
+					"name": "constant.numeric.tm"
+				}
+			]
+		},
+		"json-value": {
+			"patterns": [
+				{
+					"comment": "\"...\"",
+					"begin": "\"",
+					"end": "\"",
+					"name": "string.tm",
+					"patterns": [ { "include": "#json-escape" } ]
+				},
+				{
+					"match": "true|false|null",
+					"name": "constant.language.tm"
+				},
+				{
+					"match": "-?\\d+",
+					"name": "constant.numeric.tm"
+				}
+			]
+		},
+		"json-escape": {
+			"patterns": [
+				{
+					"match": "\\\\[/\\\\\"bfnrt]",
+					"name": "constant.character.escape.tm"
+				},
+				{
+					"match": "\\\\u\\h{4}",
+					"name": "constant.character.escape.tm"
+				},
+				{
+					"match": "\\\\.?",
+					"name": "invalid.tm"
 				}
 			]
 		},
@@ -977,11 +862,11 @@
 			"patterns": [
 				{
 					"match": "//.*",
-					"name": "invalid.string.tmlanguage markup.underline.tmlanguage"
+					"name": "invalid.string.tm markup.underline.tm"
 				},
 				{
 					"match": "\\S",
-					"name": "invalid.string.tmlanguage"
+					"name": "invalid.invalid.string.tm"
 				}
 			]
 		}
