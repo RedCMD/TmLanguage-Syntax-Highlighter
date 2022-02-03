@@ -51,19 +51,19 @@ Zanabazar\\g<5>Square
 
 
 
-A\\g<5>(?>dla?m|ghb|Hex|lnum|lpha(?>betic)?|ny|r(?>abic|ab|m[in])|S\\g<5>C\\g<5>I\\g<5>I\\g<5>(?>Hex\\g<5>Digit)?|ssigned|vst)|
+A\\g<5>(?>dla?m|ghb|Hex|lphabetic|ny|r(?>abic|ab|m[in])|S\\g<5>C\\g<5>I\\g<5>I\\g<5>Hex\\g<5>Digit|ssigned|vst)|
 
-B\\g<5>(?>a(?>li|mum?|ssa\\g<5>Vah|ss|ta?k)|eng|hks|idi\\g<5>C(?>ontrol)?|lank|opomofo|opo|raille|ra[hi]|ugi|uhi?d)|
+B\\g<5>(?>a(?>li|mum?|ssa\\g<5>Vah|ss|ta?k)|eng|hks|idi\\g<5>C(?>ontrol)?|opomofo|opo|raille|ra[hi]|ugi|uhi?d)|
 
-C\\g<5>(?>a(?>km|nadian\\g<5>Aboriginal|ns|ri|se\\g<5>Ignorable|sed\\g<5>Letter|sed)|h\\g<5>(?>anges\\g<5>When\\g<5>(?>Case(?>fold|mapp)|(?>Lower|Title|Upper)cas)ed|erokee|er|rs)|lose\\g<5>Punctuation|ntrl|o(?>mbining\\g<5>Mark|mmon|nnector\\g<5>Punctuation|ntrol|ptic|pt)?|prt|uneiform|urrency\\g<5>Symbol|W\\g<5>C[FM]|W[LTU]|ypriot|yrillic|yrl|[cfIns])?|
+C\\g<5>(?>a(?>km|nadian\\g<5>Aboriginal|ns|ri|se\\g<5>Ignorable|sed\\g<5>Letter|sed)|h\\g<5>(?>anges\\g<5>When\\g<5>(?>Case(?>fold|mapp)|(?>Lower|Title|Upper)cas)ed|erokee|er|rs)|lose\\g<5>Punctuation|o(?>mbining\\g<5>Mark|mmon|nnector\\g<5>Punctuation|ntrol|ptic|pt)?|prt|uneiform|urrency\\g<5>Symbol|W\\g<5>C[FM]|W[LTU]|ypriot|yrillic|yrl|[cfIns])?|
 
-D\\g<5>(?>ash\\g<5>Punctuation|ash|e(?>cimal\\g<5>Number|fault\\g<5>Ignorable\\g<5>Code\\g<5>Point|precated|p|vanagari|va)|i(?>acritic|ak?|git|ves\\g<5>Akuru)?|ogra?|srt|upl)|
+D\\g<5>(?>ash\\g<5>Punctuation|ash|e(?>cimal\\g<5>Number|fault\\g<5>Ignorable\\g<5>Code\\g<5>Point|precated|p|vanagari|va)|i(?>acritic|ak?|ves\\g<5>Akuru)?|ogra?|srt|upl)|
 
 E\\g<5>(?>Base|Comp|gyptian\\g<5>Hieroglyphs|gyp|lba|lym|Mod|moji\\g<5>(?>Component|Modifier\\g<5>(?>Base)?|Presentation)?|nclosing\\g<5>Mark|Pres|thiopic|thi|xtende(?>d\\g<5>Pictographic|r)|xt\\g<5>Pict|xt)|
 
 F\\g<5>(?>inal\\g<5>Punctuation|ormat)|
 
-G\\g<5>(?>eorgian|eor|lagolitic|lag|on[gm]|oth|r\\g<5>(?>an|apheme\\g<5>(?>Base|Extend|Link)|aph|Base|Ext|ee?k|Link)|u(?>jr|njala\\g<5>Gondi|ru))|
+G\\g<5>(?>eorgian|eor|lagolitic|lag|on[gm]|oth|r\\g<5>(?>an|apheme\\g<5>(?>Base|Extend|Link)|Base|Ext|ee?k|Link)|u(?>jr|njala\\g<5>Gondi|ru))|
 
 H\\g<5>(?>an\\g<5>(?>gul|ifi\\g<5>Rohingya|[gio])?|atr|ebr|ex\\g<5>Digit|ex|ira|luw|mn[gp]|ung|yphen)|
 
@@ -73,7 +73,7 @@ J\\g<5>(?>ava|oin\\g<5>C(?>ontrol)?)|
 
 K\\g<5>(?>a(?>li|na|takana|yah\\g<5>Li)|h(?>ar|itan\\g<5>Small\\g<5>Script|me?r|oj)|its|nda|thi)|
 
-L\\g<5>(?>a(?>na|oo?|ti?n)|epc|etter\\g<5>(?>Number)?|i(?>mbu?|n[ab]|ne\\g<5>Separator|near\\g<5>[AB]|su)|O(?>E|gical\\g<5>Order\\g<5>Exception|wer(?>case\\g<5>(?>Letter)?)?)?|y[cd]i(?>an)?|[Clmtu])?|
+L\\g<5>(?>a(?>na|oo?|ti?n)|epc|etter\\g<5>(?>Number)?|i(?>mbu?|n[ab]|ne\\g<5>Separator|near\\g<5>[AB]|su)|O(?>E|gical\\g<5>Order\\g<5>Exception|wercase\\g<5>(?>Letter)?)?|y[cd]i(?>an)?|[Clmtu])?|
 
 M\\g<5>(?>a(?>hj|ka|n[di]|r[ck]|saram\\g<5>Gondi|th\\g<5>Symbol|th)|c|e\\g<5>(?>df|etei\\g<5>Mayek|nde\\g<5>Kikakui|nd|roitic\\g<5>(?>Cursive|Hieroglyphs)|r[co])?|lym|n|odifier\\g<5>(?>Letter|Symbol)|odi|ongolian|ong|roo?|tei|ultani|ult|yanmar|ymr)?|
 
@@ -81,23 +81,23 @@ N\\g<5>(?>and|arb|bat|Char|ew\\g<5>Tai\\g<5>Lue|koo?|oncharacter\\g<5>Code\\g<5>
 
 O\\g<5>(?>Alpha|D\\g<5>I|gh?am|Gr\\g<5>Ext|I\\g<5>D[CS]|l\\g<5>(?>Chiki|ck|d\\g<5>(?>Hungarian|Italic|Permic|Persian|Sogdian|(?>North|South)\\g<5>Arabian|Turkic)|ower)|Math|pen\\g<5>Punctuation|rkh|ri?ya|sa?ge|sma|ther\\g<5>(?>Alphabetic|Default\\g<5>Ignorable\\g<5>Code\\g<5>Point|Grapheme\\g<5>Extend|I\\g<5>D\\g<5>(?>Continue|Start)|Letter|Lowercase|Math|Number|Punctuation|Symbol|Uppercase)?|Upper)|
 
-P\\g<5>(?>a\\g<5>(?>hawh\\g<5>Hmong|lm|ragraph\\g<5>Separator|t\\g<5>(?>Syn|W\\g<5>S|tern\\g<5>(?>Syntax|White\\g<5>Space))|u\\g<5>Cin\\g<5>Hau|uc)|C\\g<5>M|erm|h(?>ags\\g<5>Pa|ag|l[ip]|nx)?|lrd|repended\\g<5>Concatenation\\g<5>Mark|rivate\\g<5>Use|rint|rti|salter\\g<5>Pahlavi|unct(?>uation)?|[cdefios])?|
+P\\g<5>(?>a\\g<5>(?>hawh\\g<5>Hmong|lm|ragraph\\g<5>Separator|t\\g<5>(?>Syn|W\\g<5>S|tern\\g<5>(?>Syntax|White\\g<5>Space))|u\\g<5>Cin\\g<5>Hau|uc)|C\\g<5>M|erm|h(?>ags\\g<5>Pa|ag|l[ip]|nx)?|lrd|repended\\g<5>Concatenation\\g<5>Mark|rivate\\g<5>Use|rti|salter\\g<5>Pahlavi|unctuation|[cdefios])?|
 
 Q\\g<5>(?>aa[ci]|Mark|uotation\\g<5>Mark)|
 
 R\\g<5>(?>adical|egional\\g<5>Indicator|I|jng|ohg|unr)|
 
-S\\g<5>(?>a(?>mr|rb|ur)|entence\\g<5>Terminal|eparator|gnw|haw|hrd|i(?>dd|gn\\g<5>Writing|nhala|n[dh])|o(?>ft\\g<5>Dotted|g[do]|ra\\g<5>Sompeng|ra|yo)?|pac(?>e\\g<5>Separator|e|ing\\g<5>Mark)|Term|undanese|und|urrogate|y(?>loti\\g<5>Nagri|lo|mbol|rc|riac)|[cDkm])?|
+S\\g<5>(?>a(?>mr|rb|ur)|entence\\g<5>Terminal|eparator|gnw|haw|hrd|i(?>dd|gn\\g<5>Writing|nhala|n[dh])|o(?>ft\\g<5>Dotted|g[do]|ra\\g<5>Sompeng|ra|yo)?|pace\\g<5>Separator|pacing\\g<5>Mark|Term|undanese|und|urrogate|y(?>loti\\g<5>Nagri|lo|mbol|rc|riac)|[cDkm])?|
 
 T\\g<5>(?>a(?>gb|i\\g<5>(?>Le|Tham|Viet)|kri?|l[eu]|mi?l|ngut|ng|vt)|elu|erminal\\g<5>Punctuation|erm|fng|glg|ha[ai]|i(?>bt|rh|tlecase\\g<5>Letter))|
 
-U\\g<5>(?>gar|Ideo|nassigned|nified\\g<5>Ideograph|nknown|pper(?>case\\g<5>(?>Letter)?)?)|
+U\\g<5>(?>gar|Ideo|nassigned|nified\\g<5>Ideograph|nknown|ppercase\\g<5>(?>Letter)?)|
 
 V\\g<5>(?>aii?|ariation\\g<5>Selector|S)|
 
-W\\g<5>(?>ara|cho|(?>hite\\g<5>)?Space|ord)|
+W\\g<5>(?>ara|cho|(?>hite\\g<5>)?Space)|
 
-X\\g<5>(?>I\\g<5>D\\g<5>(?>Continue|Start|[CS])|digit|peo|sux)|
+X\\g<5>(?>I\\g<5>D\\g<5>(?>Continue|Start|[CS])|peo|sux)|
 
 Y\\g<5>(?>ezi|iii|i)|
 
