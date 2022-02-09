@@ -47,12 +47,15 @@
 					"RedCMD.Regex.TextMateLanguage"
 				],
 				"extensions": [
+					".json.regex",
 					".regex.json",
 					".tmRegexLanguage.json",
 					".JSON-regex-tmLanguage"
 				],
 				"filenames": [
-					"regex.json"
+					"regex.json",
+					"json.regex",
+					"regex"
 				],
 				"configuration": "./language-configuration.json"
 			}
@@ -65,7 +68,7 @@
 			},
 			{
 				"language": "regex-tmLanguage",
-				"scopeName": "source.syntax.regex.tmLanguage",
+				"scopeName": "source.syntax.regexp.tmLanguage",
 				"path": "./syntaxes/regex.tmLanguage.json"
 			}
 		]
