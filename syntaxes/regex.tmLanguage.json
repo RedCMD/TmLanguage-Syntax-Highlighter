@@ -4,8 +4,8 @@
 	"scopeName": "source.syntax.regexp.tmLanguage",
 	"name": "TextMate Language Regex",
 	"patterns": [
-		{ "include": "#character-type"						},
-		{ "include": "#character-any"						},
+		{ "include": "#character-types"						},
+		{ "include": "#character-types-2"					},
 		{ "include": "#characters"							},
 		{ "include": "#anchor"								},
 		{ "include": "#subroutine"							},
@@ -27,7 +27,7 @@
 		{ "include": "#capture-group"						},
 		{ "include": "#escape-character"					},
 		{ "include": "#invalid"								},
-		{ "include": "#regex"								}
+		{ "include": "#character-literal"					}
 	],
 	"repository": {
 		"$self-extended": {
@@ -499,7 +499,11 @@
 						"3": { "name": "markup.italic.tm"		}
 					}
 				},
-				{ "include": "#character-type" },
+				{
+					"match": "\\\\{2}b",
+					"name": "punctuation.definition.list.begin.markdown"
+				},
+				{ "include": "#character-types" },
 				{ "include": "#characters" },
 				{
 					"match": "\\\\{2}",
@@ -611,21 +615,6 @@
 			"comment": ".",
 			"match": ".[^]\\x0-\\x1F\"&\\[\\\\\\x7F-]*(?!-)",
 			"name": "markup.italic.regex.tm"
-		},
-		"character-type": {
-			"comment": "\\D \\d \\H \\h \\S \\s \\W \\w",
-			"match": "(?i)\\\\{2}([DHSW])",
-			"name": "variable.other.enummember.tm"
-		},
-		"character-any": {
-			"comment": "\\X .",
-			"match": "\\\\{2}X|\\.",
-			"name": "variable.other.enummember.tm"
-		},
-		"characters": {
-			"comment": "\\a \\e \\f \\n \\r \\t \\v",
-			"match": "\\\\{2}[aefnrtv]",
-			"name": "punctuation.definition.list.begin.markdown"
 		},
 		"unicode": {
 			"comment": "\\777 \\xFF \\cZ \\x{13FFF} \\u0000 \\p{L} \\C-\\M-]",
@@ -802,8 +791,23 @@
 			"match": "\\|",
 			"name": "keyword.control.tm"
 		},
-		"regex": {
-			"comment": "Match anything left over and all non-special charaters",
+		"character-types": {
+			"comment": "\\D \\d \\H \\h \\S \\s \\W \\w",
+			"match": "(?i)\\\\{2}[DHSW]",
+			"name": "variable.other.enummember.tm"
+		},
+		"character-types-2": {
+			"comment": "\\. \\N \\O \\R \\X cannot be used in character classes",
+			"match": "\\.|\\\\{2}[NORX]",
+			"name": "variable.other.enummember.tm"
+		},
+		"characters": {
+			"comment": "\\a \\e \\f \\n \\r \\t \\v",
+			"match": "\\\\{2}[aefnrtv]",
+			"name": "punctuation.definition.list.begin.markdown"
+		},
+		"character-literal": {
+			"comment": "Match anything left over and all non-meta charaters",
 			"match": ".[^\\x0-\\x20\"-$(-+.?\\[\\\\^{|\\x7F]*",
 			"name": "entity.name.label.tm strong.regex.tm"
 		},
