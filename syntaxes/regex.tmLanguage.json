@@ -14,6 +14,7 @@
 		{ "include": "#alternation"							},
 		{ "include": "#quantifier"							},
 		{ "include": "#character-class"						},
+		{ "include": "#absent"								},
 		{ "include": "#non-capture-group"					},
 		{ "include": "#non-capture-group-modify"			},
 		{ "include": "#non-capture-group-modify-extended"	},
@@ -33,6 +34,7 @@
 		"$self-extended": {
 			"patterns": [
 				{ "include": "#comment-extended"					},
+				{ "include": "#absent-extended"						},
 				{ "include": "#escape-character-extended"			},
 				{ "include": "#non-capture-group-modify-extended"	},
 				{ "include": "#non-capture-group-modify"			},
@@ -426,6 +428,52 @@
 			},
 			"contentName": "comment.tm",
 			"patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ]
+		},
+		"absent": {
+			"comment": "(?~|...|...) (?~|...) (?~...)",
+			"begin": "(\\()(\\?~\\|?)",
+			"end": "\\)",
+			"beginCaptures": {
+				"1": { "name": "constant.character.set.regexp.tm" },
+				"2": { "name": "support.function.tm" }
+			},
+			"endCaptures": {
+				"0": { "name": "constant.character.set.regexp.tm" }
+			},
+			"patterns": [
+				{
+					"begin": "(?<=\\|)\\G",
+					"end": "\\||(?=\\))",
+					"endCaptures": {
+						"0": { "name": "support.function.tm" }
+					},
+					"patterns": [ { "include": "$self" } ]
+				},
+				{ "include": "$self" }
+			]
+		},
+		"absent-extended": {
+			"comment": "(?~|...|...) (?~...)",
+			"begin": "(\\()(\\?~\\|?)",
+			"end": "\\)",
+			"beginCaptures": {
+				"1": { "name": "constant.character.set.regexp.tm" },
+				"2": { "name": "support.function.tm" }
+			},
+			"endCaptures": {
+				"0": { "name": "constant.character.set.regexp.tm" }
+			},
+			"patterns": [
+				{
+					"begin": "(?<=\\|)\\G",
+					"end": "\\||(?=\\))",
+					"endCaptures": {
+						"0": { "name": "support.function.tm" }
+					},
+					"patterns": [ { "include": "#$self-extended" } ]
+				},
+				{ "include": "#$self-extended" }
+			]
 		},
 		"character-class": {
 			"comment": "[...] [^...]",
