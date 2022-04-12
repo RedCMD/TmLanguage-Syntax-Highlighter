@@ -547,14 +547,14 @@
 					}
 				},
 				{
-					"match": "([[:upper:]]-[[:upper:]])(\\\\{2}(?=-))?",
+					"match": "([A-Z]-[A-Z])(\\\\{2}(?=-))?",
 					"captures": {
 						"1": { "name": "variable.other.enummember.tm"	},
 						"2": { "name": "punctuation.definition.tag.tm"	}
 					}
 				},
 				{
-					"match": "([[:lower:]]-[[:lower:]])(\\\\{2}(?=-))?",
+					"match": "([a-z]-[a-z])(\\\\{2}(?=-))?",
 					"captures": {
 						"1": { "name": "variable.other.enummember.tm"	},
 						"2": { "name": "punctuation.definition.tag.tm"	}
