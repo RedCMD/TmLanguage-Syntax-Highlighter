@@ -620,6 +620,15 @@
 			"comment": "\\777 \\xFF \\cZ \\o{0 1777777 17777777777} \\x{0 13FFF 7FFFFFFF} \\u0000 \\p{L} \\C-\\M-]",
 			"patterns": [
 				{
+					"match": "(\\\\{2})([Ppox])(\\\\{2})({)",
+					"captures": {
+						"1": { "name": "punctuation.definition.tag.tm"					},
+						"2": { "name": "punctuation.definition.list.begin.markdown.tm"	},
+						"3": { "name": "constant.character.escape.tm"					},
+						"4": { "name": "entity.name.label.tm strong.regex.tm"	}
+					}
+				},
+				{
 					"match": "(\\\\{2}o{)([^}]+)(})",
 					"captures": {
 						"1": { "name": "punctuation.definition.list.begin.markdown.tm" },
