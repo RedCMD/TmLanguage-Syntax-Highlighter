@@ -753,7 +753,7 @@
 					"match": "(\\g<4>)?({0*,?0+})((?(<1>)\\g<4>?|((?>[+*?]++|{(?>\\d+,?\\d*|,\\d+)})+)))",
 					"captures": {
 						"1": { "name": "punctuation.definition.tag.tm" },
-						"2": { "patterns": [ {"include": "#quantifier"} ] },
+						"2": { "patterns": [ { "include": "#quantifier" } ] },
 						"3": { "name": "punctuation.definition.tag.tm" }
 					}
 				},
@@ -766,7 +766,7 @@
 					}
 				},
 				{
-					"match": "({)(?<number>(0*)\\d+)?(,)?((?(<number>)(?>(0*)\\d+)?|(0*)\\d+))(})(\\?)?",
+					"match": "({)(?<number>(0*)\\d+)?(,)?((?(<number>)(?>(0*)\\d+)?|(0*)\\d+))(})(?(<4>)(\\?))?",
 					"captures": {
 						"1": { "name": "keyword.tm" },
 						"2": { "name": "constant.numeric.tm" },
