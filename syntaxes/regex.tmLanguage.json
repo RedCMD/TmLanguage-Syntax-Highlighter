@@ -782,8 +782,8 @@
 			]
 		},
 		"anchor": {
-			"comment": "$ ^ \\A \\B \\b \\G \\K \\Z \\z",
-			"match": "[$^]|\\\\{2}[ABbGKZz]",
+			"comment": "$ ^ \\A \\B \\b \\G \\K \\Y \\y \\Z \\z",
+			"match": "[$^]|\\\\{2}[ABbGKYyZz]",
 			"name": "variable.tm"
 		},
 		"alternation": {
