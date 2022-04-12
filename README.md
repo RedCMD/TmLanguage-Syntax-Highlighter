@@ -40,6 +40,7 @@ If you would like me to add support for a theme, please just message me
 ### For more information
 * [Github - VSCode TextMate](https://github.com/microsoft/vscode-textmate)
 * [Github - Oniguruma](https://github.com/kkos/oniguruma)
+* [Github - Oniguruma: list of everything](https://github.com/kkos/oniguruma/blob/master/doc/RE)
 * [Github - TmLanguage-Syntax-Highlighter](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter)
 * [Github - TextMates Schema](https://github.com/martinring/tmlanguage)
 
@@ -50,4 +51,10 @@ If you would like me to add support for a theme, please just message me
 * Allow spaces, underscores and dashes in all places inside Unicode Categorys `\\p{  Let _te--r}`: [Github - List of unicode properties](https://github.com/kkos/oniguruma/blob/bb31b4d402ee3f3a3bc4855c9d0271f43a3e4793/doc/UNICODE_PROPERTIES)
 * Try* to fix contention between backreferences `\\1` and character codes `\\1`
 * Detect and limit backreferences/subroutines/conditional-capture-groups `\\1`/`\\k<1>`/`\\g<1>`/`(?(<1>))` to the actual amount of capture groups available
-* Detect invalid character class ranges `z-a`
+* Detect all invalid character class ranges `[z-a]`
+* Correctly highlight escaped curly brackets `\\{` `\\}`
+* Support invalid code points at the end of range in character classes. (`ONIG_SYN_ALLOW_INVALID_CODE_END_OF_RANGE_IN_CC`)
+* Unify ways of displaying errors
+* Improve performance: [Github Issue - Capturing and applying a pattern causes performance loss](https://github.com/microsoft/vscode-textmate/issues/167)
+* Fix auto indenting: [Github Issue - Split bracket indentating and bracket pair highlighting](https://github.com/microsoft/vscode/issues/141044)
+* Add a language server for squiggle based error checking
