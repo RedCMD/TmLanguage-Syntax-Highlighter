@@ -617,7 +617,7 @@
 			"name": "markup.italic.regex.tm"
 		},
 		"unicode": {
-			"comment": "\\777 \\xFF \\cZ \\o{0 1777777 17777777777} \\x{13FFF} \\u0000 \\p{L} \\C-\\M-]",
+			"comment": "\\777 \\xFF \\cZ \\o{0 1777777 17777777777} \\x{0 13FFF 7FFFFFFF} \\u0000 \\p{L} \\C-\\M-]",
 			"patterns": [
 				{
 					"match": "(\\\\{2}o{)([^}]+)(})",
@@ -648,6 +648,34 @@
 					}
 				},
 				{
+					"match": "(\\\\{2}x{)([^}]+)(})",
+					"captures": {
+						"1": { "name": "punctuation.definition.list.begin.markdown.tm" },
+						"2": { "patterns": [
+							{
+								"match": "(\\h{1,8})([^ ]*)",
+								"captures": {
+									"1": { "patterns": [ {
+											"match": "(0*)(1[0-3]\\h{4}|\\h{1,5})(\\h*)(.*)",
+											"captures": {
+												"1": { "name": "punctuation.definition.tag.tm" },
+												"2": { "name": "constant.numeric.tm" },
+												"3": { "name": "markup.italic.tm invalid.tm" },
+												"4": { "name": "invalid.tm markup.underline.regex.tm" }
+											}
+									} ] },
+									"2": { "name": "invalid.tm markup.underline.regex.tm" }
+								}
+							},
+							{
+								"match": "[^\\h ]+",
+								"name": "invalid.tm markup.underline.regex.tm"
+							}
+						] },
+						"3": { "name": "punctuation.definition.list.begin.markdown.tm" }
+					}
+				},
+				{
 					"match": "(\\\\{2})([0-7]{1,3})",
 					"captures": {
 						"1": { "name": "punctuation.definition.list.begin.markdown.tm" },
@@ -655,19 +683,10 @@
 					}
 				},
 				{
-					"match": "(\\\\{2}x)(\\h{1,2})",
+					"match": "(\\\\{2}x)(?!\")(\\h{,2})",
 					"captures": {
 						"1": { "name": "punctuation.definition.list.begin.markdown.tm" },
 						"2": { "name": "constant.numeric.tm" }
-					}
-				},
-				{
-					"match": "(\\\\{2}x{)(1[0-3]\\h{4}|\\h{1,5})([^}]*)(})",
-					"captures": {
-						"1": { "name": "punctuation.definition.list.begin.markdown.tm" },
-						"2": { "name": "constant.numeric.tm" },
-						"3": { "name": "invalid.tm markup.underline.regex.tm" },
-						"4": { "name": "punctuation.definition.list.begin.markdown.tm" }
 					}
 				},
 				{
