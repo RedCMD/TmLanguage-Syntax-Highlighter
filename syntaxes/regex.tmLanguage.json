@@ -50,7 +50,7 @@
 		},
 		"comment-extended": {
 			"comment": "#...\n",
-			"match": "(?x)#comment\n (\\#)(.*?(?<!\\\\)\\\\{2}*|.*?)(\\\\n|(?=\")|$)|(\\ )",
+			"match": "(?x)#comment\n (\\#)((?~(?<!(?<!\\\\)\\\\{2}*\\\\)\\g<3>))(\\\\n|(?=\")|$)|(\\ )",
 			"captures": {
 				"1": { "name": "support.function.tm" },
 				"2": {
@@ -416,7 +416,7 @@
 		"capture-group-comment": {
 			"comment": "(?#...)",
 			"begin": "(\\()(\\?#)(?#comment)",
-			"end": "\\)",
+			"end": "(?<=[^\\\\]\\\\{4}*)\\)",
 			"beginCaptures": {
 				"1": { "name": "markup.italic.tm constant.character.set.regexp.tm" },
 				"2": { "name": "support.function.tm" }
