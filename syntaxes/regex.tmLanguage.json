@@ -664,6 +664,17 @@
 					}
 				},
 				{
+					"match": "\\\\{2}[CM]([^-]*)-?(?>(\\\\{3})(\\\\)|\\g<0>|(\\\\{2})?(\\\\u.{,4}|\\\\?.))",
+					"captures": {
+						"0": { "name": "punctuation.definition.list.begin.markdown.tm" },
+						"1": { "name": "invalid.tm markup.underline.regex.tm" },
+						"2": { "name": "constant.character.escape.tm" },
+						"3": { "name": "markup.bold.tm" },
+						"4": { "name": "punctuation.definition.tag.tm" },
+						"5": { "name": "markup.bold.regex.tm", "patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ] }
+					}
+				},
+				{
 					"match": "(\\\\{2}[pP]{)(\\^)?(.[^}]*)(})?",
 					"captures": {
 						"1": { "name": "punctuation.definition.list.begin.markdown.tm" },
@@ -683,17 +694,6 @@
 							]
 						},
 						"4": { "name": "punctuation.definition.list.begin.markdown.tm" }
-					}
-				},
-				{
-					"match": "\\\\{2}[CM]([^-]*)-?(?>(\\\\{3})(\\\\)|\\g<0>|(\\\\{2})?(\\\\u.{,4}|\\\\?.))",
-					"captures": {
-						"0": { "name": "punctuation.definition.list.begin.markdown.tm" },
-						"1": { "name": "invalid.tm markup.underline.regex.tm" },
-						"2": { "name": "constant.character.escape.tm" },
-						"3": { "name": "markup.bold.tm" },
-						"4": { "name": "punctuation.definition.tag.tm" },
-						"5": { "name": "markup.bold.regex.tm", "patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ] }
 					}
 				}
 			]
