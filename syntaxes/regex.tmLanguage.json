@@ -22,6 +22,7 @@
 		{ "include": "#capture-group-modify"				},
 		{ "include": "#capture-group-modify-extended"		},
 		{ "include": "#capture-group-conditional"			},
+		{ "include": "#capture-group-negative-lookbehind"	},
 		{ "include": "#capture-group-lookbehind"			},
 		{ "include": "#capture-group-lookahead"				},
 		{ "include": "#capture-group-comment"				},
@@ -34,22 +35,23 @@
 	"repository": {
 		"$self-extended": {
 			"patterns": [
-				{ "include": "#comment-extended"					},
-				{ "include": "#absent-extended"						},
-				{ "include": "#callout"								},
-				{ "include": "#escape-character-extended"			},
-				{ "include": "#non-capture-group-modify-extended"	},
-				{ "include": "#non-capture-group-modify"			},
-				{ "include": "#non-capture-group-extended"			},
-				{ "include": "#capture-group-comment"				},
-				{ "include": "#capture-group-modify-extended"		},
-				{ "include": "#capture-group-modify"				},
-				{ "include": "#capture-group-conditional-extended"	},
-				{ "include": "#capture-group-lookbehind-extended"	},
-				{ "include": "#capture-group-lookahead-extended"	},
-				{ "include": "#capture-group-name-extended"			},
-				{ "include": "#capture-group-extended"				},
-				{ "include": "$self"								}
+				{ "include": "#comment-extended"							},
+				{ "include": "#absent-extended"								},
+				{ "include": "#callout"										},
+				{ "include": "#escape-character-extended"					},
+				{ "include": "#non-capture-group-modify-extended"			},
+				{ "include": "#non-capture-group-modify"					},
+				{ "include": "#non-capture-group-extended"					},
+				{ "include": "#capture-group-comment"						},
+				{ "include": "#capture-group-modify-extended"				},
+				{ "include": "#capture-group-modify"						},
+				{ "include": "#capture-group-conditional-extended"			},
+				{ "include": "#capture-group-negative-lookbehind-extended"	},
+				{ "include": "#capture-group-lookbehind-extended"			},
+				{ "include": "#capture-group-lookahead-extended"			},
+				{ "include": "#capture-group-name-extended"					},
+				{ "include": "#capture-group-extended"						},
+				{ "include": "$self"										}
 			]
 		},
 		"comment-extended": {
@@ -164,7 +166,7 @@
 		"capture-group-lookahead": {
 			"comment": "(?=...) (?!...)",
 			"begin": "(\\()(\\?[!=])",
-			"end": "(\\))([+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
+			"end": "(\\))([+*]|{(?>\\d+,?\\d*|,\\d+)})?",
 			"beginCaptures": {
 				"1": { "name": "constant.character.set.regexp.tm markup.italic.tm" },
 				"2": { "name": "support.function.tm" }
@@ -178,7 +180,7 @@
 		"capture-group-lookahead-extended": {
 			"comment": "(?=...) (?!...)",
 			"begin": "(\\()(\\?[!=])",
-			"end": "(\\))([+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
+			"end": "(\\))([+*]|{(?>\\d+,?\\d*|,\\d+)})?",
 			"beginCaptures": {
 				"1": { "name": "constant.character.set.regexp.tm markup.italic.tm" },
 				"2": { "name": "support.function.tm" }
@@ -190,8 +192,8 @@
 			"patterns": [ { "include": "#$self-extended" } ]
 		},
 		"capture-group-lookbehind": {
-			"comment": "(?<=...) (?<!...)",
-			"begin": "(\\()(\\?<[!=])",
+			"comment": "(?<=...)",
+			"begin": "(\\()(\\?<=)",
 			"end": "(\\))([+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
 			"beginCaptures": {
 				"1": { "name": "constant.character.set.regexp.tm markup.italic.tm" },
@@ -202,13 +204,30 @@
 				"2": { "name": "invalid.tm markup.underline.tm" }
 			},
 			"patterns": [
-				{ "include": "#capture-group-lookaround-invalid" },
+				{ "include": "#capture-group-lookbehind-invalid" },
 				{ "include": "$self" }
 			]
 		},
 		"capture-group-lookbehind-extended": {
-			"comment": "(?<=...) (?<!...)",
-			"begin": "(\\()(\\?<[!=])",
+			"comment": "(?<=...)",
+			"begin": "(\\()(\\?<=)",
+			"end": "(\\))([+*]|{(?>\\d+,?\\d*|,\\d+)})?",
+			"beginCaptures": {
+				"1": { "name": "constant.character.set.regexp.tm markup.italic.tm" },
+				"2": { "name": "support.function.regex.tm" }
+			},
+			"endCaptures": {
+				"1": { "name": "constant.character.set.regexp.tm markup.italic.tm" },
+				"2": { "name": "invalid.tm markup.underline.tm" }
+			},
+			"patterns": [
+				{ "include": "#capture-group-lookbehind-invalid-extended" },
+				{ "include": "#$self-extended" }
+			]
+		},
+		"capture-group-negative-lookbehind": {
+			"comment": "(?<!...)",
+			"begin": "(\\()(\\?<!)",
 			"end": "(\\))([+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
 			"beginCaptures": {
 				"1": { "name": "constant.character.set.regexp.tm markup.italic.tm" },
@@ -219,32 +238,190 @@
 				"2": { "name": "invalid.tm markup.underline.tm" }
 			},
 			"patterns": [
-				{ "include": "#capture-group-lookaround-invalid-extended" },
-				{ "include": "#$self-extended" }
-			]
-		},
-		"capture-group-lookaround-invalid": {
-			"comment": "(?=...) (?!...) (?<=...) (?<!...)",
-			"begin": "\\(\\?<?[!=]",
-			"end": "\\)(?>[+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
-			"captures": {
-				"0": { "name": "invalid.tm markup.underline.tm" }
-			},
-			"patterns": [
-				{ "include": "#capture-group-lookaround-invalid" },
+				{ "include": "#capture-group-negative-lookbehind-invalid" },
 				{ "include": "$self" }
 			]
 		},
-		"capture-group-lookaround-invalid-extended": {
-			"comment": "(?=...) (?!...) (?<=...) (?<!...)",
-			"begin": "\\(\\?<?[!=]",
-			"end": "\\)(?>[+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
-			"captures": {
-				"0": { "name": "invalid.tm markup.underline.tm" }
+		"capture-group-negative-lookbehind-extended": {
+			"comment": "(?<!...)",
+			"begin": "(\\()(\\?<!)",
+			"end": "(\\))([+*]|{(?>\\d+,?\\d*|,\\d+)})?",
+			"beginCaptures": {
+				"1": { "name": "constant.character.set.regexp.tm markup.italic.tm" },
+				"2": { "name": "support.function.regex.tm" }
+			},
+			"endCaptures": {
+				"1": { "name": "constant.character.set.regexp.tm markup.italic.tm" },
+				"2": { "name": "invalid.tm markup.underline.tm" }
 			},
 			"patterns": [
-				{ "include": "#capture-group-lookaround-invalid-extended" },
+				{ "include": "#capture-group-negative-lookbehind-invalid-extended" },
 				{ "include": "#$self-extended" }
+			]
+		},
+		"capture-group-lookbehind-invalid": {
+			"patterns": [
+				{
+					"comment": "(?=...)? (?!...)+ (?<!...)*",
+					"begin": "\\(\\?(?><?!|=)",
+					"end": "\\)(?>[+*]|{(?>\\d+,?\\d*|,\\d+)})?",
+					"captures": { "0": { "name": "invalid.tm markup.underline.tm" } },
+					"patterns": [
+						{ "include": "#capture-group-lookbehind-invalid" },
+						{ "include": "#$self-extended" }
+					]
+				},
+				{
+					"comment": "(?~|...|...) (?~|...) (?~|)",
+					"begin": "(\\()(\\?~\\|)",
+					"end": "(?!\\G)\\)|(?<=\\))",
+					"beginCaptures": {
+						"1": { "name": "constant.character.set.regexp.tm" },
+						"2": { "name": "support.function.tm" }
+					},
+					"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
+					"patterns": [
+						{
+							"begin": "\\G",
+							"end": "(\\|)|(\\))",
+							"endCaptures": {
+								"1": { "name": "support.function.tm" },
+								"2": { "name": "invalid.tm markup.underline.tm" }
+							},
+							"patterns": [
+								{ "include": "#capture-group-lookbehind-invalid" },
+								{ "include": "$self" }
+							]
+						},
+						{ "include": "#capture-group-lookbehind-invalid" },
+						{ "include": "$self" }
+					]
+				}
+			]
+		},
+		"capture-group-lookbehind-invalid-extended": {
+			"patterns": [
+				{
+					"comment": "(?=...)? (?!...)+ (?<!...)*",
+					"begin": "\\(\\?(?><?!|=)",
+					"end": "\\)(?>[+*]|{(?>\\d+,?\\d*|,\\d+)})?",
+					"captures": { "0": { "name": "invalid.tm markup.underline.tm" } },
+					"patterns": [
+						{ "include": "#capture-group-lookbehind-invalid-extended" },
+						{ "include": "#$self-extended" }
+					]
+				},
+				{
+					"comment": "(?~|...|...) (?~|...) (?~|)",
+					"begin": "(\\()(\\?~\\|)",
+					"end": "(?!\\G)\\)|(?<=\\))",
+					"beginCaptures": {
+						"1": { "name": "constant.character.set.regexp.tm" },
+						"2": { "name": "support.function.tm" }
+					},
+					"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
+					"patterns": [
+						{
+							"begin": "\\G",
+							"end": "(\\|)|(\\))",
+							"endCaptures": {
+								"1": { "name": "support.function.tm" },
+								"2": { "name": "invalid.tm markup.underline.tm" }
+							},
+							"patterns": [
+								{ "include": "#capture-group-lookbehind-invalid-extended" },
+								{ "include": "#$self-extended" }
+							]
+						},
+						{ "include": "#capture-group-lookbehind-invalid-extended" },
+						{ "include": "#$self-extended" }
+					]
+				}
+			]
+		},
+		"capture-group-negative-lookbehind-invalid": {
+			"patterns": [
+				{
+					"comment": "(?=...) (?!...)",
+					"begin": "\\(\\?[!=]",
+					"end": "\\)(?>[+*]|{(?>\\d+,?\\d*|,\\d+)})?",
+					"captures": {
+						"0": { "name": "invalid.tm markup.underline.tm" }
+					},
+					"patterns": [
+						{ "include": "#capture-group-negative-lookbehind-invalid" },
+						{ "include": "$self" }
+					]
+				},
+				{
+					"comment": "(?~|...|...) (?~|...) (?~|)",
+					"begin": "(\\()(\\?~\\|)",
+					"end": "(?!\\G)\\)|(?<=\\))",
+					"beginCaptures": {
+						"1": { "name": "constant.character.set.regexp.tm" },
+						"2": { "name": "support.function.tm" }
+					},
+					"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
+					"patterns": [
+						{
+							"begin": "\\G",
+							"end": "(\\|)|(\\))",
+							"endCaptures": {
+								"1": { "name": "support.function.tm" },
+								"2": { "name": "invalid.tm markup.underline.tm" }
+							},
+							"patterns": [
+								{ "include": "#capture-group-negative-lookbehind-invalid" },
+								{ "include": "$self" }
+							]
+						},
+						{ "include": "#capture-group-negative-lookbehind-invalid" },
+						{ "include": "$self" }
+					]
+				}
+			]
+		},
+		"capture-group-negative-lookbehind-invalid-extended": {
+			"comment": "If there's a better way to do this. Please tell me. I am are going to explode",
+			"patterns": [
+				{
+					"comment": "(?=...) (?!...)",
+					"begin": "\\(\\?[!=]",
+					"end": "\\)(?>[+*]|{(?>\\d+,?\\d*|,\\d+)})?",
+					"captures": {
+						"0": { "name": "invalid.tm markup.underline.tm" }
+					},
+					"patterns": [
+						{ "include": "#capture-group-negative-lookbehind-invalid-extended" },
+						{ "include": "#$self-extended" }
+					]
+				},
+				{
+					"comment": "(?~|...|...) (?~|...) (?~|)",
+					"begin": "(\\()(\\?~\\|)",
+					"end": "(?!\\G)\\)|(?<=\\))",
+					"beginCaptures": {
+						"1": { "name": "constant.character.set.regexp.tm" },
+						"2": { "name": "support.function.tm" }
+					},
+					"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
+					"patterns": [
+						{
+							"begin": "\\G",
+							"end": "(\\|)|(\\))",
+							"endCaptures": {
+								"1": { "name": "support.function.tm" },
+								"2": { "name": "invalid.tm markup.underline.tm" }
+							},
+							"patterns": [
+								{ "include": "#capture-group-negative-lookbehind-invalid-extended" },
+								{ "include": "$self" }
+							]
+						},
+						{ "include": "#capture-group-negative-lookbehind-invalid-extended" },
+						{ "include": "$self" }
+					]
+				}
 			]
 		},
 		"capture-group-modify": {
