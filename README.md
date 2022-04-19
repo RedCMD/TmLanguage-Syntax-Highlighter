@@ -54,6 +54,9 @@ If you would like me to add support for a theme, please just message me
 * Detect all invalid character class ranges `[z-a]`
 * Correctly highlight escaped curly brackets `\\{` `\\}`
 * Support invalid code points at the end of range in character classes. (`ONIG_SYN_ALLOW_INVALID_CODE_END_OF_RANGE_IN_CC`)
+* Correctly invalidate look-around capture groups inside all types of capture groups nested inside look-behind capture groups
+* Limit look-behind length to 65536 characters
+* Limit all repeating quantifiers to 100000
 * Unify ways of displaying errors
 * Improve performance: [Github Issue - Capturing and applying a pattern causes performance loss](https://github.com/microsoft/vscode-textmate/issues/167)
 * Fix auto indenting: [Github Issue - Split bracket indentating and bracket pair highlighting](https://github.com/microsoft/vscode/issues/141044)

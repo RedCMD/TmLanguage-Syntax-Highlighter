@@ -686,6 +686,8 @@
 									"patterns": [
 										{ "include": "#capture-item" },
 										{ "include": "#include"		 },
+										{ "include": "#comment"		 },
+										{ "include": "#json-item"	 },
 										{ "include": "#invalid"		 }
 									]
 								},
@@ -695,6 +697,8 @@
 									"patterns": [
 										{ "include": "#capture-item" },
 										{ "include": "#include"		 },
+										{ "include": "#comment"		 },
+										{ "include": "#json-item"	 },
 										{ "include": "#invalid"		 }
 									]
 								},
@@ -727,6 +731,7 @@
 									"patterns": [
 										{ "include": "#name-scope"	},
 										{ "include": "#patterns"	},
+										{ "include": "#comment"		},
 										{ "include": "#json-item"	},
 										{ "include": "#invalid"		}
 									]
@@ -737,6 +742,7 @@
 									"patterns": [
 										{ "include": "#name-scope"	},
 										{ "include": "#patterns"	},
+										{ "include": "#comment"		},
 										{ "include": "#json-item"	},
 										{ "include": "#invalid"		}
 									]
@@ -848,7 +854,7 @@
 					}
 				},
 				{
-					"match": "\\\\.?|\"|[\\x0-\\x1F]|\\x7F",
+					"match": "\\\\.?|[\"\\x0-\\x1F\\x7F]",
 					"name": "invalid.tm markup.underline.regex.tm"
 				}
 			]
