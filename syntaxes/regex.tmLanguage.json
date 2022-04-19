@@ -1007,7 +1007,7 @@
 				},
 				{
 					"comment": "As soon as theres a {0} quantifier, all other quantifiers are nullified",
-					"match": "(\\g<4>)?({0*,?0+})((?(<1>)\\g<4>?|((?>[+*?]++|{(?>\\d+,?\\d*|,\\d+)})+)))",
+					"match": "(\\g<4>)?({0*,?0+})((?(<1>)\\g<4>?|((?>[+*?]++|{(?>\\g<5>,\\g<5>|\\g<5>,?|,(0*(?>100000|\\d{1,5})))})+)))",
 					"captures": {
 						"1": { "name": "punctuation.definition.tag.tm" },
 						"2": { "patterns": [ { "include": "#quantifier" } ] },
@@ -1023,17 +1023,20 @@
 					}
 				},
 				{
-					"match": "({)(?<number>(0*)\\d+)?(,)?((?(<number>)(?>(0*)\\d+)?|(0*)\\d+))(})(?(<4>)(\\?))?",
+					"match": "({)(?<number>(0*)(?>100000|\\d{1,5})(\\d*))?(,)?((?(<number>)(?>(0*)(?>100000|\\d{1,5})(\\d*))?|(0*)(?>100000|\\d{1,5})(\\d*)))(})(?(<4>)(\\?))?",
 					"captures": {
-						"1": { "name": "keyword.tm" },
-						"2": { "name": "constant.numeric.tm" },
-						"3": { "name": "punctuation.definition.tag.tm" },
-						"4": { "name": "keyword.control.tm" },
-						"5": { "name": "constant.numeric.tm" },
-						"6": { "name": "punctuation.definition.tag.tm" },
-						"7": { "name": "punctuation.definition.tag.tm" },
-						"8": { "name": "keyword.tm" },
-						"9": { "name": "keyword.tm strong.tm" }
+						"1":  { "name": "keyword.tm"						},
+						"2":  { "name": "constant.numeric.tm"				},
+						"3":  { "name": "punctuation.definition.tag.tm"		},
+						"4":  { "name": "invalid.tm markup.underline.tm"	},
+						"5":  { "name": "keyword.control.tm"				},
+						"6":  { "name": "constant.numeric.tm"				},
+						"7":  { "name": "punctuation.definition.tag.tm"		},
+						"8":  { "name": "invalid.tm markup.underline.tm"	},
+						"9":  { "name": "punctuation.definition.tag.tm"		},
+						"10": { "name": "invalid.tm markup.underline.tm"	},
+						"11": { "name": "keyword.tm"						},
+						"12": { "name": "keyword.tm strong.tm"				}
 					}
 				}
 			]
