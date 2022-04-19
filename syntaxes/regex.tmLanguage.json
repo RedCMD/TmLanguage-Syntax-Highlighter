@@ -730,7 +730,7 @@
 					"name": "constant.character.escape.tm"
 				},
 				{
-					"match": "\\\\.?|\"|[\\x0-\\x1F]|\\x7F",
+					"match": "\\\\.?|[\"\\x0-\\x1F\\x7F]",
 					"name": "invalid.tm markup.underline.regex.tm"
 				}
 			]
@@ -738,38 +738,42 @@
 		"character-class-range": {
 			"patterns": [
 				{
-					"match": "([\\\\-\\x{FFFFFFFF}]-[\\x0-Z])(\\\\{2}(?=-))?",
+					"match": "([\\\\-\\x{FFFFFFFF}]-(?!&&)[\\x0-Z]|[+-\\x{FFFFFFFF}]-(?!&&)[\\x0-*])(\\\\{2}(?=-))?",
 					"captures": {
 						"1": { "name": "invalid.tm markup.underline.regex.tm" },
-						"2": { "name": "punctuation.definition.tag.tm"	}
+						"2": { "name": "punctuation.definition.tag.tm" }
 					}
 				},
 				{
-					"match": "(\\d-\\d)(\\\\{2}(?=-))?",
+					"match": "(\\d(-)\\d)(\\\\{2}(?=-))?",
 					"captures": {
-						"1": { "name": "constant.numeric.tm"			},
-						"2": { "name": "punctuation.definition.tag.tm"	}
+						"1": { "name": "constant.numeric.tm" },
+						"2": { "name": "strong.tm" },
+						"3": { "name": "punctuation.definition.tag.tm" }
 					}
 				},
 				{
-					"match": "([A-Z]-[A-Z])(\\\\{2}(?=-))?",
+					"match": "([A-Z](-)[A-Z])(\\\\{2}(?=-))?",
 					"captures": {
-						"1": { "name": "variable.other.enummember.tm"	},
-						"2": { "name": "punctuation.definition.tag.tm"	}
+						"1": { "name": "variable.other.enummember.tm" },
+						"2": { "name": "strong.tm" },
+						"3": { "name": "punctuation.definition.tag.tm" }
 					}
 				},
 				{
-					"match": "([a-z]-[a-z])(\\\\{2}(?=-))?",
+					"match": "([a-z](-)[a-z])(\\\\{2}(?=-))?",
 					"captures": {
-						"1": { "name": "variable.other.enummember.tm"	},
-						"2": { "name": "punctuation.definition.tag.tm"	}
+						"1": { "name": "variable.other.enummember.tm" },
+						"2": { "name": "strong.tm" },
+						"3": { "name": "punctuation.definition.tag.tm" }
 					}
 				},
 				{
 					"match": "(&&)(\\\\{2}(?=-))?",
 					"captures": {
-						"1": { "name": "keyword.control.tm"				},
-						"2": { "name": "punctuation.definition.tag.tm"	}
+						"1": { "name": "keyword.control.tm" },
+						"2": { "name": "strong.tm" },
+						"3": { "name": "punctuation.definition.tag.tm" }
 					}
 				},
 				{
@@ -794,7 +798,7 @@
 			"match": "( [& \\& && \\&& &\\& \\&\\& &&& \\&&& &\\&& &&\\& \\&\\&& \\&&\\& &\\&\\& \\&\\&\\& &&&& \\&&&& &\\&&& &&\\&& &&&\\& \\&\\&&& \\&&\\&& \\&&&\\& &\\&\\&& &\\&&\\& &&\\&\\& \\&\\&\\&& \\&\\&&\\& \\&&\\&\\& &\\&\\&\\& \\&\\&\\&\\& ])"
 		},
 		"character-class-range-test": {
-			"match": "([^^-_-a-b 0-9 a-z A-Z A-z a-Z\\- 0-a \\s-a a-\\s--- \\s \\s-\\s [:alnum:]-a \"-a \/-a \n-a \\\\-\\\\ \\777-a \\ca-a \\x55-a \\p{L}-a \\u0000-a \\u-agh \\x{0000}-\\x{001F} \u00b0-a \\C-\\M-\u00b0-a a-])"
+			"match": "([^^-_-a-b 0-9 a-z A-Z A-z a-Z\\- 0-a \\s-a a-\\s--- \\s \\s-\\s [:alnum:]-a a-&& &&-a \"-a \/-a \n-a \\\\-\\\\ \\777-a \\ca-a \\x55-a \\p{L}-a \\u0000-a \\u-agh \\x{0000}-\\x{001F} \u00b0-a \\C-\\M-\u00b0-a a-])"
 		},
 		"character-class-posix": {
 			"comment": "[:...:] [:^...:]",
@@ -817,8 +821,8 @@
 			}
 		},
 		"character-class-regex": {
-			"comment": ".",
-			"match": ".[^]\\x0-\\x1F\"&\\[\\\\\\x7F-]*(?!-)",
+			"comment": "Match anything left over and all non-meta charaters",
+			"match": ".(?>[^]\\x0-\\x1F\"&\\[\\\\\\x7F-]+(?!-))?",
 			"name": "markup.italic.regex.tm"
 		},
 		"unicode": {
