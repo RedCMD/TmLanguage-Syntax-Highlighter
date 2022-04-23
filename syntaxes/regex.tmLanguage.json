@@ -166,7 +166,7 @@
 		"capture-group-lookahead": {
 			"comment": "(?=...) (?!...)",
 			"begin": "(\\()(\\?[!=])",
-			"end": "(\\))([+*]|{(?>\\d+,?\\d*|,\\d+)})?",
+			"end": "(\\))([+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
 			"beginCaptures": {
 				"1": { "name": "constant.character.set.regexp.tm markup.italic.tm" },
 				"2": { "name": "support.function.tm" }
@@ -180,7 +180,7 @@
 		"capture-group-lookahead-extended": {
 			"comment": "(?=...) (?!...)",
 			"begin": "(\\()(\\?[!=])",
-			"end": "(\\))([+*]|{(?>\\d+,?\\d*|,\\d+)})?",
+			"end": "(\\))([+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
 			"beginCaptures": {
 				"1": { "name": "constant.character.set.regexp.tm markup.italic.tm" },
 				"2": { "name": "support.function.tm" }
@@ -211,7 +211,7 @@
 		"capture-group-lookbehind-extended": {
 			"comment": "(?<=...)",
 			"begin": "(\\()(\\?<=)",
-			"end": "(\\))([+*]|{(?>\\d+,?\\d*|,\\d+)})?",
+			"end": "(\\))([+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
 			"beginCaptures": {
 				"1": { "name": "constant.character.set.regexp.tm markup.italic.tm" },
 				"2": { "name": "support.function.regex.tm" }
@@ -230,7 +230,7 @@
 				{
 					"comment": "(?=...)? (?!...)+ (?<!...)*",
 					"begin": "\\(\\?(?><?!|=)",
-					"end": "\\)(?>[+*]|{(?>\\d+,?\\d*|,\\d+)})?",
+					"end": "\\)(?>[+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
 					"captures": { "0": { "name": "invalid.tm markup.underline.tm" } },
 					"patterns": [
 						{ "include": "#capture-group-lookbehind-invalid" },
@@ -270,7 +270,7 @@
 				{
 					"comment": "(?=...)? (?!...)+ (?<!...)*",
 					"begin": "\\(\\?(?><?!|=)",
-					"end": "\\)(?>[+*]|{(?>\\d+,?\\d*|,\\d+)})?",
+					"end": "\\)(?>[+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
 					"captures": { "0": { "name": "invalid.tm markup.underline.tm" } },
 					"patterns": [
 						{ "include": "#capture-group-lookbehind-invalid-extended" },
@@ -325,7 +325,7 @@
 		"capture-group-negative-lookbehind-extended": {
 			"comment": "(?<!...)",
 			"begin": "(\\()(\\?<!)",
-			"end": "(\\))([+*]|{(?>\\d+,?\\d*|,\\d+)})?",
+			"end": "(\\))([+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
 			"beginCaptures": {
 				"1": { "name": "constant.character.set.regexp.tm markup.italic.tm" },
 				"2": { "name": "support.function.regex.tm" }
@@ -344,7 +344,7 @@
 				{
 					"comment": "(?=...) (?!...)",
 					"begin": "\\(\\?[!=]",
-					"end": "\\)(?>[+*]|{(?>\\d+,?\\d*|,\\d+)})?",
+					"end": "\\)(?>[+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
 					"captures": { "0": { "name": "invalid.tm markup.underline.tm" } },
 					"patterns": [
 						{ "include": "#capture-group-negative-lookbehind-invalid" },
@@ -385,7 +385,7 @@
 				{
 					"comment": "(?=...) (?!...)",
 					"begin": "\\(\\?[!=]",
-					"end": "\\)(?>[+*]|{(?>\\d+,?\\d*|,\\d+)})?",
+					"end": "\\)(?>[+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
 					"captures": { "0": { "name": "invalid.tm markup.underline.tm" } },
 					"patterns": [
 						{ "include": "#capture-group-negative-lookbehind-invalid-extended" },
@@ -1036,11 +1036,11 @@
 			"comment": "+ * ? {1,9}",
 			"patterns": [
 				{
-					"match": "\\G[+*?]",
+					"match": "(\\G|^)[+*?]",
 					"name": "invalid.tm markup.underline.tm"
 				},
 				{
-					"match": "\\G{(?>\\d+,?\\d*|,\\d+)}",
+					"match": "(\\G|^){(?>\\d+,?\\d*|,\\d+)}",
 					"name": "invalid.tm markup.underline.tm"
 				},
 				{
@@ -1067,7 +1067,7 @@
 						"2":  { "name": "constant.numeric.tm"				},
 						"3":  { "name": "punctuation.definition.tag.tm"		},
 						"4":  { "name": "invalid.tm markup.underline.tm"	},
-						"5":  { "name": "keyword.control.tm"				},
+						"5":  { "name": "support.function.tm"				},
 						"6":  { "name": "constant.numeric.tm"				},
 						"7":  { "name": "punctuation.definition.tag.tm"		},
 						"8":  { "name": "invalid.tm markup.underline.tm"	},
@@ -1081,13 +1081,19 @@
 		},
 		"anchor": {
 			"comment": "$ ^ \\A \\B \\b \\G \\K \\Y \\y \\Z \\z",
-			"match": "[$^]|\\\\{2}[ABbGKYyZz]",
-			"name": "variable.tm"
+			"match": "(?>[$^]|\\\\{2}[ABbGKYyZz])([+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
+			"captures": {
+				"0": { "name": "variable.tm" },
+				"1": { "name": "invalid.tm markup.underline.regex.tm" }
+			}
 		},
 		"alternation": {
 			"comment": "|",
-			"match": "\\|",
-			"name": "keyword.control.tm"
+			"match": "\\|([+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
+			"captures": {
+				"0": { "name": "keyword.control.tm" },
+				"1": { "name": "invalid.tm markup.underline.regex.tm" }
+			}
 		},
 		"character-types": {
 			"comment": "\\D \\d \\H \\h \\S \\s \\W \\w",
