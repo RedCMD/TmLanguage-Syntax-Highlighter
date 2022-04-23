@@ -575,26 +575,6 @@
 			"endCaptures": { "0": { "name": "strong.tm constant.character.set.regexp.tm" } },
 			"patterns": [ { "include": "#$self-extended" } ]
 		},
-		"capture-group-calling-name": {
-			"comment": "123 name_123",
-			"patterns": [
-				{
-					"match": "\\d.*",
-					"captures": { "0": {
-						"name": "constant.numeric.tm",
-						"patterns": [ { "match": "\\D+", "name": "invalid.tm markup.underline.regex.tm" } ]
-					} }
-				},
-				{
-					"match": "\\w.*",
-					"captures": { "0": {
-						"name": "markup.bold.tm",
-						"patterns": [ { "match": "\\W+", "name": "invalid.tm markup.underline.regex.tm" } ]
-					} }
-				},
-				{ "match": "\\W+", "name": "invalid.tm markup.underline.regex.tm" }
-			]
-		},
 		"capture-group-comment": {
 			"comment": "(?#...)",
 			"begin": "(\\()(\\?#)(?#comment)",
@@ -1034,17 +1014,23 @@
 				}
 			]
 		},
+		"backreference-subroutine-test": {
+			"match": "\\k<>\\k<0>\\k<1>\\k<+123>\\k<-0001>\\k<name_123>\\k<->\\k<000>\\k<0name>\\k<123name>\\k<-name>\\k<=0=>\\k<=1=>\\k<=+123=>\\k<=-0001=>\\k<=name_123=>\\k<=000=>\\k<=0name=>\\k<=123name=>\\k<=-name=>\\k\\k<\"\\k<0\"\\g<>\\g<0>\\g<1>\\g<+123>\\g<-0001>\\g<name_123>\\g<->\\g<000>\\g<0name>\\g<123name>\\g<-name>\\g<=0=>\\g<=1=>\\g<=+123=>\\g<=-0001=>\\g<=name_123=>\\g<=000=>\\g<=0name=>\\g<=123name=>\\g<=-name=>\\g\\g<\"\\g<0\"\\k''\\k'0'\\k'1'\\k'+123'\\k'-0001'\\k'name_123'\\k'-'\\k'000'\\k'0name'\\k'123name'\\k'-name'\\k'=0='\\k'=1='\\k'=+123='\\k'=-0001='\\k'=name_123='\\k'=000='\\k'=0name='\\k'=123name='\\k'=-name='\\k\\k'\"\\k'0\"\\g''\\g'0'\\g'1'\\g'+123'\\g'-0001'\\g'name_123'\\g'-'\\g'000'\\g'0name'\\g'123name'\\g'-name'\\g'=0='\\g'=1='\\g'=+123='\\g'=-0001='\\g'=name_123='\\g'=000='\\g'=0name='\\g'=123name='\\g'=-name='\\g\\g'\"\\g'0\" \\k<00099999999> \\k<00099999+000999999999999> \\g<00099999999> "
+		},
 		"subroutine": {
-			"comment": "\\g<99> \\g'name'",
-			"match": "(\\\\{2}g)(?>(<)([^>\"]*)(>)?|(')([^'\"]*)(')?)",
+			"comment": "\\g<0> \\g'+999' \\g<-0065535> \\g'name_123'",
+			"match": "(\\\\{2}g)(?>((?<quote>')|<)(?>((?~|(?>(?(<quote>)'|>)|\\\\|\")|.*?))(?>([-+]?(0*)[1-9]\\d{,2}(\\d{,2})|(0*)0)|(\\w+)))?((?~(?(<quote>)'|>)|\\\\|\"))(>)?)",
 			"captures": {
-				"1": { "name": "string.regexp.tm" },
-				"2": { "name": "support.function.tm" },
-				"3": { "patterns": [ {"include": "#capture-group-calling-name"} ] },
-				"4": { "name": "support.function.tm" },
-				"5": { "name": "support.function.tm" },
-				"6": { "patterns": [ {"include": "#capture-group-calling-name"} ] },
-				"7": { "name": "support.function.tm" }
+				"1":  { "name": "string.regexp.tm"						},
+				"2":  { "name": "support.function.tm"					},
+				"4":  { "name": "invalid.tm markup.underline.regex.tm"	},
+				"5":  { "name": "constant.numeric.tm"					},
+				"6":  { "name": "punctuation.definition.tag.tm"			},
+				"7":  { "name": "invalid.tm markup.italic.tm"			},
+				"8":  { "name": "punctuation.definition.tag.tm"			},
+				"9":  { "name": "markup.bold.tm"						},
+				"10": { "name": "invalid.tm markup.underline.regex.tm"	},
+				"11": { "name": "support.function.tm"					}
 			}
 		},
 		"backreference": {
@@ -1053,22 +1039,28 @@
 					"comment": "\\1",
 					"match": "(\\\\{2})([1-9]\\d{,2})(\\d*)",
 					"captures": {
-						"1": { "name": "string.regexp.tm"	 },
+						"1": { "name": "string.regexp.tm" },
 						"2": { "name": "constant.numeric.tm" },
-						"3": { "name": "invalid.tm"			 }
+						"3": { "name": "invalid.tm" }
 					}
 				},
 				{
-					"comment": "\\k<99> \\k'name'",
-					"match": "(\\\\{2}k)(?>(<)([^>\"]*)(>)?|(')([^'\"]*)(')?)",
+					"comment": "\\k<1> \\k'-2' \\k'+003' \\k<name> \\k'name_123+5' \\k<9-2>",
+					"match": "(\\\\{2}k)(?>((?<quote>')|<)(?>((?~|(?>(?(<quote>)'|>)|\\\\|\")|.*?))(?>(?>(?>((0*)[1-9]\\d{,2}(\\d{,2}))|([a-zA-Z_]\\w*))([-+](0*)[12]?\\d{1,9})?)|([-+](0*)[1-9]\\d*)))?((?~(?(<quote>)'|>)|\\\\|\"))(>)?)",
 					"captures": {
-						"1": { "name": "string.regexp.tm" },
-						"2": { "name": "support.function.tm" },
-						"3": { "patterns": [ {"include": "#capture-group-calling-name"} ] },
-						"4": { "name": "support.function.tm" },
-						"5": { "name": "support.function.tm" },
-						"6": { "patterns": [ {"include": "#capture-group-calling-name"} ] },
-						"7": { "name": "support.function.tm" }
+						"1":  { "name": "string.regexp.tm"						},
+						"2":  { "name": "support.function.tm"					},
+						"4":  { "name": "invalid.tm markup.underline.regex.tm"	},
+						"5":  { "name": "constant.numeric.tm"					},
+						"6":  { "name": "punctuation.definition.tag.tm"			},
+						"7":  { "name": "invalid.tm markup.italic.tm"			},
+						"8":  { "name": "markup.bold.tm"						},
+						"9":  { "name": "constant.numeric.tm"					},
+						"10": { "name": "punctuation.definition.tag.tm"		},
+						"11": { "name": "constant.numeric.tm"					},
+						"12": { "name": "punctuation.definition.tag.tm"			},
+						"13": { "name": "invalid.tm markup.underline.regex.tm"	},
+						"14": { "name": "support.function.tm"					}
 					}
 				}
 			]
