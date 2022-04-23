@@ -646,31 +646,72 @@
 			]
 		},
 		"callout": {
-			"comment": "(?{{{...}}}[tag]X)",
-			"begin": "(\\()(\\?)({(?:\\g<-1>|({)?(.*?[^}])?(})?)})([^\\[)]*)(?>(\\[)([^]]*)(]))?([^X<>)]*)([X<>])?",
-			"end": "\\)",
-			"contentName": "invalid.tm markup.underline.regex.tm",
-			"beginCaptures": {
-				"1":  { "name": "markup.italic.tm constant.character.set.regexp.tm" },
-				"2":  { "name": "support.function.tm" },
-				"3":  { "name": "support.function.tm" },
-				"4":  { "name": "invalid.tm markup.underline.regex.tm" },
-				"5": {
-					"name": "regex",
-					"patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ]
+			"patterns": [
+				{
+					"comment": "(?{{{...contents...}}}[tag]D)",
+					"match": "(\\()(\\?)({(?:\\g<-1>|({)?(.*?[^}])?(})?)})([^\\[)]*)(?>(\\[)([^]]*)(]))?([^X<>)]*)([X<>])?([^)]*)(\\))",
+					"captures": {
+						"1":  { "name": "constant.character.set.regexp.tm markup.italic.tm" },
+						"2":  { "name": "support.function.tm" },
+						"3":  { "name": "support.function.tm" },
+						"4":  { "name": "invalid.tm markup.underline.regex.tm" },
+						"5": {
+							"name": "regex",
+							"patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ]
+						},
+						"6":  { "name": "invalid.tm markup.underline.regex.tm" },
+						"7":  { "name": "invalid.tm markup.underline.regex.tm" },
+						"8":  { "name": "support.function.tm" },
+						"9":  { "patterns": [
+							{
+								"match": "\\W+|\\d+",
+								"name": "invalid.tm markup.underline.regex.tm"
+							},
+							{
+								"match": "\\w+",
+								"name": "markup.heading.tm"
+							}
+						] },
+						"10": { "name": "support.function.tm" },
+						"11": { "name": "invalid.tm markup.underline.regex.tm" },
+						"12": { "name": "markup.heading.tm" },
+						"13": { "name": "invalid.tm markup.underline.regex.tm" },
+						"14": { "name": "constant.character.set.regexp.tm markup.italic.tm" }
+					}
 				},
-				"6":  { "name": "invalid.tm markup.underline.regex.tm" },
-				"7":  { "name": "invalid.tm markup.underline.regex.tm" },
-				"8":  { "name": "support.function.tm" },
-				"9":  { "patterns": [
-					{ "match": "\\W+|\\d+", "name": "invalid.tm markup.underline.regex.tm" },
-					{ "match": "\\w+", "name": "markup.heading.tm" }
-				] },
-				"10": { "name": "support.function.tm" },
-				"11": { "name": "invalid.tm markup.underline.regex.tm" },
-				"12": { "name": "markup.heading.tm" }
-			},
-			"endCaptures": { "0": { "name": "markup.italic.tm constant.character.set.regexp.tm" } }
+				{
+					"comment": "(*name[tag]{args...})",
+					"match": "(\\()(\\*)([A-Za-z_]\\w*)([^\\[{)]*)(?>(\\[)([^]]*)(]))?([^{)]*)(?>({)([^}]*)(}))?([^)]*)(\\))([+*?]|{(?>\\d+,?\\d*|,\\d+)})?",
+					"captures": {
+						"1":  { "name": "constant.character.set.regexp.tm markup.italic.tm" },
+						"2":  { "name": "support.function.tm" },
+						"3":  { "name": "markup.heading.tm" },
+						"4":  { "name": "invalid.tm markup.underline.regex.tm" },
+						"5":  { "name": "support.function.tm" },
+						"6":  { "patterns": [
+							{
+								"match": "\\W+|\\d+",
+								"name": "invalid.tm markup.underline.regex.tm"
+							},
+							{
+								"match": "\\w+",
+								"name": "markup.heading.tm"
+							}
+						] },
+						"7":  { "name": "support.function.tm" },
+						"8":  { "name": "invalid.tm markup.underline.regex.tm" },
+						"9":  { "name": "support.function.tm" },
+						"10": {
+							"name": "regex",
+							"patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ]
+						},
+						"11": { "name": "support.function.tm" },
+						"12": { "name": "invalid.tm markup.underline.regex.tm" },
+						"13": { "name": "constant.character.set.regexp.tm markup.italic.tm" },
+						"14": { "name": "invalid.tm markup.underline.regex.tm" }
+					}
+				}
+			]
 		},
 		"character-class": {
 			"comment": "[...] [^...]",
