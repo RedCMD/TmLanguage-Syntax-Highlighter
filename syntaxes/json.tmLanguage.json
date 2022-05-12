@@ -589,28 +589,42 @@
 		},
 		"name-scope": {
 			"comment": "\"name\": \"...\"",
-			"begin": "\"((?:contentN|n)ame)\"",
+			"begin": "\"((?>contentN|n)ame)\"",
 			"end": "(?!\\G)(?<=\")",
 			"beginCaptures": { "1": { "name": "keyword.tm" } },
 			"patterns": [
 				{
 					"begin": ":",
-					"end": "(?<=\")",
-					"patterns": [
-						{
-							"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
-							"captures": {
-								"1": {
-									"name": "$1.regex",
-									"patterns": [
-										{ "include": "#escape-characters" } ,
-										{ "match": "\\$\\d+", "name": "constant.character.escape.tm" }
-									]
+					"end": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
+					"endCaptures": {
+						"1": {
+							"name": "$1 regex",
+							"patterns": [
+								{ "include": "#escape-characters" },
+								{
+									"match": "(\\$)(0*)(\\d{1,3})(?!\\d)",
+									"captures": {
+										"1": { "name": "meta.embedded constant.character.escape.tm markup.italic" },
+										"2": { "name": "punctuation.definition.tag.tm" },
+										"3": { "name": "constant.numeric.tm" }
+									}
+								},
+								{
+									"match": "(\\$)({)(0*)(\\d{1,3})(:/)(upcase|downcase)(})",
+									"captures": {
+										"1": { "name": "meta.embedded constant.character.escape.tm markup.italic" },
+										"2": { "name": "meta.embedded constant.character.escape.tm" },
+										"3": { "name": "punctuation.definition.tag.tm" },
+										"4": { "name": "constant.numeric.tm" },
+										"5": { "name": "constant.character.escape.tm" },
+										"6": { "name": "markup.heading.tm" },
+										"7": { "name": "meta.embedded constant.character.escape.tm" }
+									}
 								}
-							}
-						},
-						{ "include": "#invalid" }
-					]
+							]
+						}
+					},
+					"patterns": [ { "include": "#invalid" } ]
 				},
 				{ "include": "#invalid" }
 			]
