@@ -321,6 +321,7 @@
 									"patterns": [
 										{ "include": "#patterns" },
 										{ "include": "#comment" },
+										{ "include": "#json-item" },
 										{ "include": "#invalid" }
 									]
 								},
@@ -330,6 +331,7 @@
 									"patterns": [
 										{ "include": "#patterns" },
 										{ "include": "#comment" },
+										{ "include": "#json-item" },
 										{ "include": "#invalid" }
 									]
 								},
