@@ -768,7 +768,7 @@
 					}
 				},
 				{
-					"match": "\\\\.?|[\"\\x0-\\x1F\\x7F]",
+					"match": "\\\\.?|[\"[:cntrl:]]",
 					"name": "invalid.tm markup.underline regex"
 				}
 			]

@@ -9,7 +9,6 @@ Syntax Highlighting for JSON based TextMate Language and Regex
 
 ## Features
 Big update, almost supports 100% of the textmate specification  
-Fixed `\\{\\,\\}` regex matcher causing enormous amounts of lag: [Github Issue](https://github.com/microsoft/vscode-textmate/issues/166)
 
 Example code:  
 ![example-code](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/images/Example%20Code%20V1.2.png?raw=true)
@@ -52,9 +51,9 @@ If you would like me to add support for a theme, please just message me
 * Try* to fix contention between backreferences `\\1` and character codes `\\1`
 * Detect and limit backreferences/subroutines/conditional-capture-groups `\\1`/`\\k<1>`/`\\g<1>`/`(?(<1>))` to the actual amount of capture groups available
 * Detect all invalid character class ranges `[z-a]`
-* Correctly highlight escaped curly brackets `\\{` `\\}`
 * Support invalid code points at the end of range in character classes. (`ONIG_SYN_ALLOW_INVALID_CODE_END_OF_RANGE_IN_CC`)
 * Correctly invalidate look-around capture groups inside all types of capture groups nested inside look-behind capture groups
+* Improve bracket features: Colourization, matching, autocomplete, surround
 * Limit look-behind length to 65536 characters
 * Limit all repeating quantifiers to 100000
 * Unify ways of displaying errors
