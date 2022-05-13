@@ -1,0 +1,37 @@
+name: Publish Extension
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
+        default: 'minor'
+        type: choice
+        options:
+        - patch
+        - minor
+        - major
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install the dependencies
+        run: npm i
+
+      - name: Install vsce
+        run: npm i -g vsce
+
+      - name: Publish
+        run: |
+          git config --global user.name "RedCMD"
+          git config --global user.email "theredcmd@gmail.com"
+          vsce publish -p ${{ secrets.VSCE_PAT }} ${{ github.event.inputs.version }}
