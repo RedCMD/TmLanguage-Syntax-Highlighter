@@ -114,7 +114,7 @@
 					"end": "(?<=\")",
 					"patterns": [
 						{
-							"match": "\"(text|source)?(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+							"match": "\"(text|source)?(.*?(?<!\\\\)\\\\{2}*|.*)\"",
 							"captures": {
 								"1": { "name": "support.function.tm" },
 								"2": {
@@ -215,7 +215,7 @@
 					"end": "(?<=\")",
 					"patterns": [
 						{
-							"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+							"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
 							"captures": { "1": { "patterns": [ { "include": "#injection-string" } ] } }
 						}
 					]
@@ -455,7 +455,7 @@
 		},
 		"repository-item": {
 			"comment": "\"...\": { ... }",
-			"begin": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+			"begin": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
 			"end": "(?<=})",
 			"beginCaptures": {
 				"1": {
@@ -578,14 +578,14 @@
 					"end": "(?<=\")",
 					"patterns": [
 						{
-							"match": "\"(?:((\\$)(base|self)|(text|source)?([^#\"]*)(#)?(.*?))(?<=[^\\\\]\\\\{2}*)|\\g<1>)\"",
+							"match": "\"(?>(\\$)(base|self)|(text|source)?([^#\"]*)(#)?)(.*?(?<!\\\\)\\\\{2}*|.*)\"",
 							"captures": {
-								"2": { "name": "keyword.tm" },
+								"1": { "name": "keyword.tm" },
+								"2": { "name": "entity.name.function.tm" },
 								"3": { "name": "entity.name.function.tm" },
-								"4": { "name": "entity.name.function.tm" },
-								"5": { "patterns": [ { "include": "#scope-string" } ] },
-								"6": { "name": "keyword.tm" },
-								"7": {
+								"4": { "patterns": [ { "include": "#scope-string" } ] },
+								"5": { "name": "keyword.tm" },
+								"6": {
 									"name": "variable.tm regex",
 									"patterns": [ { "include": "#escape-characters" } ]
 								}
@@ -708,7 +708,7 @@
 					"end": "(?<=\")",
 					"patterns": [
 						{
-							"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+							"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
 							"captures": {
 								"1": {
 									"name": "comment.tm",
@@ -735,7 +735,7 @@
 			]
 		},
 		"string": {
-			"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+			"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
 			"captures": {
 				"1": {
 					"name": "string.tm",
@@ -851,9 +851,10 @@
 			"patterns": [
 				{
 					"comment": "\"...\"",
-					"match": "\"(?:.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+					"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
+					"name": "string.tm",
 					"captures": {
-						"0": {
+						"1": {
 							"name": "string.tm",
 							"patterns": [
 								{
@@ -865,7 +866,7 @@
 									"name": "constant.character.escape.tm"
 								},
 								{
-									"match": "\\\\.",
+									"match": "\\\\.?",
 									"name": "invalid.tm"
 								}
 							]
