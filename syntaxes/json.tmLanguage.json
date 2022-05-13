@@ -23,7 +23,7 @@
 			"patterns": [
 				{
 					"begin": "(?<={)|,",
-					"end": "(?<=[]}\"]|true|false|null|-?\\d+)",
+					"end": "(?<=[]}\"]|true|false|null|\\d+)",
 					"patterns": [
 						{ "include": "#infoContributors"	},
 						{ "include": "#version"				},
@@ -392,7 +392,7 @@
 			"patterns": [
 				{
 					"begin": "(?<={)",
-					"end": "(?!\\G)(?<=[]}\"]|true|false|null|-?\\d+)|(?=})",
+					"end": "(?!\\G)(?<=[]}\"]|true|false|null|\\d+)|(?=})",
 					"patterns": [
 						{ "include": "#name-scope"			},
 						{ "include": "#match"				},
@@ -407,7 +407,7 @@
 				},
 				{
 					"begin": ",",
-					"end": "(?!\\G)(?<=[]}\"]|true|false|null|-?\\d+)",
+					"end": "(?!\\G)(?<=[]}\"]|true|false|null|\\d+)",
 					"patterns": [
 						{ "include": "#name-scope"			},
 						{ "include": "#match"				},
@@ -474,7 +474,7 @@
 							"patterns": [
 								{
 									"begin": "(?<={)",
-									"end": "(?<=[]}\"]|true|false|null|-?\\d+)|(?=})",
+									"end": "(?<=[]}\"]|true|false|null|\\d+)|(?=})",
 									"patterns": [
 										{ "include": "#name-scope"			},
 										{ "include": "#match"				},
@@ -488,7 +488,7 @@
 								},
 								{
 									"begin": ",",
-									"end": "(?<=[]}\"]|true|false|null|-?\\d+)",
+									"end": "(?<=[]}\"]|true|false|null|\\d+)",
 									"patterns": [
 										{ "include": "#name-scope"			},
 										{ "include": "#match"				},
@@ -776,7 +776,7 @@
 		"json-item": {
 			"comment": "\"...\": ...",
 			"begin": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
-			"end": "(?!\\G)(?<=[]}\"]|true|false|null|-?\\d+)",
+			"end": "(?!\\G)(?<=[]}\"]|true|false|null|\\d+)",
 			"beginCaptures": {
 				"0": { "name": "variable.tm" },
 				"1": {
@@ -796,7 +796,7 @@
 			"patterns": [
 				{
 					"begin": ":",
-					"end": "(?<=[]}\"]|true|false|null|-?\\d+)",
+					"end": "(?<=[]}\"]|true|false|null|\\d+)",
 					"patterns": [
 						{ "include": "#json-dictionary" },
 						{ "include": "#json-array" },
@@ -812,12 +812,12 @@
 			"patterns": [
 				{
 					"begin": "(?<={)",
-					"end": "(?<=[]}\"]|true|false|null|-?\\d+)|(?=})",
+					"end": "(?<=[]}\"]|true|false|null|\\d+)|(?=})",
 					"patterns": [ { "include": "#json-item"	} ]
 				},
 				{
 					"begin": ",",
-					"end": "(?<=[]}\"]|true|false|null|-?\\d+)",
+					"end": "(?<=[]}\"]|true|false|null|\\d+)",
 					"patterns": [ { "include": "#json-item"	} ]
 				}
 			]
@@ -829,7 +829,7 @@
 			"patterns": [
 				{
 					"begin": "(?<=\\[)",
-					"end": "(?<=[]}\"]|true|false|null|-?\\d+)|(?=])",
+					"end": "(?<=[]}\"]|true|false|null|\\d+)|(?=])",
 					"patterns": [
 						{ "include": "#json-dictionary"	},
 						{ "include": "#json-array"		},
@@ -838,7 +838,7 @@
 				},
 				{
 					"begin": ",",
-					"end": "(?<=[]}\"]|true|false|null|-?\\d+)",
+					"end": "(?<=[]}\"]|true|false|null|\\d+)",
 					"patterns": [
 						{ "include": "#json-dictionary"	},
 						{ "include": "#json-array"		},
