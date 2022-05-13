@@ -6,9 +6,14 @@
 	"fileTypes": [
 		".tmLanguage.json"
 	],
+	"injections": {
+		"R:source.syntax.json.tmLanguage - string - variable - comment - regex - meta.embedded": {
+			"comment": "How to inject into everything that doesn't have a scope-name? without having to specify every single scope-name?",
+			"patterns": [ { "include": "#invalid" } ]
+		}
+	},
 	"patterns": [
-		{ "include": "#json" },
-		{ "include": "#invalid" }
+		{ "include": "#json" }
 	],
 	"repository": {
 		"json": {
@@ -34,11 +39,9 @@
 						{ "include": "#patterns"			},
 						{ "include": "#repository"			},
 						{ "include": "#comment"				},
-						{ "include": "#json-item"			},
-						{ "include": "#invalid"				}
+						{ "include": "#json-item"			}
 					]
-				},
-				{ "include": "#invalid"	}
+				}
 			]
 		},
 		"infoContributors": {
@@ -58,26 +61,17 @@
 								{
 									"begin": "(?<=\\[)",
 									"end": "(?<=\")|(?=])",
-									"patterns": [
-										{ "include": "#string"	},
-										{ "include": "#invalid"	}
-									]
+									"patterns": [ { "include": "#string" } ]
 								},
 								{
 									"begin": ",",
 									"end": "(?<=\")",
-									"patterns": [
-										{ "include": "#string"	},
-										{ "include": "#invalid"	}
-									]
-								},
-								{ "include": "#invalid" }
+									"patterns": [ { "include": "#string" } ]
+								}
 							]
-						},
-						{ "include": "#invalid" }
+						}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"version": {
@@ -89,12 +83,8 @@
 				{
 					"begin": ":",
 					"end": "(?<=\")",
-					"patterns": [
-						{ "include": "#string" },
-						{ "include": "#invalid" }
-					]
-				},
-				{ "include": "#invalid" }
+					"patterns": [ { "include": "#string" } ]
+				}
 			]
 		},
 		"$schema": {
@@ -109,12 +99,8 @@
 				{
 					"begin": ":",
 					"end": "(?<=\")",
-					"patterns": [
-						{ "include": "#string" },
-						{ "include": "#invalid" }
-					]
-				},
-				{ "include": "#invalid" }
+					"patterns": [ { "include": "#string" } ]
+				}
 			]
 		},
 		"scopeName": {
@@ -136,16 +122,13 @@
 										{ "match": "(?<!\\.|\")\\.(?!$)",	"name": "keyword.operator.tm"	},
 										{ "match": "[\\w\\d-]+",			"name": "string.tm"				},
 										{ "match": "\\\\[\"\\\\bfnrt]",		"name": "invalid.tm"			},
-										{ "include": "#escape-characters"	},
-										{ "include": "#invalid"				}
+										{ "include": "#escape-characters"	}
 									]
 								}
 							}
-						},
-						{ "include": "#invalid" }
+						}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"name": {
@@ -157,12 +140,8 @@
 				{
 					"begin": ":",
 					"end": "(?<=\")",
-					"patterns": [
-						{ "include": "#string" },
-						{ "include": "#invalid" }
-					]
-				},
-				{ "include": "#invalid" }
+					"patterns": [ { "include": "#string" } ]
+				}
 			]
 		},
 		"uuid": {
@@ -186,16 +165,13 @@
 								"6": {
 									"patterns": [
 										{ "match": "\\\\[\"\\\\bfnrt]",	"name": "invalid.tm" },
-										{ "include": "#escape-characters" },
-										{ "include": "#invalid" }
+										{ "include": "#escape-characters" }
 									]
 								}
 							}
-						},
-						{ "include": "#invalid" }
+						}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"fileTypes": {
@@ -215,26 +191,17 @@
 								{
 									"begin": "(?<=\\[)",
 									"end": "(?<=\")|(?=])",
-									"patterns": [
-										{ "include": "#string"	},
-										{ "include": "#invalid"	}
-									]
+									"patterns": [ { "include": "#string" } ]
 								},
 								{
 									"begin": ",",
 									"end": "(?<=\")",
-									"patterns": [
-										{ "include": "#string"	},
-										{ "include": "#invalid"	}
-									]
-								},
-								{ "include": "#invalid" }
+									"patterns": [ { "include": "#string" } ]
+								}
 							]
-						},
-						{ "include": "#invalid" }
+						}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"injectionSelector": {
@@ -249,17 +216,10 @@
 					"patterns": [
 						{
 							"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
-							"captures": {
-								"1": { "patterns": [
-									{ "include": "#injection-string" },
-									{ "include": "#invalid" }
-								] }
-							}
-						},
-						{ "include": "#invalid" }
+							"captures": { "1": { "patterns": [ { "include": "#injection-string" } ] } }
+						}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"injections": {
@@ -279,26 +239,17 @@
 								{
 									"begin": "(?<={)",
 									"end": "(?<=})|(?=})",
-									"patterns": [
-										{ "include": "#injection" },
-										{ "include": "#invalid" }
-									]
+									"patterns": [ { "include": "#injection" } ]
 								},
 								{
 									"begin": ",",
 									"end": "(?<=})",
-									"patterns": [
-										{ "include": "#injection" },
-										{ "include": "#invalid" }
-									]
-								},
-								{ "include": "#invalid" }
+									"patterns": [ { "include": "#injection" } ]
+								}
 							]
-						},
-						{ "include": "#invalid" }
+						}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"injection": {
@@ -321,8 +272,7 @@
 									"patterns": [
 										{ "include": "#patterns" },
 										{ "include": "#comment" },
-										{ "include": "#json-item" },
-										{ "include": "#invalid" }
+										{ "include": "#json-item" }
 									]
 								},
 								{
@@ -331,17 +281,13 @@
 									"patterns": [
 										{ "include": "#patterns" },
 										{ "include": "#comment" },
-										{ "include": "#json-item" },
-										{ "include": "#invalid" }
+										{ "include": "#json-item" }
 									]
-								},
-								{ "include": "#invalid" }
+								}
 							]
-						},
-						{ "include": "#invalid" }
+						}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"injection-string": {
@@ -363,6 +309,7 @@
 					"match": "[\\\\\\w*.-]+",
 					"captures": { "0": {
 						"patterns": [
+							{ "match": "\\b(?<!\\.)(?>text|source)\\b", "name": "entity.name.function.tm" },
 							{ "match": "\\*", "name": "entity.name.function.tm" },
 							{ "include": "#scope-string" }
 						]
@@ -384,11 +331,9 @@
 							"begin": "\"",
 							"end": "\"",
 							"patterns": [ { "include": "source.syntax.regexp.tmLanguage" } ]
-						},
-						{ "include": "#invalid" }
+						}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"foldingMarker": {
@@ -405,11 +350,9 @@
 							"begin": "\"",
 							"end": "\"",
 							"patterns": [ { "include": "source.syntax.regexp.tmLanguage" } ]
-						},
-						{ "include": "#invalid" }
+						}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"patterns": {
@@ -429,26 +372,17 @@
 								{
 									"begin": "(?<=\\[)",
 									"end": "(?<=})|(?=])",
-									"patterns": [
-										{ "include": "#pattern-item" },
-										{ "include": "#invalid" }
-									]
+									"patterns": [ { "include": "#pattern-item" } ]
 								},
 								{
 									"begin": ",",
 									"end": "(?<=})",
-									"patterns": [
-										{ "include": "#pattern-item" },
-										{ "include": "#invalid" }
-									]
-								},
-								{ "include": "#invalid" }
+									"patterns": [ { "include": "#pattern-item" } ]
+								}
 							]
-						},
-						{ "include": "#invalid" }
+						}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"pattern-item": {
@@ -468,8 +402,7 @@
 						{ "include": "#repository"			},
 						{ "include": "#applyEndPatternLast"	},
 						{ "include": "#comment"				},
-						{ "include": "#json-item"			},
-						{ "include": "#invalid"				}
+						{ "include": "#json-item"			}
 					]
 				},
 				{
@@ -484,11 +417,9 @@
 						{ "include": "#repository"			},
 						{ "include": "#applyEndPatternLast"	},
 						{ "include": "#comment"				},
-						{ "include": "#json-item"			},
-						{ "include": "#invalid"				}
+						{ "include": "#json-item"			}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"repository": {
@@ -508,27 +439,18 @@
 								{
 									"begin": "(?<={)",
 									"end": "(?<=})|(?=})",
-									"patterns": [
-										{ "include": "#repository-item" },
-										{ "include": "#invalid" }
-									]
+									"patterns": [ { "include": "#repository-item" } ]
 								},
 								{
 									"begin": ",",
 									"end": "(?<=})",
-									"patterns": [
-										{ "include": "#repository-item" },
-										{ "include": "#invalid" }
-									]
+									"patterns": [ { "include": "#repository-item" } ]
 								},
-								{ "include": "#comment" },
-								{ "include": "#invalid" }
+								{ "include": "#comment" }
 							]
-						},
-						{ "include": "#invalid" }
+						}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"repository-item": {
@@ -561,8 +483,7 @@
 										{ "include": "#repository"			},
 										{ "include": "#applyEndPatternLast"	},
 										{ "include": "#comment"				},
-										{ "include": "#json-item"			},
-										{ "include": "#invalid"				}
+										{ "include": "#json-item"			}
 									]
 								},
 								{
@@ -576,17 +497,13 @@
 										{ "include": "#repository"			},
 										{ "include": "#applyEndPatternLast"	},
 										{ "include": "#comment"				},
-										{ "include": "#json-item"			},
-										{ "include": "#invalid"				}
+										{ "include": "#json-item"			}
 									]
-								},
-								{ "include": "#invalid" }
+								}
 							]
-						},
-						{ "include": "#invalid" }
+						}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"name-scope": {
@@ -627,8 +544,7 @@
 						}
 					},
 					"patterns": [ { "include": "#invalid" } ]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"match": {
@@ -644,12 +560,11 @@
 						{
 							"begin": "\"",
 							"end": "\"",
+							"contentName": "meta.embedded",
 							"patterns": [ { "include": "source.syntax.regexp.tmLanguage" } ]
-						},
-						{ "include": "#invalid" }
+						}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"include": {
@@ -675,11 +590,9 @@
 									"patterns": [ { "include": "#escape-characters" } ]
 								}
 							}
-						},
-						{ "include": "#invalid" }
+						}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"captures": {
@@ -703,8 +616,7 @@
 										{ "include": "#capture-item" },
 										{ "include": "#include"		 },
 										{ "include": "#comment"		 },
-										{ "include": "#json-item"	 },
-										{ "include": "#invalid"		 }
+										{ "include": "#json-item"	 }
 									]
 								},
 								{
@@ -714,17 +626,13 @@
 										{ "include": "#capture-item" },
 										{ "include": "#include"		 },
 										{ "include": "#comment"		 },
-										{ "include": "#json-item"	 },
-										{ "include": "#invalid"		 }
+										{ "include": "#json-item"	 }
 									]
-								},
-								{ "include": "#invalid" }
+								}
 							]
-						},
-						{ "include": "#invalid" }
+						}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"capture-item": {
@@ -748,8 +656,7 @@
 										{ "include": "#name-scope"	},
 										{ "include": "#patterns"	},
 										{ "include": "#comment"		},
-										{ "include": "#json-item"	},
-										{ "include": "#invalid"		}
+										{ "include": "#json-item"	}
 									]
 								},
 								{
@@ -759,17 +666,13 @@
 										{ "include": "#name-scope"	},
 										{ "include": "#patterns"	},
 										{ "include": "#comment"		},
-										{ "include": "#json-item"	},
-										{ "include": "#invalid"		}
+										{ "include": "#json-item"	}
 									]
-								},
-								{ "include": "#invalid" }
+								}
 							]
-						},
-						{ "include": "#invalid" }
+						}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"applyEndPatternLast": {
@@ -789,11 +692,9 @@
 						{
 							"match": "\\d+",
 							"name": "constant.numeric.tmLanguage"
-						},
-						{ "include": "#invalid" }
+						}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"comment": {
@@ -820,11 +721,9 @@
 									]
 								}
 							}
-						},
-						{ "include": "#invalid" }
+						}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"scope-string": {
@@ -832,8 +731,7 @@
 				{ "match": "(?<![\\s.\"])\\.(?=[^\\s#\"])",	"name": "keyword.operator.tm"	},
 				{ "match": "[\\w\\d-]+",					"name": "string.tm"				},
 				{ "match": "\\\\[\"\\\\bfnrt]",				"name": "invalid.tm"			},
-				{ "include": "#escape-characters"	},
-				{ "include": "#invalid"				}
+				{ "include": "#escape-characters"	}
 			]
 		},
 		"string": {
@@ -865,30 +763,31 @@
 						"1": { "name": "constant.character.escape.tm" },
 						"2": {
 							"name": "constant.numeric.tm",
-							"patterns": [ { "match": "\\H+", "name": "invalid.tm markup.underline.tm" } ]
+							"patterns": [ { "match": "\\H+", "name": "invalid.tm markup.underline" } ]
 						}
 					}
 				},
 				{
 					"match": "\\\\.?|[\"\\x0-\\x1F\\x7F]",
-					"name": "invalid.tm markup.underline.regex.tm"
+					"name": "invalid.tm markup.underline regex"
 				}
 			]
 		},
 		"json-item": {
 			"comment": "\"...\": ...",
-			"begin": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+			"begin": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
 			"end": "(?!\\G)(?<=[]}\"]|true|false|null|-?\\d+)",
 			"beginCaptures": {
-				"0": {
-					"name": "variable.regex.tm",
+				"0": { "name": "variable.tm" },
+				"1": {
+					"name": "variable.tm regex",
 					"patterns": [
 						{
-							"match": "\\\\(\"|\\\\)",
+							"match": "\\\\[\\\\\"]",
 							"name": "constant.character.escape.tm"
 						},
 						{
-							"match": "\\\\.",
+							"match": "\\\\.?",
 							"name": "invalid.tm markup.underline.tm"
 						}
 					]
@@ -901,11 +800,9 @@
 					"patterns": [
 						{ "include": "#json-dictionary" },
 						{ "include": "#json-array" },
-						{ "include": "#json-value" },
-						{ "include": "#invalid" }
+						{ "include": "#json-value" }
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"json-dictionary": {
@@ -916,20 +813,13 @@
 				{
 					"begin": "(?<={)",
 					"end": "(?<=[]}\"]|true|false|null|-?\\d+)|(?=})",
-					"patterns": [
-						{ "include": "#json-item"	},
-						{ "include": "#invalid"		}
-					]
+					"patterns": [ { "include": "#json-item"	} ]
 				},
 				{
 					"begin": ",",
 					"end": "(?<=[]}\"]|true|false|null|-?\\d+)",
-					"patterns": [
-						{ "include": "#json-item"	},
-						{ "include": "#invalid"		}
-					]
-				},
-				{ "include": "#invalid" }
+					"patterns": [ { "include": "#json-item"	} ]
+				}
 			]
 		},
 		"json-array": {
@@ -943,8 +833,7 @@
 					"patterns": [
 						{ "include": "#json-dictionary"	},
 						{ "include": "#json-array"		},
-						{ "include": "#json-value"		},
-						{ "include": "#invalid"			}
+						{ "include": "#json-value"		}
 					]
 				},
 				{
@@ -953,11 +842,9 @@
 					"patterns": [
 						{ "include": "#json-dictionary"	},
 						{ "include": "#json-array"		},
-						{ "include": "#json-value"		},
-						{ "include": "#invalid"			}
+						{ "include": "#json-value"		}
 					]
-				},
-				{ "include": "#invalid" }
+				}
 			]
 		},
 		"json-value": {
@@ -998,12 +885,13 @@
 		"invalid": {
 			"patterns": [
 				{
-					"match": "//.*",
-					"name": "invalid.tm markup.underline.regex.tm"
+					"comment": "C styled comments are not allowed: //  /* */ ",
+					"match": "/[/*].*",
+					"name": "invalid.tm markup.underline regex"
 				},
 				{
-					"match": "\\S",
-					"name": "invalid.regex.tm"
+					"match": "\\S[^\\s\"\\[\\]{}:,]*",
+					"name": "invalid.tm regex"
 				}
 			]
 		}
