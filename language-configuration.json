@@ -21,9 +21,11 @@
 		["(", ")"],
 		["${", "}"],
 		["{", "}"],
+		["[:", ":]"],
 		["[", "]"],
 		["\"", "\""]
 	],
+	"autoCloseBefore": ", \n\t",
 	// symbols that can be used to surround a selection
 	"surroundingPairs": [
 		["(", ")"],
@@ -34,5 +36,14 @@
 		["<", ">"],
 		["'", "'"],
 		["\"","\""]
+	],
+	// symbols that are coloured
+	"colorizedBracketPairs": [
+		["(", ")"],
+		["${", "}"],
+		["{", "}"],
+		["[:", ":]"],
+		["[", "]"],
+		["<", ">"]
 	]
 }
