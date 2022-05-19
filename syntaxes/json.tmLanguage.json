@@ -560,7 +560,7 @@
 						{
 							"begin": "\"",
 							"end": "\"",
-							"contentName": "meta.embedded",
+							"contentName": "meta.embedded.block.regexp.tmLanguage",
 							"patterns": [ { "include": "source.syntax.regexp.tmLanguage" } ]
 						}
 					]

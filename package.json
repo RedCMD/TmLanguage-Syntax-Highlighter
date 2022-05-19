@@ -57,14 +57,17 @@
 					"json.regex",
 					"regex"
 				],
-				"configuration": "./language-configuration.json"
+				"configuration": "./regex.language-configuration.json"
 			}
 		],
 		"grammars": [
 			{
 				"language": "json-tmLanguage",
 				"scopeName": "source.syntax.json.tmLanguage",
-				"path": "./syntaxes/json.tmLanguage.json"
+				"path": "./syntaxes/json.tmLanguage.json",
+				"embeddedLanguages": {
+					"meta.embedded.block.regexp.tmLanguage": "regex-tmLanguage"
+				}
 			},
 			{
 				"language": "regex-tmLanguage",
