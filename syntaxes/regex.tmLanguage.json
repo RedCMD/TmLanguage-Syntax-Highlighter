@@ -739,6 +739,14 @@
 					}
 				},
 				{
+					"match": "(\\*(-)\\+)(\\\\{2}(?=-))?",
+					"captures": {
+						"1": { "name": "support.class.tm" },
+						"2": { "name": "punctuation.definition.tag.tm strong" },
+						"3": { "name": "punctuation.definition.tag.tm" }
+					}
+				},
+				{
 					"match": "(\\d(-)\\d)(\\\\{2}(?=-))?",
 					"captures": {
 						"1": { "name": "constant.numeric.tm" },
