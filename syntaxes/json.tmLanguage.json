@@ -10,6 +10,30 @@
 		"R:source.syntax.json.tmLanguage - string - variable - comment - regex - meta.embedded": {
 			"comment": "How to inject into everything that doesn't have a scope-name? without having to specify every single scope-name?",
 			"patterns": [ { "include": "#invalid" } ]
+		},
+		"L:capture-group-lookbehind - character-class - comment": {
+			"patterns": [
+				{ "include": "source.syntax.regexp.tmLanguage#capture-group-lookbehind-invalid" },
+				{ "include": "source.syntax.regexp.tmLanguage#absent-invalid" }
+			]
+		},
+		"L:capture-group-lookbehind-extended - character-class - comment": {
+			"patterns": [
+				{ "include": "source.syntax.regexp.tmLanguage#capture-group-lookbehind-invalid-extended" },
+				{ "include": "source.syntax.regexp.tmLanguage#absent-invalid-extended" }
+			]
+		},
+		"L:capture-group-negative-lookbehind - character-class - comment": {
+			"patterns": [
+				{ "include": "source.syntax.regexp.tmLanguage#capture-group-negative-lookbehind-invalid" },
+				{ "include": "source.syntax.regexp.tmLanguage#absent-invalid" }
+			]
+		},
+		"L:capture-group-negative-lookbehind-extended - character-class - comment": {
+			"patterns": [
+				{ "include": "source.syntax.regexp.tmLanguage#capture-group-negative-lookbehind-invalid-extended" },
+				{ "include": "source.syntax.regexp.tmLanguage#absent-invalid-extended" }
+			]
 		}
 	},
 	"patterns": [
