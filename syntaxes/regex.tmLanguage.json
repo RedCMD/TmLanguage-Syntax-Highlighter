@@ -346,12 +346,12 @@
 		},
 		"capture-group-conditional-referencing-test": {
 			"comment": "[<']?([[1-9]\\w]([+-][0-9])?|[+-][1-9])['>]?|...",
-			"match": "(?(5+7)ab|c()d|ef)  (?(<name>)ab|c()d|ef)  (?(re(g)ex)ab|c()d|ef)  (?(regex)regex) "
+			"match": "(?(5+7)ab|c()d|ef)  (?(<name>)ab|c()d|ef)  (?(re(g)ex)ab|c()d|ef)  (?(regex)regex)  (?()) (?(1)) (?(1)|) (?()|) (?(|)) (?(|)|) (?()\\() (?(\\()) (?(())()) "
 		},
 		"capture-group-conditional": {
 			"comment": "(?(1)...|...) (?(-001)...) (?(1+0)...|...) (?(<1>)...) (?('+1')...|...) (?(<1-0>)...) (?(<name>)...) (?('name-0')...|...) (?(<name+00>)...) (?(...)...|...)",
 			"begin": "(\\()(\\?)(?>(\\()([<'][^)]*|[-+]?0*[12]?\\d{1,9}(?>[+-]0*[12]?\\d{1,9})?)(\\))|(\\((?>\\?{|\\*)[^)]*\\))|(\\())",
-			"end": "\\)",
+			"end": "(?<!\\(\\G)\\)",
 			"beginCaptures": {
 				"1": { "name": "constant.character.set.regexp.tm" },
 				"2": { "name": "support.function.tm" },
@@ -362,20 +362,19 @@
 				"7": { "name": "constant.character.set.regexp.tm" }
 			},
 			"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
+			"name": "capture-group-conditional",
 			"patterns": [
 				{
-					"begin": "\\G",
-					"end": "\\||(?=\\))",
-					"endCaptures": { "0": { "name": "support.function.tm" } },
-					"patterns": [
-						{
-							"begin": "(?<=\\()\\G",
-							"end": "\\)",
-							"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
-							"patterns": [ { "include": "$self" } ]
-						},
-						{ "include": "$self" }
-					]
+					"begin": "(?<=\\()\\G",
+					"end": "\\)",
+					"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
+					"patterns": [ { "include": "$self" } ]
+				},
+				{
+					"begin": "\\|",
+					"end": "(?=\\))",
+					"beginCaptures": { "0": { "name": "support.function.tm" } },
+					"patterns": [ { "include": "$self" } ]
 				},
 				{ "include": "$self" }
 			]
@@ -383,7 +382,7 @@
 		"capture-group-conditional-extended": {
 			"comment": "(?(1)...|...) (?(-001)...) (?(1+0)...|...) (?(<1>)...) (?('+1')...|...) (?(<1-0>)...) (?(<name>)...) (?('name-0')...|...) (?(<name+00>)...) (?(...)...|...)",
 			"begin": "(\\()(\\?)(?>(\\()([<'][^)]*|[-+]?0*[12]?\\d{1,9}(?>[+-]0*[12]?\\d{1,9})?)(\\))|(\\(\\?{[^)]*\\))|(\\())",
-			"end": "\\)",
+			"end": "(?<!\\(\\G)\\)",
 			"beginCaptures": {
 				"1": { "name": "constant.character.set.regexp.tm" },
 				"2": { "name": "support.function.tm" },
@@ -394,20 +393,19 @@
 				"7": { "name": "constant.character.set.regexp.tm" }
 			},
 			"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
+			"name": "capture-group-conditional-extended",
 			"patterns": [
 				{
-					"begin": "\\G",
-					"end": "\\||(?=\\))",
-					"endCaptures": { "0": { "name": "support.function.tm" } },
-					"patterns": [
-						{
-							"begin": "(?<=\\()\\G",
-							"end": "\\)",
-							"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
-							"patterns": [ { "include": "#$self-extended" } ]
-						},
-						{ "include": "#$self-extended" }
-					]
+					"begin": "(?<=\\()\\G",
+					"end": "\\)",
+					"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
+					"patterns": [ { "include": "#$self-extended" } ]
+				},
+				{
+					"begin": "\\|",
+					"end": "(?=\\))",
+					"beginCaptures": { "0": { "name": "support.function.tm" } },
+					"patterns": [ { "include": "#$self-extended" } ]
 				},
 				{ "include": "#$self-extended" }
 			]
