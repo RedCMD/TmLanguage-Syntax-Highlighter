@@ -17,8 +17,6 @@
 		{ "include": "#absent"								},
 		{ "include": "#callout"								},
 		{ "include": "#non-capture-group"					},
-		{ "include": "#non-capture-group-modify"			},
-		{ "include": "#non-capture-group-modify-extended"	},
 		{ "include": "#capture-group-modify"				},
 		{ "include": "#capture-group-modify-extended"		},
 		{ "include": "#capture-group-conditional"			},
@@ -40,8 +38,6 @@
 				{ "include": "#absent-extended"								},
 				{ "include": "#callout"										},
 				{ "include": "#escape-character-extended"					},
-				{ "include": "#non-capture-group-modify-extended"			},
-				{ "include": "#non-capture-group-modify"					},
 				{ "include": "#non-capture-group-extended"					},
 				{ "include": "#capture-group-comment"						},
 				{ "include": "#capture-group-modify-extended"				},
@@ -311,38 +307,80 @@
 			]
 		},
 		"capture-group-modify-test": {
-			"match": "(?xy{w}:literal#comment\nliteral)#not-comment  (?imxWDSPy{g}) (?i:) #comment\n (?imxWDSPy{g}:imxWDSP-#comment\n) (?) (?:...) (?>...) (?y{w}) (?x-x) (?-imxWDSP) #not-comment\n (?-imxWDSPy{g}:imxWDSP-literal#not-comment\n)"
+			"match": "(?xy{w}:literal#comment\nliteral)#literal  (?imxWDSPy{g}-x) (?x:) #literal\n (?imxWDSPy{g}:imxWDSP-#comment\n) (?) (?:...) (?>...) (?y{w}) (?x-x:(?-:)) (?-imxWDSP) #literal\n (?-imxWDSPy{g}-imxWDSP:imxWDSP-literal#literal\n)  (?ixi-i-ixi-ixi:#literal\n)"
 		},
 		"capture-group-modify": {
-			"comment": "(?y{g}-imxWDSP) (?y{w}imxWDSP-x:...)",
-			"begin": "(?>(\\((?=[^\":)]+:(?!\\))))|(\\())(\\?(?=[imxWDSPy{gw}-])(?![imWDSPy{gw}]*x(?![imxWDSPy{gw}]*-[imxWDSPy{gw}-]*x))(?>[imxWDSP]|y{[gw]})*[imxWDSP-]*)([^\":)]*)(:)?(\\))?",
-			"end": "(?((?!\\1))\\)|(?=[\")]))(?#Backreference \\1 only matches when capture group 1 in \"begin\" is empty.)",
-			"beginCaptures": {
-				"1": { "name": "constant.character.set.regexp.tm" },
-				"2": { "name": "constant.character.set.regexp.tm markup.italic" },
-				"3": { "name": "support.function.tm" },
-				"4": { "name": "invalid.tm markup.underline" },
-				"5": { "name": "support.function.tm" },
-				"6": { "name": "constant.character.set.regexp.tm markup.italic" }
-			},
-			"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
-			"patterns": [ { "include": "$self" } ]
+			"patterns": [
+				{
+					"match": "\\(\\?-+:?\\)",
+					"name": "punctuation.definition.tag.tm"
+				},
+				{
+					"comment": "(?y{g}-imxWDSP) (?y{w}imxWDSP-x:...)",
+					"begin": "(?>(\\((?=[^:)]+:))|(\\())(\\?)(?=[-imxWDSPy])([^x:)]+|[^-:)]*-[^x:)]*x[^:)]*)(?>(:)|(\\)))",
+					"end": "(?((?!\\1))\\)|(?=[\")]))(?#Condition is true only when Backreference \\1 from capture group 1 in \"begin\" is *not* empty.)",
+					"beginCaptures": {
+						"1": { "name": "constant.character.set.regexp.tm" },
+						"2": { "name": "constant.character.set.regexp.tm markup.italic" },
+						"3": { "name": "support.function.tm" },
+						"4": { "patterns": [ { "include": "#capture-group-modify-options" } ] },
+						"5": { "name": "support.function.tm" },
+						"6": { "name": "constant.character.set.regexp.tm markup.italic" }
+					},
+					"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
+					"name": "capture-group-modify",
+					"patterns": [ { "include": "$self" } ]
+				}
+			]	
 		},
 		"capture-group-modify-extended": {
-			"comment": "(?y{g}imxWDSP-) (?y{w}x-imWDSP:...)",
-			"begin": "(?>(\\((?=[^\":)]+:(?!\\s*\\))))|(\\())(\\?(?=[imxWDSPy{gw}-])(?![imWDSPy{gw}]*-[imxWDSPy{gw}-]*x)(?>[imxWDSP]|y{[gw]})*[imxWDSP-]*)([^\":)]*)(:)?( *)(\\))?",
-			"end": "(?((?!\\1))\\)|(?=[\")]))(?#Backreference \\1 only matches when capture group 1 in \"begin\" is empty.)",
-			"beginCaptures": {
-				"1": { "name": "constant.character.set.regexp.tm" },
-				"2": { "name": "constant.character.set.regexp.tm markup.italic" },
-				"3": { "name": "support.function.tm" },
-				"4": { "name": "invalid.tm markup.underline" },
-				"5": { "name": "support.function.tm" },
-				"6": { "name": "comment.tm" },
-				"7": { "name": "constant.character.set.regexp.tm markup.italic" }
-			},
-			"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
-			"patterns": [ { "include": "#$self-extended" } ]
+			"patterns": [
+				{
+					"match": "\\(\\?-+:?\\)",
+					"name": "punctuation.definition.tag.tm"
+				},
+				{
+					"comment": "(?y{g}imxWDSP-) (?y{w}x-imWDSP:...)",
+					"begin": "(?>(\\((?=[^:)]+:))|(\\())(\\?)(?=[-imxWDSPy])([^-:)]*[^x:)]*)(?>(:)|(\\)))",
+					"end": "(?((?!\\1))\\)|(?=[\")]))(?#Condition is true only when Backreference \\1 from capture group 1 in \"begin\" is *not* empty.)",
+					"beginCaptures": {
+						"1": { "name": "constant.character.set.regexp.tm" },
+						"2": { "name": "constant.character.set.regexp.tm markup.italic" },
+						"3": { "name": "support.function.tm" },
+						"4": { "patterns": [ { "include": "#capture-group-modify-options" } ] },
+						"5": { "name": "support.function.tm" },
+						"6": { "name": "constant.character.set.regexp.tm markup.italic" }
+					},
+					"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
+					"name": "capture-group-modify-extended",
+					"patterns": [ { "include": "#$self-extended" } ]
+				}
+			]
+		},
+		"capture-group-modify-options": {
+			"comment": "- i m x W D S P y{g} y{w}",
+			"patterns": [
+				{
+					"match": "(?<=-[^?]*)y{[gw]}",
+					"name": "invalid.tm markup.underline"
+				},
+				{
+					"match": "([imxWDSP]|y{[gw]})(?=.*?\\1)",
+					"name": "punctuation.definition.tag.tm"
+				},
+				{
+					"match": "(?<=-[^?]*)-|-(?=[^imxWDSPy]*$)",
+					"name": "punctuation.definition.tag.tm"
+				},
+				{
+					"match": "[-imxWDSP]|y{[gw]}",
+					"name": "support.function.tm"
+				},
+				{
+					"match": ".[^-imxWDSPy{gw}]*",
+					"name": "invalid.tm markup.underline"
+				}
+			]
 		},
 		"capture-group-conditional-referencing-test": {
 			"comment": "[<']?([[1-9]\\w]([+-][0-9])?|[+-][1-9])['>]?|...",
