@@ -705,7 +705,7 @@
 					}
 				},
 				{
-					"match": "\\G(\\\\{2})(\\^)",
+					"match": "\\G(\\\\{2})(\\^|:)",
 					"captures": {
 						"1": { "name": "constant.character.escape.tm" },
 						"2": { "name": "markup.italic" }
@@ -726,7 +726,7 @@
 					}
 				},
 				{
-					"match": "(\\\\{2})([]\\[-])",
+					"match": "(\\\\{2})([]\\[-]|:(?=]))",
 					"captures": {
 						"1": { "name": "constant.character.escape.tm" },
 						"2": { "name": "markup.italic regex" }
@@ -851,29 +851,69 @@
 		"character-class-range-test": {
 			"match": "([^^-_-a-b 0-9 a-z A-Z A-z a-Z\\- 0-a \\s-a a-\\s--- \\s \\s-\\s [:alnum:]-a a-&& &&-a \"-a \/-a \n-a \\\\-\\\\ \\777-a \\ca-a \\x55-a \\p{L}-a \\u0000-a \\u-agh \\x{0000}-\\x{001F} \u00b0-a \\C-\\M-\u00b0-a a-])"
 		},
+		"character-class-posix-test": {
+			"match": "(?x)  [[:upper:]] ]  [[:a]b:] ]  [[:]:] ]  [[:\\:]] ]  [[:a\\]\\]b:] ]  [[:upPer\\]d[:b\\]\\]c:] ]  [[:a::] ]  [[:a:b:] ]  [[:a[:b::] ]  [[:a[:upper:]] ]  [[:upper::] ]  [[:upper[::]] ]  [[::]] ]  [[:[:]] ]  #]]]]]]]]"
+		},
 		"character-class-posix": {
-			"comment": "[:...:] [:^...:]",
-			"match": "(\\[:\\^?)(?>(\\s*:])|([^]]+)(:]))",
-			"captures": {
-				"1": { "name": "support.function.tm" },
-				"2": { "name": "invalid.tm markup.underline" },
-				"3": { "patterns": [ { "include": "#character-class-posix-value" } ] },
-				"4": { "name": "support.function.tm" }
-			}
+			"patterns": [
+				{
+					"comment": "[:...:] [:^...:]",
+					"match": "(\\[:\\^?)(?>(\\s*:])|([^]:]{1,20})(?<!(?<!\\\\)\\\\{4}*+\\\\{2})(:]))",
+					"captures": {
+						"1": { "name": "support.function.tm" },
+						"2": { "name": "invalid.tm markup.italic" },
+						"3": { "patterns": [ { "include": "#character-class-posix-value" } ] },
+						"4": { "name": "support.function.tm" }
+					}
+				},
+				{
+					"comment": "[:...[:...\\]...:...[:...:]",
+					"begin": "\\[:(?=(?~(?<!\\\\)(?>\\\\{2}*+\"|\\\\{4}*+]))(?>$|(?<!\\\\)\\\\{4}*:]))",
+					"end": ":(?=])|(?<=:)(?=])|(?<=:])",
+					"captures": { "0": { "name": "support.function.tm markup.italic regex" } },
+					"patterns": [
+						{
+							"match": "\\G(?>alnum|alpha|ascii|blank|cntrl|x?digit|graph|lower|print|punct|space|upper|word)",
+							"name": "invalid.tm markup.italic"
+						},
+						{
+							"match": ":",
+							"name": "support.function.tm markup.italic"
+						},
+						{
+							"match": "(\\\\{2})(])",
+							"captures": {
+								"1": { "name": "constant.character.escape.tm" },
+								"2": { "name": "support.function.tm markup.italic regex" }
+							}
+						},
+						{ "include": "#character-class-range"	},
+						{ "include": "#unicode"					},
+						{ "include": "#character-class-escape"	},
+						{ "include": "#character-class-posix"	},
+						{ "include": "#character-class-regex"	}
+					]
+				}
+			]
 		},
 		"character-class-posix-value": {
-			"match": "(.*\\s.*)|(.*?)((?i)alnum|alpha|ascii|blank|cntrl|x?digit|graph|lower|print|punct|space|upper|word)(.*)|(.+)",
-			"captures": {
-				"1": { "name": "invalid.tm markup.underline regex" },
-				"2": { "name": "invalid.tm markup.underline regex" },
-				"3": { "name": "variable.other.enummember.tm", "patterns": [ { "match": "[A-Z]", "name": "invalid.tm markup.italic" } ] },
-				"4": { "name": "invalid.tm markup.underline regex" },
-				"5": { "name": "invalid.tm markup.underline regex" }
-			}
+			"patterns": [
+				{
+					"match": "(.*?)((?i)alnum|alpha|ascii|blank|cntrl|x?digit|graph|lower|print|punct|space|upper|word)",
+					"captures": {
+						"1": { "name": "invalid.tm markup.underline regex" },
+						"2": { "name": "variable.other.enummember.tm", "patterns": [ { "match": "[A-Z]", "name": "invalid.tm markup.italic" } ] }
+					}
+				},
+				{
+					"match": ".+",
+					"name": "invalid.tm markup.underline regex"
+				}
+			]
 		},
 		"character-class-regex": {
 			"comment": "Match anything left over and all non-meta charaters",
-			"match": ".(?>[^]\\x0-\\x1F\"&\\[\\\\\\x7F-]+(?!-))?",
+			"match": ".(?>[^]\\x0-\\x1F\"&:\\[\\\\\\x7F-]+(?!-))?",
 			"name": "markup.italic regex"
 		},
 		"unicode": {
