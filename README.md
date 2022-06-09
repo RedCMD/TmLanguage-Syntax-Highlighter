@@ -37,9 +37,10 @@ If you would like me to add support for a theme, please just message me
 
 
 ### For more information
+* [Github - TextMate](https://github.com/textmate/textmate)
 * [Github - VSCode TextMate](https://github.com/microsoft/vscode-textmate)
 * [Github - Oniguruma](https://github.com/kkos/oniguruma)
-* [Github - Oniguruma: list of everything](https://github.com/kkos/oniguruma/blob/master/doc/RE)
+* [Github - Oniguruma: list of all expressions](https://github.com/kkos/oniguruma/blob/master/doc/RE)
 * [Github - TmLanguage-Syntax-Highlighter](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter)
 * [Github - TextMates Schema](https://github.com/martinring/tmlanguage)
 
