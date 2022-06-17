@@ -35,7 +35,33 @@
 		}
 	},
 	"patterns": [
-		{ "include": "#json" }
+		{ "include": "#json" },
+		{ "include": "#infoContributors"	},
+		{ "include": "#version"				},
+		{ "include": "#$schema"				},
+		{ "include": "#scopeName"			},
+		{ "include": "#name-scope"			},
+		{ "include": "#match"				},
+		{ "include": "#capture-item"		},
+		{ "include": "#captures"			},
+		{ "include": "#include"				},
+		{ "include": "#uuid"				},
+		{ "include": "#fileTypes"			},
+		{ "include": "#injections"			},
+		{ "include": "#injectionSelector"	},
+		{ "include": "#firstLineMatch"		},
+		{ "include": "#foldingMarker"		},
+		{ "include": "#patterns"			},
+		{ "include": "#repository"			},
+		{ "include": "#comment"				},
+		{ "include": "#repository-item"		},
+		{ "include": "#json-item"			},
+		{ "match": "," },
+		{
+			"begin": "{",
+			"end": "}",
+			"patterns": [ { "include": "$self" } ]
+		}
 	],
 	"repository": {
 		"json": {
