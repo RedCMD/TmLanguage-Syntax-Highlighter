@@ -3,9 +3,7 @@
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"scopeName": "source.syntax.json.tmLanguage",
 	"name": "TextMate Language JSON",
-	"fileTypes": [
-		".tmLanguage.json"
-	],
+	"firstLineMatch": "^\\s*{",
 	"injections": {
 		"R:source.syntax.json.tmLanguage - string - variable - comment - regex - meta.embedded": {
 			"comment": "How to inject into everything that doesn't have a scope-name? without having to specify every single scope-name?",
@@ -354,6 +352,7 @@
 						{
 							"begin": "\"",
 							"end": "\"",
+							"contentName": "meta.embedded.block.regexp.tmLanguage",
 							"patterns": [ { "include": "source.syntax.regexp.tmLanguage" } ]
 						}
 					]
