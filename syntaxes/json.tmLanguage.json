@@ -607,10 +607,23 @@
 					"end": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
 					"endCaptures": {
 						"1": {
+							"comment": "The replacment format string $1 Removes leading dot's from captured text:  ..te.xt..  =>  te.xt..  ",
 							"name": "$1 regex",
 							"patterns": [
 								{ "include": "#escape-characters" },
 								{
+									"match": "(?<=\\s|\")(?<!\\\\\")(?>text|source)\\.\\S+",
+									"captures": { "0": { "patterns": [ { "include": "#scope-string" } ] } }
+								},
+								{
+									"match": "(?>comment|string|regex|meta\\.embedded)\\b",
+									"name": "markup.italic"
+								},
+								{
+									"match": "\\w+"
+								},
+								{
+									"comment": "An invalid capture group number does not convert, nor becomes null",
 									"match": "(\\$)(0*)(\\d{1,3})(?!\\d)",
 									"captures": {
 										"1": { "name": "meta.embedded constant.character.escape.tm markup.italic" },
