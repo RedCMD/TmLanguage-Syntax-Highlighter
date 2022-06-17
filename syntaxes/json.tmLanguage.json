@@ -667,18 +667,26 @@
 					"end": "(?<=\")",
 					"patterns": [
 						{
-							"match": "\"(?>(\\$)(base|self)|(text|source)?([^#\"]*)(#)?)(.*?(?<!\\\\)\\\\{2}*|.*)\"",
+							"match": "\"(\\$)(base|self)\"",
 							"captures": {
 								"1": { "name": "keyword.tm" },
-								"2": { "name": "entity.name.function.tm" },
-								"3": { "name": "entity.name.function.tm" },
-								"4": { "patterns": [ { "include": "#scope-string" } ] },
-								"5": { "name": "keyword.tm" },
-								"6": {
-									"name": "variable.tm regex",
-									"patterns": [ { "include": "#escape-characters" } ]
-								}
+								"2": { "name": "support.function.tm" }
 							}
+						},
+						{
+							"begin": "\"",
+							"end": "\"",
+							"contentName": "regex",
+							"patterns": [
+								{
+									"begin": "#",
+									"end": "(?=\")",
+									"beginCaptures": { "0": { "name": "keyword.tm" } },
+									"contentName": "variable.tm",
+									"patterns": [ { "include": "#escape-characters" } ]
+								},
+								{ "patterns": [ { "include": "#scope-string" } ] }
+							]
 						}
 					]
 				}
