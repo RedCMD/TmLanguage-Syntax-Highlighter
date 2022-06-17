@@ -6,8 +6,7 @@
 	"firstLineMatch": "^\\s*{",
 	"fileTypes": [ ".tmLanguage.json" ],
 	"injections": {
-		"R:source.syntax.json.tmLanguage - string - variable - comment - regex - meta.embedded": {
-			"comment": "How to inject into everything that doesn't have a scope-name? without having to specify every single scope-name?",
+		"R:source.syntax.json.tmLanguage -string -variable -punctuation -comment -regex -meta.embedded": {
 			"patterns": [ { "include": "#invalid" } ]
 		},
 		"L:capture-group-lookbehind - character-class - comment": {
@@ -278,10 +277,15 @@
 		},
 		"injection": {
 			"comment": "\"...\": { ... }",
-			"begin": "\"(.*?(?<!\\\\)\\\\{2}*|.*?)\"",
+			"begin": "\"",
 			"end": "(?<=})",
-			"beginCaptures": { "1": { "patterns": [ { "include": "#injection-string" } ] } },
 			"patterns": [
+				{
+					"begin": "\\G",
+					"end": "\"",
+					"contentName": "meta.embedded.block.regexp.tmLanguage",
+					"patterns": [ { "include": "#injection-string" } ]
+				},
 				{
 					"begin": ":",
 					"end": "(?<=})",
@@ -315,29 +319,80 @@
 			]
 		},
 		"injection-string": {
+			"comment": "All non-functional characters are treated as whitespace.  This includes whitespace and *.  [^\\w.,:|()-]",
 			"patterns": [
 				{
-					"match": "[LR]:",
-					"name": "entity.name.function.tm"
+					"match": "\\\\[\\\\\"/bfnrt]",
+					"name": "punctuation.definition.tag.tm"
+				},
+				{ "include": "#escape-characters" },
+				{
+					"begin": "[)|]",
+					"end": "(?=\")",
+					"name": "punctuation.definition.tag.tm regex"
 				},
 				{
-					"match": "\\s+-\\s+",
-					"name": "entity.name.function.tm"
+					"match": "(?<=\"\\G|,)((?>\\\\[\\\\\"/bfnrt]|[^\\\\\"\\w.:|()-])*)(?>([LR]:)|([\\w.:]:))",
+					"captures": {
+						"1": { "name": "punctuation.definition.tag.tm regex" },
+						"2": { "name": "support.function.tm" },
+						"3": { "name": "invalid.tm" }
+					}
 				},
 				{
-					"match": "\\|",
+					"match": "(text|source)(\\.[\\w.:]+)",
+					"captures": {
+						"1": { "name": "support.function.tm" },
+						"2": {
+							"name": "string",
+							"patterns": [
+								{
+									"match": "\\.",
+									"name": "support.function.tm"
+								}
+							]
+						}
+					}
+				},
+				{
+					"match": "[\\w.:][\\w.:-]*",
+					"captures": { "0": { "name": "string $0" } }
+				},
+				{
+					"begin": "\\(",
+					"end": "\\)|(?=\")",
+					"captures": { "0": { "name": "constant.character.set.regexp.tm"} },
+					"patterns": [
+						{
+							"match": "(?<=[,|])(?>\\\\[\\\\\"/bfnrt]|[^\\\\\\w.:()-])+",
+							"name": "punctuation.definition.tag.tm regex"
+						},
+						{
+							"match": "\\|",
+							"name": "keyword.control.tm"
+						},
+						{ "include": "#injection-string" }
+					]
+				},
+				{
+					"match": "(?>\\\\[\\\\\"/bfnrt]|[^\\\\\"\\w.:,|()-])+",
+					"name": "punctuation.definition.tag.tm regex"
+				},
+				{
+					"match": "(?<=,)(?>\\\\[\\\\\"/bfnrt]|[^\\\\\"\\w.:|()-])+",
+					"name": "punctuation.definition.tag.tm regex"
+				},
+				{
+					"match": ",",
 					"name": "keyword.control.tm"
 				},
-				{ "match": "[(),]" },
 				{
-					"match": "[\\\\\\w*.-]+",
-					"captures": { "0": {
-						"patterns": [
-							{ "match": "\\b(?<!\\.)(?>text|source)\\b", "name": "entity.name.function.tm" },
-							{ "match": "\\*", "name": "entity.name.function.tm" },
-							{ "include": "#scope-string" }
-						]
-					} }
+					"match": "-(?>\\\\[\\\\\"/bfnrt]|[^\\\\\"\\w.:|()-])*-",
+					"name": "punctuation.definition.tag.tm regex"
+				},
+				{
+					"match": "-",
+					"name": "support.function.tm"
 				}
 			]
 		},
