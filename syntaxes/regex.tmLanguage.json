@@ -618,7 +618,7 @@
 						"2":  { "name": "support.function.tm" },
 						"3":  { "name": "support.function.tm" },
 						"4":  { "name": "invalid.tm markup.underline regex" },
-						"5": {
+						"5":  {
 							"name": "regex",
 							"patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ]
 						},
@@ -1186,21 +1186,21 @@
 		},
 		"character-literal": {
 			"comment": "Match anything left over and all non-meta charaters",
-			"match": ".[^\\0- \"-$(-+.?\\[\\\\^{|\\x7F]*",
+			"match": ".[^[:cntrl:] \"#$^.+*?|\\[{()\\\\]*",
 			"name": "entity.name.label.tm strong regex"
 		},
 		"invalid": {
 			"comment": "invalid: single escaped characters (including at newlines), rouge right brackets, unescaped double quotes and any invalid control characters",
-			"match": "\\\\.?|\\)|\"|[\\0-\\31]|\\x7F",
+			"match": "\\\\.?|[)\"[:cntrl:]]",
 			"name": "invalid.tm markup.underline regex"
 		},
 		"_test": {
-			"comment": "Disable \"invalid\" and \"character-literal\" when running tests. As they will try to capture everything left and leave nothing for \"test\". This can be done by simply renaming it.",
-			"match": "(?~ (?<= ) )a",
+			"comment": "Disable \"character-literal\" when running tests. As it will try to capture everything and leave nothing for \"test\". This can be done by simply renaming it.",
+			"match": "[[:::]|(*FAIL)\\x7f\\xf5\\xf6\\xf7\\xf8\\xf9\\xfa\\xfb\\xfc\\xfd\\xfe\\xff",
 			"name": "keyword.control.tm strong regex"
 		},
-		"disabled": {
-			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}{,3}{2,}{2} {000} *{0} {0}* *{0}* {0}{0}{0} {0}{2,3} {2,3}{0}{2,3} {2,3\\} () (?<= (?= (?> (?=) ) )? ) (?= (?= )? ) [a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘]®×ñÿ¡¼÷€Çô│╨ε■ \\g<99> \\x555 QabcE $ \\$ \\1234567890 abcde\fghijklm\nopq\rs\t\u0000vwxyz bfnrtu \\a\\b\\cZ\\d\\e\\f\\g<0>\\h\\i\\j\\k'0'\\l\\m\\n\\o\\p{L}\\q\\r\\s\\t\\u0000\\v\\w\\x{13FFFF}\\y\\z Ȁ°Ççë£ ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ`1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>? an{name}bc  \\A\\B\\C-]\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P{L}\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z \\x{201E} \\p{L} \\p{-L etterLaaLaa--LL--LL--} \\`\\1\\2\\3\\4\\5\\6\\7\\8\\9\\0\\-\\=\\[\\]\\\\\\;\\'\\,\\.\\/\\ \\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\{\\}\\|\\:\\\"\\<\\>\\? ÿ[[:^upper:]] (?~a) (?{foo}) At aT aa abc abd cd a1 b a1b n1000 Q.E q.e test a<name0>b$abc#comment\n abc(?-x) #notcomment\n/z"
+		"_disabled_": {
+			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}{,3}{2,}{2} {000} *{0} {0}* *{0}* {0}{0}{0} {0}{2,3} {2,3}{0}{2,3} {2,3\\} () (?<= (?= (?> (?=) ) )? ) (?= (?= )? ) [a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘]®×ñÿ¡¼÷€Çô│╨ε■ \\g<99> \\x555 QabcE $ \\$ \\1234567890 abcdefghijklmnopqrstuvwxyz \b\f\n\r\t\u0000 \\a\\b\\cZ\\d\\e\\f\\g<0>\\h\\i\\j\\k'0'\\l\\m\\n\\o\\p{L}\\q\\r\\s\\t\\u0000\\v\\w\\x{13FFFF}\\y\\z Ȁ°Ççë£ ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ`1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>? an{name}bc  \\A\\B\\C-]\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P{L}\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z \\x{201E} \\p{L} \\p{-L etterLaaLaa--LL--LL--} \\`\\1\\2\\3\\4\\5\\6\\7\\8\\9\\0\\-\\=\\[\\]\\\\\\;\\'\\,\\.\\/\\ \\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\{\\}\\|\\:\\\"\\<\\>\\? ÿ[[:^upper:]] (?~a) (?{foo}) At aT aa abc abd cd a1 b a1b n1000 Q.E q.e test a<name0>b$abc#comment\n abc(?-x) #notcomment\n/z"
 		}
 	}
 }
