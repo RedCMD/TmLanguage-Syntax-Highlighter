@@ -136,15 +136,25 @@
 					"end": "(?<=\")",
 					"patterns": [
 						{
-							"match": "\"(text|source)?(.*?(?<!\\\\)\\\\{2}*|.*)\"",
+							"match": "\"(text\\b|source\\b)?(.*?(?<!\\\\)\\\\{2}*|.*)\"",
 							"captures": {
 								"1": { "name": "support.function.tm" },
 								"2": {
+									"name": "regex",
 									"patterns": [
-										{ "match": "(?<!\\.|\")\\.(?!$)",	"name": "keyword.operator.tm"	},
-										{ "match": "[\\w\\d-]+",			"name": "string.tm"				},
-										{ "match": "\\\\[\"\\\\bfnrt]",		"name": "invalid.tm"			},
-										{ "include": "#escape-characters"	}
+										{
+											"match": "(?<!\\.|\")\\.(?!$)",
+											"name": "support.function.tm"
+										},
+										{
+											"match": "[\\w-]+",
+											"name": "string.tm"
+										},
+										{
+											"match": "\\\\[\"\\\\/bfnrtu]",
+											"name": "invalid.tm"
+										},
+										{ "include": "#escape-characters" }
 									]
 								}
 							}
