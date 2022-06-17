@@ -817,10 +817,23 @@
 		},
 		"scope-string": {
 			"patterns": [
-				{ "match": "(?<![\\s.\"])\\.(?=[^\\s#\"])",	"name": "keyword.operator.tm"	},
-				{ "match": "[\\w\\d-]+",					"name": "string.tm"				},
-				{ "match": "\\\\[\"\\\\bfnrt]",				"name": "invalid.tm"			},
-				{ "include": "#escape-characters"	}
+				{
+					"match": "(?<=\\s|\"|\\b[LR]:)(?>source|text)\\.(?=[^\\s\"#])",
+					"name": "support.function.tm"
+				},
+				{
+					"match": "(?<![\\s\".])\\.(?=[^\\s\"#])",
+					"name": "support.function.tm"
+				},
+				{
+					"match": "[\\w:][\\w:-]*",
+					"name": "string"
+				},
+				{
+					"match": "\\\\[\"\\\\bfnrt]",
+					"name": "invalid.tm"
+				},
+				{ "include": "#escape-characters" }
 			]
 		},
 		"string": {
