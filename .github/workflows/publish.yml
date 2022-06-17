@@ -5,13 +5,12 @@ on:
     inputs:
       version:
         description: 'Version'
-        required: true
-        default: 'minor'
+        default: 'minor x.1.0'
         type: choice
         options:
-        - patch
-        - minor
-        - major
+        - patch x.x.1
+        - minor x.1.0
+        - major 1.0.0
 
 jobs:
   release:
@@ -34,5 +33,10 @@ jobs:
         run: |
           git config --global user.name "RedCMD"
           git config --global user.email "theredcmd@gmail.com"
+          if [[ $(git diff --stat) != '' ]]; then
+            echo 'working directory dirty. must cleanup first'
+            git add .
+            git commit -m "Publish to npm"
+          fi
           vsce publish ${{ github.event.inputs.version }} -p ${{ secrets.VSCE_PAT }}
           git push
