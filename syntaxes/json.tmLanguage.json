@@ -4,6 +4,7 @@
 	"scopeName": "source.syntax.json.tmLanguage",
 	"name": "TextMate Language JSON",
 	"firstLineMatch": "^\\s*{",
+	"fileTypes": [ ".tmLanguage.json" ],
 	"injections": {
 		"R:source.syntax.json.tmLanguage - string - variable - comment - regex - meta.embedded": {
 			"comment": "How to inject into everything that doesn't have a scope-name? without having to specify every single scope-name?",
@@ -207,6 +208,7 @@
 					"end": "(?<=])",
 					"patterns": [
 						{
+							"comment": "TODO: Disallow invalid filename characters.  \\/:*?\"<>|  Windows? Linux??",
 							"begin": "\\[",
 							"end": "]",
 							"patterns": [
