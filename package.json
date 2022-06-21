@@ -39,7 +39,11 @@
 				"filenames": [
 					"tmLanguage.json"
 				],
-				"configuration": "./language-configuration.json"
+				"configuration": "./language-configuration.json",
+				"icon": {
+					"dark": "images/TextMate-file-icon.svg",
+					"light": "images/TextMate-file-icon.svg"
+				}
 			},
 			{
 				"id": "regex-tmLanguage",
@@ -57,7 +61,11 @@
 					"json.regex",
 					"regex"
 				],
-				"configuration": "./regex.language-configuration.json"
+				"configuration": "./regex.language-configuration.json",
+				"icon": {
+					"dark": "images/TextMate-file-icon.svg",
+					"light": "images/TextMate-file-icon.svg"
+				}
 			}
 		],
 		"grammars": [
