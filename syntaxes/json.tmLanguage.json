@@ -273,8 +273,9 @@
 					"end": "(?<=\")",
 					"patterns": [
 						{
-							"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
-							"captures": { "1": { "patterns": [ { "include": "#injection-string" } ] } }
+							"begin": "\"",
+							"end": "\"",
+							"patterns": [ { "include": "#injection-string" } ]
 						}
 					]
 				}
