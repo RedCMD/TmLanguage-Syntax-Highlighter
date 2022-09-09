@@ -3,7 +3,6 @@
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"scopeName": "source.syntax.json.tmLanguage",
 	"name": "TextMate Language JSON",
-	"firstLineMatch": "^\\s*{",
 	"fileTypes": [ ".tmLanguage.json" ],
 	"injections": {
 		"R:source.syntax.json.tmLanguage -string -variable -punctuation -comment -regex -meta.embedded": {
