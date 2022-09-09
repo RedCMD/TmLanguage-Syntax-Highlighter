@@ -772,9 +772,12 @@
 		},
 		"capture-item": {
 			"comment": "\"1\": { ... }",
-			"begin": "\"(\\d+)\"",
+			"begin": "\"(\\d+)(.*?(?<!\\\\)\\\\{2}*|.*)\"",
 			"end": "(?<=})",
-			"beginCaptures": { "1": { "name": "constant.numeric.tm" } },
+			"beginCaptures": {
+				"1": { "name": "constant.numeric.tm" },
+				"2Every character after the numeric is ignored 0-9": { "name": "punctuation.definition.tag.tm regex" }
+			},
 			"patterns": [
 				{
 					"begin": ":",
