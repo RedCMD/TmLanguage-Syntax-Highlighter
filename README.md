@@ -46,7 +46,7 @@ If you would like me to add support for a theme, please just message me
 
 
 ### Todo
-* Support posix's super buggy behaviour: [Github Issue - Funky Posix Classes](https://github.com/microsoft/vscode-textmate/issues/165)
+* Support unicode character insertions `\u00b0`
 * Fix char ranges in character classes or wait for vscode to fix textmate bug (`[\\\\-\\\\]`): [Github Issue - Subroutines breaking tokenization](https://github.com/microsoft/vscode-textmate/issues/164)
 * Allow spaces, underscores and dashes in all places inside Unicode Categorys `\\p{  Let _te--r}`: [Github - List of unicode properties](https://github.com/kkos/oniguruma/blob/bb31b4d402ee3f3a3bc4855c9d0271f43a3e4793/doc/UNICODE_PROPERTIES)
 * Try* to fix contention between backreferences `\\1` and character codes `\\1`
@@ -59,5 +59,5 @@ If you would like me to add support for a theme, please just message me
 * Limit all repeating quantifiers to 100000
 * Unify ways of displaying errors
 * Improve performance: [Github Issue - Capturing and applying a pattern causes performance loss](https://github.com/microsoft/vscode-textmate/issues/167)
-* Fix auto indenting: [Github Issue - Split bracket indentating and bracket pair highlighting](https://github.com/microsoft/vscode/issues/141044)
 * Add a language server for squiggle based error checking
+* Use tree sitter in language server

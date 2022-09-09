@@ -1,6 +1,6 @@
 {
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-	"comment": "VSCode Dark+ theme scope-names in order",
+	"comment": "VSCode Dark+ theme scope-names in colour order",
 	"patterns": [
 		{ "name": "meta.embedded" },
 		{ "name": "markup.strikethrough" },
