@@ -847,9 +847,9 @@
 					"patterns": [
 						{
 							"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
+							"name": "comment.tm",
 							"captures": {
 								"1": {
-									"name": "comment.tm",
 									"patterns": [
 										{
 											"match": "(\\\\)/",
