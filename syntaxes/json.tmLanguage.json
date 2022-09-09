@@ -631,6 +631,7 @@
 					"begin": ":",
 					"end": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
 					"endCaptures": {
+						"0": { "name": "$1" },
 						"1": {
 							"comment": "The replacment format string $1 Removes leading dot's from captured text:  ..te.xt..  =>  te.xt..  ",
 							"name": "$1 regex",
