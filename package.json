@@ -43,8 +43,7 @@
 				"icon": {
 					"dark": "images/TextMate-file-icon.svg",
 					"light": "images/TextMate-file-icon.svg"
-				},
-				"firstLine": "^\\s*{.*$"
+				}
 			},
 			{
 				"id": "regex-tmLanguage",
