@@ -1195,13 +1195,27 @@
 			"match": "\\\\.?|[)\"[:cntrl:]]",
 			"name": "invalid.illegal.tm markup.underline regex"
 		},
-		"_test": {
+		"test": {
 			"comment": "Disable \"character-literal\" when running tests. As it will try to capture everything and leave nothing for \"test\". This can be done by simply renaming it.",
-			"match": "[[:::]|(*FAIL)\\x7f\\xf5\\xf6\\xf7\\xf8\\xf9\\xfa\\xfb\\xfc\\xfd\\xfe\\xff",
-			"name": "keyword.control.tm strong regex"
+			"match": "(*FAIL)\\x7f\\xf5\\xf6\\xf7\\xf8\\xf9\\xfa\\xfb\\xfc\\xfd\\xfe\\xff",
+			"name": "keyword.control strong regex"
 		},
 		"_disabled_": {
-			"match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}{,3}{2,}{2} {000} *{0} {0}* *{0}* {0}{0}{0} {0}{2,3} {2,3}{0}{2,3} {2,3\\} () (?<= (?= (?> (?=) ) )? ) (?= (?= )? ) [a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘]®×ñÿ¡¼÷€Çô│╨ε■ \\g<99> \\x555 QabcE $ \\$ \\1234567890 abcdefghijklmnopqrstuvwxyz \b\f\n\r\t\u0000 \\a\\b\\cZ\\d\\e\\f\\g<0>\\h\\i\\j\\k'0'\\l\\m\\n\\o\\p{L}\\q\\r\\s\\t\\u0000\\v\\w\\x{13FFFF}\\y\\z Ȁ°Ççë£ ||| ABCDEFGHIJKLMNOPQRSTUVWXYZ`1234567890-=\\[]\\\\;',./ ~!@\\#$%^&*()_+{}|:\"<>? an{name}bc  \\A\\B\\C-]\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P{L}\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z \\x{201E} \\p{L} \\p{-L etterLaaLaa--LL--LL--} \\`\\1\\2\\3\\4\\5\\6\\7\\8\\9\\0\\-\\=\\[\\]\\\\\\;\\'\\,\\.\\/\\ \\~\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\{\\}\\|\\:\\\"\\<\\>\\? ÿ[[:^upper:]] (?~a) (?{foo}) At aT aa abc abd cd a1 b a1b n1000 Q.E q.e test a<name0>b$abc#comment\n abc(?-x) #notcomment\n/z"
+			"comment": " Basic visual test ",
+			"patterns": [
+				{ "match": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~" } ,
+				{ "match": "\"\/\b\f\n\r\t\u0000" },
+				{ "match": "\\ \\!\\\"\\#\\$\\%\\&\\'\\(\\)\\*\\+\\,\\-\\.\\/\\0\\1\\2\\3\\4\\5\\6\\7\\8\\9\\:\\;\\<\\=\\>\\\\\\?\\@\\A\\B\\C-]\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P{^L}\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z\\[\\\\\\]\\^\\_\\`\\a\\b\\c]\\d\\e\\f\\g<0>\\h\\i\\j\\k'1'\\l\\m\\n\\o\\p{l}\\q\\r\\s\\t\\u0000\\v\\w\\x\\y\\z\\{\\|\\}\\~" },
+				{ "match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}{,3}{2,}{2} {000} *{0} {0}* *{0}* {0}{0}{0} {0}{2,3} {2,3}{0}{2,3} {2,3\\}" },
+				{ "match": "() (?<= (?= (?> (?=)? ) )? ) (?= (?= )? )" },
+				{ "match": "\\x00\\x{00000000 0013FFFF} \\o{00000000000 00004777777} [\\x{42 48}-\\x{FFFFFFFF 45} \\o{102 110}-\\o{37777777777 105}]" },
+				{ "match": "[a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘]®×ñÿ¡¼÷€Çô│╨ε■  Ȁ°Ççë£ ÿ[[:^upper:]]" },
+				{ "match": "\\g<99> \\x555 \\x{201E} \\p{L} \\p{-L etterLaaLaa--LL--LL--}" },
+				{ "match": " (?~a) (?{foo}) " },
+				{ "match": " QabcE $ \\$   an{name}bc  At aT aa abc abd cd a1 b a1b n1000 Q.E q.e test a<name0>b$abc" },
+				{ "match": "(?x)#comment\n \\# abc (?-x)#notcomment\n \\# abc " },
+				{ "match": " (?<_azAZ0-9 #$('°>) (?(<_azAZ0-9 #$('°>)true|false) \\g<_azAZ0-9 #$('°> \\k<_azAZ0-9 #$('°> " }
+			]
 		}
 	}
 }
