@@ -1110,11 +1110,12 @@
 			"comment": "+ * ? {1,9}",
 			"patterns": [
 				{
-					"match": "(\\G|^)[+*?]",
+					"comment": "For some reason (^|\\G) and any of its variations are extremely performance heavy",
+					"match": "\\G(?>[+*?]|{(?>\\d+,?\\d*|,\\d+)})",
 					"name": "invalid.illegal.tm markup.underline"
 				},
 				{
-					"match": "(\\G|^){(?>\\d+,?\\d*|,\\d+)}",
+					"match": "^(?>[+*?]|{(?>\\d+,?\\d*|,\\d+)})",
 					"name": "invalid.illegal.tm markup.underline"
 				},
 				{
