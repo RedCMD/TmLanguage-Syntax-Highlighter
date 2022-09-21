@@ -4,7 +4,7 @@
 	"publisher": "RedCMD",
 	"description": "Syntax Highlighting for Json based Text Mate Language",
 	"icon": "images/TextMate-logo-icon.png",
-	"version": "1.6.0",
+	"version": "2.0.0",
 	"extensionDependencies": [
 		"pokey.parse-tree"
 	],
