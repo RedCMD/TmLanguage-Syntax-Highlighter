@@ -1012,7 +1012,7 @@
 					}
 				},
 				{
-					"match": "\\\\{2}(?>c|[CM](?>-|(\\s*.))?)(?>(\\\\{3})(\\\\)|\\g<0>|(\\\\{2})?(\\\\u.{,4}|\\\\?.))?",
+					"match": "\\\\{2}(?>c|[CM](?>-|(.))?)(?>(\\\\{3})(\\\\)|\\g<0>|(\\\\{2})?(\\\\u.{,4}|\\\\?.))?",
 					"captures": {
 						"0": { "name": "punctuation.definition.list.begin.markdown.tm" },
 						"1": { "name": "invalid.illegal.tm markup.underline regex" },
