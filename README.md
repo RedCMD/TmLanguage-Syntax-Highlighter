@@ -8,7 +8,8 @@ Syntax Highlighting for JSON based TextMate Language and Regex
 
 
 ## Features
-Big update, almost supports 100% of the textmate specification  
+Now features basic Intellisense, ctrl+click definitions and right click => formatting  
+Big thanks to @Pokey Rule for allowing custom language support on his extension [Parse tree](https://github.com/cursorless-dev/vscode-parse-tree)  
 
 Example code:  
 ![example-code](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/images/Example%20Code%20V1.2.png?raw=true)
@@ -21,19 +22,13 @@ Incorrect code is highlighted in red and with italics
 Unsupported json keys and values default back to their standard json colours  
 Unknown code is highlighted red  
 
-### JSON error checking
-JSON based error squiggles can be enabled by manually adding the language id to the json language server code  
-Open the file at `\Microsoft VS Code\resources\app\extensions\json-language-features\client\dist\node\jsonClientMain.js`  
-Ctrl+F to find the text `"jonsc"` and immediately copy/paste `,"json-tmLanguage"` after it. (take note that the `L` is capitalised)  
-It should look like this: `const S=["json","jsonc","json-tmLanguage"],`  
-![enable-json-lanuage-server](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/images/Enable%20Json%20language%20server.png?raw=true)  
-
-
 
 ## Requirements
 This extension was designed with VSCode's default Dark+ theme in mind  
 Other themes may work with various successes  
 If you would like me to add support for a theme, please just message me  
+Extension [Parse tree](https://marketplace.visualstudio.com/items?itemName=pokey.parse-tree) is now required  
+It should install automatically  
 
 
 ### For more information
@@ -43,6 +38,7 @@ If you would like me to add support for a theme, please just message me
 * [Github - Oniguruma: list of all expressions](https://github.com/kkos/oniguruma/blob/master/doc/RE)
 * [Github - TmLanguage-Syntax-Highlighter](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter)
 * [Github - TextMates Schema](https://github.com/martinring/tmlanguage)
+* [Github - Parse tree](https://github.com/cursorless-dev/vscode-parse-tree)
 
 
 ### Todo
@@ -59,5 +55,9 @@ If you would like me to add support for a theme, please just message me
 * Limit all repeating quantifiers to 100000
 * Unify ways of displaying errors
 * Improve performance: [Github Issue - Capturing and applying a pattern causes performance loss](https://github.com/microsoft/vscode-textmate/issues/167)
-* Add a language server for squiggle based error checking
-* Use tree sitter in language server
+* Improve character class octal `\\o{...}` and hex `\\x{...}` ranges
+* Add squiggle based error checking
+* Finish ctrl+click definitions and references
+* Add range formatting
+* Add hovers
+* Improve tree-sitter grammar
