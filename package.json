@@ -1,19 +1,19 @@
 {
 	"name": "tmlanguage-syntax-highlighter",
 	"displayName": "TextMate Syntax Highlighting and Intellisense",
-	"publisher": "RedCMD",
 	"description": "Syntax Highlighting for Json based Text Mate Language",
-	"icon": "images/TextMate-logo-icon.png",
+	"publisher": "RedCMD",
 	"version": "2.0.0",
+	"engines": {
+		"vscode": "^1.47.0"
+	},
+	"icon": "images/TextMate-logo-icon.png",
 	"extensionDependencies": [
 		"pokey.parse-tree"
 	],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter.git"
-	},
-	"engines": {
-		"vscode": "^1.47.0"
 	},
 	"keywords": [
 		"tmlanguage",

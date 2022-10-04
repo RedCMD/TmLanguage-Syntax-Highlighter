@@ -14,10 +14,6 @@ const ReferenceProvider = require("./ReferenceProvider.js").ReferenceProvider
 const HoverProvider = require("./HoverProvider.js").HoverProvider
 
 
-const parseTreeExtension = vscode.extensions.getExtension("pokey.parse-tree")
-if (parseTreeExtension == null)
-	throw new Error("Depends on pokey.parse-tree extension")
-
 
 function nodeToVscodeRange(node) {
 	const startPosition = node.startPosition
@@ -53,17 +49,15 @@ const DocumentSelector = [
 async function activate(context) {
 	// vscode.window.showInformationMessage(JSON.stringify())
 
+	const parseTreeExtension = vscode.extensions.getExtension("pokey.parse-tree")
+	if (parseTreeExtension == null)
+		throw new Error("Depends on pokey.parse-tree extension")
+	exports.parseTreeExtension = parseTreeExtension
+
 	const { registerLanguage } = await parseTreeExtension.activate()
 	// const wasm = "tree-sitter-json"
-	const wasm = context.extensionPath + '\\out\\tree-sitter\\tree-sitter-jsontm.wasm'
+	const wasm = context.asAbsolutePath('out/tree-sitter/tree-sitter-jsontm.wasm')
 	registerLanguage('json-tmLanguage', wasm)
-
-
-	// context.subscriptions.push(vscode.commands.registerCommand('json-tm.reload-wasm', () => {
-	// 	vscode.window.showInformationMessage(JSON.stringify("reload"))
-	// 	registerLanguage('json-tmLanguage', "E:\\VSCode-win32-x64\\data\\extensions\\redcmd.wasm.windows\\tree-sitter-your_language\\tree-sitter-jsontm.wasm")
-	// 	registerLanguage('json-tmLanguage', "tree-sitter-json")
-	// }))
 
 
 
@@ -77,7 +71,6 @@ async function activate(context) {
 }
 
 
-exports.parseTreeExtension = parseTreeExtension
 exports.nodeToVscodeRange = nodeToVscodeRange
 exports.getNodeAtPosition = getNodeAtPosition
 
