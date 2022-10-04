@@ -14,7 +14,11 @@ const DocumentFormattingEditProvider = {
 		// results.push(vscode.TextEdit.insert(new vscode.Position(2, 2), "."))
 		// results.insert(new vscode.Position(2, 2), ".")
 
-		this.getAllChildren(tree.rootNode, textEdits, 0)
+		const spacing = options.insertSpaces ?
+			new Array(options.tabSize + 1).join(' ') :
+			'\t'
+
+		this.getAllChildren(tree.rootNode, textEdits, 0, spacing)
 
 		// const range = new vscode.Range(node.startPosition.row, node.startPosition.column, node.endPosition.row, node.endPosition.column)
 		// results.push(new vscode.TextEdit(range, string))
@@ -24,7 +28,7 @@ const DocumentFormattingEditProvider = {
 		// vscode.window.showInformationMessage(JSON.stringify(textEdits))
 		return textEdits
 	},
-	getAllChildren(node, textEdits, indent) {
+	getAllChildren(node, textEdits, indent, spacing) {
 		let range
 		let whiteSpace
 		let textEdit
@@ -47,7 +51,7 @@ const DocumentFormattingEditProvider = {
 			// if (expand == true)
 			// 	return
 			// vscode.window.showInformationMessage(JSON.stringify(this.getAllChildren(childNode, textEdits, indent)))
-			if (this.getAllChildren(childNode, textEdits, indent + 1)) 
+			if (this.getAllChildren(childNode, textEdits, indent + 1, spacing)) 
 				expand = true
 			// expand |= this.getAllChildren(childNode, textEdits, indent)
 			// vscode.window.showInformationMessage(JSON.stringify(expand == true))
@@ -91,7 +95,7 @@ const DocumentFormattingEditProvider = {
 						break
 
 					if (expand == true)
-						whiteSpace = '\n' + new Array(indent + 1).join('\t')
+						whiteSpace = '\n' + new Array(indent + 1).join(spacing)
 					else
 						whiteSpace = ' '
 
@@ -122,7 +126,7 @@ const DocumentFormattingEditProvider = {
 						break
 
 					if (expand == true)
-						whiteSpace = '\n' + new Array(indent + 1).join('\t')
+						whiteSpace = '\n' + new Array(indent + 1).join(spacing)
 					else
 						whiteSpace = ' '
 
@@ -142,7 +146,7 @@ const DocumentFormattingEditProvider = {
 						break
 
 					if (expand == true)
-						whiteSpace = '\n' + new Array(indent + 1).join('\t')
+						whiteSpace = '\n' + new Array(indent + 1).join(spacing)
 					else
 						whiteSpace = ' '
 
