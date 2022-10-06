@@ -177,7 +177,7 @@
 										},
 										{
 											"match": "\\\\[\"\\\\/bfnrtu]",
-											"name": "invalid.tm"
+											"name": "invalid.illegal.tm"
 										},
 										{ "include": "#escape-characters" }
 									]
@@ -221,7 +221,7 @@
 								"5": { "name": "constant.numeric.tm" },
 								"6": {
 									"patterns": [
-										{ "match": "\\\\[\"\\\\bfnrt]",	"name": "invalid.tm" },
+										{ "match": "\\\\[\"\\\\bfnrt]",	"name": "invalid.illegal.tm" },
 										{ "include": "#escape-characters" }
 									]
 								}
@@ -372,7 +372,7 @@
 					"captures": {
 						"1": { "name": "punctuation.definition.tag.tm regex" },
 						"2": { "name": "support.function.tm" },
-						"3": { "name": "invalid.tm" }
+						"3": { "name": "invalid.illegal.tm" }
 					}
 				},
 				{
@@ -882,7 +882,7 @@
 				},
 				{
 					"match": "\\\\[\"\\\\bfnrt]",
-					"name": "invalid.tm"
+					"name": "invalid.illegal.tm"
 				},
 				{ "include": "#escape-characters" }
 			]
@@ -916,13 +916,13 @@
 						"1": { "name": "constant.character.escape.tm" },
 						"2": {
 							"name": "constant.numeric.tm",
-							"patterns": [ { "match": "\\H+", "name": "invalid.tm markup.underline" } ]
+							"patterns": [ { "match": "\\H+", "name": "invalid.illegal.tm markup.underline" } ]
 						}
 					}
 				},
 				{
 					"match": "\\\\.?|[\"[:cntrl:]]",
-					"name": "invalid.tm markup.underline regex"
+					"name": "invalid.illegal.tm markup.underline regex"
 				}
 			]
 		},
@@ -941,7 +941,7 @@
 						},
 						{
 							"match": "\\\\.?",
-							"name": "invalid.tm markup.underline"
+							"name": "invalid.illegal.tm markup.underline"
 						}
 					]
 				}
@@ -1020,7 +1020,7 @@
 								},
 								{
 									"match": "\\\\.?",
-									"name": "invalid.tm"
+									"name": "invalid.illegal.tm"
 								}
 							]
 						}
@@ -1041,11 +1041,11 @@
 				{
 					"comment": "C styled comments are not allowed: //  /* */ ",
 					"match": "/[/*].*",
-					"name": "invalid.tm markup.underline regex"
+					"name": "invalid.illegal.tm markup.underline regex"
 				},
 				{
 					"match": "\\S[^\\s\"\\[\\]{}:,]*",
-					"name": "invalid.tm regex"
+					"name": "invalid.illegal.tm regex"
 				}
 			]
 		}
