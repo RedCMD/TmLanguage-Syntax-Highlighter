@@ -14,11 +14,13 @@ const DocumentFormattingEditProvider = {
 		// results.push(vscode.TextEdit.insert(new vscode.Position(2, 2), "."))
 		// results.insert(new vscode.Position(2, 2), ".")
 
-		const spacing = options.insertSpaces ?
-			new Array(options.tabSize + 1).join(' ') :
-			'\t'
+		// const tabType = options.insertSpaces ?
+		// 	' '.padEnd(options.tabSize) :
+		// 	'\t'
+		const tabType = options.insertSpaces ? ' ' : '\t'
+		const tabSize = options.insertSpaces ? options.tabSize : 1
 
-		this.getAllChildren(tree.rootNode, textEdits, 0, spacing)
+		this.getAllChildren(tree.rootNode, textEdits, 0, tabSize, tabType)
 
 		// const range = new vscode.Range(node.startPosition.row, node.startPosition.column, node.endPosition.row, node.endPosition.column)
 		// results.push(new vscode.TextEdit(range, string))
@@ -28,7 +30,7 @@ const DocumentFormattingEditProvider = {
 		// vscode.window.showInformationMessage(JSON.stringify(textEdits))
 		return textEdits
 	},
-	getAllChildren(node, textEdits, indent, spacing) {
+	getAllChildren(node, textEdits, indent, tabSize, tabType) {
 		let range
 		let whiteSpace
 		let textEdit
@@ -51,7 +53,7 @@ const DocumentFormattingEditProvider = {
 			// if (expand == true)
 			// 	return
 			// vscode.window.showInformationMessage(JSON.stringify(this.getAllChildren(childNode, textEdits, indent)))
-			if (this.getAllChildren(childNode, textEdits, indent + 1, spacing)) 
+			if (this.getAllChildren(childNode, textEdits, indent + tabSize, tabSize, tabType)) 
 				expand = true
 			// expand |= this.getAllChildren(childNode, textEdits, indent)
 			// vscode.window.showInformationMessage(JSON.stringify(expand == true))
@@ -87,7 +89,8 @@ const DocumentFormattingEditProvider = {
 			switch (childNode.type) {
 				case '{':
 				case '[':
-					indent++
+					// indent++
+					indent += tabSize
 					// if (node.parent.namedChildCount > 2)
 					// 	expand = true
 
@@ -95,7 +98,8 @@ const DocumentFormattingEditProvider = {
 						break
 
 					if (expand == true)
-						whiteSpace = '\n' + new Array(indent + 1).join(spacing)
+						// whiteSpace = '\n' + new Array(indent + 1).join(tabType)
+						whiteSpace = '\n'.padEnd(indent + 1, tabType)
 					else
 						whiteSpace = ' '
 
@@ -113,7 +117,8 @@ const DocumentFormattingEditProvider = {
 
 				case '}':
 				case ']':
-					indent--
+					// indent--
+					indent -= tabSize
 					// if (node.parent.namedChildCount > 2)
 					// 	expand = true
 
@@ -126,7 +131,8 @@ const DocumentFormattingEditProvider = {
 						break
 
 					if (expand == true)
-						whiteSpace = '\n' + new Array(indent + 1).join(spacing)
+						// whiteSpace = '\n' + new Array(indent + 1).join(tabType)
+						whiteSpace = '\n'.padEnd(indent + 1, tabType)
 					else
 						whiteSpace = ' '
 
@@ -146,7 +152,8 @@ const DocumentFormattingEditProvider = {
 						break
 
 					if (expand == true)
-						whiteSpace = '\n' + new Array(indent + 1).join(spacing)
+						// whiteSpace = '\n' + new Array(indent + 1).join(tabType)
+						whiteSpace = '\n'.padEnd(indent + 1, tabType)
 					else
 						whiteSpace = ' '
 
