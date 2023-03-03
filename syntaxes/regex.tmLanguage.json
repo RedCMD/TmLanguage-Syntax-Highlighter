@@ -314,21 +314,29 @@
 				},
 				{
 					"comment": "(?y{g}-imxWDSP) (?y{w}imxWDSP-x:...)",
-					"begin": "(?>(\\((?=[^:)]+:))|(\\())(\\?)(?=[-imxWDSPy])([^x:)]+|[^-:)]*-[^x:)]*x[^:)]*)(?>(:)|(\\)))",
+					"begin": "(?>(\\((?=[^:)]+:))|(\\())(\\?)(?=[-imxWDSPy])(?=[^x:)]++[:)]|[^-:)]*+-[^x:)]*+x[^:)]*+[:)])",
 					"end": "(?((?!\\1))\\)|(?=[\")]))(?#Condition is true only when Backreference \\1 from capture group 1 in \"begin\" is *not* empty.)",
 					"beginCaptures": {
 						"1": { "name": "constant.character.set.regexp.tm" },
 						"2": { "name": "constant.character.set.regexp.tm markup.italic" },
-						"3": { "name": "support.function.tm" },
-						"4": { "patterns": [ { "include": "#capture-group-modify-options" } ] },
-						"5": { "name": "support.function.tm" },
-						"6": { "name": "constant.character.set.regexp.tm markup.italic" }
+						"3": { "name": "support.function.tm" }
 					},
 					"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
 					"name": "capture-group-modify",
-					"patterns": [ { "include": "$self" } ]
+					"patterns": [
+						{
+							"begin": "\\G",
+							"end": "(:)|(\\))",
+							"endCaptures": {
+								"1": { "name": "support.function.tm" },
+								"2": { "name": "constant.character.set.regexp.tm markup.italic" }
+							},
+							"patterns": [ { "include": "#capture-group-modify-options" } ]
+						},
+						{ "include": "$self" }
+					]
 				}
-			]	
+			]
 		},
 		"capture-group-modify-extended": {
 			"patterns": [
@@ -338,19 +346,27 @@
 				},
 				{
 					"comment": "(?y{g}imxWDSP-) (?y{w}x-imWDSP:...)",
-					"begin": "(?>(\\((?=[^:)]+:))|(\\())(\\?)(?=[-imxWDSPy])([^-:)]*[^x:)]*)(?>(:)|(\\)))",
+					"begin": "(?>(\\((?=[^:)]+:))|(\\())(\\?)(?=[-imxWDSPy])(?=[^-:)]*+[^x:)]*+[:)])",
 					"end": "(?((?!\\1))\\)|(?=[\")]))(?#Condition is true only when Backreference \\1 from capture group 1 in \"begin\" is *not* empty.)",
 					"beginCaptures": {
 						"1": { "name": "constant.character.set.regexp.tm" },
 						"2": { "name": "constant.character.set.regexp.tm markup.italic" },
-						"3": { "name": "support.function.tm" },
-						"4": { "patterns": [ { "include": "#capture-group-modify-options" } ] },
-						"5": { "name": "support.function.tm" },
-						"6": { "name": "constant.character.set.regexp.tm markup.italic" }
+						"3": { "name": "support.function.tm" }
 					},
 					"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
 					"name": "capture-group-modify-extended",
-					"patterns": [ { "include": "#$self-extended" } ]
+					"patterns": [
+						{
+							"begin": "\\G",
+							"end": "(:)|(\\))",
+							"endCaptures": {
+								"1": { "name": "support.function.tm" },
+								"2": { "name": "constant.character.set.regexp.tm markup.italic" }
+							},
+							"patterns": [ { "include": "#capture-group-modify-options" } ]
+						},
+						{ "include": "#$self-extended" }
+					]
 				}
 			]
 		},
@@ -358,23 +374,31 @@
 			"comment": "- i m x W D S P y{g} y{w}",
 			"patterns": [
 				{
-					"match": "(?<=-[^?]*)y{[gw]}",
-					"name": "invalid.illegal.tm markup.underline"
-				},
-				{
-					"match": "([imxWDSP]|y{[gw]})(?=.*?\\1)",
+					"match": "([imxWDSP]|y{[gw]})(?=[^:)]*?\\1)",
 					"name": "punctuation.definition.tag.tm"
 				},
 				{
-					"match": "(?<=-[^?]*)-|-(?=[^imxWDSPy]*$)",
-					"name": "punctuation.definition.tag.tm"
+					"begin": "-",
+					"end": "(?=[:)])",
+					"beginCaptures": { "0": { "name": "support.function.tm" } },
+					"patterns": [
+						{
+							"match": "-+",
+							"name": "punctuation.definition.tag.tm"
+						},
+						{
+							"match": "y{[gw]}",
+							"name": "invalid.illegal.tm markup.underline"
+						},
+						{ "include": "#capture-group-modify-options" }
+					]
 				},
 				{
-					"match": "[-imxWDSP]|y{[gw]}",
+					"match": "[imxWDSP]|y{[gw]}",
 					"name": "support.function.tm"
 				},
 				{
-					"match": ".[^-imxWDSPy{gw}]*",
+					"match": ".[^-imxWDSPy{gw}:)]*",
 					"name": "invalid.illegal.tm markup.underline"
 				}
 			]
