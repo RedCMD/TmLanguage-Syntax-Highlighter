@@ -127,7 +127,6 @@
 		{ "name": "source.coffee.embedded" },
 		{ "name": "variable.other.enummember" },
 		{ "name": "variable.other.constant" },
-		{ "name": "variable.other.enummember" },
 		{ "name": "constant.language" },
 		{ "name": "entity.name.tag" },
 		{ "name": "meta.preprocessor" },
