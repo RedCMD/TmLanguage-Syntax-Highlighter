@@ -1077,7 +1077,7 @@
 			"name": "subroutine",
 			"beginCaptures": {
 				"1":  { "name": "string.regexp.tm" },
-				"2":  { "name": "support.function.tm" },
+				"2": { "name": "constant.character.set.regexp.tm" },
 				"4":  { "name": "invalid.illegal.tm markup.strikethrough" },
 				"5":  { "name": "invalid.illegal.tm markup.underline regex" },
 				"6":  { "name": "constant.numeric.tm" },
@@ -1089,7 +1089,7 @@
 			},
 			"endCaptures": {
 				"1": { "name": "invalid.illegal.tm markup.underline" },
-				"2": { "name": "support.function.tm" },
+				"2": { "name": "constant.character.set.regexp.tm" },
 				"3": { "name": "invalid.illegal.tm markup.strikethrough" }
 			},
 			"contentName": "markup.bold regex",
@@ -1111,7 +1111,7 @@
 					"match": "(\\\\{2}k)(?>((?<quote>')|<)(?>((?~|(?>(?(<quote>)'|>)|\\)|(?<!\\\\)\\\\{2}*\")|.*?))(?>(?>(?>((0*)[1-9]\\d{,2}(\\d{,2}))|([a-zA-Z_]\\w*))([-+](0*)[12]?\\d{1,9})?)|([-+](0*)[1-9]\\d*)))?((?~(?('quote')'|>)|\\)|(?<!\\\\)\\\\{2}*\"))((?('quote')'|>))?)",
 					"captures": {
 						"1":  { "name": "string.regexp.tm" },
-						"2":  { "name": "support.function.tm" },
+						"2": { "name": "constant.character.set.regexp.tm" },
 						"4":  { "name": "invalid.illegal.tm markup.underline regex" },
 						"5":  { "name": "constant.numeric.tm" },
 						"6":  { "name": "punctuation.definition.tag.tm" },
@@ -1122,7 +1122,7 @@
 						"11": { "name": "constant.numeric.tm" },
 						"12": { "name": "punctuation.definition.tag.tm" },
 						"13": { "name": "invalid.illegal.tm markup.underline regex" },
-						"14": { "name": "support.function.tm" }
+						"14": { "name": "constant.character.set.regexp.tm" }
 					}
 				}
 			]
@@ -1224,18 +1224,7 @@
 		"_disabled_": {
 			"comment": " Basic visual test ",
 			"patterns": [
-				{ "match": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~" } ,
-				{ "match": "\"\/\b\f\n\r\t\u0000" },
-				{ "match": "\\ \\!\\\"\\#\\$\\%\\&\\'\\(\\)\\*\\+\\,\\-\\.\\/\\0\\1\\2\\3\\4\\5\\6\\7\\8\\9\\:\\;\\<\\=\\>\\\\\\?\\@\\A\\B\\C-]\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P{^L}\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z\\[\\\\\\]\\^\\_\\`\\a\\b\\c]\\d\\e\\f\\g<0>\\h\\i\\j\\k'1'\\l\\m\\n\\o\\p{l}\\q\\r\\s\\t\\u0000\\v\\w\\x\\y\\z\\{\\|\\}\\~" },
-				{ "match": "(?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}{,3}{2,}{2} {000} *{0} {0}* *{0}* {0}{0}{0} {0}{2,3} {2,3}{0}{2,3} {2,3\\}" },
-				{ "match": "() (?<= (?= (?> (?=)? ) )? ) (?= (?= )? )" },
-				{ "match": "\\x00\\x{00000000 0013FFFF} \\o{00000000000 00004777777} [\\x{42 48}-\\x{FFFFFFFF 45} \\o{102 110}-\\o{37777777777 105}]" },
-				{ "match": "[a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘]®×ñÿ¡¼÷€Çô│╨ε■  Ȁ°Ççë£ ÿ[[:^upper:]]" },
-				{ "match": "\\g<99> \\x555 \\x{201E} \\p{L} \\p{-L etterLaaLaa--LL--LL--}" },
-				{ "match": " (?~a) (?{foo}) " },
-				{ "match": " QabcE $ \\$   an{name}bc  At aT aa abc abd cd a1 b a1b n1000 Q.E q.e test a<name0>b$abc" },
-				{ "match": "(?x)#comment\n \\# abc (?-x)#notcomment\n \\# abc " },
-				{ "match": " (?<_azAZ0-9 #$('°>) (?(<_azAZ0-9 #$('°>)true|false) \\g<_azAZ0-9 #$('°> \\k<_azAZ0-9 #$('°> " }
+				{ "match": "(*FAIL) (){0}[[:word:]]\\g<1>\\k'1' (( (){0}[[:word:]]\\g<1>\\k'1' )) " }
 			]
 		}
 	}
