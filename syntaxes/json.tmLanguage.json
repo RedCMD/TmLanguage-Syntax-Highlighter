@@ -1040,8 +1040,13 @@
 			"patterns": [
 				{
 					"comment": "C styled comments are not allowed: //  /* */ ",
-					"match": "/[/*].*",
+					"match": "//.*|/\\*.*?\\*/",
 					"name": "invalid.illegal.tm markup.underline regex"
+				},
+				{
+					"comment": "Helps with error handling, by consuming all brackets inside strings",
+					"match": "\"(?>\\\\.|[^\\\\\"]+)*\"",
+					"name": "invalid.illegal.tm regex"
 				},
 				{
 					"match": "\\S[^\\s\"\\[\\]{}:,]*",
