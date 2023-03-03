@@ -571,15 +571,17 @@
 		},
 		"repository-item": {
 			"comment": "\"...\": { ... }",
-			"begin": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
+			"begin": "\"",
 			"end": "(?<=})",
-			"beginCaptures": {
-				"1": {
-					"name": "variable.tm regex",
-					"patterns": [ { "include": "#escape-characters" } ]
-				}
-			},
+			"beginCaptures": { "0": { "name": "variable.tm" } },
 			"patterns": [
+				{
+					"begin": "\\G",
+					"end": "\"",
+					"endCaptures": { "0": { "name": "variable.tm" } },
+					"contentName": "variable.tm regex",
+					"patterns": [ { "include": "#escape-characters" } ]
+				},
 				{
 					"begin": ":",
 					"end": "(?<=})",
