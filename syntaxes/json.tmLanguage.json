@@ -850,7 +850,18 @@
 					"end": "(?<=\")",
 					"patterns": [
 						{
-							"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
+							"begin": "\"",
+							"end": "\"",
+							"name": "comment.tm",
+							"patterns": [
+								{
+									"match": "(\\\\)/",
+									"captures": { "1": { "name": "constant.character.escape.tm" } }
+								},
+								{ "include": "#escape-characters" }
+							]
+						},
+						{
 							"name": "comment.tm",
 							"captures": {
 								"1": {
