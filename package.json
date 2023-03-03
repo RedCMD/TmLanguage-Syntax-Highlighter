@@ -89,7 +89,12 @@
 				"scopeName": "source.syntax.regexp.tmLanguage",
 				"path": "./syntaxes/regex.tmLanguage.json"
 			}
-		]
+		],
+		"configurationDefaults": {
+			"[json-tmLanguage]": {
+				"editor.maxTokenizationLineLength": 500000
+			}
+		}
 	},
 	"__metadata": {
 		"id": "7f5ff7e8-575f-4fbf-bff6-201486b6327e",
