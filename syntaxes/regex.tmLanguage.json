@@ -54,20 +54,17 @@
 		"comment-extended": {
 			"patterns": [
 				{
-					"match": " ",
+					"match": " +",
 					"name": "comment.tm"
 				},
 				{
 					"comment": "#...\n",
-					"match": "(?x)#comment\n (\\#)((?~(?<!(?<!\\\\)\\\\{2}*\\\\)\\g<3>))(\\\\n|(?=\")|$)",
-					"captures": {
-						"1": { "name": "support.function.tm" },
-						"2": {
-							"name": "comment.tm",
-							"patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ]
-						},
-						"3": { "name": "constant.character.escape.tm" }
-					}
+					"begin": "#",
+					"end": "\\\\n|(?=\")|$",
+					"beginCaptures": { "0": { "name": "support.function.tm" } },
+					"endCaptures": { "0": { "name": "constant.character.escape.tm" } },
+					"name": "comment.tm",
+					"patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ]
 				}
 			]
 		},
