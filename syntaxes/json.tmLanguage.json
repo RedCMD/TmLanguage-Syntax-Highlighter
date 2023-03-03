@@ -1,5 +1,5 @@
 {
-	"version": "https://https://github.com/RedCMD/TmLanguage-Syntax-Highlighter",
+	"version": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter",
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"comment": "The schema isn't perfect and complains about non-errors",
 	"scopeName": "source.syntax.json.tmLanguage",
