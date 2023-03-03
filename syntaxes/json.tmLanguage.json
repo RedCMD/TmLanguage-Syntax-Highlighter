@@ -161,28 +161,28 @@
 					"end": "(?<=\")",
 					"patterns": [
 						{
-							"match": "\"(text\\b|source\\b)?(.*?(?<!\\\\)\\\\{2}*|.*)\"",
-							"captures": {
-								"1": { "name": "support.function.tm" },
-								"2": {
-									"name": "regex",
-									"patterns": [
-										{
-											"match": "(?<!\\.|\")\\.(?!$)",
-											"name": "support.function.tm"
-										},
-										{
-											"match": "[\\w-]+",
-											"name": "string.tm"
-										},
-										{
-											"match": "\\\\[\"\\\\/bfnrtu]",
-											"name": "invalid.illegal.tm"
-										},
-										{ "include": "#escape-characters" }
-									]
-								}
-							}
+							"begin": "\"",
+							"end": "\"",
+							"contentName": "regex",
+							"patterns": [
+								{
+									"match": "\\G(?>text|source)\\b",
+									"name": "support.function.tm"
+								},
+								{
+									"match": "(?<!\\.|\")\\.(?!$)",
+									"name": "support.function.tm"
+								},
+								{
+									"match": "[\\w-]+",
+									"name": "string.tm"
+								},
+								{
+									"match": "\\\\[\"\\\\/bfnrtu]",
+									"name": "invalid.illegal.tm"
+								},
+								{ "include": "#escape-characters" }
+							]
 						}
 					]
 				}
