@@ -1,32 +1,32 @@
 {
 	"version": "https://https://github.com/RedCMD/TmLanguage-Syntax-Highlighter",
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"comment": "The schema isn't perfect and complains about non-errors",
 	"scopeName": "source.syntax.json.tmLanguage",
 	"name": "TextMate Language JSON",
 	"fileTypes": [ ".tmLanguage.json" ],
+	"firstLineMatch": "^\\s*{",
 	"injections": {
-		"R:source.syntax.json.tmLanguage -string -variable -punctuation -comment -regex -meta.embedded": {
-			"patterns": [ { "include": "#invalid" } ]
-		},
-		"L:capture-group-lookbehind - character-class - comment": {
+		"R:source.syntax.json.tmLanguage -string -variable -punctuation -comment -regex -meta.embedded": { "patterns": [ { "include": "#invalid" } ] },
+		"L:capture-group-lookbehind -character-class -comment": {
 			"patterns": [
 				{ "include": "source.syntax.regexp.tmLanguage#capture-group-lookbehind-invalid" },
 				{ "include": "source.syntax.regexp.tmLanguage#absent-invalid" }
 			]
 		},
-		"L:capture-group-lookbehind-extended - character-class - comment": {
+		"L:capture-group-lookbehind-extended -character-class -comment": {
 			"patterns": [
 				{ "include": "source.syntax.regexp.tmLanguage#capture-group-lookbehind-invalid-extended" },
 				{ "include": "source.syntax.regexp.tmLanguage#absent-invalid-extended" }
 			]
 		},
-		"L:capture-group-negative-lookbehind - character-class - comment": {
+		"L:capture-group-negative-lookbehind -character-class -comment": {
 			"patterns": [
 				{ "include": "source.syntax.regexp.tmLanguage#capture-group-negative-lookbehind-invalid" },
 				{ "include": "source.syntax.regexp.tmLanguage#absent-invalid" }
 			]
 		},
-		"L:capture-group-negative-lookbehind-extended - character-class - comment": {
+		"L:capture-group-negative-lookbehind-extended -character-class -comment": {
 			"patterns": [
 				{ "include": "source.syntax.regexp.tmLanguage#capture-group-negative-lookbehind-invalid-extended" },
 				{ "include": "source.syntax.regexp.tmLanguage#absent-invalid-extended" }
@@ -35,26 +35,22 @@
 	},
 	"patterns": [
 		{ "include": "#json" },
-		{ "include": "#infoContributors"	},
-		{ "include": "#version"				},
-		{ "include": "#$schema"				},
-		{ "include": "#scopeName"			},
-		{ "include": "#name-scope"			},
-		{ "include": "#match"				},
-		{ "include": "#capture-item"		},
-		{ "include": "#captures"			},
-		{ "include": "#include"				},
-		{ "include": "#uuid"				},
-		{ "include": "#fileTypes"			},
-		{ "include": "#injections"			},
-		{ "include": "#injectionSelector"	},
-		{ "include": "#firstLineMatch"		},
-		{ "include": "#foldingMarker"		},
-		{ "include": "#patterns"			},
-		{ "include": "#repository"			},
-		{ "include": "#comment"				},
-		{ "include": "#repository-item"		},
-		{ "include": "#json-item"			},
+		{ "comment": "Only really need #json.  But the rest acts as a fall back" },
+		{ "include": "#scopeName" },
+		{ "include": "#name" },
+		{ "include": "#match" },
+		{ "include": "#capture-item" },
+		{ "include": "#captures" },
+		{ "include": "#include" },
+		{ "include": "#fileTypes" },
+		{ "include": "#injections" },
+		{ "include": "#injectionSelector" },
+		{ "include": "#firstLineMatch" },
+		{ "include": "#patterns" },
+		{ "include": "#repository" },
+		{ "include": "#comment" },
+		{ "include": "#repository-item" },
+		{ "include": "#json-item" },
 		{ "match": "," },
 		{
 			"begin": "{",
@@ -72,81 +68,17 @@
 					"begin": "(?<={)|,",
 					"end": "(?<=[]}\"]|true|false|null|\\d+)",
 					"patterns": [
-						{ "include": "#infoContributors"	},
-						{ "include": "#version"				},
-						{ "include": "#$schema"				},
-						{ "include": "#scopeName"			},
-						{ "include": "#name"				},
-						{ "include": "#uuid"				},
-						{ "include": "#fileTypes"			},
-						{ "include": "#injections"			},
-						{ "include": "#injectionSelector"	},
-						{ "include": "#firstLineMatch"		},
-						{ "include": "#foldingMarker"		},
-						{ "include": "#patterns"			},
-						{ "include": "#repository"			},
-						{ "include": "#comment"				},
-						{ "include": "#json-item"			}
+						{ "include": "#scopeName" },
+						{ "include": "#name-display" },
+						{ "include": "#fileTypes" },
+						{ "include": "#injections" },
+						{ "include": "#injectionSelector" },
+						{ "include": "#firstLineMatch" },
+						{ "include": "#patterns" },
+						{ "include": "#repository" },
+						{ "include": "#comment" },
+						{ "include": "#json-item" }
 					]
-				}
-			]
-		},
-		"infoContributors": {
-			"comment": "\"information_for_contributors\": [ \"...\" ]",
-			"begin": "\"(information_for_contributors)\"",
-			"end": "(?<=])",
-			"beginCaptures": { "1": { "name": "keyword.tm" } },
-			"patterns": [
-				{
-					"begin": ":",
-					"end": "(?<=])",
-					"patterns": [
-						{
-							"begin": "\\[",
-							"end": "]",
-							"patterns": [
-								{
-									"begin": "(?<=\\[)",
-									"end": "(?<=\")|(?=])",
-									"patterns": [ { "include": "#string" } ]
-								},
-								{
-									"begin": ",",
-									"end": "(?<=\")",
-									"patterns": [ { "include": "#string" } ]
-								}
-							]
-						}
-					]
-				}
-			]
-		},
-		"version": {
-			"comment": "\"version\": \"...\"",
-			"begin": "\"(version)\"",
-			"end": "(?!\\G)(?<=\")",
-			"beginCaptures": { "1": { "name": "keyword.tm" } },
-			"patterns": [
-				{
-					"begin": ":",
-					"end": "(?<=\")",
-					"patterns": [ { "include": "#string" } ]
-				}
-			]
-		},
-		"$schema": {
-			"comment": "\"$schem\": \"...\"",
-			"begin": "\"(\\$)(schema)\"",
-			"end": "(?!\\G)(?<=\")",
-			"beginCaptures": {
-				"1": { "name": "keyword.tm" },
-				"2": { "name": "support.function.tm" }
-			},
-			"patterns": [
-				{
-					"begin": ":",
-					"end": "(?<=\")",
-					"patterns": [ { "include": "#string" } ]
 				}
 			]
 		},
@@ -188,8 +120,9 @@
 				}
 			]
 		},
-		"name": {
+		"name-display": {
 			"comment": "\"name\": \"...\"",
+			"comment": "Vscode's TextMate acknowledges \"name\" but doesn't do anything with it",
 			"begin": "\"(name)\"",
 			"end": "(?!\\G)(?<=\")",
 			"beginCaptures": { "1": { "name": "keyword.tm" } },
@@ -201,38 +134,9 @@
 				}
 			]
 		},
-		"uuid": {
-			"comment": "\"uuid\": \"00000000-0000-0000-0000-000000000000\"",
-			"begin": "\"(uuid)\"",
-			"end": "(?!\\G)(?<=\")",
-			"beginCaptures": { "1": { "name": "keyword.tm" } },
-			"patterns": [
-				{
-					"begin": ":",
-					"end": "(?<=\")",
-					"patterns": [
-						{
-							"match": "\"(?i:([a-z\\d]{1,8})(?:-(?:([a-z\\d]{1,4})(?:-(?:([a-z\\d]{1,4})(?:-(?:([a-z\\d]{1,4})(?:-(?:([a-z\\d]{1,12})?)?)?)?)?)?)?)?)?)?(.*?)\"",
-							"captures": {
-								"1": { "name": "constant.numeric.tm" },
-								"2": { "name": "constant.numeric.tm" },
-								"3": { "name": "constant.numeric.tm" },
-								"4": { "name": "constant.numeric.tm" },
-								"5": { "name": "constant.numeric.tm" },
-								"6": {
-									"patterns": [
-										{ "match": "\\\\[\"\\\\bfnrt]",	"name": "invalid.illegal.tm" },
-										{ "include": "#escape-characters" }
-									]
-								}
-							}
-						}
-					]
-				}
-			]
-		},
 		"fileTypes": {
 			"comment": "\"fileTypes\": [ \"...\" ]",
+			"comment": "Vscode's TextMate acknowledges \"fileTypes\" but doesn't do anything with it",
 			"begin": "\"(fileTypes)\"",
 			"end": "(?<=])",
 			"beginCaptures": { "1": { "name": "keyword.tm" } },
@@ -355,7 +259,7 @@
 			]
 		},
 		"injection-string": {
-			"comment": "All non-functional characters are treated as whitespace.  This includes whitespace and *.  [^\\w.,:|()-]",
+			"comment": "All non-functional characters are treated as whitespace.  This includes whitespace ` ` and asterisk `*`.  [^\\w.,:|()-]",
 			"patterns": [
 				{
 					"match": "\\\\[\\\\\"/bfnrt]",
@@ -397,7 +301,7 @@
 				{
 					"begin": "\\(",
 					"end": "\\)|(?=\")",
-					"captures": { "0": { "name": "constant.character.set.regexp.tm"} },
+					"captures": { "0": { "name": "constant.character.set.regexp.tm" } },
 					"patterns": [
 						{
 							"match": "(?<=[,|])(?>\\\\[\\\\\"/bfnrt]|[^\\\\\\w.:()-])+",
@@ -434,6 +338,7 @@
 		},
 		"firstLineMatch": {
 			"comment": "\"firstLineMatch\": \"...\"",
+			"comment": "Vscode's TextMate acknowledges \"firstLineMatch\" but doesn't do anything with it",
 			"begin": "\"(firstLineMatch)\"",
 			"end": "(?!\\G)(?<=\")",
 			"beginCaptures": { "1": { "name": "keyword.tm" } },
@@ -446,25 +351,6 @@
 							"begin": "\"",
 							"end": "\"",
 							"contentName": "meta.embedded.block.regexp.tmLanguage",
-							"patterns": [ { "include": "source.syntax.regexp.tmLanguage" } ]
-						}
-					]
-				}
-			]
-		},
-		"foldingMarker": {
-			"comment": "\"foldingStartMarker\": \"...\"",
-			"begin": "\"(foldingSt(?:art|op)Marker)\"",
-			"end": "(?!\\G)(?<=\")",
-			"beginCaptures": { "1": { "name": "keyword.tm" } },
-			"patterns": [
-				{
-					"begin": ":",
-					"end": "(?<=\")",
-					"patterns": [
-						{
-							"begin": "\"",
-							"end": "\"",
 							"patterns": [ { "include": "source.syntax.regexp.tmLanguage" } ]
 						}
 					]
@@ -510,30 +396,30 @@
 					"begin": "(?<={)",
 					"end": "(?!\\G)(?<=[]}\"]|true|false|null|\\d+)|(?=})",
 					"patterns": [
-						{ "include": "#name-scope"			},
-						{ "include": "#match"				},
-						{ "include": "#include"				},
-						{ "include": "#patterns"			},
-						{ "include": "#captures"			},
-						{ "include": "#repository"			},
-						{ "include": "#applyEndPatternLast"	},
-						{ "include": "#comment"				},
-						{ "include": "#json-item"			}
+						{ "include": "#name" },
+						{ "include": "#match" },
+						{ "include": "#include" },
+						{ "include": "#patterns" },
+						{ "include": "#captures" },
+						{ "include": "#repository" },
+						{ "include": "#applyEndPatternLast" },
+						{ "include": "#comment" },
+						{ "include": "#json-item" }
 					]
 				},
 				{
 					"begin": ",",
 					"end": "(?!\\G)(?<=[]}\"]|true|false|null|\\d+)",
 					"patterns": [
-						{ "include": "#name-scope"			},
-						{ "include": "#match"				},
-						{ "include": "#include"				},
-						{ "include": "#patterns"			},
-						{ "include": "#captures"			},
-						{ "include": "#repository"			},
-						{ "include": "#applyEndPatternLast"	},
-						{ "include": "#comment"				},
-						{ "include": "#json-item"			}
+						{ "include": "#name" },
+						{ "include": "#match" },
+						{ "include": "#include" },
+						{ "include": "#patterns" },
+						{ "include": "#captures" },
+						{ "include": "#repository" },
+						{ "include": "#applyEndPatternLast" },
+						{ "include": "#comment" },
+						{ "include": "#json-item" }
 					]
 				}
 			]
@@ -594,28 +480,28 @@
 									"begin": "(?<={)",
 									"end": "(?<=[]}\"]|true|false|null|\\d+)|(?=})",
 									"patterns": [
-										{ "include": "#name-scope"			},
-										{ "include": "#match"				},
-										{ "include": "#captures"			},
-										{ "include": "#patterns"			},
-										{ "include": "#repository"			},
-										{ "include": "#applyEndPatternLast"	},
-										{ "include": "#comment"				},
-										{ "include": "#json-item"			}
+										{ "include": "#name" },
+										{ "include": "#match" },
+										{ "include": "#captures" },
+										{ "include": "#patterns" },
+										{ "include": "#repository" },
+										{ "include": "#applyEndPatternLast" },
+										{ "include": "#comment" },
+										{ "include": "#json-item" }
 									]
 								},
 								{
 									"begin": ",",
 									"end": "(?<=[]}\"]|true|false|null|\\d+)",
 									"patterns": [
-										{ "include": "#name-scope"			},
-										{ "include": "#match"				},
-										{ "include": "#captures"			},
-										{ "include": "#patterns"			},
-										{ "include": "#repository"			},
-										{ "include": "#applyEndPatternLast"	},
-										{ "include": "#comment"				},
-										{ "include": "#json-item"			}
+										{ "include": "#name" },
+										{ "include": "#match" },
+										{ "include": "#captures" },
+										{ "include": "#patterns" },
+										{ "include": "#repository" },
+										{ "include": "#applyEndPatternLast" },
+										{ "include": "#comment" },
+										{ "include": "#json-item" }
 									]
 								}
 							]
@@ -624,7 +510,7 @@
 				}
 			]
 		},
-		"name-scope": {
+		"name": {
 			"comment": "\"name\": \"...\"",
 			"begin": "\"((?>contentN|n)ame)\"",
 			"end": "(?!\\G)(?<=\")",
@@ -632,6 +518,7 @@
 			"patterns": [
 				{
 					"begin": ":",
+					"comment": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
 					"end": "\"((?>[^\"\\\\]++|\\\\.)*\\\\?)\"",
 					"endCaptures": {
 						"0": { "name": "$1" },
@@ -648,9 +535,7 @@
 									"match": "(?>comment|string|regex|meta\\.embedded)\\b",
 									"name": "markup.italic"
 								},
-								{
-									"match": "\\w+"
-								},
+								{ "match": "\\w+" },
 								{
 									"comment": "An invalid capture group number does not convert, nor becomes null",
 									"match": "(\\$)(0*)(\\d{1,3})(?!\\d)",
@@ -753,9 +638,9 @@
 									"end": "(?!\\G)(?<=[}\"])|(?=})",
 									"patterns": [
 										{ "include": "#capture-item" },
-										{ "include": "#include"		 },
-										{ "include": "#comment"		 },
-										{ "include": "#json-item"	 }
+										{ "include": "#include" },
+										{ "include": "#comment" },
+										{ "include": "#json-item" }
 									]
 								},
 								{
@@ -763,9 +648,9 @@
 									"end": "(?!\\G)(?<=[}\"])",
 									"patterns": [
 										{ "include": "#capture-item" },
-										{ "include": "#include"		 },
-										{ "include": "#comment"		 },
-										{ "include": "#json-item"	 }
+										{ "include": "#include" },
+										{ "include": "#comment" },
+										{ "include": "#json-item" }
 									]
 								}
 							]
@@ -780,7 +665,9 @@
 			"end": "(?<=})",
 			"beginCaptures": {
 				"1": { "name": "constant.numeric.tm" },
-				"2Every character after the numeric is ignored 0-9": { "name": "punctuation.definition.tag.tm regex" }
+				"2Every char after the numeric is ignored. 0-9": {
+					"name": "punctuation.definition.tag.tm regex"
+				}
 			},
 			"patterns": [
 				{
@@ -795,20 +682,20 @@
 									"begin": "(?<={)",
 									"end": "(?!\\G)(?<=[]\"])|(?=})",
 									"patterns": [
-										{ "include": "#name-scope"	},
-										{ "include": "#patterns"	},
-										{ "include": "#comment"		},
-										{ "include": "#json-item"	}
+										{ "include": "#name" },
+										{ "include": "#patterns" },
+										{ "include": "#comment" },
+										{ "include": "#json-item" }
 									]
 								},
 								{
 									"begin": ",",
 									"end": "(?!\\G)(?<=[]\"])",
 									"patterns": [
-										{ "include": "#name-scope"	},
-										{ "include": "#patterns"	},
-										{ "include": "#comment"		},
-										{ "include": "#json-item"	}
+										{ "include": "#name" },
+										{ "include": "#patterns" },
+										{ "include": "#comment" },
+										{ "include": "#json-item" }
 									]
 								}
 							]
@@ -819,6 +706,7 @@
 		},
 		"applyEndPatternLast": {
 			"comment": "\"applyEndPatternLast\": true",
+			"comment": "0, false and null disable \"applyEndPatternLast\". true and numbers != 0 enable it (including negatives). Everything else is an error (including +1)",
 			"begin": "\"(applyEndPatternLast)\"",
 			"end": "(?!\\G)(?<=true|false|null|\\d+)",
 			"beginCaptures": { "1": { "name": "keyword.tm" } },
@@ -832,7 +720,7 @@
 							"name": "keyword.control.tm"
 						},
 						{
-							"match": "\\d+",
+							"match": "-?\\d+",
 							"name": "constant.numeric.tmLanguage"
 						}
 					]
@@ -841,6 +729,7 @@
 		},
 		"comment": {
 			"comment": "\"comment\": \"...\"",
+			"comment": "Vscode's TextMate does NOT acknowledge \"comment\" but instead just ignores it like all other unsupported keys",
 			"begin": "\"(comment)\"",
 			"end": "(?!\\G)(?<=\")",
 			"beginCaptures": { "1": { "name": "keyword.tm" } },
@@ -926,7 +815,12 @@
 						"1": { "name": "constant.character.escape.tm" },
 						"2": {
 							"name": "constant.numeric.tm",
-							"patterns": [ { "match": "\\H+", "name": "invalid.illegal.tm markup.underline" } ]
+							"patterns": [
+								{
+									"match": "\\H+",
+									"name": "invalid.illegal.tm markup.underline"
+								}
+							]
 						}
 					}
 				},
@@ -976,12 +870,12 @@
 				{
 					"begin": "(?<={)",
 					"end": "(?<=[]}\"]|true|false|null|\\d+)|(?=})",
-					"patterns": [ { "include": "#json-item"	} ]
+					"patterns": [ { "include": "#json-item" } ]
 				},
 				{
 					"begin": ",",
 					"end": "(?<=[]}\"]|true|false|null|\\d+)",
-					"patterns": [ { "include": "#json-item"	} ]
+					"patterns": [ { "include": "#json-item" } ]
 				}
 			]
 		},
@@ -994,18 +888,18 @@
 					"begin": "(?<=\\[)",
 					"end": "(?<=[]}\"]|true|false|null|\\d+)|(?=])",
 					"patterns": [
-						{ "include": "#json-dictionary"	},
-						{ "include": "#json-array"		},
-						{ "include": "#json-value"		}
+						{ "include": "#json-dictionary" },
+						{ "include": "#json-array" },
+						{ "include": "#json-value" }
 					]
 				},
 				{
 					"begin": ",",
 					"end": "(?<=[]}\"]|true|false|null|\\d+)",
 					"patterns": [
-						{ "include": "#json-dictionary"	},
-						{ "include": "#json-array"		},
-						{ "include": "#json-value"		}
+						{ "include": "#json-dictionary" },
+						{ "include": "#json-array" },
+						{ "include": "#json-value" }
 					]
 				}
 			]
