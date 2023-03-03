@@ -888,13 +888,10 @@
 			]
 		},
 		"string": {
-			"match": "\"(.*?(?<!\\\\)\\\\{2}*|.*)\"",
-			"captures": {
-				"1": {
-					"name": "string.tm",
-					"patterns": [ { "include": "#escape-characters" } ]
-				}
-			}
+			"begin": "\"",
+			"end": "\"",
+			"name": "string.tm",
+			"patterns": [ { "include": "#escape-characters" } ]
 		},
 		"escape-characters": {
 			"patterns": [
