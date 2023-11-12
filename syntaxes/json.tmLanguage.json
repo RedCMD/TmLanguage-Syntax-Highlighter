@@ -466,7 +466,13 @@
 					"end": "\"",
 					"endCaptures": { "0": { "name": "variable.tm" } },
 					"contentName": "variable.tm regex",
-					"patterns": [ { "include": "#escape-characters" } ]
+					"patterns": [
+						{
+							"match": "\\G\\$(?>self|base)(?=\")",
+							"name": "markup.strikethrough.tm"
+						},
+						{ "include": "#escape-characters" }
+					]
 				},
 				{
 					"begin": ":",
@@ -594,10 +600,11 @@
 					"end": "(?<=\")",
 					"patterns": [
 						{
-							"match": "\"(\\$)(base|self)\"",
+							"match": "\"((#?)\\$)(base|self)\"",
 							"captures": {
 								"1": { "name": "keyword.tm" },
-								"2": { "name": "support.function.tm" }
+								"2": { "name": "markup.strikethrough.tm" },
+								"3": { "name": "support.function.tm" }
 							}
 						},
 						{
