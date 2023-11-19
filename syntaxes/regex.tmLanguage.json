@@ -986,8 +986,9 @@
 								"3": { "name": "invalid.illegal.tm markup.underline" }
 							}
 						},
+						{ "patterns": [ { "include": "#code-point-sequence-seperator" } ] },
 						{
-							"match": "[^[0-7] }\"]+",
+							"match": ".[^[0-7] }\\\\\"]*",
 							"name": "invalid.illegal.tm markup.underline regex"
 						}
 					]
@@ -1011,8 +1012,9 @@
 								"3": { "name": "invalid.illegal.tm markup.underline" }
 							}
 						},
+						{ "patterns": [ { "include": "#code-point-sequence-seperator" } ] },
 						{
-							"match": "[^\\h }\"]+",
+							"match": ".[^\\h }\\\\\"]*",
 							"name": "invalid.illegal.tm markup.underline regex"
 						}
 					]
@@ -1036,8 +1038,9 @@
 								"3": { "name": "invalid.illegal.tm markup.underline" }
 							}
 						},
+						{ "patterns": [ { "include": "#code-point-sequence-seperator" } ] },
 						{
-							"match": "[^[0-7] }\"]+",
+							"match": ".[^[0-7] }\\\\\"]*",
 							"name": "invalid.illegal.tm markup.underline regex"
 						}
 					]
@@ -1055,8 +1058,9 @@
 								"3": { "name": "invalid.illegal.tm markup.underline" }
 							}
 						},
+						{ "patterns": [ { "include": "#code-point-sequence-seperator" } ] },
 						{
-							"match": "[^\\h }\"]+",
+							"match": ".[^\\h }\\\\\"]*",
 							"name": "invalid.illegal.tm markup.underline regex"
 						}
 					]
@@ -1089,8 +1093,9 @@
 								"3": { "name": "invalid.illegal.tm markup.underline" }
 							}
 						},
+						{ "patterns": [ { "include": "#code-point-sequence-seperator" } ] },
 						{
-							"match": "[^[0-7] }\"]+",
+							"match": ".[^[0-7] }\\\\\"]*",
 							"name": "invalid.illegal.tm markup.underline regex"
 						}
 					]
@@ -1108,8 +1113,9 @@
 								"3": { "name": "invalid.illegal.tm markup.underline" }
 							}
 						},
+						{ "patterns": [ { "include": "#code-point-sequence-seperator" } ] },
 						{
-							"match": "[^\\h }\"]+",
+							"match": ".[^\\h }\\\\\"]*",
 							"name": "invalid.illegal.tm markup.underline regex"
 						}
 					]
@@ -1181,6 +1187,23 @@
 							]
 						},
 						"4": { "name": "punctuation.definition.list.begin.markdown.tm" }
+					}
+				}
+			]
+		},
+		"code-point-sequence-seperator": {
+			"comment": "Tabs \t are not allowed. What is the unicode for \n?",
+			"patterns": [
+				{ "match": " +" },
+				{
+					"match": "\\\\n",
+					"name": "constant.character.escape.tm"
+				},
+				{
+					"match": "(\\\\u)(0020)",
+					"captures": {
+						"1": { "name": "constant.character.escape.tm" },
+						"2": { "name": "constant.numeric.tm" }
 					}
 				}
 			]
@@ -1347,8 +1370,8 @@
 				{ "match": "(*FAIL) \\ \\!\\\"\\#\\$\\%\\&\\'\\(\\)\\*\\+\\,\\-\\.\\/\\0\\1\\2\\3\\4\\5\\6\\7\\8\\9\\:\\;\\<\\=\\>\\\\\\?\\@\\A\\B\\C-]\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P{^L}\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z\\[\\\\\\]\\^\\_\\`\\a\\b\\c]\\d\\e\\f\\g<0>\\h\\i\\j\\k'1'\\l\\m\\n\\o\\p{l}\\q\\r\\s\\t\\u0000\\v\\w\\x\\y\\z\\{\\|\\}\\~ " },
 				{ "match": "(*FAIL) (?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}{,3}{2,}{2} {000} *{0} {0}* *{0}* {0}{0}{0} {0}{2,3} {2,3}{0}{2,3} {2,3\\} " },
 				{ "match": "(*FAIL) () (?<= (?= (?> (?=)? ) )? ) (?= (?= )? ) " },
-				{ "match": "(*FAIL) \\x \\x00 \\xFF \\x{} \\x{k} \\x\\{123} \\x{00000000 0013FFFF} [\\x{42 001FFFFF 48}-\\x{FFFFFFFF 45}] " },
-				{ "match": "(*FAIL) \\o{} \\o{k} \\o\\{123} \\o{00000000000 00004777777} [\\o{102 00004777777 110}-\\o{37777777777 105}] " },
+				{ "match": "(*FAIL) \\x \\x00 \\xFF \\x{} \\x{k} \\x\\{123} \\x{00000000 0013FFFF} [\\x{42 001FFFFF 48}-\\x{FFFFFFFF \n 45}] " },
+				{ "match": "(*FAIL) \\o{} \\o{k} \\o\\{123} \\o{00000000000 00004777777} [\\o{102 00004777777 110}-\\o{37777777777 \u0020 105}] " },
 				{ "match": "(*FAIL) [a-z&&]u°𐐷Ꚛ�𐀀𐃘[�𐃘]®×ñÿ¡¼÷€Çô│╨ε■ ‚ Ȁ°Ççë£ ÿ[[:^upper:]] " },
 				{ "match": "(*FAIL) \\g<99> \\x555 \\x{201E} \\p{L} \\p{-L etterLaaLaa--LL--LL--} " },
 				{ "match": "(*FAIL) (?~a) (?{foo}) " },
