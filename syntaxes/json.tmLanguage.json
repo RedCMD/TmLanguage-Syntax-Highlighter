@@ -1,7 +1,6 @@
 {
 	"version": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter",
-	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-	"comment": "The schema isn't perfect and complains about non-errors",
+	"$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
 	"scopeName": "source.syntax.json.tmLanguage",
 	"name": "TextMate Language JSON",
 	"fileTypes": [ ".tmLanguage.json" ],

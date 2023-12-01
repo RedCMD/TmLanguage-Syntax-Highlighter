@@ -1,0 +1,587 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
+	"title": "VSCode json TextMate",
+	"$comment": "https://opis.io/json-schema/2.x/",
+	"$ref": "#/definitions/json",
+	"definitions": {
+		"json": {
+			"type": "object",
+			"required": [
+				"scopeName",
+				"patterns"
+			],
+			"properties": {
+				"$schema": {
+					"description": "The Schema used to validate this file",
+					"type": "string"
+				},
+				"name": {
+					"description": "The name of your language",
+					"type": "string"
+				},
+				"scopeName": {
+					"description": "The `scope-name` for your language\nIt is the same value as \"scopeName\" under \"grammars\" in your `package.json` file",
+					"type": "string",
+					"pattern": "^(source|text)(\\.[\\w-]+)+$"
+				},
+				"comment": { "$ref": "#/definitions/comment" },
+				"//": { "$ref": "#/definitions/commentSlash" },
+				"patterns": {
+					"$ref": "#/definitions/patterns",
+					"minItems": 1
+				},
+				"repository": { "$ref": "#/definitions/repository" },
+				"injections": {
+					"description": "A dictionary of injections. They do NOT work when the grammar is embedded into another lanuage",
+					"type": "object",
+					"additionalProperties": {
+						"description": "An injection selector. https://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#injection-grammars",
+						"type": "object",
+						"properties": {
+							"patterns": { "$ref": "#/definitions/patterns" },
+							"comment": { "$ref": "#/definitions/comment" },
+							"//": { "$ref": "#/definitions/commentSlash" }
+						}
+					},
+					"default": {
+						"L:source.scopeName -comment -string, R:source.scopeName.another": {}
+					}
+				},
+				"injectionSelector": {
+					"description": "Controls which scope-names to inject into and with what priority. Default is 0, L:-1 and R:1\nUsed in conjunction with \"injectTo\" under \"grammars\" in your `package.json` file\nhttps://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#injection-grammars",
+					"type": "string"
+				},
+				"fileTypes": {
+					"description": "An array of file extensions your language supports\nNot currently supported by VSCode\nUse \"extensions\" under \"languages\" in your `package.json` file instead",
+					"type": "array",
+					"items": {
+						"type": "string",
+						"pattern": "^[\\w.-]+$"
+					}
+				},
+				"firstLineMatch": {
+					"description": "A regex to detect if an open file should get assigned to your language\nNot currently supported by VSCode\nUse \"extensions\" under \"languages\" in your `package.json` file instead",
+					"type": "string"
+				},
+				"foldingStartMarker": {
+					"$comment": "Is the regex `(?=abc)^...` valid? if not; should change \"pattern\" to `^\\^.+`",
+					"description": "A regex to define the start of a folding section\nNot currently supported by VSCode\nUse \"folding\" in your `language-configuration.json` file instead",
+					"type": "string",
+					"pattern": "\\^.+"
+				},
+				"foldingStopMarker": {
+					"$comment": "Is the regex `(?=abc)^...` valid? if not; should change \"pattern\" to `^\\^.+`",
+					"description": "A regex to define the end of the folding section\nNot currently supported by VSCode\nUse \"folding\" in your `language-configuration.json` file instead",
+					"type": "string",
+					"pattern": "\\^.+"
+				},
+				"uuid": {
+					"$comment": "Technically this should be required in all json files",
+					"description": "A Universally Unique IDentifier for this json file",
+					"type": "string",
+					"pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
+					"format": "uuid"
+				}
+			},
+			"dependencies": {
+				"foldingStopMarker": { "required": [ "foldingStartMarker" ] }
+			}
+		},
+		"repository": {
+			"description": "A dictionary of rules\nhttps://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#contributing-a-basic-grammar",
+			"type": "object",
+			"additionalProperties": {
+				"description": "A repository item. Reference using \"include\": \"#repo-item\"",
+				"allOf": [
+					{ "$ref": "#/definitions/pattern" },
+					{
+						"dependencies": {
+							"repository": {
+								"anyOf": [
+									{ "required": [ "patterns" ] },
+									{ "required": [ "include" ] }
+								],
+								"$comment": "Using \"not\" creates an ugly warning range in VSCode",
+								"oneOf": [
+									true,
+									{ "required": [ "match" ] },
+									{ "required": [ "begin" ] }
+								]
+							}
+						}
+					}
+				]
+			},
+			"examples": [
+				{ "repo-item": { } }
+			]
+		},
+		"patterns": {
+			"description": "An array of pattern's to include",
+			"type": "array",
+			"items": {
+				"allOf": [
+					{ "$ref": "#/definitions/pattern" },
+					{
+						"dependencies": {
+							"repository": {
+								"required": [ "patterns" ],
+								"$comment": "Using \"not\" creates an ugly warning range in VSCode",
+								"oneOf": [
+									true,
+									{ "required": [ "include" ] },
+									{ "required": [ "match" ] },
+									{ "required": [ "begin" ] }
+								]
+							}
+						}
+					}
+				]
+			}
+		},
+		"pattern": {
+			"type": "object",
+			"properties": {
+				"include": {
+					"description": "Reference an item in a repository",
+					"type": "string",
+					"pattern": "^([\\w\\-. $]+(#[\\w\\-#. $]+)?|#?[\\w\\-. $]*)$"
+				},
+				"match": {
+					"$comment": "No description; because having hovers is annoying",
+					"type": "string"
+				},
+				"begin": {
+					"$comment": "TODO: ",
+					"type": "string"
+				},
+				"end": {
+					"$comment": "TODO: ",
+					"type": "string"
+				},
+				"while": {
+					"$comment": "TODO: ",
+					"type": "string"
+				},
+				"applyEndPatternLast": {
+					"description": "Controls if the \"end\" pattern should attempt to match before or after the \"patterns\" array\n`0`, `false` and `null` will disable it. `true` and numbers != `0` will enable it",
+					"type": [
+						"boolean",
+						"integer",
+						"null"
+					],
+					"default": true
+				},
+				"captures": {
+					"$comment": "TODO: ",
+					"description": "captures",
+					"$ref": "#/definitions/captures"
+				},
+				"beginCaptures": {
+					"$comment": "TODO: ",
+					"description": "beginCaptures",
+					"$ref": "#/definitions/captures"
+				},
+				"endCaptures": {
+					"$comment": "TODO: ",
+					"description": "endCaptures",
+					"$ref": "#/definitions/captures"
+				},
+				"whileCaptures": {
+					"$comment": "TODO: ",
+					"description": "whileCaptures",
+					"$ref": "#/definitions/captures"
+				},
+				"name": { "$ref": "#/definitions/name" },
+				"contentName": {
+					"description": "Same as \"name\", but only applies to inside a \"begin\"/\"end\" region",
+					"$ref": "#/definitions/name"
+				},
+				"patterns": { "$ref": "#/definitions/patterns" },
+				"repository": { "$ref": "#/definitions/repository" },
+				"disabled": {
+					"description": "Disables the current rule for easy testing\nNot currently supported by VSCode",
+					"type": [
+						"integer",
+						"boolean"
+					]
+				},
+				"comment": { "$ref": "#/definitions/comment" },
+				"//": { "$ref": "#/definitions/commentSlash" }
+			},
+			"additionalProperties": { "description": "Unknown key" },
+			"dependencies": {
+				"name": {
+					"if": {
+						"required": [ "patterns" ]
+					},
+					"then": {
+						"$comment": "The double \"match\" was done on purpose to force the warning `Matches multiple schemas when only one must validate.` when \"match\" is found with \"patterns\"",
+						"oneOf": [
+							{
+								"anyOf": [
+									{ "required": [ "begin" ] },
+									{ "required": [ "end" ] },
+									{ "required": [ "while" ] }
+								]
+							},
+							{ "required": [ "match" ] },
+							{ "required": [ "match" ] }
+						]
+					},
+					"else": {
+						"oneOf": [
+							{ "required": [ "match" ] },
+							{
+								"anyOf": [
+									{ "required": [ "begin" ] },
+									{ "required": [ "end" ] },
+									{ "required": [ "while" ] }
+								]
+							}
+						]
+					}
+				},
+				"contentName": { "required": [ "begin" ] },
+				"end": { "required": [ "begin" ] },
+				"while": { "required": [ "begin" ] },
+				"captures": {
+					"anyOf": [
+						{ "required": [ "match" ] },
+						{ "required": [ "begin" ] }
+					]
+				},
+				"beginCaptures": { "required": [ "begin" ] },
+				"endCaptures": { "required": [ "end" ] },
+				"whileCaptures": { "required": [ "while" ] },
+				"applyEndPatternLast": { "required": [ "end" ] },
+				"include": {
+					"$comment": "Using \"not\" creates an ugly warning range in VSCode",
+					"oneOf": [
+						true,
+						{ "required": [ "name" ] },
+						{ "required": [ "contentName" ] },
+						{ "required": [ "match" ] },
+						{ "required": [ "begin" ] },
+						{ "required": [ "end" ] },
+						{ "required": [ "while" ] },
+						{ "required": [ "captures" ] },
+						{ "required": [ "beginCaptures" ] },
+						{ "required": [ "whileCaptures" ] },
+						{ "required": [ "applyEndPatternLast" ] },
+						{ "required": [ "patterns" ] }
+					]
+				}
+			}
+		},
+		"captures": {
+			"type": "object",
+			"patternProperties": {
+				"^\\d+": {
+					"$ref": "#/definitions/capture"
+				}
+			},
+			"properties": {
+				"comment": { "$ref": "#/definitions/comment" },
+				"//": { "$ref": "#/definitions/commentSlash" }
+			},
+			"additionalProperties": {
+				"description": "Unknown key. Use the format \"0\": { }"
+			},
+			"examples": [
+				{ "0": { } },
+				{ "1": { } },
+				{ "10": { } },
+				{ "100": { } }
+			],
+			"default": {}
+		},
+		"capture": {
+			"description": "Target specific capture group",
+			"type": "object",
+			"properties": {
+				"name": { "$ref": "#/definitions/name" },
+				"patterns": { "$ref": "#/definitions/patterns" },
+				"comment": { "$ref": "#/definitions/comment" },
+				"//": { "$ref": "#/definitions/commentSlash" }
+			},
+			"additionalProperties": {
+				"description": "Unknown key"
+			},
+			"_dependencies": {
+				"patterns": {
+					"$comment": "A \"patterns\" array inside \"capture\" causes a performance hit. Enable this dependency to highlight them",
+					"not": {
+						"required": [ "patterns" ]
+					}
+				}
+			}
+		},
+		"name": {
+			"$comment": "Should `TextMate` or `VSCode Dark++` be first?",
+			"type": "string",
+			"anyOf": [
+				{
+					"description": "Assigns the scope-name to the provided token. VSCode will then colour that token using the current theme\n`comment`, `string` and `regex` disables bracket matching while `meta.embedded` reenables it\nhttps://macromates.com/manual/en/language_grammars#naming_conventions",
+					"pattern": "^[\\w\\-. ${:/}]*$"
+				},
+				{
+					"description": "TextMate",
+					"enum": [
+						"comment",
+						"comment.line",
+						"comment.line.double-slash",
+						"comment.line.double-dash",
+						"comment.line.number-sign",
+						"comment.line.percentage",
+						"comment.line.character",
+						"comment.block",
+						"comment.block.documentation",
+						"constant",
+						"constant.numeric",
+						"constant.character",
+						"constant.character.escape",
+						"constant.language",
+						"constant.other",
+						"entity",
+						"entity.name",
+						"entity.name.function",
+						"entity.name.type",
+						"entity.name.tag",
+						"entity.name.section",
+						"entity.other",
+						"entity.other.inherited-class",
+						"entity.other.attribute-name",
+						"invalid",
+						"invalid.illegal",
+						"invalid.deprecated",
+						"keyword",
+						"keyword.control",
+						"keyword.operator",
+						"keyword.other",
+						"markup",
+						"markup.underline",
+						"markup.underline.link",
+						"markup.bold",
+						"markup.heading",
+						"markup.italic",
+						"markup.list",
+						"markup.list.numbered",
+						"markup.list.unnumbered",
+						"markup.quote",
+						"markup.raw",
+						"markup.other",
+						"meta",
+						"storage",
+						"storage.type",
+						"storage.modifier",
+						"string",
+						"string.quoted",
+						"string.quoted.single",
+						"string.quoted.double",
+						"string.quoted.triple",
+						"string.quoted.other",
+						"string.unquoted",
+						"string.interpolated",
+						"string.regexp",
+						"string.other",
+						"support",
+						"support.function",
+						"support.class",
+						"support.type",
+						"support.constant",
+						"support.variable",
+						"support.other",
+						"variable",
+						"variable.parameter",
+						"variable.language",
+						"variable.other"
+					]
+				},
+				{
+					"description": "VSCode Dark++",
+					"enum": [
+						"meta.embedded",
+						"markup.strikethrough",
+						"markup.underline",
+						"markup.italic",
+						"markup.deleted",
+						"markup.inserted",
+						"markup.changed",
+						"markup.heading",
+						"markup.bold",
+						"strong",
+						"emphasis",
+						"source.groovy.embedded",
+						"meta.template.expression",
+						"storage.modifier.import.java",
+						"variable.language.wildcard.java",
+						"storage.modifier.package.java",
+						"keyword.operator",
+						"entity.name.label",
+						"invalid",
+						"string.regexp",
+						"constant.character.character-class.regexp",
+						"constant.other.character-class.set.regexp",
+						"constant.other.character-class.regexp",
+						"constant.character.set.regexp",
+						"markup.inline.raw",
+						"meta.preprocessor.string",
+						"string",
+						"string.tag",
+						"string.value",
+						"support.constant.property-value",
+						"support.constant.font-name",
+						"support.constant.media-type",
+						"support.constant.media",
+						"constant.other.color.rgb-value",
+						"constant.other.rgb-value",
+						"support.constant.color",
+						"punctuation.definition.group.regexp",
+						"punctuation.definition.group.assertion.regexp",
+						"punctuation.definition.character-class.regexp",
+						"punctuation.character.set.begin.regexp",
+						"punctuation.character.set.end.regexp",
+						"keyword.operator.negation.regexp",
+						"support.other.parenthesis.regexp",
+						"meta.embedded.assembly",
+						"entity.name.tag.css",
+						"entity.other.attribute-name.class.css",
+						"entity.other.attribute-name.class.mixin.css",
+						"entity.other.attribute-name.id.css",
+						"entity.other.attribute-name.parent-selector.css",
+						"entity.other.attribute-name.pseudo-class.css",
+						"entity.other.attribute-name.pseudo-element.css",
+						"source.css.less entity.other.attribute-name.id",
+						"entity.other.attribute-name.scss",
+						"keyword.operator.quantifier.regexp",
+						"constant.character.escape",
+						"entity.name.function",
+						"support.function",
+						"support.constant.handlebars",
+						"source.powershell variable.other.member",
+						"entity.name.operator.custom-literal",
+						"keyword.operator.or.regexp",
+						"keyword.control.anchor.regexp",
+						"constant.numeric",
+						"keyword.operator.plus.exponent",
+						"keyword.operator.minus.exponent",
+						"meta.preprocessor.numeric",
+						"keyword.other.unit",
+						"constant.sha.git-rebase",
+						"comment",
+						"punctuation.definition.quote.begin.markdown",
+						"support.class",
+						"support.type",
+						"entity.name.type",
+						"entity.name.namespace",
+						"entity.other.attribute",
+						"entity.name.scope-resolution",
+						"entity.name.class",
+						"storage.type.numeric.go",
+						"storage.type.byte.go",
+						"storage.type.boolean.go",
+						"storage.type.string.go",
+						"storage.type.uintptr.go",
+						"storage.type.error.go",
+						"storage.type.rune.go",
+						"storage.type.cs",
+						"storage.type.generic.cs",
+						"storage.type.modifier.cs",
+						"storage.type.variable.cs",
+						"storage.type.annotation.java",
+						"storage.type.generic.java",
+						"storage.type.java",
+						"storage.type.object.array.java",
+						"storage.type.primitive.array.java",
+						"storage.type.primitive.java",
+						"storage.type.token.java",
+						"storage.type.groovy",
+						"storage.type.annotation.groovy",
+						"storage.type.parameters.groovy",
+						"storage.type.generic.groovy",
+						"storage.type.object.array.groovy",
+						"storage.type.primitive.array.groovy",
+						"storage.type.primitive.groovy",
+						"meta.type.cast.expr",
+						"meta.type.new.expr",
+						"support.constant.math",
+						"support.constant.dom",
+						"support.constant.json",
+						"entity.other.inherited-class",
+						"entity.other.attribute-name",
+						"meta.structure.dictionary.key.python",
+						"support.type.vendored.property-name",
+						"support.type.property-name",
+						"variable.css",
+						"variable.scss",
+						"variable.other.less",
+						"support.function.git-rebase",
+						"variable",
+						"meta.definition.variable.name",
+						"support.variable",
+						"entity.name.variable",
+						"constant.other.placeholder",
+						"meta.object-literal.key",
+						"source.coffee.embedded",
+						"variable.other.enummember",
+						"variable.other.constant",
+						"constant.language",
+						"entity.name.tag",
+						"meta.preprocessor",
+						"entity.name.function.preprocessor",
+						"meta.diff.header",
+						"storage",
+						"storage.type",
+						"storage.modifier",
+						"keyword.operator.noexcept",
+						"punctuation.definition.template-expression.begin",
+						"punctuation.definition.template-expression.end",
+						"punctuation.section.embedded",
+						"keyword",
+						"keyword.operator.new",
+						"keyword.operator.expression",
+						"keyword.operator.cast",
+						"keyword.operator.sizeof",
+						"keyword.operator.alignof",
+						"keyword.operator.typeid",
+						"keyword.operator.alignas",
+						"keyword.operator.instanceof",
+						"keyword.operator.logical.python",
+						"keyword.operator.wordlike",
+						"punctuation.section.embedded.begin.php",
+						"punctuation.section.embedded.end.php",
+						"variable.language",
+						"constant.character",
+						"punctuation.definition.list.begin.markdown",
+						"constant.regexp",
+						"header",
+						"entity.name.operator",
+						"keyword.control",
+						"keyword.other.using",
+						"keyword.other.operator",
+						"keyword.operator.delete",
+						"source.cpp keyword.operator.new"
+					]
+				}
+			]
+		},
+		"comment": {
+			"$comment": "No description; because having hovers is annoying",
+			"type": "string"
+		},
+		"commentSlash": {
+			"description": "Alternative comment; because VSCode ignores duplicate `//` keys. Also supports all json types",
+			"type": [
+				"string",
+				"array",
+				"object",
+				"boolean",
+				"integer",
+				"number",
+				"null"
+			]
+		}
+	}
+}

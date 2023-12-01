@@ -1,6 +1,6 @@
 {
 	"version": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter",
-	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
 	"scopeName": "source.syntax.regexp.tmLanguage",
 	"name": "TextMate Language Regex",
 	"patterns": [
