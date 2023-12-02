@@ -73,6 +73,23 @@
 					"dark": "images/TextMate-file-icon.svg",
 					"light": "images/TextMate-file-icon.svg"
 				}
+			},
+			{
+				"id": "scopetm",
+				"aliases": [
+					"Scope TM"
+				],
+				"extensions": [
+					"_scopes.txt"
+				],
+				"filenamePatterns": [
+					"*_scopes.txt"
+				],
+				"configuration": "./scope.language-configuration.json",
+				"icon": {
+					"dark": "images/TextMate-file-icon.svg",
+					"light": "images/TextMate-file-icon.svg"
+				}
 			}
 		],
 		"grammars": [
@@ -88,6 +105,20 @@
 				"language": "regex-tmLanguage",
 				"scopeName": "source.syntax.regexp.tmLanguage",
 				"path": "./syntaxes/regex.tmLanguage.json"
+			},
+			{
+				"language": "scopetm",
+				"scopeName": "source.scopetm",
+				"path": "./syntaxes/scopetm.tmLanguage.json",
+				"balancedBracketScopes": [
+					"replace.capture"
+				]
+			}
+		],
+		"snippets": [
+			{
+				"language": "scopetm",
+				"path": "./snippets/scopetm.code-snippets"
 			}
 		],
 		"configurationDefaults": {

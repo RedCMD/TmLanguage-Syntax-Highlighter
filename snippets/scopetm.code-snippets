@@ -1,0 +1,11 @@
+{
+	"${}": {
+		"description": "Capture replace case format",
+		"body": "${${1:1}:/${2|upcase,downcase|}}$0",
+		"prefix": [
+			"${}",
+			"upcase",
+			"downcase"
+		]
+	}
+}

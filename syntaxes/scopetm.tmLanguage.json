@@ -1,0 +1,43 @@
+{
+	"version": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter",
+	"scopeName": "source.scopetm",
+	"name": "VSCode TextMate scope-name highlighter",
+	"patterns": [ { "include": "#scope-name" } ],
+	"repository": {
+		"scope-name": {
+			"begin": "^(?=(.+))",
+			"end": "$",
+			"name": "$1",
+			"patterns": [
+				{ "include": "source.syntax.json.tmLanguage#escape-characters" },
+				{
+					"match": "\\b(?>comment|string|regex|meta\\.embedded)\\b",
+					"name": "markup.italic.tm"
+				},
+				{
+					"comment": "Unresolvable capture group references do not convert, but instead just become plain text",
+					"match": "(\\$)(0*)(\\d{1,3})(?!\\d)",
+					"captures": {
+						"0": { "name": "replace.capture" },
+						"1": { "name": "constant.character.escape.tm markup.italic.tm" },
+						"2": { "name": "punctuation.definition.tag.tm" },
+						"3": { "name": "constant.numeric.tm" }
+					}
+				},
+				{
+					"match": "(\\$)({)(0*)(\\d{1,3})(:/)(upcase|downcase)(})",
+					"captures": {
+						"0": { "name": "replace.capture.$6" },
+						"1": { "name": "constant.character.escape.tm markup.italic.tm" },
+						"2": { "name": "constant.character.escape.tm" },
+						"3": { "name": "punctuation.definition.tag.tm" },
+						"4": { "name": "constant.numeric.tm" },
+						"5": { "name": "constant.character.escape.tm" },
+						"6": { "name": "markup.heading.tm" },
+						"7": { "name": "constant.character.escape.tm" }
+					}
+				}
+			]
+		}
+	}
+}
