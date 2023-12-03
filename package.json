@@ -18,18 +18,11 @@
 	"bugs": {
 		"url": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/issues"
 	},
-	"homepage": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter",
+	"homepage": "https://marketplace.visualstudio.com/items?itemName=RedCMD.tmlanguage-syntax-highlighter",
 	"galleryBanner": {
-		"color": "#791082",
+		"color": "#1F1F1F",
 		"theme": "dark"
 	},
-	"badges": [
-		{
-			"description": "Documentation",
-			"href": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/index.md",
-			"url": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/images/TextMate-logo-icon.png"
-		}
-	],
 	"keywords": [
 		"tmlanguage",
 		"languages",
