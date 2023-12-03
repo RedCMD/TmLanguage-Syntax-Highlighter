@@ -1,13 +1,12 @@
 {
 	"comments": {
 		// symbol used for single line comment. Remove this entry if your language does not support line comments
-		// "lineComment": "\"comment\": \"\"",
+		"lineComment": "\"comment\": \"\",",
 		// symbols used for start and end a block comment. Remove this entry if your language does not support block comments
-		"blockComment": [ "\"comment\": \"", "\"" ]
+		"blockComment": [ "\"//\": {", "}" ]
 	},
 	// symbols used as brackets
 	"brackets": [
-		["${", "}"],
 		["{", "}"],
 		["[", "]"]
 	],
@@ -18,18 +17,20 @@
 		["[", "]"],
 		["\"", "\""]
 	],
-	"autoCloseBefore": "]}:, \n\t",
+	"autoCloseBefore": "[]{}:, \n\t",
 	// symbols that can be used to surround a selection
 	"surroundingPairs": [
 		["{", "}"],
 		["[", "]"],
 		["\"","\""]
 	],
-	// symbols that can be coloured
+	// symbols that can be colourized
 	"colorizedBracketPairs": [
 		["${", "}"],
 		["{", "}"],
 		["[", "]"]
 	],
-	"wordPattern": "[LR]:|(?<=[\"# ]|[LR]:)(?=(?<scope>[\\w.$-]+))\\k<scope>(?=[\"# ])|(?<=(?<!\\\\)(\\\\{2})*\")(?![\\s\\[\\]{}:,]*\")(?=(?<chars>([^\\\\\"]+|\\\\.)+))\\k<chars>(?=\")"
+	// "wordPattern" doesn't support `atomic` groups or `possessive quantifiers`, leading to catastrophic backtracking. Workaround is to use a lookahead and backreference /(?=(?<name>)...)\\k<name>/
+	// "wordPattern" is used for reference for intellisense suggestions
+	"wordPattern": "(?<=(^|(?<!\\\\)[\\[\\]{}:,\\t])\\s*)(?=(?<json>[\\w/$]+))\\k<json>(?=\\s*($|[\\[\\]{}:,\"\\t](?!\\\\)))|(?<=(?<!\\\\)[\"\\s]|\\b[LR]:)(?=(?<string>[a-zA-Z$/][\\w./$-]*[\\w]))\\k<string>(?=[\"\\s])|(?<=(?<!\\\\)\")(?=(?<include>[\\w.$-]*#?[\\w.$-]*))(?!\")\\k<include>(?=\")"
 }
