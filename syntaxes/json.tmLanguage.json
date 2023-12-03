@@ -153,7 +153,7 @@
 			]
 		},
 		"fileTypes": {
-			"comment": "\"fileTypes\": \"...\"",
+			"comment": "\"fileTypes\": [ \"...\" ]",
 			"//": "Vscode's TextMate acknowledges \"fileTypes\" but doesn't do anything with it",
 			"begin": "(\")(fileTypes)(\")",
 			"end": "(?<=])|(?=[},])",
@@ -971,7 +971,6 @@
 							]
 						}
 					},
-					"//": [ true ],
 					"begin": "(\")(//)(\")",
 					"end": "(?<=[]}\"])(?!\\G)|(?=[},])",
 					"beginCaptures": {

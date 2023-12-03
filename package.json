@@ -23,6 +23,13 @@
 		"color": "#791082",
 		"theme": "dark"
 	},
+	"badges": [
+		{
+			"description": "Documentation",
+			"href": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/index.md",
+			"url": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/images/TextMate-logo-icon.png"
+		}
+	],
 	"keywords": [
 		"tmlanguage",
 		"languages",

@@ -33,7 +33,7 @@
 				},
 				"repository": { "$ref": "#/definitions/repository" },
 				"injections": {
-					"description": "A dictionary of injections. They do NOT work when the grammar is embedded into another lanuage",
+					"description": "A dictionary of injections. They do NOT work when the grammar is embedded into another language",
 					"type": "object",
 					"additionalProperties": {
 						"description": "An injection selector. https://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#injection-grammars",
