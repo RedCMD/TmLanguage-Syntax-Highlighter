@@ -104,7 +104,12 @@
 				"path": "./syntaxes/json.tmLanguage.json",
 				"embeddedLanguages": {
 					"meta.embedded.block.regexp.tmLanguage": "regex-tmLanguage"
-				}
+				},
+				"unbalancedBracketScopes": [
+					"invalid.illegal.expected-dictionary-separator.json",
+					"invalid.illegal.expected-array-separator.json",
+					"invalid.illegal.expected-value-separator.json"
+				]
 			},
 			{
 				"language": "regex-tmLanguage",
@@ -128,7 +133,12 @@
 		],
 		"configurationDefaults": {
 			"[json-tmLanguage]": {
-				"editor.maxTokenizationLineLength": 500000
+				"editor.maxTokenizationLineLength": 500000,
+				"editor.quickSuggestions": {
+					"strings": true,
+					"other": true
+				},
+				"editor.defaultFormatter": "RedCMD.tmlanguage-syntax-highlighter"
 			}
 		},
 		"jsonValidation": [
