@@ -1,1 +1,9 @@
 .github/**
+.git/**
+_test/**
+*/node_modules/**
+.vsixmanifest
+.editorconfig
+scope-colours.tmLanguage.json
+scope-names.tmLanguage.json
+unicode-category.regex.json
