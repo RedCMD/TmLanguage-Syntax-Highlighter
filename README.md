@@ -32,6 +32,7 @@ It should install automatically
 * [Github - Oniguruma: list of all expressions](https://github.com/kkos/oniguruma/blob/master/doc/RE)
 * [Github - TmLanguage-Syntax-Highlighter](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter)
 * [Github - Parse tree](https://github.com/cursorless-dev/vscode-parse-tree)
+* [Github - Documentation](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/index.md)
 
 
 ### Todo
@@ -53,4 +54,4 @@ It should install automatically
 * Add hovers
 * Improve tree-sitter grammar
 * Update README.md pictures
-* Add TextMate documentation
+* Improve TextMate [documentation](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/index.md)
