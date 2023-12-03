@@ -2,7 +2,7 @@
 Syntax Highlighting for JSON based TextMate Language and Regex
 
 ## Features
-Now features basic Intellisense, ctrl+click definitions and right click => formatting  
+Now features basic Intellisense, ctrl+click definitions, breadcrumbs and right click => formatting  
 Big thanks to @Pokey Rule for allowing custom language support on his extension [Parse tree](https://github.com/cursorless-dev/vscode-parse-tree)  
 
 Example code:  
@@ -31,7 +31,6 @@ It should install automatically
 * [Github - Oniguruma](https://github.com/kkos/oniguruma)
 * [Github - Oniguruma: list of all expressions](https://github.com/kkos/oniguruma/blob/master/doc/RE)
 * [Github - TmLanguage-Syntax-Highlighter](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter)
-* [Github - TextMates Schema](https://github.com/martinring/tmlanguage)
 * [Github - Parse tree](https://github.com/cursorless-dev/vscode-parse-tree)
 
 
@@ -42,16 +41,16 @@ It should install automatically
 * Try* to fix contention between backreferences `\\1` and character codes `\\1`
 * Detect and limit backreferences/subroutines/conditional-capture-groups `\\1`/`\\k<1>`/`\\g<1>`/`(?(<1>))` to the actual amount of capture groups available
 * Detect all invalid character class ranges `[z-a]`
-* Support invalid code points at the end of range in character classes. (`ONIG_SYN_ALLOW_INVALID_CODE_END_OF_RANGE_IN_CC`)
 * Correctly invalidate look-around capture groups inside all types of capture groups nested inside look-behind capture groups
 * Improve bracket features: Colourization, matching, autocomplete, surround
 * Limit look-behind length to 65536 characters
 * Limit all repeating quantifiers to 100000
 * Unify ways of displaying errors
 * Improve performance: [Github Issue - Capturing and applying a pattern causes performance loss](https://github.com/microsoft/vscode-textmate/issues/167)
-* Improve character class octal `\\o{...}` and hex `\\x{...}` ranges
-* Add squiggle based error checking
+* Enable squiggle based error checking
 * Finish ctrl+click definitions and references
 * Add range formatting
 * Add hovers
 * Improve tree-sitter grammar
+* Update README.md pictures
+* Add TextMate documentation

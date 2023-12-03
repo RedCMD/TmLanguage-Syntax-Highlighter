@@ -3,8 +3,6 @@
 	"$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
 	"scopeName": "source.syntax.json.tmLanguage",
 	"name": "TextMate Language JSON",
-	"fileTypes": [ ".tmLanguage.json" ],
-	"firstLineMatch": "^\\s*{",
 	"injections": {
 		"R:source.syntax.json.tmLanguage -string -variable -punctuation -comment -regex -meta.embedded": { "patterns": [ { "include": "#invalid" } ] },
 		"L:capture-group-lookbehind -character-class -comment": {

@@ -15,6 +15,14 @@
 		"type": "git",
 		"url": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter.git"
 	},
+	"bugs": {
+		"url": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/issues"
+	},
+	"homepage": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter",
+	"galleryBanner": {
+		"color": "#791082",
+		"theme": "dark"
+	},
 	"keywords": [
 		"tmlanguage",
 		"languages",
@@ -26,9 +34,6 @@
 	"categories": [
 		"Programming Languages",
 		"Snippets"
-	],
-	"activationEvents": [
-		"onLanguage:json-tmLanguage"
 	],
 	"main": "./out/extension.js",
 	"contributes": {

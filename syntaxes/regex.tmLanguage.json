@@ -883,6 +883,7 @@
 					}
 				},
 				{
+					"comment": "TODO: \\d seems to match unicode numbers as well?",
 					"match": "(\\d(-)\\d)(\\\\{2}(?=-))?",
 					"captures": {
 						"1": { "name": "constant.numeric.tm" },
@@ -1421,11 +1422,11 @@
 		},
 		"test": {
 			"comment": "Disable \"character-literal\" when running tests. As it will try to capture everything and leave nothing for \"test\". This can be done by simply renaming it.",
-			"match": "(*FAIL)\\o{} \\o{k} \\o{00000000000 00004777777} [\\o{00004777777 00007777777}-\\o{37777777777}]|(*FAIL)x{Bÿ}l42ABCDEF}€ ~ýþÿ",
+			"match": "(*FAIL).",
 			"name": "keyword.control strong regex"
 		},
 		"_disabled_": {
-			"comment": " Basic visual test ",
+			"comment": "Basic visual test",
 			"patterns": [
 				{ "match": "(*FAIL) !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ " },
 				{ "match": "(*FAIL) \"\/\b\f\n\r\t\u0000 " },
