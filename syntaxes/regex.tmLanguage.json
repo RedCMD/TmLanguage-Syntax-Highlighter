@@ -1455,7 +1455,7 @@
 			"comment": "+ * ? {1,9}",
 			"patterns": [
 				{
-					"comment": "For some reason (^|\\G) and any of its variations are extremely performance heavy",
+					"comment": "For some reason (\\G|...) and any of its variations are extremely performance heavy",
 					"match": "\\G(?>[+*?]|{(?>\\d+,?\\d*|,\\d+)})",
 					"name": "invalid.illegal.tm markup.underline"
 				},
@@ -1465,8 +1465,9 @@
 				},
 				{
 					"comment": "As soon as theres a {0} quantifier, all other quantifiers are nullified",
-					"match": "(\\g<4>)?({0*,?0+})((?(<1>)\\g<4>?|((?>[+*?]++|{(?>\\g<5>,\\g<5>|\\g<5>,?|,(0*(?>100000|\\d{1,5})))})+)))",
-					"captures": {
+					"//": "Causes too much lag. -4x in some cases",
+					"//match": "(\\g<4>)?({0*,?0+})((?(<1>)\\g<4>?|((?>[+*?]++|{(?>\\g<5>,\\g<5>|\\g<5>,?|,(0*(?>100000|\\d{1,5})))})+)))",
+					"//captures": {
 						"1": { "name": "punctuation.definition.tag.tm" },
 						"2": { "patterns": [ { "include": "#quantifier" } ] },
 						"3": { "name": "punctuation.definition.tag.tm" }
@@ -1537,7 +1538,7 @@
 		},
 		"invalid": {
 			"comment": "invalid: single escaped characters (including at newlines), rouge right brackets, unescaped double quotes and any invalid control characters",
-			"match": "\\\\.?|[)\"\\x-\\x1F\\x7F]",
+			"match": "\\\\.?|[)\"\\x-\\x1F\\x7F]+",
 			"name": "invalid.illegal.tm markup.underline regex"
 		},
 		"test": {
