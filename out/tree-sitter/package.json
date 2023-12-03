@@ -1,0 +1,25 @@
+{
+	"name": "tree-sitter-jsontm",
+	"version": "1.0.0",
+	"description": "Tree Sitter JSONTM",
+	"main": "grammar.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter.git"
+	},
+	"keywords": [
+		"jsontm",
+		"TextMate"
+	],
+	"author": "RedCMD",
+	"license": "ISC",
+	"scripts": {
+		"install-tree-sitter": "npm install tree-sitter-cli"
+	},
+	"dependencies": {
+		"nan": "^2.18.0"
+	},
+	"devDependencies": {
+		"tree-sitter-cli": "^0.20.8"
+	}
+}
