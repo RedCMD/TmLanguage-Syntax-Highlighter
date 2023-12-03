@@ -323,7 +323,7 @@
 			"type": "string",
 			"anyOf": [
 				{
-					"description": "Assigns the scope-name to the provided token. VSCode will then colour that token using the current theme\n`comment`, `string` and `regex` disables bracket matching while `meta.embedded` reenables it\nhttps://macromates.com/manual/en/language_grammars#naming_conventions",
+					"description": "A list of space-separated scope-names to be assigned to the provided token. VSCode will then colour that token using the current theme\n`comment`, `string` and `regex` disables bracket matching while `meta.embedded` reenables it\nhttps://macromates.com/manual/en/language_grammars#naming_conventions",
 					"pattern": "^[\\w\\-. ${:/}]*$"
 				},
 				{

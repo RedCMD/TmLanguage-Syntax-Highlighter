@@ -125,7 +125,13 @@
 			"[json-tmLanguage]": {
 				"editor.maxTokenizationLineLength": 500000
 			}
-		}
+		},
+		"jsonValidation": [
+			{
+				"fileMatch": "*.tmLanguage.json",
+				"url": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json"
+			}
+		]
 	},
 	"__metadata": {
 		"id": "7f5ff7e8-575f-4fbf-bff6-201486b6327e",
