@@ -51,18 +51,33 @@ const SymbolKind = {
 	'nameScope': vscode.SymbolKind.String,
 	'name': vscode.SymbolKind.String,
 	
+	'version': vscode.SymbolKind.String,
+	'schema': vscode.SymbolKind.String,
+	'fileTypes': vscode.SymbolKind.String,
+	'firstLineMatch': vscode.SymbolKind.String,
+	'foldingStartMarker': vscode.SymbolKind.String,
+	'foldingStopMarker': vscode.SymbolKind.String,
+	'uuid': vscode.SymbolKind.Number,
+	
 	'injectionSelector': vscode.SymbolKind.String,
 	'injections': vscode.SymbolKind.Object,
 	'injection': vscode.SymbolKind.Number,
 	
 	'include': vscode.SymbolKind.Variable,
+	
 	'comment': vscode.SymbolKind.String,
+	'comment_slash': vscode.SymbolKind.String,
 	
 	'object': vscode.SymbolKind.Object,
 	'array': vscode.SymbolKind.Array,
 	'item': vscode.SymbolKind.String,
 	'value': vscode.SymbolKind.Key,
 	'key': vscode.SymbolKind.Property,
+	
+	'boolean': vscode.SymbolKind.Boolean,
+	'null': vscode.SymbolKind.Null,
+	'integer': vscode.SymbolKind.Number,
+	'string': vscode.SymbolKind.String,
 	
 	'{': vscode.SymbolKind.Object,
 	'}': vscode.SymbolKind.Object,
