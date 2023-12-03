@@ -6,8 +6,8 @@ const DefinitionProvider = {
 
 		const { getNodeAtLocation } = await _extension.parseTreeExtension.activate()
 		const location = new vscode.Location(document.uri, position)
-		let node = getNodeAtLocation(location)
-		let locations = []
+		const node = await getNodeAtLocation(location)
+		const locations = []
 		// vscode.window.showInformationMessage(node.text)
 
 		if (node.parent.type == 'value')
@@ -70,10 +70,10 @@ const DefinitionProvider = {
 			locations.push(locationLink)
 		}
 
-		
+
 		if (node.type == 'value' && node.parent.type == 'include') {
 			const { getTree } = await _extension.parseTreeExtension.activate()
-			const tree = getTree(document)
+			const tree = await getTree(document)
 
 			switch (node.text) {
 				case '$self':
@@ -105,8 +105,8 @@ const DefinitionProvider = {
 
 					if (targetSelectionRange.contains(originSelectionRange))
 						targetSelectionRange = targetRange
-						
-					
+
+
 					const locationLink = {
 						originSelectionRange: originSelectionRange,
 						targetUri: document.uri,
@@ -188,7 +188,7 @@ const DefinitionProvider = {
 										targetSelectionRange = targetRange
 
 									targetRange = targetSelectionRange
-									
+
 									if (targetRange == null)
 										return
 
@@ -237,7 +237,7 @@ const DefinitionProvider = {
 							}
 						})
 					}
-					else
+					else {
 						tree.rootNode.namedChildren.forEach(node => {
 							if (node.type != 'repository')
 								return
@@ -259,6 +259,34 @@ const DefinitionProvider = {
 								locations.push(locationLink)
 							})
 						})
+
+						let parentNode = node.parent
+						while (parentNode != null) {
+							if (parentNode.type == 'repo')
+								parentNode.namedChildren.forEach(repoNode => {
+									if (repoNode.type != 'repository')
+										return
+
+									repoNode.namedChildren.forEach(repoNode => {
+										if (repoNode.type != 'repo')
+											return
+
+										if (repoNode.firstNamedChild.text != includeText)
+											return
+
+										const locationLink = {
+											originSelectionRange: originSelectionRange,
+											targetUri: document.uri,
+											targetRange: _extension.nodeToVscodeRange(repoNode),
+											targetSelectionRange: _extension.nodeToVscodeRange(repoNode.firstNamedChild)
+										}
+										// vscode.window.showInformationMessage(JSON.stringify(locationLink))
+										locations.push(locationLink)
+									})
+								})
+							parentNode = parentNode.parent
+						}
+					}
 
 					break
 			}
