@@ -20,12 +20,11 @@
 	},
 	"homepage": "https://marketplace.visualstudio.com/items?itemName=RedCMD.tmlanguage-syntax-highlighter",
 	"galleryBanner": {
-		"color": "#1F1F1F",
+		"color": "#343A40",
 		"theme": "dark"
 	},
 	"keywords": [
 		"tmlanguage",
-		"languages",
 		"text mate",
 		"textmate",
 		"regex",

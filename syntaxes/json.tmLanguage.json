@@ -74,6 +74,7 @@
 				{ "include": "#uuid" },
 				{ "include": "#name" },
 				{ "include": "#match" },
+				{ "include": "#include" },
 				{ "include": "#captures" },
 				{ "include": "#applyEndPatternLast" },
 				{ "include": "#capture" },
@@ -81,7 +82,12 @@
 				{ "include": "#repo" },
 				{ "include": "#json-value" },
 				{ "include": "#json-array" },
-				{ "include": "#json-pair" }
+				{ "include": "#json-pair" },
+				{ "include": "#comments" },
+				{
+					"match": "\\S[^,:/{}\\[\\]\\s\"]*",
+					"name": "invalid.illegal.expected-object.json"
+				}
 			]
 		},
 		"scopeName": {
@@ -879,8 +885,14 @@
 							"beginCaptures": { "0": { "name": "punctuation.definition.dictionary.begin.json" } },
 							"endCaptures": { "0": { "name": "punctuation.definition.dictionary.end.json" } },
 							"patterns": [
+								{ "comment": "All normal \"patterns\" rules are allowed here. With the exception of \"include\". But only when they are paired with \"patterns\"" },
 								{ "include": "#name" },
+								{ "comment": "#contentName" },
+								{ "comment": "#match" },
 								{ "include": "#patterns" },
+								{ "comment": "#captures" },
+								{ "include": "#repository" },
+								{ "comment": "#applyEndPatternLast" },
 								{ "include": "#dictionary-separator" }
 							]
 						},
@@ -1136,8 +1148,15 @@
 				{ "include": "#json-pair" },
 				{ "include": "#comments" },
 				{
+					"begin": ",",
+					"end": "(?!\\s|,|$)",
+					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.json.tm" } },
+					"patterns": [
+				{
 					"match": ",",
-					"name": "punctuation.separator.dictionary.json.tm"
+							"name": "invalid.illegal.duplicate-dictionary-separator.json"
+						}
+					]
 				},
 				{
 					"match": "\\S[^,/:}\\s\"]*",
@@ -1147,11 +1166,19 @@
 		},
 		"array-separator": {
 			"patterns": [
+				{ "include": "#json-array" },
 				{ "include": "#json-value" },
 				{ "include": "#comments" },
 				{
+					"begin": ",",
+					"end": "(?!\\s|,|$)",
+					"beginCaptures": { "0": { "name": "punctuation.separator.array.json.tm" } },
+					"patterns": [
+				{
 					"match": ",",
-					"name": "punctuation.separator.array.json.tm"
+							"name": "invalid.illegal.duplicate-array-separator.json"
+						}
+					]
 				},
 				{
 					"match": "\\S[^,/{}\\]\\s\"]*",

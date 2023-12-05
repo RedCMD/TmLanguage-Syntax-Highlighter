@@ -1538,7 +1538,7 @@
 		},
 		"invalid": {
 			"comment": "invalid: single escaped characters (including at newlines), rouge right brackets, unescaped double quotes and any invalid control characters",
-			"match": "\\\\.?|[)\"\\x-\\x1F\\x7F]+",
+			"match": "\\\\.?|[)\"\\x-\\x1F\\x7F]",
 			"name": "invalid.illegal.tm markup.underline regex"
 		},
 		"test": {
