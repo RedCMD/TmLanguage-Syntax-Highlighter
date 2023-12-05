@@ -1,0 +1,2 @@
+### [Introduction](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/index.md)
+### [Rules](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/rules.md)
