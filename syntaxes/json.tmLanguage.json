@@ -801,22 +801,28 @@
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json" } },
 					"patterns": [
 						{
-							"match": "(\")((#?)\\$)(base|self)(\")",
-							"captures": {
-								"1": { "name": "punctuation.definition.string.begin.json" },
-								"2": { "name": "keyword.json.tm" },
-								"3": { "name": "markup.strikethrough.json.tm" },
-								"4": { "name": "support.function.json.tm" },
-								"5": { "name": "punctuation.definition.string.end.json" }
-							}
-						},
-						{
 							"begin": "\"",
 							"end": "\"",
 							"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.json" } },
 							"endCaptures": { "0": { "name": "punctuation.definition.string.end.json" } },
 							"contentName": "regex",
 							"patterns": [
+								{
+									"match": "\\G((#?)\\$)(base|self)(?=\")",
+									"captures": {
+										"1": { "name": "keyword.json.tm" },
+										"2": { "name": "markup.strikethrough.json.tm" },
+										"3": { "name": "support.function.json.tm" }
+									}
+								},
+								{
+									"match": "(#\\$)(base|self)(?=\")",
+									"captures": {
+										"0": { "name": "markup.strikethrough.json.tm" },
+										"1": { "name": "keyword.json.tm" },
+										"2": { "name": "support.function.json.tm" }
+									}
+								},
 								{
 									"begin": "#",
 									"end": "(?=\")",
