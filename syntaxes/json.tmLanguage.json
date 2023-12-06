@@ -1158,8 +1158,8 @@
 					"end": "(?!\\s|,|$)",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.json.tm" } },
 					"patterns": [
-				{
-					"match": ",",
+						{
+							"match": ",",
 							"name": "invalid.illegal.duplicate-dictionary-separator.json"
 						}
 					]
@@ -1180,8 +1180,8 @@
 					"end": "(?!\\s|,|$)",
 					"beginCaptures": { "0": { "name": "punctuation.separator.array.json.tm" } },
 					"patterns": [
-				{
-					"match": ",",
+						{
+							"match": ",",
 							"name": "invalid.illegal.duplicate-array-separator.json"
 						}
 					]
@@ -1273,24 +1273,24 @@
 					"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.json.tm" } },
 					"endCaptures": { "0": { "name": "punctuation.definition.string.end.json.tm" } },
 					"name": "string.quoted.double.json",
-							"patterns": [
-								{
-									"match": "\\\\[\"\\\\/bfnrt]",
-									"name": "constant.character.escape.json.tm"
-								},
-								{
-									"match": "\\\\u\\h{4}",
-									"name": "constant.character.escape.json.tm"
-								},
-								{
-									"match": "\\\\.?",
-									"name": "invalid.illegal.unrecognized-string-escape.json.tm"
+					"patterns": [
+						{
+							"match": "\\\\[\"\\\\/bfnrt]",
+							"name": "constant.character.escape.json.tm"
+						},
+						{
+							"match": "\\\\u\\h{4}",
+							"name": "constant.character.escape.json.tm"
+						},
+						{
+							"match": "\\\\.?",
+							"name": "invalid.illegal.unrecognized-string-escape.json.tm"
 						},
 						{
 							"match": "[\\x-\\x1F\\x7F]+",
 							"name": "invalid.illegal.control-character.json.tm"
-								}
-							]
+						}
+					]
 				},
 				{
 					"match": "\\b(?>true|false|null)\\b",
