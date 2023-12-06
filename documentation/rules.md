@@ -3,21 +3,13 @@
 VSCode TextMate doesn't support all of the offical TextMate rules.  
 Supported rules under VSCode TextMate: [rawGrammar.ts](https://github.com/microsoft/vscode-textmate/blob/main/src/rawGrammar.ts)  
 All unspported rules are ignored.  
-With the exception of non-object types inside a `"patterns"` array.  
 MacroMates [example_grammar](https://macromates.com/manual/en/language_grammars#example_grammar)  
-
-Rule priorities inside `"patterns"` and `"repository"` rule items.  
-1. [match](#match). It includes [name](#name) and [captures](#captures).  
-1. [begin](#begin)/[while](#while). It includes [name](#name), [contentName](#contentName), [beginCaptures](#beginCaptures), [whileCaptures](#whileCaptures), [captures](#captures) and [patterns](#patterns).  
-1. [begin](#begin)/[end](#end). It includes [name](#name), [contentName](#contentName), [beginCaptures](#beginCaptures), [endCaptures](#endCaptures), [captures](#captures), [applyEndPatternLast](#applyEndPatternLast) and [patterns](#patterns).  
-1. [patterns](#patterns). It includes [repository](#repository) and when inside [capture](#capture); [name](#name) and [contentName](#contentName).  
-1. [include](#include). It includes [repository](#repository)(When NOT inside the root [patterns](#patterns) array) and when inside [capture](#capture); [name](#name) and [contentName](#contentName).  
 https://github.com/microsoft/vscode-textmate/blob/main/src/rule.ts#L389
 
 
 ## Root
 `{ ... }`  
-A JSON object containing your grammar.  
+The JSON object containing your grammar.  
 It is required along with [patterns](#patterns) and [scopeName](#scopeName)  
 Valid rules:
 1. [version](#version)
@@ -52,7 +44,7 @@ For example [HTML (Derivative)](https://github.com/textmate/html.tmbundle/blob/m
 ## patterns
 `"patterns": [ { ... } ]`  
 An array of object pattern's to include.  
-If everything inside `"patterns"` fails with an error, then any `"begin"` rules will fail  
+If everything inside `"patterns"` fails with an error, then any `"begin"` rules will fail also.  
 If multiple conflicting rules appear, VSCode will pick the highest one from the list:  
 1. [match](#match)
 1. [begin](#begin)/[while](#while)
@@ -135,9 +127,25 @@ Also applies to the captured text when paired with [patterns](#patterns) inside 
 
 ## match
 `"match": "..."`  
+[Regex](./index.md#regex) used to tokenize and capture parts of a file.  
+[name](#name) is used to apply a scope-name to the whole text being matched.  
+[captures](#captures) is used to apply scope-names to specfic capture groups and/or retokenize capture groups.  
+All other rules are effectively ignored. Including [repository](#repository).  
+[rule.ts](https://github.com/microsoft/vscode-textmate/blob/8b07a3c2be6fe4674f9ce6bba6d5c962a7f50df5/src/rule.ts#L394-L402)  
 
 ## begin
 `"begin": "..."`  
+[Regex](./index.md#regex) just like [match](#match).  
+[name](#name) is used to apply a scope-name to the entire region being covered by `begin`/(`end`|`while`).  
+[contentName](#contentname) is used to apply a scope-name to the inner region being covered.  
+[end](#end) is used to end the region that was opened by `"begin"`. It is effectively placed at the beginning of the [patterns](#patterns) array.  
+[while](#while) [jeff-hykin textmate_while](https://github.com/jeff-hykin/better-cpp-syntax/blob/master/documentation/library/textmate_while.md). It is prioritized over [end](#end).  
+[patterns](#patterns).  
+[captures](#captures) is used to apply scope-names to specfic capture groups and/or retokenize capture groups.  
+[beginCaptures](#begincaptures) is just like [captures](#captures), but specifically targets `"begin"`. It is prioritized over [captures](#captures).  
+All other rules are effectively ignored. Including [repository](#repository).  
+`"begin"` places an invisible 0-width anchor after it. It can then be matched using `\\G`.  
+[rule.ts](https://github.com/microsoft/vscode-textmate/blob/8b07a3c2be6fe4674f9ce6bba6d5c962a7f50df5/src/rule.ts#L421-L442)  
 
 ## end
 `"end": "..."`  
@@ -209,6 +217,7 @@ Not supported by TextMate.
 ## foldingStartMarker
 `"foldingStartMarker": "..."`  
 A regex to define the start of a folding section.  
+Pair with [foldingStopMarker](#foldingStopMarker).  
 Not currently supported by VSCode.  
 Use `"folding"` in your `language-configuration.json` file instead.  
 
@@ -221,7 +230,11 @@ Use `"folding"` in your `language-configuration.json` file instead.
 
 ## Unknown
 `"...": ...`  
-All unknown/supported rules are ignored by VSCode TextMate.  
+All unknown/unsupported rules are ignored by VSCode TextMate.  
 This includes [comment](#comment) etc.  
 They do however need to be valid json.  
-With the exception of [patterns](#patterns). It must contain `object`'s only. All other data types cause an error.  
+With the exception of [patterns](#patterns). It must only contain objects `{}`. It cannot contain type "string", number, boolean or `null`. Arrays `[]` are ignored.  
+
+
+
+#### [Introduction](./index.md)

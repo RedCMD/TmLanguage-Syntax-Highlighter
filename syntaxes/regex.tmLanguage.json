@@ -1548,6 +1548,7 @@
 		},
 		"_disabled_": {
 			"comment": "Basic visual test",
+			"//": "https://github.com/kkos/oniguruma/blob/master/doc/RE",
 			"patterns": [
 				{ "match": "(*FAIL) !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ " },
 				{ "match": "(*FAIL) \"\/\b\f\n\r\t\u0000 " },
