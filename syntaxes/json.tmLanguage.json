@@ -1268,11 +1268,11 @@
 			"patterns": [
 				{
 					"comment": "\"...\"",
-					"match": "(\")(.*?(?<!\\\\)\\\\{2}*|.*)(\")",
+					"begin": "\"",
+					"end": "\"",
+					"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.json.tm" } },
+					"endCaptures": { "0": { "name": "punctuation.definition.string.end.json.tm" } },
 					"name": "string.quoted.double.json",
-					"captures": {
-						"1": { "name": "punctuation.definition.string.begin.json.tm" },
-						"2": {
 							"patterns": [
 								{
 									"match": "\\\\[\"\\\\/bfnrt]",
@@ -1285,11 +1285,12 @@
 								{
 									"match": "\\\\.?",
 									"name": "invalid.illegal.unrecognized-string-escape.json.tm"
+						},
+						{
+							"match": "[\\x-\\x1F\\x7F]+",
+							"name": "invalid.illegal.control-character.json.tm"
 								}
 							]
-						},
-						"3": { "name": "punctuation.definition.string.end.json.tm" }
-					}
 				},
 				{
 					"match": "\\b(?>true|false|null)\\b",
