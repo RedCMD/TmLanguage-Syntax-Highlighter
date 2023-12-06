@@ -256,7 +256,7 @@
 			"end": "(?<=\")(?!\\G)|(?=[},])",
 			"beginCaptures": {
 				"1": { "name": "punctuation.definition.string.begin.json.tm" },
-				"2": { "name": "keyword.property-name.string.$schema.json.tm" },
+				"2": { "name": "keyword.property-name.string.schema.json.tm" },
 				"3": { "name": "punctuation.definition.string.end.json.tm" }
 			},
 			"patterns": [
@@ -993,7 +993,7 @@
 					"end": "(?<=[]}\"])(?!\\G)|(?=[},])",
 					"beginCaptures": {
 						"1": { "name": "punctuation.definition.string.begin.json.tm" },
-						"2": { "name": "keyword.property-name.string.//.json.tm" },
+						"2": { "name": "keyword.property-name.string.comment-slash.json.tm" },
 						"3": { "name": "punctuation.definition.string.end.json.tm" }
 					},
 					"patterns": [
