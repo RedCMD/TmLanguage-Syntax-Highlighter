@@ -176,7 +176,13 @@ module.exports = grammar({
 
 		captures: $ => pair($,
 			"captures",
-			object($, $.capture),
+			object($,
+				choice(
+					$.capture,
+					$._comments,
+					$.item,
+				),
+			),
 		),
 		beginCaptures: $ => pair($,
 			"beginCaptures",

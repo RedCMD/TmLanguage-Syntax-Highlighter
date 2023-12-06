@@ -200,6 +200,18 @@
           "named": true
         },
         {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "comment_slash",
+          "named": true
+        },
+        {
+          "type": "item",
+          "named": true
+        },
+        {
           "type": "key",
           "named": true
         }

@@ -1608,8 +1608,21 @@
                       }
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "capture"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "capture"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "_comments"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "item"
+                        }
+                      ]
                     },
                     {
                       "type": "REPEAT",
@@ -1635,8 +1648,21 @@
                             }
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "capture"
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "capture"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "_comments"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "item"
+                              }
+                            ]
                           }
                         ]
                       }
