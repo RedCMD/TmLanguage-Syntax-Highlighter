@@ -1000,6 +1000,20 @@
 						{ "include": "#comment-slash-pair" },
 						{ "include": "#dictionary-separator" }
 					]
+				},
+				{
+					"comment": "\"information_for_contributors\": ...",
+					"begin": "(\")(information_for_contributors)(\")",
+					"end": "(?<=[]}\"])(?!\\G)|(?=[},])",
+					"beginCaptures": {
+						"1": { "name": "punctuation.definition.string.begin.json.tm" },
+						"2": { "name": "keyword.property-name.string.information_for_contributors.json.tm" },
+						"3": { "name": "punctuation.definition.string.end.json.tm" }
+					},
+					"patterns": [
+						{ "include": "#comment-slash-pair" },
+						{ "include": "#dictionary-separator" }
+					]
 				}
 			],
 			"repository": {

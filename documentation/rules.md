@@ -12,6 +12,7 @@ https://github.com/microsoft/vscode-textmate/blob/main/src/rule.ts#L389
 The JSON object containing your grammar.  
 It is required along with [patterns](#patterns) and [scopeName](#scopename)  
 Valid rules:
+* [information_for_contributors](#information_for_contributors)
 * [version](#version)
 * [$schema](#schema)
 * [name](#name_display)
@@ -270,6 +271,11 @@ Not supported by TextMate.
 `"disabled:" true`  
 Disables the current rule for easy testing.  
 Not currently supported by VSCode.  
+
+## information_for_contributors
+`"information_for_contributors:" [ "..." ]`  
+VSCode supplies it in their builtin syntax grammars.  
+Not supported by TextMate.  
 
 ## version
 `"version:" "..."`  

@@ -433,6 +433,49 @@
     }
   },
   {
+    "type": "information_for_contributors",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "item",
+          "named": true
+        },
+        {
+          "type": "key",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "injection",
     "named": true,
     "fields": {},
@@ -579,6 +622,10 @@
         },
         {
           "type": "foldingStopMarker",
+          "named": true
+        },
+        {
+          "type": "information_for_contributors",
           "named": true
         },
         {
