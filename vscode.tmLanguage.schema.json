@@ -110,9 +110,39 @@
 			"dependencies": { "foldingStopMarker": { "required": [ "foldingStartMarker" ] } },
 			"defaultSnippets": [
 				{
-					"label": "~Regular expression",
-					"markdownDescription": "\t\"match\": \"\\\\b(true|false)\\\\b\"",
-					"body": "{\"scopeName\": \"source.${1:languageId}\",\"patterns\":[{\"include\":\"#${2:repo-item}\"}],\"repository\":{\"${2:repo-item}\":{$0}}}"
+					"label": "New grammar",
+					"markdownDescription": "\t{\n\t\t\"scopeName\": \"source.languageId\",\n\t\t\"patterns\": [\n\t\t\t{ }\n\t\t],\n\t\t\"repository\": { }\n\t}",
+					"body": {
+						"$${github_com_microsoft_vscode_issues_200424///}schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
+						"scopeName": "source.${1:languageId}",
+						"name": "${1:languageId}",
+						"patterns": [
+							"^{ \"include\": \"#$2\" }",
+							"^{ \"include\": \"#string\" }",
+							"^{ \"include\": \"#boolean\" }"
+						],
+						"repository": {
+							"${2:repo-item}": "^{\n\t\t\t$0\n\t\t}",
+							"boolean": {
+								"comment": "`\\\\b` is a 0-width word boundary. `$${github_com_microsoft_vscode_issues_200424///}1` references capture group 1",
+								"match": "\\\\b(true|false)\\\\b",
+								"name": "constant.language.$${github_com_microsoft_vscode_issues_200424///}1.${1:languageId}"
+							},
+							"string": {
+								"comment": "\"begin\" & \"end\" can create a multi-line region",
+								"begin": "\"",
+								"end": "\"",
+								"name": "string.quoted.double.${1:languageId}",
+								"patterns": [
+									{
+										"comment": "Quad backslash required to match one literal backslash",
+										"match": "\\\\\\\\.",
+										"name": "constant.character.escape.${1:languageId}"
+									}
+								]
+							}
+						}
+					}
 				}
 			]
 		},
