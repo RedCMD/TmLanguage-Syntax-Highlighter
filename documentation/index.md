@@ -1,6 +1,6 @@
 ## Introduction
 
-TextMate is a general purpose GUI text editor for Mac released by [MacroMates](https://macromates.com/).  
+TextMate is a general purpose GUI text editor for MacOS released by [MacroMates](https://macromates.com/).  
 It is also a language grammar specification that is mainly used for syntax highlighting.  
 Supported by [VSCode](https://code.visualstudio.com/), [Github](https://github.com/github-linguist/linguist), [Sublime](https://www.sublimetext.com/), [Atom](https://github.com/atom) and of course [TextMate](https://macromates.com/manual/en/language_grammars).  
 
@@ -20,19 +20,19 @@ The rest of this file will be in the context of VSCode's TextMate JSON.
 * Todo: Improve layout of this file. Split each section into its own seperate file?  
 
 ## Package.json
-VSCode TextMate syntax files use the file extension `.tmLanguage.json` and are located in `./syntaxes/`.  
+VSCode TextMate syntax files use the file extension `.tmLanguage.json` and are located in `./extensions/publisher.extension_name.version/syntaxes/*`.  
 Todo: Explain basics of the `Package.json` in relation to TextMate syntaxes.  
 
-## [Rules](./rules.md)
+## [Rules](rules.md)
 
 ## Regex
 VSCode TextMate uses the [oniguruma](https://github.com/kkos/oniguruma) dialect.  
 It used to use Ruby.  
 Here is a list of all valid regex [expressions](https://github.com/kkos/oniguruma/blob/master/doc/RE).  
 [regex.tmLanguage.json](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/syntaxes/regex.tmLanguage.json).  
-`\\K` [Keep](https://github.com/kkos/oniguruma/blob/master/doc/RE#L183) effectively moves the start position of the tokenized text.  
+`\\K` [Keep](https://github.com/kkos/oniguruma/blob/master/doc/RE#L183) effectively moves the start position of the captured text.  
 `\\G` [MatchAnchor](https://github.com/kkos/oniguruma/blob/master/doc/RE#L182) matches against the end of a [begin](./rules.md#begin) rule.  
-Capture groups inside a normal lookaround can be targeted by [capture](rules.md#capture).  
+Capture groups inside a positive-lookaround can be targeted by [capture](rules.md#capture).  
 Capture groups inside a negative-lookaround will cause an error. Use non-capture group `(?:...)` instead.  
 
 ## Embedded Languages

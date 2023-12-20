@@ -11,20 +11,24 @@ https://github.com/microsoft/vscode-textmate/blob/main/src/rule.ts#L389
 `{ ... }`  
 The JSON object containing your grammar.  
 It is required along with [patterns](#patterns) and [scopeName](#scopename)  
-Valid rules:
-* [information_for_contributors](#information_for_contributors)
-* [version](#version)
-* [$schema](#schema)
-* [name](#name_display)
+Valid VSCode TextMate rules:
 * [scopeName](#scopename)
-* [fileTypes](#filetypes)
-* [firstLineMatch](#firstlinematch)
-* [foldingStartMarker](#foldingstartmarker)
-* [foldingStopMarker](#foldingstopmarker)
 * [injections](#injections)
 * [injectionSelector](#injectionselector)
 * [patterns](#patterns)
 * [repository](#repository)
+
+Valid offical TextMate rules: (ignored by VSCode TextMate)
+* [name](#name_display)
+* [fileTypes](#filetypes)
+* [firstLineMatch](#firstlinematch)
+* [foldingStartMarker](#foldingstartmarker)
+* [foldingStopMarker](#foldingstopmarker)
+
+Other supported rules: (ignored by VSCode/offical TextMate)
+* [information_for_contributors](#information_for_contributors)
+* [version](#version)
+* [$schema](#schema)
 * [uuid](#uuid)
 * [comment](#comment)
 * [unknown](#unknown)
