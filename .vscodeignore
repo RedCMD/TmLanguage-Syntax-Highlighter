@@ -9,6 +9,7 @@ documentation/**
 .vsixmanifest
 .editorconfig
 .gitignore
+.js.map
 
 scope-colours.tmLanguage.json
 scope-names.tmLanguage.json

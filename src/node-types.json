@@ -481,7 +481,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "comment",
@@ -689,7 +689,7 @@
           "named": true
         },
         {
-          "type": "value",
+          "type": "regex",
           "named": true
         }
       ]
@@ -1006,11 +1006,6 @@
     }
   },
   {
-    "type": "value",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "version",
     "named": true,
     "fields": {},
@@ -1105,8 +1100,16 @@
     "named": true
   },
   {
+    "type": "regex",
+    "named": true
+  },
+  {
     "type": "true",
     "named": false
+  },
+  {
+    "type": "value",
+    "named": true
   },
   {
     "type": "{",
