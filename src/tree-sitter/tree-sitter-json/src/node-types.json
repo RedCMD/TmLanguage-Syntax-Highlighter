@@ -2,9 +2,20 @@
   {
     "type": "applyEndPatternLast",
     "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -13,10 +24,6 @@
         },
         {
           "type": "integer",
-          "named": true
-        },
-        {
-          "type": "key",
           "named": true
         },
         {
@@ -64,15 +71,22 @@
   {
     "type": "begin",
     "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "key",
-          "named": true
-        },
         {
           "type": "value",
           "named": true
@@ -83,17 +97,24 @@
   {
     "type": "beginCaptures",
     "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "capture",
-          "named": true
-        },
-        {
-          "type": "key",
           "named": true
         }
       ]
@@ -107,17 +128,68 @@
   {
     "type": "capture",
     "named": true,
-    "fields": {},
+    "fields": {
+      "begin": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "key": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      },
+      "match": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "match",
+            "named": true
+          }
+        ]
+      },
+      "patterns": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "patterns",
+            "named": true
+          }
+        ]
+      },
+      "repository": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "repository",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "applyEndPatternLast",
-          "named": true
-        },
-        {
-          "type": "begin",
           "named": true
         },
         {
@@ -157,23 +229,7 @@
           "named": true
         },
         {
-          "type": "key",
-          "named": true
-        },
-        {
-          "type": "match",
-          "named": true
-        },
-        {
           "type": "nameScope",
-          "named": true
-        },
-        {
-          "type": "patterns",
-          "named": true
-        },
-        {
-          "type": "repository",
           "named": true
         },
         {
@@ -190,10 +246,21 @@
   {
     "type": "captures",
     "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "capture",
@@ -210,10 +277,6 @@
         {
           "type": "item",
           "named": true
-        },
-        {
-          "type": "key",
-          "named": true
         }
       ]
     }
@@ -221,15 +284,22 @@
   {
     "type": "comment",
     "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "key",
-          "named": true
-        },
         {
           "type": "value",
           "named": true
@@ -240,319 +310,18 @@
   {
     "type": "comment_slash",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "array",
-          "named": true
-        },
-        {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "item",
-          "named": true
-        },
-        {
-          "type": "key",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "object",
-          "named": true
-        },
-        {
-          "type": "value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "contentName",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "key",
-          "named": true
-        },
-        {
-          "type": "value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "end",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "key",
-          "named": true
-        },
-        {
-          "type": "value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "endCaptures",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "capture",
-          "named": true
-        },
-        {
-          "type": "key",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "fileTypes",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "key",
-          "named": true
-        },
-        {
-          "type": "value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "firstLineMatch",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "key",
-          "named": true
-        },
-        {
-          "type": "value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "foldingStartMarker",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "key",
-          "named": true
-        },
-        {
-          "type": "value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "foldingStopMarker",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "key",
-          "named": true
-        },
-        {
-          "type": "value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "include",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "key",
-          "named": true
-        },
-        {
-          "type": "value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "information_for_contributors",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "array",
-          "named": true
-        },
-        {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "item",
-          "named": true
-        },
-        {
-          "type": "key",
-          "named": true
-        },
-        {
-          "type": "null",
-          "named": true
-        },
-        {
-          "type": "object",
-          "named": true
-        },
-        {
-          "type": "value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "injection",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "comment",
-          "named": true
-        },
-        {
-          "type": "comment_slash",
-          "named": true
-        },
-        {
-          "type": "item",
-          "named": true
-        },
-        {
-          "type": "key",
-          "named": true
-        },
-        {
-          "type": "patterns",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "injectionSelector",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "key",
-          "named": true
-        },
-        {
-          "type": "value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "injections",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "injection",
-          "named": true
-        },
-        {
-          "type": "key",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "integer",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "item",
-    "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -574,7 +343,406 @@
           "named": true
         },
         {
-          "type": "key",
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "contentName",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "end",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "endCaptures",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "capture",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "fileTypes",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "firstLineMatch",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "foldingStartMarker",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "foldingStopMarker",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "include",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "information_for_contributors",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "item",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "injection",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "comment_slash",
+          "named": true
+        },
+        {
+          "type": "item",
+          "named": true
+        },
+        {
+          "type": "patterns",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "injectionSelector",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "injections",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "injection",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "integer",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "item",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "item",
           "named": true
         },
         {
@@ -672,22 +840,24 @@
     }
   },
   {
-    "type": "key",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "match",
     "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "key",
-          "named": true
-        },
         {
           "type": "regex",
           "named": true
@@ -698,15 +868,22 @@
   {
     "type": "name",
     "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "key",
-          "named": true
-        },
         {
           "type": "value",
           "named": true
@@ -717,15 +894,22 @@
   {
     "type": "nameScope",
     "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "key",
-          "named": true
-        },
         {
           "type": "value",
           "named": true
@@ -751,17 +935,54 @@
   {
     "type": "pattern",
     "named": true,
-    "fields": {},
+    "fields": {
+      "begin": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "match": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "match",
+            "named": true
+          }
+        ]
+      },
+      "patterns": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "patterns",
+            "named": true
+          }
+        ]
+      },
+      "repository": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "repository",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
           "type": "applyEndPatternLast",
-          "named": true
-        },
-        {
-          "type": "begin",
           "named": true
         },
         {
@@ -801,19 +1022,7 @@
           "named": true
         },
         {
-          "type": "match",
-          "named": true
-        },
-        {
           "type": "nameScope",
-          "named": true
-        },
-        {
-          "type": "patterns",
-          "named": true
-        },
-        {
-          "type": "repository",
           "named": true
         },
         {
@@ -830,15 +1039,22 @@
   {
     "type": "patterns",
     "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
-        {
-          "type": "key",
-          "named": true
-        },
         {
           "type": "pattern",
           "named": true
@@ -849,17 +1065,64 @@
   {
     "type": "repo",
     "named": true,
-    "fields": {},
+    "fields": {
+      "begin": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      },
+      "match": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "match",
+            "named": true
+          }
+        ]
+      },
+      "patterns": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "patterns",
+            "named": true
+          }
+        ]
+      },
+      "repository": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "repository",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
           "type": "applyEndPatternLast",
-          "named": true
-        },
-        {
-          "type": "begin",
           "named": true
         },
         {
@@ -899,23 +1162,7 @@
           "named": true
         },
         {
-          "type": "key",
-          "named": true
-        },
-        {
-          "type": "match",
-          "named": true
-        },
-        {
           "type": "nameScope",
-          "named": true
-        },
-        {
-          "type": "patterns",
-          "named": true
-        },
-        {
-          "type": "repository",
           "named": true
         },
         {
@@ -932,15 +1179,22 @@
   {
     "type": "repository",
     "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
-        {
-          "type": "key",
-          "named": true
-        },
         {
           "type": "repo",
           "named": true
@@ -951,15 +1205,22 @@
   {
     "type": "schema",
     "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "key",
-          "named": true
-        },
         {
           "type": "value",
           "named": true
@@ -970,15 +1231,22 @@
   {
     "type": "scopeName",
     "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
-        {
-          "type": "key",
-          "named": true
-        },
         {
           "type": "value",
           "named": true
@@ -989,15 +1257,22 @@
   {
     "type": "uuid",
     "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "key",
-          "named": true
-        },
         {
           "type": "value",
           "named": true
@@ -1006,17 +1281,80 @@
     }
   },
   {
+    "type": "value",
+    "named": true,
+    "fields": {
+      "base": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "base",
+            "named": true
+          }
+        ]
+      },
+      "ruleName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ruleName",
+            "named": true
+          }
+        ]
+      },
+      "scopeName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "scopeName",
+            "named": true
+          }
+        ]
+      },
+      "self": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "self",
+            "named": true
+          }
+        ]
+      },
+      "sharp": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "version",
     "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "key",
-          "named": true
-        },
         {
           "type": "value",
           "named": true
@@ -1027,15 +1365,22 @@
   {
     "type": "while",
     "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "key",
-          "named": true
-        },
         {
           "type": "value",
           "named": true
@@ -1046,17 +1391,24 @@
   {
     "type": "whileCaptures",
     "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "key",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "capture",
-          "named": true
-        },
-        {
-          "type": "key",
           "named": true
         }
       ]
@@ -1069,6 +1421,10 @@
   },
   {
     "type": "\"",
+    "named": false
+  },
+  {
+    "type": "#",
     "named": false
   },
   {
@@ -1088,8 +1444,16 @@
     "named": false
   },
   {
+    "type": "base",
+    "named": true
+  },
+  {
     "type": "false",
     "named": false
+  },
+  {
+    "type": "key",
+    "named": true
   },
   {
     "type": "null",
@@ -1100,12 +1464,16 @@
     "named": true
   },
   {
-    "type": "true",
-    "named": false
+    "type": "ruleName",
+    "named": true
   },
   {
-    "type": "value",
+    "type": "self",
     "named": true
+  },
+  {
+    "type": "true",
+    "named": false
   },
   {
     "type": "{",

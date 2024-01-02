@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.initTreeSitter = exports.toPoint = exports.toRange = exports.getTree = void 0;
+exports.initTreeSitter = exports.toPoint = exports.toRange = exports.queryForPosition = exports.queryNode = exports.getTree = void 0;
 const vscode = require("vscode");
 const Parser = require("web-tree-sitter");
 const extension_1 = require("./extension");
@@ -11,7 +11,32 @@ function getTree(document) {
     return tree;
 }
 exports.getTree = getTree;
+function queryNode(node, queryString, startPoint, endPoint) {
+    const language = node.tree.getLanguage();
+    const query = language.query(queryString);
+    const queryCaptures = query.captures(node, startPoint, endPoint ?? startPoint);
+    if (startPoint && !endPoint) {
+        const queryCapture = queryCaptures.pop(); // the last/inner most node
+        return queryCapture ?? null;
+    }
+    return queryCaptures;
+}
+exports.queryNode = queryNode;
+/**
+ * @deprecated use {@link queryNode()} instead
+ */
+function queryForPosition(tree, queryString, point) {
+    const language = tree.getLanguage();
+    const query = language.query(queryString);
+    const queryCaptures = query.captures(tree.rootNode, point, point);
+    const queryCapture = queryCaptures.pop(); // the last/inner most node
+    return queryCapture;
+}
+exports.queryForPosition = queryForPosition;
 function toRange(node) {
+    if (!node) {
+        return;
+    }
     const startPosition = node.startPosition;
     const endPosition = node.endPosition;
     return new vscode.Range(startPosition.row, startPosition.column, endPosition.row, endPosition.column);
@@ -20,7 +45,8 @@ exports.toRange = toRange;
 function toPoint(position) {
     const row = position.line;
     const column = position.character;
-    return { row: row, column: column };
+    const point = { row: row, column: column };
+    return point;
 }
 exports.toPoint = toPoint;
 async function initTreeSitter(context) {

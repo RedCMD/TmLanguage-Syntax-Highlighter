@@ -16,7 +16,36 @@ export function getTree(document: vscode.TextDocument): Parser.Tree {
 	return tree;
 }
 
+export function queryNode(node: Parser.SyntaxNode, queryString: string): Parser.QueryCapture[];
+export function queryNode(node: Parser.SyntaxNode, queryString: string, point: Parser.Point): Parser.QueryCapture | null;
+export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoint: Parser.Point, endPoint: Parser.Point): Parser.QueryCapture[];
+export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoint?: Parser.Point, endPoint?: Parser.Point): Parser.QueryCapture[] | Parser.QueryCapture | null {
+	const language = node.tree.getLanguage();
+	const query = language.query(queryString);
+	const queryCaptures = query.captures(node, startPoint, endPoint ?? startPoint);
+	if (startPoint && !endPoint) {
+		const queryCapture = queryCaptures.pop(); // the last/inner most node
+		return queryCapture ?? null;
+	}
+	return queryCaptures;
+}
+
+/**
+ * @deprecated use {@link queryNode()} instead
+ */
+export function queryForPosition(tree: Parser.Tree, queryString: string, point?: Parser.Point): Parser.QueryCapture | undefined {
+	const language = tree.getLanguage();
+	const query = language.query(queryString);
+	const queryCaptures = query.captures(tree.rootNode, point, point);
+	const queryCapture = queryCaptures.pop(); // the last/inner most node
+	return queryCapture;
+}
+
 export function toRange(node: Parser.SyntaxNode): vscode.Range {
+	if (!node) {
+		return;
+	}
+
 	const startPosition = node.startPosition;
 	const endPosition = node.endPosition;
 
@@ -31,12 +60,13 @@ export function toRange(node: Parser.SyntaxNode): vscode.Range {
 export function toPoint(position: vscode.Position): Parser.Point {
 	const row = position.line;
 	const column = position.character;
-	return { row: row, column: column };
+	const point: Parser.Point = { row: row, column: column };
+	return point;
 }
 
 export async function initTreeSitter(context: vscode.ExtensionContext) {
 	// vscode.window.showInformationMessage(JSON.stringify("TreeSitterInit"));
-	await Parser.init(); // returns underfined
+	await Parser.init(); // Everything MUST wait until TreeSitter initializes
 
 	const jsonParser = new Parser();
 	const jsonWasm = context.asAbsolutePath('out/tree-sitter-jsontm.wasm');

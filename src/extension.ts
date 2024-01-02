@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import * as Parser from 'web-tree-sitter';
 
 import { initTreeSitter } from "./TreeSitter";
 import { initDiagnostics } from "./DiagnosticCollection";

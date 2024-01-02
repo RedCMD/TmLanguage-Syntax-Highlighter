@@ -1,7 +1,7 @@
 // https://github.com/tree-sitter/tree-sitter/blob/master/docs/section-3-creating-parsers.md
 
 if (false) {// `tree-sitter generate` fails if this is true
-	// However VSCode js extension still seems to pickup the file. Providing lovely tooltip hints :)
+	// However the VSCode js extension still seems to pickup the file. Providing lovely tooltip hints :)
 	require('./../../../node_modules/tree-sitter-cli/dsl');
 }
 
@@ -11,6 +11,11 @@ module.exports = grammar({
 		//$._whitespace,
 	],
 	word: $ => $._string,
+	externals: $ => [
+		$._forceStringNode, // Forces a 0width empty node if it is before a double quote " . Useful when querrying the resulting syntax tree
+		$.ERROR,
+	],
+
 	rules: {
 		json: $ => repeat(
 			choice(
@@ -45,11 +50,9 @@ module.exports = grammar({
 			object($, $.repo),
 		),
 		repo: $ => pair($,
-			repeat(
-				choice(
-					/\\./,
-					/[^\\"\r\n]+/,
-				),
+			choice(
+				$._string,
+				$._forceStringNode,
 			),
 			$._pattern,
 		),
@@ -67,12 +70,24 @@ module.exports = grammar({
 				$.include,
 				$.nameScope,
 				$.contentName,
-				$.match,
-				$.begin,
+				field(
+					'match',
+					$.match,
+				),
+				field(
+					'begin',
+					$.begin,
+				),
 				$.end,
 				$.while,
-				$.patterns,
-				$.repository,
+				field(
+					'patterns',
+					$.patterns,
+				),
+				field(
+					'repository',
+					$.repository,
+				),
 				$.captures,
 				$.beginCaptures,
 				$.endCaptures,
@@ -83,34 +98,84 @@ module.exports = grammar({
 			),
 		),
 
+		/*
+		
+		source
+		source#
+		source#$self
+		source#include
+		#
+		#$self
+		#include
+		$self
+		*/
 		include: $ => pair($,
 			"include",
-			string($),
+			string($,
+				alias(
+					choice(
+						$.includeValue,
+						$._forceStringNode,
+					),
+					$.value,
+				),
+			),
 		),
-		// value: $ => choice(
-		// 	seq(
-		// 		$._includeScope,
-		// 		optional(
-		// 			$._includeItem,
-		// 		),
-		// 	),
-		// 	$._includeItem,
-		// ),
-		// _includeScope: $ => repeat1(
-		// 	choice(
-		// 		/\\[^#]/,
-		// 		/[^#\\"\r\n]+/,
-		// 	),
-		// ),
-		// _includeItem: $ => seq(
-		// 	'#',
-		// 	repeat1(
-		// 		choice(
-		// 			/\\./,
-		// 			/[^\\"\r\n]+/,
-		// 		),
-		// 	),
-		// ),
+		includeValue: $ => choice(
+			$._self,
+			$._base,
+			$._includeScopeName,
+			seq(
+				optional($._includeScopeName),
+				$._sharp,
+				optional(
+					choice(
+						$._includeRuleName,
+						$._self,
+						$._base,
+					),
+				),
+			),
+		),
+		_includeScopeName: $ => field(
+			'scopeName',
+			alias(
+				token(
+					repeat1(
+						choice(
+							/\\[^\r\n\t#]?/,
+							/[^\\\r\n\t#"]+/,
+						),
+					),
+				),
+				$.scopeName,
+			),
+		),
+		_sharp: $ => field(
+			'sharp',
+			'#',
+		),
+		_includeRuleName: $ => field(
+			'ruleName',
+			alias(
+				$._string,
+				$.ruleName,
+			),
+		),
+		_self: $ => field(
+			'self',
+			alias(
+				'$self',
+				$.self,
+			),
+		),
+		_base: $ => field(
+			'base',
+			alias(
+				'$base',
+				$.base,
+			),
+		),
 
 		scopeName: $ => pair($,
 			"scopeName",
@@ -138,7 +203,10 @@ module.exports = grammar({
 			object($, $.injection),
 		),
 		injection: $ => pair($,
-			$._string,
+			choice(
+				$._string,
+				$._forceStringNode,
+			),
 			object($,
 				choice(
 					$.patterns,
@@ -152,7 +220,10 @@ module.exports = grammar({
 			"match",
 			string($,
 				alias(
-					$._string,
+					choice(
+						$._string,
+						$._forceStringNode,
+					),
 					$.regex,
 				),
 			),
@@ -264,7 +335,10 @@ module.exports = grammar({
 		),
 
 		item: $ => pair($,
-			optional($._string),
+			choice(
+				$._string,
+				$._forceStringNode,
+			),
 			$._value,
 		),
 		object: $ => object($, $.item),
@@ -369,13 +443,21 @@ function commaSep($, rule) {
 /**
  * Boiler plate for creating a json pair. `key: value`
  * @param {_$} $ 
- * @param {RuleOrLiteral} key 
+ * @param {RuleOrLiteral} key string
  * @param {RuleOrLiteral} value 
  * @returns {Rule}
  */
 function pair($, key, value) {
 	return seq(
-		string($, alias(key, $.key)),
+		string($,
+			field(
+				'key',
+				alias(
+					key,
+					$.key,
+				),
+			),
+		),
 		repeat($._whitespace),
 		':',
 		repeat($._whitespace),
@@ -394,11 +476,12 @@ function string($, contents) {
 		'"',
 		contents != null ?
 			contents :
-			optional(
-				alias(
+			alias(
+				choice(
 					$._string,
-					$.value,
+					$._forceStringNode,
 				),
+				$.value,
 			),
 		'"',
 	)
