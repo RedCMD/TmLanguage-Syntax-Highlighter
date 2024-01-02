@@ -51,7 +51,7 @@ function toPoint(position) {
 exports.toPoint = toPoint;
 async function initTreeSitter(context) {
     // vscode.window.showInformationMessage(JSON.stringify("TreeSitterInit"));
-    await Parser.init(); // returns underfined
+    await Parser.init(); // Everything MUST wait until TreeSitter initializes
     const jsonParser = new Parser();
     const jsonWasm = context.asAbsolutePath('out/tree-sitter-jsontm.wasm');
     const jsonLanguage = await Parser.Language.load(jsonWasm);

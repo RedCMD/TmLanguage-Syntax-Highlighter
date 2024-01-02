@@ -16,7 +16,7 @@ exports.DocumentSelector = [
     // { language: 'typescript' }
 ];
 async function activate(context) {
-    vscode.window.showInformationMessage(JSON.stringify("TextMate Extension"));
+    // vscode.window.showInformationMessage(JSON.stringify("TextMate Extension"));
     await (0, TreeSitter_1.initTreeSitter)(context);
     (0, DiagnosticCollection_1.initDiagnostics)(context);
     // context.subscriptions.push(vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider)); // Mouse over Hovers
@@ -25,6 +25,7 @@ async function activate(context) {
     context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(exports.DocumentSelector, DocumentSymbolProvider_1.DocumentSymbolProvider)); // Breadcrumbs
     context.subscriptions.push(vscode.languages.registerCompletionItemProvider(exports.DocumentSelector, CompletionItemProvider_1.CompletionItemProvider, ...CompletionItemProvider_1.triggerCharacters)); // Intellisense ctrl+space completions
     context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(exports.DocumentSelector, DocumentFormattingEditProvider_1.DocumentFormattingEditProvider)); // right-click => format
+    context.subscriptions.push(vscode.languages.registerDocumentRangeFormattingEditProvider(exports.DocumentSelector, DocumentFormattingEditProvider_1.DocumentRangeFormattingEditProvider)); // right-click => format
     // context.subscriptions.push(vscode.languages.registerDocumentSemanticTokensProvider(DocumentSelector, DocumentSemanticTokensProvider, SemanticTokensLegend)); // Context aware syntax highlighting
 }
 exports.activate = activate;
