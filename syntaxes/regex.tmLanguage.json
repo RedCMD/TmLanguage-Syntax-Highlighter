@@ -4,25 +4,25 @@
 	"scopeName": "source.syntax.regexp.tmLanguage",
 	"name": "TextMate Language Regex",
 	"injections": {
-		"L:capture-group-lookbehind -character-class -comment": {
+		"L:capture-group-lookbehind -capture-group-modify-extended character-class comment": {
 			"patterns": [
 				{ "include": "#capture-group-lookbehind-invalid" },
 				{ "include": "#absent-invalid" }
 			]
 		},
-		"L:capture-group-lookbehind-extended -character-class -comment": {
+		"L:capture-group-lookbehind-extended -capture-group-modify character-class comment": {
 			"patterns": [
 				{ "include": "#capture-group-lookbehind-invalid-extended" },
 				{ "include": "#absent-invalid-extended" }
 			]
 		},
-		"L:capture-group-negative-lookbehind -character-class -comment": {
+		"L:capture-group-negative-lookbehind -capture-group-modify-extended character-class comment": {
 			"patterns": [
 				{ "include": "#capture-group-negative-lookbehind-invalid" },
 				{ "include": "#absent-invalid" }
 			]
 		},
-		"L:capture-group-negative-lookbehind-extended -character-class -comment": {
+		"L:capture-group-negative-lookbehind-extended -capture-group-modify character-class comment": {
 			"patterns": [
 				{ "include": "#capture-group-negative-lookbehind-invalid-extended" },
 				{ "include": "#absent-invalid-extended" }
@@ -746,7 +746,7 @@
 			"patterns": [
 				{
 					"begin": "(?<=\\|)\\G",
-					"end": "\\||(?=\\))",
+					"end": "\\|",
 					"endCaptures": { "0": { "name": "support.function.tm" } },
 					"patterns": [ { "include": "#$self-extended" } ]
 				},

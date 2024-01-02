@@ -4,25 +4,25 @@
 	"scopeName": "source.syntax.json.tmLanguage",
 	"name": "TextMate Language JSON",
 	"injections": {
-		"L:capture-group-lookbehind -character-class -comment": {
+		"L:capture-group-lookbehind -capture-group-modify-extended character-class comment": {
 			"patterns": [
 				{ "include": "source.syntax.regexp.tmLanguage#capture-group-lookbehind-invalid" },
 				{ "include": "source.syntax.regexp.tmLanguage#absent-invalid" }
 			]
 		},
-		"L:capture-group-lookbehind-extended -character-class -comment": {
+		"L:capture-group-lookbehind-extended -capture-group-modify character-class comment": {
 			"patterns": [
 				{ "include": "source.syntax.regexp.tmLanguage#capture-group-lookbehind-invalid-extended" },
 				{ "include": "source.syntax.regexp.tmLanguage#absent-invalid-extended" }
 			]
 		},
-		"L:capture-group-negative-lookbehind -character-class -comment": {
+		"L:capture-group-negative-lookbehind -capture-group-modify-extended character-class comment": {
 			"patterns": [
 				{ "include": "source.syntax.regexp.tmLanguage#capture-group-negative-lookbehind-invalid" },
 				{ "include": "source.syntax.regexp.tmLanguage#absent-invalid" }
 			]
 		},
-		"L:capture-group-negative-lookbehind-extended -character-class -comment": {
+		"L:capture-group-negative-lookbehind-extended -capture-group-modify character-class comment": {
 			"patterns": [
 				{ "include": "source.syntax.regexp.tmLanguage#capture-group-negative-lookbehind-invalid-extended" },
 				{ "include": "source.syntax.regexp.tmLanguage#absent-invalid-extended" }
@@ -369,26 +369,25 @@
 			"comment": "All non-functional characters are treated as whitespace.  This includes whitespace ` ` and asterisk `*`.  [^\\w.,:|()-]",
 			"patterns": [
 				{
-					"match": "\\\\[\\\\\"/bfnrt]",
-					"name": "punctuation.definition.tag.tm"
+					"match": "(?>\\\\[\\\\\"/bfnrt])+",
+					"name": "comment.injection.whitespace.tm"
 				},
 				{ "include": "#escape-characters" },
 				{
 					"begin": "[)|]",
 					"end": "(?=\")",
-					"name": "punctuation.definition.tag.tm regex"
+					"name": "comment.injection.whitespace.tm"
 				},
 				{
-					"match": "(?<=(?>^|[^\\\\])\"|,)((?>\\\\[\\\\\"/bfnrt]|[^\\\\\"\\w.:|()-])*)(?>([LR]:)|([\\w.:]:))",
+					"match": "(?<=(?>^|[^\\\\])\"|,)((?>\\\\[\\\\\"/bfnrt]|[^\\\\\"\\w.:|()-])*)([LR]:|[\\w.:]:(?![\\w.:-]))",
 					"captures": {
-						"1": { "name": "punctuation.definition.tag.tm regex" },
-						"2": { "name": "support.function.tm" },
-						"3": { "name": "invalid.illegal.tm" }
+						"1": { "name": "comment.injection.whitespace.tm" },
+						"2": { "name": "support.function.tm" }
 					}
 				},
 				{
 					"begin": "text|source(?=\\.[\\w.:])",
-					"end": "(?![\\w.:])",
+					"end": "(?![\\w.:-])",
 					"beginCaptures": { "0": { "name": "support.function.tm" } },
 					"name": "string",
 					"patterns": [
@@ -400,7 +399,7 @@
 				},
 				{
 					"match": "[\\w.:][\\w.:-]*",
-					"captures": { "0": { "name": "string $0" } }
+					"name": "string $0"
 				},
 				{
 					"begin": "\\(",
@@ -409,7 +408,7 @@
 					"patterns": [
 						{
 							"match": "(?<=[,|])(?>\\\\[\\\\\"/bfnrt]|[^\\\\\\w.:()-])+",
-							"name": "punctuation.definition.tag.tm regex"
+							"name": "comment.injection.whitespace.tm"
 						},
 						{
 							"match": "\\|",
@@ -420,11 +419,11 @@
 				},
 				{
 					"match": "(?>\\\\[\\\\\"/bfnrt]|[^\\\\\"\\w.:,|()-])+",
-					"name": "punctuation.definition.tag.tm regex"
+					"name": "comment.injection.whitespace.tm"
 				},
 				{
 					"match": "(?<=,)(?>\\\\[\\\\\"/bfnrt]|[^\\\\\"\\w.:|()-])+",
-					"name": "punctuation.definition.tag.tm regex"
+					"name": "comment.injection.whitespace.tm"
 				},
 				{
 					"match": ",",
@@ -432,7 +431,14 @@
 				},
 				{
 					"match": "-(?>\\\\[\\\\\"/bfnrt]|[^\\\\\"\\w.:|()-])*-",
-					"name": "punctuation.definition.tag.tm regex"
+					"name": "comment.injection.whitespace.tm"
+				},
+				{
+					"begin": "-",
+					"end": "(?=[\"\t\n,|()-])",
+					"beginCaptures": { "0": { "name": "support.function.tm" } },
+					"name": "emphasis",
+					"patterns": [ { "include": "#injection-string" } ]
 				},
 				{
 					"match": "-",
