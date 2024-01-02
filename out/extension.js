@@ -6,6 +6,7 @@ const TreeSitter_1 = require("./TreeSitter");
 const DiagnosticCollection_1 = require("./DiagnosticCollection");
 const ReferenceProvider_1 = require("./ReferenceProvider");
 const DefinitionProvider_1 = require("./DefinitionProvider");
+const DocumentSymbolProvider_1 = require("./DocumentSymbolProvider");
 const CompletionItemProvider_1 = require("./CompletionItemProvider");
 const DocumentFormattingEditProvider_1 = require("./DocumentFormattingEditProvider");
 exports.DocumentSelector = [
@@ -21,6 +22,7 @@ async function activate(context) {
     // context.subscriptions.push(vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider)); // Mouse over Hovers
     context.subscriptions.push(vscode.languages.registerReferenceProvider(exports.DocumentSelector, ReferenceProvider_1.ReferenceProvider)); // Go to References
     context.subscriptions.push(vscode.languages.registerDefinitionProvider(exports.DocumentSelector, DefinitionProvider_1.DefinitionProvider)); // Go to Definition
+    context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(exports.DocumentSelector, DocumentSymbolProvider_1.DocumentSymbolProvider)); // Breadcrumbs
     context.subscriptions.push(vscode.languages.registerCompletionItemProvider(exports.DocumentSelector, CompletionItemProvider_1.CompletionItemProvider, ...CompletionItemProvider_1.triggerCharacters)); // Intellisense ctrl+space completions
     context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(exports.DocumentSelector, DocumentFormattingEditProvider_1.DocumentFormattingEditProvider)); // right-click => format
     // context.subscriptions.push(vscode.languages.registerDocumentSemanticTokensProvider(DocumentSelector, DocumentSemanticTokensProvider, SemanticTokensLegend)); // Context aware syntax highlighting
