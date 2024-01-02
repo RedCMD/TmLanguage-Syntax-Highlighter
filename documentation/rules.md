@@ -1,8 +1,8 @@
 
 # Rules
-VSCode TextMate doesn't support all of the offical TextMate rules.  
+VSCode TextMate doesn't support all of the official TextMate rules.  
 Supported rules under VSCode TextMate: [rawGrammar.ts](https://github.com/microsoft/vscode-textmate/blob/main/src/rawGrammar.ts)  
-All unspported rules are ignored.  
+All unsupported rules are ignored.  
 MacroMates [example_grammar](https://macromates.com/manual/en/language_grammars#example_grammar)  
 https://github.com/microsoft/vscode-textmate/blob/main/src/rule.ts#L389
 
@@ -18,14 +18,14 @@ Valid VSCode TextMate rules:
 * [patterns](#patterns)
 * [repository](#repository)
 
-Valid offical TextMate rules: (ignored by VSCode TextMate)
+Valid official TextMate rules: (ignored by VSCode TextMate)
 * [name](#name_display)
 * [fileTypes](#filetypes)
 * [firstLineMatch](#firstlinematch)
 * [foldingStartMarker](#foldingstartmarker)
 * [foldingStopMarker](#foldingstopmarker)
 
-Other supported rules: (ignored by VSCode/offical TextMate)
+Other supported rules: (ignored by VSCode/official TextMate)
 * [information_for_contributors](#information_for_contributors)
 * [version](#version)
 * [$schema](#schema)
@@ -135,7 +135,7 @@ Also applies to the captured text when paired with [patterns](#patterns) inside 
 `"match": "..."`  
 [Regex](index.md#regex) used to tokenize and capture parts of a file.  
 [name](#name) is used to apply a scope-name to the whole text being matched.  
-[captures](#captures) is used to apply scope-names to specfic capture groups and/or retokenize the capture groups.  
+[captures](#captures) is used to apply scope-names to specific capture groups and/or retokenize the capture groups.  
 All other rules are effectively ignored. Including [repository](#repository).  
 [rule.ts](https://github.com/microsoft/vscode-textmate/blob/8b07a3c2be6fe4674f9ce6bba6d5c962a7f50df5/src/rule.ts#L394-L402)  
 
@@ -147,7 +147,7 @@ All other rules are effectively ignored. Including [repository](#repository).
 [end](#end) is used to end the region that was opened by `begin`. It is effectively placed at the beginning of the [patterns](#patterns) array.  
 [while](#while) [jeff-hykin textmate_while](https://github.com/jeff-hykin/better-cpp-syntax/blob/master/documentation/library/textmate_while.md). It is prioritized over [end](#end).  
 [patterns](#patterns).  
-[captures](#captures) is used to apply scope-names to specfic capture groups and/or retokenize the capture groups.  
+[captures](#captures) is used to apply scope-names to specific capture groups and/or retokenize the capture groups.  
 [beginCaptures](#begincaptures) is just like [captures](#captures), but specifically targets `begin`. It is prioritized over [captures](#captures).  
 All other rules are effectively ignored. Including [repository](#repository).  
 `begin` places an invisible 0-width anchor after it. It can then be matched using `\\G`.  
@@ -161,7 +161,7 @@ Meaning items in [patterns](#patterns) can consume the same text as `end` and ef
 `end` can end directly after [begin](#begin). Don't get caught out by it. [Bad usage of 0-wdith `begin` and `end` rules](https://github.com/Microsoft/vscode-textmate/issues/12).  
 [applyEndPatternLast](#applyendpatternlast) controls if `end` should attempt to match before or after the [patterns](#patterns) array.  
 [name](#name) is used to apply a scope-name to the token matched by `end`.  
-[captures](#captures) is used to apply scope-names to specfic capture groups and/or retokenize the capture groups.  
+[captures](#captures) is used to apply scope-names to specific capture groups and/or retokenize the capture groups.  
 [endCaptures](#endcaptures) is just like [captures](#captures), but specifically targets `end`. It is prioritized over [captures](#captures).  
 
 
@@ -169,7 +169,7 @@ Meaning items in [patterns](#patterns) can consume the same text as `end` and ef
 `"while": "..."`  
 [jeff-hykin textmate_while](https://github.com/jeff-hykin/better-cpp-syntax/blob/master/documentation/library/textmate_while.md)  
 [name](#name) is used to apply a scope-name to the token matched by `while`.  
-[captures](#captures) is used to apply scope-names to specfic capture groups and/or retokenize the capture groups.  
+[captures](#captures) is used to apply scope-names to specific capture groups and/or retokenize the capture groups.  
 [whileCaptures](#begincaptures) is just like [captures](#captures), but specifically targets `while`. It is prioritized over [captures](#captures).  
 
 ## applyEndPatternLast
@@ -180,7 +180,7 @@ Controls if the [end](#end) rule should attempt to match before or after the [pa
 
 ## captures
 `"captures": { ... }`  
-`captures` is used to apply scope-names to specfic capture groups and/or retokenize the capture groups inside [match](#match), [begin](#begin), [end](#end) and [while](#while).  
+`captures` is used to apply scope-names to specific capture groups and/or retokenize the capture groups inside [match](#match), [begin](#begin), [end](#end) and [while](#while).  
 [beginCaptures](#begincaptures), [endCaptures](#endcaptures) and [whileCaptures](#whilecaptures) are prioritized over `captures`.  
 Valid rules:
 * [capture](#capture) is used to target a specific capture group number inside [match](#match), [begin](#begin), [end](#end) and [while](#while).  
@@ -237,7 +237,7 @@ Valid rules:
 A [patterns](#patterns) array (optionally empty) is required to be present for these rules to take effect.  
 It is not recommended to used them in this way. Rather buggy.  
 Nest them inside the [patterns](#patterns) array instead.  
-* [contentName](#contentname) can apply scope-names twice and starts at the beginning of the capture group, reguardless of [begin](#begin).  
+* [contentName](#contentname) can apply scope-names twice and starts at the beginning of the capture group, regardless of [begin](#begin).  
 * [match](#match) appears to work as expected
 * [begin](#begin) is affected by [contentName](#contentname)
 * [end](#end) will allow rules from the outside [patterns](#patterns) array to start matching.  
@@ -254,20 +254,20 @@ Nest them inside the [patterns](#patterns) array instead.
 `"comment": "..."`  
 `"//": ...`  
 VSCode's TextMate does NOT acknowledge `comment` but instead just ignores it like all other unsupported keys.  
-C styled comments `//...` and `/* ... */` are NOT allowed in TextMate json files.  
-The VSCode JSON validator ignores duplicate `"//"` keys.  
+C styled comments `//...` and `/* ... */` are NOT allowed in TextMate JSON files.  
+VSCode's JSON validator ignores duplicate `"//"` keys.  
 
 
 ## schema
 `"$schema:" "..."`  
-A link or releative file path to a json schema.  
+A link or relative file path to a json schema.  
 [Schema](https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json) used to validate VSCode TextMate json files.  
 Not supported by TextMate.  
 
 ## uuid
 `"uuid:" "..."`  
 Technically this should be required in all json files.  
-A Universally Unique IDentifier for each json file.  
+A Universally Unique IDentifier (UUID) for each json file.  
 In the format `[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}`.  
 Not supported by TextMate.  
 

@@ -17,7 +17,7 @@ Meaning you cant match new lines `\n`.
 
 The rest of this file will be in the context of VSCode's TextMate JSON.  
 
-* Todo: Improve layout of this file. Split each section into its own seperate file?  
+* Todo: Improve layout of this file. Split each section into its own separate file?  
 
 ## Package.json
 VSCode TextMate syntax files use the file extension `.tmLanguage.json` and are located in `./extensions/publisher.extension_name.version/syntaxes/*`.  
