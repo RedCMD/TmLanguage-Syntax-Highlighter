@@ -18,7 +18,7 @@ export const CompletionItemProvider = {
 		const cursorNode = cursorCapture.node;
 		const cursorRange = toRange(cursorNode);
 		const completionItems: vscode.CompletionItem[] = [];
-		
+
 		const rootPatternsQuery = `(json (patterns) @patterns)`;
 		const rootPatternsText = queryNode(tree.rootNode, rootPatternsQuery).pop()?.node?.text;
 
@@ -40,8 +40,7 @@ export const CompletionItemProvider = {
 			{ label: '$base', description: 'Includes the highest parent grammar' },
 			vscode.CompletionItemKind.Class
 		));
-		
-		
+
 		repoCompletionItems(completionItems, tree, cursorRange);
 
 		const cursorScopeName = cursorNode.childForFieldName('scopeName')?.text;
@@ -134,9 +133,9 @@ export const CompletionItemProvider = {
 }
 
 function repoCompletionItems(completionItems: vscode.CompletionItem[], tree: Parser.Tree, cursorRange: vscode.Range, scopeName?: string): void {
-	const rootNode = tree.rootNode; 
-	
-	const repoQuery = `(json (repository (repo (key) @repo)))`;
+	const rootNode = tree.rootNode;
+
+	const repoQuery = `(json (repository (repo (key) @repo (.not-match? @repo "^\\\\$(self|base)$"))))`;
 	const repoCaptures = queryNode(rootNode, repoQuery);
 
 	for (const repoCapture of repoCaptures) {
@@ -144,7 +143,7 @@ function repoCompletionItems(completionItems: vscode.CompletionItem[], tree: Par
 		const repoText = repoNode.text;
 
 		const parentRepoNode = repoText ? repoNode.parent : repoNode.parent.parent; // Tree-sitter buggy on 0width nodes
-		
+
 		const commentQuery =
 			`(comment (value) @comment (.not-eq? @comment ""))` +
 			`(comment_slash (value) @comment (.not-eq? @comment ""))`;

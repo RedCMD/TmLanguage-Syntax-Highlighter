@@ -115,7 +115,7 @@ exports.CompletionItemProvider = {
 };
 function repoCompletionItems(completionItems, tree, cursorRange, scopeName) {
     const rootNode = tree.rootNode;
-    const repoQuery = `(json (repository (repo (key) @repo)))`;
+    const repoQuery = `(json (repository (repo (key) @repo (.not-match? @repo "^\\\\$(self|base)$"))))`;
     const repoCaptures = (0, TreeSitter_1.queryNode)(rootNode, repoQuery);
     for (const repoCapture of repoCaptures) {
         const repoNode = repoCapture.node;
