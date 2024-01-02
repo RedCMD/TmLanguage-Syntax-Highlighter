@@ -2,4 +2,5 @@
 _test
 node_modules
 
-.vsixmanifest
+*.vsix
+*.vsixmanifest
