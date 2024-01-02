@@ -45,3 +45,4 @@ module.exports = grammar({
 `example-file` => `hello` (UTF8 encoding!!)
 `tree-sitter parse example-file`
 
+https://raw.githubusercontent.com/tree-sitter/tree-sitter/master/cli/src/generate/grammar-schema.json

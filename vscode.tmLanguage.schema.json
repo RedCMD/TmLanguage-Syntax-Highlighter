@@ -857,7 +857,7 @@
 		"include": {
 			"description": "Reference an item in a repository",
 			"type": "string",
-			"pattern": "^([\\w\\-. $]+(#[\\w\\-#. $]+)?|#?[\\w\\-. $]*)$",
+			"pattern": "^[\\w\\-.$]*#?[\\w\\-#. $]*$",
 			"defaultSnippets": [
 				{
 					"label": "#repo-item",

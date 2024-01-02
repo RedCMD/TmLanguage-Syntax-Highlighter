@@ -1,320 +1,176 @@
-const vscode = require("vscode")
-const _extension = require("./extension.js")
-
-const DefinitionProvider = {
-	async provideDefinition(document, position, token) {
-
-		const { getNodeAtLocation } = await _extension.parseTreeExtension.activate()
-		const location = new vscode.Location(document.uri, position)
-		const node = await getNodeAtLocation(location)
-		const locations = []
-		// vscode.window.showInformationMessage(node.text)
-
-		if (node.parent.type == 'value')
-			node = node.parent
-
-		const originSelectionRange = _extension.nodeToVscodeRange(node)
-
-		if (false) {
-			let uri = await vscode.workspace.findFiles('**/*.tmLanguage.json', '**/node_modules/**', 1)
-			uri = uri.pop()
-			// vscode.window.showInformationMessage(JSON.stringify(document.uri))
-			// vscode.window.showInformationMessage(JSON.stringify(uri))
-
-			// const { getTree } = await extension.parseTreeExtension.activate()
-			// vscode.window.showInformationMessage(JSON.stringify({ uri: uri.pop() }))
-			// const tree2 = getTree({ uri: uri.pop() })
-
-			// vscode.window.showInformationMessage(JSON.stringify("tree2.rootNode.text"))
-
-			// let targetRange2
-			// let targetSelectionRange2
-
-			// tree2.rootNode.namedChildren.forEach(rootNode2 => {
-			// 	vscode.window.showInformationMessage(rootNode2.type)
-			// 	switch (rootNode2.type) {
-			// 		case 'scopeName':
-			// 			targetRange2 = extension.nodeToVscodeRange(rootNode2)
-			// 			break
-			// 		case 'patterns':
-			// 			// vscode.window.showInformationMessage(JSON.stringify(extension.nodeToVscodeRange(rootNode)))
-			// 			// if (targetSelectionRange == null || extension.nodeToVscodeRange(rootNode).contains(extension.nodeToVscodeRange(node)))
-			// 			targetSelectionRange2 = extension.nodeToVscodeRange(rootNode2)
-			// 			break
-			// 	}
-			// })
-
-			// if (targetRange == null)
-			// 	targetRange = targetSelectionRange
-			// if (targetRange == null)
-			// 	return
-			// if (targetSelectionRange2 == null)
-			// 	targetSelectionRange2 = targetRange2
-
-			// if (targetSelectionRange2.contains(originSelectionRange))
-			// 	targetSelectionRange2 = targetRange2
-
-			// targetRange2 = targetSelectionRange2
-
-			// if (targetRange2 == null)
-			// 	return
-
-
-			const locationLink = {
-				originSelectionRange: originSelectionRange,
-				targetUri: uri,
-				targetRange: originSelectionRange,
-				targetSelectionRange: originSelectionRange
-			}
-			vscode.window.showInformationMessage(JSON.stringify(locationLink))
-			locations.push(locationLink)
-		}
-
-
-		if (node.type == 'value' && node.parent.type == 'include') {
-			const { getTree } = await _extension.parseTreeExtension.activate()
-			const tree = await getTree(document)
-
-			switch (node.text) {
-				case '$self':
-				case '$base':
-
-					let targetRange
-					let targetSelectionRange
-
-					tree.rootNode.namedChildren.forEach(rootNode => {
-						// vscode.window.showInformationMessage(node.type)
-						switch (rootNode.type) {
-							case 'scopeName':
-								targetRange = _extension.nodeToVscodeRange(rootNode)
-								break
-							case 'patterns':
-								// vscode.window.showInformationMessage(JSON.stringify(extension.nodeToVscodeRange(rootNode)))
-								// if (targetSelectionRange == null || extension.nodeToVscodeRange(rootNode).contains(extension.nodeToVscodeRange(node)))
-								targetSelectionRange = _extension.nodeToVscodeRange(rootNode)
-								break
-						}
-					})
-
-					if (targetRange == null)
-						targetRange = targetSelectionRange
-					if (targetRange == null)
-						break
-					if (targetSelectionRange == null)
-						targetSelectionRange = targetRange
-
-					if (targetSelectionRange.contains(originSelectionRange))
-						targetSelectionRange = targetRange
-
-
-					const locationLink = {
-						originSelectionRange: originSelectionRange,
-						targetUri: document.uri,
-						targetRange: targetRange,
-						targetSelectionRange: targetSelectionRange
-					}
-					locations.push(locationLink)
-					break
-
-				default:
-					// TODO: move this to tree-sitter grammar
-					const indexOfHash = node.text.indexOf("#")
-					const includeText = node.text.substring(indexOfHash + 1)
-					const nameScope = indexOfHash == -1 ? node.text : node.text.substring(0, indexOfHash)
-					// vscode.window.showInformationMessage(JSON.stringify(indexOfHash))
-
-
-					if (indexOfHash != 0) {
-						// vscode.window.showInformationMessage(JSON.stringify(vscode.extensions.all))
-						vscode.extensions.all.forEach(extension => {
-							const packageJSON = extension.packageJSON
-							if (packageJSON == null)
-								return
-
-							const contributes = packageJSON.contributes
-							if (contributes == null)
-								return
-
-							const grammars = contributes.grammars
-							if (grammars == null)
-								return
-
-							grammars.forEach(grammar => {
-								const scopeName = grammar.scopeName
-								if (scopeName != nameScope)
-									return
-
-								const path = vscode.Uri.joinPath(extension.extensionUri, grammar.path)
-								vscode.workspace.openTextDocument(path)
-							})
-						})
-						vscode.workspace.textDocuments.forEach(textDocument => {
-							// vscode.window.showInformationMessage(JSON.stringify(textDocument))
-							if (textDocument.languageId != 'json-tmLanguage')
-								return
-							const documentTree = getTree(textDocument)
-
-							if (documentTree.rootNode.namedChildren.some(rootNode =>
-								rootNode.type == 'scopeName' && rootNode.namedChild(1).text == nameScope
-							)) {
-								// vscode.window.showInformationMessage(documentTree.rootNode.text)
-								// vscode.window.showInformationMessage(JSON.stringify(indexOfHash))
-								if (indexOfHash == -1) {
-									let targetRange
-									let targetSelectionRange
-
-									documentTree.rootNode.namedChildren.forEach(rootNode => {
-										// vscode.window.showInformationMessage(node.type)
-										switch (rootNode.type) {
-											case 'scopeName':
-												targetRange = _extension.nodeToVscodeRange(rootNode)
-												break
-											case 'patterns':
-												// vscode.window.showInformationMessage(JSON.stringify(extension.nodeToVscodeRange(rootNode)))
-												// if (targetSelectionRange == null || extension.nodeToVscodeRange(rootNode).contains(extension.nodeToVscodeRange(node)))
-												targetSelectionRange = _extension.nodeToVscodeRange(rootNode)
-												break
-										}
-									})
-
-									// if (targetRange == null)
-									// 	targetRange = targetSelectionRange
-									// if (targetRange == null)
-									// 	return
-									if (targetSelectionRange == null)
-										targetSelectionRange = targetRange
-
-									if (targetSelectionRange.contains(originSelectionRange))
-										targetSelectionRange = targetRange
-
-									targetRange = targetSelectionRange
-
-									if (targetRange == null)
-										return
-
-
-									const locationLink = {
-										originSelectionRange: originSelectionRange,
-										targetUri: textDocument.uri,
-										targetRange: targetRange,
-										targetSelectionRange: targetSelectionRange
-									}
-									// vscode.window.showInformationMessage(JSON.stringify(locationLink))
-									locations.push(locationLink)
-								} else {
-									documentTree.rootNode.namedChildren.forEach(rootNode => {
-										if (rootNode.type != 'repository')
-											return
-
-										rootNode.namedChildren.forEach(repoNode => {
-											if (repoNode.type != 'repo')
-												return
-
-											if (repoNode.firstNamedChild.text != includeText)
-												return
-
-											// const locationLink2 = {
-											// 	targetUri: document.uri,
-											// 	targetRange: originSelectionRange,
-											// }
-
-											const locationLink = {
-												originSelectionRange: originSelectionRange,
-												// originSelectionRange: locationLink2,
-												targetUri: textDocument.uri,
-												// targetUri: document.uri,
-												targetRange: _extension.nodeToVscodeRange(repoNode),
-												targetSelectionRange: _extension.nodeToVscodeRange(repoNode.firstNamedChild)
-											}
-											// if (locations.length == 0)
-											// 	locationLink['originSelectionRange'] = originSelectionRange
-											// vscode.window.showInformationMessage(JSON.stringify(locationLink))
-											locations.push(locationLink)
-
-										})
-									})
-								}
-							}
-						})
-					}
-					else {
-						tree.rootNode.namedChildren.forEach(node => {
-							if (node.type != 'repository')
-								return
-
-							node.namedChildren.forEach(repoNode => {
-								if (repoNode.type != 'repo')
-									return
-
-								if (repoNode.firstNamedChild.text != includeText)
-									return
-
-								const locationLink = {
-									originSelectionRange: originSelectionRange,
-									targetUri: document.uri,
-									targetRange: _extension.nodeToVscodeRange(repoNode),
-									targetSelectionRange: _extension.nodeToVscodeRange(repoNode.firstNamedChild)
-								}
-								// vscode.window.showInformationMessage(JSON.stringify(locationLink))
-								locations.push(locationLink)
-							})
-						})
-
-						let parentNode = node.parent
-						while (parentNode != null) {
-							if (parentNode.type == 'repo')
-								parentNode.namedChildren.forEach(repoNode => {
-									if (repoNode.type != 'repository')
-										return
-
-									repoNode.namedChildren.forEach(repoNode => {
-										if (repoNode.type != 'repo')
-											return
-
-										if (repoNode.firstNamedChild.text != includeText)
-											return
-
-										const locationLink = {
-											originSelectionRange: originSelectionRange,
-											targetUri: document.uri,
-											targetRange: _extension.nodeToVscodeRange(repoNode),
-											targetSelectionRange: _extension.nodeToVscodeRange(repoNode.firstNamedChild)
-										}
-										// vscode.window.showInformationMessage(JSON.stringify(locationLink))
-										locations.push(locationLink)
-									})
-								})
-							parentNode = parentNode.parent
-						}
-					}
-
-					break
-			}
-		}
-		else if (node.type == 'key' && node.parent.type == 'repo') {
-			// Call ReferenceProvider (down below)
-		}
-		// else if (node.type == 'key' && node.parent.type == 'include') {
-		// 	// Call ReferenceProvider (down below)
-		// }
-		else
-			return
-
-
-		if (locations.length == 0) {
-			// vscode will automatically run the ReferenceProvider if the only location is the same as the input
-			const locationLink = {
-				originSelectionRange: originSelectionRange,
-				targetUri: document.uri,
-				targetRange: originSelectionRange,
-				targetSelectionRange: originSelectionRange
-			}
-			locations.push(locationLink)
-		}
-
-		// vscode.window.showInformationMessage(JSON.stringify(locations))
-		return locations
-	}
-}
-
-exports.DefinitionProvider = DefinitionProvider
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DefinitionProvider = void 0;
+const vscode = require("vscode");
+const TreeSitter_1 = require("./TreeSitter");
+exports.DefinitionProvider = {
+    async provideDefinition(document, position, token) {
+        // vscode.window.showInformationMessage(JSON.stringify("Definition"));
+        const tree = (0, TreeSitter_1.getTree)(document);
+        const point = (0, TreeSitter_1.toPoint)(position);
+        let queryString;
+        // vscode.window.showInformationMessage(JSON.stringify(tree.rootNode.namedDescendantForPosition(point).text));
+        queryString =
+            `(json (scopeName (value) @scopeName))
+			(repo (key) @repo)
+			(include (value) @include)`;
+        const cursorCapture = (0, TreeSitter_1.queryNode)(tree.rootNode, queryString, point);
+        if (cursorCapture == null) {
+            return;
+        }
+        const node = cursorCapture.node;
+        const originSelectionRange = (0, TreeSitter_1.toRange)(node);
+        if (!originSelectionRange.contains(position)) {
+            return;
+        }
+        const text = node.text;
+        // vscode.window.showInformationMessage(JSON.stringify(node.toString()));
+        const locations = [];
+        switch (cursorCapture.name) {
+            case 'scopeName':
+                for (const extension of vscode.extensions.all) {
+                    const grammars = extension.packageJSON?.contributes?.grammars;
+                    if (grammars) {
+                        for (const grammar of grammars) {
+                            if (grammar.scopeName == text) {
+                                const uri = vscode.Uri.joinPath(extension.extensionUri, 'package.json');
+                                const locationLink = {
+                                    originSelectionRange: originSelectionRange, // Underlined text
+                                    targetUri: uri,
+                                    targetRange: new vscode.Range(0, 0, 20, 0), // Hover text. 20 lines
+                                    targetSelectionRange: new vscode.Range(0, 0, 0, 0) // Highlighted text
+                                };
+                                locations.push(locationLink);
+                            }
+                        }
+                    }
+                }
+                break;
+            case 'repo':
+                if (text == '$self' || text == '$base') {
+                    return;
+                }
+                // Call ReferenceProvider() (see at bottom)
+                break;
+            case 'include':
+                if (node.childForFieldName('base')) { // $base
+                    // Call ReferenceProvider() (see at bottom)
+                    break;
+                }
+                queryString = `(json (scopeName (value) @scopeName))`;
+                const rootScopeNameNode = (0, TreeSitter_1.queryNode)(tree.rootNode, queryString).pop()?.node ?? null;
+                const rootScopeNameText = rootScopeNameNode?.text ?? '';
+                const scopeName = node.childForFieldName('scopeName')?.text ?? '';
+                const ruleName = node.childForFieldName('ruleName')?.text ?? '';
+                queryString = `(json (patterns) @patterns)`;
+                const rootPatternsNode = (0, TreeSitter_1.queryNode)(tree.rootNode, queryString).pop()?.node;
+                const rootPatternsRange = (0, TreeSitter_1.toRange)(rootPatternsNode);
+                if ((node.childForFieldName('self') && !scopeName) || (scopeName == rootScopeNameText && !ruleName)) { // $self
+                    if (rootPatternsNode == null) {
+                        break;
+                    }
+                    const targetSelectionRange = rootPatternsRange.contains(originSelectionRange) ?
+                        (0, TreeSitter_1.toRange)(rootPatternsNode.childForFieldName('key')) :
+                        rootPatternsRange;
+                    const locationLink = {
+                        originSelectionRange: originSelectionRange, // Underlined text
+                        targetUri: document.uri,
+                        targetRange: rootPatternsRange, // Hover text
+                        targetSelectionRange: targetSelectionRange // Highlighted text
+                    };
+                    locations.push(locationLink);
+                    break;
+                }
+                if (!scopeName || scopeName == rootScopeNameText) { // #include
+                    queryString = `(repo
+										[(patterns) (include)] (repository
+											(repo
+												(key) @repo (.eq? @repo "${ruleName}")))
+										!match !begin)`;
+                    const nestedRepoNode = (0, TreeSitter_1.queryNode)(tree.rootNode, queryString, point)?.node;
+                    if (nestedRepoNode) {
+                        const locationLink = {
+                            originSelectionRange: originSelectionRange, // Underlined text
+                            targetUri: document.uri,
+                            targetRange: (0, TreeSitter_1.toRange)(nestedRepoNode.parent), // Hover text
+                            targetSelectionRange: (0, TreeSitter_1.toRange)(nestedRepoNode) // Highlighted text
+                        };
+                        locations.push(locationLink);
+                        break;
+                    }
+                    queryString = `(json (repository (repo (key) @repo (.eq? @repo "${ruleName}"))))`;
+                    const rootRepoNode = (0, TreeSitter_1.queryNode)(tree.rootNode, queryString).pop()?.node;
+                    if (rootRepoNode) {
+                        const locationLink = {
+                            originSelectionRange: originSelectionRange, // Underlined text
+                            targetUri: document.uri,
+                            targetRange: (0, TreeSitter_1.toRange)(rootRepoNode.parent), // Hover text
+                            targetSelectionRange: (0, TreeSitter_1.toRange)(rootRepoNode) // Highlighted text
+                        };
+                        locations.push(locationLink);
+                    }
+                    break;
+                }
+                for (const extension of vscode.extensions.all) { // other
+                    const grammars = extension.packageJSON?.contributes?.grammars;
+                    if (grammars) {
+                        for (const grammar of grammars) {
+                            if (grammar.scopeName == scopeName) {
+                                const uri = vscode.Uri.joinPath(extension.extensionUri, grammar.path);
+                                await vscode.workspace.openTextDocument(uri);
+                            }
+                        }
+                    }
+                }
+                for (const textDocument of vscode.workspace.textDocuments) { // other#include
+                    if (textDocument.languageId != 'json-tmLanguage') {
+                        continue;
+                    }
+                    const documentTree = (0, TreeSitter_1.getTree)(textDocument);
+                    queryString = `(json (scopeName (value) @scopeName (.eq? @scopeName "${scopeName}")))`;
+                    const documentScopeNameNode = (0, TreeSitter_1.queryNode)(documentTree.rootNode, queryString).pop()?.node;
+                    if (documentScopeNameNode) {
+                        if (ruleName) { // source.other#include
+                            queryString = `(json (repository (repo (key) @repo (.eq? @repo "${ruleName}"))))`;
+                            const repoNode = (0, TreeSitter_1.queryNode)(documentTree.rootNode, queryString).pop()?.node;
+                            if (repoNode) {
+                                const locationLink = {
+                                    originSelectionRange: originSelectionRange, // Underlined text
+                                    targetUri: textDocument.uri,
+                                    targetRange: (0, TreeSitter_1.toRange)(repoNode.parent), // Hover text
+                                    targetSelectionRange: (0, TreeSitter_1.toRange)(repoNode) // Highlighted text
+                                };
+                                locations.push(locationLink);
+                            }
+                        }
+                        else { // source.other
+                            queryString = `(json (patterns) @patterns)`;
+                            const documentPatternsNode = (0, TreeSitter_1.queryNode)(documentTree.rootNode, queryString).pop()?.node;
+                            const locationLink = {
+                                originSelectionRange: originSelectionRange, // Underlined text
+                                targetUri: textDocument.uri,
+                                targetRange: (0, TreeSitter_1.toRange)(documentPatternsNode), // Hover text
+                                targetSelectionRange: (0, TreeSitter_1.toRange)(documentScopeNameNode) // Highlighted text
+                            };
+                            locations.push(locationLink);
+                        }
+                    }
+                }
+                break;
+            default:
+                return;
+        }
+        if (locations.length == 0) {
+            // vscode will automatically run the ReferenceProvider() if the only location overlaps with the input
+            const targetRange = (0, TreeSitter_1.toRange)(node.parent);
+            const locationLink = {
+                originSelectionRange: originSelectionRange,
+                targetUri: document.uri,
+                targetRange: targetRange
+            };
+            locations.push(locationLink);
+        }
+        // vscode.window.showInformationMessage(JSON.stringify(locations));
+        return locations;
+    }
+};

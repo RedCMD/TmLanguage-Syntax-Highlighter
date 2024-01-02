@@ -1,9 +1,19 @@
 // https://github.com/tree-sitter/tree-sitter/blob/master/docs/section-3-creating-parsers.md
 
+if (false) {// `tree-sitter generate` fails if this is true
+	// However the VSCode js extension still seems to pickup the file. Providing lovely tooltip hints :)
+	require('./../../../node_modules/tree-sitter-cli/dsl');
+}
+
 module.exports = grammar({
 	name: "jsontm",
 	extras: $ => [
 		//$._whitespace,
+	],
+	word: $ => $._string,
+	externals: $ => [
+		$._forceStringNode, // Forces a 0width empty node if it is before a double quote " . Useful when querrying the resulting syntax tree
+		$.ERROR,
 	],
 
 	rules: {
@@ -32,7 +42,7 @@ module.exports = grammar({
 				),
 			),
 		),
-		
+
 		_whitespace: $ => /\s+/,
 
 		repository: $ => pair($,
@@ -40,11 +50,9 @@ module.exports = grammar({
 			object($, $.repo),
 		),
 		repo: $ => pair($,
-			repeat(
-				choice(
-					/\\./,
-					/[^\\"\r\n]+/,
-				),
+			choice(
+				$._string,
+				$._forceStringNode,
 			),
 			$._pattern,
 		),
@@ -62,12 +70,24 @@ module.exports = grammar({
 				$.include,
 				$.nameScope,
 				$.contentName,
-				$.match,
-				$.begin,
+				field(
+					'match',
+					$.match,
+				),
+				field(
+					'begin',
+					$.begin,
+				),
 				$.end,
 				$.while,
-				$.patterns,
-				$.repository,
+				field(
+					'patterns',
+					$.patterns,
+				),
+				field(
+					'repository',
+					$.repository,
+				),
 				$.captures,
 				$.beginCaptures,
 				$.endCaptures,
@@ -78,70 +98,114 @@ module.exports = grammar({
 			),
 		),
 
+		/*
+		
+		source
+		source#
+		source#$self
+		source#include
+		#
+		#$self
+		#include
+		$self
+		*/
 		include: $ => pair($,
 			"include",
-			seq(
-				'"',
-				$.value,
-				'"',
+			string($,
+				alias(
+					choice(
+						$.includeValue,
+						$._forceStringNode,
+					),
+					$.value,
+				),
 			),
 		),
-		value: $ => choice(
+		includeValue: $ => choice(
+			$._self,
+			$._base,
+			$._includeScopeName,
 			seq(
-				$._includeScope,
+				optional($._includeScopeName),
+				$._sharp,
 				optional(
-					$._includeItem,
+					choice(
+						$._includeRuleName,
+						$._self,
+						$._base,
+					),
 				),
 			),
-			$._includeItem,
 		),
-		_includeScope: $ => repeat1(
-			choice(
-				/\\[^#]/,
-				/[^#\\"\r\n]+/,
+		_includeScopeName: $ => field(
+			'scopeName',
+			alias(
+				token(
+					repeat1(
+						choice(
+							/\\[^\r\n\t#]?/,
+							/[^\\\r\n\t#"]+/,
+						),
+					),
+				),
+				$.scopeName,
 			),
 		),
-		_includeItem: $ => seq(
+		_sharp: $ => field(
+			'sharp',
 			'#',
-			repeat1(
-				choice(
-					/\\./,
-					/[^\\"\r\n]+/,
-				),
+		),
+		_includeRuleName: $ => field(
+			'ruleName',
+			alias(
+				$._string,
+				$.ruleName,
+			),
+		),
+		_self: $ => field(
+			'self',
+			alias(
+				'$self',
+				$.self,
+			),
+		),
+		_base: $ => field(
+			'base',
+			alias(
+				'$base',
+				$.base,
 			),
 		),
 
 		scopeName: $ => pair($,
 			"scopeName",
-			$._string,
+			string($),
 		),
 		name: $ => pair($,
 			"name",
-			$._string,
+			string($),
 		),
 		nameScope: $ => pair($,
 			"name",
-			$._string,
+			string($),
 		),
 		contentName: $ => pair($,
 			"contentName",
-			$._string,
+			string($),
 		),
 
 		injectionSelector: $ => pair($,
 			"injectionSelector",
-			$._string,
+			string($),
 		),
 		injections: $ => pair($,
 			"injections",
 			object($, $.injection),
 		),
 		injection: $ => pair($,
-			repeat(
-				choice(
-					/\\./,
-					/[^\\"\r\n]+/,
-				),
+			choice(
+				$._string,
+				$._forceStringNode,
 			),
 			object($,
 				choice(
@@ -154,19 +218,27 @@ module.exports = grammar({
 
 		match: $ => pair($,
 			"match",
-			$._string,
+			string($,
+				alias(
+					choice(
+						$._string,
+						$._forceStringNode,
+					),
+					$.regex,
+				),
+			),
 		),
 		begin: $ => pair($,
 			"begin",
-			$._string,
+			string($),
 		),
 		end: $ => pair($,
 			"end",
-			$._string,
+			string($),
 		),
 		while: $ => pair($,
 			"while",
-			$._string,
+			string($),
 		),
 
 		applyEndPatternLast: $ => pair($,
@@ -218,7 +290,7 @@ module.exports = grammar({
 
 		version: $ => pair($,
 			"version",
-			$._string,
+			string($),
 		),
 		information_for_contributors: $ => pair($,
 			"information_for_contributors",
@@ -226,27 +298,27 @@ module.exports = grammar({
 		),
 		schema: $ => pair($,
 			"$schema",
-			$._string,
+			string($),
 		),
 		fileTypes: $ => pair($,
 			"fileTypes",
-			array($, $._string),
+			array($, string($)),
 		),
 		firstLineMatch: $ => pair($,
 			"firstLineMatch",
-			$._string,
+			string($),
 		),
 		foldingStartMarker: $ => pair($,
 			"foldingStartMarker",
-			$._string,
+			string($),
 		),
 		foldingStopMarker: $ => pair($,
 			"foldingStopMarker",
-			$._string,
+			string($),
 		),
 		uuid: $ => pair($,
 			"uuid",
-			$._string,
+			string($),
 		),
 
 		_comments: $ => choice(
@@ -255,7 +327,7 @@ module.exports = grammar({
 		),
 		comment: $ => pair($,
 			"comment",
-			$._string,
+			string($),
 		),
 		comment_slash: $ => pair($,
 			"//",
@@ -263,7 +335,10 @@ module.exports = grammar({
 		),
 
 		item: $ => pair($,
-			optional($._string_content),
+			choice(
+				$._string,
+				$._forceStringNode,
+			),
 			$._value,
 		),
 		object: $ => object($, $.item),
@@ -271,7 +346,7 @@ module.exports = grammar({
 			choice(
 				$.object,
 				$.array,
-				$._string,
+				string($),
 				$.integer,
 				$.boolean,
 				$.null,
@@ -283,13 +358,13 @@ module.exports = grammar({
 				choice(
 					$.object,
 					$.array,
-					$._string,
+					string($),
 					$.integer,
 					$.boolean,
 					$.null,
 				),
 			),
-			$._string,
+			string($),
 			$.integer,
 			$.boolean,
 			$.null,
@@ -301,17 +376,7 @@ module.exports = grammar({
 		),
 		null: $ => "null",
 		integer: $ => /\d+/,
-		_string: $ => seq(
-			'"',
-			optional(
-				alias(
-					$._string_content,
-					$.value,
-				),
-			),
-			'"',
-		),
-		_string_content: $ => token(
+		_string: $ => token(
 			repeat1(
 				choice(
 					/\\[^\r\n\t]/,
@@ -319,9 +384,15 @@ module.exports = grammar({
 				),
 			),
 		),
-	}
+	},
 });
 
+/**
+* Boiler plate for creating an object. `{ rule, rule... }`
+* @param {_$} $ 
+* @param {RuleOrLiteral} rule 
+* @returns {Rule}
+*/
 function object($, rule) {
 	return seq(
 		'{',
@@ -331,6 +402,12 @@ function object($, rule) {
 	)
 }
 
+/**
+ * Boiler plate for creating an array. `[ rule, rule... ]`
+ * @param {_$} $ 
+ * @param {RuleOrLiteral} rule 
+ * @returns {Rule}
+ */
 function array($, rule) {
 	return seq(
 		'[',
@@ -340,6 +417,12 @@ function array($, rule) {
 	)
 }
 
+/**
+ * Boiler plate for creating comma seperated rules. `rule, rule...`
+ * @param {_$} $ 
+ * @param {RuleOrLiteral} rule 
+ * @returns {Rule}
+ */
 function commaSep($, rule) {
 	return optional(
 		seq(
@@ -357,14 +440,49 @@ function commaSep($, rule) {
 	)
 }
 
+/**
+ * Boiler plate for creating a json pair. `key: value`
+ * @param {_$} $ 
+ * @param {RuleOrLiteral} key string
+ * @param {RuleOrLiteral} value 
+ * @returns {Rule}
+ */
 function pair($, key, value) {
 	return seq(
-		'"',
-		alias(key, $.key),
-		'"',
+		string($,
+			field(
+				'key',
+				alias(
+					key,
+					$.key,
+				),
+			),
+		),
 		repeat($._whitespace),
 		':',
 		repeat($._whitespace),
 		value,
+	)
+}
+
+/**
+ * Boiler plate for creating a string. `"value"`
+ * @param {_$} $ 
+ * @param {RuleOrLiteral | null} contents 
+ * @returns {Rule}
+ */
+function string($, contents) {
+	return seq(
+		'"',
+		contents != null ?
+			contents :
+			alias(
+				choice(
+					$._string,
+					$._forceStringNode,
+				),
+				$.value,
+			),
+		'"',
 	)
 }

@@ -1,0 +1,98 @@
+[
+  {
+    "type": "backslash",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "capture_group",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "regex",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "character_class",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "character_class_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "character_class_literal",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "literal",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "regex",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "capture_group",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "\\\\\\\\",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  }
+]

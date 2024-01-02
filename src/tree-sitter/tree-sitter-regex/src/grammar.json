@@ -1,0 +1,127 @@
+{
+  "name": "regextm",
+  "rules": {
+    "regex": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "backslash"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "capture_group"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "character_class"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "literal"
+          }
+        ]
+      }
+    },
+    "literal": {
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "PATTERN",
+        "value": "[^\"()][^\\x00-\\x1F\\x7F \"#$^.+*?|\\[{()\\\\]*"
+      }
+    },
+    "character_class_literal": {
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "PATTERN",
+        "value": "[^\\]\"][^\\x00-\\x1F\\x7F\"&:\\[\\]\\\\\\-]*"
+      }
+    },
+    "backslash": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\\\\\\\\"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\\\\\\\[^\"]"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\\\[^\\r\\n\\t]"
+        }
+      ]
+    },
+    "capture_group": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "regex"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "character_class": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "["
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "backslash"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "character_class_literal"
+                }
+              ]
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "]"
+          }
+        ]
+      }
+    }
+  },
+  "extras": [],
+  "conflicts": [],
+  "precedences": [],
+  "externals": [],
+  "inline": [],
+  "supertypes": []
+}
+

@@ -8,9 +8,6 @@
 		"vscode": "^1.47.0"
 	},
 	"icon": "images/TextMate-logo-icon.png",
-	"extensionDependencies": [
-		"pokey.parse-tree"
-	],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter.git"
@@ -36,6 +33,12 @@
 	],
 	"activationEvents": [],
 	"main": "./out/extension.js",
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"generate-wasm": "cd ./src/tree-sitter/tree-sitter-json/ && tree-sitter generate --no-bindings && cd ./../tree-sitter-regex/ && tree-sitter generate --no-bindings && cd ./../../../out/ && tree-sitter build-wasm ./../src/tree-sitter/tree-sitter-json/ && tree-sitter build-wasm ./../src/tree-sitter/tree-sitter-regex/"
+	},
 	"contributes": {
 		"languages": [
 			{
@@ -147,6 +150,14 @@
 				"url": "./vscode.tmLanguage.schema.json"
 			}
 		]
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.85.0",
+		"tree-sitter-cli": "^0.20.8",
+		"typescript": "^5.3.3"
+	},
+	"dependencies": {
+		"web-tree-sitter": "^0.20.8"
 	},
 	"__metadata": {
 		"id": "7f5ff7e8-575f-4fbf-bff6-201486b6327e",
