@@ -5,6 +5,7 @@ const vscode = require("vscode");
 const TreeSitter_1 = require("./TreeSitter");
 const DiagnosticCollection_1 = require("./DiagnosticCollection");
 const ReferenceProvider_1 = require("./ReferenceProvider");
+const CompletionItemProvider_1 = require("./CompletionItemProvider");
 exports.DocumentSelector = [
     { language: 'json-tmLanguage' },
     { language: 'json-textmate' },
@@ -15,7 +16,7 @@ async function activate(context) {
     vscode.window.showInformationMessage(JSON.stringify("TextMate Extension"));
     await (0, TreeSitter_1.initTreeSitter)(context);
     (0, DiagnosticCollection_1.initDiagnostics)(context);
-    context.subscriptions.push(vscode.languages.registerReferenceProvider(exports.DocumentSelector, ReferenceProvider_1.ReferenceProvider)); // go to references
+    context.subscriptions.push(vscode.languages.registerCompletionItemProvider(exports.DocumentSelector, CompletionItemProvider_1.CompletionItemProvider, ...CompletionItemProvider_1.triggerCharacters)); // Intellisense ctrl+space completions
 }
 exports.activate = activate;
 // This method is called when your extension is deactivated

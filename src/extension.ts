@@ -3,6 +3,7 @@ import * as vscode from 'vscode';
 import { initTreeSitter } from "./TreeSitter";
 import { initDiagnostics } from "./DiagnosticCollection";
 import { ReferenceProvider } from "./ReferenceProvider";
+import { CompletionItemProvider, triggerCharacters } from "./CompletionItemProvider";
 
 export const DocumentSelector = [
 	{ language: 'json-tmLanguage' },
@@ -18,8 +19,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	await initTreeSitter(context);
 	initDiagnostics(context);
 
-	context.subscriptions.push(vscode.languages.registerReferenceProvider(DocumentSelector, ReferenceProvider)); // go to references
-
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(DocumentSelector, CompletionItemProvider, ...triggerCharacters)); // Intellisense ctrl+space completions
 }
 
 
