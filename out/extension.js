@@ -10,10 +10,7 @@ const DocumentSymbolProvider_1 = require("./DocumentSymbolProvider");
 const CompletionItemProvider_1 = require("./CompletionItemProvider");
 const DocumentFormattingEditProvider_1 = require("./DocumentFormattingEditProvider");
 exports.DocumentSelector = [
-    { language: 'json-tmLanguage' },
-    { language: 'json-textmate' },
-    // { language: 'json' },
-    // { language: 'typescript' }
+    { language: 'json-textmate' }
 ];
 async function activate(context) {
     // vscode.window.showInformationMessage(JSON.stringify("TextMate Extension"));

@@ -129,7 +129,7 @@ export const DefinitionProvider = {
 					}
 				}
 				for (const textDocument of vscode.workspace.textDocuments) { // other#include
-					if (textDocument.languageId != 'json-tmLanguage') {
+					if (textDocument.languageId != 'json-textmate') {
 						continue;
 					}
 					const documentTree = getTree(textDocument);

@@ -11,10 +11,7 @@ import { DocumentFormattingEditProvider, DocumentRangeFormattingEditProvider } f
 import { DocumentSemanticTokensProvider, SemanticTokensLegend } from "./DocumentSemanticTokensProvider";
 
 export const DocumentSelector = [
-	{ language: 'json-tmLanguage' },
-	{ language: 'json-textmate' },
-	// { language: 'json' },
-	// { language: 'typescript' }
+	{ language: 'json-textmate' }
 ];
 
 

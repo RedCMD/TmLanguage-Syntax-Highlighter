@@ -24,7 +24,7 @@ exports.CompletionItemProvider = {
             description: 'Includes the current grammar file'
         };
         const selfDocumentation = new vscode.MarkdownString();
-        selfDocumentation.appendCodeblock(rootPatternsText, 'json-tmLanguage');
+        selfDocumentation.appendCodeblock(rootPatternsText, 'json-textmate');
         const selfCompletionItem = {
             label: selfLabel,
             range: cursorRange,
@@ -70,7 +70,7 @@ exports.CompletionItemProvider = {
                             repoCompletionItems(completionItems, grammarTree, cursorRange, cursorScopeName);
                             if (cursorText == grammarScopeName) {
                                 const grammarPatternsText = (0, TreeSitter_1.queryNode)(grammarTree.rootNode, rootPatternsQuery).pop()?.node?.text;
-                                // grammarDocumentation.appendCodeblock(grammarPatternsText, 'json-tmLanguage'); // if Word Wrap worked
+                                // grammarDocumentation.appendCodeblock(grammarPatternsText, 'json-textmate'); // if Word Wrap worked
                                 let grammarDocText;
                                 if (grammarDocument.lineCount == 1) {
                                     try {
@@ -84,7 +84,7 @@ exports.CompletionItemProvider = {
                                 else {
                                     grammarDocText = grammarPatternsText.slice(0, 99900);
                                 }
-                                grammarDocumentation.appendCodeblock(grammarDocText, 'json-tmLanguage');
+                                grammarDocumentation.appendCodeblock(grammarDocText, 'json-textmate');
                             }
                         }
                         else {
@@ -143,8 +143,8 @@ function repoCompletionItems(completionItems, tree, cursorRange, scopeName) {
             repoDocText = parentRepoNodeText.slice(0, 99900);
         }
         const documentation = new vscode.MarkdownString();
-        documentation.appendCodeblock(repoDocText, 'json-tmLanguage');
-        // documentation.appendCodeblock(parentRepoNodeText, 'json-tmLanguage'); // if Word Wrap worked
+        documentation.appendCodeblock(repoDocText, 'json-textmate');
+        // documentation.appendCodeblock(parentRepoNodeText, 'json-textmate'); // if Word Wrap worked
         const repoCompletionItem = {
             label: repoLabel,
             range: cursorRange,

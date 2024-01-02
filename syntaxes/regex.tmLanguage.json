@@ -90,7 +90,7 @@
 					"beginCaptures": { "0": { "name": "support.function.tm" } },
 					"endCaptures": { "0": { "name": "constant.character.escape.tm" } },
 					"name": "comment.tm",
-					"patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ]
+					"patterns": [ { "include": "source.json.textmate#escape-characters" } ]
 				}
 			]
 		},
@@ -416,7 +416,7 @@
 									"end": "(?=\")",
 									"beginCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
 									"contentName": "invalid.illegal.tm markup.underline.tm",
-									"patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ]
+									"patterns": [ { "include": "source.json.textmate#escape-characters" } ]
 								}
 							]
 						},
@@ -505,7 +505,7 @@
 									"begin": "(?<=\\))",
 									"end": "(?=\")",
 									"name": "invalid.illegal.tm",
-									"patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ]
+									"patterns": [ { "include": "source.json.textmate#escape-characters" } ]
 								}
 							]
 						},
@@ -701,7 +701,7 @@
 				"3": { "name": "invalid.illegal.tm markup.strikethrough" }
 			},
 			"contentName": "markup.bold regex",
-			"patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ]
+			"patterns": [ { "include": "source.json.textmate#escape-characters" } ]
 		},
 		"capture-group-comment": {
 			"comment": "(?#...)",
@@ -713,7 +713,7 @@
 			},
 			"endCaptures": { "0": { "name": "constant.character.set.regexp.tm markup.italic" } },
 			"contentName": "comment.tm",
-			"patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ]
+			"patterns": [ { "include": "source.json.textmate#escape-characters" } ]
 		},
 		"absent": {
 			"comment": "(?~|...|...) (?~|...) (?~...)",
@@ -809,7 +809,7 @@
 						"4": { "name": "invalid.illegal.tm markup.underline regex" },
 						"5": {
 							"name": "regex",
-							"patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ]
+							"patterns": [ { "include": "source.json.textmate#escape-characters" } ]
 						},
 						"6": { "name": "invalid.illegal.tm markup.underline regex" },
 						"7": { "name": "invalid.illegal.tm markup.underline regex" },
@@ -859,7 +859,7 @@
 						"9": { "name": "support.function.tm" },
 						"10": {
 							"name": "regex",
-							"patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ]
+							"patterns": [ { "include": "source.json.textmate#escape-characters" } ]
 						},
 						"11": { "name": "support.function.tm" },
 						"12": { "name": "invalid.illegal.tm markup.underline regex" },
@@ -1346,7 +1346,7 @@
 						"4": { "name": "punctuation.definition.tag.tm" },
 						"5": {
 							"name": "markup.bold regex",
-							"patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ]
+							"patterns": [ { "include": "source.json.textmate#escape-characters" } ]
 						}
 					}
 				},
@@ -1417,7 +1417,7 @@
 				"3": { "name": "invalid.illegal.tm markup.strikethrough" }
 			},
 			"contentName": "markup.bold regex",
-			"patterns": [ { "include": "source.syntax.json.tmLanguage#escape-characters" } ]
+			"patterns": [ { "include": "source.json.textmate#escape-characters" } ]
 		},
 		"backreference": {
 			"patterns": [

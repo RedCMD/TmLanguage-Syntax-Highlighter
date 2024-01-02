@@ -21,11 +21,12 @@
 		"theme": "dark"
 	},
 	"keywords": [
+		"textmate",
 		"tmlanguage",
 		"text mate",
-		"textmate",
-		"regex",
-		"regexp"
+		"syntax highlight",
+		"syntax highlighter",
+		"syntax highlighting"
 	],
 	"categories": [
 		"Programming Languages",
@@ -42,9 +43,9 @@
 	"contributes": {
 		"languages": [
 			{
-				"id": "json-tmLanguage",
+				"id": "json-textmate",
 				"aliases": [
-					"RedCMD.JSON.TextMateLanguage"
+					"JSON TextMate"
 				],
 				"extensions": [
 					".tmLanguage.json",
@@ -53,6 +54,9 @@
 				],
 				"filenames": [
 					"tmLanguage.json"
+				],
+				"filenamePatterns": [
+					"**/syntaxes/*.json"
 				],
 				"configuration": "./language-configuration.json",
 				"icon": {
@@ -85,7 +89,7 @@
 			{
 				"id": "scopetm",
 				"aliases": [
-					"Scope TM"
+					"TextMate Scopes"
 				],
 				"extensions": [
 					"_scopes.txt"
@@ -102,8 +106,8 @@
 		],
 		"grammars": [
 			{
-				"language": "json-tmLanguage",
-				"scopeName": "source.syntax.json.tmLanguage",
+				"language": "json-textmate",
+				"scopeName": "source.json.textmate",
 				"path": "./syntaxes/json.tmLanguage.json",
 				"embeddedLanguages": {
 					"meta.embedded.block.regexp.tmLanguage": "regex-tmLanguage"
@@ -135,7 +139,7 @@
 			}
 		],
 		"configurationDefaults": {
-			"[json-tmLanguage]": {
+			"[json-textmate]": {
 				"editor.maxTokenizationLineLength": 500000,
 				"editor.quickSuggestions": {
 					"strings": true,

@@ -27,7 +27,7 @@ export const CompletionItemProvider = {
 			description: 'Includes the current grammar file'
 		};
 		const selfDocumentation = new vscode.MarkdownString();
-		selfDocumentation.appendCodeblock(rootPatternsText, 'json-tmLanguage')
+		selfDocumentation.appendCodeblock(rootPatternsText, 'json-textmate')
 		const selfCompletionItem: vscode.CompletionItem = {
 			label: selfLabel,
 			range: cursorRange,
@@ -86,7 +86,7 @@ export const CompletionItemProvider = {
 
 							if (cursorText == grammarScopeName) {
 								const grammarPatternsText = queryNode(grammarTree.rootNode, rootPatternsQuery).pop()?.node?.text;
-								// grammarDocumentation.appendCodeblock(grammarPatternsText, 'json-tmLanguage'); // if Word Wrap worked
+								// grammarDocumentation.appendCodeblock(grammarPatternsText, 'json-textmate'); // if Word Wrap worked
 								let grammarDocText: string;
 								if (grammarDocument.lineCount == 1) {
 									try {
@@ -99,7 +99,7 @@ export const CompletionItemProvider = {
 								else {
 									grammarDocText = grammarPatternsText.slice(0, 99900);
 								}
-								grammarDocumentation.appendCodeblock(grammarDocText, 'json-tmLanguage');
+								grammarDocumentation.appendCodeblock(grammarDocText, 'json-textmate');
 							}
 						}
 						else {
@@ -169,8 +169,8 @@ function repoCompletionItems(completionItems: vscode.CompletionItem[], tree: Par
 			repoDocText = parentRepoNodeText.slice(0, 99900);
 		}
 		const documentation = new vscode.MarkdownString();
-		documentation.appendCodeblock(repoDocText, 'json-tmLanguage');
-		// documentation.appendCodeblock(parentRepoNodeText, 'json-tmLanguage'); // if Word Wrap worked
+		documentation.appendCodeblock(repoDocText, 'json-textmate');
+		// documentation.appendCodeblock(parentRepoNodeText, 'json-textmate'); // if Word Wrap worked
 
 		const repoCompletionItem: vscode.CompletionItem = {
 			label: repoLabel,

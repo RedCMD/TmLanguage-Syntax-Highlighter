@@ -14,7 +14,7 @@ export const HoverProvider = {
 		}
 
 		const markdownString = new vscode.MarkdownString();
-		markdownString.appendCodeblock(node.text, 'json-tmLanguage');
+		markdownString.appendCodeblock(node.text, 'json-textmate');
 		// const fieldName = node.walk().currentFieldName();
 		// if (fieldName)
 		// 	markdownString.appendText(fieldName + ':');
