@@ -808,7 +808,18 @@
 							"contentName": "regex",
 							"patterns": [
 								{
-									"match": "\\G((#?)\\$)(base|self)(?=\")",
+									"begin": "(?=\\G(?>(?>[^\\\\\"#]++|\\\\[\\\\\"]?)*#|#?)\\$base\")",
+									"end": "((#)?\\$)(base)",
+									"endCaptures": {
+										"1": { "name": "keyword.json.tm" },
+										"2": { "name": "markup.strikethrough.json.tm" },
+										"3": { "name": "support.function.json.tm" }
+									},
+									"contentName": "markup.strikethrough.json.tm",
+									"patterns": [ { "include": "#scope-string" } ]
+								},
+								{
+									"match": "\\G((#)?\\$)(self)(?=\")",
 									"captures": {
 										"1": { "name": "keyword.json.tm" },
 										"2": { "name": "markup.strikethrough.json.tm" },
@@ -816,12 +827,16 @@
 									}
 								},
 								{
-									"match": "(#\\$)(base|self)(?=\")",
+									"match": "(#\\$)(self)(?=\")",
 									"captures": {
 										"0": { "name": "markup.strikethrough.json.tm" },
 										"1": { "name": "keyword.json.tm" },
 										"2": { "name": "support.function.json.tm" }
 									}
+								},
+								{
+									"match": "(?<!\\G)#(?=\")",
+									"name": "keyword.json.tm markup.strikethrough.json.tm"
 								},
 								{
 									"begin": "#",
@@ -830,7 +845,7 @@
 									"contentName": "variable.json.tm",
 									"patterns": [ { "include": "#escape-characters" } ]
 								},
-								{ "patterns": [ { "include": "#scope-string" } ] }
+								{ "include": "#scope-string" }
 							]
 						},
 						{ "include": "#value-separator" }
