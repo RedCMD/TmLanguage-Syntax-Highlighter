@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 
 import { initTreeSitter } from "./TreeSitter";
 import { initDiagnostics } from "./DiagnosticCollection";
+import { HoverProvider } from "./HoverProvider";
 import { ReferenceProvider } from "./ReferenceProvider";
 import { DefinitionProvider } from "./DefinitionProvider";
 import { CompletionItemProvider, triggerCharacters } from "./CompletionItemProvider";
@@ -21,6 +22,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	await initTreeSitter(context);
 	initDiagnostics(context);
 
+	// context.subscriptions.push(vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider)); // Mouse over Hovers
 	context.subscriptions.push(vscode.languages.registerReferenceProvider(DocumentSelector, ReferenceProvider)); // Go to References
 	context.subscriptions.push(vscode.languages.registerDefinitionProvider(DocumentSelector, DefinitionProvider)); // Go to Definition
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(DocumentSelector, CompletionItemProvider, ...triggerCharacters)); // Intellisense ctrl+space completions
