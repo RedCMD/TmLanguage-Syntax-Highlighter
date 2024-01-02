@@ -4,6 +4,7 @@ import { initTreeSitter } from "./TreeSitter";
 import { initDiagnostics } from "./DiagnosticCollection";
 import { ReferenceProvider } from "./ReferenceProvider";
 import { CompletionItemProvider, triggerCharacters } from "./CompletionItemProvider";
+import { DocumentFormattingEditProvider, DocumentRangeFormattingEditProvider } from "./DocumentFormattingEditProvider";
 
 export const DocumentSelector = [
 	{ language: 'json-tmLanguage' },
@@ -20,6 +21,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	initDiagnostics(context);
 
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(DocumentSelector, CompletionItemProvider, ...triggerCharacters)); // Intellisense ctrl+space completions
+	context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(DocumentSelector, DocumentFormattingEditProvider)); // right-click => format
 }
 
 
