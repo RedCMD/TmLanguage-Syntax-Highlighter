@@ -57,7 +57,7 @@ async function initTreeSitter(context) {
     const jsonLanguage = await Parser.Language.load(jsonWasm);
     jsonParser.setLanguage(jsonLanguage);
     const regexParser = new Parser();
-    const regexWasm = context.asAbsolutePath('out/tree-sitter-your_language.wasm');
+    const regexWasm = context.asAbsolutePath('out/tree-sitter-regextm.wasm');
     const regexLanguage = await Parser.Language.load(regexWasm);
     regexParser.setLanguage(regexLanguage);
     // const regexTree = regexParser.parse('code');
