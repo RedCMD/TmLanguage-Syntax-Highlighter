@@ -2,6 +2,8 @@ import * as vscode from 'vscode';
 
 import { initTreeSitter } from "./TreeSitter";
 import { initDiagnostics } from "./DiagnosticCollection";
+import { initTokenColorCustomizations } from './tokenColorCustomizations';
+
 import { HoverProvider } from "./HoverProvider";
 import { ReferenceProvider } from "./ReferenceProvider";
 import { DefinitionProvider } from "./DefinitionProvider";
@@ -20,6 +22,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	await initTreeSitter(context);
 	initDiagnostics(context);
+	initTokenColorCustomizations(context);
 
 	// context.subscriptions.push(vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider)); // Mouse over Hovers
 	context.subscriptions.push(vscode.languages.registerReferenceProvider(DocumentSelector, ReferenceProvider)); // Go to References
