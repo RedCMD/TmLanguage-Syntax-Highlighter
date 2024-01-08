@@ -12,7 +12,7 @@ import { CompletionItemProvider, triggerCharacters } from "./CompletionItemProvi
 import { DocumentFormattingEditProvider, DocumentRangeFormattingEditProvider } from "./DocumentFormattingEditProvider";
 import { DocumentSemanticTokensProvider, SemanticTokensLegend } from "./DocumentSemanticTokensProvider";
 
-export const DocumentSelector = [
+export const DocumentSelector: vscode.DocumentSelector = [
 	{ language: 'json-textmate' }
 ];
 
