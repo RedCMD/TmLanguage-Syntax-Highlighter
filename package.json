@@ -138,19 +138,6 @@
 				"path": "./snippets/scopetm.code-snippets"
 			}
 		],
-		"configuration":[
-			{
-				"title": "editor.tokenColorCustomizations Backup",
-				"properties": {
-					"editor.tokenColorCustomizations_bak": {
-						"type": "object",
-						"markdownDescription": "JSON TextMate: Backup for \"editor.tokenColorCustomizations\", because modifying it overwrites it.",
-						"default": {},
-						"scope": "window"
-					}
-				}
-			}
-		],
 		"configurationDefaults": {
 			"[json-textmate]": {
 				"editor.maxTokenizationLineLength": 500000,

@@ -2,34 +2,26 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.initTokenColorCustomizations = void 0;
 const vscode = require("vscode");
-// let count = 0
 function initTokenColorCustomizations(context) {
     // vscode.window.showInformationMessage(JSON.stringify("tokenColorCustomizations"));
-    update(getValidURI(vscode.window.activeTextEditor.document, true, true));
+    const activeDocument = vscode.window.activeTextEditor.document;
+    update(packageJSON(activeDocument) || jsonTextMate(activeDocument));
     context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor((editor) => {
         // vscode.window.showInformationMessage(JSON.stringify("active"));
-        const uri = getValidURI(editor.document, true, true);
-        if (uri) {
-            update(uri);
-            return;
-        }
-        for (const textEditor of vscode.window.visibleTextEditors) {
-            const uri = getValidURI(textEditor.document, true, true);
-            if (uri) {
-                return;
-            }
-        }
-        update(uri, true);
+        const document = editor.document;
+        update(packageJSON(document) || jsonTextMate(document));
     }));
     context.subscriptions.push(vscode.workspace.onDidOpenTextDocument((document) => {
         // vscode.window.showInformationMessage(JSON.stringify("open"));
-        update(getValidURI(document, true, true));
+        if (document == vscode.window.activeTextEditor.document) {
+            update(packageJSON(document) || jsonTextMate(document));
+        }
     }));
     context.subscriptions.push(vscode.workspace.onDidChangeTextDocument((edits) => {
         // vscode.window.showInformationMessage(JSON.stringify("change"));
         const document = edits.document;
         if (document == vscode.window.activeTextEditor.document) {
-            update(getValidURI(document, false, true));
+            update(packageJSON(document));
         }
     }));
     // context.subscriptions.push(
@@ -37,46 +29,52 @@ function initTokenColorCustomizations(context) {
     // 		// vscode.window.showInformationMessage(JSON.stringify("config"));
     // 		if (event.affectsConfiguration("editor.tokenColorCustomizations")) {
     // 			const document = vscode.window.activeTextEditor.document;
-    // 			update(document);
+    // 			update(packageJSON(document) || jsonTextMate(document));
     // 		}
     // 	})
     // );
     context.subscriptions.push(vscode.workspace.onDidCloseTextDocument((document) => {
         // vscode.window.showInformationMessage(JSON.stringify("close"));
-        update(getValidURI(document, true, true), true);
+        if (document == vscode.window.activeTextEditor.document) {
+            update(null);
+        }
     }));
 }
 exports.initTokenColorCustomizations = initTokenColorCustomizations;
-function getValidURI(document, allowTextMate, allowPackageJSON) {
-    if (allowTextMate && document.languageId == 'json-textmate') {
-        const uri = vscode.Uri.joinPath(document.uri, '../../package.json');
-        return uri;
-    }
-    const path = document.fileName;
-    if (allowPackageJSON && path.match(/[\\/:]package.json$/)) {
-        const uri = vscode.Uri.file(path);
+const packageJSONSelector = { pattern: "**/package.json", scheme: "file" };
+const jsonTextMateSelector = { language: "json-textmate", scheme: "file" };
+// const documentSelector: vscode.DocumentSelector = [packageJSONSelector, jsonTextMateSelector];
+function packageJSON(document) {
+    // vscode.window.showInformationMessage(JSON.stringify("packageJSON"));
+    if (vscode.languages.match(packageJSONSelector, document)) {
+        const uri = document.uri;
         return uri;
     }
 }
-async function update(uri, isClosed) {
-    const configurationTarget = vscode.ConfigurationTarget.Global;
-    const editor = vscode.workspace.getConfiguration("editor");
-    const tokenColorCustomizations_bak = editor.get("tokenColorCustomizations_bak");
-    if (!isClosed) {
-        if (!uri) {
-            return;
-        }
-        // vscode.window.showInformationMessage(JSON.stringify(count));
+function jsonTextMate(document) {
+    // vscode.window.showInformationMessage(JSON.stringify("jsonTextMate"));
+    if (vscode.languages.match(jsonTextMateSelector, document)) {
+        const uri = vscode.Uri.joinPath(document.uri, '../../package.json');
+        return uri;
+    }
+}
+const bak = '[tokenColorCustomizations_bak_JSON_TextMate'; // The square bracket is there on purpose so that the json `settings` schema doesn't complain about it
+async function update(uri) {
+    // vscode.window.showInformationMessage(JSON.stringify("update"));
+    // Workspace settings have higher priority than Global settings. But... Workspace settings don't work when there is no Workspace
+    const configurationTarget = vscode.workspace.name ? vscode.ConfigurationTarget.Workspace : vscode.ConfigurationTarget.Global;
+    const configurationValue = vscode.workspace.name ? 'workspaceValue' : 'globalValue';
+    if (uri) {
         const packageDocument = await vscode.workspace.openTextDocument(uri);
         try {
             const packageParsed = await JSON.parse(packageDocument?.getText());
             const package_tokenColorCustomizations = packageParsed?.contributes?.configurationDefaults?.['editor.tokenColorCustomizations'];
             if (package_tokenColorCustomizations) {
-                const tokenColorCustomizations = editor.get("tokenColorCustomizations");
-                if (Object.keys(tokenColorCustomizations).length &&
-                    !Object.keys(tokenColorCustomizations_bak).length) {
-                    editor.update("tokenColorCustomizations_bak", tokenColorCustomizations, configurationTarget);
-                }
+                const editor = vscode.workspace.getConfiguration("editor");
+                const tokenColorCustomizations = editor.inspect("tokenColorCustomizations")[configurationValue] ?? {};
+                const tokenColorCustomizations_bak = tokenColorCustomizations[bak] ?? tokenColorCustomizations;
+                delete tokenColorCustomizations_bak[bak];
+                package_tokenColorCustomizations[bak] = tokenColorCustomizations_bak;
                 editor.update("tokenColorCustomizations", package_tokenColorCustomizations, configurationTarget);
                 return;
             }
@@ -85,8 +83,11 @@ async function update(uri, isClosed) {
             vscode.window.showWarningMessage("TextMateRules: Failed to parse `Package.json`");
         }
     }
-    if (Object.keys(tokenColorCustomizations_bak).length) {
-        editor.update("tokenColorCustomizations", tokenColorCustomizations_bak, configurationTarget);
-        editor.update("tokenColorCustomizations_bak", undefined, configurationTarget);
+    const editor = vscode.workspace.getConfiguration("editor");
+    const tokenColorCustomizations = editor.inspect("tokenColorCustomizations")[configurationValue];
+    const tokenColorCustomizations_bak = tokenColorCustomizations[bak];
+    if (tokenColorCustomizations_bak !== undefined) {
+        const length = Object.keys(tokenColorCustomizations_bak).length;
+        editor.update("tokenColorCustomizations", length ? tokenColorCustomizations_bak : undefined, configurationTarget);
     }
 }
