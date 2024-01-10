@@ -1,5 +1,4 @@
-// Because multiple of these configs don't work in embedded languages
-// Some of their respected config options will be brought into this file
+// Unused at the moment. See `./language-configuration.json` instead
 {
 	"comments": {
 		// symbol used for single line comment. Remove this entry if your language does not support line comments
@@ -13,20 +12,18 @@
 		["[", "]"]
 	],
 	// symbols that are auto closed when typing
-	"autoClosingPairs": [ // Doesn't work in embedded languages
+	"autoClosingPairs": [
 		["${", "}"],
 		["{", "}"],
 		["[", "]"],
-		["\"", "\""],
-		["(", ")"] // Fallback for `regex.language-configuration.json`
+		["\"", "\""]
 	],
-	"autoCloseBefore": "[]{}():,\" \n\t", // Doesn't work in embedded languages
+	"autoCloseBefore": "[]{}:, \n\t",
 	// symbols that can be used to surround a selection
-	"surroundingPairs": [ // Doesn't work in embedded languages
+	"surroundingPairs": [
 		["{", "}"],
 		["[", "]"],
-		["\"", "\""],
-		["(", ")"] // Fallback for `regex.language-configuration.json`
+		["\"", "\""]
 	],
 	// symbols that can be colourized
 	"colorizedBracketPairs": [

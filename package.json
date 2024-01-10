@@ -80,7 +80,7 @@
 					"regex.json",
 					"json.regex"
 				],
-				"configuration": "./regex.language-configuration.json",
+				"configuration": "./language-configurations/regex.language-configuration.json",
 				"icon": {
 					"dark": "images/TextMate-file-icon.svg",
 					"light": "images/TextMate-file-icon.svg"
@@ -97,7 +97,7 @@
 				"filenamePatterns": [
 					"*_scopes.txt"
 				],
-				"configuration": "./scope.language-configuration.json",
+				"configuration": "./language-configurations/scope.language-configuration.json",
 				"icon": {
 					"dark": "images/TextMate-file-icon.svg",
 					"light": "images/TextMate-file-icon.svg"
