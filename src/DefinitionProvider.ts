@@ -123,7 +123,8 @@ export const DefinitionProvider = {
 						for (const grammar of grammars) {
 							if (grammar.scopeName == scopeName) {
 								const uri = vscode.Uri.joinPath(extension.extensionUri, grammar.path);
-								await vscode.workspace.openTextDocument(uri);
+								const document = await vscode.workspace.openTextDocument(uri);
+								vscode.languages.setTextDocumentLanguage(document, 'json-textmate');
 							}
 						}
 					}
