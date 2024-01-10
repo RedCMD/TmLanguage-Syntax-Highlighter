@@ -4,25 +4,25 @@
 	"scopeName": "source.syntax.regexp.tmLanguage",
 	"name": "TextMate Language Regex",
 	"injections": {
-		"L:capture-group-lookbehind -capture-group-modify-extended character-class comment": {
+		"L:capture-group-lookbehind -capture-group-modify-extended -character-class -comment": {
 			"patterns": [
 				{ "include": "#capture-group-lookbehind-invalid" },
 				{ "include": "#absent-invalid" }
 			]
 		},
-		"L:capture-group-lookbehind-extended -capture-group-modify character-class comment": {
+		"L:capture-group-lookbehind-extended -capture-group-modify -character-class -comment": {
 			"patterns": [
 				{ "include": "#capture-group-lookbehind-invalid-extended" },
 				{ "include": "#absent-invalid-extended" }
 			]
 		},
-		"L:capture-group-negative-lookbehind -capture-group-modify-extended character-class comment": {
+		"L:capture-group-negative-lookbehind -capture-group-modify-extended -character-class -comment": {
 			"patterns": [
 				{ "include": "#capture-group-negative-lookbehind-invalid" },
 				{ "include": "#absent-invalid" }
 			]
 		},
-		"L:capture-group-negative-lookbehind-extended -capture-group-modify character-class comment": {
+		"L:capture-group-negative-lookbehind-extended -capture-group-modify -character-class -comment": {
 			"patterns": [
 				{ "include": "#capture-group-negative-lookbehind-invalid-extended" },
 				{ "include": "#absent-invalid-extended" }
@@ -211,7 +211,7 @@
 			"patterns": [ { "include": "#$self-extended" } ]
 		},
 		"capture-group-lookbehind-test": {
-			"match": "(?x) # Doesn't work 100% yet. Turning extended mode on before a look-around, then turning it off again inside the group does not turn it off inside the following invalid capture groups \n (?<! (?-x) ( ##\n) (?: ##\n) (?= ##\n) (?! ##\n) (?<= ##\n) (?<! ##\n) (?<= ( ##\n) (?: ##\n) (?= ##\n) (?! ##\n) (?<= ##\n) (?<! ##\n) ##\n) ##\n)    (?<= ( ##\n) (?: ##\n) (?= ##\n) (?! ##\n) (?<= ##\n) (?<! ##\n) (?<! ( ##\n) (?: ##\n) (?= ##\n) (?! ##\n) (?<= ##\n) (?<! ##\n) ##\n) ##\n)"
+			"match": "(?x) # Doesn't work 100% yet. Turning extended mode on before a look-around, then turning it off again inside the group does not turn it off inside the following invalid capture groups \n (?<! (?-x) ( ##\n) (?: ##\n) (?= ##\n) (?! ##\n) (?<= ##\n) (?<! ##\n) (?<= ( ##\n) (?: ##\n) (?= ##\n) (?! ##\n) (?<= ##\n) (?<! ##\n) ##\n) ##\n)    (?<= ( ##\n) (?: ##\n) (?= ##\n) (?! ##\n) (?<= ##\n) (?<! ##\n) (?<! ( ##\n) (?: ##\n) (?= ##(?= #\n) (?! ##\n) (?<= ##\n) (?<! ##\n) ##\n) ##\n)"
 		},
 		"capture-group-lookbehind": {
 			"comment": "(?<=...)",
