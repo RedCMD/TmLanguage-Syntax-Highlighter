@@ -17,6 +17,9 @@ jobs:
       - name: Install vsce
         run: npm i -g @vscode/vsce
 
+      - name: Install web-tree-sitter
+        run: npm i -g web-tree-sitter
+
       - name: Publish Pre-release
         run: |
           git config --global user.name "RedCMD"
