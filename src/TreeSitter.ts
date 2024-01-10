@@ -22,10 +22,19 @@ export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoi
 export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoint?: Parser.Point, endPoint?: Parser.Point): Parser.QueryCapture[] | Parser.QueryCapture | null {
 	const language = node.tree.getLanguage();
 	const query = language.query(queryString);
-	const queryCaptures = query.captures(node, startPoint, endPoint ?? startPoint);
+	const queryCaptures = query.captures(node, startPoint, endPoint ?? startPoint); // would || be better?
 	if (startPoint && !endPoint) {
-		const queryCapture = queryCaptures.pop(); // the last/inner most node
-		return queryCapture ?? null;
+		const position = new vscode.Position(
+			startPoint.row,
+			startPoint.column
+		);
+		while (queryCaptures.length) { // TreeSitter doesn't check if the captured node actually touches the startPoint :/
+			const queryCapture = queryCaptures.pop(); // the last/inner most node
+			if (toRange(queryCapture.node).contains(position)) {
+				return queryCapture;
+			}
+		}
+		return null;
 	}
 	return queryCaptures;
 }

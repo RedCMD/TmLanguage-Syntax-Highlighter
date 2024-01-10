@@ -15,10 +15,12 @@ exports.DefinitionProvider = {
 			(repo (key) @repo)
 			(include (value) @include)`;
         const cursorCapture = (0, TreeSitter_1.queryNode)(tree.rootNode, queryString, point);
+        // vscode.window.showInformationMessage(JSON.stringify(cursorCapture));
         if (cursorCapture == null) {
             return;
         }
         const node = cursorCapture.node;
+        // vscode.window.showInformationMessage(JSON.stringify(node));
         const originSelectionRange = (0, TreeSitter_1.toRange)(node);
         if (!originSelectionRange.contains(position)) {
             return;
@@ -117,7 +119,8 @@ exports.DefinitionProvider = {
                         for (const grammar of grammars) {
                             if (grammar.scopeName == scopeName) {
                                 const uri = vscode.Uri.joinPath(extension.extensionUri, grammar.path);
-                                await vscode.workspace.openTextDocument(uri);
+                                const document = await vscode.workspace.openTextDocument(uri);
+                                vscode.languages.setTextDocumentLanguage(document, 'json-textmate');
                             }
                         }
                     }

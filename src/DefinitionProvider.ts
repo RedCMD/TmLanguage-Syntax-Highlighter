@@ -15,10 +15,12 @@ export const DefinitionProvider = {
 			(repo (key) @repo)
 			(include (value) @include)`;
 		const cursorCapture = queryNode(tree.rootNode, queryString, point);
+		// vscode.window.showInformationMessage(JSON.stringify(cursorCapture));
 		if (cursorCapture == null) {
 			return;
 		}
 		const node = cursorCapture.node;
+		// vscode.window.showInformationMessage(JSON.stringify(node));
 		const originSelectionRange = toRange(node);
 		if (!originSelectionRange.contains(position)) {
 			return;

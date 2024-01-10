@@ -84,7 +84,7 @@ exports.CompletionItemProvider = {
                                 else {
                                     grammarDocText = grammarPatternsText.slice(0, 99900);
                                 }
-                                grammarDocumentation.appendCodeblock(grammarDocText, 'json-textmate');
+                                grammarDocumentation.appendCodeblock(grammarDocText, 'json-textmate'); // but no, it doesn't work....
                             }
                         }
                         else {
@@ -115,32 +115,39 @@ exports.CompletionItemProvider = {
 };
 function repoCompletionItems(completionItems, tree, cursorRange, scopeName) {
     const rootNode = tree.rootNode;
-    const repoQuery = `(json (repository (repo (key) @repo (.not-match? @repo "^\\\\$(self|base)$"))))`;
-    const repoCaptures = (0, TreeSitter_1.queryNode)(rootNode, repoQuery);
+    const repoQuery = `(json (repository (repo (key) @rootRepo (.not-match? @rootRepo "^\\\\$(self|base)$"))))` +
+        (scopeName ? `` :
+            `(repo
+				[(patterns) (include)] (repository
+					(repo
+						(key) @nestRepo (.not-match? @nestRepo "^\\\\$(self|base)$")))
+				!match !begin)`);
+    // const repoCaptures = queryNode(rootNode, repoQuery);
+    const repoCaptures = scopeName ? (0, TreeSitter_1.queryNode)(rootNode, repoQuery) : (0, TreeSitter_1.queryNode)(rootNode, repoQuery, (0, TreeSitter_1.toPoint)(cursorRange.start), (0, TreeSitter_1.toPoint)(cursorRange.end));
     for (const repoCapture of repoCaptures) {
         const repoNode = repoCapture.node;
         const repoText = repoNode.text;
-        const parentRepoNode = repoText ? repoNode.parent : repoNode.parent.parent; // Tree-sitter buggy on 0width nodes
+        const repoNodeParent = repoText ? repoNode.parent : repoNode.parent.parent; // Tree-sitter buggy on 0width nodes
         const commentQuery = `(comment (value) @comment (.not-eq? @comment ""))` +
             `(comment_slash (value) @comment (.not-eq? @comment ""))`;
-        const commentText = (0, TreeSitter_1.queryNode)(parentRepoNode, commentQuery)[0]?.node?.text;
+        const commentText = (0, TreeSitter_1.queryNode)(repoNodeParent, commentQuery)[0]?.node?.text?.replace(/\\(.)?/g, '$1');
         const repoLabel = {
             label: (scopeName ?? '') + '#' + repoText,
             description: commentText
         };
-        const parentRepoNodeText = parentRepoNode.text;
+        const repoNodeParentText = repoNodeParent.text;
         let repoDocText;
         if (rootNode.startPosition.row == rootNode.endPosition.row) {
             try {
-                const parsedRepo = JSON.parse('{' + parentRepoNodeText + '}');
-                repoDocText = `"${repoText}": ` + JSON.stringify(parsedRepo[repoText], null, 2).slice(0, 99900);
+                const repoParsed = JSON.parse('{' + repoNodeParentText + '}');
+                repoDocText = `"${repoText}": ` + JSON.stringify(repoParsed[repoText], null, 2).slice(0, 99900);
             }
             catch (error) {
-                repoDocText = parentRepoNodeText.slice(0, 1000); // How to enable Word Wrap?
+                repoDocText = repoNodeParentText.slice(0, 1000); // How to enable Word Wrap?
             }
         }
         else {
-            repoDocText = parentRepoNodeText.slice(0, 99900);
+            repoDocText = repoNodeParentText.slice(0, 99900);
         }
         const documentation = new vscode.MarkdownString();
         documentation.appendCodeblock(repoDocText, 'json-textmate');
@@ -150,7 +157,11 @@ function repoCompletionItems(completionItems, tree, cursorRange, scopeName) {
             range: cursorRange,
             kind: vscode.CompletionItemKind.Function,
             documentation: documentation
+            // sortText: '~#' + repoText
         };
+        if (repoCapture.name == 'nestRepo') {
+            repoCompletionItem.sortText = ' #' + repoText;
+        }
         completionItems.push(repoCompletionItem);
     }
 }
