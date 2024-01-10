@@ -3,6 +3,7 @@
 .vscode/**
 _test/**
 documentation/**
+src/**
 
 */node_modules/**
 
@@ -11,6 +12,7 @@ documentation/**
 .gitignore
 .js.map
 
+tsconfig.json
 scope-colours.tmLanguage.json
 scope-names.tmLanguage.json
 unicode-category.regex.json
