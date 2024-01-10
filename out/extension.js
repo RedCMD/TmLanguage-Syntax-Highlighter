@@ -29,5 +29,8 @@ async function activate(context) {
 }
 exports.activate = activate;
 // This method is called when your extension is deactivated
-function deactivate() { }
+function deactivate() {
+    // https://github.com/microsoft/vscode/issues/105484
+    // https://github.com/microsoft/vscode/issues/201664
+}
 exports.deactivate = deactivate;
