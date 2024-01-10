@@ -35,7 +35,7 @@
 	"activationEvents": [],
 	"main": "./out/extension.js",
 	"scripts": {
-		"vscode:prepublish": "npm run generate-wasm && npm run compile",
+		"prepublish": "npm run generate-wasm && npm run compile",
 		"compile": "tsc -p ./",
 		"watch": "tsc -watch -p ./",
 		"generate-wasm": "cd ./src/tree-sitter/tree-sitter-json/ && tree-sitter generate --no-bindings && cd ./../tree-sitter-regex/ && tree-sitter generate --no-bindings && cd ./../../../out/ && tree-sitter build-wasm ./../src/tree-sitter/tree-sitter-json/ && tree-sitter build-wasm ./../src/tree-sitter/tree-sitter-regex/"
