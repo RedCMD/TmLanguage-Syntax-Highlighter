@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getTree, toRange } from "./TreeSitter";
+import { getTree, getTrees, queryNode, toRange } from "./TreeSitter";
 import { DocumentSelector } from './extension';
 
 export function initDiagnostics(context: vscode.ExtensionContext) {
@@ -40,34 +40,64 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 	if (!vscode.languages.match(DocumentSelector, document)) {
 		return;
 	}
+	const diagnostics: vscode.Diagnostic[] = [];
 
-	// vscode.window.showInformationMessage(JSON.stringify("diagnostics"))
-	const tree = getTree(document);
-	if (tree == null) {
-		return;
+	if (false) {
+		// vscode.window.showInformationMessage(JSON.stringify("diagnostics"))
+		const tree = getTree(document);
+		if (tree == null) {
+			return;
+		}
+
+
+		// const language = tree.getLanguage()
+		// const query = language.query(
+		// 	`(` +
+		// 	`	(ERROR) @ERROR` +
+		// 	`)`
+		// );
+		// const queryCaptures = query.captures(tree.rootNode);
+	
+		const queryCaptures = queryNode(tree.rootNode, `(ERROR) @ERROR`);
+
+		for (const queryCapture of queryCaptures) {
+			const node = queryCapture.node;
+			const text = node.text;
+			const range = toRange(node);
+			const diagnostic = new vscode.Diagnostic(
+				range,
+				`JSON error: \`${text}\``,
+				vscode.DiagnosticSeverity.Warning
+			);
+			diagnostics.push(diagnostic);
+			// vscode.window.showInformationMessage(JSON.stringify(text));
+		}
 	}
 
-	const diagnostics = [];
+	if (true) {
+		// vscode.window.showInformationMessage(JSON.stringify("diagnostics"))
+		const trees = getTrees(document).regexTrees;
+		if (trees == null) {
+			return;
+		}
 
-	const language = tree.getLanguage()
-	const query = language.query(
-		`(` +
-		`	(ERROR) @ERROR` +
-		`)`
-	);
-	const queryCaptures = query.captures(tree.rootNode);
+		for (const id in trees) {
+			const tree = trees[id];
+			const queryCaptures = queryNode(tree.rootNode, `(ERROR) @ERROR`);
 
-	for (const queryCapture of queryCaptures) {
-		const node = queryCapture.node;
-		const text = node.text;
-		const range = toRange(node);
-		const diagnostic = new vscode.Diagnostic(
-			range,
-			`JSON error: \`${text}\``,
-			vscode.DiagnosticSeverity.Warning
-		);
-		diagnostics.push(diagnostic);
-		// vscode.window.showInformationMessage(JSON.stringify(text));
+			for (const queryCapture of queryCaptures) {
+				const node = queryCapture.node;
+				const text = node.text;
+				const range = toRange(node);
+				const diagnostic = new vscode.Diagnostic(
+					range,
+					`Regex error: \`${text}\``,
+					vscode.DiagnosticSeverity.Warning
+				);
+				diagnostics.push(diagnostic);
+				// vscode.window.showInformationMessage(JSON.stringify(text));
+			}
+		}
 	}
 
 

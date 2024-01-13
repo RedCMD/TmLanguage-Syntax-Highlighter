@@ -79,12 +79,13 @@ const SymbolKind = {
 };
 exports.DocumentSymbolProvider = {
     async provideDocumentSymbols(document) {
-        const tree = (0, TreeSitter_1.getTree)(document);
+        // const tree = getTree(document)
         const symbols = [];
         if (true) {
-            this.getAllChildren(tree.rootNode, symbols);
+            const tree = (0, TreeSitter_1.getTree)(document);
+            this.getAllChildren(tree.rootNode, symbols, document);
         }
-        else {
+        else if (false) {
             let i = 0;
             for (const symbol in SymbolKind) {
                 const documentSymbol = new vscode.DocumentSymbol(symbol, SymbolKind[symbol].toString(), SymbolKind[symbol], new vscode.Range(i, 0, i, 1), new vscode.Range(i, 0, i, 1));
@@ -92,10 +93,16 @@ exports.DocumentSymbolProvider = {
                 i++;
             }
         }
+        else if (true) {
+            const regexTrees = (0, TreeSitter_1.getTrees)(document).regexTrees;
+            for (const regexTree in regexTrees) {
+                this.getAllChildren(regexTrees[regexTree].rootNode, symbols, document);
+            }
+        }
         // vscode.window.showInformationMessage(JSON.stringify(symbols))
         return symbols;
     },
-    async getAllChildren(node, symbols) {
+    async getAllChildren(node, symbols, document) {
         let symbolsChildren = [];
         let documentSymbol;
         if (false) {
@@ -119,7 +126,7 @@ exports.DocumentSymbolProvider = {
         }
         else {
             for (let index = 0; index < node.namedChildCount; index++)
-                this.getAllChildren(node.namedChild(index), symbolsChildren);
+                this.getAllChildren(node.namedChild(index), symbolsChildren, document);
             let name = '';
             switch (node.type) {
                 case 'pattern':
@@ -137,6 +144,12 @@ exports.DocumentSymbolProvider = {
                     break;
                 case 'value':
                     name = node.text;
+                    break;
+                case 'regex':
+                    node = (0, TreeSitter_1.getRegexNode)(document, node);
+                    for (const regexChildNode of node.namedChildren) {
+                        this.getAllChildren(regexChildNode, symbolsChildren, document);
+                    }
                     break;
             }
             if (name == '')

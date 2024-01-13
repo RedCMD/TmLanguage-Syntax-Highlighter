@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getTree, toRange, toPoint, queryForPosition } from "./TreeSitter";
+import { getTree, getTrees, getRegexNode, toRange, toPoint, queryForPosition } from "./TreeSitter";
 import { SyntaxNode } from 'web-tree-sitter';
 
 const SymbolKind = {
@@ -95,13 +95,14 @@ export const DocumentSymbolProvider = {
 
 
 
-		const tree = getTree(document)
+		// const tree = getTree(document)
 		const symbols = []
 
 		if (true) {
-			this.getAllChildren(tree.rootNode, symbols)
+			const tree = getTree(document);
+			this.getAllChildren(tree.rootNode, symbols, document)
 		}
-		else {
+		else if (false) {
 			let i = 0
 			for (const symbol in SymbolKind) {
 				const documentSymbol = new vscode.DocumentSymbol(
@@ -115,11 +116,17 @@ export const DocumentSymbolProvider = {
 				i++
 			}
 		}
+		else if (true) {
+			const regexTrees = getTrees(document).regexTrees;
+			for (const regexTree in regexTrees) {
+				this.getAllChildren(regexTrees[regexTree].rootNode, symbols, document)
+			}
+		}
 
 		// vscode.window.showInformationMessage(JSON.stringify(symbols))
 		return symbols
 	},
-	async getAllChildren(node: SyntaxNode, symbols: any[]) {
+	async getAllChildren(node: SyntaxNode, symbols: vscode.DocumentSymbol[], document: vscode.TextDocument) {
 
 
 		let symbolsChildren = []
@@ -152,7 +159,7 @@ export const DocumentSymbolProvider = {
 			)
 		} else {
 			for (let index = 0; index < node.namedChildCount; index++)
-				this.getAllChildren(node.namedChild(index), symbolsChildren)
+				this.getAllChildren(node.namedChild(index), symbolsChildren, document)
 
 			let name = ''
 			switch (node.type) {
@@ -172,6 +179,12 @@ export const DocumentSymbolProvider = {
 				case 'value':
 					name = node.text
 					break
+				case 'regex':
+					node = getRegexNode(document, node);
+					for (const regexChildNode of node.namedChildren) {
+						this.getAllChildren(regexChildNode, symbolsChildren, document);
+					}
+					break;
 			}
 			if (name == '')
 				name = node.type

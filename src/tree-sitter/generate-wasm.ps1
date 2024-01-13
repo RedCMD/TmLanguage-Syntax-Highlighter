@@ -19,7 +19,7 @@ cd ./../tree-sitter-regex/
 # build the wasm files
 cd ./../../../out/
 ./../node_modules/.bin/tree-sitter build-wasm ./../src/tree-sitter/tree-sitter-json/
-# ./../node_modules/.bin/tree-sitter build-wasm ./../src/tree-sitter/tree-sitter-regex/
+./../node_modules/.bin/tree-sitter build-wasm ./../src/tree-sitter/tree-sitter-regex/
 
 
 # return to previous location

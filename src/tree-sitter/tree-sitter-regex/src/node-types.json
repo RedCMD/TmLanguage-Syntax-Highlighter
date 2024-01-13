@@ -1,11 +1,30 @@
 [
   {
-    "type": "backslash",
+    "type": "ERROR",
     "named": true,
     "fields": {}
   },
   {
-    "type": "capture_group",
+    "type": "backreference",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "ERROR",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "backslash",
     "named": true,
     "fields": {},
     "children": {
@@ -13,7 +32,74 @@
       "required": false,
       "types": [
         {
-          "type": "regex",
+          "type": "quantifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "capture_group",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "ERROR",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "capture_group",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "hexadecimal",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "octal",
+          "named": true
+        },
+        {
+          "type": "property",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
           "named": true
         }
       ]
@@ -32,19 +118,117 @@
           "named": true
         },
         {
-          "type": "character_class_literal",
+          "type": "hexadecimal",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "octal",
+          "named": true
+        },
+        {
+          "type": "property",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "unicode",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "character_class_literal",
+    "type": "hexadecimal",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "quantifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "quantifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "meta_control_char",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "unicode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "octal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "quantifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "property",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "quantifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "quantifier",
     "named": true,
     "fields": {}
   },
@@ -54,8 +238,20 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
+        {
+          "type": "ERROR",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
         {
           "type": "backslash",
           "named": true
@@ -69,11 +265,69 @@
           "named": true
         },
         {
+          "type": "hexadecimal",
+          "named": true
+        },
+        {
           "type": "literal",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "octal",
+          "named": true
+        },
+        {
+          "type": "property",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
           "named": true
         }
       ]
     }
+  },
+  {
+    "type": "subroutine",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "quantifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unicode",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "quantifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "'",
+    "named": false
   },
   {
     "type": "(",
@@ -84,7 +338,39 @@
     "named": false
   },
   {
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": "?",
+    "named": false
+  },
+  {
+    "type": "?:",
+    "named": false
+  },
+  {
+    "type": "?>",
+    "named": false
+  },
+  {
     "type": "[",
+    "named": false
+  },
+  {
+    "type": "\\\\C-",
+    "named": false
+  },
+  {
+    "type": "\\\\M-",
     "named": false
   },
   {
@@ -92,7 +378,35 @@
     "named": false
   },
   {
+    "type": "\\\\c",
+    "named": false
+  },
+  {
+    "type": "\\\\g'",
+    "named": false
+  },
+  {
+    "type": "\\\\g<",
+    "named": false
+  },
+  {
+    "type": "\\\\k'",
+    "named": false
+  },
+  {
+    "type": "\\\\k<",
+    "named": false
+  },
+  {
     "type": "]",
+    "named": false
+  },
+  {
+    "type": "alteration",
+    "named": true
+  },
+  {
+    "type": "}",
     "named": false
   }
 ]

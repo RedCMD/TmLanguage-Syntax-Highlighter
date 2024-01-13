@@ -1550,9 +1550,11 @@
 			"comment": "Basic visual test",
 			"//": "https://github.com/kkos/oniguruma/blob/master/doc/RE",
 			"patterns": [
-				{ "match": "(*FAIL) !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ " },
+				{ "match": "(*FAIL)  !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ " },
 				{ "match": "(*FAIL) \"\/\b\f\n\r\t\u0000 " },
 				{ "match": "(*FAIL) \\ \\!\\\"\\#\\$\\%\\&\\'\\(\\)\\*\\+\\,\\-\\.\\/\\0\\1\\2\\3\\4\\5\\6\\7\\8\\9\\:\\;\\<\\=\\>\\\\\\?\\@\\A\\B\\C-]\\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P{^L}\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z\\[\\\\\\]\\^\\_\\`\\a\\b\\c]\\d\\e\\f\\g<0>\\h\\i\\j\\k'1'\\l\\m\\n\\o\\p{l}\\q\\r\\s\\t\\u0000\\v\\w\\x\\y\\z\\{\\|\\}\\~ " },
+				{ "match": "(*FAIL) \\\"\\\/\\\b\\\f\\\n\\\r\\\t\\\u0000 " },
+				{ "match": "(*FAIL) \\\\ " },
 				{ "match": "(*FAIL) (?x){2,3}{2,3}({2,3}(?:{2,3})){2,3}{,3}{2,}{2} {000} *{0} {0}* *{0}* {0}{0}{0} {0}{2,3} {2,3}{0}{2,3} {2,3\\} " },
 				{ "match": "(*FAIL) () (?<= (?= (?> (?=)? ) )? ) (?= (?= )? ) " },
 				{ "match": "(*FAIL) \\x \\x00 \\xFF \\x{} \\x{k} \\x\\{123} \\x{00000000 0013FFFF} [\\x{42 001FFFFF 48}-\\x{FFFFFFFF \n 45}] " },
