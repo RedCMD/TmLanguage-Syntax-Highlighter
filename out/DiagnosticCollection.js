@@ -30,9 +30,7 @@ function Diagnostics(document, Diagnostics) {
         return;
     }
     const diagnostics = [];
-    const JSON = false;
-    const Regex = true;
-    if (JSON) {
+    if (false) {
         // vscode.window.showInformationMessage(JSON.stringify("diagnostics"))
         const tree = (0, TreeSitter_1.getTree)(document);
         if (tree == null) {
@@ -55,7 +53,7 @@ function Diagnostics(document, Diagnostics) {
             // vscode.window.showInformationMessage(JSON.stringify(text));
         }
     }
-    if (Regex) {
+    if (true) {
         // vscode.window.showInformationMessage(JSON.stringify("diagnostics"))
         const trees = (0, TreeSitter_1.getTrees)(document).regexTrees;
         if (trees == null) {

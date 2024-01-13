@@ -3,7 +3,6 @@ Syntax Highlighting for JSON based TextMate Language and Regex
 
 ## Features
 Now features basic Intellisense, ctrl+click definitions, breadcrumbs and right click => formatting  
-Big thanks to @Pokey Rule for allowing custom language support on his extension [Parse tree](https://github.com/cursorless-dev/vscode-parse-tree)  
 
 Example code:  
 ![example-code](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/images/Example%20Code%20V1.2.png?raw=true)
@@ -21,8 +20,6 @@ Unknown code is highlighted red
 This extension was designed with VSCode's default Dark+ theme in mind  
 Other themes may work with various successes  
 If you would like me to add support for a theme, please just message me  
-Extension [Parse tree](https://marketplace.visualstudio.com/items?itemName=pokey.parse-tree) is now required  
-It should install automatically  
 
 
 ### For more information
@@ -31,13 +28,11 @@ It should install automatically
 * [Github - Oniguruma](https://github.com/kkos/oniguruma)
 * [Github - Oniguruma: list of all expressions](https://github.com/kkos/oniguruma/blob/master/doc/RE)
 * [Github - TmLanguage-Syntax-Highlighter](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter)
-* [Github - Parse tree](https://github.com/cursorless-dev/vscode-parse-tree)
 * [Github - Documentation](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/index.md)
 
 
 ### Todo
 * Support unicode character insertions `\u00b0`
-* Fix char ranges in character classes or wait for vscode to fix textmate bug (`[\\\\-\\\\]`): [Github Issue - Subroutines breaking tokenization](https://github.com/microsoft/vscode-textmate/issues/164)
 * Allow spaces, underscores and dashes in all places inside Unicode Categorys `\\p{  Let _te--r}`: [Github - List of unicode properties](https://github.com/kkos/oniguruma/blob/bb31b4d402ee3f3a3bc4855c9d0271f43a3e4793/doc/UNICODE_PROPERTIES)
 * Try* to fix contention between backreferences `\\1` and character codes `\\1`
 * Detect and limit backreferences/subroutines/conditional-capture-groups `\\1`/`\\k<1>`/`\\g<1>`/`(?(<1>))` to the actual amount of capture groups available
