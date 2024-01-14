@@ -44,7 +44,7 @@ const SymbolKind = {
     'end': vscode.SymbolKind.String,
     'while': vscode.SymbolKind.String,
     'scopeName': vscode.SymbolKind.String,
-    'nameScope': vscode.SymbolKind.String,
+    'name_scope': vscode.SymbolKind.String,
     'name': vscode.SymbolKind.String,
     'version': vscode.SymbolKind.String,
     'schema': vscode.SymbolKind.String,
@@ -105,7 +105,7 @@ exports.DocumentSymbolProvider = {
     async getAllChildren(node, symbols, document) {
         let symbolsChildren = [];
         let documentSymbol;
-        if (false) {
+        if (true) {
             // for (let index = 0; index < node.namedChildCount; index++)
             // this.getAllChildren(node.namedChild(index), symbolsChildren)
             for (let index = 0; index < node.childCount; index++)
@@ -139,7 +139,7 @@ exports.DocumentSymbolProvider = {
                 case 'capture':
                     name = node.firstNamedChild.text;
                     break;
-                case 'nameScope':
+                case 'name_scope':
                     name = 'name';
                     break;
                 case 'value':

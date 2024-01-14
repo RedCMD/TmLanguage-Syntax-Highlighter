@@ -68,7 +68,7 @@ module.exports = grammar({
 		_pattern: $ => object($,
 			choice(
 				$.include,
-				$.nameScope,
+				$.name_scope,
 				$.contentName,
 				field(
 					'match',
@@ -185,13 +185,34 @@ module.exports = grammar({
 			"name",
 			string($),
 		),
-		nameScope: $ => pair($,
+		name_scope: $ => pair($,
 			"name",
-			string($),
+			string($,
+				alias(
+					choice(
+						repeat1(
+							choice(
+								$.scope_name,
+								/ +/,
+							),
+						),
+						$._forceStringNode,
+					),
+					$.value,
+				),
+			),
 		),
 		contentName: $ => pair($,
 			"contentName",
 			string($),
+		),
+		scope_name: $ => token(
+			repeat1(
+				choice(
+					/\\[^\r\n\t ]/,
+					/[^\\\r\n\t "]+/,
+				),
+			),
 		),
 
 		injectionSelector: $ => pair($,

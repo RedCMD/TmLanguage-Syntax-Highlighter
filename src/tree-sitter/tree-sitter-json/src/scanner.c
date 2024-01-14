@@ -13,31 +13,6 @@ void tree_sitter_jsontm_external_scanner_destroy(void* payload) {}
 unsigned tree_sitter_jsontm_external_scanner_serialize(void* payload, char* buffer) {}
 void tree_sitter_jsontm_external_scanner_deserialize(void* payload, const char* buffer, unsigned length) {}
 
-// bool tokenize_ERROR(TSLexer* lexer) {
-// 	START_LEXER();
-	
-// 	while (true) {
-// 		switch (lookahead) {
-// 			case 0:
-// 			case ' ':
-// 			case '\t':
-// 			case '\r':
-// 			case '\n':
-// 			case ',':
-// 			case ':':
-// 			case '"':
-// 			case '{':
-// 			case '}':
-// 			case '[':
-// 			case ']':
-// 				END_STATE();
-// 				break;
-// 			default:
-// 				ACCEPT_TOKEN(ERROR);
-// 		}
-// 	}
-// }
-
 bool tokenize_ERROR(TSLexer* lexer) {
 	START_LEXER();
 	while (true) {

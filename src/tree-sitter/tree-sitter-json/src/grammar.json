@@ -569,7 +569,7 @@
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "nameScope"
+                      "name": "name_scope"
                     },
                     {
                       "type": "SYMBOL",
@@ -677,7 +677,7 @@
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "nameScope"
+                            "name": "name_scope"
                           },
                           {
                             "type": "SYMBOL",
@@ -1154,7 +1154,7 @@
         }
       ]
     },
-    "nameScope": {
+    "name_scope": {
       "type": "SEQ",
       "members": [
         {
@@ -1214,8 +1214,20 @@
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "_string"
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "scope_name"
+                        },
+                        {
+                          "type": "PATTERN",
+                          "value": " +"
+                        }
+                      ]
+                    }
                   },
                   {
                     "type": "SYMBOL",
@@ -1313,6 +1325,25 @@
           ]
         }
       ]
+    },
+    "scope_name": {
+      "type": "TOKEN",
+      "content": {
+        "type": "REPEAT1",
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "\\\\[^\\r\\n\\t ]"
+            },
+            {
+              "type": "PATTERN",
+              "value": "[^\\\\\\r\\n\\t \"]+"
+            }
+          ]
+        }
+      }
     },
     "injectionSelector": {
       "type": "SEQ",

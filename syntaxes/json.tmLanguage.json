@@ -721,11 +721,23 @@
 		},
 		"name-content": {
 			"comment": "\"...\"",
-			"begin": "\"(?=((?>[^\\\\\"]++|\\\\.)*)\")",
+			"//": [
+				"replaceCaptures `$1` removes all leading dots `.`",
+				"Causing us to deviate from VSCode TextMate",
+				"If a scopename is placed at the beginning of \"name\" and has leading dots `.`",
+				" \"name\": \"...keyword\" ",
+				"The dots will be striped by `$1` and it will appear that `...keyword` matches the scopename `keyword`, highlighting it",
+				"We can *partially* correct this by putting another character infront of the first dot `.`",
+				"Sadly the beginning double quote `\"` is the only one available to us. Space ` ` would have been nicer",
+				"and it ends up showing up in `Inspect Editor Tokens and Scopes`. Once again deviating from VSCode TextMate",
+				"However, I doubt anyone would create a scopename starting with a dobule quote `\"` and leading dots `.`",
+				" \"...scopename "
+			],
+			"begin": "(?=(\"\\.(?>[^\\\\\"]++|\\\\.)*)\")\"|\"(?=((?>[^\\\\\"]++|\\\\.)*)\")",
 			"end": "\"",
 			"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.json.tm" } },
 			"endCaptures": { "0": { "name": "punctuation.definition.string.end.json.tm" } },
-			"name": "$1",
+			"name": "$1$2",
 			"patterns": [
 				{ "include": "#escape-characters" },
 				{
