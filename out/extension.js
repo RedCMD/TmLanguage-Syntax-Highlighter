@@ -4,6 +4,7 @@ exports.deactivate = exports.activate = exports.DocumentSelector = void 0;
 const vscode = require("vscode");
 const TreeSitter_1 = require("./TreeSitter");
 const tokenColorCustomizations_1 = require("./tokenColorCustomizations");
+const RenameProvider_1 = require("./RenameProvider");
 const ReferenceProvider_1 = require("./ReferenceProvider");
 const DefinitionProvider_1 = require("./DefinitionProvider");
 const DocumentSymbolProvider_1 = require("./DocumentSymbolProvider");
@@ -18,6 +19,7 @@ async function activate(context) {
     // initDiagnostics(context);
     (0, tokenColorCustomizations_1.initTokenColorCustomizations)(context);
     // context.subscriptions.push(vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider)); // Mouse over Hovers
+    context.subscriptions.push(vscode.languages.registerRenameProvider(exports.DocumentSelector, RenameProvider_1.RenameProvider)); // [F2] Rename
     context.subscriptions.push(vscode.languages.registerReferenceProvider(exports.DocumentSelector, ReferenceProvider_1.ReferenceProvider)); // Go to References
     context.subscriptions.push(vscode.languages.registerDefinitionProvider(exports.DocumentSelector, DefinitionProvider_1.DefinitionProvider)); // Go to Definition
     context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(exports.DocumentSelector, DocumentSymbolProvider_1.DocumentSymbolProvider)); // Breadcrumbs

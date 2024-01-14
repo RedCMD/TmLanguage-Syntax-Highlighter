@@ -5,6 +5,7 @@ import { initDiagnostics } from "./DiagnosticCollection";
 import { initTokenColorCustomizations } from './tokenColorCustomizations';
 
 import { HoverProvider } from "./HoverProvider";
+import { RenameProvider } from "./RenameProvider";
 import { ReferenceProvider } from "./ReferenceProvider";
 import { DefinitionProvider } from "./DefinitionProvider";
 import { DocumentSymbolProvider } from "./DocumentSymbolProvider";
@@ -25,6 +26,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	initTokenColorCustomizations(context);
 
 	// context.subscriptions.push(vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider)); // Mouse over Hovers
+	context.subscriptions.push(vscode.languages.registerRenameProvider(DocumentSelector, RenameProvider)); // [F2] Rename
 	context.subscriptions.push(vscode.languages.registerReferenceProvider(DocumentSelector, ReferenceProvider)); // Go to References
 	context.subscriptions.push(vscode.languages.registerDefinitionProvider(DocumentSelector, DefinitionProvider)); // Go to Definition
 	context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(DocumentSelector, DocumentSymbolProvider)); // Breadcrumbs
