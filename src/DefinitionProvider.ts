@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { getTree, toRange, toPoint, queryNode } from "./TreeSitter";
+import { DocumentSelector } from './extension';
 
 
 export const DefinitionProvider = {
@@ -10,10 +11,11 @@ export const DefinitionProvider = {
 		let queryString: string;
 		// vscode.window.showInformationMessage(JSON.stringify(tree.rootNode.namedDescendantForPosition(point).text));
 
-		queryString =
-			`(json (scopeName (value) @scopeName))
+		queryString = `
+			(json (scopeName (value) @scopeName))
 			(repo (key) @repo)
-			(include (value) @include)`;
+			(include (value) @include)
+		`;
 		const cursorCapture = queryNode(tree.rootNode, queryString, point);
 		// vscode.window.showInformationMessage(JSON.stringify(cursorCapture));
 		if (cursorCapture == null) {
@@ -94,7 +96,7 @@ export const DefinitionProvider = {
 											(repo
 												(key) @repo (.eq? @repo "${ruleName}")))
 										!match !begin)`;
-					const nestedRepoNode = queryNode(tree.rootNode, queryString, point)?.node;
+					const nestedRepoNode = queryNode(tree.rootNode, queryString, point, false)?.node;
 					if (nestedRepoNode) {
 						const locationLink: vscode.DefinitionLink = {
 							originSelectionRange: originSelectionRange, // Underlined text
@@ -132,7 +134,7 @@ export const DefinitionProvider = {
 					}
 				}
 				for (const textDocument of vscode.workspace.textDocuments) { // other#include
-					if (textDocument.languageId != 'json-textmate') {
+					if (!vscode.languages.match(DocumentSelector, textDocument)) {
 						continue;
 					}
 					const documentTree = getTree(textDocument);

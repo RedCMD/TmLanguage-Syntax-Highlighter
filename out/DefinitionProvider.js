@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DefinitionProvider = void 0;
 const vscode = require("vscode");
 const TreeSitter_1 = require("./TreeSitter");
+const extension_1 = require("./extension");
 exports.DefinitionProvider = {
     async provideDefinition(document, position, token) {
         // vscode.window.showInformationMessage(JSON.stringify("Definition"));
@@ -10,10 +11,11 @@ exports.DefinitionProvider = {
         const point = (0, TreeSitter_1.toPoint)(position);
         let queryString;
         // vscode.window.showInformationMessage(JSON.stringify(tree.rootNode.namedDescendantForPosition(point).text));
-        queryString =
-            `(json (scopeName (value) @scopeName))
+        queryString = `
+			(json (scopeName (value) @scopeName))
 			(repo (key) @repo)
-			(include (value) @include)`;
+			(include (value) @include)
+		`;
         const cursorCapture = (0, TreeSitter_1.queryNode)(tree.rootNode, queryString, point);
         // vscode.window.showInformationMessage(JSON.stringify(cursorCapture));
         if (cursorCapture == null) {
@@ -89,7 +91,7 @@ exports.DefinitionProvider = {
 											(repo
 												(key) @repo (.eq? @repo "${ruleName}")))
 										!match !begin)`;
-                    const nestedRepoNode = (0, TreeSitter_1.queryNode)(tree.rootNode, queryString, point)?.node;
+                    const nestedRepoNode = (0, TreeSitter_1.queryNode)(tree.rootNode, queryString, point, false)?.node;
                     if (nestedRepoNode) {
                         const locationLink = {
                             originSelectionRange: originSelectionRange, // Underlined text
@@ -126,7 +128,7 @@ exports.DefinitionProvider = {
                     }
                 }
                 for (const textDocument of vscode.workspace.textDocuments) { // other#include
-                    if (textDocument.languageId != 'json-textmate') {
+                    if (!vscode.languages.match(extension_1.DocumentSelector, textDocument)) {
                         continue;
                     }
                     const documentTree = (0, TreeSitter_1.getTree)(textDocument);

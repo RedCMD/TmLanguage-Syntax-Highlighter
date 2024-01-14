@@ -36,17 +36,21 @@ export function getRegexNode(document: vscode.TextDocument, node: Parser.SyntaxN
 
 export function queryNode(node: Parser.SyntaxNode, queryString: string): Parser.QueryCapture[];
 export function queryNode(node: Parser.SyntaxNode, queryString: string, point: Parser.Point): Parser.QueryCapture | null;
+export function queryNode(node: Parser.SyntaxNode, queryString: string, point: Parser.Point, mustIntersect: false): Parser.QueryCapture | null;
 export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoint: Parser.Point, endPoint: Parser.Point): Parser.QueryCapture[];
-export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoint?: Parser.Point, endPoint?: Parser.Point): Parser.QueryCapture[] | Parser.QueryCapture | null {
+export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoint?: Parser.Point, endPoint?: Parser.Point | false): Parser.QueryCapture[] | Parser.QueryCapture | null {
 	const language = node.tree.getLanguage();
 	const query = language.query(queryString);
-	const queryCaptures = query.captures(node, startPoint, endPoint ?? startPoint); // would || be better?
+	const queryCaptures = query.captures(node, startPoint, endPoint || startPoint);
 	if (startPoint && !endPoint) {
+		if (endPoint === false) {
+			return queryCaptures.pop(); // the last/inner most node
+		}
 		const position = new vscode.Position(
 			startPoint.row,
 			startPoint.column
 		);
-		while (queryCaptures.length) { // TreeSitter doesn't check if the captured node actually touches the startPoint :/
+		while (queryCaptures.length) { // TreeSitter doesn't actually check if the captured node intersects the startPoint :/
 			const queryCapture = queryCaptures.pop(); // the last/inner most node
 			if (toRange(queryCapture.node).contains(position)) {
 				return queryCapture;
