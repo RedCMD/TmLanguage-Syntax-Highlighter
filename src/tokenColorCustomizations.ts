@@ -3,13 +3,13 @@ import * as vscode from 'vscode';
 export function initTokenColorCustomizations(context: vscode.ExtensionContext) {
 	// vscode.window.showInformationMessage(JSON.stringify("tokenColorCustomizations"));
 
-	const activeDocument = vscode.window.activeTextEditor.document;
+	const activeDocument = vscode.window.activeTextEditor?.document; // `activeTextEditor` can be `undefined`!
 	update(packageJSON(activeDocument) || jsonTextMate(activeDocument));
 
 	context.subscriptions.push(
 		vscode.window.onDidChangeActiveTextEditor((editor: vscode.TextEditor) => {
 			// vscode.window.showInformationMessage(JSON.stringify("active"));
-			const document = editor.document;
+			const document = editor?.document; // `editor` can be `undefined`!
 			update(packageJSON(document) || jsonTextMate(document));
 		})
 	);
@@ -17,7 +17,7 @@ export function initTokenColorCustomizations(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.workspace.onDidOpenTextDocument((document: vscode.TextDocument) => {
 			// vscode.window.showInformationMessage(JSON.stringify("open"));
-			if (document == vscode.window.activeTextEditor.document) {
+			if (document == vscode.window.activeTextEditor?.document) { // `activeTextEditor` can be `undefined`!
 				update(packageJSON(document) || jsonTextMate(document));
 			}
 		})
@@ -27,7 +27,7 @@ export function initTokenColorCustomizations(context: vscode.ExtensionContext) {
 		vscode.workspace.onDidChangeTextDocument((edits: vscode.TextDocumentChangeEvent) => {
 			// vscode.window.showInformationMessage(JSON.stringify("change"));
 			const document = edits.document;
-			if (document == vscode.window.activeTextEditor.document) {
+			if (document == vscode.window.activeTextEditor?.document) { // `activeTextEditor` can be `undefined`!
 				update(packageJSON(document));
 			}
 		})
@@ -37,7 +37,7 @@ export function initTokenColorCustomizations(context: vscode.ExtensionContext) {
 	// 	vscode.workspace.onDidChangeConfiguration((event: vscode.ConfigurationChangeEvent) => {
 	// 		// vscode.window.showInformationMessage(JSON.stringify("config"));
 	// 		if (event.affectsConfiguration("editor.tokenColorCustomizations")) {
-	// 			const document = vscode.window.activeTextEditor.document;
+	// 			const document = vscode.window.activeTextEditor?.document; // `activeTextEditor` can be `undefined`!
 	// 			update(packageJSON(document) || jsonTextMate(document));
 	// 		}
 	// 	})
@@ -46,7 +46,7 @@ export function initTokenColorCustomizations(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.workspace.onDidCloseTextDocument((document: vscode.TextDocument) => {
 			// vscode.window.showInformationMessage(JSON.stringify("close"));
-			if (document == vscode.window.activeTextEditor.document) {
+			if (document == vscode.window.activeTextEditor?.document) { // `activeTextEditor` can be `undefined`!
 				update(null);
 			}
 		})
@@ -60,6 +60,9 @@ const jsonTextMateSelector: vscode.DocumentFilter = { language: "json-textmate",
 
 function packageJSON(document: vscode.TextDocument): vscode.Uri {
 	// vscode.window.showInformationMessage(JSON.stringify("packageJSON"));
+	if (!document) {
+		return null;
+	}
 	if (vscode.languages.match(packageJSONSelector, document)) {
 		const uri = document.uri;
 		return uri;
@@ -68,12 +71,16 @@ function packageJSON(document: vscode.TextDocument): vscode.Uri {
 
 function jsonTextMate(document: vscode.TextDocument): vscode.Uri {
 	// vscode.window.showInformationMessage(JSON.stringify("jsonTextMate"));
+	if (!document) {
+		return null;
+	}
 	if (vscode.languages.match(jsonTextMateSelector, document)) {
 		const uri = vscode.Uri.joinPath(document.uri, '../../package.json');
 		return uri;
 	}
 }
 
+let ignoreFailParse = false;
 
 const bak = '[tokenColorCustomizations_bak_JSON_TextMate'; // The square bracket is there on purpose so that the json `settings` schema doesn't complain about it
 async function update(uri: vscode.Uri) {
@@ -102,12 +109,21 @@ async function update(uri: vscode.Uri) {
 				return;
 			}
 		} catch (error) {
-			vscode.window.showWarningMessage("TextMateRules: Failed to parse `Package.json`");
+			if (ignoreFailParse == false) {
+				const message = "Failed to parse `package.json`"
+				const ignore = "Ignore"
+				vscode.window.showWarningMessage(message, ignore).then((value) => {
+					if (value == ignore) {
+						ignoreFailParse = true;
+					}
+					return true;
+				});
+			}
 		}
 	}
 
 	const editor = vscode.workspace.getConfiguration("editor");
-	const tokenColorCustomizations: Object = editor.inspect("tokenColorCustomizations")[configurationValue];
+	const tokenColorCustomizations: Object = editor.inspect("tokenColorCustomizations")[configurationValue] ?? {};
 	const tokenColorCustomizations_bak: Object = tokenColorCustomizations[bak];
 
 	if (tokenColorCustomizations_bak !== undefined) {
