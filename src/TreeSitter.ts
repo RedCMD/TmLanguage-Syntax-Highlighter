@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as Parser from 'web-tree-sitter';
 import { DocumentSelector } from './extension';
 
-interface trees {
+type trees = {
 	jsonTree: Parser.Tree;
 	regexTrees: {
 		[id: number]: Parser.Tree;
@@ -35,8 +35,8 @@ export function getRegexNode(document: vscode.TextDocument, node: Parser.SyntaxN
 }
 
 export function queryNode(node: Parser.SyntaxNode, queryString: string): Parser.QueryCapture[];
-export function queryNode(node: Parser.SyntaxNode, queryString: string, point: Parser.Point): Parser.QueryCapture | null;
-export function queryNode(node: Parser.SyntaxNode, queryString: string, point: Parser.Point, mustIntersect: false): Parser.QueryCapture | null;
+export function queryNode(node: Parser.SyntaxNode, queryString: string, point: Parser.Point): Parser.QueryCapture;
+export function queryNode(node: Parser.SyntaxNode, queryString: string, point: Parser.Point, mustIntersect: false): Parser.QueryCapture;
 export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoint: Parser.Point, endPoint: Parser.Point): Parser.QueryCapture[];
 export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoint?: Parser.Point, endPoint?: Parser.Point | false): Parser.QueryCapture[] | Parser.QueryCapture | null {
 	const language = node.tree.getLanguage();
@@ -230,9 +230,9 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent, JSONParser: 
 		const startIndex = edit.rangeOffset;
 		const oldEndIndex = edit.rangeOffset + edit.rangeLength;
 		const newEndIndex = edit.rangeOffset + edit.text.length;
-		const startPos = edits.document.positionAt(startIndex);
-		const oldEndPos = edits.document.positionAt(oldEndIndex);
-		const newEndPos = edits.document.positionAt(newEndIndex);
+		const startPos = document.positionAt(startIndex);
+		const oldEndPos = document.positionAt(oldEndIndex);
+		const newEndPos = document.positionAt(newEndIndex);
 		// const startPosition: Parser.Point = { row: startPos.line, column: startPos.character };
 		// const oldEndPosition: Parser.Point = { row: oldEndPos.line, column: oldEndPos.character };
 		// const newEndPosition: Parser.Point = { row: newEndPos.line, column: newEndPos.character };

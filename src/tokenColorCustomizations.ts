@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { _object_ } from './extension';
 
 export function initTokenColorCustomizations(context: vscode.ExtensionContext) {
 	// vscode.window.showInformationMessage(JSON.stringify("tokenColorCustomizations"));
@@ -82,6 +83,7 @@ function jsonTextMate(document: vscode.TextDocument): vscode.Uri {
 
 let ignoreFailParse = false;
 
+
 const bak = '[tokenColorCustomizations_bak_JSON_TextMate'; // The square bracket is there on purpose so that the json `settings` schema doesn't complain about it
 async function update(uri: vscode.Uri) {
 	// vscode.window.showInformationMessage(JSON.stringify("update"));
@@ -95,12 +97,12 @@ async function update(uri: vscode.Uri) {
 
 		try {
 			const packageParsed = await JSON.parse(packageDocument?.getText());
-			const package_tokenColorCustomizations: Object = packageParsed?.contributes?.configurationDefaults?.['editor.tokenColorCustomizations'];
+			const package_tokenColorCustomizations: _object_ = packageParsed?.contributes?.configurationDefaults?.['editor.tokenColorCustomizations'];
 
 			if (package_tokenColorCustomizations) {
 				const editor = vscode.workspace.getConfiguration("editor");
-				const tokenColorCustomizations: Object = editor.inspect("tokenColorCustomizations")[configurationValue] ?? {};
-				const tokenColorCustomizations_bak: Object = tokenColorCustomizations[bak] ?? tokenColorCustomizations;
+				const tokenColorCustomizations: _object_ = editor.inspect("tokenColorCustomizations")[configurationValue] ?? {};
+				const tokenColorCustomizations_bak: _object_ = tokenColorCustomizations[bak] ?? tokenColorCustomizations;
 
 				delete tokenColorCustomizations_bak[bak];
 				package_tokenColorCustomizations[bak] = tokenColorCustomizations_bak;
@@ -123,8 +125,8 @@ async function update(uri: vscode.Uri) {
 	}
 
 	const editor = vscode.workspace.getConfiguration("editor");
-	const tokenColorCustomizations: Object = editor.inspect("tokenColorCustomizations")[configurationValue] ?? {};
-	const tokenColorCustomizations_bak: Object = tokenColorCustomizations[bak];
+	const tokenColorCustomizations: _object_ = editor.inspect("tokenColorCustomizations")[configurationValue] ?? {};
+	const tokenColorCustomizations_bak: _object_ = tokenColorCustomizations[bak];
 
 	if (tokenColorCustomizations_bak !== undefined) {
 		const length = Object.keys(tokenColorCustomizations_bak).length;

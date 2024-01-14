@@ -21,7 +21,7 @@ const tokenConversion = {
     operators: 22,
     key: 15,
     value: 18,
-    "error": 17,
+    error: 17,
 };
 const tokenTypesLegend = [
     "namespace", // 0  %port

@@ -1,8 +1,9 @@
 import * as vscode from 'vscode';
 import { getTree, queryNode, toRange } from "./TreeSitter";
+import { _object_ } from './extension';
 
 
-const tokenConversion = {
+const tokenConversion: _object_ = {
 	escape_sequence: 17,
 	number: 20,
 	true: 19,
@@ -23,7 +24,7 @@ const tokenConversion = {
 	key: 15,
 	value: 18,
 
-	"error": 17,
+	error: 17,
 }
 
 const tokenTypesLegend = [

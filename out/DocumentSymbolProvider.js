@@ -109,7 +109,7 @@ exports.DocumentSymbolProvider = {
             // for (let index = 0; index < node.namedChildCount; index++)
             // this.getAllChildren(node.namedChild(index), symbolsChildren)
             for (let index = 0; index < node.childCount; index++)
-                this.getAllChildren(node.child(index), symbolsChildren);
+                this.getAllChildren(node.child(index), symbolsChildren, document);
             // let text
             // switch (node.type) {
             // 	case 'document': text = ' '; break

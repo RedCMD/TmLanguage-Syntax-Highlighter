@@ -1,8 +1,10 @@
 import * as vscode from 'vscode';
 import { getTree, getTrees, getRegexNode, toRange, toPoint, queryForPosition } from "./TreeSitter";
 import { SyntaxNode } from 'web-tree-sitter';
+import { _object_ } from './extension';
 
-const SymbolKind = {
+
+const SymbolKind: _object_ = {
 	// 'File': vscode.SymbolKind.File,
 	// 'Module': vscode.SymbolKind.Module,
 	// 'Namespace': vscode.SymbolKind.Namespace,
@@ -96,7 +98,7 @@ export const DocumentSymbolProvider = {
 
 
 		// const tree = getTree(document)
-		const symbols = []
+		const symbols: vscode.DocumentSymbol[] = [];
 
 		if (true) {
 			const tree = getTree(document);
@@ -129,7 +131,7 @@ export const DocumentSymbolProvider = {
 	async getAllChildren(node: SyntaxNode, symbols: vscode.DocumentSymbol[], document: vscode.TextDocument) {
 
 
-		let symbolsChildren = []
+		let symbolsChildren: vscode.DocumentSymbol[] = [];
 
 
 		let documentSymbol: vscode.DocumentSymbol
@@ -137,7 +139,7 @@ export const DocumentSymbolProvider = {
 			// for (let index = 0; index < node.namedChildCount; index++)
 				// this.getAllChildren(node.namedChild(index), symbolsChildren)
 			for (let index = 0; index < node.childCount; index++)
-				this.getAllChildren(node.child(index), symbolsChildren)
+				this.getAllChildren(node.child(index), symbolsChildren, document)
 			// let text
 			// switch (node.type) {
 			// 	case 'document': text = ' '; break
