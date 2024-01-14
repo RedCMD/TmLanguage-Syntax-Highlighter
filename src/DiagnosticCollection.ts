@@ -7,32 +7,30 @@ export function initDiagnostics(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(DiagnosticCollection);
 
-	vscode.window.visibleTextEditors.forEach(editor => {
+	vscode.window.visibleTextEditors.forEach((editor: vscode.TextEditor) => {
 		// vscode.window.showInformationMessage(JSON.stringify("visible"));
 		Diagnostics(editor.document, DiagnosticCollection);
 	});
 
 	context.subscriptions.push(
-		vscode.workspace.onDidOpenTextDocument(document => {
+		vscode.workspace.onDidOpenTextDocument((document: vscode.TextDocument) => {
 			// vscode.window.showInformationMessage(JSON.stringify("open"));
 			Diagnostics(document, DiagnosticCollection);
 		})
 	);
 
 	context.subscriptions.push(
-		vscode.workspace.onDidChangeTextDocument(edits => {
+		vscode.workspace.onDidChangeTextDocument((edits: vscode.TextDocumentChangeEvent) => {
 			// vscode.window.showInformationMessage(JSON.stringify("change"));
 			Diagnostics(edits.document, DiagnosticCollection);
 		})
 	);
 
 	context.subscriptions.push(
-		vscode.workspace.onDidCloseTextDocument(
-			document => {
-				// vscode.window.showInformationMessage(JSON.stringify("close"));
-				DiagnosticCollection.delete(document.uri);
-			}
-		)
+		vscode.workspace.onDidCloseTextDocument((document: vscode.TextDocument) => {
+			// vscode.window.showInformationMessage(JSON.stringify("close"));
+			DiagnosticCollection.delete(document.uri);
+		})
 	);
 }
 
@@ -49,15 +47,6 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 			return;
 		}
 
-
-		// const language = tree.getLanguage()
-		// const query = language.query(
-		// 	`(` +
-		// 	`	(ERROR) @ERROR` +
-		// 	`)`
-		// );
-		// const queryCaptures = query.captures(tree.rootNode);
-	
 		const queryCaptures = queryNode(tree.rootNode, `(ERROR) @ERROR`);
 
 		for (const queryCapture of queryCaptures) {

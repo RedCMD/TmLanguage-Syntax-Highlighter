@@ -7,19 +7,19 @@ const extension_1 = require("./extension");
 function initDiagnostics(context) {
     const DiagnosticCollection = vscode.languages.createDiagnosticCollection("textmate");
     context.subscriptions.push(DiagnosticCollection);
-    vscode.window.visibleTextEditors.forEach(editor => {
+    vscode.window.visibleTextEditors.forEach((editor) => {
         // vscode.window.showInformationMessage(JSON.stringify("visible"));
         Diagnostics(editor.document, DiagnosticCollection);
     });
-    context.subscriptions.push(vscode.workspace.onDidOpenTextDocument(document => {
+    context.subscriptions.push(vscode.workspace.onDidOpenTextDocument((document) => {
         // vscode.window.showInformationMessage(JSON.stringify("open"));
         Diagnostics(document, DiagnosticCollection);
     }));
-    context.subscriptions.push(vscode.workspace.onDidChangeTextDocument(edits => {
+    context.subscriptions.push(vscode.workspace.onDidChangeTextDocument((edits) => {
         // vscode.window.showInformationMessage(JSON.stringify("change"));
         Diagnostics(edits.document, DiagnosticCollection);
     }));
-    context.subscriptions.push(vscode.workspace.onDidCloseTextDocument(document => {
+    context.subscriptions.push(vscode.workspace.onDidCloseTextDocument((document) => {
         // vscode.window.showInformationMessage(JSON.stringify("close"));
         DiagnosticCollection.delete(document.uri);
     }));
@@ -36,13 +36,6 @@ function Diagnostics(document, Diagnostics) {
         if (tree == null) {
             return;
         }
-        // const language = tree.getLanguage()
-        // const query = language.query(
-        // 	`(` +
-        // 	`	(ERROR) @ERROR` +
-        // 	`)`
-        // );
-        // const queryCaptures = query.captures(tree.rootNode);
         const queryCaptures = (0, TreeSitter_1.queryNode)(tree.rootNode, `(ERROR) @ERROR`);
         for (const queryCapture of queryCaptures) {
             const node = queryCapture.node;
