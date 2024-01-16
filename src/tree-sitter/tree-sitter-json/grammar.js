@@ -192,7 +192,7 @@ module.exports = grammar({
 					choice(
 						repeat1(
 							choice(
-								$.scope_name,
+								$._scope,
 								/ +/,
 							),
 						),
@@ -206,12 +206,18 @@ module.exports = grammar({
 			"contentName",
 			string($),
 		),
-		scope_name: $ => token(
-			repeat1(
-				choice(
-					/\\[^\r\n\t ]/,
-					/[^\\\r\n\t "]+/,
+		_scope: $ => field(
+			"scope",
+			alias(
+				token(
+					repeat1(
+						choice(
+							/\\[^\r\n\t ]/,
+							/[^\\\r\n\t "]+/,
+						),
+					),
 				),
+				$.scope,
 			),
 		),
 

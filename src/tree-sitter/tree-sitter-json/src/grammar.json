@@ -1220,7 +1220,7 @@
                       "members": [
                         {
                           "type": "SYMBOL",
-                          "name": "scope_name"
+                          "name": "_scope"
                         },
                         {
                           "type": "PATTERN",
@@ -1326,23 +1326,32 @@
         }
       ]
     },
-    "scope_name": {
-      "type": "TOKEN",
+    "_scope": {
+      "type": "FIELD",
+      "name": "scope",
       "content": {
-        "type": "REPEAT1",
+        "type": "ALIAS",
         "content": {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "\\\\[^\\r\\n\\t ]"
-            },
-            {
-              "type": "PATTERN",
-              "value": "[^\\\\\\r\\n\\t \"]+"
+          "type": "TOKEN",
+          "content": {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "\\\\[^\\r\\n\\t ]"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "[^\\\\\\r\\n\\t \"]+"
+                }
+              ]
             }
-          ]
-        }
+          }
+        },
+        "named": true,
+        "value": "scope"
       }
     },
     "injectionSelector": {

@@ -1304,6 +1304,16 @@
           }
         ]
       },
+      "scope": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "scope",
+            "named": true
+          }
+        ]
+      },
       "scopeName": {
         "multiple": false,
         "required": false,
@@ -1334,16 +1344,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "scope_name",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -1478,7 +1478,7 @@
     "named": true
   },
   {
-    "type": "scope_name",
+    "type": "scope",
     "named": true
   },
   {

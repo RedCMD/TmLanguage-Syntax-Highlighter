@@ -9,6 +9,7 @@ import { RenameProvider } from "./RenameProvider";
 import { ReferenceProvider } from "./ReferenceProvider";
 import { DefinitionProvider } from "./DefinitionProvider";
 import { DocumentSymbolProvider } from "./DocumentSymbolProvider";
+import { DocumentHighlightProvider } from "./DocumentHighlightProvider";
 import { CompletionItemProvider, triggerCharacters } from "./CompletionItemProvider";
 import { DocumentFormattingEditProvider, DocumentRangeFormattingEditProvider } from "./DocumentFormattingEditProvider";
 import { DocumentSemanticTokensProvider, SemanticTokensLegend } from "./DocumentSemanticTokensProvider";
@@ -33,6 +34,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.languages.registerDefinitionProvider(DocumentSelector, DefinitionProvider)); // ctrl+click Go to Definition
 	context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(DocumentSelector, DocumentSymbolProvider)); // Breadcrumbs
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(DocumentSelector, CompletionItemProvider, ...triggerCharacters)); // Intellisense ctrl+space completions
+	context.subscriptions.push(vscode.languages.registerDocumentHighlightProvider(DocumentSelector, DocumentHighlightProvider)); // Context aware variable highlighting
 	context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(DocumentSelector, DocumentFormattingEditProvider)); // right-click => Format Document
 	context.subscriptions.push(vscode.languages.registerDocumentRangeFormattingEditProvider(DocumentSelector, DocumentRangeFormattingEditProvider)); // right-click => Format Selection
 	// context.subscriptions.push(vscode.languages.registerDocumentSemanticTokensProvider(DocumentSelector, DocumentSemanticTokensProvider, SemanticTokensLegend)); // Context aware syntax highlighting

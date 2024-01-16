@@ -8,6 +8,7 @@ const RenameProvider_1 = require("./RenameProvider");
 const ReferenceProvider_1 = require("./ReferenceProvider");
 const DefinitionProvider_1 = require("./DefinitionProvider");
 const DocumentSymbolProvider_1 = require("./DocumentSymbolProvider");
+const DocumentHighlightProvider_1 = require("./DocumentHighlightProvider");
 const CompletionItemProvider_1 = require("./CompletionItemProvider");
 const DocumentFormattingEditProvider_1 = require("./DocumentFormattingEditProvider");
 exports.DocumentSelector = [
@@ -24,6 +25,7 @@ async function activate(context) {
     context.subscriptions.push(vscode.languages.registerDefinitionProvider(exports.DocumentSelector, DefinitionProvider_1.DefinitionProvider)); // ctrl+click Go to Definition
     context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(exports.DocumentSelector, DocumentSymbolProvider_1.DocumentSymbolProvider)); // Breadcrumbs
     context.subscriptions.push(vscode.languages.registerCompletionItemProvider(exports.DocumentSelector, CompletionItemProvider_1.CompletionItemProvider, ...CompletionItemProvider_1.triggerCharacters)); // Intellisense ctrl+space completions
+    context.subscriptions.push(vscode.languages.registerDocumentHighlightProvider(exports.DocumentSelector, DocumentHighlightProvider_1.DocumentHighlightProvider)); // Context aware variable highlighting
     context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(exports.DocumentSelector, DocumentFormattingEditProvider_1.DocumentFormattingEditProvider)); // right-click => Format Document
     context.subscriptions.push(vscode.languages.registerDocumentRangeFormattingEditProvider(exports.DocumentSelector, DocumentFormattingEditProvider_1.DocumentRangeFormattingEditProvider)); // right-click => Format Selection
     // context.subscriptions.push(vscode.languages.registerDocumentSemanticTokensProvider(DocumentSelector, DocumentSemanticTokensProvider, SemanticTokensLegend)); // Context aware syntax highlighting
