@@ -885,7 +885,7 @@
 				{ "include": "#character-class-escape" },
 				{ "include": "#character-class-posix" },
 				{ "include": "#character-class" },
-				{ "include": "#character-class-regex" }
+				{ "include": "#character-class-literal" }
 			]
 		},
 		"character-class-escape": {
@@ -894,50 +894,50 @@
 					"match": "\\G(\\\\{2})([]-])",
 					"captures": {
 						"1": { "name": "punctuation.definition.tag.tm" },
-						"2": { "name": "markup.italic regex" }
+						"2": { "name": "literal.tm regex" }
 					}
 				},
 				{
 					"match": "\\G(\\\\{2})(\\^|:)",
 					"captures": {
 						"1": { "name": "constant.character.escape.tm" },
-						"2": { "name": "markup.italic" }
+						"2": { "name": "literal.tm" }
 					}
 				},
 				{
 					"match": "(\\\\{3})(\\\\)",
 					"captures": {
 						"1": { "name": "constant.character.escape.tm" },
-						"2": { "name": "markup.italic" }
+						"2": { "name": "literal.tm" }
 					}
 				},
 				{
 					"match": "(\\\\{2})(-)(?=])",
 					"captures": {
 						"1": { "name": "punctuation.definition.tag.tm" },
-						"2": { "name": "markup.italic" }
+						"2": { "name": "literal.tm" }
 					}
 				},
 				{
 					"match": "(\\\\{2})([]\\[-]|:(?=]))",
 					"captures": {
 						"1": { "name": "constant.character.escape.tm" },
-						"2": { "name": "markup.italic regex" }
+						"2": { "name": "literal.tm regex" }
 					}
 				},
 				{
 					"match": "(\\\\{2})(&)(?=&)",
 					"captures": {
 						"1": { "name": "constant.character.escape.tm" },
-						"2": { "name": "markup.italic" }
+						"2": { "name": "literal.tm" }
 					}
 				},
 				{
 					"match": "(&)(\\\\{2})(&)",
 					"captures": {
-						"1": { "name": "markup.italic" },
+						"1": { "name": "literal.tm" },
 						"2": { "name": "constant.character.escape.tm" },
-						"3": { "name": "markup.italic" }
+						"3": { "name": "literal.tm" }
 					}
 				},
 				{
@@ -954,7 +954,7 @@
 					"match": "(\\\\)(/)",
 					"captures": {
 						"1": { "name": "punctuation.definition.tag.tm" },
-						"2": { "name": "markup.italic" }
+						"2": { "name": "literal.tm" }
 					}
 				},
 				{
@@ -1114,7 +1114,7 @@
 						{ "include": "#code-point" },
 						{ "include": "#character-class-escape" },
 						{ "include": "#character-class-posix" },
-						{ "include": "#character-class-regex" }
+						{ "include": "#character-class-literal" }
 					]
 				}
 			]
@@ -1142,10 +1142,10 @@
 				}
 			]
 		},
-		"character-class-regex": {
+		"character-class-literal": {
 			"comment": "Match anything left over and all non-meta charaters",
 			"match": ".(?>[^]\\x0-\\x1F\"&:\\[\\\\\\x7F-]+(?!-))?",
-			"name": "markup.italic regex"
+			"name": "literal.tm regex"
 		},
 		"character-class-range-code-point": {
 			"comment": "\\o{37777777777 0 1777777} \\x{FFFFFFFF 0 1FFFFF}",
