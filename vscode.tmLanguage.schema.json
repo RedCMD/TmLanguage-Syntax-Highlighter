@@ -400,12 +400,17 @@
 								]
 							},
 							"include": {
-								"description": "Conflict: \"include\" has lowest priority",
 								"$comment": "Using \"not\" creates an ugly warning range in VSCode",
 								"oneOf": [
 									true,
-									{ "required": [ "name" ] },
-									{ "required": [ "contentName" ] },
+									{
+										"description": "Conflict: \"include\" has lowest priority",
+										"required": [ "name" ]
+									},
+									{
+										"description": "Conflict: \"include\" has lowest priority",
+										"required": [ "contentName" ]
+									},
 									{
 										"description": "Conflict: \"match\" has higher priority than \"include\"",
 										"required": [ "match" ]
@@ -414,13 +419,34 @@
 										"description": "Conflict: \"begin\" has higher priority than \"include\"",
 										"required": [ "begin" ]
 									},
-									{ "required": [ "end" ] },
-									{ "required": [ "while" ] },
-									{ "required": [ "captures" ] },
-									{ "required": [ "beginCaptures" ] },
-									{ "required": [ "endCaptures" ] },
-									{ "required": [ "whileCaptures" ] },
-									{ "required": [ "applyEndPatternLast" ] },
+									{
+										"description": "Conflict: \"include\" has lowest priority",
+										"required": [ "end" ]
+									},
+									{
+										"description": "Conflict: \"include\" has lowest priority",
+										"required": [ "while" ]
+									},
+									{
+										"description": "Conflict: \"include\" has lowest priority",
+										"required": [ "captures" ]
+									},
+									{
+										"description": "Conflict: \"include\" has lowest priority",
+										"required": [ "beginCaptures" ]
+									},
+									{
+										"description": "Conflict: \"include\" has lowest priority",
+										"required": [ "endCaptures" ]
+									},
+									{
+										"description": "Conflict: \"include\" has lowest priority",
+										"required": [ "whileCaptures" ]
+									},
+									{
+										"description": "Conflict: \"include\" has lowest priority",
+										"required": [ "applyEndPatternLast" ]
+									},
 									{
 										"description": "Conflict: \"patterns\" has higher priority than \"include\"",
 										"required": [ "patterns" ]
@@ -800,9 +826,9 @@
 			},
 			"dependencies": {
 				"patterns": {
+					"$comment": "Change `false` to `true` to show a warning on \"patterns\" inside `capture`",
 					"if": false,
-					"then": { "deprecationMessage": "A \"patterns\" array inside a `capture` causes a performance hit" },
-					"$comment": "Using \"not\" creates an ugly warning range in VSCode"
+					"then": { "deprecationMessage": "A \"patterns\" array inside a `capture` causes a performance hit" }
 				},
 				"contentName": { "required": [ "patterns" ] },
 				"match": { "required": [ "patterns" ] },
