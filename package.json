@@ -130,6 +130,16 @@
 				"balancedBracketScopes": [
 					"replace.capture"
 				]
+			},
+			{
+				"scopeName": "markdown.json.textmate.codeblock",
+				"path": "./syntaxes/markdown-textmate.tmLanguage.json",
+				"injectTo": [
+					"text.html.markdown"
+				],
+				"embeddedLanguages": {
+					"meta.embedded.block.json.textmate": "json-textmate"
+				}
 			}
 		],
 		"snippets": [

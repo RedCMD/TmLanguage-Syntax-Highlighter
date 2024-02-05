@@ -32,7 +32,7 @@
 				"scopeName": {
 					"description": "The `scope-name` for your language\nIt is the same value as \"scopeName\" under \"grammars\" in your `package.json` file",
 					"type": "string",
-					"pattern": "^(source|text)(\\.[\\w-]+)+$",
+					"pattern": "^(source|text|markdown)(\\.[\\w-]+)+$",
 					"suggestSortText": "!!scopeName"
 				},
 				"comment": { "$ref": "#/definitions/comment" },

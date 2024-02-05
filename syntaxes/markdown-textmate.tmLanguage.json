@@ -1,0 +1,30 @@
+{
+	"$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
+	"scopeName": "markdown.json.textmate.codeblock",
+	"name": "JSON TextMate Markdown codeblock",
+	"injectionSelector": "L:text.html.markdown -meta.embedded.block.json.textmate",
+	"patterns": [
+		{ "include": "#fenced_code_block_json-textmate" }
+	],
+	"repository": {
+		"fenced_code_block_json-textmate": {
+			"begin": "(^|\\G)(\\s*)(`{3,}|~{3,})\\s*(?i:(json)((\\s+|:|,|\\{|\\?)textmate[^`]*)?$)",
+			"name": "markup.fenced_code.block.markdown",
+			"end": "(^|\\G)(\\2|\\s{0,3})(\\3)\\s*$",
+			"beginCaptures": {
+				"3": { "name": "punctuation.definition.markdown" },
+				"4": { "name": "fenced_code.block.language.markdown" },
+				"5": { "name": "fenced_code.block.language.attributes.markdown" }
+			},
+			"endCaptures": { "3": { "name": "punctuation.definition.markdown" } },
+			"patterns": [
+				{
+					"begin": "(^|\\G)(\\s*)(.*)",
+					"while": "(^|\\G)(?!\\s*([`~]{3,})\\s*$)",
+					"contentName": "meta.embedded.block.json.textmate",
+					"patterns": [ { "include": "source.json.textmate" } ]
+				}
+			]
+		}
+	}
+}
