@@ -184,10 +184,10 @@
 	"devDependencies": {
 		"@types/vscode": "^1.85.0",
 		"tree-sitter-cli": "^0.20.8",
+		"ts-loader": "^9.5.1",
 		"typescript": "^5.3.3",
 		"webpack": "^5.90.2",
-		"webpack-cli": "^5.1.4",
-		"ts-loader": "^9.5.1"
+		"webpack-cli": "^5.1.4"
 	},
 	"__metadata": {
 		"id": "7f5ff7e8-575f-4fbf-bff6-201486b6327e",
