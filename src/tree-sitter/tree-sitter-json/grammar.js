@@ -1,16 +1,14 @@
 // https://github.com/tree-sitter/tree-sitter/blob/master/docs/section-3-creating-parsers.md
+/// <reference types="tree-sitter-cli/dsl" />
+// @ts-check
 
-if (false) {// `tree-sitter generate` fails if this is true
-	// However the VSCode js extension still seems to pickup the file. Providing lovely tooltip hints :)
-	require('./../../../node_modules/tree-sitter-cli/dsl');
-}
 
 module.exports = grammar({
 	name: "jsontm",
+	word: $ => $._string,
 	extras: $ => [
 		//$._whitespace,
 	],
-	word: $ => $._string,
 	externals: $ => [
 		$._forceStringNode, // Forces a 0width empty node if it is before a double quote " . Useful when querrying the resulting syntax tree
 		$.ERROR,
@@ -89,9 +87,18 @@ module.exports = grammar({
 					$.repository,
 				),
 				$.captures,
-				$.beginCaptures,
-				$.endCaptures,
-				$.whileCaptures,
+				field(
+					'beginCaptures',
+					$.beginCaptures,
+				),
+				field(
+					'endCaptures',
+					$.endCaptures,
+				),
+				field(
+					'whileCaptures',
+					$.whileCaptures,
+				),
 				$.applyEndPatternLast,
 				$._comments,
 				$.item,
@@ -246,26 +253,62 @@ module.exports = grammar({
 		match: $ => pair($,
 			"match",
 			string($,
-				alias(
-					choice(
-						$._string,
-						$._forceStringNode,
+				field(
+					'regex',
+					alias(
+						choice(
+							$._string,
+							$._forceStringNode,
+						),
+						$.regex,
 					),
-					$.regex,
 				),
 			),
 		),
 		begin: $ => pair($,
 			"begin",
-			string($),
+			string($,
+				field(
+					'regex',
+					alias(
+						choice(
+							$._string,
+							$._forceStringNode,
+						),
+						$.regex,
+					),
+				),
+			),
 		),
 		end: $ => pair($,
 			"end",
-			string($),
+			string($,
+				field(
+					'regex',
+					alias(
+						choice(
+							$._string,
+							$._forceStringNode,
+						),
+						$.regex,
+					),
+				),
+			),
 		),
 		while: $ => pair($,
 			"while",
-			string($),
+			string($,
+				field(
+					'regex',
+					alias(
+						choice(
+							$._string,
+							$._forceStringNode,
+						),
+						$.regex,
+					),
+				),
+			),
 		),
 
 		applyEndPatternLast: $ => pair($,
@@ -289,15 +332,33 @@ module.exports = grammar({
 		),
 		beginCaptures: $ => pair($,
 			"beginCaptures",
-			object($, $.capture),
+			object($,
+				choice(
+					$.capture,
+					$._comments,
+					$.item,
+				),
+			),
 		),
 		endCaptures: $ => pair($,
 			"endCaptures",
-			object($, $.capture),
+			object($,
+				choice(
+					$.capture,
+					$._comments,
+					$.item,
+				),
+			),
 		),
 		whileCaptures: $ => pair($,
 			"whileCaptures",
-			object($, $.capture),
+			object($,
+				choice(
+					$.capture,
+					$._comments,
+					$.item,
+				),
+			),
 		),
 		capture: $ => pair($,
 			seq(
@@ -416,9 +477,9 @@ module.exports = grammar({
 
 /**
 * Boiler plate for creating an object. `{ rule, rule... }`
-* @param {_$} $ 
+ * @param {GrammarSymbols<string>} $
 * @param {RuleOrLiteral} rule 
-* @returns {Rule}
+* @returns {SeqRule}
 */
 function object($, rule) {
 	return seq(
@@ -431,9 +492,9 @@ function object($, rule) {
 
 /**
  * Boiler plate for creating an array. `[ rule, rule... ]`
- * @param {_$} $ 
+ * @param {GrammarSymbols<string>} $
  * @param {RuleOrLiteral} rule 
- * @returns {Rule}
+ * @returns {SeqRule}
  */
 function array($, rule) {
 	return seq(
@@ -446,9 +507,9 @@ function array($, rule) {
 
 /**
  * Boiler plate for creating comma seperated rules. `rule, rule...`
- * @param {_$} $ 
+ * @param {GrammarSymbols<string>} $
  * @param {RuleOrLiteral} rule 
- * @returns {Rule}
+ * @returns {ChoiceRule}
  */
 function commaSep($, rule) {
 	return optional(
@@ -469,10 +530,10 @@ function commaSep($, rule) {
 
 /**
  * Boiler plate for creating a json pair. `key: value`
- * @param {_$} $ 
+ * @param {GrammarSymbols<string>} $
  * @param {RuleOrLiteral} key string
  * @param {RuleOrLiteral} value 
- * @returns {Rule}
+ * @returns {SeqRule}
  */
 function pair($, key, value) {
 	return seq(
@@ -494,22 +555,20 @@ function pair($, key, value) {
 
 /**
  * Boiler plate for creating a string. `"value"`
- * @param {_$} $ 
- * @param {RuleOrLiteral | null} contents 
- * @returns {Rule}
+ * @param {GrammarSymbols<string>} $
+ * @param {RuleOrLiteral} [contents]
+ * @returns {SeqRule}
  */
 function string($, contents) {
 	return seq(
 		'"',
-		contents != null ?
-			contents :
-			alias(
-				choice(
-					$._string,
-					$._forceStringNode,
-				),
-				$.value,
+		contents ?? alias(
+			choice(
+				$._string,
+				$._forceStringNode,
 			),
+			$.value,
+		),
 		'"',
 	)
 }

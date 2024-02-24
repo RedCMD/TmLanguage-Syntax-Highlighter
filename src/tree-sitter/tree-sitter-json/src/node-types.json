@@ -81,17 +81,17 @@
             "named": true
           }
         ]
+      },
+      "regex": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "regex",
+            "named": true
+          }
+        ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "value",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -116,6 +116,18 @@
         {
           "type": "capture",
           "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "comment_slash",
+          "named": true
+        },
+        {
+          "type": "item",
+          "named": true
         }
       ]
     }
@@ -135,6 +147,26 @@
         "types": [
           {
             "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "beginCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "beginCaptures",
+            "named": true
+          }
+        ]
+      },
+      "endCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "endCaptures",
             "named": true
           }
         ]
@@ -182,6 +214,16 @@
             "named": true
           }
         ]
+      },
+      "whileCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "whileCaptures",
+            "named": true
+          }
+        ]
       }
     },
     "children": {
@@ -190,10 +232,6 @@
       "types": [
         {
           "type": "applyEndPatternLast",
-          "named": true
-        },
-        {
-          "type": "beginCaptures",
           "named": true
         },
         {
@@ -217,10 +255,6 @@
           "named": true
         },
         {
-          "type": "endCaptures",
-          "named": true
-        },
-        {
           "type": "include",
           "named": true
         },
@@ -234,10 +268,6 @@
         },
         {
           "type": "while",
-          "named": true
-        },
-        {
-          "type": "whileCaptures",
           "named": true
         }
       ]
@@ -396,17 +426,17 @@
             "named": true
           }
         ]
+      },
+      "regex": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "regex",
+            "named": true
+          }
+        ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "value",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -430,6 +460,18 @@
       "types": [
         {
           "type": "capture",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "comment_slash",
+          "named": true
+        },
+        {
+          "type": "item",
           "named": true
         }
       ]
@@ -852,17 +894,17 @@
             "named": true
           }
         ]
+      },
+      "regex": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "regex",
+            "named": true
+          }
+        ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "regex",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -946,6 +988,26 @@
           }
         ]
       },
+      "beginCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "beginCaptures",
+            "named": true
+          }
+        ]
+      },
+      "endCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "endCaptures",
+            "named": true
+          }
+        ]
+      },
       "match": {
         "multiple": true,
         "required": false,
@@ -975,6 +1037,16 @@
             "named": true
           }
         ]
+      },
+      "whileCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "whileCaptures",
+            "named": true
+          }
+        ]
       }
     },
     "children": {
@@ -983,10 +1055,6 @@
       "types": [
         {
           "type": "applyEndPatternLast",
-          "named": true
-        },
-        {
-          "type": "beginCaptures",
           "named": true
         },
         {
@@ -1010,10 +1078,6 @@
           "named": true
         },
         {
-          "type": "endCaptures",
-          "named": true
-        },
-        {
           "type": "include",
           "named": true
         },
@@ -1027,10 +1091,6 @@
         },
         {
           "type": "while",
-          "named": true
-        },
-        {
-          "type": "whileCaptures",
           "named": true
         }
       ]
@@ -1076,6 +1136,26 @@
           }
         ]
       },
+      "beginCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "beginCaptures",
+            "named": true
+          }
+        ]
+      },
+      "endCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "endCaptures",
+            "named": true
+          }
+        ]
+      },
       "key": {
         "multiple": false,
         "required": true,
@@ -1115,6 +1195,16 @@
             "named": true
           }
         ]
+      },
+      "whileCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "whileCaptures",
+            "named": true
+          }
+        ]
       }
     },
     "children": {
@@ -1123,10 +1213,6 @@
       "types": [
         {
           "type": "applyEndPatternLast",
-          "named": true
-        },
-        {
-          "type": "beginCaptures",
           "named": true
         },
         {
@@ -1150,10 +1236,6 @@
           "named": true
         },
         {
-          "type": "endCaptures",
-          "named": true
-        },
-        {
           "type": "include",
           "named": true
         },
@@ -1167,10 +1249,6 @@
         },
         {
           "type": "while",
-          "named": true
-        },
-        {
-          "type": "whileCaptures",
           "named": true
         }
       ]
@@ -1385,17 +1463,17 @@
             "named": true
           }
         ]
+      },
+      "regex": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "regex",
+            "named": true
+          }
+        ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "value",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -1419,6 +1497,18 @@
       "types": [
         {
           "type": "capture",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "comment_slash",
+          "named": true
+        },
+        {
+          "type": "item",
           "named": true
         }
       ]

@@ -620,16 +620,28 @@
                       "name": "captures"
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "beginCaptures"
+                      "type": "FIELD",
+                      "name": "beginCaptures",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "beginCaptures"
+                      }
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "endCaptures"
+                      "type": "FIELD",
+                      "name": "endCaptures",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "endCaptures"
+                      }
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "whileCaptures"
+                      "type": "FIELD",
+                      "name": "whileCaptures",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "whileCaptures"
+                      }
                     },
                     {
                       "type": "SYMBOL",
@@ -728,16 +740,28 @@
                             "name": "captures"
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "beginCaptures"
+                            "type": "FIELD",
+                            "name": "beginCaptures",
+                            "content": {
+                              "type": "SYMBOL",
+                              "name": "beginCaptures"
+                            }
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "endCaptures"
+                            "type": "FIELD",
+                            "name": "endCaptures",
+                            "content": {
+                              "type": "SYMBOL",
+                              "name": "endCaptures"
+                            }
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "whileCaptures"
+                            "type": "FIELD",
+                            "name": "whileCaptures",
+                            "content": {
+                              "type": "SYMBOL",
+                              "name": "whileCaptures"
+                            }
                           },
                           {
                             "type": "SYMBOL",
@@ -1770,22 +1794,26 @@
               "value": "\""
             },
             {
-              "type": "ALIAS",
+              "type": "FIELD",
+              "name": "regex",
               "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_string"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_forceStringNode"
-                  }
-                ]
-              },
-              "named": true,
-              "value": "regex"
+                "type": "ALIAS",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_string"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_forceStringNode"
+                    }
+                  ]
+                },
+                "named": true,
+                "value": "regex"
+              }
             },
             {
               "type": "STRING",
@@ -1850,22 +1878,26 @@
               "value": "\""
             },
             {
-              "type": "ALIAS",
+              "type": "FIELD",
+              "name": "regex",
               "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_string"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_forceStringNode"
-                  }
-                ]
-              },
-              "named": true,
-              "value": "value"
+                "type": "ALIAS",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_string"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_forceStringNode"
+                    }
+                  ]
+                },
+                "named": true,
+                "value": "regex"
+              }
             },
             {
               "type": "STRING",
@@ -1930,22 +1962,26 @@
               "value": "\""
             },
             {
-              "type": "ALIAS",
+              "type": "FIELD",
+              "name": "regex",
               "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_string"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_forceStringNode"
-                  }
-                ]
-              },
-              "named": true,
-              "value": "value"
+                "type": "ALIAS",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_string"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_forceStringNode"
+                    }
+                  ]
+                },
+                "named": true,
+                "value": "regex"
+              }
             },
             {
               "type": "STRING",
@@ -2010,22 +2046,26 @@
               "value": "\""
             },
             {
-              "type": "ALIAS",
+              "type": "FIELD",
+              "name": "regex",
               "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_string"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_forceStringNode"
-                  }
-                ]
-              },
-              "named": true,
-              "value": "value"
+                "type": "ALIAS",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_string"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_forceStringNode"
+                    }
+                  ]
+                },
+                "named": true,
+                "value": "regex"
+              }
             },
             {
               "type": "STRING",
@@ -2318,8 +2358,21 @@
                       }
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "capture"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "capture"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "_comments"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "item"
+                        }
+                      ]
                     },
                     {
                       "type": "REPEAT",
@@ -2345,8 +2398,21 @@
                             }
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "capture"
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "capture"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "_comments"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "item"
+                              }
+                            ]
                           }
                         ]
                       }
@@ -2441,8 +2507,21 @@
                       }
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "capture"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "capture"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "_comments"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "item"
+                        }
+                      ]
                     },
                     {
                       "type": "REPEAT",
@@ -2468,8 +2547,21 @@
                             }
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "capture"
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "capture"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "_comments"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "item"
+                              }
+                            ]
                           }
                         ]
                       }
@@ -2564,8 +2656,21 @@
                       }
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "capture"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "capture"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "_comments"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "item"
+                        }
+                      ]
                     },
                     {
                       "type": "REPEAT",
@@ -2591,8 +2696,21 @@
                             }
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "capture"
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "capture"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "_comments"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "item"
+                              }
+                            ]
                           }
                         ]
                       }

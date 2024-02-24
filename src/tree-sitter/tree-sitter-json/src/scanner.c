@@ -43,7 +43,7 @@ bool tree_sitter_jsontm_external_scanner_scan(void* payload, TSLexer* lexer, con
 		return tokenize_ERROR(lexer);
 	}
 
-	if (valid_symbols[_FORCESTRINGNODE] && lexer->lookahead == '"') {
+	if (valid_symbols[_FORCESTRINGNODE] && (lexer->lookahead == '"' /* || lexer->lookahead == '\t' */)) {
 		lexer->result_symbol = _FORCESTRINGNODE;
 		return true;
 	}

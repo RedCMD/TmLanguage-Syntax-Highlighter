@@ -1,11 +1,6 @@
 [
   {
-    "type": "ERROR",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "backreference",
+    "type": "absent",
     "named": true,
     "fields": {},
     "children": {
@@ -13,26 +8,511 @@
       "required": false,
       "types": [
         {
-          "type": "ERROR",
+          "type": "absent",
+          "named": true
+        },
+        {
+          "type": "absent_extended",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "callout",
+          "named": true
+        },
+        {
+          "type": "capture_group",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "look_ahead",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "modify",
+          "named": true
+        },
+        {
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "non_capture_group",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
           "named": true
         },
         {
           "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "backslash",
+    "type": "absent_extended",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "absent_extended",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "callout",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "modify",
+          "named": true
+        },
+        {
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "alteration",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "atomic_group",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "absent",
+          "named": true
+        },
+        {
+          "type": "absent_extended",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "callout",
+          "named": true
+        },
+        {
+          "type": "capture_group",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "look_ahead",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "modify",
+          "named": true
+        },
+        {
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "non_capture_group",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "atomic_group_extended",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "absent_extended",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "callout",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "modify",
+          "named": true
+        },
+        {
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "backreference",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "callout",
     "named": true,
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "quantifier",
+          "type": "name",
           "named": true
         }
       ]
@@ -47,11 +527,23 @@
       "required": false,
       "types": [
         {
-          "type": "ERROR",
+          "type": "absent",
+          "named": true
+        },
+        {
+          "type": "absent_extended",
           "named": true
         },
         {
           "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
           "named": true
         },
         {
@@ -63,7 +555,31 @@
           "named": true
         },
         {
+          "type": "callout",
+          "named": true
+        },
+        {
           "type": "capture_group",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
           "named": true
         },
         {
@@ -71,7 +587,11 @@
           "named": true
         },
         {
-          "type": "hexadecimal",
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
           "named": true
         },
         {
@@ -79,15 +599,661 @@
           "named": true
         },
         {
+          "type": "look_ahead",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
           "type": "meta_control_char",
           "named": true
         },
         {
-          "type": "octal",
+          "type": "modify",
           "named": true
         },
         {
-          "type": "property",
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "non_capture_group",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "capture_group_conditional",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "absent",
+          "named": true
+        },
+        {
+          "type": "absent_extended",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "callout",
+          "named": true
+        },
+        {
+          "type": "capture_group",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_name",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "look_ahead",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "modify",
+          "named": true
+        },
+        {
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "non_capture_group",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "capture_group_conditional_extended",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "absent_extended",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "callout",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_name",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "modify",
+          "named": true
+        },
+        {
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "capture_group_conditional_name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "capture_group_extended",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "absent_extended",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "callout",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "modify",
+          "named": true
+        },
+        {
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "capture_group_name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "absent",
+          "named": true
+        },
+        {
+          "type": "absent_extended",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "callout",
+          "named": true
+        },
+        {
+          "type": "capture_group",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "look_ahead",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "modify",
+          "named": true
+        },
+        {
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "non_capture_group",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "capture_group_name_extended",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "absent_extended",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "callout",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "modify",
+          "named": true
+        },
+        {
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
           "named": true
         },
         {
@@ -118,27 +1284,7 @@
           "named": true
         },
         {
-          "type": "hexadecimal",
-          "named": true
-        },
-        {
           "type": "literal",
-          "named": true
-        },
-        {
-          "type": "meta_control_char",
-          "named": true
-        },
-        {
-          "type": "octal",
-          "named": true
-        },
-        {
-          "type": "property",
-          "named": true
-        },
-        {
-          "type": "quantifier",
           "named": true
         },
         {
@@ -149,22 +1295,27 @@
     }
   },
   {
-    "type": "hexadecimal",
+    "type": "comment",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "comment_extended",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "quantifier",
+          "type": "comment",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "literal",
+    "type": "comment_group",
     "named": true,
     "fields": {},
     "children": {
@@ -172,7 +1323,493 @@
       "required": false,
       "types": [
         {
+          "type": "comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "error",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "literal",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "look_ahead",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "absent",
+          "named": true
+        },
+        {
+          "type": "absent_extended",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "callout",
+          "named": true
+        },
+        {
+          "type": "capture_group",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "look_ahead",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "modify",
+          "named": true
+        },
+        {
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "non_capture_group",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
+          "named": true
+        },
+        {
           "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "look_ahead_extended",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "absent_extended",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "callout",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "modify",
+          "named": true
+        },
+        {
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "look_behind",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "absent",
+          "named": true
+        },
+        {
+          "type": "absent_extended",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "callout",
+          "named": true
+        },
+        {
+          "type": "capture_group",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "look_ahead",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "modify",
+          "named": true
+        },
+        {
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "non_capture_group",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "look_behind_extended",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "absent_extended",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "callout",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "modify",
+          "named": true
+        },
+        {
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
           "named": true
         }
       ]
@@ -183,11 +1820,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
-          "type": "quantifier",
+          "type": "backslash",
           "named": true
         },
         {
@@ -198,34 +1835,513 @@
     }
   },
   {
-    "type": "octal",
+    "type": "modify",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
         {
+          "type": "absent",
+          "named": true
+        },
+        {
+          "type": "absent_extended",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "callout",
+          "named": true
+        },
+        {
+          "type": "capture_group",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "look_ahead",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "modify",
+          "named": true
+        },
+        {
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "non_capture_group",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "options",
+          "named": true
+        },
+        {
           "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "property",
+    "type": "modify_extended_1",
     "named": true,
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "quantifier",
+          "type": "options",
           "named": true
         }
       ]
     }
+  },
+  {
+    "type": "modify_extended_2",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "absent_extended",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "callout",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "modify",
+          "named": true
+        },
+        {
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "options",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "name",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "non_capture_group",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "absent",
+          "named": true
+        },
+        {
+          "type": "absent_extended",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "callout",
+          "named": true
+        },
+        {
+          "type": "capture_group",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "look_ahead",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "modify",
+          "named": true
+        },
+        {
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "non_capture_group",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "non_capture_group_extended",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "absent_extended",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "callout",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "modify",
+          "named": true
+        },
+        {
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "number",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "quantifier",
@@ -241,11 +2357,23 @@
       "required": false,
       "types": [
         {
-          "type": "ERROR",
+          "type": "absent",
+          "named": true
+        },
+        {
+          "type": "absent_extended",
           "named": true
         },
         {
           "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
           "named": true
         },
         {
@@ -257,7 +2385,31 @@
           "named": true
         },
         {
+          "type": "callout",
+          "named": true
+        },
+        {
           "type": "capture_group",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
           "named": true
         },
         {
@@ -265,7 +2417,11 @@
           "named": true
         },
         {
-          "type": "hexadecimal",
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
           "named": true
         },
         {
@@ -273,15 +2429,47 @@
           "named": true
         },
         {
+          "type": "look_ahead",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
           "type": "meta_control_char",
           "named": true
         },
         {
-          "type": "octal",
+          "type": "modify",
           "named": true
         },
         {
-          "type": "property",
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "non_capture_group",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "quantifier",
           "named": true
         },
         {
@@ -300,11 +2488,19 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
         {
-          "type": "quantifier",
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "number",
           "named": true
         }
       ]
@@ -313,17 +2509,15 @@
   {
     "type": "unicode",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "quantifier",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
+  },
+  {
+    "type": " ",
+    "named": false
+  },
+  {
+    "type": "#",
+    "named": false
   },
   {
     "type": "'",
@@ -331,6 +2525,46 @@
   },
   {
     "type": "(",
+    "named": false
+  },
+  {
+    "type": "(*",
+    "named": false
+  },
+  {
+    "type": "(?",
+    "named": false
+  },
+  {
+    "type": "(?#",
+    "named": false
+  },
+  {
+    "type": "(?'",
+    "named": false
+  },
+  {
+    "type": "(?(",
+    "named": false
+  },
+  {
+    "type": "(?:",
+    "named": false
+  },
+  {
+    "type": "(?<",
+    "named": false
+  },
+  {
+    "type": "(?>",
+    "named": false
+  },
+  {
+    "type": "(?~",
+    "named": false
+  },
+  {
+    "type": "(?~|",
     "named": false
   },
   {
@@ -346,19 +2580,19 @@
     "named": false
   },
   {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
     "type": ">",
     "named": false
   },
   {
     "type": "?",
-    "named": false
-  },
-  {
-    "type": "?:",
-    "named": false
-  },
-  {
-    "type": "?>",
     "named": false
   },
   {
@@ -371,10 +2605,6 @@
   },
   {
     "type": "\\\\M-",
-    "named": false
-  },
-  {
-    "type": "\\\\\\\\",
     "named": false
   },
   {
@@ -398,15 +2628,31 @@
     "named": false
   },
   {
+    "type": "\\\\u",
+    "named": false
+  },
+  {
+    "type": "\\n",
+    "named": false
+  },
+  {
+    "type": "\\t",
+    "named": false
+  },
+  {
     "type": "]",
     "named": false
   },
   {
-    "type": "alteration",
+    "type": "backslash",
     "named": true
   },
   {
-    "type": "}",
+    "type": "options",
+    "named": true
+  },
+  {
+    "type": "|",
     "named": false
   }
 ]
