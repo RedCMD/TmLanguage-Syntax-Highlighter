@@ -341,7 +341,7 @@
 					"end": "\"",
 					"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.json.tm" } },
 					"endCaptures": { "0": { "name": "punctuation.definition.string.begin.json.tm" } },
-					"contentName": "meta.embedded.block.regexp.tmLanguage",
+					"contentName": "meta.embedded.injection.tm",
 					"patterns": [ { "include": "#injection-string" } ]
 				},
 				{

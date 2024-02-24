@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
 import * as Parser from 'web-tree-sitter';
-import { getTrees, queryNode, toPoint, toRange } from "./TreeSitter";
+import { getTrees, queryNode, toPoint, toRange, trueParent } from "./TreeSitter";
 
-export const DocumentHighlightProvider = {
+export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 	provideDocumentHighlights(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.DocumentHighlight[] {
 		// vscode.window.showInformationMessage(JSON.stringify("DocumentHighlights"));
 		const trees = getTrees(document);
@@ -10,8 +10,10 @@ export const DocumentHighlightProvider = {
 		const point = toPoint(position);
 
 		const cursorQuery = `
-			(_ (key) @key (value !scopeName !ruleName !self !base)? @value)
-			(repo (key) @repo)
+			(key) @key
+			(value !scopeName !ruleName !self !base) @value
+			(capture . (key) @key)
+			(repo . (key) @repo)
 			(json (scopeName (value) @rootScopeName))
 			(include (value (scopeName) !ruleName !base) @scopeName)
 			(include (value (ruleName)) @include)
@@ -32,12 +34,14 @@ export const DocumentHighlightProvider = {
 
 		// const scopeName = cursorNode.parent.childForFieldName('scopeName')?.text;
 		const rootScopeName = queryNode(jsonTree.rootNode, `(json (scopeName (value) @scopeName))`).pop()?.node?.text;
+		
 
 		let query = ``;
 		switch (cursorName) {
 			case 'key':
-				const cursorType = cursorText ? cursorNode.parent.type : cursorNode.parent.parent.type;
-				query = `(${cursorType} (key) @key (#eq? @key "${cursorText}"))`;
+				const cursorType = trueParent(cursorNode).type;
+				// const cursorType = cursorText ? cursorNode.parent.type : cursorNode.parent.parent.type;
+				query = `(${cursorType} . (key) @key (#eq? @key "${cursorText}"))`;
 				break;
 			case 'value':
 				query = `(_ (value) @value (#eq? @value "${cursorText}"))`;

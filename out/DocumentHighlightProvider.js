@@ -10,8 +10,10 @@ exports.DocumentHighlightProvider = {
         const jsonTree = trees.jsonTree;
         const point = (0, TreeSitter_1.toPoint)(position);
         const cursorQuery = `
-			(_ (key) @key (value !scopeName !ruleName !self !base)? @value)
-			(repo (key) @repo)
+			(key) @key
+			(value !scopeName !ruleName !self !base) @value
+			(capture . (key) @key)
+			(repo . (key) @repo)
 			(json (scopeName (value) @rootScopeName))
 			(include (value (scopeName) !ruleName !base) @scopeName)
 			(include (value (ruleName)) @include)
@@ -32,8 +34,9 @@ exports.DocumentHighlightProvider = {
         let query = ``;
         switch (cursorName) {
             case 'key':
-                const cursorType = cursorText ? cursorNode.parent.type : cursorNode.parent.parent.type;
-                query = `(${cursorType} (key) @key (#eq? @key "${cursorText}"))`;
+                const cursorType = (0, TreeSitter_1.trueParent)(cursorNode).type;
+                // const cursorType = cursorText ? cursorNode.parent.type : cursorNode.parent.parent.type;
+                query = `(${cursorType} . (key) @key (#eq? @key "${cursorText}"))`;
                 break;
             case 'value':
                 query = `(_ (value) @value (#eq? @value "${cursorText}"))`;
