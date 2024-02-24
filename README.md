@@ -9,6 +9,12 @@ Syntax Highlighting for JSON based TextMate Language and Regex
 * Formatting
 * Schema support
 
+Example code:  
+![example-code](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/images/Example%20Code%20V1.2.png?raw=true)
+
+Highlights scope names with their own themed colour in realtime:  
+![list-of-VSCode-Dark+-scopenames-and-their-colours](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/images/VSCode%20Dark+%20theme%20coloured%20scope-names.png?raw=true)
+
 ```json textmate
 {
   "$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
@@ -42,12 +48,6 @@ Syntax Highlighting for JSON based TextMate Language and Regex
   }
 }
 ```
-
-Example code:  
-![example-code](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/images/Example%20Code%20V1.2.png?raw=true)
-
-Highlights scope names with their own themed colour in realtime:  
-![list-of-VSCode-Dark+-scopenames-and-their-colours](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/images/VSCode%20Dark+%20theme%20coloured%20scope-names.png?raw=true)
 
 Invalid code is highlighted in red and underlined  
 Incorrect code is highlighted in red and with italics  

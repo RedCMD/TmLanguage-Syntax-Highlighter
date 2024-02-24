@@ -146,7 +146,8 @@
 					"text.html.markdown"
 				],
 				"embeddedLanguages": {
-					"meta.embedded.block.json.textmate": "json-textmate"
+					"meta.embedded.block.json.textmate": "json-textmate",
+					"meta.embedded.block.regexp.tmLanguage": "regex-tmLanguage"
 				}
 			}
 		],
