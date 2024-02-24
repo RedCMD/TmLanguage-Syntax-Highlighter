@@ -24,5 +24,9 @@ jobs:
         run: |
           git config --global user.name "RedCMD"
           git config --global user.email "theredcmd@gmail.com"
-          vsce publish patch --pre-release -p ${{ secrets.VSCE_PAT }} --skip-duplicate
+          if [[ $(git diff --stat) != '' ]]; then
+            git add .
+            git commit -m "Sync Github Actions"
+          fi
+          vsce publish patch --pre-release -p ${{ secrets.VSCE_PAT }}
           git push
