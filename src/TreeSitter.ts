@@ -27,10 +27,26 @@ export function getTree(document: vscode.TextDocument): Parser.Tree {
 	return tree;
 }
 
-export function getRegexNode(document: vscode.TextDocument, node: Parser.SyntaxNode): Parser.SyntaxNode {
-	const uriString = document.uri.toString();
-	const regexTrees = trees[uriString]?.regexTrees;
-	const regexTree = regexTrees[node.id];
+export function getRegexNode(source: vscode.TextDocument | vscode.Uri | trees | trees["regexTrees"], node: Parser.SyntaxNode | number): Parser.SyntaxNode {
+	const nodeId = typeof node == 'number' ? node : node.id;
+	if ('uri' in source) {
+		const uriString = source.uri.toString();
+		const regexTrees = trees[uriString]?.regexTrees;
+		const regexTree = regexTrees[nodeId];
+		return regexTree.rootNode;
+	}
+	if ('scheme' in source) {
+		const uriString = source.toString();
+		const regexTrees = trees[uriString]?.regexTrees;
+		const regexTree = regexTrees[nodeId];
+		return regexTree.rootNode;
+	}
+	if ('regexTrees' in source) {
+		const regexTrees = source.regexTrees;
+		const regexTree = regexTrees[nodeId];
+		return regexTree.rootNode;
+	}
+	const regexTree = source[nodeId];
 	return regexTree.rootNode;
 }
 

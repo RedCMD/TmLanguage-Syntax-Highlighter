@@ -19,10 +19,26 @@ function getTree(document) {
     return tree;
 }
 exports.getTree = getTree;
-function getRegexNode(document, node) {
-    const uriString = document.uri.toString();
-    const regexTrees = trees[uriString]?.regexTrees;
-    const regexTree = regexTrees[node.id];
+function getRegexNode(source, node) {
+    const nodeId = typeof node == 'number' ? node : node.id;
+    if ('uri' in source) {
+        const uriString = source.uri.toString();
+        const regexTrees = trees[uriString]?.regexTrees;
+        const regexTree = regexTrees[nodeId];
+        return regexTree.rootNode;
+    }
+    if ('scheme' in source) {
+        const uriString = source.toString();
+        const regexTrees = trees[uriString]?.regexTrees;
+        const regexTree = regexTrees[nodeId];
+        return regexTree.rootNode;
+    }
+    if ('regexTrees' in source) {
+        const regexTrees = source.regexTrees;
+        const regexTree = regexTrees[nodeId];
+        return regexTree.rootNode;
+    }
+    const regexTree = source[nodeId];
     return regexTree.rootNode;
 }
 exports.getRegexNode = getRegexNode;

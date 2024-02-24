@@ -1,35 +1,37 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DocumentSymbolProvider = void 0;
+exports.DocumentSymbolProvider = exports.SymbolKind = void 0;
 const vscode = require("vscode");
 const TreeSitter_1 = require("./TreeSitter");
-const SymbolKind = {
-    // 'File': vscode.SymbolKind.File,
-    // 'Module': vscode.SymbolKind.Module,
-    // 'Namespace': vscode.SymbolKind.Namespace,
-    // 'Package': vscode.SymbolKind.Package,
-    // 'Class': vscode.SymbolKind.Class,
-    // 'Method': vscode.SymbolKind.Method,
-    // 'Property': vscode.SymbolKind.Property,
-    // 'Field': vscode.SymbolKind.Field,
-    // 'Constructor': vscode.SymbolKind.Constructor,
-    // 'Enum': vscode.SymbolKind.Enum,
-    // 'Interface': vscode.SymbolKind.Interface,
-    // 'Function': vscode.SymbolKind.Function,
-    // 'Variable': vscode.SymbolKind.Variable,
-    // 'Constant': vscode.SymbolKind.Constant,
-    // 'String': vscode.SymbolKind.String,
-    // 'Number': vscode.SymbolKind.Number,
-    // 'Boolean': vscode.SymbolKind.Boolean,
-    // 'Array': vscode.SymbolKind.Array,
-    // 'Object': vscode.SymbolKind.Object,
-    // 'Key': vscode.SymbolKind.String,
-    // 'Null': vscode.SymbolKind.Null,
-    // 'EnumMember': vscode.SymbolKind.EnumMember,
-    // 'Struct': vscode.SymbolKind.Struct,
-    // 'Event': vscode.SymbolKind.Event,
-    // 'Operator': vscode.SymbolKind.Operator,
-    // 'TypeParameter': vscode.SymbolKind.TypeParameter,
+exports.SymbolKind = {
+    /*
+        'File': vscode.SymbolKind.File,
+        'Module': vscode.SymbolKind.Module,
+        'Namespace': vscode.SymbolKind.Namespace,
+        'Package': vscode.SymbolKind.Package,
+        'Class': vscode.SymbolKind.Class,
+        'Method': vscode.SymbolKind.Method,
+        'Property': vscode.SymbolKind.Property,
+        'Field': vscode.SymbolKind.Field,
+        'Constructor': vscode.SymbolKind.Constructor,
+        'Enum': vscode.SymbolKind.Enum,
+        'Interface': vscode.SymbolKind.Interface,
+        'Function': vscode.SymbolKind.Function,
+        'Variable': vscode.SymbolKind.Variable,
+        'Constant': vscode.SymbolKind.Constant,
+        'String': vscode.SymbolKind.String,
+        'Number': vscode.SymbolKind.Number,
+        'Boolean': vscode.SymbolKind.Boolean,
+        'Array': vscode.SymbolKind.Array,
+        'Object': vscode.SymbolKind.Object,
+        'Key': vscode.SymbolKind.String,
+        'Null': vscode.SymbolKind.Null,
+        'EnumMember': vscode.SymbolKind.EnumMember,
+        'Struct': vscode.SymbolKind.Struct,
+        'Event': vscode.SymbolKind.Event,
+        'Operator': vscode.SymbolKind.Operator,
+        'TypeParameter': vscode.SymbolKind.TypeParameter,
+    */
     'json': vscode.SymbolKind.File,
     'patterns': vscode.SymbolKind.Array,
     'pattern': vscode.SymbolKind.Number,
@@ -78,87 +80,79 @@ const SymbolKind = {
     '"': vscode.SymbolKind.Property,
 };
 exports.DocumentSymbolProvider = {
-    async provideDocumentSymbols(document) {
-        // const tree = getTree(document)
-        const symbols = [];
-        if (true) {
-            const tree = (0, TreeSitter_1.getTree)(document);
-            this.getAllChildren(tree.rootNode, symbols, document);
-        }
-        else if (false) {
-            let i = 0;
-            for (const symbol in SymbolKind) {
-                const documentSymbol = new vscode.DocumentSymbol(symbol, SymbolKind[symbol].toString(), SymbolKind[symbol], new vscode.Range(i, 0, i, 1), new vscode.Range(i, 0, i, 1));
-                symbols.push(documentSymbol);
-                i++;
+    provideDocumentSymbols(document, token) {
+        // vscode.window.showInformationMessage(JSON.stringify("documentSymbol"));
+        const trees = (0, TreeSitter_1.getTrees)(document);
+        const tree = trees.jsonTree;
+        let node = tree.rootNode;
+        let index = 0;
+        let documentSymbol = newDocumentSymbol(node);
+        const nodeStack = [];
+        const indexStack = [];
+        const documentSymbolStack = [];
+        while (true) {
+            let childNode = node.namedChild(index);
+            if (!childNode) {
+                node = nodeStack.pop();
+                if (node === undefined) {
+                    break;
+                }
+                index = indexStack.pop();
+                index++;
+                const tempSymbol = documentSymbolStack.pop();
+                tempSymbol.children.push(documentSymbol);
+                documentSymbol = tempSymbol;
+                continue;
             }
-        }
-        else if (true) {
-            const regexTrees = (0, TreeSitter_1.getTrees)(document).regexTrees;
-            for (const regexTree in regexTrees) {
-                this.getAllChildren(regexTrees[regexTree].rootNode, symbols, document);
+            if (childNode.type == 'regex') {
+                childNode = (0, TreeSitter_1.getRegexNode)(trees, childNode) ?? childNode;
+                // childNode = regexTrees[childNode.id]?.rootNode ?? childNode;
             }
+            if (childNode.namedChildCount && indexStack.length < 900) { // StackOverFlow
+                nodeStack.push(node);
+                indexStack.push(index);
+                documentSymbolStack.push(documentSymbol);
+                documentSymbol = newDocumentSymbol(childNode);
+                node = childNode;
+                index = 0;
+                continue;
+            }
+            documentSymbol.children.push(newDocumentSymbol(childNode));
+            index++;
         }
-        // vscode.window.showInformationMessage(JSON.stringify(symbols))
-        return symbols;
+        return [documentSymbol];
     },
-    async getAllChildren(node, symbols, document) {
-        let symbolsChildren = [];
-        let documentSymbol;
-        if (true) {
-            // for (let index = 0; index < node.namedChildCount; index++)
-            // this.getAllChildren(node.namedChild(index), symbolsChildren)
-            for (let index = 0; index < node.childCount; index++)
-                this.getAllChildren(node.child(index), symbolsChildren, document);
-            // let text
-            // switch (node.type) {
-            // 	case 'document': text = ' '; break
-            // 	case 'object': text = '{}'; break
-            // 	case 'array': text = '[]'; break
-            // 	case 'pair': text = ':'; break
-            // 	case 'string_content': text = ''; break
-            // 	default: text = node.text
-            // }
-            // const field = node.walk().currentFieldName()
-            // const range = new vscode.Range(node.startPosition.row, node.startPosition.column, node.endPosition.row, node.endPosition.column)
-            const range = (0, TreeSitter_1.toRange)(node);
-            documentSymbol = new vscode.DocumentSymbol(node.type ? node.type : "", node.text ? node.text.slice(0, 1000) : " ", node.isNamed() ? vscode.SymbolKind.Method : vscode.SymbolKind.Field, range, range);
-        }
-        else {
-            for (let index = 0; index < node.namedChildCount; index++)
-                this.getAllChildren(node.namedChild(index), symbolsChildren, document);
-            let name = '';
-            switch (node.type) {
-                case 'pattern':
-                case 'injection':
-                    name = node.parent.namedChildren.map(function (e) {
-                        return e.id;
-                    }).indexOf(node.id).toString();
-                    break;
-                case 'repo':
-                case 'capture':
-                    name = node.firstNamedChild.text;
-                    break;
-                case 'name_scope':
-                    name = 'name';
-                    break;
-                case 'value':
-                    name = node.text;
-                    break;
-                case 'regex':
-                    node = (0, TreeSitter_1.getRegexNode)(document, node);
-                    for (const regexChildNode of node.namedChildren) {
-                        this.getAllChildren(regexChildNode, symbolsChildren, document);
-                    }
-                    break;
-            }
-            if (name == '')
-                name = node.type;
-            // const range = new vscode.Range(node.startPosition.row, node.startPosition.column, node.endPosition.row, node.endPosition.column)
-            const range = (0, TreeSitter_1.toRange)(node);
-            documentSymbol = new vscode.DocumentSymbol(name, node.text ? node.text.slice(0, 1000) : ' ', SymbolKind[node.type], range, range);
-        }
-        documentSymbol.children = symbolsChildren;
-        symbols.push(documentSymbol);
-    }
 };
+function newDocumentSymbol(node) {
+    let text;
+    switch (node.type) {
+        case 'pattern':
+        case 'injection':
+            let index = 0;
+            let sibling = node;
+            while (sibling = sibling.previousNamedSibling) {
+                index++;
+            }
+            text = index.toString();
+            break;
+        case 'repo':
+        case 'capture':
+            text = node.firstNamedChild.text;
+            break;
+        case 'name_scope':
+            text = 'name';
+            break;
+        case 'value':
+            text = node.text;
+            break;
+    }
+    const name = text?.slice(0, 50) || node.type;
+    const detail = node.text.slice(0, 50);
+    const kind = exports.SymbolKind[node.type] ?? (node.isNamed() ? vscode.SymbolKind.Method : vscode.SymbolKind.Field);
+    const range = (0, TreeSitter_1.toRange)(node);
+    const selectionRange = range;
+    // const selectionRange = toRange(node.firstNamedChild) ?? range;
+    const documentSymbol = new vscode.DocumentSymbol(name, detail, kind, range, selectionRange);
+    // vscode.window.showInformationMessage(JSON.stringify(documentSymbol));
+    return documentSymbol;
+}
