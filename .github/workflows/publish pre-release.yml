@@ -12,7 +12,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@master
 
       - name: Install vsce
         run: npm i -g @vscode/vsce
@@ -24,10 +24,5 @@ jobs:
         run: |
           git config --global user.name "RedCMD"
           git config --global user.email "theredcmd@gmail.com"
-          if [[ $(git diff --stat) != '' ]]; then
-            echo 'working directory dirty. must cleanup first'
-            git add .
-            git commit -m "Sync Github Actions"
-          fi
-          vsce publish patch --pre-release -p ${{ secrets.VSCE_PAT }}
+          vsce publish patch --pre-release -p ${{ secrets.VSCE_PAT }} --skip-duplicate
           git push
