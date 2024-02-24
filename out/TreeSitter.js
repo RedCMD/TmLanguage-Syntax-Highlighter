@@ -5,8 +5,8 @@ const vscode = require("vscode");
 const Parser = require("web-tree-sitter");
 const extension_1 = require("./extension");
 const trees = {};
-function getTrees(document) {
-    const uriString = document.uri.toString();
+function getTrees(source) {
+    const uriString = 'uri' in source ? source.uri.toString() : source.toString();
     return trees[uriString];
 }
 exports.getTrees = getTrees;
@@ -42,6 +42,16 @@ function getRegexNode(source, node) {
     return regexTree.rootNode;
 }
 exports.getRegexNode = getRegexNode;
+function getComment(node) {
+    const parent = trueParent(node);
+    const query = `
+		(comment (value) @comment (.not-eq? @comment ""))
+		(comment_slash (value) @comment (.not-eq? @comment ""))
+	`;
+    const capture = queryNode(parent, query)[0];
+    return capture?.node?.text?.replace(/\\(.)?/g, '$1');
+}
+exports.getComment = getComment;
 function queryNode(node, queryString, startPoint, endPoint) {
     const language = node.tree.getLanguage();
     const query = language.query(queryString);
@@ -75,7 +85,7 @@ function queryForPosition(tree, queryString, point) {
 exports.queryForPosition = queryForPosition;
 function toRange(node) {
     if (!node) {
-        return;
+        return null;
     }
     const startPosition = node.startPosition;
     const endPosition = node.endPosition;
@@ -89,6 +99,27 @@ function toPoint(position) {
     return point;
 }
 exports.toPoint = toPoint;
+/**
+ * TreeSitter bug
+ * Using `.parent` on a 0width node returns the `previousSilbing` rather than the `parent`
+ * https://github.com/tree-sitter/tree-sitter/issues/1872
+ */
+function trueParent(node) {
+    const parent = node.parent;
+    if (parent == null) {
+        // vscode.window.showInformationMessage(JSON.stringify(node.toString()));
+        // vscode.window.showInformationMessage(JSON.stringify(node.type));
+        // vscode.window.showInformationMessage(JSON.stringify(node.text));
+        return node;
+    }
+    if (node.text != '') {
+        return parent;
+    }
+    return parent.parent;
+    // const sibling = parent.nextSibling;
+    // return sibling ? sibling.equals(node) ? parent.parent : parent : parent;
+}
+exports.trueParent = trueParent;
 async function initTreeSitter(context) {
     // vscode.window.showInformationMessage(JSON.stringify("TreeSitterInit"));
     await Parser.init(); // Everything MUST wait until TreeSitter initializes

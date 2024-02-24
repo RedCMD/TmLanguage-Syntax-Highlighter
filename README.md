@@ -8,6 +8,7 @@ Syntax Highlighting for JSON based TextMate Language and Regex
 * Breadcrumbs/Outline
 * Formatting
 * Schema support
+* `repository`/`include` Call Hierarchy View
 
 Example code:  
 ![example-code](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/images/Example%20Code%20V1.2.png?raw=true)

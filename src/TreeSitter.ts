@@ -13,8 +13,10 @@ const trees: {
 	[uri: string]: trees
 } = {};
 
-export function getTrees(document: vscode.TextDocument): trees {
-	const uriString = document.uri.toString();
+export function getTrees(uri: vscode.Uri): trees;
+export function getTrees(document: vscode.TextDocument): trees;
+export function getTrees(source: vscode.TextDocument | vscode.Uri): trees {
+	const uriString = 'uri' in source ? source.uri.toString() : source.toString();
 	return trees[uriString];
 }
 
@@ -48,6 +50,16 @@ export function getRegexNode(source: vscode.TextDocument | vscode.Uri | trees | 
 	}
 	const regexTree = source[nodeId];
 	return regexTree.rootNode;
+}
+
+export function getComment(node: Parser.SyntaxNode) {
+	const parent = trueParent(node);
+	const query = `
+		(comment (value) @comment (.not-eq? @comment ""))
+		(comment_slash (value) @comment (.not-eq? @comment ""))
+	`;
+	const capture = queryNode(parent, query)[0];
+	return capture?.node?.text?.replace(/\\(.)?/g, '$1');
 }
 
 export function queryNode(node: Parser.SyntaxNode, queryString: string): Parser.QueryCapture[];
@@ -90,7 +102,7 @@ export function queryForPosition(tree: Parser.Tree, queryString: string, point?:
 
 export function toRange(node: Parser.SyntaxNode): vscode.Range {
 	if (!node) {
-		return;
+		return null;
 	}
 
 	const startPosition = node.startPosition;
@@ -109,6 +121,28 @@ export function toPoint(position: vscode.Position): Parser.Point {
 	const column = position.character;
 	const point: Parser.Point = { row: row, column: column };
 	return point;
+}
+
+/**
+ * TreeSitter bug
+ * Using `.parent` on a 0width node returns the `previousSilbing` rather than the `parent`
+ * https://github.com/tree-sitter/tree-sitter/issues/1872
+ */
+export function trueParent(node: Parser.SyntaxNode): Parser.SyntaxNode {
+	const parent = node.parent;
+	if (parent == null) {
+		// vscode.window.showInformationMessage(JSON.stringify(node.toString()));
+		// vscode.window.showInformationMessage(JSON.stringify(node.type));
+		// vscode.window.showInformationMessage(JSON.stringify(node.text));
+		return node;
+	}
+	if (node.text != '') {
+		return parent;
+	}
+	return parent.parent;
+	
+	// const sibling = parent.nextSibling;
+	// return sibling ? sibling.equals(node) ? parent.parent : parent : parent;
 }
 
 export async function initTreeSitter(context: vscode.ExtensionContext) {
