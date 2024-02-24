@@ -25,9 +25,7 @@ jobs:
         run: |
           git config --global user.name "RedCMD"
           git config --global user.email "theredcmd@gmail.com"
-          if [[ $(git diff --stat) != '' ]]; then
-            git add .
-            git commit -m "Sync Github Actions"
-          fi
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Sync Github Actions"
           vsce publish patch --pre-release -p ${{ secrets.VSCE_PAT }}
           git push
