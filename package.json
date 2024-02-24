@@ -7,7 +7,7 @@
 	"engines": {
 		"vscode": "^1.85.0"
 	},
-	"icon": "images/TextMate-logo-icon.png",
+	"icon": "assets/TextMate-logo-icon.png",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter.git"
@@ -61,8 +61,8 @@
 				],
 				"configuration": "./language-configuration.json",
 				"icon": {
-					"dark": "images/TextMate-file-icon.svg",
-					"light": "images/TextMate-file-icon.svg"
+					"dark": "assets/TextMate-file-icon.svg",
+					"light": "assets/TextMate-file-icon.svg"
 				}
 			},
 			{
@@ -82,8 +82,8 @@
 				],
 				"configuration": "./language-configurations/regex.language-configuration.json",
 				"icon": {
-					"dark": "images/TextMate-file-icon.svg",
-					"light": "images/TextMate-file-icon.svg"
+					"dark": "assets/TextMate-file-icon.svg",
+					"light": "assets/TextMate-file-icon.svg"
 				}
 			},
 			{
@@ -99,8 +99,8 @@
 				],
 				"configuration": "./language-configurations/scope.language-configuration.json",
 				"icon": {
-					"dark": "images/TextMate-file-icon.svg",
-					"light": "images/TextMate-file-icon.svg"
+					"dark": "assets/TextMate-file-icon.svg",
+					"light": "assets/TextMate-file-icon.svg"
 				}
 			}
 		],

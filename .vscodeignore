@@ -4,6 +4,7 @@
 _test/**
 documentation/**
 src/**
+images/**
 
 */node_modules/**
 
