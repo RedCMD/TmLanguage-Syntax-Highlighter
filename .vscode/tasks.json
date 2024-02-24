@@ -1,7 +1,6 @@
 // See https://go.microsoft.com/fwlink/?LinkId=733558
 // for the documentation about the tasks.json format
 {
-	
 	"version": "2.0.0",
 	"tasks": [
 		{
@@ -38,6 +37,19 @@
 			"script": "build",
 			"problemMatcher": "$tsc-watch",
 			"isBackground": true,
+			"presentation": {
+				"reveal": "never"
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "Compile-TextMate-Web-Extension",
+			"type": "npm",
+			"script": "compile-web",
+			"problemMatcher": "$ts-webpack",
 			"presentation": {
 				"reveal": "never"
 			},

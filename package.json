@@ -34,10 +34,13 @@
 	],
 	"activationEvents": [],
 	"main": "./out/extension.js",
+	"browser": "./out/web/extension.js",
 	"scripts": {
-		"prepublish": "npm run generate-wasm && npm run compile",
-		"compile": "tsc -p ./",
+		"prepublish": "npm run compile && npm run compile-web && npm run generate-wasm",
 		"watch": "tsc -watch -p ./",
+		"watch-web": "webpack --watch",
+		"compile": "tsc -p ./",
+		"compile-web": "webpack --no-devtool --no-watch --mode production",
 		"generate-wasm": "cd ./src/tree-sitter/tree-sitter-json/ && tree-sitter generate --no-bindings && cd ./../tree-sitter-regex/ && tree-sitter generate --no-bindings && cd ./../../../out/ && tree-sitter build-wasm ./../src/tree-sitter/tree-sitter-json/ && tree-sitter build-wasm ./../src/tree-sitter/tree-sitter-regex/"
 	},
 	"contributes": {
@@ -173,13 +176,16 @@
 			}
 		]
 	},
+	"dependencies": {
+		"web-tree-sitter": "^0.20.8"
+	},
 	"devDependencies": {
 		"@types/vscode": "^1.85.0",
 		"tree-sitter-cli": "^0.20.8",
-		"typescript": "^5.3.3"
-	},
-	"dependencies": {
-		"web-tree-sitter": "^0.20.8"
+		"typescript": "^5.3.3",
+		"webpack": "^5.90.2",
+		"webpack-cli": "^5.1.4",
+		"ts-loader": "^9.5.1"
 	},
 	"__metadata": {
 		"id": "7f5ff7e8-575f-4fbf-bff6-201486b6327e",

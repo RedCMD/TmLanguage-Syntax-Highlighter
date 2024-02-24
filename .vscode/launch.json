@@ -16,6 +16,19 @@
 				"${workspaceFolder}/out/**/*.js"
 			],
 			"preLaunchTask": "Compile-TextMate-Extension"
-		}
+		},
+		{
+			"name": "TextMate Web Extension",
+			"type": "pwa-extensionHost",
+			"request": "launch",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceFolder}",
+				"--extensionDevelopmentKind=web"
+			],
+			"outFiles": [
+				"${workspaceFolder}/out/web/**/*.js"
+			],
+			"preLaunchTask": "Compile-TextMate-Web-Extension"
+		},
 	]
 }
