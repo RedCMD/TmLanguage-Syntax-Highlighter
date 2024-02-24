@@ -1,6 +1,7 @@
-name: Auto Publish Pre-release Extension
+name: Publish Pre-release Extension
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - 'main'
