@@ -2,7 +2,12 @@
 Syntax Highlighting for JSON based TextMate Language and Regex
 
 ## Features
-Now features basic Intellisense, ctrl+click definitions, breadcrumbs and right click => formatting  
+* Syntax Highlighting
+* Basic Intellisense
+* Ctrl+click Definitions
+* Breadcrumbs/Outline
+* Formatting
+* Schema support
 
 ```json textmate
 {

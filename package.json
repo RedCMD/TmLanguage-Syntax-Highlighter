@@ -32,6 +32,9 @@
 		"Programming Languages",
 		"Snippets"
 	],
+	"extensionDependencies": [
+		"vscode.json-language-features"
+	],
 	"activationEvents": [],
 	"main": "./out/extension.js",
 	"browser": "./out/web/extension.js",
@@ -163,6 +166,11 @@
 				"editor.defaultFormatter": "RedCMD.tmlanguage-syntax-highlighter"
 			}
 		},
+		"jsonLanguageParticipants": [
+			{
+				"languageId": "json-textmate"
+			}
+		],
 		"jsonValidation": [
 			{
 				"fileMatch": "*.tmLanguage.json",
