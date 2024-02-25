@@ -64,8 +64,9 @@
 					"tmLanguage.json"
 				],
 				"filenamePatterns": [
+					"**/syntaxes/*.tmLanguage.json",
 					"**/syntaxes/*.tmLanguage copy{, [0-9]*}.json",
-					"**/syntaxes/*.tmLanguage - Copy{, ([0-9]*)}.json"
+					"**/syntaxes/*.tmLanguage{, copy} - Copy{, ([0-9]*)}{, - Copy*}.json"
 				],
 				"configuration": "./language-configuration.json",
 				"icon": {
