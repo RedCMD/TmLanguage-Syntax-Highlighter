@@ -6,37 +6,37 @@ import { DocumentSelector } from './extension';
 
 
 export async function initDiagnostics(context: vscode.ExtensionContext) {
-	vscode.window.showInformationMessage(JSON.stringify("initDiagnostics"));
+	// vscode.window.showInformationMessage(JSON.stringify("initDiagnostics"));
 	// Oniguruma regex parser
-	try {
-		const uri = vscode.Uri.joinPath(context.extensionUri, 'node_modules', 'vscode-oniguruma', 'release', 'onig.wasm');
-		const wasm = await vscode.workspace.fs.readFile(uri);
-		const options: vscodeOniguruma.IDataOptions = {
-			data: wasm,
-			print(string: string) {
-				console.log(string);
-			}
+	// try {
+	const uri = vscode.Uri.joinPath(context.extensionUri, 'node_modules', 'vscode-oniguruma', 'release', 'onig.wasm');
+	const wasm = await vscode.workspace.fs.readFile(uri);
+	const options: vscodeOniguruma.IDataOptions = {
+		data: wasm,
+		print(string: string) {
+			console.log(string);
 		}
-		await vscodeOniguruma.loadWASM(options);
-
-	} catch (error) {
-		vscode.window.showInformationMessage(JSON.stringify(error));
-		
-		const response = await fetch('/node_modules/vscode-oniguruma/release/onig.wasm');
-		const contentType = response.headers.get('content-type');
-
-		// Using the response directly only works if the server sets the MIME type 'application/wasm'.
-		// Otherwise, a TypeError is thrown when using the streaming compiler.
-		// We therefore use the non-streaming compiler :(.
-		const wasm = contentType === 'application/wasm' ? response : await response.arrayBuffer();
-		const options: vscodeOniguruma.IDataOptions = {
-			data: wasm,
-			print(string: string) {
-				console.log(string);
-			}
-		}
-		await vscodeOniguruma.loadWASM(options);
 	}
+	await vscodeOniguruma.loadWASM(options);
+
+	// } catch (error) {
+	// 	vscode.window.showInformationMessage(JSON.stringify(error));
+	// 	// https://github.com/microsoft/vscode-oniguruma/issues/10
+	// 	const response = await fetch('/node_modules/vscode-oniguruma/release/onig.wasm');
+	// 	const contentType = response.headers.get('content-type');
+
+	// 	// Using the response directly only works if the server sets the MIME type 'application/wasm'.
+	// 	// Otherwise, a TypeError is thrown when using the streaming compiler.
+	// 	// We therefore use the non-streaming compiler :(.
+	// 	const wasm = contentType === 'application/wasm' ? response : await response.arrayBuffer();
+	// 	const options: vscodeOniguruma.IDataOptions = {
+	// 		data: wasm,
+	// 		print(string: string) {
+	// 			console.log(string);
+	// 		}
+	// 	}
+	// 	await vscodeOniguruma.loadWASM(options);
+	// }
 
 	const DiagnosticCollection = vscode.languages.createDiagnosticCollection("textmate");
 	context.subscriptions.push(DiagnosticCollection);
@@ -108,7 +108,7 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 		for (const id in regexTrees) {
 			const tree = regexTrees[id];
 			// vscode.window.showInformationMessage(JSON.stringify(tree.rootNode.toString()));
-			
+
 
 			const queryString = `
 				((ERROR) @ERROR)
@@ -217,7 +217,7 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 
 			const regexNode = regexNodes[node.id];
 			const key = regexNode.previousNamedSibling;
-			
+
 			let regex = text.replace(/\\[\\\/bfnrt"]|\\u[0-9a-fA-F]{4}/g, regexEscapeReplacer);
 			if (key.text == 'end' || key.text == 'while') {
 				// `\\3` could be valid; could be invalid. Who knows?

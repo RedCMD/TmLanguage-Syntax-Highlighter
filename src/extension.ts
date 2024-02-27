@@ -23,13 +23,9 @@ export const DocumentSelector: vscode.DocumentSelector = [
 ];
 
 export async function activate(context: vscode.ExtensionContext) {
-	vscode.window.showInformationMessage(JSON.stringify("TextMate Extension"));
+	// vscode.window.showInformationMessage(JSON.stringify("TextMate Extension"));
 
-	try {
-		await initTreeSitter(context);
-	} catch (error) {
-		vscode.window.showInformationMessage(JSON.stringify(error));
-	}
+	await initTreeSitter(context);
 	initDiagnostics(context);
 	initTokenColorCustomizations(context);
 

@@ -167,7 +167,7 @@ export function trueParent(node: Parser.SyntaxNode): Parser.SyntaxNode {
 
 declare var navigator: object | undefined;
 export async function initTreeSitter(context: vscode.ExtensionContext) {
-	vscode.window.showInformationMessage(JSON.stringify("TreeSitterInit"));
+	// vscode.window.showInformationMessage(JSON.stringify("TreeSitterInit"));
 
 	// We only need to provide these options when running in the web worker
 	const moduleOptions: object | undefined = typeof navigator === 'undefined'
@@ -179,18 +179,13 @@ export async function initTreeSitter(context: vscode.ExtensionContext) {
 		};
 	await Parser.init(moduleOptions); // Everything MUST wait until TreeSitter initializes
 
-	vscode.window.showInformationMessage(JSON.stringify("Parser"));
+	// vscode.window.showInformationMessage(JSON.stringify("Parser"));
 
-	let jsonParser: Parser;
-	try {
-		jsonParser = new Parser();
-		const jsonWasmUri = vscode.Uri.joinPath(context.extensionUri, 'out', 'tree-sitter-jsontm.wasm');
-		const jsonWasm = jsonWasmUri.scheme === 'file' ? jsonWasmUri.fsPath : jsonWasmUri.toString(true);
-		const jsonLanguage = await Parser.Language.load(jsonWasm);
-		jsonParser.setLanguage(jsonLanguage);
-	} catch (error) {
-		vscode.window.showInformationMessage(JSON.stringify(error));
-	}
+	const jsonParser = new Parser();
+	const jsonWasmUri = vscode.Uri.joinPath(context.extensionUri, 'out', 'tree-sitter-jsontm.wasm');
+	const jsonWasm = jsonWasmUri.scheme === 'file' ? jsonWasmUri.fsPath : jsonWasmUri.toString(true);
+	const jsonLanguage = await Parser.Language.load(jsonWasm);
+	jsonParser.setLanguage(jsonLanguage);
 
 	const regexParser = new Parser();
 	const regexWasmUri = vscode.Uri.joinPath(context.extensionUri, 'out', 'tree-sitter-regextm.wasm');
@@ -198,7 +193,7 @@ export async function initTreeSitter(context: vscode.ExtensionContext) {
 	const regexLanguage = await Parser.Language.load(regexWasm);
 	regexParser.setLanguage(regexLanguage);
 
-	vscode.window.showInformationMessage(JSON.stringify("Lang"));
+	// vscode.window.showInformationMessage(JSON.stringify("Lang"));
 
 	// const jsonParser = new Parser();
 	// const jsonWasm = context.asAbsolutePath('out/tree-sitter-jsontm.wasm');
@@ -243,7 +238,7 @@ export async function initTreeSitter(context: vscode.ExtensionContext) {
 
 
 function parseTextDocument(document: vscode.TextDocument, jsonParser: Parser, regexParser: Parser) {
-	vscode.window.showInformationMessage(JSON.stringify("ParseTextDocument"));
+	// vscode.window.showInformationMessage(JSON.stringify("ParseTextDocument"));
 
 	if (!vscode.languages.match(DocumentSelector, document)) {
 		return;
