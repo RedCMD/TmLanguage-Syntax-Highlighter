@@ -6,16 +6,37 @@ import { DocumentSelector } from './extension';
 
 
 export async function initDiagnostics(context: vscode.ExtensionContext) {
+	vscode.window.showInformationMessage(JSON.stringify("initDiagnostics"));
 	// Oniguruma regex parser
-	const uri = vscode.Uri.joinPath(context.extensionUri, 'node_modules', 'vscode-oniguruma', 'release', 'onig.wasm');
-	const wasm = await vscode.workspace.fs.readFile(uri);
-	const options: vscodeOniguruma.IDataOptions = {
-		data: wasm,
-		print(string: string) {
-			console.log(string);
+	try {
+		const uri = vscode.Uri.joinPath(context.extensionUri, 'node_modules', 'vscode-oniguruma', 'release', 'onig.wasm');
+		const wasm = await vscode.workspace.fs.readFile(uri);
+		const options: vscodeOniguruma.IDataOptions = {
+			data: wasm,
+			print(string: string) {
+				console.log(string);
+			}
 		}
+		await vscodeOniguruma.loadWASM(options);
+
+	} catch (error) {
+		vscode.window.showInformationMessage(JSON.stringify(error));
+		
+		const response = await fetch('/node_modules/vscode-oniguruma/release/onig.wasm');
+		const contentType = response.headers.get('content-type');
+
+		// Using the response directly only works if the server sets the MIME type 'application/wasm'.
+		// Otherwise, a TypeError is thrown when using the streaming compiler.
+		// We therefore use the non-streaming compiler :(.
+		const wasm = contentType === 'application/wasm' ? response : await response.arrayBuffer();
+		const options: vscodeOniguruma.IDataOptions = {
+			data: wasm,
+			print(string: string) {
+				console.log(string);
+			}
+		}
+		await vscodeOniguruma.loadWASM(options);
 	}
-	await vscodeOniguruma.loadWASM(options);
 
 	const DiagnosticCollection = vscode.languages.createDiagnosticCollection("textmate");
 	context.subscriptions.push(DiagnosticCollection);

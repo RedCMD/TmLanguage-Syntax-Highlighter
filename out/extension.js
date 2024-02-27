@@ -17,8 +17,13 @@ exports.DocumentSelector = [
     { language: 'json-textmate' }
 ];
 async function activate(context) {
-    // vscode.window.showInformationMessage(JSON.stringify("TextMate Extension"));
-    await (0, TreeSitter_1.initTreeSitter)(context);
+    vscode.window.showInformationMessage(JSON.stringify("TextMate Extension"));
+    try {
+        await (0, TreeSitter_1.initTreeSitter)(context);
+    }
+    catch (error) {
+        vscode.window.showInformationMessage(JSON.stringify(error));
+    }
     (0, DiagnosticCollection_1.initDiagnostics)(context);
     (0, tokenColorCustomizations_1.initTokenColorCustomizations)(context);
     // context.subscriptions.push(vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider)); // Mouse over Hovers
