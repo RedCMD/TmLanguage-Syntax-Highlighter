@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deactivate = exports.activate = exports.DocumentSelector = void 0;
 const vscode = require("vscode");
 const TreeSitter_1 = require("./TreeSitter");
+const DiagnosticCollection_1 = require("./DiagnosticCollection");
 const tokenColorCustomizations_1 = require("./tokenColorCustomizations");
 const RenameProvider_1 = require("./RenameProvider");
 const ReferenceProvider_1 = require("./ReferenceProvider");
@@ -18,7 +19,7 @@ exports.DocumentSelector = [
 async function activate(context) {
     // vscode.window.showInformationMessage(JSON.stringify("TextMate Extension"));
     await (0, TreeSitter_1.initTreeSitter)(context);
-    // initDiagnostics(context);
+    (0, DiagnosticCollection_1.initDiagnostics)(context);
     (0, tokenColorCustomizations_1.initTokenColorCustomizations)(context);
     // context.subscriptions.push(vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider)); // Mouse over Hovers
     context.subscriptions.push(vscode.languages.registerRenameProvider(exports.DocumentSelector, RenameProvider_1.RenameProvider)); // [F2] Rename

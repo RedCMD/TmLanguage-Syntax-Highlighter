@@ -26,7 +26,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	// vscode.window.showInformationMessage(JSON.stringify("TextMate Extension"));
 
 	await initTreeSitter(context);
-	// initDiagnostics(context);
+	initDiagnostics(context);
 	initTokenColorCustomizations(context);
 
 	// context.subscriptions.push(vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider)); // Mouse over Hovers

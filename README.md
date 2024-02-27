@@ -68,6 +68,8 @@ If you would like me to add support for a theme, please just message me
 * [Github - VSCode TextMate](https://github.com/microsoft/vscode-textmate)
 * [Github - Oniguruma](https://github.com/kkos/oniguruma)
 * [Github - Oniguruma: list of all expressions](https://github.com/kkos/oniguruma/blob/master/doc/RE)
+* [Github - VSCode Oniguruma](https://github.com/microsoft/vscode-oniguruma)
+* [Github - Unit testing](https://github.com/PanAeon/vscode-tmgrammar-test)
 * [Github - TmLanguage-Syntax-Highlighter](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter)
 * [Github - Documentation](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/index.md)
 
