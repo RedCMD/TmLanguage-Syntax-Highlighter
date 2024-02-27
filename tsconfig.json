@@ -4,7 +4,8 @@
 		"target": "ES2022",
 		"outDir": "out",
 		"lib": [
-			"ES2022"
+			"ES2022",
+			"DOM", // https://github.com/microsoft/vscode-oniguruma/issues/7
 		],
 		"sourceMap": false,
 		"rootDir": "src",
@@ -17,9 +18,9 @@
 		"noUnusedParameters": false, /* Report errors on unused parameters. */
 	},
 	"include": [
-		"src/*.ts"
+		"src/*.ts",
 	],
 	"exclude": [
-		"node_modules"
+		"node_modules",
 	]
 }

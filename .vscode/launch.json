@@ -15,9 +15,10 @@
 			"outFiles": [
 				"${workspaceFolder}/out/**/*.js"
 			],
-			"preLaunchTask": "Compile-TextMate-Extension"
+			"preLaunchTask": "Watch-TextMate-Extension",
 		},
 		{
+			// Must remove "extensionDependencies" in `package.json` first
 			"name": "TextMate Web Extension",
 			"type": "pwa-extensionHost",
 			"request": "launch",
@@ -28,7 +29,8 @@
 			"outFiles": [
 				"${workspaceFolder}/out/web/**/*.js"
 			],
-			"preLaunchTask": "Compile-TextMate-Web-Extension"
+			"preLaunchTask": "Watch-TextMate-Web-Extension",
+			
 		},
 	]
 }

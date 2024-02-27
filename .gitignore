@@ -1,6 +1,8 @@
 .git
 _test
 node_modules
+.vscode-test-web
 
+*.map
 *.vsix
 *.vsixmanifest

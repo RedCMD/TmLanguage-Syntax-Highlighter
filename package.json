@@ -39,14 +39,16 @@
 	"main": "./out/extension.js",
 	"browser": "./out/web/extension.js",
 	"scripts": {
-		"build": "npm run compile && npm run compile-web && npm run generate-wasm",
+		"build": "npm run compile && npm run compile-web && npm run generate-wasm && npm run copy-wasm",
 		"version": "git rm -f --ignore-unmatch *.vsix && vsce package && git add -f --ignore-errors *.vsix",
+		"package": "vsce package",
 		"watch": "tsc -watch -p ./",
 		"watch-web": "webpack --watch",
 		"compile": "tsc -p ./",
 		"compile-web": "webpack --no-devtool --no-watch --mode production",
 		"generate-wasm": "cd ./src/tree-sitter/tree-sitter-json/ && tree-sitter generate --no-bindings && cd ./../tree-sitter-regex/ && tree-sitter generate --no-bindings && cd ./../../../out/ && tree-sitter build-wasm ./../src/tree-sitter/tree-sitter-json/ && tree-sitter build-wasm ./../src/tree-sitter/tree-sitter-regex/",
-		"package": "vsce package"
+		"copy-wasm": "cpy node_modules/web-tree-sitter/tree-sitter.wasm --flat",
+		"open-in-browser": "vscode-test-web --extensionDevelopmentPath=. ."
 	},
 	"contributes": {
 		"languages": [
@@ -188,16 +190,19 @@
 			}
 		]
 	},
-	"dependencies": {
-		"web-tree-sitter": "^0.20.8"
-	},
 	"devDependencies": {
 		"@types/vscode": "^1.85.0",
+		"@types/node": "^16.18.83",
+		"@vscode/test-web": "^0.0.52",
+		"@vscode/vsce": "^2.22.0",
+		"web-tree-sitter": "^0.20.8",
 		"tree-sitter-cli": "^0.20.8",
 		"ts-loader": "^9.5.1",
 		"typescript": "^5.3.3",
 		"webpack": "^5.90.2",
-		"webpack-cli": "^5.1.4"
+		"webpack-cli": "^5.1.4",
+		"path-browserify": "^1.0.1",
+		"cpy-cli": "^5.0.0"
 	},
 	"__metadata": {
 		"id": "7f5ff7e8-575f-4fbf-bff6-201486b6327e",

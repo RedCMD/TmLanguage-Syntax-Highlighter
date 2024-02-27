@@ -104,7 +104,7 @@ async function update(uri: vscode.Uri) {
 	const configurationTarget = vscode.workspace.name ? vscode.ConfigurationTarget.Workspace : vscode.ConfigurationTarget.Global;
 	const configurationValue = vscode.workspace.name ? 'workspaceValue' : 'globalValue';
 
-	if (uri) {
+	if (uri && uri.scheme != 'untitled') {
 		try {
 			const packageDocument = await vscode.workspace.openTextDocument(uri);
 			const packageParsed = await JSON.parse(packageDocument?.getText());

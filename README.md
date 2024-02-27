@@ -1,5 +1,5 @@
 # TmLanguage-Syntax-Highlighter
-Syntax Highlighting for JSON based TextMate Language and Regex
+Syntax Highlighter for VSCodes JSON TextMate grammars
 
 ## Features
 * Syntax Highlighting
@@ -9,12 +9,13 @@ Syntax Highlighting for JSON based TextMate Language and Regex
 * Formatting
 * Schema support
 * `repository`/`include` Call Hierarchy View
+* Supported in [VSCode Web](https://insiders.vscode.dev/)
 
 Example code:  
-![example-code](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/images/Example%20Code%20V1.2.png?raw=true)
+![example-code](https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/images/Example%20Code%20V1.2.png)
 
 Highlights scope names with their own themed colour in realtime:  
-![list-of-VSCode-Dark+-scopenames-and-their-colours](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/images/VSCode%20Dark+%20theme%20coloured%20scope-names.png?raw=true)
+![list-of-VSCode-Dark+-scopenames-and-their-colours](https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/images/VSCode%20Dark+%20theme%20coloured%20scope-names.png)
 
 ```json textmate
 {
@@ -90,3 +91,5 @@ If you would like me to add support for a theme, please just message me
 * Improve tree-sitter grammar
 * Update README.md pictures
 * Improve TextMate [documentation](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/index.md)
+* [F2] Rename
+* CodeLens

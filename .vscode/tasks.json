@@ -10,53 +10,54 @@
 			"problemMatcher": "$tsc-watch",
 			"isBackground": true,
 			"presentation": {
-				"reveal": "never"
+				"reveal": "never",
 			},
 			"group": {
 				"kind": "build",
-				"isDefault": true
-			}
+				"isDefault": true,
+			},
+			"icon": {
+				"color": "terminal.ansiMagenta",
+				"id": "console",
+			},
+			"hide": true,
 		},
 		{
-			"label": "Compile-TextMate-Extension",
+			// Must remove "extensionDependencies" in `package.json` first
+			"label": "Watch-TextMate-Web-Extension",
 			"type": "npm",
-			"script": "compile",
-			"problemMatcher": "$tsc-watch",
+			"script": "watch-web",
+			"problemMatcher": "$ts-webpack-watch",
 			"isBackground": true,
 			"presentation": {
-				"reveal": "never"
+				"reveal": "never",
 			},
 			"group": {
 				"kind": "build",
-				"isDefault": true
+				"isDefault": true,
+			},
+			"icon": {
+				"color": "terminal.ansiMagenta",
+				"id": "console",
 			}
 		},
 		{
-			"label": "Build-TextMate-Extension",
+			"label": "Launch-TextMate-Web-Extension",
 			"type": "npm",
-			"script": "build",
-			"problemMatcher": "$tsc-watch",
+			"script": "open-in-browser",
+			"problemMatcher": "$ts-webpack-watch",
 			"isBackground": true,
 			"presentation": {
-				"reveal": "never"
+				"reveal": "never",
 			},
 			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
+				"kind": "none",
+				"isDefault": true,
+			},
+			"icon": {
+				"color": "terminal.ansiMagenta",
+				"id": "browser",
+			},
 		},
-		{
-			"label": "Compile-TextMate-Web-Extension",
-			"type": "npm",
-			"script": "compile-web",
-			"problemMatcher": "$ts-webpack",
-			"presentation": {
-				"reveal": "never"
-			},
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		}
 	]
 }
