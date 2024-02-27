@@ -39,7 +39,7 @@
 	"main": "./out/extension.js",
 	"browser": "./out/web/extension.js",
 	"scripts": {
-		"build": "npm run compile && npm run compile-web && npm run generate-wasm && npm run copy-wasm",
+		"build": "npm run compile && npm run compile-web && npm run generate-wasm",
 		"version": "git rm -f --ignore-unmatch *.vsix && vsce package && git add -f --ignore-errors *.vsix",
 		"package": "vsce package",
 		"watch": "tsc -watch -p ./",
@@ -47,7 +47,6 @@
 		"compile": "tsc -p ./",
 		"compile-web": "webpack --no-devtool --no-watch --mode production",
 		"generate-wasm": "cd ./src/tree-sitter/tree-sitter-json/ && tree-sitter generate --no-bindings && cd ./../tree-sitter-regex/ && tree-sitter generate --no-bindings && cd ./../../../out/ && tree-sitter build-wasm ./../src/tree-sitter/tree-sitter-json/ && tree-sitter build-wasm ./../src/tree-sitter/tree-sitter-regex/",
-		"copy-wasm": "cpy node_modules/web-tree-sitter/tree-sitter.wasm node_modules/vscode-oniguruma/release/onig.wasm out --flat",
 		"open-in-browser": "vscode-test-web --extensionDevelopmentPath=. ."
 	},
 	"contributes": {
@@ -190,17 +189,19 @@
 			}
 		]
 	},
+	"dependencies": {
+		"vscode-oniguruma": "1.7.0",
+		"web-tree-sitter": "^0.20.8"
+	},
 	"devDependencies": {
 		"@types/node": "^16.18.83",
 		"@types/vscode": "^1.85.0",
 		"@vscode/test-web": "^0.0.52",
 		"@vscode/vsce": "^2.22.0",
-		"cpy-cli": "^5.0.0",
 		"path-browserify": "^1.0.1",
 		"tree-sitter-cli": "^0.20.8",
 		"ts-loader": "^9.5.1",
 		"typescript": "^5.3.3",
-		"vscode-oniguruma": "1.7.0",
 		"web-tree-sitter": "^0.20.8",
 		"webpack": "^5.90.2",
 		"webpack-cli": "^5.1.4"

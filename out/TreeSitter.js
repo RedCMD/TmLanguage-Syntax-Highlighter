@@ -144,7 +144,7 @@ async function initTreeSitter(context) {
         ? undefined
         : {
             locateFile() {
-                return vscode.Uri.joinPath(context.extensionUri, 'out', 'tree-sitter.wasm').toString(true);
+                return vscode.Uri.joinPath(context.extensionUri, 'node_modules', 'web-tree-sitter', 'tree-sitter.wasm').toString(true);
             }
         };
     await Parser.init(moduleOptions); // Everything MUST wait until TreeSitter initializes

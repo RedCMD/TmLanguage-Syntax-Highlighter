@@ -7,7 +7,7 @@ const TreeSitter_1 = require("./TreeSitter");
 const extension_1 = require("./extension");
 async function initDiagnostics(context) {
     // Oniguruma regex parser
-    const uri = vscode.Uri.joinPath(context.extensionUri, 'out/onig.wasm');
+    const uri = vscode.Uri.joinPath(context.extensionUri, 'node_modules', 'vscode-oniguruma', 'release', 'onig.wasm');
     const wasm = await vscode.workspace.fs.readFile(uri);
     const options = {
         data: wasm,

@@ -7,7 +7,7 @@ import { DocumentSelector } from './extension';
 
 export async function initDiagnostics(context: vscode.ExtensionContext) {
 	// Oniguruma regex parser
-	const uri = vscode.Uri.joinPath(context.extensionUri, 'out/onig.wasm');
+	const uri = vscode.Uri.joinPath(context.extensionUri, 'node_modules', 'vscode-oniguruma', 'release', 'onig.wasm');
 	const wasm = await vscode.workspace.fs.readFile(uri);
 	const options: vscodeOniguruma.IDataOptions = {
 		data: wasm,
