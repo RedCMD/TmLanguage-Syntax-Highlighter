@@ -191,19 +191,19 @@
 		]
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.85.0",
 		"@types/node": "^16.18.83",
+		"@types/vscode": "^1.85.0",
 		"@vscode/test-web": "^0.0.52",
 		"@vscode/vsce": "^2.22.0",
-		"web-tree-sitter": "^0.20.8",
+		"cpy-cli": "^5.0.0",
+		"path-browserify": "^1.0.1",
 		"tree-sitter-cli": "^0.20.8",
-		"vscode-oniguruma": "1.7.0",
 		"ts-loader": "^9.5.1",
 		"typescript": "^5.3.3",
+		"vscode-oniguruma": "1.7.0",
+		"web-tree-sitter": "^0.20.8",
 		"webpack": "^5.90.2",
-		"webpack-cli": "^5.1.4",
-		"path-browserify": "^1.0.1",
-		"cpy-cli": "^5.0.0"
+		"webpack-cli": "^5.1.4"
 	},
 	"__metadata": {
 		"id": "7f5ff7e8-575f-4fbf-bff6-201486b6327e",
