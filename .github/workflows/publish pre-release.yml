@@ -21,6 +21,9 @@ jobs:
       - name: Install web-tree-sitter
         run: npm i web-tree-sitter
 
+      - name: Install vscode-oniguruma
+        run: npm i vscode-oniguruma@1.7.0 -E
+
       - name: Publish Pre-release
         run: |
           git config --global user.name "RedCMD"

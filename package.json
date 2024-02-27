@@ -190,7 +190,8 @@
 		]
 	},
 	"dependencies": {
-		"vscode-oniguruma": "1.7.0"
+		"vscode-oniguruma": "1.7.0",
+		"web-tree-sitter": "^0.20.8"
 	},
 	"devDependencies": {
 		"@types/node": "^16.18.83",
@@ -201,7 +202,6 @@
 		"tree-sitter-cli": "^0.20.8",
 		"ts-loader": "^9.5.1",
 		"typescript": "^5.3.3",
-		"web-tree-sitter": "^0.20.8",
 		"webpack": "^5.90.2",
 		"webpack-cli": "^5.1.4"
 	},
