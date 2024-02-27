@@ -147,8 +147,26 @@
 		"repository": {
 			"description": "A dictionary of rules\nhttps://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#contributing-a-basic-grammar",
 			"type": "object",
-			"properties": { "repo-item": { "$ref": "#/definitions/repo" } },
-			"additionalProperties": { "$ref": "#/definitions/repo" },
+			"properties": {
+				"repo-item": {
+					"description": "A repository item. Reference using \"include\": \"#repo-item\"",
+					"$ref": "#/definitions/repo"
+				},
+				"$self": {
+					"description": "Internal VSCode TextMate node. Is overridden at parse time",
+					"$ref": "#/definitions/repo",
+					"doNotSuggest": true
+				},
+				"$base": {
+					"description": "Internal VSCode TextMate node. Is overridden at parse time",
+					"$ref": "#/definitions/repo",
+					"doNotSuggest": true
+				}
+			},
+			"additionalProperties": {
+				"description": "A repository item. Reference using \"include\": \"#...\"",
+				"$ref": "#/definitions/repo"
+			},
 			"defaultSnippets": [
 				{
 					"label": "Repo-item",
@@ -158,7 +176,6 @@
 			]
 		},
 		"repo": {
-			"description": "A repository item. Reference using \"include\": \"#repo-item\"",
 			"allOf": [
 				{
 					"dependencies": {

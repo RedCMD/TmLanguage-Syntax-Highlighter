@@ -72,6 +72,7 @@ If you would like me to add support for a theme, please just message me
 * [Github - Unit testing](https://github.com/PanAeon/vscode-tmgrammar-test)
 * [Github - TmLanguage-Syntax-Highlighter](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter)
 * [Github - Documentation](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/index.md)
+* [Github - Schema](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/vscode.tmLanguage.schema.json)
 
 
 ### Todo
