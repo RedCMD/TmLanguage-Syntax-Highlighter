@@ -51,16 +51,6 @@ Highlights scope names with their own themed colour in realtime:
 }
 ```
 
-Invalid code is highlighted in red and underlined  
-Incorrect code is highlighted in red and with italics  
-Unsupported json keys and values default back to their standard json colours  
-Unknown code is highlighted red  
-
-
-## Requirements
-This extension was designed with VSCode's default Dark+ theme in mind  
-Other themes may work with various successes  
-If you would like me to add support for a theme, please just message me  
 
 
 ### For more information
