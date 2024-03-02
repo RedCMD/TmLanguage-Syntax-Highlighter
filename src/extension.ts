@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 
 import { initTreeSitter } from "./TreeSitter";
+import { initOniguruma } from './oniguruma';
 import { initDiagnostics } from "./DiagnosticCollection";
 import { initTokenColorCustomizations } from './tokenColorCustomizations';
 
@@ -26,6 +27,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	// vscode.window.showInformationMessage(JSON.stringify("TextMate Extension"));
 
 	await initTreeSitter(context);
+	await initOniguruma(context);
 	initDiagnostics(context);
 	initTokenColorCustomizations(context);
 

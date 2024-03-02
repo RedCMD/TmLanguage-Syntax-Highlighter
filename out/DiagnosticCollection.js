@@ -5,36 +5,8 @@ const vscode = require("vscode");
 const vscodeOniguruma = require("vscode-oniguruma");
 const TreeSitter_1 = require("./TreeSitter");
 const extension_1 = require("./extension");
-async function initDiagnostics(context) {
+function initDiagnostics(context) {
     // vscode.window.showInformationMessage(JSON.stringify("initDiagnostics"));
-    // Oniguruma regex parser
-    // try {
-    const uri = vscode.Uri.joinPath(context.extensionUri, 'node_modules', 'vscode-oniguruma', 'release', 'onig.wasm');
-    const wasm = await vscode.workspace.fs.readFile(uri);
-    const options = {
-        data: wasm,
-        print(string) {
-            console.log(string);
-        }
-    };
-    await vscodeOniguruma.loadWASM(options);
-    // } catch (error) {
-    // 	vscode.window.showInformationMessage(JSON.stringify(error));
-    // 	// https://github.com/microsoft/vscode-oniguruma/issues/10
-    // 	const response = await fetch('/node_modules/vscode-oniguruma/release/onig.wasm');
-    // 	const contentType = response.headers.get('content-type');
-    // 	// Using the response directly only works if the server sets the MIME type 'application/wasm'.
-    // 	// Otherwise, a TypeError is thrown when using the streaming compiler.
-    // 	// We therefore use the non-streaming compiler :(.
-    // 	const wasm = contentType === 'application/wasm' ? response : await response.arrayBuffer();
-    // 	const options: vscodeOniguruma.IDataOptions = {
-    // 		data: wasm,
-    // 		print(string: string) {
-    // 			console.log(string);
-    // 		}
-    // 	}
-    // 	await vscodeOniguruma.loadWASM(options);
-    // }
     const DiagnosticCollection = vscode.languages.createDiagnosticCollection("textmate");
     context.subscriptions.push(DiagnosticCollection);
     for (const editor of vscode.window.visibleTextEditors) {
@@ -192,18 +164,19 @@ function Diagnostics(document, Diagnostics) {
                 // `\\3` could be valid; could be invalid. Who knows?
                 // Would need to check the `begin` regex first for the number of capture groups
                 // Then how to tell Oniguruma how many are available??
+                // Keeping in mind /(?I:...)/
                 regex = regex.replace(/\\[1-9](\d{2})?(?!\d)/g, '\\0');
             }
-            const string = vscodeOniguruma.createOnigString(''); // blank. Maybe can test against a user provided string?
-            // const scanner = vscodeOniguruma.createOnigScanner([regex]);
-            const scanner = new vscodeOniguruma.OnigScanner(['', regex]);
-            const match = scanner.findNextMatchSync(string, 0); // returns null if `regex` is invalid
-            // vscode.window.showInformationMessage(JSON.stringify(match));
-            if (!match) {
+            const scanner = new vscodeOniguruma.OnigScanner([regex]);
+            const onigBinding = scanner._onigBinding;
+            const errorCode = onigBinding.UTF8ToString(onigBinding._getLastOnigError());
+            // const string = vscodeOniguruma.createOnigString(''); // blank. Maybe can test against a user provided string?
+            // const match = scanner.findNextMatchSync(string, 0); // returns null if `regex` is invalid
+            if (errorCode != 'undefined error code') {
                 const range = (0, TreeSitter_1.toRange)(key);
                 const diagnostic = {
                     range: range,
-                    message: `Regex Failed Parse Test.`,
+                    message: errorCode,
                     severity: vscode.DiagnosticSeverity.Error,
                     source: 'Oniguruma',
                 };
