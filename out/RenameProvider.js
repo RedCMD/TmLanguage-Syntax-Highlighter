@@ -6,11 +6,11 @@ const TreeSitter_1 = require("./TreeSitter");
 const cursorQuery = `
 	(include (value (scopeName) @scopeName))
 	(include (value (ruleName) @ruleName))
-	(json (scopeName (value) @root_scopeName))
+	;(json (scopeName (value) @root_scopeName))
 	(repo (key) @repo)
 `;
 exports.RenameProvider = {
-    async provideRenameEdits(document, position, newName, token) {
+    /* async */ provideRenameEdits(document, position, newName, token) {
         // vscode.window.showInformationMessage(JSON.stringify("RenameEdit"));
         const trees = (0, TreeSitter_1.getTrees)(document);
         const jsonTree = trees.jsonTree;
@@ -36,27 +36,28 @@ exports.RenameProvider = {
                     query += `(include (value (ruleName) @ruleName) @include (#eq? @include "${rootScopeName}#${cursorText}"))`;
                 }
                 break;
-            case 'root_scopeName':
-            // const uriPackage = vscode.Uri.joinPath(uri, '../../package.json');
-            // await vscode.workspace.openTextDocument(uriPackage);
-            // for (const textDocument of vscode.workspace.textDocuments) {
-            // 	if (!vscode.languages.match({ pattern: "**/package.json", scheme: "file" }, textDocument)) {
-            // 		continue;
-            // 	}
-            // 	try {
-            // 		const packageParsed = await JSON.parse(textDocument.getText());
-            // 		const grammars = packageParsed.contributes?.grammars;
-            // 		if (grammars) {
-            // 			for (const grammar of grammars) {
-            // 				if (grammar.scopeName == cursorText) {
-            // 					const edit = new vscode.TextEdit(range, newName); // Cant get range
-            // 					workspaceEdits.set(textDocument.uri, [edit]);
-            // 				}
-            // 			}
-            // 		}
-            // 	} catch (error) {
-            // 	}
-            // }
+            // case 'root_scopeName':
+            //	 const uriPackage = vscode.Uri.joinPath(uri, '../../package.json');
+            //	 await vscode.workspace.openTextDocument(uriPackage);
+            //	 for (const textDocument of vscode.workspace.textDocuments) {
+            //	 	if (!vscode.languages.match({ pattern: "**/package.json", scheme: "file" }, textDocument)) {
+            //	 		continue;
+            //	 	}
+            //	 	try {
+            //	 		const packageParsed = await JSON.parse(textDocument.getText());
+            //	 		const grammars = packageParsed.contributes?.grammars;
+            //	 		if (grammars) {
+            //	 			for (const grammar of grammars) {
+            //	 				if (grammar.scopeName == cursorText) {
+            //	 					const edit = new vscode.TextEdit(range, newName); // Cant get range
+            //	 					workspaceEdits.set(textDocument.uri, [edit]);
+            //	 				}
+            //	 			}
+            //	 		}
+            //	 	} catch (error) {
+            //	 	}
+            //	 }
+            //	 break;
             case 'scopeName':
                 query += `(include (value (scopeName) @scopeName (#eq? @scopeName "${cursorText}")))`;
                 query += `(json (scopeName (value) @scopeName (#eq? @scopeName "${cursorText}")))`;
@@ -95,16 +96,16 @@ exports.RenameProvider = {
         if (!cursorCapture) {
             return Promise.reject('Item not renamable');
         }
-        const cursorName = cursorCapture.name;
+        // const cursorName = cursorCapture.name;
         const cursorNode = cursorCapture.node;
         const cursorText = cursorNode.text;
         const cursorRange = (0, TreeSitter_1.toRange)(cursorNode);
-        if (cursorName == 'root_scopeName') {
-            const uriPackage = vscode.Uri.joinPath(document.uri, '../../package.json');
-            vscode.workspace.openTextDocument(uriPackage);
-        }
+        // if (cursorName == 'root_scopeName') {
+        // 	const uriPackage = vscode.Uri.joinPath(document.uri, '../../package.json');
+        // 	vscode.workspace.openTextDocument(uriPackage);
+        // }
         const rename = { range: cursorRange, placeholder: cursorText };
         // vscode.window.showInformationMessage(JSON.stringify(rename));
         return rename;
-    }
+    },
 };

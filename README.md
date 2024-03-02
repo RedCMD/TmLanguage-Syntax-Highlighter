@@ -9,6 +9,7 @@ Syntax Highlighter for VSCodes JSON TextMate grammars
 * Formatting
 * Schema support
 * `repository`/`include` Call Hierarchy View
+* [F2] Rename
 * Supported in [VSCode Web](https://insiders.vscode.dev/)
 
 Example code:  
