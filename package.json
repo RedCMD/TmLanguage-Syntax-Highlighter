@@ -180,24 +180,12 @@
 				"url": "./vscode.tmLanguage.schema.json"
 			},
 			{
-				"fileMatch": "*.tmLanguage.json",
-				"url": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json"
-			},
-			{
 				"fileMatch": "*.tmGrammar.json",
 				"url": "./vscode.tmLanguage.schema.json"
 			},
 			{
-				"fileMatch": "*.tmGrammar.json",
-				"url": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json"
-			},
-			{
 				"fileMatch": "*.JSON-tmLanguage",
 				"url": "./vscode.tmLanguage.schema.json"
-			},
-			{
-				"fileMatch": "*.JSON-tmLanguage",
-				"url": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json"
 			}
 		]
 	},

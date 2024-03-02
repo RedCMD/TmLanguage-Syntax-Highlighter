@@ -22,7 +22,8 @@
 				},
 				"$schema": {
 					"description": "The Schema used to validate this file",
-					"type": "string"
+					"type": "string",
+					"default": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json"
 				},
 				"name": {
 					"description": "The name of your language",
