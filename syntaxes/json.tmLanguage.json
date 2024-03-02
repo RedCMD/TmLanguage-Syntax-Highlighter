@@ -826,7 +826,7 @@
 							"contentName": "regex",
 							"patterns": [
 								{
-									"begin": "(?=\\G(?>(?>[^\\\\\"#]++|\\\\[\\\\\"]?)*#|#?)\\$base\")",
+									"begin": "\\G(?=(?>(?>[^\\\\\"#]++|\\\\[\\\\\"]?)*#|#?)\\$base\")",
 									"end": "((#)?\\$)(base)",
 									"endCaptures": {
 										"1": { "name": "keyword.json.tm" },
