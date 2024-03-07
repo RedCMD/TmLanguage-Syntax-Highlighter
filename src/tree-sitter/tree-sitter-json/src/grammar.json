@@ -4305,7 +4305,7 @@
     },
     "integer": {
       "type": "PATTERN",
-      "value": "\\d+"
+      "value": "-?(0|[1-9]\\d*)(\\.\\d+)?([eE][+-]?\\d+)?"
     },
     "_string": {
       "type": "TOKEN",

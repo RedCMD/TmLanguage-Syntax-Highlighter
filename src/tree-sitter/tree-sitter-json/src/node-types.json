@@ -748,11 +748,6 @@
     }
   },
   {
-    "type": "integer",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "item",
     "named": true,
     "fields": {
@@ -1550,6 +1545,10 @@
   {
     "type": "false",
     "named": false
+  },
+  {
+    "type": "integer",
+    "named": true
   },
   {
     "type": "key",

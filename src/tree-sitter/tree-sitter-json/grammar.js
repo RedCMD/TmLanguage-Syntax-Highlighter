@@ -463,7 +463,7 @@ module.exports = grammar({
 			"false",
 		),
 		null: $ => "null",
-		integer: $ => /\d+/,
+		integer: $ => /-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/,
 		_string: $ => token(
 			repeat1(
 				choice(
