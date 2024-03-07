@@ -696,14 +696,20 @@
 		"capture-group-comment": {
 			"comment": "(?#...)",
 			"begin": "(\\()(\\?#)(?#comment)",
-			"end": "(?<=[^\\\\]\\\\{4}*)\\)",
+			"end": "\\)",
 			"beginCaptures": {
 				"1": { "name": "constant.character.set.regexp.tm markup.italic" },
 				"2": { "name": "support.function.tm" }
 			},
 			"endCaptures": { "0": { "name": "constant.character.set.regexp.tm markup.italic" } },
 			"contentName": "comment.tm",
-			"patterns": [ { "include": "source.json.textmate#escape-characters" } ]
+			"patterns": [
+				{
+					"match": "(\\\\{2})\\)",
+					"captures": { "1": { "name": "constant.character.escape.json.tm" } }
+				},
+				{ "include": "source.json.textmate#escape-characters" }
+			]
 		},
 		"absent": {
 			"comment": "(?~|...|...) (?~|...) (?~...)",
