@@ -20,7 +20,6 @@
 				"color": "terminal.ansiMagenta",
 				"id": "console",
 			},
-			"hide": true,
 		},
 		{
 			// Must remove "extensionDependencies" in `package.json` first
@@ -45,7 +44,7 @@
 			"label": "Launch-TextMate-Web-Extension",
 			"type": "npm",
 			"script": "open-in-browser",
-			"problemMatcher": "$ts-webpack-watch",
+			"problemMatcher": [],
 			"isBackground": true,
 			"presentation": {
 				"reveal": "never",

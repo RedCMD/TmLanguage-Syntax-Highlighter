@@ -187,14 +187,98 @@
 				"fileMatch": "*.JSON-tmLanguage",
 				"url": "./vscode.tmLanguage.schema.json"
 			}
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "TextMate",
+					"title": "TextMate",
+					"icon": "assets/TextMate-file-icon.svg"
+				}
+			]
+		},
+		"views": {
+			"TextMate": [
+				{
+					"id": "TextMate",
+					"name": "TextMate Call Stack",
+					"contextualTitle": "TextMate",
+					"icon": "assets/TextMate-file-icon.svg",
+					"visibility": "collapsed"
+				}
+			]
+		},
+		"menus": {
+			"editor/context": [
+				{
+					"command": "textmate.callstack",
+					"group": "0_navigation@9"
+				}
+			],
+			"view/title": [
+				{
+					"command": "textmate.refresh",
+					"group": "navigation",
+					"when": "view == TextMate"
+				},
+				{
+					"command": "textmate.follow.cursor",
+					"group": "config@1",
+					"when": "view == TextMate"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "textmate.goto",
+					"group": "0_navigation@1",
+					"when": "view == TextMate"
+				},
+				{
+					"command": "textmate.refresh",
+					"group": "inline@1",
+					"when": "view == TextMate"
+				},
+				{
+					"command": "textmate.goto",
+					"group": "inline@2",
+					"when": "view == TextMate"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "textmate.callstack",
+				"title": "Show TextMate Calling Stack",
+				"shortTitle": "TextMate Call Stack",
+				"category": "TextMate",
+				"icon": "assets/TextMate-file-icon.svg"
+			},
+			{
+				"command": "textmate.refresh",
+				"title": "Refresh",
+				"category": "TextMate",
+				"icon": "$(refresh)"
+			},
+			{
+				"command": "textmate.follow.cursor",
+				"title": "Follow Cursor",
+				"category": "TextMate",
+				"icon": "assets/TextMate-file-icon.svg"
+			},
+			{
+				"command": "textmate.goto",
+				"title": "Go To",
+				"category": "TextMate",
+				"icon": "$(export)"
+			}
 		]
 	},
 	"dependencies": {
 		"vscode-oniguruma": "1.7.0",
+		"vscode-textmate": "9.0.0",
 		"web-tree-sitter": "^0.20.8"
 	},
 	"devDependencies": {
-		"@types/node": "^16.18.83",
 		"@types/vscode": "^1.85.0",
 		"@vscode/test-web": "^0.0.52",
 		"@vscode/vsce": "^2.22.0",

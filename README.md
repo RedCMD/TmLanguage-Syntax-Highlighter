@@ -1,6 +1,9 @@
 # TmLanguage-Syntax-Highlighter
 Syntax Highlighter for VSCodes JSON TextMate grammars
 
+# NEW! CallStack feature thingy
+Feedback welcomed [Github](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/issues/10)
+
 ## Features
 * Syntax Highlighting
 * Basic Intellisense
