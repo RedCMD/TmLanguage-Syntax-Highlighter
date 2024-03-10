@@ -928,12 +928,12 @@
 							"patterns": [
 								{ "comment": "All normal \"patterns\" rules are allowed here. With the exception of \"include\". But only when they are paired with \"patterns\"" },
 								{ "include": "#name" },
-								{ "comment": "#contentName" },
-								{ "comment": "#match" },
+								{ "include": "#contentName" },
+								{ "include": "#match" },
 								{ "include": "#patterns" },
-								{ "comment": "#captures" },
+								{ "include": "#captures" },
 								{ "include": "#repository" },
-								{ "comment": "#applyEndPatternLast" },
+								{ "include": "#applyEndPatternLast" },
 								{ "include": "#id" },
 								{ "include": "#dictionary-separator" }
 							]

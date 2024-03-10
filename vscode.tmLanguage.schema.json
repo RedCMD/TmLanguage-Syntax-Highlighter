@@ -824,6 +824,9 @@
 					"doNotSuggest": true
 				},
 				"patterns": {
+					"$comment": "Change `false` to `true` to show a warning on \"patterns\" inside a (capture)",
+					"if": false,
+					"then": { "deprecationMessage": "A \"patterns\" array inside a (capture) causes a performance hit" },
 					"$ref": "#/definitions/patterns",
 					"suggestSortText": "@patterns"
 				},
@@ -843,11 +846,6 @@
 				"//": { "$ref": "#/definitions/commentSlash" }
 			},
 			"dependencies": {
-				"patterns": {
-					"$comment": "Change `false` to `true` to show a warning on \"patterns\" inside `capture`",
-					"if": false,
-					"then": { "deprecationMessage": "A \"patterns\" array inside a `capture` causes a performance hit" }
-				},
 				"contentName": { "required": [ "patterns" ] },
 				"match": { "required": [ "patterns" ] },
 				"begin": { "required": [ "patterns" ] },
