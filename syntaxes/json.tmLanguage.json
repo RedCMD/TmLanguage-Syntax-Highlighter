@@ -587,6 +587,7 @@
 										{ "include": "#captures" },
 										{ "include": "#repository" },
 										{ "include": "#applyEndPatternLast" },
+										{ "include": "#id" },
 										{ "include": "#dictionary-separator" }
 									]
 								},
@@ -667,6 +668,7 @@
 								{ "include": "#include" },
 								{ "include": "#repository" },
 								{ "include": "#applyEndPatternLast" },
+								{ "include": "#id" },
 								{ "include": "#dictionary-separator" }
 							]
 						},
@@ -932,6 +934,7 @@
 								{ "comment": "#captures" },
 								{ "include": "#repository" },
 								{ "comment": "#applyEndPatternLast" },
+								{ "include": "#id" },
 								{ "include": "#dictionary-separator" }
 							]
 						},
@@ -964,6 +967,28 @@
 							"match": "-?\\d+",
 							"name": "constant.numeric.json.tmLanguage"
 						},
+						{ "include": "#value-separator" }
+					]
+				},
+				{ "include": "#dictionary-separator" }
+			]
+		},
+		"id": {
+			"comment": "\"id\": 1",
+			"begin": "(\")(id)(\")",
+			"end": "(?<=\\S)(?!\\G)|(?=[},])",
+			"beginCaptures": {
+				"1": { "name": "punctuation.definition.string.begin.json.tm" },
+				"2": { "name": "invalid.illegal.keyword.property-name.string.id.json.tm" },
+				"3": { "name": "punctuation.definition.string.end.json.tm" }
+			},
+			"patterns": [
+				{
+					"begin": ":(?!\\s*{)",
+					"end": "(?<=\\w)|(?=[},])",
+					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
+					"patterns": [
+						{ "include": "#json-value" },
 						{ "include": "#value-separator" }
 					]
 				},

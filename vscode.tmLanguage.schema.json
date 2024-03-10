@@ -549,6 +549,7 @@
 				"patterns": { "$ref": "#/definitions/patterns" },
 				"repository": { "$ref": "#/definitions/repository" },
 				"disabled": { "$ref": "#/definitions/disabled" },
+				"id": { "$ref": "#/definitions/id" },
 				"comment": { "$ref": "#/definitions/comment" },
 				"//": { "$ref": "#/definitions/commentSlash" }
 			},
@@ -834,6 +835,7 @@
 					"$ref": "#/definitions/disabled",
 					"doNotSuggest": true
 				},
+				"id": { "$ref": "#/definitions/id" },
 				"comment": {
 					"$ref": "#/definitions/comment",
 					"suggestSortText": "_comment"
@@ -1169,6 +1171,10 @@
 				"boolean"
 			],
 			"suggestSortText": "~disabled"
+		},
+		"id": {
+			"deprecationMessage": "Used internally by VSCode-TextMate. Do Not Use",
+			"doNotSuggest": true
 		},
 		"comment": {
 			"$comment": "No description; because having hovers is annoying",
