@@ -115,11 +115,25 @@ async function tokenizeFile(document) {
     const grammar = await registry.loadGrammar(scopeName);
     // Very hacky, assigns array so `_tokenizeString()` can add rules to it
     grammar.rules = [];
-    // const tokenLineResults: vscodeTextmate.ITokenizeLineResult[] = [];
+    grammar.lines = [];
+    // cache rules for more accurate debug timing
     let ruleStack = vscodeTextmate.INITIAL;
+    for (let i = 0; i < document.lineCount; i++) {
+        ruleStack = grammar.tokenizeLine(document.lineAt(i).text, ruleStack, 15000).ruleStack;
+    }
+    grammar.rules = [];
+    // vscode.window.showInformationMessage(JSON.stringify(grammar, stringify));
+    ruleStack = vscodeTextmate.INITIAL;
+    const startTime = performance.now();
+    grammar.startTime = startTime;
     for (let i = 0; i < document.lineCount; i++) {
         const line = document.lineAt(i).text;
         const lineTokens = grammar.tokenizeLine(line, ruleStack, 15000);
+        grammar.lines.push({
+            tokens: lineTokens.tokens,
+            stoppedEarly: lineTokens.stoppedEarly,
+            time: performance.now() - startTime,
+        });
         // tokenLineResults.push(
         // 	{
         // 		tokens: lineTokens.tokens,
@@ -127,8 +141,7 @@ async function tokenizeFile(document) {
         // 		stoppedEarly: lineTokens.stoppedEarly,
         // 	}
         // );
-        // one liner?
-        grammar.rules.pop();
+        // grammar.rules.pop();
         grammar.rules.push(undefined);
         ruleStack = lineTokens.ruleStack;
     }

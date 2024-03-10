@@ -155,6 +155,8 @@ interface IOnigCaptureIndex {
 export type IMatchResult = {
 	readonly captureIndices: IOnigCaptureIndex[];
 	readonly matchedRuleId: RuleId | typeof endRuleId;
+	readonly time: number;
+	readonly anchorPosition: number;
 }
 type Matcher<T> = {
 	(matcherInput: T): boolean;
@@ -227,6 +229,8 @@ interface TokenTypeMatcher {
 	readonly type: StandardTokenType;
 }
 export type IGrammar = vscodeTextmate.IGrammar & {
+	startTime: number,
+	lines: { tokens: vscodeTextmate.IToken[]; stoppedEarly: boolean; time: number; }[],
 	rules: IMatchResult[],
 	readonly _rootScopeName: ScopeName,
 	readonly grammar: vscodeTextmate.IRawGrammar,
@@ -431,12 +435,30 @@ export async function tokenizeFile(document: vscode.TextDocument): Promise<IGram
 	const grammar = <IGrammar>await registry.loadGrammar(scopeName);
 	// Very hacky, assigns array so `_tokenizeString()` can add rules to it
 	grammar.rules = [];
+	grammar.lines = [];
 
-	// const tokenLineResults: vscodeTextmate.ITokenizeLineResult[] = [];
+	// cache rules for more accurate debug timing
 	let ruleStack = vscodeTextmate.INITIAL;
 	for (let i = 0; i < document.lineCount; i++) {
+		ruleStack = grammar.tokenizeLine(document.lineAt(i).text, ruleStack, 15000).ruleStack;
+	}
+	grammar.rules = [];
+	// vscode.window.showInformationMessage(JSON.stringify(grammar, stringify));
+
+	ruleStack = vscodeTextmate.INITIAL;
+	const startTime = performance.now();
+	grammar.startTime = startTime;
+	for (let i = 0; i < document.lineCount; i++) {
 		const line = document.lineAt(i).text;
+		
 		const lineTokens = grammar.tokenizeLine(line, ruleStack, 15000);
+		grammar.lines.push(
+			{
+				tokens: lineTokens.tokens,
+				stoppedEarly: lineTokens.stoppedEarly,
+				time: performance.now() - startTime,
+			}
+		);
 		// tokenLineResults.push(
 		// 	{
 		// 		tokens: lineTokens.tokens,
@@ -445,8 +467,7 @@ export async function tokenizeFile(document: vscode.TextDocument): Promise<IGram
 		// 	}
 		// );
 
-		// one liner?
-		grammar.rules.pop();
+		// grammar.rules.pop();
 		grammar.rules.push(undefined);
 		ruleStack = lineTokens.ruleStack;
 	}

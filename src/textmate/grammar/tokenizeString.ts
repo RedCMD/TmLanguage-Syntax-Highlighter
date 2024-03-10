@@ -89,21 +89,6 @@ export function _tokenizeString(
 			anchorPosition
 		);
 
-		// @ts-ignore
-		grammar.rules.push(r);
-		// grammar.rules.push(
-		// 	{
-		// 		...r,
-		// 		...{
-		// 			lineText: lineText,
-		// 			isFirstLine: isFirstLine,
-		// 			linePos: linePos,
-		// 			// stack: stack,
-		// 			anchorPosition: anchorPosition,
-		// 		}
-		// 	}
-		// );
-
 		if (!r) {
 			if (DebugFlags.InDebugMode) {
 				console.log("  no more matches.");
@@ -338,6 +323,27 @@ export function _tokenizeString(
 			// Advance stream
 			linePos = captureIndices[0].end;
 			isFirstLine = false;
+		}
+
+		// @ts-ignore
+		// grammar.rules.push(r);
+		if (r) {
+			// @ts-ignore
+			grammar.rules.push(
+				{
+					captureIndices: captureIndices,
+					matchedRuleId: matchedRuleId,
+					// ...r,
+					// ...{
+					// lineText: lineText,
+					// isFirstLine: isFirstLine,
+					// linePos: linePos,
+					// stack: stack,
+					anchorPosition: anchorPosition,
+					time: performance.now(),
+					// }
+				}
+			);
 		}
 	}
 }

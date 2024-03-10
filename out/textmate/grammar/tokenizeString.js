@@ -58,20 +58,6 @@ function _tokenizeString(grammar, lineText, isFirstLine, linePos, stack, lineTok
                 .replace(/\n$/, "\\n")}|`);
         }
         const r = matchRuleOrInjections(grammar, lineText, isFirstLine, linePos, stack, anchorPosition);
-        // @ts-ignore
-        grammar.rules.push(r);
-        // grammar.rules.push(
-        // 	{
-        // 		...r,
-        // 		...{
-        // 			lineText: lineText,
-        // 			isFirstLine: isFirstLine,
-        // 			linePos: linePos,
-        // 			// stack: stack,
-        // 			anchorPosition: anchorPosition,
-        // 		}
-        // 	}
-        // );
         if (!r) {
             if (debug_1.DebugFlags.InDebugMode) {
                 console.log("  no more matches.");
@@ -206,6 +192,24 @@ function _tokenizeString(grammar, lineText, isFirstLine, linePos, stack, lineTok
             // Advance stream
             linePos = captureIndices[0].end;
             isFirstLine = false;
+        }
+        // @ts-ignore
+        // grammar.rules.push(r);
+        if (r) {
+            // @ts-ignore
+            grammar.rules.push({
+                captureIndices: captureIndices,
+                matchedRuleId: matchedRuleId,
+                // ...r,
+                // ...{
+                // lineText: lineText,
+                // isFirstLine: isFirstLine,
+                // linePos: linePos,
+                // stack: stack,
+                anchorPosition: anchorPosition,
+                time: performance.now(),
+                // }
+            });
         }
     }
 }

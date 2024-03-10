@@ -200,11 +200,19 @@
 		"views": {
 			"TextMate": [
 				{
-					"id": "TextMate",
-					"name": "TextMate Call Stack",
-					"contextualTitle": "TextMate",
+					"id": "TextMate-Call",
+					"name": "Call Details",
+					"contextualTitle": "TextMate Call Details",
 					"icon": "assets/TextMate-file-icon.svg",
-					"visibility": "collapsed"
+					"visibility": "collapsed",
+					"initialSize": 10
+				},
+				{
+					"id": "TextMate",
+					"name": "Call Stack",
+					"contextualTitle": "TextMate Call Stack",
+					"icon": "assets/TextMate-file-icon.svg",
+					"visibility": "visible"
 				}
 			]
 		},
@@ -218,7 +226,27 @@
 			"view/title": [
 				{
 					"command": "textmate.refresh",
-					"group": "navigation",
+					"group": "navigation@0",
+					"when": "view == TextMate"
+				},
+				{
+					"command": "textmate.tree-view",
+					"group": "navigation@2",
+					"when": "view == TextMate && textmate.call.view == 'list'"
+				},
+				{
+					"command": "textmate.list-view",
+					"group": "navigation@2",
+					"when": "view == TextMate && textmate.call.view != 'list'"
+				},
+				{
+					"command": "textmate.tree-view",
+					"group": "viewAs",
+					"when": "view == TextMate"
+				},
+				{
+					"command": "textmate.list-view",
+					"group": "viewAs",
 					"when": "view == TextMate"
 				},
 				{
@@ -229,13 +257,13 @@
 			],
 			"view/item/context": [
 				{
-					"command": "textmate.goto",
-					"group": "0_navigation@1",
+					"command": "textmate.refresh",
+					"group": "inline@1",
 					"when": "view == TextMate"
 				},
 				{
-					"command": "textmate.refresh",
-					"group": "inline@1",
+					"command": "textmate.goto",
+					"group": "0_navigation@1",
 					"when": "view == TextMate"
 				},
 				{
@@ -270,6 +298,18 @@
 				"title": "Go To",
 				"category": "TextMate",
 				"icon": "$(export)"
+			},
+			{
+				"command": "textmate.list-view",
+				"title": "View as List",
+				"category": "TextMate",
+				"icon": "$(list-tree)"
+			},
+			{
+				"command": "textmate.tree-view",
+				"title": "View as Tree",
+				"category": "TextMate",
+				"icon": "$(list-flat)"
 			}
 		]
 	},
