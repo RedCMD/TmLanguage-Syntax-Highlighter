@@ -1182,23 +1182,18 @@
 					"name": "constant.character.escape.json.tm"
 				},
 				{
-					"match": "(\\\\u)(\\h{4})",
+					
+					"match": "(\\\\u)(?>(\\h{4})|([^\"].{,3}))",
 					"captures": {
-						"1": { "name": "constant.character.escape.json.tm" },
-						"2": { "name": "constant.numeric.json.tm" }
-					}
-				},
-				{
-					"comment": "Fallback for above. \"patterns\" inside \"captures\" causes a performance loss",
-					"match": "(\\\\u)(.{1,4})",
-					"captures": {
-						"1": { "name": "constant.character.escape.json.tm" },
-						"2": {
-							"name": "constant.numeric.json.tm",
+						"1": { "name": "constant.character.escape.tm" },
+						"2": { "name": "constant.numeric.json.tm" },
+						"3": {
+							"comment": "Fallback if `\\h{4}` fails. \"patterns\" inside a (capture) causes a performance hit",
+							"name": "constant.numeric.tm",
 							"patterns": [
 								{
 									"match": "\\H+",
-									"name": "invalid.illegal.json.tm markup.underline"
+									"name": "invalid.illegal.regex.tm"
 								}
 							]
 						}
@@ -1389,8 +1384,9 @@
 					"name": "comment.block.json.tm"
 				},
 				{
-					"match": "(//).*",
-					"captures": { "1": { "name": "invalid.illegal.punctuation.definition.comment.json.tm" } },
+					"begin": "//",
+					"end": "$",
+					"captures": { "0": { "name": "invalid.illegal.punctuation.definition.comment.json.tm" } },
 					"name": "comment.line.double-slash.json.tm"
 				}
 			]
