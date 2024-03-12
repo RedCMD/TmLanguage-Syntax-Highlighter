@@ -130,6 +130,10 @@ export type Rule = {
 	readonly _contentName: string | null;
 
 
+	readonly _match: RegExpSource;
+	readonly captures: (CaptureRule | null)[];
+
+
 	readonly _begin: RegExpSource,
 	readonly beginCaptures: (CaptureRule | null)[],
 	readonly _end: RegExpSource,
@@ -230,7 +234,7 @@ interface TokenTypeMatcher {
 }
 export type IGrammar = vscodeTextmate.IGrammar & {
 	startTime: number,
-	lines: { tokens: vscodeTextmate.IToken[]; stoppedEarly: boolean; time: number; }[],
+	lines: { tokens: vscodeTextmate.IToken[]; stoppedEarly: boolean; time: number; lastRule: number; rulesLength: number; }[],
 	rules: IMatchResult[],
 	readonly _rootScopeName: ScopeName,
 	readonly grammar: vscodeTextmate.IRawGrammar,
@@ -427,7 +431,7 @@ export async function tokenizeLine(document: vscode.TextDocument, lineNumber: nu
 }
 
 
-export async function tokenizeFile(document: vscode.TextDocument): Promise<IGrammar> {
+export async function tokenizeFile(document: vscode.TextDocument, runTwice?: boolean): Promise<IGrammar> {
 	const lang = document.languageId;
 	const scopeName = getScopeName(lang);
 	// const grammar = await registry.loadGrammar(scopeName);
@@ -437,28 +441,38 @@ export async function tokenizeFile(document: vscode.TextDocument): Promise<IGram
 	grammar.rules = [];
 	grammar.lines = [];
 
-	// cache rules for more accurate debug timing
 	let ruleStack = vscodeTextmate.INITIAL;
-	for (let i = 0; i < document.lineCount; i++) {
-		ruleStack = grammar.tokenizeLine(document.lineAt(i).text, ruleStack, 15000).ruleStack;
+	// cache rules for more accurate debug timing
+	if (runTwice) {
+		for (let i = 0; i < document.lineCount; i++) {
+			ruleStack = grammar.tokenizeLine(document.lineAt(i).text, ruleStack, 15000).ruleStack;
+		}
+		grammar.rules = [];
+		// vscode.window.showInformationMessage(JSON.stringify(grammar, stringify));
 	}
-	grammar.rules = [];
-	// vscode.window.showInformationMessage(JSON.stringify(grammar, stringify));
-
+	let rulesLength = 0;
 	ruleStack = vscodeTextmate.INITIAL;
 	const startTime = performance.now();
 	grammar.startTime = startTime;
 	for (let i = 0; i < document.lineCount; i++) {
+		// vscode.window.showInformationMessage(JSON.stringify(grammar, stringify));
 		const line = document.lineAt(i).text;
 		
 		const lineTokens = grammar.tokenizeLine(line, ruleStack, 15000);
+		// grammar.rules.pop();
+		grammar.rules.push(undefined);
+		ruleStack = lineTokens.ruleStack;
 		grammar.lines.push(
 			{
 				tokens: lineTokens.tokens,
 				stoppedEarly: lineTokens.stoppedEarly,
 				time: performance.now() - startTime,
+				// @ts-ignore
+				lastRule: ruleStack.ruleId || 1,
+				rulesLength: rulesLength,
 			}
 		);
+		rulesLength = grammar.rules.length;
 		// tokenLineResults.push(
 		// 	{
 		// 		tokens: lineTokens.tokens,
@@ -466,10 +480,7 @@ export async function tokenizeFile(document: vscode.TextDocument): Promise<IGram
 		// 		stoppedEarly: lineTokens.stoppedEarly,
 		// 	}
 		// );
-
-		// grammar.rules.pop();
-		grammar.rules.push(undefined);
-		ruleStack = lineTokens.ruleStack;
+		// vscode.window.showInformationMessage(JSON.stringify(ruleStack, stringify));
 	}
 
 	// vscode.window.showInformationMessage(JSON.stringify(registry, stringify));

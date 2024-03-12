@@ -109,7 +109,8 @@ export function _tokenizeString(
 
 		if (matchedRuleId === endRuleId) {
 			// We matched the `end` for this rule => pop it
-			const poppedRule = <BeginEndRule>stack.getRule(grammar);
+			// const poppedRule = <BeginEndRule>stack.getRule(grammar);
+			var poppedRule = <BeginEndRule>stack.getRule(grammar);
 
 			if (DebugFlags.InDebugMode) {
 				console.log(
@@ -325,14 +326,16 @@ export function _tokenizeString(
 			isFirstLine = false;
 		}
 
+		
+		// // @ts-ignore
+		// console.log(grammar._lastRuleId);
 		// @ts-ignore
-		// grammar.rules.push(r);
 		if (r) {
 			// @ts-ignore
 			grammar.rules.push(
 				{
 					captureIndices: captureIndices,
-					matchedRuleId: matchedRuleId,
+					matchedRuleId: matchedRuleId == -1 ? -poppedRule.id : matchedRuleId, // While was `-2`!!
 					// ...r,
 					// ...{
 					// lineText: lineText,
@@ -341,6 +344,9 @@ export function _tokenizeString(
 					// stack: stack,
 					anchorPosition: anchorPosition,
 					time: performance.now(),
+					// @ts-ignore
+					// length: grammar._ruleId2desc.length - 1,
+					// lastRuleId: grammar._lastRuleId,
 					// }
 				}
 			);

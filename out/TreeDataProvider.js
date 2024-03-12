@@ -3,13 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.initCallStackView = exports.TreeDataProvider = void 0;
 const vscode = require("vscode");
 // import * as vscodeTextmate from 'vscode-textmate';
-const path = require("path");
 const TextMate_1 = require("./TextMate");
 const extension_1 = require("./extension");
 const TreeSitter_1 = require("./TreeSitter");
 let grammar;
 let callView = 'tree';
-const FileIcon = path.join(__dirname, '..', 'assets', 'TextMate-file-icon.svg');
+const ruleChached = [];
 const onDidChangeTreeData = new vscode.EventEmitter();
 exports.TreeDataProvider = {
     async getChildren(element) {
@@ -30,7 +29,17 @@ exports.TreeDataProvider = {
         }
         const document = element.document;
         if (element.id == -2) {
-            grammar = await (0, TextMate_1.tokenizeFile)(document);
+            grammar = await (0, TextMate_1.tokenizeFile)(document, false);
+            for (let index = 0; index < grammar.rules.length; index++) {
+                const rule = grammar.rules[index];
+                if (rule) {
+                    const matchedRuleId = rule.matchedRuleId;
+                    if (ruleChached[matchedRuleId] == null) {
+                        ruleChached[matchedRuleId] = index;
+                    }
+                }
+            }
+            // vscode.window.showInformationMessage(JSON.stringify(ruleChached));
             if (callView == 'list') {
                 const linearElement = {
                     line: 0,
@@ -82,7 +91,7 @@ exports.TreeDataProvider = {
                     continue;
                 }
                 const ruleId = matchResult.matchedRuleId;
-                if (ruleId == -1) {
+                if (ruleId < 0) {
                     depth--;
                     if (depth == -1) {
                         break;
@@ -151,19 +160,18 @@ exports.TreeDataProvider = {
                 highlights: time >= 500 ? [[0, label.length]] : null,
                 // highlights: time >= 500 ? [[0, timeFixed.length]] : null,
             };
-            const item = new vscode.TreeItem(treeLabel);
-            item.collapsibleState = vscode.TreeItemCollapsibleState.Expanded;
-            item.iconPath = FileIcon;
+            const item = new vscode.TreeItem(treeLabel, vscode.TreeItemCollapsibleState.Collapsed);
+            item.iconPath = new vscode.ThemeIcon('symbol-variable');
             item.tooltip = `Time: ${time}`;
             item.description = `${timeFixed}ms`;
             return item;
         }
         const document = element.document;
         if (id == -2) {
-            const item = new vscode.TreeItem(document.uri);
-            item.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
+            const item = new vscode.TreeItem(document.uri, vscode.TreeItemCollapsibleState.Collapsed);
             item.description = document.languageId;
-            item.iconPath = FileIcon;
+            item.iconPath = vscode.ThemeIcon.File;
+            item.contextValue = 'document';
             return item;
         }
         if (element.type == 'tree') {
@@ -171,78 +179,89 @@ exports.TreeDataProvider = {
             const line = element.line;
             const cachedRule = grammar._ruleId2desc[ruleId];
             const rule = grammar.rules[id];
-            const prevTime = grammar.rules[id - 1]?.time;
-            const time = rule.time - (prevTime ?? grammar.startTime);
+            let prevTime = grammar.startTime;
+            for (let index = id - 1; index >= 0; index--) {
+                if (grammar.rules[index]) {
+                    prevTime = grammar.rules[index].time;
+                    break;
+                }
+            }
+            // const prevTime = id ? (grammar.rules[id - 1]?.time ?? (line ? grammar.lines[line].time + grammar.startTime : grammar.startTime)) : grammar.startTime;
+            const time = rule.time - prevTime;
             const timeFixed = time.toFixed(3);
+            // const label = cachedRule.id + ": " + ruleChached[rule.matchedRuleId] + ": " + id;
             const label = cachedRule._name || cachedRule._contentName || cachedRule.id.toString();
             const treeLabel = {
-                label: label,
-                highlights: time >= 1 ? [[0, label.length]] : null,
+                label: label /* + (time >= 1 ? ' ❌' : '') */,
+                // highlights: ruleChached[rule.matchedRuleId] == id ? [[0, label.length]] : null,
+                // highlights: time >= 1 ? [[0, label.length]] : null,
             };
-            const item = new vscode.TreeItem(treeLabel);
-            item.collapsibleState = vscode.TreeItemCollapsibleState.Expanded; // TODO: toggle option
-            item.description = timeFixed + "ms";
-            // item.description = line.toString();
-            item.iconPath = FileIcon;
+            const item = new vscode.TreeItem(treeLabel, cachedRule._match ? vscode.TreeItemCollapsibleState.None : vscode.TreeItemCollapsibleState.Expanded);
+            item.description = timeFixed + "ms" + (time >= 1 ? ' ⚠️' : '');
+            // item.description = timeFixed + "ms" + (ruleChached[rule.matchedRuleId] == id /* && !cachedRule._match */ ? ' ⚠️' : '');
+            if (cachedRule._match) {
+                item.iconPath = new vscode.ThemeIcon('symbol-event');
+            }
             item.tooltip = `RuleId: ${cachedRule.id}`;
-            const start = rule.captureIndices[0].start;
-            const end = rule.captureIndices[0].end;
-            const locations = [];
-            const range = new vscode.Range(line - 1, start, line - 1, end);
-            const location = new vscode.Location(document.uri, range);
-            locations.push(location);
-            const position = new vscode.Position(line - 1, start);
-            const command = {
-                title: `title`,
-                tooltip: `tooltip`,
-                command: 'editor.action.goToLocations',
-                arguments: [
-                    document.uri,
-                    position,
-                    locations,
-                ]
-            };
-            item.command = command;
+            // const start = rule.captureIndices[0].start;
+            // const end = rule.captureIndices[0].end;
+            // const location = new vscode.Location(
+            // 	document.uri,
+            // 	new vscode.Range(line - 1, start, line - 1, end),
+            // );
+            // const position = new vscode.Position(line - 1, start);
+            // const command: vscode.Command = {
+            // 	title: `title`,
+            // 	tooltip: `tooltip`,
+            // 	command: 'editor.action.goToLocations',
+            // 	arguments: [
+            // 		document.uri,
+            // 		position,
+            // 		[location],
+            // 	]
+            // };
+            // item.command = command;
             return item;
         }
         if (element.type == 'list') {
             if (id == 0) {
                 const line = element.line;
-                // const tokens = grammar.lines[line].tokens;
                 const time = grammar.lines[line].time - (grammar.lines[line - 1]?.time ?? 0);
                 const timeFixed = time.toFixed(3);
-                const label = timeFixed + ': ' + document.lineAt(line).text;
+                const label = /* timeFixed + 'ms: ' + */ document.lineAt(line).text;
                 const treeLabel = {
                     label: label,
-                    highlights: time >= 10 ? [[0, timeFixed.length]] : null,
+                    // highlights: time >= 10 ? [[0, timeFixed.length]] : null,
                 };
-                const item = new vscode.TreeItem(treeLabel);
-                item.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
-                item.description = (line + 1).toString();
-                item.iconPath = FileIcon;
-                item.tooltip = `Time: ${time}`;
-                const locations = [];
-                const range = new vscode.Range(line, 0, line + 1, 0);
-                const location = new vscode.Location(document.uri, range);
-                locations.push(location);
-                const position = new vscode.Position(line, 0);
-                const command = {
-                    title: `title`,
-                    tooltip: `tooltip`,
-                    command: 'editor.action.goToLocations',
-                    arguments: [
-                        document.uri,
-                        position,
-                        locations,
-                    ]
-                };
-                item.command = command;
+                const item = new vscode.TreeItem(treeLabel, vscode.TreeItemCollapsibleState.Collapsed);
+                item.description = timeFixed + "ms" + (time >= 500 ? ' ⚠️' : '');
+                item.iconPath = new vscode.ThemeIcon('symbol-key', new vscode.ThemeColor('symbolIcon.stringForeground'));
+                item.tooltip = `Line: ${line + 1}`;
+                // const locations: vscode.Location[] = [];
+                // const range = new vscode.Range(line, 0, line + 1, 0);
+                // const location = new vscode.Location(
+                // 	document.uri,
+                // 	range,
+                // );
+                // locations.push(location);
+                // const position = new vscode.Position(line, 0);
+                // const command: vscode.Command = {
+                // 	title: `title`,
+                // 	tooltip: `tooltip`,
+                // 	command: 'editor.action.goToLocations',
+                // 	arguments: [
+                // 		document.uri,
+                // 		position,
+                // 		locations,
+                // 	]
+                // };
+                // item.command = command;
                 return item;
             }
             if (id == 1) {
                 const line = element.line;
                 const token = grammar.lines[line].tokens[element.tokenId];
-                const scope = token.scopes[token.scopes.length - 1];
+                // const scope = token.scopes[token.scopes.length - 1];
                 const scopes = token.scopes.join(' ');
                 const label = scopes;
                 const treeLabel = {
@@ -251,21 +270,26 @@ exports.TreeDataProvider = {
                 };
                 // const item = new vscode.TreeItem(line.toString(), vscode.TreeItemCollapsibleState.None);
                 const item = new vscode.TreeItem(treeLabel, vscode.TreeItemCollapsibleState.None);
-                item.description = token.startIndex + " - " + token.endIndex;
-                item.iconPath = FileIcon;
-                item.tooltip = `${token.scopes.length}`;
-                const location = new vscode.Location(document.uri, new vscode.Range(line, token.startIndex, line, token.endIndex));
-                const command = {
-                    title: `title`,
-                    tooltip: `tooltip`,
-                    command: 'editor.action.goToLocations',
-                    arguments: [
-                        document.uri,
-                        new vscode.Position(line, token.startIndex),
-                        [location],
-                    ]
-                };
-                item.command = command;
+                // Account for newlines in uncaptured tokens
+                const newLineAdjust = token.scopes.length == 1 && (grammar.lines[line].tokens.length - 1 == element.tokenId) ? 1 : 0;
+                item.description = token.startIndex + " - " + (token.endIndex - newLineAdjust);
+                item.iconPath = new vscode.ThemeIcon('symbol-string');
+                item.tooltip = document.lineAt(line).text.substring(token.startIndex, token.endIndex - newLineAdjust);
+                // const location = new vscode.Location(
+                // 	document.uri,
+                // 	new vscode.Range(line, token.startIndex, line, token.endIndex),
+                // );
+                // const command: vscode.Command = {
+                // 	title: `title`,
+                // 	tooltip: `tooltip`,
+                // 	command: 'editor.action.goToLocations',
+                // 	arguments: [
+                // 		document.uri,
+                // 		new vscode.Position(line, token.startIndex),
+                // 		[location],
+                // 	]
+                // };
+                // item.command = command;
                 return item;
             }
         }
@@ -288,17 +312,27 @@ exports.TreeDataProvider = {
         // vscode.window.showInformationMessage(JSON.stringify("resolveTreeItem"));
         // vscode.window.showInformationMessage(JSON.stringify(item));
         // vscode.window.showInformationMessage(JSON.stringify(element));
+        // const id = element.id;
+        // const document = element.document;
+        // if (element.type == 'list') {
+        // 	if (id == 0) {
+        // 		const line = element.line;
+        // 		item.tooltip = document.lineAt(line).text;
+        // 	}
+        // }
         return item;
     },
     onDidChangeTreeData: onDidChangeTreeData.event,
 };
 let treeView;
-function initCallStackView(context) {
+async function initCallStackView(context) {
     // vscode.window.showInformationMessage(JSON.stringify("initCallStackView"));
     // context.subscriptions.push(vscode.commands.registerCommand("textmate.callstack", CallStackView, 'context'));
     context.subscriptions.push(vscode.commands.registerTextEditorCommand("textmate.callstack", CallStackView));
     context.subscriptions.push(vscode.commands.registerCommand("textmate.refresh", refresh));
-    context.subscriptions.push(vscode.commands.registerCommand("textmate.goto", goto));
+    context.subscriptions.push(vscode.commands.registerCommand("textmate.find", find));
+    context.subscriptions.push(vscode.commands.registerCommand("textmate.goto.file", gotoFile));
+    context.subscriptions.push(vscode.commands.registerCommand("textmate.goto.grammar", gotoGrammar));
     context.subscriptions.push(vscode.commands.registerCommand("textmate.tree-view", () => changeView('tree')));
     context.subscriptions.push(vscode.commands.registerCommand("textmate.list-view", () => changeView('list')));
     changeView(callView);
@@ -367,7 +401,7 @@ async function CallStackView(textEditor, edit) {
     // }
     // const ruleTree = {};
     // vscode.window.showInformationMessage(JSON.stringify(ruleList, stringify));
-    const grammar = await (0, TextMate_1.tokenizeFile)(document);
+    // const grammar = await tokenizeFile(document);
     // onDidChangeTreeData.fire(undefined);
     const activeTextEditor = vscode.window.activeTextEditor;
     if (!activeTextEditor) {
@@ -418,7 +452,14 @@ function refresh(element) {
     // }
     onDidChangeTreeData.fire(undefined);
 }
-async function goto(element) {
+async function find(element) {
+    vscode.window.showInformationMessage(JSON.stringify(element));
+    await treeView.reveal(undefined, { focus: true });
+    vscode.commands.executeCommand('list.find');
+    // vscode.commands.executeCommand('list.toggleFindMode');
+    // vscode.commands.executeCommand('list.toggleFindMatchType');
+}
+async function gotoGrammar(element) {
     // vscode.window.showInformationMessage(JSON.stringify("goto"));
     // vscode.window.showInformationMessage(JSON.stringify(args));
     if (!element) {
@@ -427,7 +468,23 @@ async function goto(element) {
     const id = element.id;
     const document = element.document;
     if (id == -2) {
-        vscode.window.showTextDocument(document);
+        const lang = document.languageId;
+        for (const extension of vscode.extensions.all) {
+            const packageJSON = extension.packageJSON;
+            const grammars = packageJSON.contributes?.grammars;
+            if (grammars) {
+                for (const grammar of grammars) {
+                    if (grammar.language == lang) {
+                        const path = grammar.path;
+                        if (path) {
+                            const uri = vscode.Uri.joinPath(extension.extensionUri, 'package.json');
+                            vscode.window.showTextDocument(uri);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
         return;
     }
     if (id == -1) {
@@ -448,15 +505,60 @@ async function goto(element) {
                 }
             }
         }
+        return;
     }
     // locate grammar rule via its id
     // annoyingly the ids are assigned on a first-served basis
     // including across included/embedded grammars
-    const ruleId = element.ruleId;
+    let ruleId = 1;
+    let capturesIndex = -1;
+    if (element.type == 'tree') {
+        ruleId = element.ruleId;
+    }
+    if (element.type == 'list') {
+        const line = element.line;
+        if (id == 0) {
+            ruleId = grammar.lines[line].lastRule;
+        }
+        if (id == 1) {
+            const tokenLine = grammar.lines[line];
+            // vscode.window.showInformationMessage(JSON.stringify(tokenLine));
+            const token = tokenLine.tokens[element.tokenId];
+            const tokenStart = token.startIndex;
+            const tokenEnd = token.endIndex; // This is required otherwise 0 width end rules get in the way
+            const rulesLength = tokenLine.rulesLength;
+            // vscode.window.showInformationMessage(JSON.stringify(rulesLength));
+            for (let index = rulesLength; index < grammar.rules.length; index++) {
+                const rule = grammar.rules[index];
+                if (!rule) {
+                    break;
+                }
+                let foundRule = false;
+                let captureIndex = 0;
+                for (const captureIndice of rule.captureIndices) {
+                    if (captureIndice.start == tokenStart && captureIndice.end >= tokenEnd) {
+                        foundRule = true;
+                        break;
+                        // Should keep going if next token is identical. (((x))) => 3 not 1
+                    }
+                    captureIndex++;
+                }
+                if (foundRule) {
+                    ruleId = rule.matchedRuleId;
+                    capturesIndex = captureIndex;
+                    // vscode.window.showInformationMessage("Capture: " + captureIndex);
+                    break;
+                }
+            }
+        }
+    }
+    // vscode.window.showInformationMessage(JSON.stringify(ruleId));
     if (!ruleId) {
         return;
     }
-    // (json (repository (repo (key) )))
+    if (ruleId < 0) {
+        ruleId = -ruleId;
+    }
     let path = allChildren(grammar._grammar, ruleId);
     let grammarDoc;
     if (!path) {
@@ -472,7 +574,7 @@ async function goto(element) {
     else {
         grammarDoc = await getGrammarDocument(document);
     }
-    vscode.window.showInformationMessage(JSON.stringify(path));
+    vscode.window.showInformationMessage(JSON.stringify(path) + " Capture: " + capturesIndex);
     const trees = (0, TreeSitter_1.getTrees)(grammarDoc);
     const tree = trees.jsonTree;
     let node = tree.rootNode;
@@ -515,7 +617,52 @@ async function goto(element) {
     const locations = [location];
     vscode.commands.executeCommand('editor.action.goToLocations', uri, range.start, locations);
 }
-function allChildren(rules, ruleId) {
+async function gotoFile(element) {
+    // vscode.window.showInformationMessage(JSON.stringify("goto"));
+    // vscode.window.showInformationMessage(JSON.stringify(args));
+    if (!element) {
+        return;
+    }
+    const id = element.id;
+    const document = element.document;
+    if (id == -2) {
+        vscode.window.showTextDocument(document);
+        return;
+    }
+    if (id == -1) {
+        vscode.commands.executeCommand('editor.action.goToLocations', document.uri, new vscode.Position(0, 0), [
+            new vscode.Location(document.uri, new vscode.Range(0, 0, document.lineCount, 0))
+        ]);
+        return;
+    }
+    const line = element.line;
+    if (element.type == 'tree') {
+        const rule = grammar.rules[id];
+        const start = rule.captureIndices[0].start;
+        const end = rule.captureIndices[0].end;
+        const location = new vscode.Location(document.uri, new vscode.Range(line - 1, start, line - 1, end));
+        const position = new vscode.Position(line - 1, start);
+        vscode.commands.executeCommand('editor.action.goToLocations', document.uri, position, [location]);
+        return;
+    }
+    if (element.type == 'list') {
+        if (id == 0) {
+            const range = new vscode.Range(line, 0, line + 1, 0);
+            const location = new vscode.Location(document.uri, range);
+            const position = new vscode.Position(line, 0);
+            vscode.commands.executeCommand('editor.action.goToLocations', document.uri, position, [location]);
+            return;
+        }
+        if (id == 1) {
+            const token = grammar.lines[line].tokens[element.tokenId];
+            const location = new vscode.Location(document.uri, new vscode.Range(line, token.startIndex, line, token.endIndex));
+            const position = new vscode.Position(line, token.startIndex);
+            vscode.commands.executeCommand('editor.action.goToLocations', document.uri, position, [location]);
+            return;
+        }
+    }
+}
+function allChildren(rules, ruleId, captureIndex) {
     for (const key in rules) {
         switch (key) {
             case 'patterns':

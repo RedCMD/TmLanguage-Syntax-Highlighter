@@ -240,6 +240,11 @@
 					"when": "view == TextMate && textmate.call.view != 'list'"
 				},
 				{
+					"command": "textmate.find",
+					"group": "navigation@4",
+					"when": "view == TextMate"
+				},
+				{
 					"command": "textmate.tree-view",
 					"group": "viewAs",
 					"when": "view == TextMate"
@@ -259,16 +264,26 @@
 				{
 					"command": "textmate.refresh",
 					"group": "inline@1",
+					"when": "view == TextMate && viewItem == document"
+				},
+				{
+					"command": "textmate.goto.file",
+					"group": "inline@2",
 					"when": "view == TextMate"
 				},
 				{
-					"command": "textmate.goto",
+					"command": "textmate.goto.grammar",
+					"group": "inline@3",
+					"when": "view == TextMate"
+				},
+				{
+					"command": "textmate.goto.file",
 					"group": "0_navigation@1",
 					"when": "view == TextMate"
 				},
 				{
-					"command": "textmate.goto",
-					"group": "inline@2",
+					"command": "textmate.goto.grammar",
+					"group": "0_navigation@2",
 					"when": "view == TextMate"
 				}
 			]
@@ -294,10 +309,16 @@
 				"icon": "assets/TextMate-file-icon.svg"
 			},
 			{
-				"command": "textmate.goto",
-				"title": "Go To",
+				"command": "textmate.goto.file",
+				"title": "Go To File",
 				"category": "TextMate",
-				"icon": "$(export)"
+				"icon": "$(go-to-file)"
+			},
+			{
+				"command": "textmate.goto.grammar",
+				"title": "Go To Grammar",
+				"category": "TextMate",
+				"icon": "$(references)"
 			},
 			{
 				"command": "textmate.list-view",
@@ -310,6 +331,12 @@
 				"title": "View as Tree",
 				"category": "TextMate",
 				"icon": "$(list-flat)"
+			},
+			{
+				"command": "textmate.find",
+				"title": "Find",
+				"category": "TextMate",
+				"icon": "$(search)"
 			}
 		]
 	},

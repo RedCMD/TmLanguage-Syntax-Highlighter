@@ -108,7 +108,7 @@ async function tokenizeLine(document, lineNumber) {
     return tokenLineResult;
 }
 exports.tokenizeLine = tokenizeLine;
-async function tokenizeFile(document) {
+async function tokenizeFile(document, runTwice) {
     const lang = document.languageId;
     const scopeName = getScopeName(lang);
     // const grammar = await registry.loadGrammar(scopeName);
@@ -116,24 +116,35 @@ async function tokenizeFile(document) {
     // Very hacky, assigns array so `_tokenizeString()` can add rules to it
     grammar.rules = [];
     grammar.lines = [];
-    // cache rules for more accurate debug timing
     let ruleStack = vscodeTextmate.INITIAL;
-    for (let i = 0; i < document.lineCount; i++) {
-        ruleStack = grammar.tokenizeLine(document.lineAt(i).text, ruleStack, 15000).ruleStack;
+    // cache rules for more accurate debug timing
+    if (runTwice) {
+        for (let i = 0; i < document.lineCount; i++) {
+            ruleStack = grammar.tokenizeLine(document.lineAt(i).text, ruleStack, 15000).ruleStack;
+        }
+        grammar.rules = [];
+        // vscode.window.showInformationMessage(JSON.stringify(grammar, stringify));
     }
-    grammar.rules = [];
-    // vscode.window.showInformationMessage(JSON.stringify(grammar, stringify));
+    let rulesLength = 0;
     ruleStack = vscodeTextmate.INITIAL;
     const startTime = performance.now();
     grammar.startTime = startTime;
     for (let i = 0; i < document.lineCount; i++) {
+        // vscode.window.showInformationMessage(JSON.stringify(grammar, stringify));
         const line = document.lineAt(i).text;
         const lineTokens = grammar.tokenizeLine(line, ruleStack, 15000);
+        // grammar.rules.pop();
+        grammar.rules.push(undefined);
+        ruleStack = lineTokens.ruleStack;
         grammar.lines.push({
             tokens: lineTokens.tokens,
             stoppedEarly: lineTokens.stoppedEarly,
             time: performance.now() - startTime,
+            // @ts-ignore
+            lastRule: ruleStack.ruleId || 1,
+            rulesLength: rulesLength,
         });
+        rulesLength = grammar.rules.length;
         // tokenLineResults.push(
         // 	{
         // 		tokens: lineTokens.tokens,
@@ -141,9 +152,7 @@ async function tokenizeFile(document) {
         // 		stoppedEarly: lineTokens.stoppedEarly,
         // 	}
         // );
-        // grammar.rules.pop();
-        grammar.rules.push(undefined);
-        ruleStack = lineTokens.ruleStack;
+        // vscode.window.showInformationMessage(JSON.stringify(ruleStack, stringify));
     }
     // vscode.window.showInformationMessage(JSON.stringify(registry, stringify));
     vscode.window.showInformationMessage(JSON.stringify(grammar, extension_1.stringify));

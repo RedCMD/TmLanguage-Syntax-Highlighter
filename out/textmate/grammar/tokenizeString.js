@@ -74,7 +74,8 @@ function _tokenizeString(grammar, lineText, isFirstLine, linePos, stack, lineTok
             : false;
         if (matchedRuleId === rule_1.endRuleId) {
             // We matched the `end` for this rule => pop it
-            const poppedRule = stack.getRule(grammar);
+            // const poppedRule = <BeginEndRule>stack.getRule(grammar);
+            var poppedRule = stack.getRule(grammar);
             if (debug_1.DebugFlags.InDebugMode) {
                 console.log("  popping " +
                     poppedRule.debugName +
@@ -193,13 +194,14 @@ function _tokenizeString(grammar, lineText, isFirstLine, linePos, stack, lineTok
             linePos = captureIndices[0].end;
             isFirstLine = false;
         }
+        // // @ts-ignore
+        // console.log(grammar._lastRuleId);
         // @ts-ignore
-        // grammar.rules.push(r);
         if (r) {
             // @ts-ignore
             grammar.rules.push({
                 captureIndices: captureIndices,
-                matchedRuleId: matchedRuleId,
+                matchedRuleId: matchedRuleId == -1 ? -poppedRule.id : matchedRuleId, // While was `-2`!!
                 // ...r,
                 // ...{
                 // lineText: lineText,
@@ -208,6 +210,9 @@ function _tokenizeString(grammar, lineText, isFirstLine, linePos, stack, lineTok
                 // stack: stack,
                 anchorPosition: anchorPosition,
                 time: performance.now(),
+                // @ts-ignore
+                // length: grammar._ruleId2desc.length - 1,
+                // lastRuleId: grammar._lastRuleId,
                 // }
             });
         }
