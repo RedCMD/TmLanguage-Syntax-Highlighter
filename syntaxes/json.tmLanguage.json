@@ -855,15 +855,15 @@
 									}
 								},
 								{
-									"match": "(?<!\\G)#(?=\")",
-									"name": "keyword.json.tm markup.strikethrough.json.tm"
-								},
-								{
-									"begin": "#",
+									"begin": "#(?!\")",
 									"end": "(?=\")",
 									"beginCaptures": { "0": { "name": "keyword.json.tm" } },
 									"contentName": "variable.json.tm",
 									"patterns": [ { "include": "#escape-characters" } ]
+								},
+								{
+									"match": "#",
+									"name": "keyword.json.tm markup.strikethrough.json.tm"
 								},
 								{ "include": "#scope-string" }
 							]
@@ -1182,7 +1182,6 @@
 					"name": "constant.character.escape.json.tm"
 				},
 				{
-					
 					"match": "(\\\\u)(?>(\\h{4})|([^\"].{,3}))",
 					"captures": {
 						"1": { "name": "constant.character.escape.tm" },
