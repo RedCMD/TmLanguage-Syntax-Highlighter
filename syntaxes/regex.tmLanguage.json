@@ -566,85 +566,94 @@
 			]
 		},
 		"capture-group-conditional": {
-			"comment": "(?(1)...|...) (?(-001)...) (?(1+0)...|...) (?(<1>)...) (?('+1')...|...) (?(<1-0>)...) (?(<name>)...) (?('name-0')...|...) (?(<name+00>)...) (?(...)...|...)",
-			"begin": "(\\()(\\?)(?>(\\()([<'][^)]*|[-+]?0*[12]?\\d{1,9}(?>[+-]0*[12]?\\d{1,9})?)(\\))|(\\((?>\\?{|\\*)[^)]*\\))|(\\())",
-			"end": "(?<!\\(\\G)\\)",
-			"beginCaptures": {
-				"1": { "name": "constant.character.set.regexp.tm" },
-				"2": { "name": "support.function.tm" },
-				"3": { "name": "constant.character.set.regexp.tm markup.italic" },
-				"4": { "patterns": [ { "include": "#capture-group-referencing" } ] },
-				"5": { "name": "constant.character.set.regexp.tm markup.italic" },
-				"6": { "patterns": [ { "include": "#callout" } ] },
-				"7": { "name": "constant.character.set.regexp.tm" }
-			},
-			"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
-			"name": "capture-group-conditional",
 			"patterns": [
 				{
-					"begin": "(?<=\\()\\G",
-					"end": "\\)",
+					"comment": "(?(1)...|...) (?(-001)...) (?(1+0)...|...) (?(<1>)...) (?('+1')...|...) (?(<1-0>)...) (?(<name>)...) (?('name-0')...|...) (?(<name+00>)...) (?(...)...|...) (?(?{...})...|...) (?(*FAIL)|...)",
+					"begin": "(\\()(\\?)(?>(\\()(?>(<|(?<quote>'))(?>(?>(?<num>[+-]?(0*)(?>[1-9]\\d{,2}(\\d*)|(0)))|(\\w+))((?~(?(<quote>)'|>)|[)+-]))(?<level>[+-](0*)(?<max>2(?>0\\d{8}|1(?>[0-3]\\d{7}|4(?>[0-6]\\d{6}|7(?>[0-3]\\d{5}|4(?>[0-7]\\d{4}|8(?>[0-2]\\d{3}|3(?>[0-5]\\d{2}|6(?>[0-3]\\d|4[0-7]))))))))|1?\\d{1,9}))?)?((?~(?(<quote>)'|>)|\\)))((?(<quote>)'|>))?([^)]*)|(?=(?>[+-](?=0*[1-9]))?0*\\g<max>\\b)\\g<num>\\g<level>?)(\\))|(?=\\((?>\\?{|\\*))|(\\())",
+					"end": "(?<!\\(\\G)\\)",
+					"beginCaptures": {
+						"1": { "name": "constant.character.set.regexp.tm" },
+						"2": { "name": "support.function.tm" },
+						"3": { "name": "constant.character.set.regexp.tm markup.italic" },
+						"4": { "name": "support.function.tm" },
+						"6": { "name": "constant.numeric.tm" },
+						"7": { "name": "punctuation.definition.tag.tm" },
+						"8": { "name": "invalid.illegal.tm" },
+						"9": { "name": "invalid.illegal.tm" },
+						"10": { "name": "markup.bold" },
+						"11": { "name": "invalid.illegal.tm regex" },
+						"12": { "name": "constant.numeric.tm" },
+						"13": { "name": "punctuation.definition.tag.tm" },
+						"15": { "name": "invalid.illegal.tm regex" },
+						"16": { "name": "support.function.tm" },
+						"17": { "name": "invalid.illegal.tm regex" },
+						"18": { "name": "constant.character.set.regexp.tm markup.italic" },
+						"19": { "name": "constant.character.set.regexp.tm" }
+					},
 					"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
-					"patterns": [ { "include": "$self" } ]
-				},
-				{
-					"begin": "\\|",
-					"end": "(?=\\))",
-					"beginCaptures": { "0": { "name": "support.function.tm" } },
-					"patterns": [ { "include": "$self" } ]
-				},
-				{ "include": "$self" }
+					"name": "capture-group-conditional.tm",
+					"patterns": [
+						{
+							"begin": "(?<=\\()\\G",
+							"end": "\\)",
+							"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
+							"patterns": [ { "include": "$self" } ]
+						},
+						{
+							"begin": "\\|",
+							"end": "(?=\\))",
+							"beginCaptures": { "0": { "name": "support.function.tm" } },
+							"patterns": [ { "include": "$self" } ]
+						},
+						{ "include": "$self" }
+					]
+				}
 			]
 		},
 		"capture-group-conditional-extended": {
-			"comment": "(?(1)...|...) (?(-001)...) (?(1+0)...|...) (?(<1>)...) (?('+1')...|...) (?(<1-0>)...) (?(<name>)...) (?('name-0')...|...) (?(<name+00>)...) (?(...)...|...)",
-			"begin": "(\\()(\\?)(?>(\\()([<'][^)]*|[-+]?0*[12]?\\d{1,9}(?>[+-]0*[12]?\\d{1,9})?)(\\))|(\\(\\?{[^)]*\\))|(\\())",
-			"end": "(?<!\\(\\G)\\)",
-			"beginCaptures": {
-				"1": { "name": "constant.character.set.regexp.tm" },
-				"2": { "name": "support.function.tm" },
-				"3": { "name": "constant.character.set.regexp.tm markup.italic" },
-				"4": { "patterns": [ { "include": "#capture-group-referencing" } ] },
-				"5": { "name": "constant.character.set.regexp.tm markup.italic" },
-				"6": { "patterns": [ { "include": "#callout" } ] },
-				"7": { "name": "constant.character.set.regexp.tm" }
-			},
-			"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
-			"name": "capture-group-conditional-extended",
 			"patterns": [
 				{
-					"begin": "(?<=\\()\\G",
-					"end": "\\)",
+					"comment": "(?(1)...|...) (?(-001)...) (?(1+0)...|...) (?(<1>)...) (?('+1')...|...) (?(<1-0>)...) (?(<name>)...) (?('name-0')...|...) (?(<name+00>)...) (?(...)...|...) (?(?{...})...|...) (?(*FAIL)|...)",
+					"begin": "(\\()(\\?)(?>(\\()(?>(<|(?<quote>'))(?>(?>(?<num>[+-]?(0*)(?>[1-9]\\d{,2}(\\d*)|(0)))|(\\w+))((?~(?(<quote>)'|>)|[)+-]))(?<level>[+-](0*)(?<max>2(?>0\\d{8}|1(?>[0-3]\\d{7}|4(?>[0-6]\\d{6}|7(?>[0-3]\\d{5}|4(?>[0-7]\\d{4}|8(?>[0-2]\\d{3}|3(?>[0-5]\\d{2}|6(?>[0-3]\\d|4[0-7]))))))))|1?\\d{1,9}))?)?((?~(?(<quote>)'|>)|\\)))((?(<quote>)'|>))?([^)]*)|(?=(?>[+-](?=0*[1-9]))?0*\\g<max>\\b)\\g<num>\\g<level>?)(\\))|(?=\\((?>\\?{|\\*))|(\\())",
+					"end": "(?<!\\(\\G)\\)",
+					"beginCaptures": {
+						"1": { "name": "constant.character.set.regexp.tm" },
+						"2": { "name": "support.function.tm" },
+						"3": { "name": "constant.character.set.regexp.tm markup.italic" },
+						"4": { "name": "support.function.tm" },
+						"6": { "name": "constant.numeric.tm" },
+						"7": { "name": "punctuation.definition.tag.tm" },
+						"8": { "name": "invalid.illegal.tm" },
+						"9": { "name": "invalid.illegal.tm" },
+						"10": { "name": "markup.bold" },
+						"11": { "name": "invalid.illegal.tm regex" },
+						"12": { "name": "constant.numeric.tm" },
+						"13": { "name": "punctuation.definition.tag.tm" },
+						"15": { "name": "invalid.illegal.tm regex" },
+						"16": { "name": "support.function.tm" },
+						"17": { "name": "invalid.illegal.tm regex" },
+						"18": { "name": "constant.character.set.regexp.tm markup.italic" },
+						"19": { "name": "constant.character.set.regexp.tm" }
+					},
 					"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
-					"patterns": [ { "include": "#$self-extended" } ]
-				},
-				{
-					"begin": "\\|",
-					"end": "(?=\\))",
-					"beginCaptures": { "0": { "name": "support.function.tm" } },
-					"patterns": [ { "include": "#$self-extended" } ]
-				},
-				{ "include": "#$self-extended" }
+					"name": "capture-group-conditional-extended.tm",
+					"patterns": [
+						{
+							"begin": "(?<=\\()\\G",
+							"end": "\\)",
+							"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
+							"patterns": [ { "include": "#$self-extended" } ]
+						},
+						{
+							"begin": "\\|",
+							"end": "(?=\\))",
+							"beginCaptures": { "0": { "name": "support.function.tm" } },
+							"patterns": [ { "include": "#$self-extended" } ]
+						},
+						{ "include": "#$self-extended" }
+					]
+				}
 			]
-		},
-		"capture-group-referencing": {
-			"comment": "1 <2> '3' 1+0 <+2-0> '-3+0' 'name' <name+0> 'name-0'    Capture group soft limit is 999 and hard limit 32767    Level limit is 2147483647",
-			"match": "(<|(?<quote>'))(?>(?>(?<num>[-+]?(0*)(?>[1-9]\\d{,2}(\\d{,2})|(0)))|(\\w+))((?~(?(<quote>)'|>)|[+-]))(?<level>[+-](0*)[12]?\\d{1,9})?)?((?~(?(<quote>)'|>)))((?(<quote>)'|>))?([^)]*)|\\g<num>\\g<level>?(.*)",
-			"captures": {
-				"1": { "name": "support.function.tm" },
-				"3": { "name": "constant.numeric.tm" },
-				"4": { "name": "punctuation.definition.tag.tm" },
-				"5": { "name": "invalid.illegal.tm markup.italic" },
-				"6": { "name": "invalid.illegal.tm markup.underline" },
-				"7": { "name": "markup.bold" },
-				"8": { "name": "invalid.illegal.tm markup.underline regex" },
-				"9": { "name": "constant.numeric.tm" },
-				"10": { "name": "punctuation.definition.tag.tm" },
-				"11": { "name": "invalid.illegal.tm markup.underline regex" },
-				"12": { "name": "support.function.tm" },
-				"13": { "name": "invalid.illegal.tm markup.underline regex" },
-				"14": { "name": "invalid.illegal.tm markup.underline regex" }
-			}
 		},
 		"capture-group-name": {
 			"comment": "(?<name>...) (?'name'...)",
