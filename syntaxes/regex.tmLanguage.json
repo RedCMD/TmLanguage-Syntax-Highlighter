@@ -894,6 +894,13 @@
 					}
 				},
 				{
+					"match": "(?<=\\^)\\G(\\\\{2})(\\^)",
+					"captures": {
+						"1": { "name": "punctuation.definition.tag.tm" },
+						"2": { "name": "literal.tm" }
+					}
+				},
+				{
 					"match": "\\G(\\\\{2})(\\^|:)",
 					"captures": {
 						"1": { "name": "constant.character.escape.tm" },
@@ -972,14 +979,14 @@
 				{
 					"match": "([\\\\-\\x{FFFFFFFF}]-(?!&&)[\\x-Z]|[+-\\x{FFFFFFFF}]-(?!&&)[\\x-*])(\\\\{2}(?=-))?",
 					"captures": {
-						"1": { "name": "invalid.illegal.tm markup.underline regex" },
+						"1": { "name": "character-class-range.tm invalid.illegal.tm regex" },
 						"2": { "name": "punctuation.definition.tag.tm" }
 					}
 				},
 				{
 					"match": "(\\*(-)\\+)(\\\\{2}(?=-))?",
 					"captures": {
-						"1": { "name": "support.class.tm" },
+						"1": { "name": "character-class-range.tm support.class.tm" },
 						"2": { "name": "punctuation.definition.tag.tm strong" },
 						"3": { "name": "punctuation.definition.tag.tm" }
 					}
@@ -988,7 +995,7 @@
 					"comment": "TODO: \\d seems to match unicode numbers as well?",
 					"match": "(\\d(-)\\d)(\\\\{2}(?=-))?",
 					"captures": {
-						"1": { "name": "constant.numeric.tm" },
+						"1": { "name": "character-class-range.tm constant.numeric.tm" },
 						"2": { "name": "strong" },
 						"3": { "name": "punctuation.definition.tag.tm" }
 					}
@@ -996,7 +1003,7 @@
 				{
 					"match": "([A-Z](-)[A-Z])(\\\\{2}(?=-))?",
 					"captures": {
-						"1": { "name": "variable.other.enummember.tm" },
+						"1": { "name": "character-class-range.tm variable.other.enummember.tm" },
 						"2": { "name": "strong" },
 						"3": { "name": "punctuation.definition.tag.tm" }
 					}
@@ -1004,7 +1011,7 @@
 				{
 					"match": "([a-z](-)[a-z])(\\\\{2}(?=-))?",
 					"captures": {
-						"1": { "name": "variable.other.enummember.tm" },
+						"1": { "name": "character-class-range.tm variable.other.enummember.tm" },
 						"2": { "name": "strong" },
 						"3": { "name": "punctuation.definition.tag.tm" }
 					}
@@ -1013,54 +1020,79 @@
 					"match": "(&&)(\\\\{2}(?=-))?",
 					"captures": {
 						"1": { "name": "keyword.control.tm" },
-						"2": { "name": "strong" },
-						"3": { "name": "punctuation.definition.tag.tm" }
+						"2": { "name": "punctuation.definition.tag.tm" }
 					}
 				},
 				{
 					"comment": "For some reason (\\G|...) and any of its variations are extremely performance heavy",
-					"match": "\\G(?>(\\\\{2})?[]-]|(?<!\\^)(\\\\{2})\\^|)(-)(?!&&)(?>(\\\\{2})-|(\\\\{3})\\\\|((?<CM2>\\\\{2}(?>c|[CM]-)(?:\\g<CM2>|\\\\u.{,4}|\\\\{,3}.))|\\\\{2}(?>x{\\h[^}]*}|o{[0-7][^}]*}|x\\h{,2}|[0-7]{1,3})|\\\\{1,2}u.{,4})|(\\\\{2})[]\\[-]|(\\\\{2}(?i:[DHSW]|p{[^}]*})|\\[:[^]]+:])|(\\\\{1,2}[^\\\\u])|[^]\\[\\\\])(\\\\{2}(?=-))?",
+					"//": "TODO: Convert to `begin`/`end` for better performance",
+					"match": "\\G(?>(\\\\{2})?[]-]|(?<!\\^)(\\\\{2})\\^)(-)(?!&&)(?>(\\\\{2})-|(\\\\{3})\\\\|((?>\\\\{2}(?>c|[CM]-))+(?>\\\\u.{4}|\\\\{,3}.)|\\\\{2}(?>x{\\h[^}]*}|o{[0-7][^}]*}|x\\h{,2}|[0-7]{1,3})|\\\\{1,2}u.{,4})|(\\\\{2})[]\\[-]|(\\\\{2}(?i:[DHSW]|p{[^}]*})|\\[:[^]]+:])|(\\\\{1,2}[^\\\\u])|[^]\\[\\\\])(\\\\{2}(?=-))?",
 					"captures": {
-						"0": { "name": "support.class.tm regex" },
+						"0": { "name": "character-class-range.tm support.class.tm regex" },
 						"1": { "name": "punctuation.definition.tag.tm" },
 						"2": { "name": "constant.character.escape.tm" },
 						"3": { "name": "strong" },
 						"4": { "name": "punctuation.definition.tag.tm" },
 						"5": { "name": "constant.character.escape.tm" },
 						"6": { "patterns": [ { "include": "#character-class-range-code-point" } ] },
-						"8": { "name": "constant.character.escape.tm" },
-						"9": { "name": "invalid.illegal.tm markup.underline regex" },
-						"10": {
+						"7": { "name": "constant.character.escape.tm" },
+						"8": { "name": "invalid.illegal.tm regex" },
+						"9": {
 							"name": "support.class.tm regex",
 							"patterns": [ { "include": "#character-class-escape" } ]
 						},
-						"11": { "name": "punctuation.definition.tag.tm" }
+						"10": { "name": "punctuation.definition.tag.tm" }
 					}
 				},
 				{
-					"match": "(?>(\\\\{3})\\\\|((?<CM>\\\\{2}(?>c|[CM]-)(?:\\g<CM>|\\\\u.{,4}|\\\\{,3}.))|\\\\{2}(?>x{\\h[^}]*}|o{[0-7][^}]*}|x\\h{,2}|[0-7]{1,3})|\\\\{1,2}u.{1,4})|(\\\\{2})[]\\[-]|(\\\\{2}(?i:[DHSW]|p{[^}]*})|\\[:[^]]+:])|(\\\\{1,2}[^\\\\u])|[^]\\[\\\\])(-)(?!&&)(?>(\\\\{2})-|(\\\\{3})\\\\|((?<CM2>\\\\{2}(?>c|[CM]-)(?:\\g<CM2>|\\\\u.{,4}|\\\\{,3}.))|\\\\{2}(?>x{\\h[^}]*}|o{[0-7][^}]*}|x\\h{,2}|[0-7]{1,3})|\\\\{1,2}u.{,4})|(\\\\{2})[]\\[-]|(\\\\{2}(?i:[DHSW]|p{[^}]*})|\\[:[^]]+:])|(\\\\{1,2}[^\\\\u])|[^]\\[\\\\])(\\\\{2}(?=-))?",
-					"captures": {
-						"0": { "name": "support.class.tm regex" },
-						"1": { "name": "constant.character.escape.tm" },
-						"2": { "patterns": [ { "include": "#character-class-code-point" } ] },
-						"4": { "name": "constant.character.escape.tm" },
-						"5": { "name": "invalid.illegal.tm markup.underline regex" },
-						"6": {
-							"name": "support.class.tm regex",
-							"patterns": [ { "include": "#character-class-escape" } ]
+					"begin": "(?=(((?>\\\\{4}|(?>\\\\{2}(?>c|[CM]-))+(?>\\\\u.{4}|\\\\{,3}.)|\\\\{2}(?>x{\\h[^}]*}|o{[0-7][^}]*}|x\\h{,2}|[0-7]{1,3}|p{[^}]*})|\\\\{1,2}u.{,4}|\\\\{1,2}[^\\\\u]|\\[:[^]]+:]|[^]\\[\\\\]))-(?!&&)\\g<2>))-?",
+					"end": "(?<=\\1)(?!\\G)(?>\\\\{2}(?=-))?",
+					"beginCaptures": { "0": { "name": "support.class.tm" } },
+					"endCaptures": { "0": { "name": "punctuation.definition.tag.tm" } },
+					"name": "character-class-range.tm",
+					"patterns": [
+						{
+							"begin": "-",
+							"end": "(?!\\G)|(\\\\{3})(\\\\)|(\\\\{2})([]\\[])|(\\\\{2})([-:^])|(\\\\{2}(?i:[DHSW]|p{[^}]*})|\\[:[^]]+:])|(\\\\{1,2})(/)|([^]\\[\\\\])",
+							"beginCaptures": { "0": { "name": "support.class.tm strong" } },
+							"endCaptures": {
+								"1": { "name": "constant.character.escape.tm" },
+								"2": { "name": "support.class.tm" },
+								"3": { "name": "constant.character.escape.tm" },
+								"4": { "name": "support.class.tm regex" },
+								"5": { "name": "punctuation.definition.tag.tm" },
+								"6": { "name": "support.class.tm regex" },
+								"7": { "name": "invalid.illegal.tm" },
+								"8": { "name": "punctuation.definition.tag.tm" },
+								"9": { "name": "support.class.tm" },
+								"10": { "name": "support.class.tm regex" }
+							},
+							"patterns": [
+								{ "include": "#character-class-range-code-point" },
+								{ "include": "#character-class-escape" }
+							]
 						},
-						"7": { "name": "strong" },
-						"8": { "name": "punctuation.definition.tag.tm" },
-						"9": { "name": "constant.character.escape.tm" },
-						"10": { "patterns": [ { "include": "#character-class-range-code-point" } ] },
-						"12": { "name": "constant.character.escape.tm" },
-						"13": { "name": "invalid.illegal.tm markup.underline regex" },
-						"14": {
-							"name": "support.class.tm regex",
-							"patterns": [ { "include": "#character-class-escape" } ]
-						},
-						"15": { "name": "punctuation.definition.tag.tm" }
-					}
+						{
+							"begin": "\\G",
+							"end": "(\\\\{3})(\\\\)|(\\\\{2})([]\\[-])|(\\\\{2})([:^])|(\\\\{2}(?i:[DHSW]|p{[^}]*})|\\[:[^]]+:])|(\\\\{1,2})(/)|([^]\\[\\\\-])|(?=-)",
+							"endCaptures": {
+								"1": { "name": "constant.character.escape.tm" },
+								"2": { "name": "support.class.tm" },
+								"3": { "name": "constant.character.escape.tm" },
+								"4": { "name": "support.class.tm regex" },
+								"5": { "name": "punctuation.definition.tag.tm" },
+								"6": { "name": "support.class.tm" },
+								"7": { "name": "invalid.illegal.tm" },
+								"8": { "name": "punctuation.definition.tag.tm" },
+								"9": { "name": "support.class.tm" },
+								"10": { "name": "support.class.tm regex" }
+							},
+							"patterns": [
+								{ "include": "#character-class-code-point" },
+								{ "include": "#character-class-escape" }
+							]
+						}
+					]
 				}
 			]
 		},
@@ -1363,7 +1395,7 @@
 			]
 		},
 		"code-point-sequence-seperator": {
-			"comment": "Tabs \t are not allowed. What is the unicode for \n?",
+			"comment": "Spaces ` `, Newlines `\n` and their unicode equivalents \u0020 & \u000A. Tabs `\t` are not allowed",
 			"patterns": [
 				{ "match": " +" },
 				{
@@ -1371,7 +1403,7 @@
 					"name": "constant.character.escape.tm"
 				},
 				{
-					"match": "(\\\\u)(0020)",
+					"match": "(\\\\u)(0020|000[aA])",
 					"captures": {
 						"1": { "name": "constant.character.escape.tm" },
 						"2": { "name": "constant.numeric.tm" }
