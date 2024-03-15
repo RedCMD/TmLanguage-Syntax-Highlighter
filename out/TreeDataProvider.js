@@ -145,6 +145,21 @@ exports.TreeDataProvider = {
                 // vscode.window.showInformationMessage(JSON.stringify("element done"));
                 return elements;
             }
+            if (element.id == 1) {
+                const token = element.tokenId;
+                for (let index = 0; index < grammar.lines[element.line].tokens[token].scopes.length; index++) {
+                    const tokenElement = {
+                        id: 2,
+                        tokenId: element.tokenId,
+                        scopeId: index,
+                        line: element.line,
+                        document: document,
+                        type: 'list',
+                    };
+                    elements.push(tokenElement);
+                }
+                return elements;
+            }
         }
     },
     getTreeItem(element) {
@@ -157,13 +172,13 @@ exports.TreeDataProvider = {
             const label = /* timeFixed + ': ' + */ grammar._rootScopeName;
             const treeLabel = {
                 label: label,
-                highlights: time >= 500 ? [[0, label.length]] : null,
+                // highlights: time >= 500 ? [[0, label.length]] : null,
                 // highlights: time >= 500 ? [[0, timeFixed.length]] : null,
             };
             const item = new vscode.TreeItem(treeLabel, vscode.TreeItemCollapsibleState.Collapsed);
             item.iconPath = new vscode.ThemeIcon('symbol-variable');
             item.tooltip = `Time: ${time}`;
-            item.description = `${timeFixed}ms`;
+            item.description = timeFixed + "ms" + (time > 500 ? ' ⚠️' : '');
             return item;
         }
         const document = element.document;
@@ -192,7 +207,7 @@ exports.TreeDataProvider = {
             // const label = cachedRule.id + ": " + ruleChached[rule.matchedRuleId] + ": " + id;
             const label = cachedRule._name || cachedRule._contentName || cachedRule.id.toString();
             const treeLabel = {
-                label: label /* + (time >= 1 ? ' ❌' : '') */,
+                label: (time >= 1 ? '⚠️' : '') + label,
                 // highlights: ruleChached[rule.matchedRuleId] == id ? [[0, label.length]] : null,
                 // highlights: time >= 1 ? [[0, label.length]] : null,
             };
@@ -262,14 +277,13 @@ exports.TreeDataProvider = {
                 const line = element.line;
                 const token = grammar.lines[line].tokens[element.tokenId];
                 // const scope = token.scopes[token.scopes.length - 1];
-                const scopes = token.scopes.join(' ');
-                const label = scopes;
+                const scope = token.scopes.at(-1);
+                const label = scope;
                 const treeLabel = {
                     label: label,
                     // highlights: time >= 10 ? [[0, timeFixed.length]] : null,
                 };
-                // const item = new vscode.TreeItem(line.toString(), vscode.TreeItemCollapsibleState.None);
-                const item = new vscode.TreeItem(treeLabel, vscode.TreeItemCollapsibleState.None);
+                const item = new vscode.TreeItem(treeLabel, vscode.TreeItemCollapsibleState.Collapsed);
                 // Account for newlines in uncaptured tokens
                 const newLineAdjust = token.scopes.length == 1 && (grammar.lines[line].tokens.length - 1 == element.tokenId) ? 1 : 0;
                 item.description = token.startIndex + " - " + (token.endIndex - newLineAdjust);
@@ -290,6 +304,17 @@ exports.TreeDataProvider = {
                 // 	]
                 // };
                 // item.command = command;
+                return item;
+            }
+            if (id == 2) {
+                const line = element.line;
+                const token = grammar.lines[line].tokens[element.tokenId];
+                const scope = token.scopes[element.scopeId];
+                const label = scope;
+                const treeLabel = {
+                    label: label,
+                };
+                const item = new vscode.TreeItem(treeLabel, vscode.TreeItemCollapsibleState.None);
                 return item;
             }
         }
