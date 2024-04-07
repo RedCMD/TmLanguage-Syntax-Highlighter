@@ -70,8 +70,8 @@ export function getComment(node: Parser.SyntaxNode): string | null {
 
 export function getLastNode(rootNode: Parser.SyntaxNode, type: string) {
 	const nodes = rootNode.namedChildren;
-	while (nodes.length) {
-		const childNode = nodes.pop(); // bottom up
+	for (let index = nodes.length - 1; index >= 0; index--) { // bottom up
+		const childNode = nodes[index];
 		if (childNode.type == type) {
 			return childNode;
 		}
@@ -84,7 +84,9 @@ export function queryNode(node: Parser.SyntaxNode, queryString: string, point: P
 export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoint: Parser.Point, endPoint: Parser.Point): Parser.QueryCapture[];
 export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoint?: Parser.Point, endPoint?: Parser.Point | false): Parser.QueryCapture[] | Parser.QueryCapture | null | undefined {
 	const language = node.tree.getLanguage();
+	// const start = performance.now();
 	const query = language.query(queryString);
+	// vscode.window.showInformationMessage(performance.now() - start + "ms");
 	const queryCaptures = query.captures(node, startPoint, endPoint || startPoint);
 	if (queryCaptures.length > 10000) {
 		vscode.window.showWarningMessage("Unoptimized Query: " + queryCaptures.length + " results returned:\n" + queryString);
@@ -165,6 +167,9 @@ export function trueParent(node: Parser.SyntaxNode): Parser.SyntaxNode {
 	// return sibling ? sibling.equals(node) ? parent.parent : parent : parent;
 }
 
+export let jsonParserLanguage: Parser.Language;
+export let regexParserLanguage: Parser.Language;
+
 declare var navigator: object | undefined;
 export async function initTreeSitter(context: vscode.ExtensionContext) {
 	// vscode.window.showInformationMessage(JSON.stringify("TreeSitterInit"));
@@ -186,12 +191,14 @@ export async function initTreeSitter(context: vscode.ExtensionContext) {
 	const jsonWasm = jsonWasmUri.scheme === 'file' ? jsonWasmUri.fsPath : jsonWasmUri.toString(true);
 	const jsonLanguage = await Parser.Language.load(jsonWasm);
 	jsonParser.setLanguage(jsonLanguage);
-
+	jsonParserLanguage = jsonLanguage;
+	
 	const regexParser = new Parser();
 	const regexWasmUri = vscode.Uri.joinPath(context.extensionUri, 'out', 'tree-sitter-regextm.wasm');
 	const regexWasm = regexWasmUri.scheme === 'file' ? regexWasmUri.fsPath : regexWasmUri.toString(true);
 	const regexLanguage = await Parser.Language.load(regexWasm);
 	regexParser.setLanguage(regexLanguage);
+	regexParserLanguage = regexLanguage;
 
 	// vscode.window.showInformationMessage(JSON.stringify("Lang"));
 

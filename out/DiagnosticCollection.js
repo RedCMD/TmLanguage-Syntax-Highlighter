@@ -5,10 +5,20 @@ const vscode = require("vscode");
 const vscodeOniguruma = require("vscode-oniguruma");
 const TreeSitter_1 = require("./TreeSitter");
 const extension_1 = require("./extension");
+let repoQuery;
 function initDiagnostics(context) {
     // vscode.window.showInformationMessage(JSON.stringify("initDiagnostics"));
     const DiagnosticCollection = vscode.languages.createDiagnosticCollection("textmate");
     context.subscriptions.push(DiagnosticCollection);
+    const repoQueryString = `
+		(repo
+		;	[(patterns) (include)] (repository ; causes extra 70ms lag
+			(repository
+				(repo
+					(key) @nestRepo))
+			!match !begin)
+	`;
+    repoQuery = TreeSitter_1.jsonParserLanguage.query(repoQueryString);
     for (const editor of vscode.window.visibleTextEditors) {
         // vscode.window.showInformationMessage(JSON.stringify("visible"));
         Diagnostics(editor.document, DiagnosticCollection);
@@ -31,6 +41,9 @@ function Diagnostics(document, Diagnostics) {
     if (!vscode.languages.match(extension_1.DocumentSelector, document)) {
         return;
     }
+    const trees = (0, TreeSitter_1.getTrees)(document);
+    const jsonTree = trees.jsonTree;
+    const rootNode = jsonTree.rootNode;
     const diagnostics = [];
     if (false) { // TreeSitter JSON errors
         // vscode.window.showInformationMessage(JSON.stringify("diagnostics JSON"))
@@ -151,14 +164,15 @@ function Diagnostics(document, Diagnostics) {
         // vscode.window.showInformationMessage(JSON.stringify("diagnostics Regex Oniguruma"));
         const trees = (0, TreeSitter_1.getTrees)(document);
         // const jsonTree = trees.jsonTree;
-        const regexTrees = trees.regexTrees;
+        // const regexTrees = trees.regexTrees;
         const regexNodes = trees.regexNodes;
-        for (const id in regexTrees) {
-            const regexTree = regexTrees[id];
-            const node = regexTree.rootNode;
-            const text = node.text;
-            const regexNode = regexNodes[node.id];
+        for (const id in regexNodes) {
+            const regexNode = regexNodes[id];
+            const text = regexNode.text;
             const key = regexNode.previousNamedSibling;
+            if (!key) { // `previousNamedSibling` is broken on 0width nodes
+                continue;
+            }
             let regex = text.replace(/\\[\\\/bfnrt"]|\\u[0-9a-fA-F]{4}/g, regexEscapeReplacer);
             if (key.text == 'end' || key.text == 'while') {
                 // `\\3` could be valid; could be invalid. Who knows?
@@ -183,6 +197,98 @@ function Diagnostics(document, Diagnostics) {
                 diagnostics.push(diagnostic);
             }
         }
+    }
+    if (false) { // missing `#includes`
+        // vscode.window.showInformationMessage(JSON.stringify("diagnostics #includes"))
+        const includeCaptures = (0, TreeSitter_1.queryNode)(rootNode, `(include (value !scopeName (ruleName) @include))`);
+        for (const includeCapture of includeCaptures) {
+            const node = includeCapture.node;
+            const text = node.text;
+            const repoQuery = `
+				(json
+					(repository
+						(repo
+							(key) @rootRepo (.eq? @rootRepo "${text}"))))
+				(repo
+			;		[(patterns) (include)] (repository ; causes too much lag
+					(repository
+						(repo
+							(key) @nestRepo (.eq? @nestRepo "${text}")))
+					!match !begin)
+			`;
+            // const start = performance.now();
+            const repoCapture = (0, TreeSitter_1.queryNode)(rootNode, repoQuery, node.startPosition, false); // laggy
+            // vscode.window.showInformationMessage(JSON.stringify(performance.now() - start) + "ms");
+            if (repoCapture) {
+                continue;
+            }
+            const range = (0, TreeSitter_1.toRange)(node);
+            const diagnostic = {
+                range: range,
+                message: `\`${text}\` was not found in a repository.`,
+                severity: vscode.DiagnosticSeverity.Error,
+                source: 'TextMate',
+            };
+            diagnostics.push(diagnostic);
+        }
+    }
+    if (true) { // missing `#includes`
+        // vscode.window.showInformationMessage(JSON.stringify("diagnostics #includes"))
+        // const start = performance.now();
+        const includeCaptures = (0, TreeSitter_1.queryNode)(rootNode, `(include (value !scopeName (ruleName) @include))`);
+        const rootRepoQuery = `(json (repository (repo (key) @rootRepo)))`;
+        const rootRepoCaptures = (0, TreeSitter_1.queryNode)(rootNode, rootRepoQuery);
+        // const repoQueryString = `
+        // 	;(json
+        // 	;	(repository
+        // 	;		(repo
+        // 	;			(key) @rootRepo)))
+        // 	(repo
+        // 	;	[(patterns) (include)] (repository ; causes extra 70ms lag
+        // 		(repository
+        // 			(repo
+        // 				(key) @nestRepo))
+        // 		!match !begin)
+        // `;
+        // const language = jsonTree.getLanguage();
+        // const repoQuery = language.query(repoQueryString);
+        // const queryCaptures = repoQuery.captures(node, startPoint, endPoint || startPoint);
+        for (const includeCapture of includeCaptures) {
+            const node = includeCapture.node;
+            const text = node.text;
+            // const repoCapture = queryNode(rootNode, repoQuery, node.startPosition, false);
+            let match = false;
+            for (const repoCapture of rootRepoCaptures) {
+                const repoText = repoCapture.node.text;
+                if (repoText == text) {
+                    match = true;
+                    break;
+                }
+            }
+            if (match) {
+                continue;
+            }
+            const repoCaptures = repoQuery.captures(rootNode, node.startPosition, node.endPosition);
+            for (const repoCapture of repoCaptures) {
+                const repoText = repoCapture.node.text;
+                if (repoText == text) {
+                    match = true;
+                    break;
+                }
+            }
+            if (match) {
+                continue;
+            }
+            const range = (0, TreeSitter_1.toRange)(node);
+            const diagnostic = {
+                range: range,
+                message: `\`${text}\` was not found in a repository.`,
+                severity: vscode.DiagnosticSeverity.Error,
+                source: 'TextMate',
+            };
+            diagnostics.push(diagnostic);
+        }
+        // vscode.window.showInformationMessage(performance.now() - start + "ms");
     }
     // vscode.window.showInformationMessage(JSON.stringify(diagnostics));
     Diagnostics.set(document.uri, diagnostics);
