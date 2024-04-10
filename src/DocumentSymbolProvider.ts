@@ -91,6 +91,9 @@ export const SymbolKind: _object_ = {
 	',': vscode.SymbolKind.Property,
 	':': vscode.SymbolKind.Property,
 	'"': vscode.SymbolKind.Property,
+	
+	'literal': vscode.SymbolKind.String,
+	'backslash': vscode.SymbolKind.Property,
 }
 
 
@@ -108,6 +111,7 @@ export const DocumentSymbolProvider: vscode.DocumentSymbolProvider = {
 		const documentSymbolStack: vscode.DocumentSymbol[] = [];
 
 		while (true) {
+			// let childNode = node.child(index);
 			let childNode = node.namedChild(index);
 
 			if (!childNode) {
@@ -129,6 +133,7 @@ export const DocumentSymbolProvider: vscode.DocumentSymbolProvider = {
 				// childNode = regexTrees[childNode.id]?.rootNode ?? childNode;
 			}
 
+			// if (childNode.childCount && indexStack.length < 900) { // StackOverFlow
 			if (childNode.namedChildCount && indexStack.length < 900) { // StackOverFlow
 				nodeStack.push(node);
 				indexStack.push(index);
