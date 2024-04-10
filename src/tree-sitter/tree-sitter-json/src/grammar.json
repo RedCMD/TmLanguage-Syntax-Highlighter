@@ -48,7 +48,7 @@
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "name"
+                            "name": "name_display"
                           },
                           {
                             "type": "SYMBOL",
@@ -140,7 +140,7 @@
                                 },
                                 {
                                   "type": "SYMBOL",
-                                  "name": "name"
+                                  "name": "name_display"
                                 },
                                 {
                                   "type": "SYMBOL",
@@ -569,7 +569,7 @@
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "name_scope"
+                      "name": "name"
                     },
                     {
                       "type": "SYMBOL",
@@ -689,7 +689,7 @@
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "name_scope"
+                            "name": "name"
                           },
                           {
                             "type": "SYMBOL",
@@ -1098,7 +1098,7 @@
         }
       ]
     },
-    "name": {
+    "name_display": {
       "type": "SEQ",
       "members": [
         {
@@ -1178,7 +1178,7 @@
         }
       ]
     },
-    "name_scope": {
+    "name": {
       "type": "SEQ",
       "members": [
         {
@@ -1226,47 +1226,8 @@
           }
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "\""
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "REPEAT1",
-                    "content": {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SYMBOL",
-                          "name": "_scope"
-                        },
-                        {
-                          "type": "PATTERN",
-                          "value": " +"
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_forceStringNode"
-                  }
-                ]
-              },
-              "named": true,
-              "value": "value"
-            },
-            {
-              "type": "STRING",
-              "value": "\""
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_name_scopes"
         }
       ]
     },
@@ -1318,35 +1279,51 @@
           }
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "\""
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_string"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "_forceStringNode"
-                  }
-                ]
+          "type": "SYMBOL",
+          "name": "_name_scopes"
+        }
+      ]
+    },
+    "_name_scopes": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\""
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "REPEAT1",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_scope"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": " +"
+                    }
+                  ]
+                }
               },
-              "named": true,
-              "value": "value"
-            },
-            {
-              "type": "STRING",
-              "value": "\""
-            }
-          ]
+              {
+                "type": "SYMBOL",
+                "name": "_forceStringNode"
+              }
+            ]
+          },
+          "named": true,
+          "value": "value"
+        },
+        {
+          "type": "STRING",
+          "value": "\""
         }
       ]
     },

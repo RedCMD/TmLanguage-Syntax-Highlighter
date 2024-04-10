@@ -51,9 +51,9 @@ export const SymbolKind: _object_ = {
 	'end': vscode.SymbolKind.String,
 	'while': vscode.SymbolKind.String,
 
-	'scopeName': vscode.SymbolKind.String,
-	'name_scope': vscode.SymbolKind.String,
+	'scopeName': vscode.SymbolKind.Variable,
 	'name': vscode.SymbolKind.String,
+	'name_display': vscode.SymbolKind.String,
 
 	'version': vscode.SymbolKind.String,
 	'schema': vscode.SymbolKind.String,
@@ -163,7 +163,7 @@ function newDocumentSymbol(node: SyntaxNode): vscode.DocumentSymbol {
 		case 'capture':
 			text = node.firstNamedChild.text;
 			break;
-		case 'name_scope':
+		case 'name':
 			text = 'name';
 			break;
 		case 'value':

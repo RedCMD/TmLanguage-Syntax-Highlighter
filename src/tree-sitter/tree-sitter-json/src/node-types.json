@@ -263,7 +263,7 @@
           "named": true
         },
         {
-          "type": "name_scope",
+          "type": "name",
           "named": true
         },
         {
@@ -846,7 +846,7 @@
           "named": true
         },
         {
-          "type": "name",
+          "type": "name_display",
           "named": true
         },
         {
@@ -929,7 +929,7 @@
     }
   },
   {
-    "type": "name_scope",
+    "type": "name_display",
     "named": true,
     "fields": {
       "key": {
@@ -1081,7 +1081,7 @@
           "named": true
         },
         {
-          "type": "name_scope",
+          "type": "name",
           "named": true
         },
         {
@@ -1239,7 +1239,7 @@
           "named": true
         },
         {
-          "type": "name_scope",
+          "type": "name",
           "named": true
         },
         {

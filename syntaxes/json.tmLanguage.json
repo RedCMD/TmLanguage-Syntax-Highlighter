@@ -44,7 +44,7 @@
 				{ "include": "#version" },
 				{ "include": "#$schema" },
 				{ "include": "#scopeName" },
-				{ "include": "#name-display" },
+				{ "include": "#name_display" },
 				{ "include": "#fileTypes" },
 				{ "include": "#firstLineMatch" },
 				{ "include": "#foldingStartMarker" },
@@ -136,7 +136,7 @@
 				{ "include": "#dictionary-separator" }
 			]
 		},
-		"name-display": {
+		"name_display": {
 			"comment": "\"name\": \"...\"",
 			"begin": "(\")(name)(\")",
 			"end": "(?<=\")(?!\\G)|(?=[},])",
@@ -692,7 +692,7 @@
 					"end": "(?<=\")|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
-						{ "include": "#name-content" },
+						{ "include": "#name_scopes" },
 						{ "include": "#value-separator" }
 					]
 				},
@@ -714,14 +714,14 @@
 					"end": "(?<=\")|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
-						{ "include": "#name-content" },
+						{ "include": "#name_scopes" },
 						{ "include": "#value-separator" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
 			]
 		},
-		"name-content": {
+		"name_scopes": {
 			"comment": "\"...\"",
 			"//": [
 				"replaceCaptures `$1` removes all leading dots `.`",

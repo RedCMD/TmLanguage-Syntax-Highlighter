@@ -19,7 +19,7 @@ export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 			(include (value (ruleName)) @include)
 			(include (value !scopeName (self) @self))
 			(include (value (base) @base))
-			(name_scope (value (scope) @scope))
+			(name (value (scope) @scope))
 		`;
 		const cursorCapture = queryNode(jsonTree.rootNode, cursorQuery, point);
 		if (!cursorCapture) {
@@ -79,7 +79,7 @@ export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 				}
 				break;
 			case 'scope':
-				query = `(name_scope (value (scope) @scope (#eq? @scope "${cursorText}")))`;
+				query = `(name (value (scope) @scope (#eq? @scope "${cursorText}")))`;
 				break;
 			default:
 				return;

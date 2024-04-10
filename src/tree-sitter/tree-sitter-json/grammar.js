@@ -23,7 +23,7 @@ module.exports = grammar({
 						$.version,
 						$.schema,
 						$.scopeName,
-						$.name,
+						$.name_display,
 						$.information_for_contributors,
 						$.fileTypes,
 						$.firstLineMatch,
@@ -66,7 +66,7 @@ module.exports = grammar({
 		_pattern: $ => object($,
 			choice(
 				$.include,
-				$.name_scope,
+				$.name,
 				$.contentName,
 				field(
 					'match',
@@ -188,30 +188,31 @@ module.exports = grammar({
 			"scopeName",
 			string($),
 		),
-		name: $ => pair($,
+		name_display: $ => pair($,
 			"name",
 			string($),
 		),
-		name_scope: $ => pair($,
+		name: $ => pair($,
 			"name",
-			string($,
-				alias(
-					choice(
-						repeat1(
-							choice(
-								$._scope,
-								/ +/,
-							),
-						),
-						$._forceStringNode,
-					),
-					$.value,
-				),
-			),
+			$._name_scopes,
 		),
 		contentName: $ => pair($,
 			"contentName",
-			string($),
+			$._name_scopes,
+		),
+		_name_scopes: $ => string($,
+			alias(
+				choice(
+					repeat1(
+						choice(
+							$._scope,
+							/ +/,
+						),
+					),
+					$._forceStringNode,
+				),
+				$.value,
+			),
 		),
 		_scope: $ => field(
 			"scope",
