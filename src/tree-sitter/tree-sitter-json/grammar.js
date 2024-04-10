@@ -217,15 +217,24 @@ module.exports = grammar({
 		_scope: $ => field(
 			"scope",
 			alias(
-				token(
+				// token(
+				prec.right(
 					repeat1(
 						choice(
+							$.replace_capture,
 							/\\[^\r\n\t ]/,
-							/[^\\\r\n\t "]+/,
+							/[^\\\r\n\t $"]+/,
+							/\$/,
 						),
 					),
 				),
 				$.scope,
+			),
+		),
+		replace_capture: $ => token(
+			seq(
+				'$',
+				/\d+/,
 			),
 		),
 

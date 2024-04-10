@@ -85,6 +85,18 @@
 				{ "include": "#json-pair" },
 				{ "include": "#comments" },
 				{
+					"begin": "^(?=[^(\\[\\]{},\t\"]*+\\([^)\t]*+\\))",
+					"end": "(?=[)\"])",
+					"name": "meta.embedded.block.regexp.tmLanguage",
+					"patterns": [
+						{ "include": "source.syntax.regexp.tmLanguage" },
+						{
+							"comment": "Fallback if `source.syntax.regexp.tmLanguage` fails",
+							"include": "#escape-characters"
+						}
+					]
+				},
+				{
 					"match": "\\S[^,:/{}\\[\\]\\s\"]*",
 					"name": "invalid.illegal.expected-object.json.tm"
 				}

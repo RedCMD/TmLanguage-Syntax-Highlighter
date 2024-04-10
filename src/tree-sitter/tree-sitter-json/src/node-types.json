@@ -1302,6 +1302,21 @@
     }
   },
   {
+    "type": "scope",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "replace_capture",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "scopeName",
     "named": true,
     "fields": {
@@ -1563,11 +1578,11 @@
     "named": true
   },
   {
-    "type": "ruleName",
+    "type": "replace_capture",
     "named": true
   },
   {
-    "type": "scope",
+    "type": "ruleName",
     "named": true
   },
   {
