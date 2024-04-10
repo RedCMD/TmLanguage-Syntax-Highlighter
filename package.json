@@ -245,6 +245,11 @@
 					"when": "view == TextMate"
 				},
 				{
+					"command": "editor.action.inspectTMScopes",
+					"group": "navigation@6",
+					"when": "view == TextMate"
+				},
+				{
 					"command": "textmate.tree-view",
 					"group": "viewAs",
 					"when": "view == TextMate"
@@ -337,6 +342,12 @@
 				"title": "Find",
 				"category": "TextMate",
 				"icon": "$(search)"
+			},
+			{
+				"command": "editor.action.inspectTMScopes",
+				"title": "Developer: Inspect Editor Tokens and Scopes",
+				"category": "TextMate",
+				"icon": "$(inspect)"
 			}
 		]
 	},
