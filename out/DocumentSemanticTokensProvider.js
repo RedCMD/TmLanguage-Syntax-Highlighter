@@ -46,7 +46,7 @@ const tokenTypesLegend = [
     "keyword", // 19 @macro
     "number", // 20 -numeric
     "regexp", // 21 
-    "operator" // 22 =operators
+    "operator", // 22 =operators
 ];
 const tokenModifiersLegend = [
     "declaration",
@@ -62,15 +62,16 @@ const tokenModifiersLegend = [
     "strong",
     "bold",
     "strikethrough",
-    "underline"
+    "underline",
 ];
 exports.SemanticTokensLegend = new vscode.SemanticTokensLegend(tokenTypesLegend, tokenModifiersLegend);
 exports.DocumentSemanticTokensProvider = {
     provideDocumentSemanticTokens(document, token) {
         // vscode.window.showInformationMessage(JSON.stringify("Semantic"));
         const semanticTokensBuilder = new vscode.SemanticTokensBuilder(exports.SemanticTokensLegend);
-        const tree = (0, TreeSitter_1.getTree)(document);
-        const captures = (0, TreeSitter_1.queryNode)(tree.rootNode, `(_) @node`);
+        const trees = (0, TreeSitter_1.getTrees)(document);
+        const jsonTree = trees.jsonTree;
+        const captures = (0, TreeSitter_1.queryNode)(jsonTree.rootNode, `(_) @node`);
         for (const capture of captures) {
             const node = capture.node;
             const tokenType = tokenConversion[node.type];
@@ -82,5 +83,5 @@ exports.DocumentSemanticTokensProvider = {
         const tokens = semanticTokensBuilder.build();
         // vscode.window.showInformationMessage(JSON.stringify(tokens));
         return tokens;
-    }
+    },
 };

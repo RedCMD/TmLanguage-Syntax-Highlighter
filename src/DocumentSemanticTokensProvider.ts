@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getTree, queryNode, toRange } from "./TreeSitter";
+import { getTrees, queryNode, toRange } from "./TreeSitter";
 import { _object_ } from './extension';
 
 
@@ -50,7 +50,7 @@ const tokenTypesLegend = [
 	"keyword",		// 19 @macro
 	"number",		// 20 -numeric
 	"regexp",		// 21 
-	"operator"		// 22 =operators
+	"operator",		// 22 =operators
 ]
 
 const tokenModifiersLegend = [ // idk what this does/is for
@@ -67,19 +67,20 @@ const tokenModifiersLegend = [ // idk what this does/is for
 	"strong",
 	"bold",
 	"strikethrough",
-	"underline"
+	"underline",
 ]
 
 export const SemanticTokensLegend = new vscode.SemanticTokensLegend(tokenTypesLegend, tokenModifiersLegend);
 
 
-export const DocumentSemanticTokensProvider = {
+export const DocumentSemanticTokensProvider: vscode.DocumentSemanticTokensProvider = {
 	provideDocumentSemanticTokens(document: vscode.TextDocument, token: vscode.CancellationToken): vscode.SemanticTokens {
 		// vscode.window.showInformationMessage(JSON.stringify("Semantic"));
 		const semanticTokensBuilder = new vscode.SemanticTokensBuilder(SemanticTokensLegend);
-		const tree = getTree(document);
+		const trees = getTrees(document);
+		const jsonTree = trees.jsonTree;
 
-		const captures = queryNode(tree.rootNode, `(_) @node`);
+		const captures = queryNode(jsonTree.rootNode, `(_) @node`);
 		for (const capture of captures) {
 			const node = capture.node;
 			const tokenType = tokenConversion[node.type];
@@ -92,5 +93,5 @@ export const DocumentSemanticTokensProvider = {
 		const tokens = semanticTokensBuilder.build();
 		// vscode.window.showInformationMessage(JSON.stringify(tokens));
 		return tokens;
-	}
+	},
 }
