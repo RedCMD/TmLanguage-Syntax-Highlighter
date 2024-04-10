@@ -215,7 +215,8 @@ exports.TreeDataProvider = {
             item.description = timeFixed + "ms" + (time >= 1 ? ' ⚠️' : '');
             // item.description = timeFixed + "ms" + (ruleChached[rule.matchedRuleId] == id /* && !cachedRule._match */ ? ' ⚠️' : '');
             if (cachedRule._match) {
-                item.iconPath = new vscode.ThemeIcon('symbol-event');
+                item.iconPath = new vscode.ThemeIcon('regex');
+                // item.iconPath = new vscode.ThemeIcon('symbol-event');
             }
             item.tooltip = `RuleId: ${cachedRule.id}`;
             // const start = rule.captureIndices[0].start;
@@ -584,6 +585,7 @@ async function gotoGrammar(element) {
     if (ruleId < 0) {
         ruleId = -ruleId;
     }
+    // vscode.window.showInformationMessage(JSON.stringify(ruleId));
     let path = allChildren(grammar._grammar, ruleId);
     let grammarDoc;
     if (!path) {
@@ -629,6 +631,22 @@ async function gotoGrammar(element) {
                 }
             }
             node = node.namedChild(pattern + 1);
+            continue;
+        }
+        const capture = step.captures;
+        if (capture != null) {
+            for (const childNode of node.namedChildren) {
+                if (childNode.type == 'captures') {
+                    node = childNode;
+                    break;
+                }
+            }
+            for (const captureNode of node.namedChildren) {
+                if (captureNode.firstNamedChild?.text == capture) {
+                    node = captureNode;
+                    break;
+                }
+            }
             continue;
         }
         const id = step.id;
@@ -708,6 +726,18 @@ function allChildren(rules, ruleId, captureIndex) {
                     const path = allChildren(repo, ruleId);
                     if (path) {
                         path.unshift({ "repository": key });
+                        return path;
+                    }
+                }
+                break;
+            case 'captures':
+                // @ts-ignore
+                const captures = rules[key];
+                for (const key in captures) {
+                    const capture = captures[key];
+                    const path = allChildren(capture, ruleId);
+                    if (path) {
+                        path.unshift({ "captures": key });
                         return path;
                     }
                 }

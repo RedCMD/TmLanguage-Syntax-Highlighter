@@ -4,7 +4,7 @@ import * as vscodeTextmate from './textmate/main';
 import { IGrammar, IRawGrammar, RuleId, StateStackImpl, tokenizeFile, tokenizeLine } from './TextMate';
 import { stringify } from './extension';
 import { IRelaxedExtensionManifest } from './extensions';
-import { IRawRule } from './textmate/rawGrammar';
+import { IRawCaptures, IRawRule } from './textmate/rawGrammar';
 import { getTrees, queryNode, toRange } from './TreeSitter';
 
 type element = {
@@ -270,7 +270,8 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			item.description = timeFixed + "ms" + (time >= 1 ? ' ⚠️' : '');
 			// item.description = timeFixed + "ms" + (ruleChached[rule.matchedRuleId] == id /* && !cachedRule._match */ ? ' ⚠️' : '');
 			if (cachedRule._match) {
-				item.iconPath = new vscode.ThemeIcon('symbol-event');
+				item.iconPath = new vscode.ThemeIcon('regex');
+				// item.iconPath = new vscode.ThemeIcon('symbol-event');
 			}
 			item.tooltip = `RuleId: ${cachedRule.id}`;
 
@@ -696,6 +697,7 @@ async function gotoGrammar(element: element) {
 		ruleId = -ruleId;
 	}
 
+	// vscode.window.showInformationMessage(JSON.stringify(ruleId));
 	let path = allChildren(grammar._grammar, ruleId);
 	let grammarDoc;
 	if (!path) {
@@ -743,6 +745,22 @@ async function gotoGrammar(element: element) {
 				}
 			}
 			node = node.namedChild(pattern + 1);
+			continue;
+		}
+		const capture = step.captures;
+		if (capture != null) {
+			for (const childNode of node.namedChildren) {
+				if (childNode.type == 'captures') {
+					node = childNode;
+					break;
+				}
+			}
+			for (const captureNode of node.namedChildren) {
+				if (captureNode.firstNamedChild?.text == capture) {
+					node = captureNode;
+					break;
+				}
+			}
 			continue;
 		}
 		const id = step.id;
@@ -829,7 +847,7 @@ async function gotoFile(element: element) {
 	}
 }
 
-function allChildren(rules: vscodeTextmate.IRawGrammar | IRawRule, ruleId: number, captureIndex?: number): [{ 'repository'?: string, 'patterns'?: number, id?: number }] {
+function allChildren(rules: vscodeTextmate.IRawGrammar | IRawRule, ruleId: number, captureIndex?: number): [{ 'repository'?: string, 'patterns'?: number, 'captures'?: string, id?: number }] {
 	for (const key in rules) {
 		switch (key) {
 			case 'patterns':
@@ -850,6 +868,18 @@ function allChildren(rules: vscodeTextmate.IRawGrammar | IRawRule, ruleId: numbe
 					const path = allChildren(repo, ruleId);
 					if (path) {
 						path.unshift({ "repository": key });
+						return path;
+					}
+				}
+				break;
+			case 'captures':
+				// @ts-ignore
+				const captures = <IRawCaptures>rules[key];
+				for (const key in captures) {
+					const capture = captures[key];
+					const path = allChildren(capture, ruleId);
+					if (path) {
+						path.unshift({ "captures": key });
 						return path;
 					}
 				}
