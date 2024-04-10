@@ -6,26 +6,28 @@ const TreeSitter_1 = require("./TreeSitter");
 exports.DocumentFormattingEditProvider = {
     provideDocumentFormattingEdits(document, options, token) {
         // vscode.window.showInformationMessage(JSON.stringify("Format"));
-        const tree = (0, TreeSitter_1.getTree)(document);
+        const trees = (0, TreeSitter_1.getTrees)(document);
+        const jsonTree = trees.jsonTree;
         const textEdits = [];
         const tabType = options.insertSpaces ? ' ' : '\t';
         const tabSize = options.insertSpaces ? options.tabSize : 1;
-        parseAllChildren(tree.rootNode, textEdits, 0, tabSize, tabType);
+        parseAllChildren(jsonTree.rootNode, textEdits, 0, tabSize, tabType);
         // vscode.window.showInformationMessage(JSON.stringify(textEdits));
         return textEdits;
-    }
+    },
 };
 exports.DocumentRangeFormattingEditProvider = {
     provideDocumentRangeFormattingEdits(document, range, options, token) {
         // vscode.window.showInformationMessage(JSON.stringify("FormatRange"));
-        const tree = (0, TreeSitter_1.getTree)(document);
+        const trees = (0, TreeSitter_1.getTrees)(document);
+        const jsonTree = trees.jsonTree;
         const textEdits = [];
         const tabType = options.insertSpaces ? ' ' : '\t';
         const tabSize = options.insertSpaces ? options.tabSize : 1;
         const startPoint = (0, TreeSitter_1.toPoint)(range.start);
         const endPoint = (0, TreeSitter_1.toPoint)(range.end);
         const queryString = `(_) @node`;
-        const nestedCaptures = (0, TreeSitter_1.queryNode)(tree.rootNode, queryString, startPoint, endPoint);
+        const nestedCaptures = (0, TreeSitter_1.queryNode)(jsonTree.rootNode, queryString, startPoint, endPoint);
         let level = -1;
         let node;
         for (const nestedCapture of nestedCaptures) {
@@ -40,7 +42,7 @@ exports.DocumentRangeFormattingEditProvider = {
         parseAllChildren(node, textEdits, indent, tabSize, tabType);
         // vscode.window.showInformationMessage(JSON.stringify(textEdits));
         return textEdits;
-    }
+    },
 };
 function parseAllChildren(parentNode, textEdits, indent, tabSize, tabType) {
     let range;

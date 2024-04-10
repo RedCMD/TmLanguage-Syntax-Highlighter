@@ -1,28 +1,30 @@
 import * as vscode from 'vscode';
 import * as Parser from 'web-tree-sitter';
-import { getTree, toRange, toPoint, queryNode } from "./TreeSitter";
+import { getTrees, toRange, toPoint, queryNode } from "./TreeSitter";
 
 
-export const DocumentFormattingEditProvider = {
+export const DocumentFormattingEditProvider: vscode.DocumentFormattingEditProvider = {
 	provideDocumentFormattingEdits(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.TextEdit[] {
 		// vscode.window.showInformationMessage(JSON.stringify("Format"));
-		const tree = getTree(document);
+		const trees = getTrees(document);
+		const jsonTree = trees.jsonTree;
 		const textEdits: vscode.TextEdit[] = [];
 
 		const tabType = options.insertSpaces ? ' ' : '\t';
 		const tabSize = options.insertSpaces ? options.tabSize : 1;
 
-		parseAllChildren(tree.rootNode, textEdits, 0, tabSize, tabType);
+		parseAllChildren(jsonTree.rootNode, textEdits, 0, tabSize, tabType);
 
 		// vscode.window.showInformationMessage(JSON.stringify(textEdits));
 		return textEdits;
-	}
+	},
 }
 
-export const DocumentRangeFormattingEditProvider = {
+export const DocumentRangeFormattingEditProvider: vscode.DocumentRangeFormattingEditProvider = {
 	provideDocumentRangeFormattingEdits(document: vscode.TextDocument, range: vscode.Range, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.TextEdit[] {
 		// vscode.window.showInformationMessage(JSON.stringify("FormatRange"));
-		const tree = getTree(document);
+		const trees = getTrees(document);
+		const jsonTree = trees.jsonTree;
 		const textEdits: vscode.TextEdit[] = [];
 
 		const tabType = options.insertSpaces ? ' ' : '\t';
@@ -32,7 +34,7 @@ export const DocumentRangeFormattingEditProvider = {
 		const endPoint = toPoint(range.end);
 
 		const queryString = `(_) @node`;
-		const nestedCaptures = queryNode(tree.rootNode, queryString, startPoint, endPoint);
+		const nestedCaptures = queryNode(jsonTree.rootNode, queryString, startPoint, endPoint);
 
 		let level = -1;
 		let node: Parser.SyntaxNode;
@@ -50,7 +52,7 @@ export const DocumentRangeFormattingEditProvider = {
 
 		// vscode.window.showInformationMessage(JSON.stringify(textEdits));
 		return textEdits;
-	}
+	},
 }
 
 function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextEdit[], indent: number, tabSize: number, tabType: string) {
