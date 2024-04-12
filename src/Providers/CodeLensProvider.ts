@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { QueryCapture } from 'web-tree-sitter';
-import { getTrees, queryNode, toRange } from "./TreeSitter";
+import { getTrees, queryNode, toRange } from "../TreeSitter";
 
 type codeLen = vscode.CodeLens & {
 	capture?: QueryCapture,

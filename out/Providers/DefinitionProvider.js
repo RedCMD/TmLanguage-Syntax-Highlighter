@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DefinitionProvider = void 0;
 const vscode = require("vscode");
-const TreeSitter_1 = require("./TreeSitter");
-const extension_1 = require("./extension");
+const TreeSitter_1 = require("../TreeSitter");
+const extension_1 = require("../extension");
 exports.DefinitionProvider = {
     async provideDefinition(document, position, token) {
         // vscode.window.showInformationMessage(JSON.stringify("Definition"));

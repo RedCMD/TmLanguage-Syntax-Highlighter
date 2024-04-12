@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DocumentSymbolProvider = exports.SymbolKind = void 0;
 const vscode = require("vscode");
-const TreeSitter_1 = require("./TreeSitter");
+const TreeSitter_1 = require("../TreeSitter");
 exports.SymbolKind = {
     /*
         'File': vscode.SymbolKind.File,

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DocumentRangeFormattingEditProvider = exports.DocumentFormattingEditProvider = void 0;
 const vscode = require("vscode");
-const TreeSitter_1 = require("./TreeSitter");
+const TreeSitter_1 = require("../TreeSitter");
 exports.DocumentFormattingEditProvider = {
     provideDocumentFormattingEdits(document, options, token) {
         // vscode.window.showInformationMessage(JSON.stringify("Format"));

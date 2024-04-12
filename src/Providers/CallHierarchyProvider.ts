@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getTrees, toPoint, queryNode, toRange, trueParent, getComment } from "./TreeSitter";
+import { getTrees, toPoint, queryNode, toRange, trueParent, getComment } from "../TreeSitter";
 import { SymbolKind } from "./DocumentSymbolProvider";
 
 

@@ -1,23 +1,23 @@
 import * as vscode from 'vscode';
 
 import { initTreeSitter } from "./TreeSitter";
-import { initOniguruma } from "./oniguruma";
+import { initOniguruma } from "./Oniguruma";
 import { initTextMate } from "./TextMate";
 import { initDiagnostics } from "./DiagnosticCollection";
-import { initCallStackView } from "./TreeDataProvider";
+import { initCallStackView } from "./treeData";
 import { initTokenColorCustomizations } from "./tokenColorCustomizations";
 
-import { HoverProvider } from "./HoverProvider";
-import { RenameProvider } from "./RenameProvider";
-import { CodeLensProvider } from "./CodeLensProvider";
-import { ReferenceProvider } from "./ReferenceProvider";
-import { DefinitionProvider } from "./DefinitionProvider";
-import { CallHierarchyProvider } from "./CallHierarchyProvider";
-import { DocumentSymbolProvider } from "./DocumentSymbolProvider";
-import { DocumentHighlightProvider } from "./DocumentHighlightProvider";
-import { CompletionItemProvider, triggerCharacters } from "./CompletionItemProvider";
-import { DocumentFormattingEditProvider, DocumentRangeFormattingEditProvider } from "./DocumentFormattingEditProvider";
-import { DocumentSemanticTokensProvider, SemanticTokensLegend } from "./DocumentSemanticTokensProvider";
+import { HoverProvider } from "./Providers/HoverProvider";
+import { RenameProvider } from "./Providers/RenameProvider";
+import { CodeLensProvider } from "./Providers/CodeLensProvider";
+import { ReferenceProvider } from "./Providers/ReferenceProvider";
+import { DefinitionProvider } from "./Providers/DefinitionProvider";
+import { CallHierarchyProvider } from "./Providers/CallHierarchyProvider";
+import { DocumentSymbolProvider } from "./Providers/DocumentSymbolProvider";
+import { DocumentHighlightProvider } from "./Providers/DocumentHighlightProvider";
+import { CompletionItemProvider, triggerCharacters } from "./Providers/CompletionItemProvider";
+import { DocumentFormattingEditProvider, DocumentRangeFormattingEditProvider } from "./Providers/DocumentFormattingEditProvider";
+import { DocumentSemanticTokensProvider, SemanticTokensLegend } from "./Providers/DocumentSemanticTokensProvider";
 
 
 export type _object_ = { [key: string]: any };

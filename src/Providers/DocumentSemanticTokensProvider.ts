@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
-import { getTrees, queryNode, toRange } from "./TreeSitter";
-import { _object_ } from "./extension";
+import { getTrees, queryNode, toRange } from "../TreeSitter";
+import { _object_ } from "../extension";
 
 
 const tokenConversion: _object_ = {

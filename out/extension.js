@@ -3,29 +3,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.stringify = exports.deactivate = exports.activate = exports.DocumentSelector = void 0;
 const vscode = require("vscode");
 const TreeSitter_1 = require("./TreeSitter");
-const oniguruma_1 = require("./oniguruma");
+const Oniguruma_1 = require("./Oniguruma");
 const TextMate_1 = require("./TextMate");
 const DiagnosticCollection_1 = require("./DiagnosticCollection");
-const TreeDataProvider_1 = require("./TreeDataProvider");
+const treeData_1 = require("./treeData");
 const tokenColorCustomizations_1 = require("./tokenColorCustomizations");
-const RenameProvider_1 = require("./RenameProvider");
-const ReferenceProvider_1 = require("./ReferenceProvider");
-const DefinitionProvider_1 = require("./DefinitionProvider");
-const CallHierarchyProvider_1 = require("./CallHierarchyProvider");
-const DocumentSymbolProvider_1 = require("./DocumentSymbolProvider");
-const DocumentHighlightProvider_1 = require("./DocumentHighlightProvider");
-const CompletionItemProvider_1 = require("./CompletionItemProvider");
-const DocumentFormattingEditProvider_1 = require("./DocumentFormattingEditProvider");
+const RenameProvider_1 = require("./Providers/RenameProvider");
+const ReferenceProvider_1 = require("./Providers/ReferenceProvider");
+const DefinitionProvider_1 = require("./Providers/DefinitionProvider");
+const CallHierarchyProvider_1 = require("./Providers/CallHierarchyProvider");
+const DocumentSymbolProvider_1 = require("./Providers/DocumentSymbolProvider");
+const DocumentHighlightProvider_1 = require("./Providers/DocumentHighlightProvider");
+const CompletionItemProvider_1 = require("./Providers/CompletionItemProvider");
+const DocumentFormattingEditProvider_1 = require("./Providers/DocumentFormattingEditProvider");
 exports.DocumentSelector = [
     { language: 'json-textmate' }
 ];
 async function activate(context) {
     // vscode.window.showInformationMessage(JSON.stringify("TextMate Extension"));
     await (0, TreeSitter_1.initTreeSitter)(context);
-    await (0, oniguruma_1.initOniguruma)(context);
+    await (0, Oniguruma_1.initOniguruma)(context);
     (0, TextMate_1.initTextMate)(context);
     (0, DiagnosticCollection_1.initDiagnostics)(context);
-    (0, TreeDataProvider_1.initCallStackView)(context);
+    (0, treeData_1.initCallStackView)(context);
     (0, tokenColorCustomizations_1.initTokenColorCustomizations)(context);
     // context.subscriptions.push(vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider)); // Mouse over Hovers
     context.subscriptions.push(vscode.languages.registerRenameProvider(exports.DocumentSelector, RenameProvider_1.RenameProvider)); // [F2] Rename

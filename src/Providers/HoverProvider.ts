@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getTrees, toPoint, toRange } from "./TreeSitter";
+import { getTrees, toPoint, toRange } from "../TreeSitter";
 
 
 export const HoverProvider: vscode.HoverProvider = {

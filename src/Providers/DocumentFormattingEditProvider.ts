@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as Parser from 'web-tree-sitter';
-import { getTrees, toRange, toPoint, queryNode } from "./TreeSitter";
+import { getTrees, toRange, toPoint, queryNode } from "../TreeSitter";
 
 
 export const DocumentFormattingEditProvider: vscode.DocumentFormattingEditProvider = {

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CodeLensProvider = void 0;
 const vscode = require("vscode");
-const TreeSitter_1 = require("./TreeSitter");
+const TreeSitter_1 = require("../TreeSitter");
 exports.CodeLensProvider = {
     provideCodeLenses(document, token) {
         // vscode.window.showInformationMessage(JSON.stringify("provideCodeLenses"));

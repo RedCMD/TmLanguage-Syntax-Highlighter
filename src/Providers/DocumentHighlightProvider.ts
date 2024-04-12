@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as Parser from 'web-tree-sitter';
-import { getTrees, queryNode, toPoint, toRange, trueParent } from "./TreeSitter";
+import { getTrees, queryNode, toPoint, toRange, trueParent } from "../TreeSitter";
 
 export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 	provideDocumentHighlights(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.DocumentHighlight[] {

@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CompletionItemProvider = exports.triggerCharacters = void 0;
 const vscode = require("vscode");
-const TreeSitter_1 = require("./TreeSitter");
-const themeScopeColors_1 = require("./themeScopeColors");
+const TreeSitter_1 = require("../TreeSitter");
+const themeScopeColors_1 = require("../themeScopeColors");
 const triggerCharactersInclude = ['"', '#', '.', '$'];
 const triggerCharactersScope = ['"', '.', '$', ' '];
 const triggerCharactersRegex = ['\\', '(', '?', '<', '\''];

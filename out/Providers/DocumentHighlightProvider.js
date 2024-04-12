@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DocumentHighlightProvider = void 0;
 const vscode = require("vscode");
-const TreeSitter_1 = require("./TreeSitter");
+const TreeSitter_1 = require("../TreeSitter");
 exports.DocumentHighlightProvider = {
     provideDocumentHighlights(document, position, token) {
         // vscode.window.showInformationMessage(JSON.stringify("DocumentHighlights"));

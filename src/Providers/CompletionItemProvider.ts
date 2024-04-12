@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as Parser from 'web-tree-sitter';
-import { getTrees, toRange, toPoint, queryNode } from "./TreeSitter";
-import { getScopes } from "./themeScopeColors";
+import { getTrees, toRange, toPoint, queryNode } from "../TreeSitter";
+import { getScopes } from "../themeScopeColors";
 
 const triggerCharactersInclude = ['"', '#', '.', '$'];
 const triggerCharactersScope = ['"', '.', '$', ' '];

@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getTree, toRange, toPoint, queryNode } from "./TreeSitter";
+import { getTree, toRange, toPoint, queryNode } from "../TreeSitter";
 
 
 export const ReferenceProvider: vscode.ReferenceProvider = {

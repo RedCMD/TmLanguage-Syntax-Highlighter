@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DocumentSemanticTokensProvider = exports.SemanticTokensLegend = void 0;
 const vscode = require("vscode");
-const TreeSitter_1 = require("./TreeSitter");
+const TreeSitter_1 = require("../TreeSitter");
 const tokenConversion = {
     escape_sequence: 17,
     number: 20,
