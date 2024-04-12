@@ -1,11 +1,11 @@
 import * as vscode from 'vscode';
-import * as vscodeTextmate from './textmate/main';
+import * as vscodeTextmate from "./textmate/main";
 // import * as vscodeTextmate from 'vscode-textmate';
-import { IGrammar, IRawGrammar, RuleId, StateStackImpl, tokenizeFile, tokenizeLine } from './TextMate';
-import { stringify } from './extension';
-import { IRelaxedExtensionManifest } from './extensions';
-import { IRawCaptures, IRawRule } from './textmate/rawGrammar';
-import { getTrees, queryNode, toRange } from './TreeSitter';
+import { IGrammar, IRawGrammar, RuleId, StateStackImpl, tokenizeFile, tokenizeLine } from "./TextMate";
+import { stringify } from "./extension";
+import { IRelaxedExtensionManifest } from "./extensions";
+import { IRawCaptures, IRawRule } from "./textmate/rawGrammar";
+import { getTrees, queryNode, toRange } from "./TreeSitter";
 
 type element = {
 	line?: number,

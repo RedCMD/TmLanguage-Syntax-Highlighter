@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { getTrees, getTree, toRange, toPoint, queryNode, trees, getLastNode } from "./TreeSitter";
-import { DocumentSelector, stringify } from './extension';
+import { DocumentSelector, stringify } from "./extension";
 import { Point, SyntaxNode } from 'web-tree-sitter';
 
 

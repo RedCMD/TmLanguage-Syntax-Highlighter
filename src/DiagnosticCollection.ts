@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
-import * as vscodeOniguruma from "vscode-oniguruma";
+import * as vscodeOniguruma from 'vscode-oniguruma';
 import { getTree, getTrees, jsonParserLanguage, queryNode, toRange, trueParent } from "./TreeSitter";
-import { DocumentSelector } from './extension';
+import { DocumentSelector } from "./extension";
 import { Query, QueryOptions } from 'web-tree-sitter';
 
 

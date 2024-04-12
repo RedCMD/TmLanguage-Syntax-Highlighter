@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.tokenizeFile = exports.tokenizeLine = exports.initTextMate = exports.whileRuleId = exports.endRuleId = void 0;
 const vscode = require("vscode");
 const vscodeTextmate = require("./textmate/main");
-// import * as vscodeTextmate from "vscode-textmate";
+// import * as vscodeTextmate from 'vscode-textmate';
 const vscodeOniguruma = require("vscode-oniguruma");
 const extension_1 = require("./extension");
 exports.endRuleId = -1;

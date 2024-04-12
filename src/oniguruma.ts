@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import * as vscodeOniguruma from "vscode-oniguruma";
+import * as vscodeOniguruma from 'vscode-oniguruma';
 
 export async function initOniguruma(context: vscode.ExtensionContext): Promise<void> {
 	const uri = vscode.Uri.joinPath(context.extensionUri, 'node_modules', 'vscode-oniguruma', 'release', 'onig.wasm');

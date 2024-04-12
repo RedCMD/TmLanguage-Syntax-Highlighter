@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as Parser from 'web-tree-sitter';
-import { DocumentSelector } from './extension';
+import { DocumentSelector } from "./extension";
 
 export type trees = {
 	jsonTree: Parser.Tree;

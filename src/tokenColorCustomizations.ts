@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { _object_ } from './extension';
+import { _object_ } from "./extension";
 
 export function initTokenColorCustomizations(context: vscode.ExtensionContext) {
 	// vscode.window.showInformationMessage(JSON.stringify("tokenColorCustomizations"));

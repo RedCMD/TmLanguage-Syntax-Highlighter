@@ -1,12 +1,12 @@
 import * as vscode from 'vscode';
 
 import { initTreeSitter } from "./TreeSitter";
-import { initOniguruma } from './oniguruma';
-import { initTextMate } from './TextMate';
+import { initOniguruma } from "./oniguruma";
+import { initTextMate } from "./TextMate";
 import { initDiagnostics } from "./DiagnosticCollection";
-import { initTokenColorCustomizations } from './tokenColorCustomizations';
+import { initCallStackView } from "./TreeDataProvider";
+import { initTokenColorCustomizations } from "./tokenColorCustomizations";
 
-import { initCallStackView } from './TreeDataProvider';
 import { HoverProvider } from "./HoverProvider";
 import { RenameProvider } from "./RenameProvider";
 import { CodeLensProvider } from "./CodeLensProvider";

@@ -1,9 +1,9 @@
 import * as vscode from 'vscode';
-import * as vscodeTextmate from './textmate/main';
-// import * as vscodeTextmate from "vscode-textmate";
-import * as vscodeOniguruma from "vscode-oniguruma";
-import { IRelaxedExtensionManifest } from './extensions';
-import { stringify } from './extension';
+import * as vscodeTextmate from "./textmate/main";
+// import * as vscodeTextmate from 'vscode-textmate';
+import * as vscodeOniguruma from 'vscode-oniguruma';
+import { IRelaxedExtensionManifest } from "./extensions";
+import { stringify } from "./extension";
 
 // const ruleIdSymbol = Symbol('RuleId');
 // export type RuleId = { __brand: typeof ruleIdSymbol };
