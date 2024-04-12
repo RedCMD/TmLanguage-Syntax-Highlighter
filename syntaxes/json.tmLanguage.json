@@ -977,7 +977,7 @@
 						},
 						{
 							"match": "-?\\d+",
-							"name": "constant.numeric.json.tmLanguage"
+							"name": "constant.numeric.json.tm"
 						},
 						{ "include": "#value-separator" }
 					]

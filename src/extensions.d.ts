@@ -91,7 +91,20 @@ export interface ISnippet {
 	language: string;
 }
 
-export interface ITheme {
+export const VS_LIGHT_THEME = 'vs';
+export const VS_DARK_THEME = 'vs-dark';
+export const VS_HC_THEME = 'hc-black';
+export const VS_HC_LIGHT_THEME = 'hc-light';
+export interface IThemeExtensionPoint {
+	id: string;
+	label?: string;
+	description?: string;
+	path: string;
+	uiTheme?: typeof VS_LIGHT_THEME | typeof VS_DARK_THEME | typeof VS_HC_THEME | typeof VS_HC_LIGHT_THEME;
+	_watch: boolean; // unsupported options to watch location
+}
+
+export interface ITheme extends IThemeExtensionPoint {
 	label: string;
 }
 
