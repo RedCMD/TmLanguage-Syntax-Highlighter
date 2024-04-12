@@ -107,7 +107,7 @@ function Diagnostics(document, Diagnostics) {
                         };
                         break;
                     case 'missing':
-                        if (!node.isMissing()) {
+                        if (!node.isMissing) {
                             continue;
                         }
                         diagnostic = {
@@ -268,12 +268,19 @@ function Diagnostics(document, Diagnostics) {
             if (match) {
                 continue;
             }
-            const repoCaptures = repoQuery.captures(rootNode, node.startPosition, node.endPosition);
-            for (const repoCapture of repoCaptures) {
-                const repoText = repoCapture.node.text;
-                if (repoText == text) {
-                    match = true;
-                    break;
+            const queryOptions = {
+                startPosition: node.startPosition,
+                endPosition: node.endPosition,
+            };
+            const repoMatches = repoQuery.matches(rootNode, queryOptions);
+            for (const repoMatch of repoMatches) {
+                const repoCaptures = repoMatch.captures;
+                for (const repoCapture of repoCaptures) {
+                    const repoText = repoCapture.node.text;
+                    if (repoText == text) {
+                        match = true;
+                        break;
+                    }
                 }
             }
             if (match) {

@@ -86,40 +86,52 @@ export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoi
 	const language = node.tree.getLanguage();
 	// const start = performance.now();
 	const query = language.query(queryString);
+	query.disableCapture('_ignore_');
 	// vscode.window.showInformationMessage(performance.now() - start + "ms");
-	const queryCaptures = query.captures(node, startPoint, endPoint || startPoint);
-	if (queryCaptures.length > 10000) {
-		vscode.window.showWarningMessage("Unoptimized Query: " + queryCaptures.length + " results returned:\n" + queryString);
-		// vscode.window.showInformationMessage(JSON.stringify(queryCaptures));
-	}
+	const queryOptions: Parser.QueryOptions = {
+		startPosition: startPoint,
+		endPosition: endPoint || startPoint,
+		// startIndex: 0,
+		// endIndex: 10000000,
+		matchLimit: 10000,
+	};
+	
+	// const queryCaptures = query.captures(node, queryOptions);
+	const queryMatches = query.matches(node, queryOptions);
+	// vscode.window.showInformationMessage(JSON.stringify(queryMatches));
+	// if (queryCaptures.length > 10000) {
+	// 	vscode.window.showWarningMessage("Unoptimized Query: " + queryCaptures.length + " results returned:\n" + queryString);
+	// 	// vscode.window.showInformationMessage(JSON.stringify(queryCaptures));
+	// }
 	if (startPoint && !endPoint) {
 		if (endPoint === false) {
-			return queryCaptures.pop(); // the last/inner most node
+			// vscode.window.showInformationMessage(JSON.stringify(queryMatches));
+			return queryMatches.pop()?.captures?.pop();
+			// return queryCaptures.pop(); // the last/inner most node
 		}
 		const position = new vscode.Position(
 			startPoint.row,
 			startPoint.column,
 		);
-		while (queryCaptures.length) { // TreeSitter doesn't actually check if the captured node intersects the startPoint :/
-			const queryCapture = queryCaptures.pop(); // the last/inner most node
-			if (toRange(queryCapture.node).contains(position)) {
-				return queryCapture;
+		// const queryCaptures = query.captures(node, queryOptions);
+		while (queryMatches.length) { // TreeSitter doesn't actually check if the captured node intersects the startPoint :/
+			const queryMatch = queryMatches.pop(); // the last/inner most node
+			const captures = queryMatch?.captures;
+			while (captures?.length) { // TreeSitter doesn't actually check if the captured node intersects the startPoint :/
+				const queryCapture = captures.pop(); // the last/inner most node
+				if (toRange(queryCapture.node).contains(position)) {
+					return queryCapture;
+				}
 			}
 		}
 		return null;
 	}
+	let queryCaptures: Parser.QueryCapture[] = [];
+	for (const queryMatch of queryMatches) {
+		const captures = queryMatch.captures;
+		queryCaptures = queryCaptures.concat(captures);
+	}
 	return queryCaptures;
-}
-
-/**
- * @deprecated use {@link queryNode()} instead
- */
-export function queryForPosition(tree: Parser.Tree, queryString: string, point?: Parser.Point): Parser.QueryCapture | undefined {
-	const language = tree.getLanguage();
-	const query = language.query(queryString);
-	const queryCaptures = query.captures(tree.rootNode, point, point);
-	const queryCapture = queryCaptures.pop(); // the last/inner most node
-	return queryCapture;
 }
 
 export function toRange(node: Parser.SyntaxNode): vscode.Range {
@@ -192,7 +204,7 @@ export async function initTreeSitter(context: vscode.ExtensionContext) {
 	const jsonLanguage = await Parser.Language.load(jsonWasm);
 	jsonParser.setLanguage(jsonLanguage);
 	jsonParserLanguage = jsonLanguage;
-	
+
 	const regexParser = new Parser();
 	const regexWasmUri = vscode.Uri.joinPath(context.extensionUri, 'out', 'tree-sitter-regextm.wasm');
 	const regexWasm = regexWasmUri.scheme === 'file' ? regexWasmUri.fsPath : regexWasmUri.toString(true);

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.initTreeSitter = exports.regexParserLanguage = exports.jsonParserLanguage = exports.trueParent = exports.toPoint = exports.toRange = exports.queryForPosition = exports.queryNode = exports.getLastNode = exports.getComment = exports.getRegexNode = exports.getTree = exports.getTrees = void 0;
+exports.initTreeSitter = exports.regexParserLanguage = exports.jsonParserLanguage = exports.trueParent = exports.toPoint = exports.toRange = exports.queryNode = exports.getLastNode = exports.getComment = exports.getRegexNode = exports.getTree = exports.getTrees = void 0;
 const vscode = require("vscode");
 const Parser = require("web-tree-sitter");
 const extension_1 = require("./extension");
@@ -69,39 +69,50 @@ function queryNode(node, queryString, startPoint, endPoint) {
     const language = node.tree.getLanguage();
     // const start = performance.now();
     const query = language.query(queryString);
+    query.disableCapture('_ignore_');
     // vscode.window.showInformationMessage(performance.now() - start + "ms");
-    const queryCaptures = query.captures(node, startPoint, endPoint || startPoint);
-    if (queryCaptures.length > 10000) {
-        vscode.window.showWarningMessage("Unoptimized Query: " + queryCaptures.length + " results returned:\n" + queryString);
-        // vscode.window.showInformationMessage(JSON.stringify(queryCaptures));
-    }
+    const queryOptions = {
+        startPosition: startPoint,
+        endPosition: endPoint || startPoint,
+        // startIndex: 0,
+        // endIndex: 10000000,
+        matchLimit: 10000,
+    };
+    // const queryCaptures = query.captures(node, queryOptions);
+    const queryMatches = query.matches(node, queryOptions);
+    // vscode.window.showInformationMessage(JSON.stringify(queryMatches));
+    // if (queryCaptures.length > 10000) {
+    // 	vscode.window.showWarningMessage("Unoptimized Query: " + queryCaptures.length + " results returned:\n" + queryString);
+    // 	// vscode.window.showInformationMessage(JSON.stringify(queryCaptures));
+    // }
     if (startPoint && !endPoint) {
         if (endPoint === false) {
-            return queryCaptures.pop(); // the last/inner most node
+            // vscode.window.showInformationMessage(JSON.stringify(queryMatches));
+            return queryMatches.pop()?.captures?.pop();
+            // return queryCaptures.pop(); // the last/inner most node
         }
         const position = new vscode.Position(startPoint.row, startPoint.column);
-        while (queryCaptures.length) { // TreeSitter doesn't actually check if the captured node intersects the startPoint :/
-            const queryCapture = queryCaptures.pop(); // the last/inner most node
-            if (toRange(queryCapture.node).contains(position)) {
-                return queryCapture;
+        // const queryCaptures = query.captures(node, queryOptions);
+        while (queryMatches.length) { // TreeSitter doesn't actually check if the captured node intersects the startPoint :/
+            const queryMatch = queryMatches.pop(); // the last/inner most node
+            const captures = queryMatch?.captures;
+            while (captures?.length) { // TreeSitter doesn't actually check if the captured node intersects the startPoint :/
+                const queryCapture = captures.pop(); // the last/inner most node
+                if (toRange(queryCapture.node).contains(position)) {
+                    return queryCapture;
+                }
             }
         }
         return null;
     }
+    let queryCaptures = [];
+    for (const queryMatch of queryMatches) {
+        const captures = queryMatch.captures;
+        queryCaptures = queryCaptures.concat(captures);
+    }
     return queryCaptures;
 }
 exports.queryNode = queryNode;
-/**
- * @deprecated use {@link queryNode()} instead
- */
-function queryForPosition(tree, queryString, point) {
-    const language = tree.getLanguage();
-    const query = language.query(queryString);
-    const queryCaptures = query.captures(tree.rootNode, point, point);
-    const queryCapture = queryCaptures.pop(); // the last/inner most node
-    return queryCapture;
-}
-exports.queryForPosition = queryForPosition;
 function toRange(node) {
     if (!node) {
         return null;

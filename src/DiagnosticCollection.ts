@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as vscodeOniguruma from "vscode-oniguruma";
 import { getTree, getTrees, jsonParserLanguage, queryNode, toRange, trueParent } from "./TreeSitter";
 import { DocumentSelector } from './extension';
-import { Query } from 'web-tree-sitter';
+import { Query, QueryOptions } from 'web-tree-sitter';
 
 
 type IOnigBinding = {
@@ -155,7 +155,7 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 						};
 						break;
 					case 'missing':
-						if (!node.isMissing()) {
+						if (!node.isMissing) {
 							continue;
 						}
 						diagnostic = {
@@ -335,12 +335,19 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 				continue;
 			}
 
-			const repoCaptures = repoQuery.captures(rootNode, node.startPosition, node.endPosition);
-			for (const repoCapture of repoCaptures) {
-				const repoText = repoCapture.node.text;
-				if (repoText == text) {
-					match = true;
-					break;
+			const queryOptions: QueryOptions = {
+				startPosition: node.startPosition,
+				endPosition: node.endPosition,
+			};
+			const repoMatches = repoQuery.matches(rootNode, queryOptions);
+			for (const repoMatch of repoMatches) {
+				const repoCaptures = repoMatch.captures;
+				for (const repoCapture of repoCaptures) {
+					const repoText = repoCapture.node.text;
+					if (repoText == text) {
+						match = true;
+						break;
+					}
 				}
 			}
 			if (match) {

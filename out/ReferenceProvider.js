@@ -10,26 +10,20 @@ exports.ReferenceProvider = {
         const point = (0, TreeSitter_1.toPoint)(position);
         let queryString;
         // vscode.window.showInformationMessage(JSON.stringify(tree.rootNode.namedDescendantForPosition(point).text));
-        queryString =
-            `(` +
-                `	[` +
-                // `		(json (scopeName (value) @scopeName))` +
-                `		(include (value) @include)` +
-                `		(repo (key) @repo)` +
-                `	]` +
-                `)`;
-        const referenceQueryCapture = (0, TreeSitter_1.queryForPosition)(tree, queryString, point);
+        queryString = `
+			;(json (scopeName (value) @scopeName))
+			(include (value) @include)
+			(repo (key) @repo)
+		`;
+        const referenceQueryCapture = (0, TreeSitter_1.queryNode)(tree.rootNode, queryString, point);
         if (referenceQueryCapture == null) {
             return;
         }
         const node = referenceQueryCapture.node;
         const text = node.text;
         // vscode.window.showInformationMessage(JSON.stringify(node.toString()));
-        queryString =
-            `(` +
-                `	json (scopeName (value) @scopeName) ` +
-                `)`;
-        const rootScopeName = (0, TreeSitter_1.queryForPosition)(tree, queryString)?.node?.text;
+        queryString = `(json (scopeName (value) @scopeName))`;
+        const rootScopeName = (0, TreeSitter_1.queryNode)(tree.rootNode, queryString).pop().text;
         switch (referenceQueryCapture.name) {
             case 'repo':
                 if (text == '$self' || text == '$base') {

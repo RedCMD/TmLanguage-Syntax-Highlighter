@@ -178,7 +178,7 @@ function newDocumentSymbol(node: SyntaxNode): vscode.DocumentSymbol {
 
 	const name = text?.slice(0, 50) || node.type;
 	const detail = node.text.slice(0, 50);
-	const kind = SymbolKind[node.type] ?? (node.isNamed() ? vscode.SymbolKind.Method : vscode.SymbolKind.Field);
+	const kind = SymbolKind[node.type] ?? (node.isNamed ? vscode.SymbolKind.Method : vscode.SymbolKind.Field);
 	const range = toRange(node);
 	const selectionRange = range;
 	// const selectionRange = toRange(node.firstNamedChild) ?? range;

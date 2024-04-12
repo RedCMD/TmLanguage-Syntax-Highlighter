@@ -8,9 +8,9 @@ enum TokenType
 	ERROR
 };
 
-void* tree_sitter_jsontm_external_scanner_create() {}
+void* tree_sitter_jsontm_external_scanner_create() { return 0; }
 void tree_sitter_jsontm_external_scanner_destroy(void* payload) {}
-unsigned tree_sitter_jsontm_external_scanner_serialize(void* payload, char* buffer) {}
+unsigned tree_sitter_jsontm_external_scanner_serialize(void* payload, char* buffer) { return 0; }
 void tree_sitter_jsontm_external_scanner_deserialize(void* payload, const char* buffer, unsigned length) {}
 
 bool tokenize_ERROR(TSLexer* lexer) {

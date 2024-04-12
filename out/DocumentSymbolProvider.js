@@ -152,7 +152,7 @@ function newDocumentSymbol(node) {
     }
     const name = text?.slice(0, 50) || node.type;
     const detail = node.text.slice(0, 50);
-    const kind = exports.SymbolKind[node.type] ?? (node.isNamed() ? vscode.SymbolKind.Method : vscode.SymbolKind.Field);
+    const kind = exports.SymbolKind[node.type] ?? (node.isNamed ? vscode.SymbolKind.Method : vscode.SymbolKind.Field);
     const range = (0, TreeSitter_1.toRange)(node);
     const selectionRange = range;
     // const selectionRange = toRange(node.firstNamedChild) ?? range;

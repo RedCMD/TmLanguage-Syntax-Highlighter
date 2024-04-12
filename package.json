@@ -46,7 +46,7 @@
 		"watch-web": "webpack --watch",
 		"compile": "tsc -p ./",
 		"compile-web": "webpack --no-devtool --no-watch --mode production",
-		"generate-wasm": "cd ./src/tree-sitter/tree-sitter-json/ && tree-sitter generate --no-bindings && cd ./../tree-sitter-regex/ && tree-sitter generate --no-bindings && cd ./../../../out/ && tree-sitter build-wasm ./../src/tree-sitter/tree-sitter-json/ && tree-sitter build-wasm ./../src/tree-sitter/tree-sitter-regex/",
+		"generate-wasm": "cd ./src/tree-sitter/tree-sitter-json/ && tree-sitter generate --no-bindings && tree-sitter build --wasm -o ../../../out/tree-sitter-jsontm.wasm && cd ./../tree-sitter-regex/ && tree-sitter generate --no-bindings && tree-sitter build --wasm -o ../../../out/tree-sitter-regextm.wasm",
 		"open-in-browser": "vscode-test-web --extensionDevelopmentPath=. ."
 	},
 	"contributes": {
@@ -353,18 +353,17 @@
 	},
 	"dependencies": {
 		"vscode-oniguruma": "1.7.0",
-		"vscode-textmate": "9.0.0",
-		"web-tree-sitter": "^0.20.8"
+		"web-tree-sitter": "^0.22.2"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.85.0",
-		"@vscode/test-web": "^0.0.52",
-		"@vscode/vsce": "^2.22.0",
+		"@types/vscode": "^1.87.0",
+		"@vscode/test-web": "^0.0.53",
+		"@vscode/vsce": "^2.25.0",
 		"path-browserify": "^1.0.1",
-		"tree-sitter-cli": "^0.20.8",
+		"tree-sitter-cli": "^0.22.2",
 		"ts-loader": "^9.5.1",
-		"typescript": "^5.3.3",
-		"webpack": "^5.90.2",
+		"typescript": "^5.4.5",
+		"webpack": "^5.91.0",
 		"webpack-cli": "^5.1.4"
 	},
 	"__metadata": {
