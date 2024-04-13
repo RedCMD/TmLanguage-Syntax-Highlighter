@@ -8,35 +8,32 @@ on:
         default: 'minor x.1.0'
         type: choice
         options:
-        - patch x.x.1
-        - minor x.1.0
-        - major 1.0.0
+          - patch x.x.1
+          - minor x.1.0
+          - major 1.0.0
 
 jobs:
   release:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 14
-          registry-url: https://registry.npmjs.org/
+      - uses: actions/checkout@master
 
-      - name: Install the dependencies
-        run: npm i
+      - name: Install Dependencies
+        run: |
+          npm i
+          npm i @vscode/vsce -g
 
-      - name: Install vsce
-        run: npm i -g vsce
+      - name: Build Extension
+        run: npm run build
 
-      - name: Publish
+      - name: Setup Github Actions
         run: |
           git config --global user.name "RedCMD"
           git config --global user.email "theredcmd@gmail.com"
-          if [[ $(git diff --stat) != '' ]]; then
-            echo 'working directory dirty. must cleanup first'
-            git add .
-            git commit -m "Publish to npm"
-          fi
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Sync Github Actions"
+
+      - name: Publish Release
+        run: |
           vsce publish ${{ github.event.inputs.version }} -p ${{ secrets.VSCE_PAT }}
           git push

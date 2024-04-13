@@ -15,20 +15,22 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: Install vsce
-        run: npm i -g @vscode/vsce
+      - name: Install Dependencies
+        run: |
+          npm i
+          npm i @vscode/vsce -g
 
-      - name: Install web-tree-sitter
-        run: npm i web-tree-sitter
+      - name: Build Extension
+        run: npm run build
 
-      - name: Install vscode-oniguruma
-        run: npm i vscode-oniguruma@1.7.0 -E
-
-      - name: Publish Pre-release
+      - name: Setup Github Actions
         run: |
           git config --global user.name "RedCMD"
           git config --global user.email "theredcmd@gmail.com"
           git add .
           git diff-index --quiet HEAD || git commit -m "Sync Github Actions"
+
+      - name: Publish Pre-release
+        run: |
           vsce publish patch --pre-release -p ${{ secrets.VSCE_PAT }}
           git push
