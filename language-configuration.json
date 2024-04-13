@@ -18,7 +18,15 @@
 		["{", "}"],
 		["[", "]"],
 		["\"", "\""],
-		["(", ")"] // Fallback for `regex.language-configuration.json`
+		["(", ")"], // Fallback for `regex.language-configuration.json`
+		["(?<", ">"],
+		["(?'", "'"],
+		["(?(<", ">"],
+		["(?('", "'"],
+		["\\\\g<", ">"],
+		["\\\\g'", "'"],
+		["\\\\k<", ">"],
+		["\\\\k'", "'"]
 	],
 	"autoCloseBefore": "[]{}():,\" \n\t", // Doesn't work in embedded languages
 	// symbols that can be used to surround a selection
