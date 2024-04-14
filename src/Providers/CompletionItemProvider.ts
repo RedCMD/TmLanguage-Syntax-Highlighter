@@ -1,16 +1,19 @@
 import * as vscode from 'vscode';
 import * as Parser from 'web-tree-sitter';
 import { getTrees, toRange, toPoint, queryNode } from "../TreeSitter";
+import { IRelaxedExtensionManifest } from "../extensions";
 import { getScopes } from "../themeScopeColors";
 
-const triggerCharactersInclude = ['"', '#', '.', '$'];
-const triggerCharactersScope = ['"', '.', '$', ' '];
-const triggerCharactersRegex = ['\\', '(', '?', '<', '\''];
-export const triggerCharacters = [].concat(
-	triggerCharactersInclude,
-	triggerCharactersScope,
-	triggerCharactersRegex,
-);
+const triggerCharacterSets: { [key: string]: string[]; } = {
+	schema: ['"', ':'],
+	scopeName: ['"', '.'],
+	name: ['"'],
+	include: ['"', '#', '.', '$'],
+	new_scope: ['"', ' '],
+	scope: ['.', '$'],
+	regex: ['\\', '(', '?', '<', '\''],
+};
+export const triggerCharacters = Object.values(triggerCharacterSets).flat();
 
 export const CompletionItemProvider: vscode.CompletionItemProvider = {
 	async provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext): Promise<vscode.CompletionList<vscode.CompletionItem>> {
@@ -21,28 +24,148 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 		const point = toPoint(position);
 
 		const cursorQuery = `
+			(schema (value) @schema)
+			(scopeName (value) @scopeName)
+			(name_display (value) @name)
 			(include (value) @include)
 			(name (value) @new_scope)
 			(name (value (scope) @scope))
 			;(regex) @regex
 		`;
 		const cursorCapture = queryNode(rootNode, cursorQuery, point);
-		if (cursorCapture == null) {
+		if (!cursorCapture) {
 			return;
+		}
+		const cursorName = cursorCapture.name;
+		if (context.triggerKind == vscode.CompletionTriggerKind.TriggerCharacter) {
+			if (triggerCharacterSets[cursorName].indexOf(context.triggerCharacter) == -1) {
+				return;
+			}
 		}
 		const cursorNode = cursorCapture.node;
 		const cursorRange = toRange(cursorNode);
 		const completionItems: vscode.CompletionItem[] = [];
-		const cursorName = cursorCapture.name;
 
 		switch (cursorName) {
-			case 'include':
-				if (context.triggerKind == vscode.CompletionTriggerKind.TriggerCharacter) {
-					if (triggerCharactersInclude.indexOf(context.triggerCharacter) == -1) {
-						return;
+			case 'schema':
+				completionItems.push({
+					label: "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
+					range: cursorRange,
+					kind: vscode.CompletionItemKind.Reference,
+					documentation: "Schema for VSCode's TextMate JSON grammars",
+				});
+				break;
+			case 'scopeName':
+				completionItems.push({
+					label: {
+						label: "text",
+						description: "text.language",
+					},
+					range: cursorRange,
+					kind: vscode.CompletionItemKind.Text,
+					insertText: new vscode.SnippetString("text.").appendPlaceholder("language"),
+					sortText: '~text',
+				});
+				completionItems.push({
+					label: {
+						label: "source",
+						description: "source.language",
+					},
+					range: cursorRange,
+					kind: vscode.CompletionItemKind.Text,
+					insertText: new vscode.SnippetString("source.").appendPlaceholder("language"),
+					sortText: '~source',
+				});
+
+				if (!document.isUntitled) {
+					try {
+						const uri = document.uri;
+						const path = uri.path;
+						const packageUri = vscode.Uri.joinPath(uri, '../../package.json');
+						const packageDocument = await vscode.workspace.openTextDocument(packageUri);
+						if (packageDocument) {
+							const packageJSON: IRelaxedExtensionManifest = await JSON.parse(packageDocument?.getText());
+							const grammars = packageJSON.contributes?.grammars;
+							if (grammars) {
+								for (const grammar of grammars) {
+									const grammarPath = vscode.Uri.joinPath(packageUri, '..', grammar.path).path;
+									if (grammarPath == path) {
+										completionItems.push({
+											label: {
+												label: grammar.scopeName,
+												description: grammar.language,
+											},
+											range: cursorRange,
+											kind: vscode.CompletionItemKind.Variable,
+										});
+									}
+								}
+							}
+						}
+					} catch (error) {
+						console.warn("TextMate: Failed to parse package.json\n" + error);
 					}
 				}
-
+				break;
+			case 'name':
+				if (!document.isUntitled) {
+					try {
+						const uri = document.uri;
+						const path = uri.path;
+						const packageUri = vscode.Uri.joinPath(uri, '../../package.json');
+						const packageDocument = await vscode.workspace.openTextDocument(packageUri);
+						if (packageDocument) {
+							const packageJSON: IRelaxedExtensionManifest = await JSON.parse(packageDocument?.getText());
+							const contributes = packageJSON.contributes;
+							const grammars = contributes?.grammars;
+							if (grammars) {
+								for (const grammar of grammars) {
+									const grammarPath = vscode.Uri.joinPath(packageUri, '..', grammar.path).path;
+									if (grammarPath == path) {
+										const languageId = grammar.language;
+										if (languageId) {
+											const languages = contributes.languages;
+											if (languages) {
+												for (const language of languages) {
+													if (languageId == language.id) {
+														const aliases = language.aliases;
+														if (aliases) {
+															for (const alias of aliases) {
+																completionItems.push({
+																	label: {
+																		label: alias,
+																		description: grammar.scopeName || languageId,
+																	},
+																	range: cursorRange,
+																	kind: vscode.CompletionItemKind.Text,
+																});
+															}
+														}
+													}
+												}
+											}
+										}
+										const displayName = packageJSON.displayName;
+										if (displayName) {
+											completionItems.push({
+												label: {
+													label: displayName,
+													description: packageJSON.name || languageId || grammar.scopeName,
+												},
+												range: cursorRange,
+												kind: vscode.CompletionItemKind.Text,
+											});
+										}
+									}
+								}
+							}
+						}
+					} catch (error) {
+						console.warn("TextMate: Failed to parse package.json\n" + error);
+					}
+				}
+				break;
+			case 'include':
 				const rootPatternsQuery = `(json (patterns) @patterns)`;
 				const rootPatternsText = queryNode(tree.rootNode, rootPatternsQuery).pop()?.node?.text;
 
@@ -51,7 +174,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 					description: 'Includes the current grammar file',
 				};
 				const selfDocumentation = new vscode.MarkdownString();
-				selfDocumentation.appendCodeblock(rootPatternsText, 'json-textmate')
+				selfDocumentation.appendCodeblock(rootPatternsText, 'json-textmate');
 				const selfCompletionItem: vscode.CompletionItem = {
 					label: selfLabel,
 					documentation: selfDocumentation,
@@ -146,7 +269,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 									documentation: grammarDocumentation,
 									commitCharacters: ['#'],
 									command: { command: 'editor.action.triggerSuggest', title: 'Trigger `source#include` completions' },
-								}
+								};
 								completionItems.push(grammarCompletion);
 							}
 						}
@@ -155,22 +278,15 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 				break;
 			case 'scope':
 			case 'new_scope':
-				if (context.triggerKind == vscode.CompletionTriggerKind.TriggerCharacter) {
-					if (triggerCharactersScope.indexOf(context.triggerCharacter) == -1) {
-						return;
-					}
-				}
-
 				const themeScopes = await getScopes();
 				for (const key in themeScopes) {
 					const scope = themeScopes[key];
-					const scopeLabel: vscode.CompletionItemLabel = {
-						label: key,
-						description: scope.name,
-					};
 					const standardTokenType = key.match(/\b(?:comment|string|regex|meta\.embedded)\b/);
-					const scopeCompletionItem: vscode.CompletionItem = {
-						label: scopeLabel,
+					completionItems.push({
+						label: {
+							label: key,
+							description: scope.name,
+						},
 						range: cursorName == 'scope' ? cursorRange : null,
 						kind: vscode.CompletionItemKind.Color,
 						detail: scope.foreground || scope.background,
@@ -182,8 +298,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 							'FontStyle: ' + (scope.fontStyle ?? '') + '\n' +
 							'StandardTokenType: ' + (standardTokenType ? (standardTokenType[0] == 'meta.embedded' ? 'other' : standardTokenType[0]) : ''),
 						// sortText: ' ' + key,
-					};
-					completionItems.push(scopeCompletionItem);
+					});
 				}
 
 				const scopes: string[] = [];
@@ -199,40 +314,31 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 					if (themeScopes[scope]) {
 						continue;
 					}
-					const scopeLabel: vscode.CompletionItemLabel = {
+					completionItems.push({
 						label: scope,
-						// description: 'description',
-					};
-					const scopeCompletionItem: vscode.CompletionItem = {
-						label: scopeLabel,
 						range: cursorName == 'scope' ? cursorRange : null,
 						kind: vscode.CompletionItemKind.Function,
-						// sortText: '' + scope,
-					};
-					completionItems.push(scopeCompletionItem);
+					});
 				}
-				const snippet = "\\${$1:/upcase}"
-				// const snippet = "${${1:0,1,2,3,4,5,6,7,8,9}:/upcase}"
-				const updowncaseLabel: vscode.CompletionItemLabel = {
-					label: '${0:/upcase}',
-					// description: 'description',
-				};
-				const updowncaseCompletionItem: vscode.CompletionItem = {
-					label: updowncaseLabel,
+
+				const noOfCaptureGroups = 5; // TODO: get actual number
+				const updowncaseSnippet =
+					new vscode.SnippetString('${')
+						.appendChoice([...Array(noOfCaptureGroups).keys()].map(String))
+						.appendText(':/')
+						.appendChoice(['upcase', 'downcase'])
+						.appendText('}');
+				completionItems.push({
+					label: {
+						label: '${0:/updowncase}',
+					},
 					range: cursorRange,
 					kind: vscode.CompletionItemKind.Function,
-					// sortText: '' + scope,
-					insertText: snippet,
-				};
-				completionItems.push(updowncaseCompletionItem);
-				
+					insertText: updowncaseSnippet,
+				});
+
 				break;
 			case 'regex':
-				if (context.triggerKind == vscode.CompletionTriggerKind.TriggerCharacter) {
-					if (triggerCharactersRegex.indexOf(context.triggerCharacter) == -1) {
-						return;
-					}
-				}
 				vscode.window.showInformationMessage(JSON.stringify(document.getText(new vscode.Range(position.line, position.character - 1, position.line, position.character))));
 				const text = document.getText(new vscode.Range(position.line, position.character - 1, position.line, position.character));
 				// switch (text) {
@@ -277,7 +383,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 		// vscode.window.showInformationMessage(JSON.stringify(completionList));
 		return completionList;
 	}
-}
+};
 
 function repoCompletionItems(completionItems: vscode.CompletionItem[], tree: Parser.Tree, cursorRange: vscode.Range, scopeName?: string): void {
 	const rootNode = tree.rootNode;

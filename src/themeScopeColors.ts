@@ -61,7 +61,7 @@ export async function getScopes() {
 			const id = theme.id || theme.label;
 			if (id == colorTheme) {
 				const uri = vscode.Uri.joinPath(extension.extensionUri, theme.path);
-				loadColorTheme(uri);
+				await loadColorTheme(uri);
 			}
 		}
 		if (Object.keys(scopeTokens).length) {
@@ -105,6 +105,6 @@ async function loadColorTheme(uri: vscode.Uri) {
 	const include = theme.include;
 	if (include) {
 		const uriInclude = vscode.Uri.joinPath(uri, '../', include);
-		loadColorTheme(uriInclude);
+		await loadColorTheme(uriInclude);
 	}
 }
