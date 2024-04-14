@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { _object_ } from "./extension";
+import { IRelaxedExtensionManifest, ITokenColorCustomizations } from "./extensions";
 
 export function initTokenColorCustomizations(context: vscode.ExtensionContext) {
 	// vscode.window.showInformationMessage(JSON.stringify("tokenColorCustomizations"));
@@ -107,13 +107,13 @@ async function update(uri: vscode.Uri) {
 	if (uri && uri.scheme != 'untitled') {
 		try {
 			const packageDocument = await vscode.workspace.openTextDocument(uri);
-			const packageParsed = await JSON.parse(packageDocument?.getText());
-			const package_tokenColorCustomizations: _object_ = packageParsed?.contributes?.configurationDefaults?.['editor.tokenColorCustomizations'];
+			const packageParsed: IRelaxedExtensionManifest = await JSON.parse(packageDocument?.getText());
+			const package_tokenColorCustomizations = packageParsed?.contributes?.configurationDefaults?.['editor.tokenColorCustomizations'];
 
 			if (package_tokenColorCustomizations) {
 				const editor = vscode.workspace.getConfiguration("editor");
-				const tokenColorCustomizations: _object_ = editor.inspect("tokenColorCustomizations")[configurationValue] ?? {};
-				const tokenColorCustomizations_bak: _object_ = tokenColorCustomizations[bak] ?? tokenColorCustomizations;
+				const tokenColorCustomizations = <ITokenColorCustomizations>editor.inspect("tokenColorCustomizations")[configurationValue] ?? {};
+				const tokenColorCustomizations_bak = tokenColorCustomizations[bak] ?? tokenColorCustomizations;
 
 				delete tokenColorCustomizations_bak[bak];
 				package_tokenColorCustomizations[bak] = tokenColorCustomizations_bak;
@@ -124,8 +124,8 @@ async function update(uri: vscode.Uri) {
 			}
 		} catch (error) {
 			if (hadTokenColorCustomizations && ignoreFailParse == false) {
-				const message = `Failed to parse package.json:\n${error}`
-				const ignore = "Ignore"
+				const message = `Failed to parse package.json:\n${error}`;
+				const ignore = "Ignore";
 				vscode.window.showWarningMessage(message, ignore).then((value) => {
 					if (value == ignore) {
 						ignoreFailParse = true;
@@ -137,8 +137,8 @@ async function update(uri: vscode.Uri) {
 	}
 
 	const editor = vscode.workspace.getConfiguration("editor");
-	const tokenColorCustomizations: _object_ = editor.inspect("tokenColorCustomizations")[configurationValue] ?? {};
-	const tokenColorCustomizations_bak: _object_ = tokenColorCustomizations[bak];
+	const tokenColorCustomizations = <ITokenColorCustomizations>editor.inspect("tokenColorCustomizations")[configurationValue] ?? {};
+	const tokenColorCustomizations_bak = tokenColorCustomizations[bak];
 
 	if (tokenColorCustomizations_bak !== undefined) {
 		const length = Object.keys(tokenColorCustomizations_bak).length;

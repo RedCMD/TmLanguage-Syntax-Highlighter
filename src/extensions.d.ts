@@ -50,6 +50,52 @@ export interface IConfiguration {
 	properties: { [key: string]: IConfigurationProperty };
 }
 
+export interface IConfigurationDefaults {
+	'editor.tokenColorCustomizations': ITokenColorCustomizations;
+	[groupId: `[${string}]`]: { [configuration: string]: any; };
+	[configuration: string]: any;
+}
+
+export interface ITokenColorizationSetting {
+	foreground?: string;
+	background?: string;
+	fontStyle?: string; /* [italic|bold|underline|strikethrough] */
+}
+
+export interface ITextMateThemingRule {
+	name?: string;
+	scope?: string | string[];
+	settings: ITokenColorizationSetting;
+}
+
+export interface IThemeScopedTokenColorCustomizations {
+	[groupId: string]: ITextMateThemingRule[] | ITokenColorizationSetting | boolean | string | undefined;
+	comments?: string | ITokenColorizationSetting;
+	strings?: string | ITokenColorizationSetting;
+	numbers?: string | ITokenColorizationSetting;
+	keywords?: string | ITokenColorizationSetting;
+	types?: string | ITokenColorizationSetting;
+	functions?: string | ITokenColorizationSetting;
+	variables?: string | ITokenColorizationSetting;
+	textMateRules?: ITextMateThemingRule[];
+	semanticHighlighting?: boolean; // deprecated, use ISemanticTokenColorCustomizations.enabled instead
+}
+
+export interface ITokenColorCustomizations {
+	[groupId: string]: ITokenColorCustomizations | IThemeScopedTokenColorCustomizations | ITextMateThemingRule[] | ITokenColorizationSetting | boolean | string | undefined;
+	[themeScope: `[${string}]`]: IThemeScopedTokenColorCustomizations;
+	'[tokenColorCustomizations_bak_JSON_TextMate'?: ITokenColorCustomizations;
+	comments?: string | ITokenColorizationSetting;
+	strings?: string | ITokenColorizationSetting;
+	numbers?: string | ITokenColorizationSetting;
+	keywords?: string | ITokenColorizationSetting;
+	types?: string | ITokenColorizationSetting;
+	functions?: string | ITokenColorizationSetting;
+	variables?: string | ITokenColorizationSetting;
+	textMateRules?: ITextMateThemingRule[];
+	semanticHighlighting?: boolean; // deprecated, use ISemanticTokenColorCustomizations.enabled instead
+}
+
 export interface IDebugger {
 	label?: string;
 	type: string;
@@ -212,6 +258,7 @@ export interface ILocalizationContribution {
 export interface IExtensionContributions {
 	commands?: ICommand[];
 	configuration?: IConfiguration | IConfiguration[];
+	configurationDefaults?: IConfigurationDefaults;
 	debuggers?: IDebugger[];
 	grammars?: IGrammar[];
 	jsonValidation?: IJSONValidation[];
