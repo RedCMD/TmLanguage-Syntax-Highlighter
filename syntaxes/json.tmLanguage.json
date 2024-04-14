@@ -299,17 +299,33 @@
 					"end": "(?<=\")|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
-						{
-							"begin": "\"",
-							"end": "\"",
-							"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.json.tm" } },
-							"endCaptures": { "0": { "name": "punctuation.definition.string.end.json.tm" } },
-							"patterns": [ { "include": "#injection-string" } ]
-						},
+						{ "include": "#injectionSelectorValue" },
 						{ "include": "#value-separator" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
+			]
+		},
+		"injectionSelectorValue": {
+			"comment": "\"...\" [ ... ]",
+			"patterns": [
+				{
+					"begin": "\"",
+					"end": "\"",
+					"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.json.tm" } },
+					"endCaptures": { "0": { "name": "punctuation.definition.string.end.json.tm" } },
+					"patterns": [ { "include": "#injection-string" } ]
+				},
+				{
+					"begin": "\\[",
+					"end": "]",
+					"beginCaptures": { "0": { "name": "punctuation.definition.array.begin.json.tm" } },
+					"endCaptures": { "0": { "name": "punctuation.definition.array.end.json.tm" } },
+					"patterns": [
+						{ "include": "#injectionSelectorValue" },
+						{ "include": "#array-separator" }
+					]
+				}
 			]
 		},
 		"injections": {

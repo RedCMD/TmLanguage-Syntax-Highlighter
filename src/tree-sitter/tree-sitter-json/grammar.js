@@ -240,6 +240,10 @@ module.exports = grammar({
 
 		injectionSelector: $ => pair($,
 			"injectionSelector",
+			$._injectionSelectorValue,
+		),
+		_injectionSelectorValue: $ => choice(
+			array($, $._injectionSelectorValue),
 			string($),
 		),
 		injections: $ => pair($,

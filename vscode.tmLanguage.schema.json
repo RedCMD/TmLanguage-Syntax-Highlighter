@@ -63,8 +63,8 @@
 					"default": { "L:source.scopeName -comment -string, R:source.scopeName.another": { } }
 				},
 				"injectionSelector": {
-					"description": "Controls which scope-names to inject into and with what priority. Default is 0, L:-1 and R:1\nUsed in conjunction with \"injectTo\" under \"grammars\" in your `package.json` file\nhttps://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#injection-grammars",
-					"type": "string"
+					"description": "Controls which scope-names to inject into and with what priority. Default is 0, L: is -1 and R: is 1\nUsed in conjunction with \"injectTo\" under \"grammars\" in your `package.json` file\nhttps://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#injection-grammars",
+					"$ref": "#/definitions/injectionSelector"
 				},
 				"fileTypes": {
 					"description": "An array of file extensions your language supports\nNot currently supported by VSCode\nUse \"extensions\" under \"languages\" in your `package.json` file instead",
@@ -1065,6 +1065,17 @@
 					]
 				}
 			]
+		},
+		"injectionSelector": {
+			"type": [
+				"string",
+				"array"
+			],
+			"items": {
+				"description": "An array of \"injectionSelector\" is not offically supported by VSCode TextMate\nBut still happens to work because JavaScript",
+				"$ref": "#/definitions/injectionSelector"
+			},
+			"default": "L:source.js -string -comment"
 		},
 		"disabled": {
 			"description": "Disables the current rule for easy testing\nNot currently supported by VSCode",
