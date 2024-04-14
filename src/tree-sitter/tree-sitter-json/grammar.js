@@ -489,7 +489,7 @@ module.exports = grammar({
 * Boiler plate for creating an object. `{ rule, rule... }`
  * @param {GrammarSymbols<string>} $
 * @param {RuleOrLiteral} rule 
-* @returns {SeqRule}
+* @returns {Rule}
 */
 function object($, rule) {
 	return seq(
@@ -497,14 +497,14 @@ function object($, rule) {
 		commaSep($, rule),
 		repeat($._whitespace),
 		'}',
-	)
+	);
 }
 
 /**
  * Boiler plate for creating an array. `[ rule, rule... ]`
  * @param {GrammarSymbols<string>} $
  * @param {RuleOrLiteral} rule 
- * @returns {SeqRule}
+ * @returns {Rule}
  */
 function array($, rule) {
 	return seq(
@@ -512,14 +512,14 @@ function array($, rule) {
 		commaSep($, rule),
 		repeat($._whitespace),
 		']',
-	)
+	);
 }
 
 /**
  * Boiler plate for creating comma seperated rules. `rule, rule...`
  * @param {GrammarSymbols<string>} $
  * @param {RuleOrLiteral} rule 
- * @returns {ChoiceRule}
+ * @returns {Rule}
  */
 function commaSep($, rule) {
 	return optional(
@@ -535,7 +535,7 @@ function commaSep($, rule) {
 				),
 			),
 		),
-	)
+	);
 }
 
 /**
@@ -543,31 +543,33 @@ function commaSep($, rule) {
  * @param {GrammarSymbols<string>} $
  * @param {RuleOrLiteral} key string
  * @param {RuleOrLiteral} value 
- * @returns {SeqRule}
+ * @returns {Rule}
  */
 function pair($, key, value) {
-	return seq(
-		string($,
-			field(
-				'key',
-				alias(
-					key,
-					$.key,
+	return prec.right(
+		seq(
+			string($,
+				field(
+					'key',
+					alias(
+						key,
+						$.key,
+					),
 				),
 			),
+			repeat($._whitespace),
+			':',
+			repeat($._whitespace),
+			optional(value), // TS bad at error recovery
 		),
-		repeat($._whitespace),
-		':',
-		repeat($._whitespace),
-		value,
-	)
+	);
 }
 
 /**
  * Boiler plate for creating a string. `"value"`
  * @param {GrammarSymbols<string>} $
  * @param {RuleOrLiteral} [contents]
- * @returns {SeqRule}
+ * @returns {Rule}
  */
 function string($, contents) {
 	return seq(
@@ -580,5 +582,5 @@ function string($, contents) {
 			$.value,
 		),
 		'"',
-	)
+	);
 }

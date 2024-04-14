@@ -96,9 +96,10 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 			const range = toRange(node);
 			const diagnostic = new vscode.Diagnostic(
 				range,
-				`JSON error: \`${text}\``,
-				vscode.DiagnosticSeverity.Warning
+				`ERROR: \`${text}\``,
+				vscode.DiagnosticSeverity.Error,
 			);
+			diagnostic.source = 'JSON TextMate TreeSitter';
 			diagnostics.push(diagnostic);
 			// vscode.window.showInformationMessage(JSON.stringify(text));
 		}
@@ -293,7 +294,7 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 		}
 	}
 
-	if (true) { // missing `#includes`
+	if (true) { // missing `#include`
 		// vscode.window.showInformationMessage(JSON.stringify("diagnostics #includes"))
 		// const start = performance.now();
 
