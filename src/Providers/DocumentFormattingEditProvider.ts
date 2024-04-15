@@ -104,6 +104,16 @@ function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextE
 		}
 	}
 
+	const styleName: 'tight' | 'default' =
+		vscode.workspace.getConfiguration('tmlanguage-syntax-highlighter').get('formattingStyle')
+	const style = {
+		'default': {
+			'wsBrackets': ' '
+		},
+		'tight': {
+			'wsBrackets': ''
+		},
+	}[styleName]
 
 	for (const node of parentNode.children) {
 		switch (node.type) {
@@ -117,7 +127,7 @@ function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextE
 				if (expand == true)
 					whiteSpace = '\n'.padEnd(indent + 1, tabType)
 				else
-					whiteSpace = ' '
+					whiteSpace = style.wsBrackets
 
 				range = new vscode.Range(
 					node.endPosition.row,
@@ -145,7 +155,7 @@ function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextE
 				if (expand == true)
 					whiteSpace = '\n'.padEnd(indent + 1, tabType)
 				else
-					whiteSpace = ' '
+					whiteSpace = style.wsBrackets
 
 				range = new vscode.Range(
 					node.previousSibling.endPosition.row,

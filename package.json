@@ -349,6 +349,22 @@
 				"category": "TextMate",
 				"icon": "$(inspect)"
 			}
+		],
+		"configuration": [
+			{
+				"title": "TextMate Syntax Highlighting and Intellisense",
+				"properties": {
+					"tmlanguage-syntax-highlighter.formattingStyle": {
+						"type": "string",
+						"enum": [
+							"tight",
+							"default"
+						],
+						"default": "default",
+						"scope": "resource"
+					}
+				}
+			}
 		]
 	},
 	"dependencies": {
