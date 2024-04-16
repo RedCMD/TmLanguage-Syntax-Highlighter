@@ -162,6 +162,16 @@ export function toPoint(position: vscode.Position): Parser.Point {
 	return point;
 }
 
+export function toPosition(point: Parser.Point): vscode.Position {
+	if (!point) {
+		return null;
+	}
+	const line = point.row;
+	const character = point.column;
+	const position = new vscode.Position(line, character);
+	return position;
+}
+
 /**
  * TreeSitter bug
  * Using `.parent` on a 0width node returns the `previousSilbing` rather than the `parent`

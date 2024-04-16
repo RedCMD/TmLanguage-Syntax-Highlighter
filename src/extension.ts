@@ -45,6 +45,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.languages.registerCallHierarchyProvider(DocumentSelector, CallHierarchyProvider)); // right click => Peak Call Hierarchy
 	context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(DocumentSelector, DocumentSymbolProvider)); // Breadcrumbs
 	context.subscriptions.push(vscode.languages.registerSelectionRangeProvider(DocumentSelector, SelectionRangeProvider)); // Expand and Shrink Selection
+	context.subscriptions.push(vscode.languages.registerDocumentDropEditProvider(DocumentSelector, DocumentDropEditProvider)); // Drag and Drop `tmLanguage.json` files to `#include`
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(DocumentSelector, CompletionItemProvider, ...triggerCharacters)); // Intellisense ctrl+space completions
 	context.subscriptions.push(vscode.languages.registerDocumentHighlightProvider(DocumentSelector, DocumentHighlightProvider)); // Context aware variable highlighting
 	context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(DocumentSelector, DocumentFormattingEditProvider)); // right-click => Format Document
