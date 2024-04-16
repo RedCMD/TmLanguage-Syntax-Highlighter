@@ -14,6 +14,7 @@ import { ReferenceProvider } from "./Providers/ReferenceProvider";
 import { DefinitionProvider } from "./Providers/DefinitionProvider";
 import { CallHierarchyProvider } from "./Providers/CallHierarchyProvider";
 import { DocumentSymbolProvider } from "./Providers/DocumentSymbolProvider";
+import { SelectionRangeProvider } from "./Providers/SelectionRangeProvider";
 import { DocumentHighlightProvider } from "./Providers/DocumentHighlightProvider";
 import { CompletionItemProvider, triggerCharacters } from "./Providers/CompletionItemProvider";
 import { DocumentFormattingEditProvider, DocumentRangeFormattingEditProvider } from "./Providers/DocumentFormattingEditProvider";
@@ -43,6 +44,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.languages.registerDefinitionProvider(DocumentSelector, DefinitionProvider)); // ctrl+click Go to Definition
 	context.subscriptions.push(vscode.languages.registerCallHierarchyProvider(DocumentSelector, CallHierarchyProvider)); // right click => Peak Call Hierarchy
 	context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(DocumentSelector, DocumentSymbolProvider)); // Breadcrumbs
+	context.subscriptions.push(vscode.languages.registerSelectionRangeProvider(DocumentSelector, SelectionRangeProvider)); // Expand and Shrink Selection
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(DocumentSelector, CompletionItemProvider, ...triggerCharacters)); // Intellisense ctrl+space completions
 	context.subscriptions.push(vscode.languages.registerDocumentHighlightProvider(DocumentSelector, DocumentHighlightProvider)); // Context aware variable highlighting
 	context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(DocumentSelector, DocumentFormattingEditProvider)); // right-click => Format Document
