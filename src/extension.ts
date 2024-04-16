@@ -15,6 +15,7 @@ import { DefinitionProvider } from "./Providers/DefinitionProvider";
 import { CallHierarchyProvider } from "./Providers/CallHierarchyProvider";
 import { DocumentSymbolProvider } from "./Providers/DocumentSymbolProvider";
 import { SelectionRangeProvider } from "./Providers/SelectionRangeProvider";
+import { DocumentDropEditProvider } from "./Providers/DocumentDropEditProvider";
 import { DocumentHighlightProvider } from "./Providers/DocumentHighlightProvider";
 import { CompletionItemProvider, triggerCharacters } from "./Providers/CompletionItemProvider";
 import { DocumentFormattingEditProvider, DocumentRangeFormattingEditProvider } from "./Providers/DocumentFormattingEditProvider";
