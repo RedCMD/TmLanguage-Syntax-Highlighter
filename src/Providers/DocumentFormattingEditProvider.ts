@@ -12,8 +12,11 @@ export const DocumentFormattingEditProvider: vscode.DocumentFormattingEditProvid
 
 		const tabType = options.insertSpaces ? ' ' : '\t';
 		const tabSize = options.insertSpaces ? options.tabSize : 1;
+		const style = getFormattingStyle();
 
-		parseAllChildren(jsonTree.rootNode, textEdits, 0, tabSize, tabType);
+		// const start = performance.now();
+		parseAllChildren(jsonTree.rootNode, textEdits, 0, tabSize, tabType, style);
+		// vscode.window.showInformationMessage(performance.now() - start + "ms");
 
 		// vscode.window.showInformationMessage(JSON.stringify(textEdits));
 		return textEdits;
@@ -29,6 +32,7 @@ export const DocumentRangeFormattingEditProvider: vscode.DocumentRangeFormatting
 
 		const tabType = options.insertSpaces ? ' ' : '\t';
 		const tabSize = options.insertSpaces ? options.tabSize : 1;
+		const style = getFormattingStyle();
 
 		const startPoint = toPoint(range.start);
 		const endPoint = toPoint(range.end);
@@ -48,21 +52,31 @@ export const DocumentRangeFormattingEditProvider: vscode.DocumentRangeFormatting
 		}
 		const indent = Math.min(level, node.startPosition.column);
 
-		parseAllChildren(node, textEdits, indent, tabSize, tabType);
+		parseAllChildren(node, textEdits, indent, tabSize, tabType, style);
 
 		// vscode.window.showInformationMessage(JSON.stringify(textEdits));
 		return textEdits;
 	},
 }
 
-function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextEdit[], indent: number, tabSize: number, tabType: string) {
+type formattingStyle = { wsBrackets: string; };
+function getFormattingStyle(): formattingStyle {
+	const styleName: 'tight' | 'default' = vscode.workspace.getConfiguration('tmlanguage-syntax-highlighter').get('formattingStyle');
+	const style = {
+		default: { wsBrackets: ' ' },
+		tight: { wsBrackets: '' },
+	}[styleName];
+	return style;
+}
+
+function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextEdit[], indent: number, tabSize: number, tabType: string, style: formattingStyle) {
 	let range: vscode.Range;
 	let whiteSpace: string;
 	let textEdit: vscode.TextEdit;
 	let expand: Boolean = false;
 
 	for (const node of parentNode.namedChildren) {
-		if (parseAllChildren(node, textEdits, indent + tabSize, tabSize, tabType)) {
+		if (parseAllChildren(node, textEdits, indent + tabSize, tabSize, tabType, style)) {
 			expand = true;
 		}
 	}
@@ -104,16 +118,6 @@ function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextE
 		}
 	}
 
-	const styleName: 'tight' | 'default' =
-		vscode.workspace.getConfiguration('tmlanguage-syntax-highlighter').get('formattingStyle')
-	const style = {
-		'default': {
-			'wsBrackets': ' '
-		},
-		'tight': {
-			'wsBrackets': ''
-		},
-	}[styleName]
 
 	for (const node of parentNode.children) {
 		switch (node.type) {
@@ -127,7 +131,7 @@ function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextE
 				if (expand == true)
 					whiteSpace = '\n'.padEnd(indent + 1, tabType)
 				else
-					whiteSpace = style.wsBrackets
+					whiteSpace = style.wsBrackets;
 
 				range = new vscode.Range(
 					node.endPosition.row,
@@ -155,7 +159,7 @@ function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextE
 				if (expand == true)
 					whiteSpace = '\n'.padEnd(indent + 1, tabType)
 				else
-					whiteSpace = style.wsBrackets
+					whiteSpace = style.wsBrackets;
 
 				range = new vscode.Range(
 					node.previousSibling.endPosition.row,
