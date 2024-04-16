@@ -3,7 +3,7 @@
 	"displayName": "TextMate Syntax Highlighting and Intellisense",
 	"description": "Syntax Highlighting for Json based Text Mate Language",
 	"publisher": "RedCMD",
-	"version": "2.3.6",
+	"version": "2.3.7",
 	"engines": {
 		"vscode": "^1.87.0"
 	},
@@ -348,6 +348,22 @@
 				"title": "Developer: Inspect Editor Tokens and Scopes",
 				"category": "TextMate",
 				"icon": "$(inspect)"
+			}
+		],
+		"configuration": [
+			{
+				"title": "TextMate Syntax Highlighting and Intellisense",
+				"properties": {
+					"tmlanguage-syntax-highlighter.formattingStyle": {
+						"type": "string",
+						"enum": [
+							"tight",
+							"default"
+						],
+						"default": "default",
+						"scope": "resource"
+					}
+				}
 			}
 		]
 	},
