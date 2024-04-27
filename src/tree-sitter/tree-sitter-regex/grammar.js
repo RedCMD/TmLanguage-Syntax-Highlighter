@@ -230,72 +230,81 @@ module.exports = grammar({
 			')',
 		),
 		capture_group_conditional: $ => seq(
+			$.capture_group_condition,
+			repeat($._expression),
+			optional('|'),
+			repeat($._expression),
+			')',
+		),
+		capture_group_condition: $ => seq( // Because TS can only insert missing nodes at the end of a node
 			'(?(',
 			choice(
-				$.capture_group_conditional_name,
+				alias(
+					$.capture_group_conditional_name,
+					$.name,
+				),
 				repeat($._expression),
 			),
 			')',
-			repeat($._expression),
-			optional('|'),
-			repeat($._expression),
-			')',
 		),
 		capture_group_conditional_extended: $ => seq(
+			$.capture_group_condition_extended,
+			repeat($._expression_extended),
+			optional('|'),
+			repeat($._expression_extended),
+			')',
+		),
+		capture_group_condition_extended: $ => seq( // Because TS can only insert missing nodes at the end of a node
 			'(?(',
 			choice(
-				$.capture_group_conditional_name,
+				alias(
+					$.capture_group_conditional_name,
+					$.name,
+				),
 				repeat($._expression_extended),
 			),
 			')',
-			repeat($._expression_extended),
-			optional('|'),
-			repeat($._expression_extended),
-			')',
 		),
-		capture_group_conditional_name: $ => alias(
-			choice(
+		capture_group_conditional_name: $ => choice(
+			seq(
+				'<',
 				seq(
-					'<',
-					seq(
-						token(
-							choice(
-								seq(
-									optional(choice('+', '-')),
-									repeat('0'),
-									/[1-9]/,
-									repeat(/[0-9]/),
-								),
-								seq(
-									/[a-zA-Z_]/,
-									repeat(/\w/),
-								),
-							),
-						),
-						optional(
+					token(
+						choice(
 							seq(
-								optional(choice('-', '+')),
-								repeat1(/[0-9]/),
+								optional(choice('+', '-')),
+								repeat('0'),
+								/[1-9]/,
+								repeat(/[0-9]/),
+							),
+							seq(
+								/[a-zA-Z_]/,
+								repeat(/\w/),
 							),
 						),
 					),
-					'>'
-				),
-				seq(
-					"'",
-					choice(
-						/[+-]?[1-9]\d*/,
-						/[a-zA-Z_]\w*/,
+					optional(
+						seq(
+							optional(choice('-', '+')),
+							repeat1(/[0-9]/),
+						),
 					),
-					optional(/[+-]\d+/),
-					"'"
 				),
-				seq(
-					/[+-]?[1-9]\d*/,
-					optional(/[+-]\d+/),
-				),
+				'>'
 			),
-			$.name,
+			seq(
+				"'",
+				choice(
+					/[+-]?[1-9]\d*/,
+					/[a-zA-Z_]\w*/,
+				),
+				optional(/[+-]\d+/),
+				"'"
+			),
+			seq(
+				/[+-]?[1-9]\d*/,
+				optional(/[+-]\d+/),
+			),
 		),
 		comment_group: $ => seq(
 			'(?#',

@@ -674,7 +674,7 @@
     }
   },
   {
-    "type": "capture_group_conditional",
+    "type": "capture_group_condition",
     "named": true,
     "fields": {},
     "children": {
@@ -726,7 +726,261 @@
           "named": true
         },
         {
-          "type": "capture_group_conditional_name",
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "character_property",
+          "named": true
+        },
+        {
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "look_ahead",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "modify",
+          "named": true
+        },
+        {
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "non_capture_group",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "capture_group_condition_extended",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "absent_extended",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "callout",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "capture_group_name_extended",
+          "named": true
+        },
+        {
+          "type": "character_class",
+          "named": true
+        },
+        {
+          "type": "character_property",
+          "named": true
+        },
+        {
+          "type": "comment_extended",
+          "named": true
+        },
+        {
+          "type": "comment_group",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "look_ahead_extended",
+          "named": true
+        },
+        {
+          "type": "look_behind_extended",
+          "named": true
+        },
+        {
+          "type": "meta_control_char",
+          "named": true
+        },
+        {
+          "type": "modify",
+          "named": true
+        },
+        {
+          "type": "modify_extended_1",
+          "named": true
+        },
+        {
+          "type": "modify_extended_2",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "non_capture_group_extended",
+          "named": true
+        },
+        {
+          "type": "quantifier",
+          "named": true
+        },
+        {
+          "type": "subroutine",
+          "named": true
+        },
+        {
+          "type": "unicode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "capture_group_conditional",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "absent",
+          "named": true
+        },
+        {
+          "type": "absent_extended",
+          "named": true
+        },
+        {
+          "type": "alteration",
+          "named": true
+        },
+        {
+          "type": "atomic_group",
+          "named": true
+        },
+        {
+          "type": "atomic_group_extended",
+          "named": true
+        },
+        {
+          "type": "backreference",
+          "named": true
+        },
+        {
+          "type": "backslash",
+          "named": true
+        },
+        {
+          "type": "callout",
+          "named": true
+        },
+        {
+          "type": "capture_group",
+          "named": true
+        },
+        {
+          "type": "capture_group_condition",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional",
+          "named": true
+        },
+        {
+          "type": "capture_group_conditional_extended",
           "named": true
         },
         {
@@ -822,7 +1076,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "absent_extended",
@@ -849,11 +1103,11 @@
           "named": true
         },
         {
-          "type": "capture_group_conditional_extended",
+          "type": "capture_group_condition_extended",
           "named": true
         },
         {
-          "type": "capture_group_conditional_name",
+          "type": "capture_group_conditional_extended",
           "named": true
         },
         {
@@ -922,21 +1176,6 @@
         },
         {
           "type": "unicode",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "capture_group_conditional_name",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "name",
           "named": true
         }
       ]
