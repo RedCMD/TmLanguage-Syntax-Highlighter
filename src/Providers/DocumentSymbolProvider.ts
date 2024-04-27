@@ -1,9 +1,9 @@
 import * as vscode from 'vscode';
 import { getTrees, getRegexNode, toRange } from "../TreeSitter";
 import { SyntaxNode } from 'web-tree-sitter';
-import { _object_ } from "../extension";
 
-export const SymbolKind: _object_ = {
+
+export const SymbolKind: { [key: string]: vscode.SymbolKind; } = {
 	/*
 		'File': vscode.SymbolKind.File,
 		'Module': vscode.SymbolKind.Module,

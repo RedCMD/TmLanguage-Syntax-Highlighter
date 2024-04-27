@@ -23,8 +23,6 @@ import { OnTypeFormattingEditProvider, DocumentFormattingEditProvider, DocumentR
 import { DocumentSemanticTokensProvider, SemanticTokensLegend } from "./Providers/DocumentSemanticTokensProvider";
 
 
-export type _object_ = { [key: string]: any };
-
 export const DocumentSelector: vscode.DocumentSelector = [
 	{ language: 'json-textmate' }
 ];
@@ -38,6 +36,8 @@ export async function activate(context: vscode.ExtensionContext) {
 	initDiagnostics(context);
 	initCallStackView(context);
 	initTokenColorCustomizations(context);
+
+	// registerInlayHintsProvider
 
 	// context.subscriptions.push(vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider)); // Mouse over Hovers
 	context.subscriptions.push(vscode.languages.registerRenameProvider(DocumentSelector, RenameProvider)); // [F2] Rename

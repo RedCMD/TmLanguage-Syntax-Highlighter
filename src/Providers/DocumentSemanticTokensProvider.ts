@@ -1,9 +1,8 @@
 import * as vscode from 'vscode';
 import { getTrees, queryNode, toRange } from "../TreeSitter";
-import { _object_ } from "../extension";
 
 
-const tokenConversion: _object_ = {
+const tokenConversion: { [key: string]: vscode.SymbolKind; } = {
 	escape_sequence: 17,
 	number: 20,
 	true: 19,
