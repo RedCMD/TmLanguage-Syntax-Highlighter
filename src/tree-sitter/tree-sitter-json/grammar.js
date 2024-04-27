@@ -538,6 +538,12 @@ function commaSep($, rule) {
 					rule,
 				),
 			),
+			optional(
+				seq(
+					repeat($._whitespace),
+					',',
+				)
+			),
 		),
 	);
 }

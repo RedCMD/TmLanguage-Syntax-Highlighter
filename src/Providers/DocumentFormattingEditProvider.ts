@@ -3,6 +3,15 @@ import * as Parser from 'web-tree-sitter';
 import { getTrees, toRange, toPoint, queryNode } from "../TreeSitter";
 
 
+/* 
+	const filesConfig = workspace.getConfiguration('files', document);
+	const fileFormattingOptions = {
+		trimTrailingWhitespace: filesConfig.get<boolean>('trimTrailingWhitespace'),
+		trimFinalNewlines: filesConfig.get<boolean>('trimFinalNewlines'),
+		insertFinalNewline: filesConfig.get<boolean>('insertFinalNewline'),
+	};
+ */
+
 export const DocumentFormattingEditProvider: vscode.DocumentFormattingEditProvider = {
 	provideDocumentFormattingEdits(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.TextEdit[] {
 		// vscode.window.showInformationMessage(JSON.stringify("Format"));
@@ -21,7 +30,7 @@ export const DocumentFormattingEditProvider: vscode.DocumentFormattingEditProvid
 		// vscode.window.showInformationMessage(JSON.stringify(textEdits));
 		return textEdits;
 	},
-}
+};
 
 export const DocumentRangeFormattingEditProvider: vscode.DocumentRangeFormattingEditProvider = {
 	provideDocumentRangeFormattingEdits(document: vscode.TextDocument, range: vscode.Range, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.TextEdit[] {
@@ -43,7 +52,7 @@ export const DocumentRangeFormattingEditProvider: vscode.DocumentRangeFormatting
 		let level = -1;
 		let node: Parser.SyntaxNode;
 		for (const nestedCapture of nestedCaptures) {
-			const nestedNode = nestedCapture.node
+			const nestedNode = nestedCapture.node;
 			if (!toRange(nestedNode).contains(range)) {
 				break;
 			}
@@ -57,7 +66,55 @@ export const DocumentRangeFormattingEditProvider: vscode.DocumentRangeFormatting
 		// vscode.window.showInformationMessage(JSON.stringify(textEdits));
 		return textEdits;
 	},
-}
+};
+
+export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider = {
+	provideOnTypeFormattingEdits(document: vscode.TextDocument, position: vscode.Position, ch: string, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.TextEdit[] {
+		// vscode.window.showInformationMessage(JSON.stringify("FormatRange"));
+		const trees = getTrees(document);
+		const jsonTree = trees.jsonTree;
+		const textEdits: vscode.TextEdit[] = [];
+
+		const tabType = options.insertSpaces ? ' ' : '\t';
+		const tabSize = options.insertSpaces ? options.tabSize : 1;
+		const style = getFormattingStyle();
+
+		const startPoint = toPoint(position.translate(0, -1));
+		const endPoint = toPoint(position);
+
+		const queryString = `"${ch}" @char`;
+		const captures = queryNode(jsonTree.rootNode, queryString, startPoint, endPoint);
+		const capture = captures.pop();
+		const cursorNode = capture.node;
+		let node: Parser.SyntaxNode;
+
+		switch (ch) {
+			case ',':
+				node = cursorNode.previousNamedSibling;
+				break;
+			case '}':
+			case ']':
+				node = cursorNode.parent;
+				break;
+			default:
+				return;
+		}
+
+		let level = 0;
+		let parent = node.parent;
+		while (parent) {
+			parent = parent.parent;
+			level++;
+		};
+
+		const indent = Math.min(level, node.startPosition.column);
+
+		parseAllChildren(node, textEdits, indent, tabSize, tabType, style);
+
+		// vscode.window.showInformationMessage(JSON.stringify(textEdits));
+		return textEdits;
+	},
+};
 
 type formattingStyle = { wsBrackets: string; };
 function getFormattingStyle(): formattingStyle {
@@ -123,13 +180,13 @@ function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextE
 		switch (node.type) {
 			case '{':
 			case '[':
-				indent += tabSize
+				indent += tabSize;
 
 				if (node.nextSibling == null)
-					break
+					break;
 
 				if (expand == true)
-					whiteSpace = '\n'.padEnd(indent + 1, tabType)
+					whiteSpace = '\n'.padEnd(indent + 1, tabType);
 				else
 					whiteSpace = style.wsBrackets;
 
@@ -138,26 +195,26 @@ function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextE
 					node.endPosition.column,
 					node.nextSibling.startPosition.row,
 					node.nextSibling.startPosition.column
-				)
+				);
 
-				textEdit = vscode.TextEdit.replace(range, whiteSpace)
-				textEdits.push(textEdit)
-				break
+				textEdit = vscode.TextEdit.replace(range, whiteSpace);
+				textEdits.push(textEdit);
+				break;
 
 			case '}':
 			case ']':
-				indent -= tabSize
+				indent -= tabSize;
 
 				if (node.previousSibling == null)
-					break
+					break;
 
 				if (node.previousSibling.type == '{')
-					break
+					break;
 				if (node.previousSibling.type == '[')
-					break
+					break;
 
 				if (expand == true)
-					whiteSpace = '\n'.padEnd(indent + 1, tabType)
+					whiteSpace = '\n'.padEnd(indent + 1, tabType);
 				else
 					whiteSpace = style.wsBrackets;
 
@@ -166,77 +223,77 @@ function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextE
 					node.previousSibling.endPosition.column,
 					node.startPosition.row,
 					node.startPosition.column
-				)
+				);
 
-				textEdit = vscode.TextEdit.replace(range, whiteSpace)
-				textEdits.push(textEdit)
-				break
+				textEdit = vscode.TextEdit.replace(range, whiteSpace);
+				textEdits.push(textEdit);
+				break;
 
 			case ',':
 				if (node.nextSibling == null)
-					break
+					break;
 
 				if (expand == true)
-					whiteSpace = '\n'.padEnd(indent + 1, tabType)
+					whiteSpace = '\n'.padEnd(indent + 1, tabType);
 				else
-					whiteSpace = ' '
+					whiteSpace = ' ';
 
 				range = new vscode.Range(
 					node.endPosition.row,
 					node.endPosition.column,
 					node.nextSibling.startPosition.row,
 					node.nextSibling.startPosition.column
-				)
+				);
 
-				textEdit = vscode.TextEdit.replace(range, whiteSpace)
-				textEdits.push(textEdit)
+				textEdit = vscode.TextEdit.replace(range, whiteSpace);
+				textEdits.push(textEdit);
 
 				if (node.previousSibling == null)
-					break
+					break;
 
-				whiteSpace = ''
+				whiteSpace = '';
 
 				range = new vscode.Range(
 					node.previousSibling.endPosition.row,
 					node.previousSibling.endPosition.column,
 					node.startPosition.row,
 					node.startPosition.column
-				)
+				);
 
-				textEdit = vscode.TextEdit.replace(range, whiteSpace)
-				textEdits.push(textEdit)
-				break
+				textEdit = vscode.TextEdit.replace(range, whiteSpace);
+				textEdits.push(textEdit);
+				break;
 
 			case ':':
 				if (node.nextSibling == null)
-					break
-				whiteSpace = ' '
+					break;
+				whiteSpace = ' ';
 
 				range = new vscode.Range(
 					node.endPosition.row,
 					node.endPosition.column,
 					node.nextSibling.startPosition.row,
 					node.nextSibling.startPosition.column
-				)
+				);
 
-				textEdit = vscode.TextEdit.replace(range, whiteSpace)
-				textEdits.push(textEdit)
+				textEdit = vscode.TextEdit.replace(range, whiteSpace);
+				textEdits.push(textEdit);
 
 				if (node.previousSibling == null)
-					break
+					break;
 
-				whiteSpace = ''
+				whiteSpace = '';
 
 				range = new vscode.Range(
 					node.previousSibling.endPosition.row,
 					node.previousSibling.endPosition.column,
 					node.startPosition.row,
 					node.startPosition.column
-				)
+				);
 
-				textEdit = vscode.TextEdit.replace(range, whiteSpace)
-				textEdits.push(textEdit)
-				break
+				textEdit = vscode.TextEdit.replace(range, whiteSpace);
+				textEdits.push(textEdit);
+				break;
 		}
 	}
 

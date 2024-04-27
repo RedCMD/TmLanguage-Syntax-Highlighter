@@ -18,7 +18,7 @@ import { SelectionRangeProvider } from "./Providers/SelectionRangeProvider";
 import { DocumentDropEditProvider } from "./Providers/DocumentDropEditProvider";
 import { DocumentHighlightProvider } from "./Providers/DocumentHighlightProvider";
 import { CompletionItemProvider, triggerCharacters } from "./Providers/CompletionItemProvider";
-import { DocumentFormattingEditProvider, DocumentRangeFormattingEditProvider } from "./Providers/DocumentFormattingEditProvider";
+import { OnTypeFormattingEditProvider, DocumentFormattingEditProvider, DocumentRangeFormattingEditProvider } from "./Providers/DocumentFormattingEditProvider";
 import { DocumentSemanticTokensProvider, SemanticTokensLegend } from "./Providers/DocumentSemanticTokensProvider";
 
 
@@ -49,6 +49,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.languages.registerDocumentDropEditProvider(DocumentSelector, DocumentDropEditProvider)); // Drag and Drop `tmLanguage.json` files to `#include`
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(DocumentSelector, CompletionItemProvider, ...triggerCharacters)); // Intellisense ctrl+space completions
 	context.subscriptions.push(vscode.languages.registerDocumentHighlightProvider(DocumentSelector, DocumentHighlightProvider)); // Context aware variable highlighting
+	context.subscriptions.push(vscode.languages.registerOnTypeFormattingEditProvider(DocumentSelector, OnTypeFormattingEditProvider, '}', ']', ',')); // right-click => Format Document
 	context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(DocumentSelector, DocumentFormattingEditProvider)); // right-click => Format Document
 	context.subscriptions.push(vscode.languages.registerDocumentRangeFormattingEditProvider(DocumentSelector, DocumentRangeFormattingEditProvider)); // right-click => Format Selection
 	// context.subscriptions.push(vscode.languages.registerDocumentSemanticTokensProvider(DocumentSelector, DocumentSemanticTokensProvider, SemanticTokensLegend)); // Context aware syntax highlighting
