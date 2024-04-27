@@ -525,7 +525,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "name",
@@ -2660,6 +2660,10 @@
     "named": false
   },
   {
+    "type": "(?{",
+    "named": false
+  },
+  {
     "type": "(?~",
     "named": false
   },
@@ -2688,11 +2692,19 @@
     "named": false
   },
   {
+    "type": "<",
+    "named": false
+  },
+  {
     "type": ">",
     "named": false
   },
   {
     "type": "?",
+    "named": false
+  },
+  {
+    "type": "X",
     "named": false
   },
   {
@@ -2750,6 +2762,10 @@
   {
     "type": "options",
     "named": true
+  },
+  {
+    "type": "{",
+    "named": false
   },
   {
     "type": "|",

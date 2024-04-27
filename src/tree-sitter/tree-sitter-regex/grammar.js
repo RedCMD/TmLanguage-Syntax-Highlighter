@@ -522,22 +522,58 @@ module.exports = grammar({
 			repeat($._expression_extended),
 			')',
 		),
-		callout: $ => seq(
-			// '(*',
-			alias(
-				$._callout_syntax,
-				'(*',
+		callout: $ => choice(
+			seq(
+				// '(*',
+				alias(
+					$._callout_syntax,
+					'(*',
+				),
+				alias(
+					token(
+						seq(
+							/[A-Za-z_]/,
+							repeat(/\w/),
+						),
+					),
+					$.name,
+				),
+				')',
 			),
-			alias(
-				token(
+			seq(
+				'(?{',
+				optional($._callout_contents),
+				'}',
+				optional(
 					seq(
-						/[A-Za-z_]/,
-						repeat(/\w/),
+						'[',
+						seq(
+							/[A-Za-z_]/,
+							repeat(/\w/),
+						),
+						']',
 					),
 				),
-				$.name,
+				optional(
+					choice(
+						'X',
+						'>',
+						'<',
+					),
+				),
+				')',
 			),
-			')',
+		),
+		_callout_contents: $ => choice(
+			seq(
+				'{',
+				optional($._callout_contents),
+				'}',
+			),
+			seq(
+				/[^{}]/,
+				repeat(/[^}]/),
+			),
 		),
 		absent: $ => seq(
 			choice(
