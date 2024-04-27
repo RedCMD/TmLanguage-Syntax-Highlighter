@@ -10,10 +10,10 @@ export type trees = {
 	regexNodes: {
 		[id: number]: Parser.SyntaxNode;
 	};
-}
+};
 
 const trees: {
-	[uri: string]: trees
+	[uri: string]: trees;
 } = {};
 
 export function getTrees(uri: vscode.Uri): trees;
@@ -100,7 +100,7 @@ export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoi
 		// endIndex: 10000000,
 		matchLimit: 10000,
 	};
-	
+
 	// const queryCaptures = query.captures(node, queryOptions);
 	const queryMatches = query.matches(node, queryOptions);
 	// vscode.window.showInformationMessage(JSON.stringify(queryMatches));
@@ -143,19 +143,21 @@ export function toRange(node: Parser.SyntaxNode): vscode.Range {
 	if (!node) {
 		return null;
 	}
-
 	const startPosition = node.startPosition;
 	const endPosition = node.endPosition;
-
-	return new vscode.Range(
+	const range = new vscode.Range(
 		startPosition.row,
 		startPosition.column,
 		endPosition.row,
 		endPosition.column
 	);
+	return range;
 }
 
 export function toPoint(position: vscode.Position): Parser.Point {
+	if (!position) {
+		return null;
+	}
 	const row = position.line;
 	const column = position.character;
 	const point: Parser.Point = { row: row, column: column };
@@ -188,10 +190,11 @@ export function trueParent(node: Parser.SyntaxNode): Parser.SyntaxNode {
 	if (node.text != '') {
 		return parent;
 	}
-	return parent.parent;
+	// return parent;
+	// return parent.parent;
 
-	// const sibling = parent.nextSibling;
-	// return sibling ? sibling.equals(node) ? parent.parent : parent : parent;
+	const sibling = parent.nextSibling;
+	return sibling ? sibling.equals(node) ? parent.parent : parent : parent;
 }
 
 export let jsonParserLanguage: Parser.Language;
@@ -389,7 +392,7 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent, jsonParser: 
 	// },
 	const jsonTree = jsonParser.parse(text, jsonTreeOld);
 	// vscode.window.showInformationMessage(JSON.stringify(jsonTree.getEditedRange(jsonTreeOld)));
-	
+
 
 	// Todo: only reparse modified regex nodes. tree.getChangedRanges();
 	const queryCaptures = queryNode(jsonTree.rootNode, `(regex) @regex`);
@@ -400,25 +403,25 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent, jsonParser: 
 		const node = queryCapture.node;
 		const id = node.id;
 		// if (node.hasChanges()) {
-			const range: Parser.Range = {
-				startPosition: node.startPosition,
-				endPosition: node.endPosition,
-				startIndex: node.startIndex,
-				endIndex: node.endIndex
-			};
-			const ranges: Parser.Range[] = [range];
-			const options: Parser.Options = { includedRanges: ranges };
-			const regexTree = regexParser.parse(text, jsonTreeOld, options);
-			regexTrees[id] = regexTree;
+		const range: Parser.Range = {
+			startPosition: node.startPosition,
+			endPosition: node.endPosition,
+			startIndex: node.startIndex,
+			endIndex: node.endIndex
+		};
+		const ranges: Parser.Range[] = [range];
+		const options: Parser.Options = { includedRanges: ranges };
+		const regexTree = regexParser.parse(text, jsonTreeOld, options);
+		regexTrees[id] = regexTree;
 
-			const regexNode = regexTree.rootNode;
-			regexNodes[regexNode.id] = node;
+		const regexNode = regexTree.rootNode;
+		regexNodes[regexNode.id] = node;
 		// }
 		// else {
 		// 	const regexTree = trees[uriString].regexTrees[id];
 		// 	vscode.window.showInformationMessage(JSON.stringify(regexTree));
 		// 	regexTrees[id] = regexTree;
-			
+
 		// 	const regexNode = regexTree.rootNode;
 		// 	regexNodes[regexNode.id] = node;
 		// }
