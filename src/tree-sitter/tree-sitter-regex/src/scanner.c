@@ -5,6 +5,7 @@
 enum TokenType // this **MUST** match up with `grammar.js`
 { // multiple options could be valid at once
 	_GROUP_END_LOOKAHEAD,
+	_FORCE_PROPERTY_NAME_NODE,
 	_CALLOUT_SYNTAX,
 	_MODIFY_SYNTAX,
 	_ERROR
@@ -20,7 +21,12 @@ bool tree_sitter_regextm_external_scanner_scan(void* payload, TSLexer* lexer, co
 		return false;
 	}
 
-	// careful with `advance`; theres no going back
+	if (valid_symbols[_FORCE_PROPERTY_NAME_NODE]) {
+		if (lexer->lookahead == '{' || lexer->lookahead == '}' || lexer->lookahead == '(' || lexer->lookahead == ')' || lexer->lookahead == '|' || lexer->eof(lexer) /* || lexer->lookahead == '"' */) {
+		lexer->result_symbol = _FORCE_PROPERTY_NAME_NODE;
+		return true;
+		}
+	}
 
 	if (valid_symbols[_GROUP_END_LOOKAHEAD]) {
 		if (lexer->lookahead == ')' || lexer->eof(lexer) /* || lexer->lookahead == '"' */) {
@@ -28,6 +34,8 @@ bool tree_sitter_regextm_external_scanner_scan(void* payload, TSLexer* lexer, co
 			return true;
 		}
 	}
+
+	// careful with `advance`; theres no going back
 
 	if (lexer->lookahead == '(') {
 		lexer->advance(lexer, false);

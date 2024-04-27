@@ -3,6 +3,7 @@ import * as vscodeOniguruma from 'vscode-oniguruma';
 import { getTrees, jsonParserLanguage, queryNode, toRange, trueParent } from "./TreeSitter";
 import { DocumentSelector } from "./extension";
 import { Query, QueryOptions } from 'web-tree-sitter';
+import { unicodeproperties } from "./UNICODE_PROPERTIES";
 
 
 type IOnigBinding = {
@@ -189,6 +190,18 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 							message: `'${text}' Invalid Quantifier target`,
 							severity: vscode.DiagnosticSeverity.Error,
 							source: 'ONIG_SYN_CONTEXT_INVALID_REPEAT_OPS',
+						};
+						break;
+					case 'property':
+						const propertyName = text;
+						if (unicodeproperties.includes(propertyName.replaceAll(/[ _-]+/g, '').toLowerCase())) {
+							continue;
+						}
+						diagnostic = {
+							range: range,
+							message: `'${propertyName}' Invalid Character Property name`,
+							severity: vscode.DiagnosticSeverity.Error,
+							source: 'Oniguruma',
 						};
 						break;
 					default:

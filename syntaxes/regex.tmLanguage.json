@@ -1376,7 +1376,7 @@
 					}
 				},
 				{
-					"comment": "https://github.com/kkos/oniguruma/blob/bb31b4d402ee3f3a3bc4855c9d0271f43a3e4793/doc/UNICODE_PROPERTIES",
+					"comment": "https://github.com/kkos/oniguruma/blob/v6.9.8/doc/UNICODE_PROPERTIES",
 					"begin": "(\\\\{2}[pP]{)(\\^)?",
 					"end": "}|$|(?=[(){|\"])",
 					"beginCaptures": {

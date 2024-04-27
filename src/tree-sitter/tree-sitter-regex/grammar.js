@@ -19,6 +19,7 @@ module.exports = grammar({
 	],
 	externals: $ => [ // this **MUST** match up with `scanner.c`
 		$._group_end_lookahead, // 0-width, do **not** put this directly in a repeat()
+		$._force_property_name_node,
 		$._callout_syntax,
 		$._modify_syntax,
 		$.ERROR,
@@ -41,6 +42,7 @@ module.exports = grammar({
 			$.callout,
 			$.absent,
 			$.character_class,
+			$.character_property,
 			$.subroutine,
 			$.backreference,
 			$.meta_control_char,
@@ -64,6 +66,7 @@ module.exports = grammar({
 			$.callout,
 			$.absent_extended,
 			$.character_class,
+			$.character_property,
 			$.subroutine,
 			$.backreference,
 			$.meta_control_char,
@@ -568,6 +571,7 @@ module.exports = grammar({
 					// $.hexadecimal,
 					// $.property,
 					// $.meta_control_char,
+					$.character_property,
 					$.unicode,
 					$.backslash,
 					$.literal,
@@ -575,6 +579,28 @@ module.exports = grammar({
 				),
 			),
 			']',
+		),
+		character_property: $ => seq(
+			token(
+				seq(
+					'\\\\',
+					choice(
+						'p',
+						'P',
+					),
+					'{',
+					optional('^'),
+				),
+			),
+			optional($.character_property_name),
+			'}',
+		),
+		character_property_name: $ => choice(
+			seq(
+				repeat1(/[a-zA-Z1 _-]/),
+				repeat(/[^(){}|]/),
+			),
+			$._force_property_name_node,
 		),
 		subroutine: $ => choice(
 			seq(

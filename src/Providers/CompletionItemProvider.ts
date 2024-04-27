@@ -1,8 +1,12 @@
 import * as vscode from 'vscode';
 import * as Parser from 'web-tree-sitter';
-import { getTrees, toRange, toPoint, queryNode } from "../TreeSitter";
+import { getTrees, toRange, toPoint, queryNode, trueParent } from "../TreeSitter";
 import { IRelaxedExtensionManifest } from "../extensions";
 import { getScopes } from "../themeScopeColors";
+import { UNICODE_PROPERTIES } from '../UNICODE_PROPERTIES';
+import { unicode_property_data } from '../unicode_property_data';
+
+type CompletionItem = vscode.CompletionItem & { type?: string; };
 
 const triggerCharacterSets: { [key: string]: string[]; } = {
 	schema: ['"', ':'],
@@ -11,7 +15,7 @@ const triggerCharacterSets: { [key: string]: string[]; } = {
 	include: ['"', '#', '.', '$'],
 	new_scope: ['"', ' '],
 	scope: ['.', '$'],
-	regex: ['\\', '(', '?', '<', '\''],
+	regex: ['{', '^',/* '\\', '(', '?', '<', '\'' */],
 };
 export const triggerCharacters = Object.values(triggerCharacterSets).flat();
 
@@ -30,7 +34,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 			(include (value) @include)
 			(name (value) @new_scope)
 			(name (value (scope) @scope))
-			;(regex) @regex
+			(regex) @regex
 		`;
 		const cursorCapture = queryNode(rootNode, cursorQuery, point);
 		if (!cursorCapture) {
@@ -44,7 +48,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 		}
 		const cursorNode = cursorCapture.node;
 		const cursorRange = toRange(cursorNode);
-		const completionItems: vscode.CompletionItem[] = [];
+		const completionItems: CompletionItem[] = [];
 
 		switch (cursorName) {
 			case 'schema':
@@ -339,21 +343,56 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 
 				break;
 			case 'regex':
-				vscode.window.showInformationMessage(JSON.stringify(document.getText(new vscode.Range(position.line, position.character - 1, position.line, position.character))));
-				const text = document.getText(new vscode.Range(position.line, position.character - 1, position.line, position.character));
-				// switch (text) {
-				// 	case '\\':
-				const completionItemQuad: vscode.CompletionItem = {
-					label: '\\\\\\\\',
-					kind: vscode.CompletionItemKind.Class
-				};
-				completionItems.push(completionItemQuad);
-				const completionItemWhiteSpace: vscode.CompletionItem = {
-					label: '\\\\s',
-					kind: vscode.CompletionItemKind.Class
-				};
-				completionItems.push(completionItemWhiteSpace);
-				completionItems.push(new vscode.CompletionItem('\\\\w', vscode.CompletionItemKind.Class));
+				const regexRootNode = trees.regexTrees[cursorNode.id].rootNode;
+
+				const regexQuery = `
+					(character_property (character_property_name) @property)
+				`;
+				const regexCapture = queryNode(regexRootNode, regexQuery, point);
+				if (!regexCapture) {
+					return;
+				}
+				const regexName = regexCapture.name;
+				const regexNode = regexCapture.node;
+				const regexRange = toRange(regexNode);
+				switch (regexName) {
+					case 'property':
+						const characterProperty = trueParent(regexNode);
+						if (characterProperty.text.charAt(4) != '^') { // \\p{^Letter}
+							completionItems.push({
+								label: '^',
+								range: new vscode.Range(regexRange.start, regexRange.start),
+								kind: vscode.CompletionItemKind.Operator,
+								detail: 'Negate',
+							});
+						}
+						for (const UNICODE_PROPERTY of UNICODE_PROPERTIES) {
+							completionItems.push({
+								label: UNICODE_PROPERTY,
+								range: regexRange,
+								kind: vscode.CompletionItemKind.Property,
+								type: 'property',
+							});
+						}
+						break;
+					default:
+						return;
+				}
+				// vscode.window.showInformationMessage(JSON.stringify(document.getText(new vscode.Range(position.line, position.character - 1, position.line, position.character))));
+				// const text = document.getText(new vscode.Range(position.line, position.character - 1, position.line, position.character));
+				// // switch (text) {
+				// // 	case '\\':
+				// const completionItemQuad: vscode.CompletionItem = {
+				// 	label: '\\\\\\\\',
+				// 	kind: vscode.CompletionItemKind.Class
+				// };
+				// completionItems.push(completionItemQuad);
+				// const completionItemWhiteSpace: vscode.CompletionItem = {
+				// 	label: '\\\\s',
+				// 	kind: vscode.CompletionItemKind.Class
+				// };
+				// completionItems.push(completionItemWhiteSpace);
+				// completionItems.push(new vscode.CompletionItem('\\\\w', vscode.CompletionItemKind.Class));
 				// 		break;
 				// 	default:
 				// 		break;
@@ -382,10 +421,51 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 		const completionList = new vscode.CompletionList(completionItems);
 		// vscode.window.showInformationMessage(JSON.stringify(completionList));
 		return completionList;
-	}
+	},
+	resolveCompletionItem(item: CompletionItem, token: vscode.CancellationToken): vscode.CompletionItem {
+		// vscode.window.showInformationMessage(JSON.stringify(item));
+
+		const type = item.type;
+		switch (type) {
+			case 'property':
+				let unicodeChars = '';
+
+				const unicodeProperty = <string>item.label;
+				const unicodeData = unicode_property_data[unicodeProperty];
+				for (let index = 0; index < unicodeData.length; index += 2) {
+					const unicodeDataStart = unicodeData[index];
+					const unicodeDataEnd = unicodeData[index + 1];
+
+					unicodeChars += '0x' + unicodeDataStart.toString(16).toUpperCase();
+					// if (unicodeDataStart != unicodeDataEnd) {
+					unicodeChars += '-0x' + unicodeDataEnd.toString(16).toUpperCase();
+					// }
+					unicodeChars += "; '";
+					for (let char = unicodeDataStart; char <= unicodeDataEnd && char < (unicodeDataStart + 100); char++) {
+						unicodeChars += String.fromCodePoint(char).replace('\\', '\\\\').replace("'", "\\'").replace('\n', '\\n').replace('\r', '\\r');
+					}
+					if ((unicodeDataStart + 100) <= unicodeDataEnd) {
+						unicodeChars += '...';
+					}
+					unicodeChars += "' \n";
+				}
+				if (!unicodeChars) {
+					vscode.window.showInformationMessage(JSON.stringify(unicodeProperty));
+				}
+
+				const markdownString = new vscode.MarkdownString();
+				markdownString.appendCodeblock(unicodeChars, 'js');
+				item.documentation = markdownString;
+				break;
+			default:
+				break;
+		}
+
+		return item;
+	},
 };
 
-function repoCompletionItems(completionItems: vscode.CompletionItem[], tree: Parser.Tree, cursorRange: vscode.Range, scopeName?: string): void {
+function repoCompletionItems(completionItems: CompletionItem[], tree: Parser.Tree, cursorRange: vscode.Range, scopeName?: string): void {
 	const rootNode = tree.rootNode;
 
 	const repoQuery =

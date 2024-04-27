@@ -84,3 +84,58 @@ export function stringify(this: any, key: string, value: any) {
 	}
 	return value;
 }
+
+export function wagnerFischer(word: string, directory: string[]): { distance: number, index: number, string: string; }[] {
+	const distances: { distance: number, index: number, string: string; }[] = [];
+	let index = 0;
+
+	for (const targetWord of directory) {
+		let prev = Array.from(Array(targetWord.length + 1).keys());
+		// let prev = Array(targetWord.length + 1).fill(0);
+
+		let i = 1;
+		for (const char of word) {
+			let next: number[] = Array(targetWord.length + 1);
+			let j = 1;
+			next[0] = i;
+			for (const targetChar of targetWord) {
+				if (char == targetChar) {
+					next[j] = prev[j - 1];
+				}
+				else {
+					next[j] = 1 + Math.min(
+						prev[j],
+						prev[j - 1],
+						next[j - 1],
+					);
+				}
+				j++;
+			}
+			i++;
+			prev = next;
+		}
+
+		const distance = { 'distance': prev[targetWord.length], index: index, string: targetWord };
+		distances.push(distance);
+
+		index++;
+	}
+	
+	distances.sort((a, b) => {
+		if (a.distance > b.distance) {
+			return 1;
+		}
+		if (a.distance < b.distance) {
+			return -1;
+		} 
+		if (a.string.length < b.string.length) {
+			return 1;
+		}
+		if (a.string.length > b.string.length) {
+			return -1;
+		}
+		return 0;
+	});
+
+	return distances;
+}

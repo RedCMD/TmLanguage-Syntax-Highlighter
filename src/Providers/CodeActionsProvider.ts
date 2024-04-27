@@ -1,4 +1,6 @@
 import * as vscode from 'vscode';
+import { unicodeproperties, UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
+import { wagnerFischer } from "../extension";
 
 export const CodeActionsProvider: vscode.CodeActionProvider = {
 	provideCodeActions(document: vscode.TextDocument, range: vscode.Range | vscode.Selection, context: vscode.CodeActionContext, token: vscode.CancellationToken): vscode.CodeAction[] {
@@ -42,6 +44,29 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 					edit.insert(document.uri, diagnostic.range.end, missing);
 					codeAction = {
 						title: `Add missing '${missing}'`,
+						kind: vscode.CodeActionKind.QuickFix,
+						diagnostics: [diagnostic],
+						isPreferred: true,
+						edit: edit,
+					};
+					break;
+				case 'property':
+					const property = message.split("'")[1].replaceAll(/[ _-]+/g, '').toLowerCase();
+					if (property.length < 2) {
+						continue;
+					}
+
+					const distances = wagnerFischer(property, unicodeproperties);
+					// vscode.window.showInformationMessage(JSON.stringify(distances));
+					const distance = distances[0].distance;
+					if (distance > 2) {
+						continue;
+					}
+
+					const propertyName = UNICODE_PROPERTIES[distances[0].index];
+					edit.replace(document.uri, diagnostic.range, propertyName);
+					codeAction = {
+						title: `Change spelling to '${propertyName}'`,
 						kind: vscode.CodeActionKind.QuickFix,
 						diagnostics: [diagnostic],
 						isPreferred: true,
