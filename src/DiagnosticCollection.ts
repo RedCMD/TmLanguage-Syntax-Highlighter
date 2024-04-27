@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as vscodeOniguruma from 'vscode-oniguruma';
-import { getTree, getTrees, jsonParserLanguage, queryNode, toRange, trueParent } from "./TreeSitter";
+import { getTrees, jsonParserLanguage, queryNode, toRange, trueParent } from "./TreeSitter";
 import { DocumentSelector } from "./extension";
 import { Query, QueryOptions } from 'web-tree-sitter';
 
@@ -18,13 +18,13 @@ type IOnigBinding = {
 	_freeOnigScanner(ptr: Pointer): void;
 	_findNextOnigScannerMatch(scanner: Pointer, strCacheId: number, strData: Pointer, strLength: number, position: number, options: number): number;
 	_findNextOnigScannerMatchDbg(scanner: Pointer, strCacheId: number, strData: Pointer, strLength: number, position: number, options: number): number;
-}
+};
 type Pointer = number;
 type OnigScanner = vscodeOniguruma.OnigScanner & {
 	readonly _onigBinding: IOnigBinding;
 	readonly _ptr: Pointer;
 	readonly _options: vscodeOniguruma.FindOption[];
-}
+};
 
 let repoQuery: Query;
 
@@ -42,7 +42,7 @@ export function initDiagnostics(context: vscode.ExtensionContext) {
 			!match !begin)
 	`;
 	repoQuery = jsonParserLanguage.query(repoQueryString);
-	
+
 	for (const editor of vscode.window.visibleTextEditors) {
 		// vscode.window.showInformationMessage(JSON.stringify("visible"));
 		Diagnostics(editor.document, DiagnosticCollection);
@@ -81,14 +81,9 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 
 	const diagnostics: vscode.Diagnostic[] = [];
 
-	if (false) { // TreeSitter JSON errors
+	if (true) { // TreeSitter JSON errors
 		// vscode.window.showInformationMessage(JSON.stringify("diagnostics JSON"))
-		const tree = getTree(document);
-		if (tree == null) {
-			return;
-		}
-
-		const queryCaptures = queryNode(tree.rootNode, `(ERROR) @ERROR`);
+		const queryCaptures = queryNode(rootNode, `(ERROR) @ERROR`);
 
 		for (const queryCapture of queryCaptures) {
 			const node = queryCapture.node;
@@ -105,24 +100,18 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 		}
 	}
 
-	if (false) { // TreeSitter Regex errors
+	if (true) { // TreeSitter Regex errors
 		// vscode.window.showInformationMessage(JSON.stringify("diagnostics Regex"));
-		const trees = getTrees(document);
-		if (trees == null) {
-			return;
-		}
-
 		const regexTrees = trees.regexTrees;
 		for (const id in regexTrees) {
 			const tree = regexTrees[id];
 			// vscode.window.showInformationMessage(JSON.stringify(tree.rootNode.toString()));
 
-
 			const queryString = `
-				((ERROR) @ERROR)
-				((error) @error)
-				((quantifier) @quantifier)
-				(_ _ @missing .) ;Only the last child node can be missing
+				(ERROR) @ERROR
+				(error) @error
+				(quantifier) @quantifier
+				_ @missing ;Only the last child node can be missing
 			`;
 			const queryCaptures = queryNode(tree.rootNode, queryString);
 
@@ -136,15 +125,16 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 				const parentRange = toRange(parent);
 
 				let diagnostic: vscode.Diagnostic;
-				switch (queryCapture.name) {
+				const name = queryCapture.name;
+				switch (name) {
 					case 'ERROR':
 					case 'error':
 					case 'error_':
 						diagnostic = {
 							range: range,
-							message: `'${text}' is not valid inside '${parentType}'`,
-							severity: vscode.DiagnosticSeverity.Warning,
-							source: 'JSON TextMate oniguruma',
+							message: `'${text}' is not valid at this position inside '${parentType}'`,
+							severity: vscode.DiagnosticSeverity.Error,
+							source: 'JSON TextMate Oniguruma',
 						};
 						break;
 					case 'invalid':
@@ -163,7 +153,7 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 							range: parentRange,
 							message: `'${parentType}' is missing ending char${type.length > 1 ? 's' : ''} '${type}'`,
 							severity: vscode.DiagnosticSeverity.Error,
-							source: 'TreeSitter Missing node',
+							source: 'TreeSitter',
 						};
 						break;
 					case 'quantifier':
@@ -188,7 +178,7 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 						if (parentType == 'capture_group' && text == '?') {
 							diagnostic = {
 								range: range,
-								message: `'(?...)' Invalid group syntax`,
+								message: `'(?...)' Invalid Group syntax`,
 								severity: vscode.DiagnosticSeverity.Error,
 								source: 'ONIG_INEFFECTIVE_META_CHAR',
 							};
@@ -204,6 +194,8 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 					default:
 						continue;
 				}
+				// diagnostic.code = { value: name, target: document.uri };
+				diagnostic.code = name;
 				diagnostics.push(diagnostic);
 				// vscode.window.showInformationMessage(JSON.stringify(diagnostic));
 			}
@@ -212,9 +204,6 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 
 	if (true) { // Oniguruma Regex errors. https://github.com/kkos/oniguruma
 		// vscode.window.showInformationMessage(JSON.stringify("diagnostics Regex Oniguruma"));
-		const trees = getTrees(document);
-		// const jsonTree = trees.jsonTree;
-		// const regexTrees = trees.regexTrees;
 		const regexNodes = trees.regexNodes;
 
 		for (const id in regexNodes) {
@@ -255,45 +244,6 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 		}
 	}
 
-	if (false) { // missing `#includes`
-		// vscode.window.showInformationMessage(JSON.stringify("diagnostics #includes"))
-
-		const includeCaptures = queryNode(rootNode, `(include (value !scopeName (ruleName) @include))`);
-
-		for (const includeCapture of includeCaptures) {
-			const node = includeCapture.node;
-			const text = node.text;
-
-			const repoQuery = `
-				(json
-					(repository
-						(repo
-							(key) @rootRepo (.eq? @rootRepo "${text}"))))
-				(repo
-			;		[(patterns) (include)] (repository ; causes too much lag
-					(repository
-						(repo
-							(key) @nestRepo (.eq? @nestRepo "${text}")))
-					!match !begin)
-			`;
-			// const start = performance.now();
-			const repoCapture = queryNode(rootNode, repoQuery, node.startPosition, false); // laggy
-			// vscode.window.showInformationMessage(JSON.stringify(performance.now() - start) + "ms");
-			if (repoCapture) {
-				continue;
-			}
-
-			const range = toRange(node);
-			const diagnostic: vscode.Diagnostic = {
-				range: range,
-				message: `\`${text}\` was not found in a repository.`,
-				severity: vscode.DiagnosticSeverity.Error,
-				source: 'TextMate',
-			};
-			diagnostics.push(diagnostic);
-		}
-	}
-
 	if (true) { // missing `#include`
 		// vscode.window.showInformationMessage(JSON.stringify("diagnostics #includes"))
 		// const start = performance.now();
@@ -302,7 +252,7 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 
 		const rootRepoQuery = `(json (repository (repo (key) @rootRepo)))`;
 		const rootRepoCaptures = queryNode(rootNode, rootRepoQuery);
-		
+
 		// const repoQueryString = `
 		// 	;(json
 		// 	;	(repository
@@ -358,9 +308,10 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 			const range = toRange(node);
 			const diagnostic: vscode.Diagnostic = {
 				range: range,
-				message: `\`${text}\` was not found in a repository.`,
+				message: `'${text}' was not found in a repository.`,
 				severity: vscode.DiagnosticSeverity.Error,
 				source: 'TextMate',
+				code: 'include',
 			};
 			diagnostics.push(diagnostic);
 		}
