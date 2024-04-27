@@ -112,6 +112,7 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 				(ERROR) @ERROR
 				(error) @error
 				(quantifier) @quantifier
+				(character_property_name) @property
 				_ @missing ;Only the last child node can be missing
 			`;
 			const queryCaptures = queryNode(tree.rootNode, queryString);
