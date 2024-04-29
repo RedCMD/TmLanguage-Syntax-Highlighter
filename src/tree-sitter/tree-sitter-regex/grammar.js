@@ -613,6 +613,7 @@ module.exports = grammar({
 					// $.hexadecimal,
 					// $.property,
 					// $.meta_control_char,
+					$.character_class,
 					$.character_property,
 					$.unicode,
 					$.backslash,

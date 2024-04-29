@@ -2046,6 +2046,10 @@
             "members": [
               {
                 "type": "SYMBOL",
+                "name": "character_class"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "character_property"
               },
               {

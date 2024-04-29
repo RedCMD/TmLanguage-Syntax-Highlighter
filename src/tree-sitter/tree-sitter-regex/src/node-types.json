@@ -1563,6 +1563,10 @@
           "named": true
         },
         {
+          "type": "character_class",
+          "named": true
+        },
+        {
           "type": "character_property",
           "named": true
         },
