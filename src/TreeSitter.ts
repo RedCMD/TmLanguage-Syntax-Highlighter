@@ -348,6 +348,12 @@ function parseTextDocument(document: vscode.TextDocument, jsonParser: Parser, re
 function reparseTextDocument(edits: vscode.TextDocumentChangeEvent, jsonParser: Parser, regexParser: Parser) {
 	// vscode.window.showInformationMessage(JSON.stringify("ReparseTextDocument"));
 	// const start = performance.now();
+
+	const contentChanges = edits.contentChanges;
+	if (contentChanges.length == 0) {
+		return;
+	}
+
 	const document = edits.document;
 	if (!vscode.languages.match(DocumentSelector, document)) {
 		return;
@@ -360,16 +366,27 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent, jsonParser: 
 		return;
 	}
 
+	// vscode.window.showInformationMessage(JSON.stringify(edits));
+
 	const jsonTreeOld = trees[uriString].jsonTree;
 	const text = document.getText();
 
-	for (const edit of edits.contentChanges) {
+	const deltas = [];
+
+	for (const edit of contentChanges) {
 		const startIndex = edit.rangeOffset;
 		const oldEndIndex = edit.rangeOffset + edit.rangeLength;
 		const newEndIndex = edit.rangeOffset + edit.text.length;
-		const startPos = document.positionAt(startIndex);
-		const oldEndPos = document.positionAt(oldEndIndex);
-		const newEndPos = document.positionAt(newEndIndex);
+		// const startPos = document.positionAt(startIndex);
+		const startPos = edit.range.start;
+		// const oldEndPos = document.positionAt(oldEndIndex);
+		const oldEndPos = edit.range.end;
+		// const newEndPos = document.positionAt(newEndIndex);
+		const lines = edit.text.split(/\r?\n/g);
+		const newEndPos = new vscode.Position(
+			startPos.line + lines.length - 1,
+			lines.length > 1 ? lines.pop().length : startPos.character + lines.pop().length
+		);
 		const startPosition = toPoint(startPos);
 		const oldEndPosition = toPoint(oldEndPos);
 		const newEndPosition = toPoint(newEndPos);
@@ -381,8 +398,10 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent, jsonParser: 
 			oldEndPosition,
 			newEndPosition,
 		};
+		deltas.push(delta);
 		jsonTreeOld.edit(delta);
 	}
+	// vscode.window.showInformationMessage(JSON.stringify(deltas));
 
 	// (startIndex: number, startPoint?: Parser.Point, endIndex?: number) => {
 	// 	// vscode.window.showInformationMessage("startIndex: " + JSON.stringify(startIndex));
