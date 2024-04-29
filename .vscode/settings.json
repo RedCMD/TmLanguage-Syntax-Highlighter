@@ -12,4 +12,7 @@
 	"files.insertFinalNewline": true, // because of Github
 	"files.trimFinalNewlines": true,
 	"C_Cpp.errorSquiggles": "enabled",
+	"[json-textmate]": {
+		"files.insertFinalNewline": false,
+	},
 }
