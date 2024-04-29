@@ -203,17 +203,6 @@
         }
       ]
     },
-    "literal": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "REPEAT1",
-        "content": {
-          "type": "PATTERN",
-          "value": "[^\\\\\\t\\n]"
-        }
-      }
-    },
     "backslash": {
       "type": "TOKEN",
       "content": {
@@ -2773,6 +2762,17 @@
           ]
         }
       ]
+    },
+    "literal": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "REPEAT1",
+        "content": {
+          "type": "PATTERN",
+          "value": "[^\\\\\\t\\n]"
+        }
+      }
     }
   },
   "extras": [],

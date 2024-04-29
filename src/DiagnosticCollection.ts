@@ -160,13 +160,14 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 						break;
 					case 'quantifier':
 						let previousSibling = node.previousNamedSibling;
-						while (previousSibling?.type == 'comment_extended') {
+						while (previousSibling?.type?.startsWith('comment')) {
 							previousSibling = previousSibling.previousNamedSibling;
 						}
 						if (previousSibling) {
 							switch (previousSibling.type) {
-								case 'modify':
-								case 'modify_extended':
+								// case 'modify':
+								// case 'modify_extended':
+								case 'options':
 								case 'look_ahead':
 								case 'look_behind':
 								case 'look_around':

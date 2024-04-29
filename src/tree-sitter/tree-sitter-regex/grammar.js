@@ -77,9 +77,6 @@ module.exports = grammar({
 			$.literal,
 			$.comment_extended,
 		),
-		literal: $ => prec.right(
-			repeat1(/[^\\\t\n]/),
-		),
 		backslash: $ => token(
 			choice(
 				'\\\\\\\\',
@@ -333,7 +330,7 @@ module.exports = grammar({
 									choice(
 										/\\[^n]/,
 										/[^\\]+/,
-									)
+									),
 								),
 								$.comment,
 							),
@@ -846,6 +843,9 @@ module.exports = grammar({
 				$.backslash,
 				/./,
 			),
+		),
+		literal: $ => prec.right(
+			repeat1(/[^\\\t\n]/),
 		),
 	},
 });
