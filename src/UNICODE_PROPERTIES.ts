@@ -1,5 +1,20 @@
-// https://github.com/kkos/oniguruma/blob/v6.9.8/doc/UNICODE_PROPERTIES
+// https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE#L112
 export const UNICODE_PROPERTIES = [
+	"Alnum",
+	"Alpha",
+	"Blank",
+	"Cntrl",
+	"Digit",
+	"Graph",
+	"Lower",
+	"Print",
+	"Punct",
+	"Space",
+	"Upper",
+	"XDigit",
+	"Word",
+	"ASCII",
+	// https://github.com/kkos/oniguruma/blob/v6.9.8/doc/UNICODE_PROPERTIES
 	// Unicode Properties (Unicode Version: 14.0.0,  Emoji: 14.0)
 	"ASCII_Hex_Digit",
 	"Adlam",
