@@ -271,15 +271,8 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 				const tripleParent = node.parent.parent.parent;
 
 				if (tripleParent.childForFieldName('match')) {
-					const matchGroup = getRegexGroup(trees, tripleParent, node, 'match');
-					const groupRange = toRange(matchGroup);
-					const locationLink: vscode.DefinitionLink = {
-						originSelectionRange: originSelectionRange, // Underlined text
-						targetUri: document.uri,
-						targetRange: groupRange, // Hover text
-						targetSelectionRange: groupRange // Highlighted text
-					}
-					definitions.push(locationLink);
+					const matchNode = getRegexGroup(trees, tripleParent, node, 'match');
+					pushDefinitionLink(definitions, matchNode, originSelectionRange, uri);
 					break;
 				}
 
@@ -287,77 +280,34 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 					break;
 				}
 				if (!getLastNode(tripleParent, 'beginCaptures')) {
-					const beginGroup = getRegexGroup(trees, tripleParent, node, 'begin');
-					if (beginGroup) {
-						const groupRange = toRange(beginGroup);
-						const locationLink: vscode.DefinitionLink = {
-							originSelectionRange: originSelectionRange, // Underlined text
-							targetUri: document.uri,
-							targetRange: groupRange, // Hover text
-							targetSelectionRange: groupRange // Highlighted text
-						}
-						definitions.push(locationLink);
-					}
+					const beginNode = getRegexGroup(trees, tripleParent, node, 'begin');
+					pushDefinitionLink(definitions, beginNode, originSelectionRange, uri);
 				}
 
 				if (tripleParent.childForFieldName('while')) {
 					if (!tripleParent.childForFieldName('whileCaptures')) {
 						const whileNode = getRegexGroup(trees, tripleParent, node, 'while');
-						if (whileNode) {
-							const groupRange = toRange(whileNode);
-							const locationLink: vscode.DefinitionLink = {
-								originSelectionRange: originSelectionRange, // Underlined text
-								targetUri: document.uri,
-								targetRange: groupRange, // Hover text
-								targetSelectionRange: groupRange // Highlighted text
-							}
-							definitions.push(locationLink);
-						}
+						pushDefinitionLink(definitions, whileNode, originSelectionRange, uri);
 					}
 					break;
 				}
 
 				if (!tripleParent.childForFieldName('endCaptures')) {
-					const endGroup = getRegexGroup(trees, tripleParent, node, 'end');
-					if (endGroup) {
-						const groupRange = toRange(endGroup);
-						const locationLink: vscode.DefinitionLink = {
-							originSelectionRange: originSelectionRange, // Underlined text
-							targetUri: document.uri,
-							targetRange: groupRange, // Hover text
-							targetSelectionRange: groupRange // Highlighted text
-						}
-						definitions.push(locationLink);
-					}
+					const endNode = getRegexGroup(trees, tripleParent, node, 'end');
+					pushDefinitionLink(definitions, endNode, originSelectionRange, uri);
 				}
 				break;
 			case 'beginCapture':
-				const beginGroupRange = getRegexGroup(trees, node.parent.parent.parent, node, 'while');
-				pushDefinitionLink(definitions, beginGroupRange, originSelectionRange, uri);
-				// const beginGroupRange = toRange(getRegexGroup(trees, node.parent.parent.parent, node, 'begin'));
-				// const beginLocationLink: vscode.DefinitionLink = {
-				// 	originSelectionRange: originSelectionRange, // Underlined text
-				// 	targetUri: document.uri,
-				// 	targetRange: beginGroupRange, // Hover text
-				// 	targetSelectionRange: beginGroupRange // Highlighted text
-				// }
-				// definitions.push(beginLocationLink);
+				const beginNode = getRegexGroup(trees, node.parent.parent.parent, node, 'begin');
+				pushDefinitionLink(definitions, beginNode, originSelectionRange, uri);
 				break;
 			case 'endCapture':
-				const endGroupRange = getRegexGroup(trees, node.parent.parent.parent, node, 'while');
-				pushDefinitionLink(definitions, endGroupRange, originSelectionRange, uri);
-				// const endGroupRange = toRange(getRegexGroup(trees, node.parent.parent.parent, node, 'end'));
-				// const endLocationLink: vscode.DefinitionLink = {
-				// 	originSelectionRange: originSelectionRange, // Underlined text
-				// 	targetUri: document.uri,
-				// 	targetRange: endGroupRange, // Hover text
-				// 	targetSelectionRange: endGroupRange // Highlighted text
-				// }
-				// definitions.push(endLocationLink);
+				const endNode = getRegexGroup(trees, node.parent.parent.parent, node, 'end');
+				pushDefinitionLink(definitions, endNode, originSelectionRange, uri);
 				break;
 			case 'whileCapture':
-				const whileReplaceGroup = getRegexGroup(trees, node.parent.parent.parent, node, 'while');
-				pushDefinitionLink(definitions, whileReplaceGroup, originSelectionRange, uri);
+				const whileNode = getRegexGroup(trees, node.parent.parent.parent, node, 'while');
+				pushDefinitionLink(definitions, whileNode, originSelectionRange, uri);
 				break;
 			case 'regex':
 				const regexGroupRefs = getCaptureRefs(trees, node, position);
