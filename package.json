@@ -176,15 +176,11 @@
 		],
 		"jsonValidation": [
 			{
-				"fileMatch": "*.tmLanguage.json",
-				"url": "./vscode.tmLanguage.schema.json"
-			},
-			{
-				"fileMatch": "*.tmGrammar.json",
-				"url": "./vscode.tmLanguage.schema.json"
-			},
-			{
-				"fileMatch": "*.JSON-tmLanguage",
+				"fileMatch": [
+					"*.tmLanguage.json",
+					"*.tmGrammar.json",
+					"*.JSON-tmLanguage"
+				],
 				"url": "./vscode.tmLanguage.schema.json"
 			}
 		],
