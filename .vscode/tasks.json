@@ -38,7 +38,8 @@
 			"icon": {
 				"color": "terminal.ansiMagenta",
 				"id": "console",
-			}
+			},
+			"hide": true,
 		},
 		{
 			"label": "Launch-TextMate-Web-Extension",
@@ -57,6 +58,7 @@
 				"color": "terminal.ansiMagenta",
 				"id": "browser",
 			},
+			"hide": true,
 		},
 	]
 }

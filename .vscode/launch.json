@@ -17,7 +17,7 @@
 			],
 			"preLaunchTask": "Watch-TextMate-Extension",
 		},
-		{
+		{ // Use npm script `open-in-browser` instead
 			// Must remove "extensionDependencies" in `package.json` first
 			"name": "TextMate Web Extension",
 			"type": "pwa-extensionHost",
@@ -30,7 +30,6 @@
 				"${workspaceFolder}/out/web/**/*.js"
 			],
 			"preLaunchTask": "Watch-TextMate-Web-Extension",
-			
 		},
 	]
 }
