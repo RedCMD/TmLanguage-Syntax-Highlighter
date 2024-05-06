@@ -267,6 +267,7 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				treeLabel,
 				cachedRule._match ? vscode.TreeItemCollapsibleState.None : vscode.TreeItemCollapsibleState.Expanded, // TODO: toggle option
 			);
+			item.id = `${id}`;
 			item.description = timeFixed + "ms" + (time >= 1 ? ' ⚠️' : '');
 			// item.description = timeFixed + "ms" + (ruleChached[rule.matchedRuleId] == id /* && !cachedRule._match */ ? ' ⚠️' : '');
 			if (cachedRule._match) {
@@ -304,12 +305,13 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				const time = grammar.lines[line].time - (grammar.lines[line - 1]?.time ?? 0);
 				const timeFixed = time.toFixed(3);
 
-				const label = /* timeFixed + 'ms: ' + */ document.lineAt(line).text;
+				const label = /* timeFixed + 'ms: ' + */ document.lineAt(line).text.slice(0, 50);
 				const treeLabel: vscode.TreeItemLabel = {
 					label: label,
 					// highlights: time >= 10 ? [[0, timeFixed.length]] : null,
 				};
 				const item = new vscode.TreeItem(treeLabel, vscode.TreeItemCollapsibleState.Collapsed);
+				item.id = `${line}`;
 				item.description = timeFixed + "ms" + (time >= 500 ? ' ⚠️' : '');
 				item.iconPath = new vscode.ThemeIcon('symbol-key', new vscode.ThemeColor('symbolIcon.stringForeground'));
 				item.tooltip = `Line: ${line + 1}`;
@@ -348,6 +350,7 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 					// highlights: time >= 10 ? [[0, timeFixed.length]] : null,
 				};
 				const item = new vscode.TreeItem(treeLabel, vscode.TreeItemCollapsibleState.Collapsed);
+				item.id = `${line}_${element.tokenId}`;
 				// Account for newlines in uncaptured tokens
 				const newLineAdjust = token.scopes.length == 1 && (grammar.lines[line].tokens.length - 1 == element.tokenId) ? 1 : 0;
 				item.description = token.startIndex + " - " + (token.endIndex - newLineAdjust);
@@ -382,6 +385,7 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 					label: label,
 				};
 				const item = new vscode.TreeItem(treeLabel, vscode.TreeItemCollapsibleState.None);
+				item.id = `${line}_${element.tokenId}_${element.scopeId}`;
 
 				return item;
 			}
