@@ -19,16 +19,16 @@ type ScopeName = string;
 type ScopeStack = {
 
 	readonly parent: ScopeStack | null,
-	readonly scopeName: ScopeName
-}
+	readonly scopeName: ScopeName;
+};
 type EncodedTokenAttributes = number;
 
 type AttributedScopeStack = {
 
 	readonly parent: AttributedScopeStack | null,
 	readonly scopePath: ScopeStack,
-	readonly tokenAttributes: EncodedTokenAttributes
-}
+	readonly tokenAttributes: EncodedTokenAttributes;
+};
 
 export type StateStackImpl = vscodeTextmate.StateStack & {
 	readonly _stackElementBrand: void;
@@ -81,8 +81,8 @@ export type StateStackImpl = vscodeTextmate.StateStack & {
 	 * The list of scopes containing the "contentName" (besides "name") for this state.
 	 * This list **must** contain as an element `scopeName`.
 	 */
-	readonly contentNameScopesList: AttributedScopeStack | null
-}
+	readonly contentNameScopesList: AttributedScopeStack | null;
+};
 
 interface IRegExpSourceAnchorCache {
 	readonly A0_G0: string;
@@ -98,28 +98,28 @@ type RegExpSource<TRuleId = RuleId | typeof endRuleId> = {
 	readonly hasAnchor: boolean;
 	readonly hasBackReferences: boolean;
 	readonly _anchorCache: IRegExpSourceAnchorCache | null;
-}
+};
 
 type CaptureRule = Rule & {
 	readonly retokenizeCapturedWithRuleId: RuleId | 0;
-}
+};
 
 type IRegExpSourceListAnchorCache<TRuleId> = {
 	readonly A0_G0: CompiledRule<TRuleId> | null,
 	readonly A0_G1: CompiledRule<TRuleId> | null,
 	readonly A1_G0: CompiledRule<TRuleId> | null,
 	readonly A1_G1: CompiledRule<TRuleId> | null,
-}
+};
 export type CompiledRule<TRuleId = RuleId | typeof endRuleId> = {
 	readonly scanner: vscodeOniguruma.OnigScanner;
-}
+};
 export type RegExpSourceList<TRuleId = RuleId | typeof endRuleId> = {
 
 	readonly _items: RegExpSource<TRuleId>[],
 	readonly _hasAnchors: boolean,
 	readonly _cached: CompiledRule<TRuleId> | null,
 	readonly _anchorCache: IRegExpSourceListAnchorCache<TRuleId>,
-}
+};
 
 export type Rule = {
 	readonly $location: undefined;
@@ -149,7 +149,7 @@ export type Rule = {
 	readonly _while: RegExpSource<RuleId | typeof whileRuleId>,
 	readonly whileHasBackReferences: boolean,
 	_cachedCompiledWhilePatterns: RegExpSourceList<RuleId | typeof whileRuleId> | null,
-}
+};
 
 interface IOnigCaptureIndex {
 	readonly start: number;
@@ -161,19 +161,19 @@ export type IMatchResult = {
 	readonly matchedRuleId: RuleId | typeof endRuleId;
 	readonly time: number;
 	readonly anchorPosition: number;
-}
+};
 type Matcher<T> = {
 	(matcherInput: T): boolean;
-}
+};
 type BalancedBracketSelectors = {
 	readonly balancedBracketScopes: Matcher<string[]>[];
 	readonly unbalancedBracketScopes: Matcher<string[]>[];
 	readonly allowAny: boolean;
-}
+};
 type IGrammarRepository = {
 	lookup(scopeName: ScopeName): vscodeTextmate.IRawGrammar | undefined;
 	injections(scopeName: ScopeName): ScopeName[];
-}
+};
 const enum FontStyle {
 	NotSet = -1,
 	None = 0,
@@ -186,12 +186,12 @@ type OrMask<T extends number> = number;
 type StyleAttributes = {
 	readonly fontStyle: OrMask<FontStyle>,
 	readonly foregroundId: number,
-	readonly backgroundId: number
-}
+	readonly backgroundId: number;
+};
 type IThemeProvider = {
 	themeMatch(scopePath: ScopeStack): StyleAttributes | null;
 	getDefaults(): StyleAttributes;
-}
+};
 const enum OptionalStandardTokenType {
 	Other = 0,
 	Comment = 1,
@@ -202,25 +202,25 @@ const enum OptionalStandardTokenType {
 }
 type BasicScopeAttributes = {
 	readonly languageId: number,
-	readonly tokenType: OptionalStandardTokenType
-}
+	readonly tokenType: OptionalStandardTokenType;
+};
 
 type ScopeMatcher<TValue> = {
 	readonly values: ReadonlyMap<string, TValue> | null;
 	readonly scopesRegExp: RegExp | null;
-}
+};
 
 type BasicScopeAttributesProvider = {
 	readonly _defaultAttributes: BasicScopeAttributes;
 	readonly _embeddedLanguagesMatcher: ScopeMatcher</* language id */ number>;
-}
+};
 type Injection = {
 	readonly debugSelector: string;
 	readonly matcher: Matcher<string[]>;
 	readonly priority: -1 | 0 | 1; // 0 is the default. -1 for 'L' and 1 for 'R'
 	readonly ruleId: RuleId;
 	readonly grammar: vscodeTextmate.IRawGrammar;
-}
+};
 
 const enum StandardTokenType {
 	Other = 0,
@@ -248,7 +248,7 @@ export type IGrammar = vscodeTextmate.IGrammar & {
 	readonly _rootId: RuleId | -1,
 	readonly _lastRuleId: number,
 	readonly _ruleId2desc: Rule[],
-	readonly _includedGrammars: { [scopeName: string]: vscodeTextmate.IRawGrammar },
+	readonly _includedGrammars: { [scopeName: string]: vscodeTextmate.IRawGrammar; },
 	readonly _grammarRepository: IGrammarRepository & IThemeProvider,
 	readonly _grammar: vscodeTextmate.IRawGrammar,
 	readonly _injections: Injection[] | null,
@@ -262,10 +262,10 @@ type ILocation = {
 	readonly filename: string;
 	readonly line: number;
 	readonly char: number;
-}
+};
 type ILocatable = {
 	readonly $vscodeTextmateLocation?: ILocation;
-}
+};
 
 type IncludeString = string;
 type RegExpString = string;
@@ -274,13 +274,13 @@ type IRawCaptures = IRawCapturesMap & ILocatable;
 
 type IRawCapturesMap = {
 	[captureId: string]: IRawRule;
-}
+};
 
 type IRawRepositoryMap = {
 	[name: string]: IRawRule;
 	$self: IRawRule;
 	$base: IRawRule;
-}
+};
 
 type IRawRepository = IRawRepositoryMap & ILocatable;
 
@@ -305,20 +305,20 @@ export type IRawRule = ILocatable & {
 	readonly repository?: IRawRepository;
 
 	readonly applyEndPatternLast?: boolean;
-}
+};
 
 
 export type IRawGrammar = ILocatable & {
 	repository: IRawRepository;
 	readonly scopeName: ScopeName;
 	readonly patterns: IRawRule[];
-	readonly injections?: { [expression: string]: IRawRule };
+	readonly injections?: { [expression: string]: IRawRule; };
 	readonly injectionSelector?: string;
 
 	readonly fileTypes?: string[];
 	readonly name?: string;
 	readonly firstLineMatch?: string;
-}
+};
 
 
 async function onigLibInterface() {
@@ -357,16 +357,43 @@ async function loadGrammar(scopeName: string): Promise<vscodeTextmate.IRawGramma
 	return null;
 }
 
+function getInjections(scopeName: string) {
+	const scopeNames: string[] = [];
+	for (const extension of vscode.extensions.all) {
+		const packageJSON: IRelaxedExtensionManifest = extension.packageJSON;
+		const grammars = packageJSON.contributes?.grammars;
+		if (grammars) {
+			for (const grammar of grammars) {
+				const grammarScopeName = grammar.scopeName;
+				if (grammarScopeName) {
+					const injectTo = grammar.injectTo;
+					if (injectTo) {
+						for (const injectToScopeName of injectTo) {
+							if (injectToScopeName == scopeName) {
+								scopeNames.push(grammarScopeName);
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return scopeNames;
+}
+
 let registry: vscodeTextmate.Registry;
-export function initTextMate(context: vscode.ExtensionContext): void {
+export function initTextMate(context: vscode.ExtensionContext) {
 	const options: vscodeTextmate.RegistryOptions = {
 		onigLib: onigLibInterface(),
+		// theme: theme,
+		// colorMap: colorMap,
 		loadGrammar: loadGrammar,
-	}
+		getInjections: getInjections,
+	};
 
 	// Create a registry that can create a grammar from a scope name.
 	registry = new vscodeTextmate.Registry(options);
-
 }
 
 function getScopeName(lang: string): string {
@@ -457,7 +484,7 @@ export async function tokenizeFile(document: vscode.TextDocument, runTwice?: boo
 	for (let i = 0; i < document.lineCount; i++) {
 		// vscode.window.showInformationMessage(JSON.stringify(grammar, stringify));
 		const line = document.lineAt(i).text;
-		
+
 		const lineTokens = grammar.tokenizeLine(line, ruleStack, 15000);
 		// grammar.rules.pop();
 		grammar.rules.push(undefined);
