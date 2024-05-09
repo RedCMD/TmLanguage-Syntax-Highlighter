@@ -162,6 +162,7 @@
 		"configurationDefaults": {
 			"[json-textmate]": {
 				"editor.maxTokenizationLineLength": 500000,
+				"editor.suggest.insertMode": "replace",
 				"editor.quickSuggestions": {
 					"strings": true,
 					"other": true
