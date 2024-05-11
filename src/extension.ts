@@ -12,6 +12,7 @@ import { RenameProvider } from "./Providers/RenameProvider";
 import { CodeLensProvider } from "./Providers/CodeLensProvider";
 import { ReferenceProvider } from "./Providers/ReferenceProvider";
 import { DefinitionProvider } from "./Providers/DefinitionProvider";
+import { InlayHintsProvider } from "./Providers/InlayHintsProvider";
 import { CodeActionsProvider } from "./Providers/CodeActionsProvider";
 import { CallHierarchyProvider } from "./Providers/CallHierarchyProvider";
 import { DocumentSymbolProvider } from "./Providers/DocumentSymbolProvider";
@@ -29,6 +30,7 @@ export const DocumentSelector: vscode.DocumentSelector = [
 
 export async function activate(context: vscode.ExtensionContext) {
 	// vscode.window.showInformationMessage(JSON.stringify("TextMate Extension"));
+	// const start = performance.now();
 
 	await initTreeSitter(context);
 	await initOniguruma(context);
@@ -37,13 +39,12 @@ export async function activate(context: vscode.ExtensionContext) {
 	initCallStackView(context);
 	initTokenColorCustomizations(context);
 
-	// registerInlayHintsProvider
-
 	// context.subscriptions.push(vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider)); // Mouse over Hovers
 	context.subscriptions.push(vscode.languages.registerRenameProvider(DocumentSelector, RenameProvider)); // [F2] Rename
 	// context.subscriptions.push(vscode.languages.registerCodeLensProvider(DocumentSelector, CodeLensProvider)); // Code Lens
 	context.subscriptions.push(vscode.languages.registerReferenceProvider(DocumentSelector, ReferenceProvider)); // Go to References
 	context.subscriptions.push(vscode.languages.registerDefinitionProvider(DocumentSelector, DefinitionProvider)); // ctrl+click Go to Definition
+	// context.subscriptions.push(vscode.languages.registerInlayHintsProvider(DocumentSelector, InlayHintsProvider)); // Mouse over Hovers
 	context.subscriptions.push(vscode.languages.registerCodeActionsProvider(DocumentSelector, CodeActionsProvider)); // Mouse over Hovers
 	context.subscriptions.push(vscode.languages.registerCallHierarchyProvider(DocumentSelector, CallHierarchyProvider)); // right click => Peak Call Hierarchy
 	context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(DocumentSelector, DocumentSymbolProvider)); // Breadcrumbs
@@ -55,6 +56,8 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(DocumentSelector, DocumentFormattingEditProvider)); // right-click => Format Document
 	context.subscriptions.push(vscode.languages.registerDocumentRangeFormattingEditProvider(DocumentSelector, DocumentRangeFormattingEditProvider)); // right-click => Format Selection
 	// context.subscriptions.push(vscode.languages.registerDocumentSemanticTokensProvider(DocumentSelector, DocumentSemanticTokensProvider, SemanticTokensLegend)); // Context aware syntax highlighting
+
+	// vscode.window.showInformationMessage(performance.now() - start + "ms");
 }
 
 
