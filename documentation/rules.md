@@ -159,6 +159,8 @@ Used to end the region started by [begin](#begin).
 `end` is checked before the [patterns](#patterns) array.  But it is not concrete.  
 Meaning items in [patterns](#patterns) can consume the same text as `end` and effectively push the `end` rule along.  
 `end` can end directly after [begin](#begin). Don't get caught out by it. [Bad usage of 0-wdith `begin` and `end` rules](https://github.com/Microsoft/vscode-textmate/issues/12).  
+If `end` is empty or missing. It will match against the character 0xFFFF `￿`.  
+If `end` is invalid it will either end immediately or carry on to the end of the document.  
 [applyEndPatternLast](#applyendpatternlast) controls if `end` should attempt to match before or after the [patterns](#patterns) array.  
 [name](#name) is used to apply a scope-name to the token matched by `end`.  
 [captures](#captures) is used to apply scope-names to specific capture groups and/or retokenize the capture groups.  
