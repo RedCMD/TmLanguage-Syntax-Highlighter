@@ -1061,19 +1061,20 @@
 					"patterns": [
 						{
 							"begin": "-",
-							"end": "(?!\\G)|(\\\\{3})(\\\\)|(\\\\{2})([]\\[])|(\\\\{2})([-:^])|(\\\\{2}(?i:[DHSW]|p{[^}]*})|\\[:[^]]+:])|(\\\\{1,2})(/)|([^]\\[\\\\])",
+							"end": "(?<=-\\\\{2})(.)|(?!\\G)|(\\\\{3})(\\\\)|(\\\\{2})([]\\[])|(\\\\{2})([-:^])|(\\\\{2}(?i:[DHSW]|p{[^}]*})|\\[:[^]]+:])|(\\\\{1,2})(/)|([^]\\[\\\\])",
 							"beginCaptures": { "0": { "name": "support.class.tm strong" } },
 							"endCaptures": {
-								"1": { "name": "constant.character.escape.tm" },
-								"2": { "name": "support.class.tm" },
-								"3": { "name": "constant.character.escape.tm" },
-								"4": { "name": "support.class.tm regex" },
-								"5": { "name": "punctuation.definition.tag.tm" },
-								"6": { "name": "support.class.tm regex" },
-								"7": { "name": "invalid.illegal.tm" },
-								"8": { "name": "punctuation.definition.tag.tm" },
-								"9": { "name": "support.class.tm" },
-								"10": { "name": "support.class.tm regex" }
+								"1": { "name": "support.class.tm regex" },
+								"2": { "name": "constant.character.escape.tm" },
+								"3": { "name": "support.class.tm" },
+								"4": { "name": "constant.character.escape.tm" },
+								"5": { "name": "support.class.tm regex" },
+								"6": { "name": "punctuation.definition.tag.tm" },
+								"7": { "name": "support.class.tm regex" },
+								"8": { "name": "invalid.illegal.tm" },
+								"9": { "name": "punctuation.definition.tag.tm" },
+								"10": { "name": "support.class.tm" },
+								"11": { "name": "support.class.tm regex" }
 							},
 							"patterns": [
 								{ "include": "#character-class-range-code-point" },
