@@ -160,6 +160,17 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 												kind: vscode.CompletionItemKind.Text,
 											});
 										}
+										const description = packageJSON.description;
+										if (description) {
+											completionItems.push({
+												label: {
+													label: description,
+													description: displayName || packageJSON.name || languageId || grammar.scopeName,
+												},
+												range: cursorRange,
+												kind: vscode.CompletionItemKind.Text,
+											});
+										}
 									}
 								}
 							}
