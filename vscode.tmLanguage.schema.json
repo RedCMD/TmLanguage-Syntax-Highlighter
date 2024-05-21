@@ -420,11 +420,11 @@
 								"oneOf": [
 									true,
 									{
-										"description": "Conflict: \"include\" has lowest priority",
+										"description": "Conflict: \"name\" does not work with \"include\"",
 										"required": [ "name" ]
 									},
 									{
-										"description": "Conflict: \"include\" has lowest priority",
+										"description": "Conflict: \"contentName\" does not work with \"include\"",
 										"required": [ "contentName" ]
 									},
 									{
@@ -436,31 +436,31 @@
 										"required": [ "begin" ]
 									},
 									{
-										"description": "Conflict: \"include\" has lowest priority",
+										"description": "Conflict: \"end\" does not work with \"include\"",
 										"required": [ "end" ]
 									},
 									{
-										"description": "Conflict: \"include\" has lowest priority",
+										"description": "Conflict: \"while\" does not work with \"include\"",
 										"required": [ "while" ]
 									},
 									{
-										"description": "Conflict: \"include\" has lowest priority",
+										"description": "Conflict: \"captures\" does not work with \"include\"",
 										"required": [ "captures" ]
 									},
 									{
-										"description": "Conflict: \"include\" has lowest priority",
+										"description": "Conflict: \"beginCaptures\" does not work with \"include\"",
 										"required": [ "beginCaptures" ]
 									},
 									{
-										"description": "Conflict: \"include\" has lowest priority",
+										"description": "Conflict: \"endCaptures\" does not work with \"include\"",
 										"required": [ "endCaptures" ]
 									},
 									{
-										"description": "Conflict: \"include\" has lowest priority",
+										"description": "Conflict: \"whileCaptures\" does not work with \"include\"",
 										"required": [ "whileCaptures" ]
 									},
 									{
-										"description": "Conflict: \"include\" has lowest priority",
+										"description": "Conflict: \"applyEndPatternLast\" does not work with \"include\"",
 										"required": [ "applyEndPatternLast" ]
 									},
 									{
