@@ -71,8 +71,16 @@ export async function getScopes() {
 }
 
 async function loadColorTheme(uri: vscode.Uri) {
-	const document = await vscode.workspace.openTextDocument(uri);
-	const theme = <ColorTheme>JSON.parse(document.getText());
+	const file = await vscode.workspace.fs.readFile(uri);
+	const text = file.toString();
+	const theme: ColorTheme = JSON.parse(text);
+
+	const include = theme.include;
+	if (include) {
+		const uriInclude = vscode.Uri.joinPath(uri, '..', include);
+		await loadColorTheme(uriInclude);
+	}
+
 	const tokenColors = theme.tokenColors;
 	if (tokenColors) {
 		for (const tokenColor of tokenColors) {
@@ -101,10 +109,5 @@ async function loadColorTheme(uri: vscode.Uri) {
 				}
 			}
 		}
-	}
-	const include = theme.include;
-	if (include) {
-		const uriInclude = vscode.Uri.joinPath(uri, '../', include);
-		await loadColorTheme(uriInclude);
 	}
 }
