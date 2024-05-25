@@ -40,7 +40,6 @@
 				"//": { "$ref": "#/definitions/commentSlash" },
 				"patterns": {
 					"$ref": "#/definitions/patterns",
-					"minItems": 1,
 					"suggestSortText": "!patterns"
 				},
 				"repository": {
