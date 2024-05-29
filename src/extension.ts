@@ -36,7 +36,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	await initOniguruma(context);
 	initTextMate(context);
 	initDiagnostics(context);
-	// await initCallStackView(context);
+	await initCallStackView(context);
 	initTokenColorCustomizations(context);
 
 	// context.subscriptions.push(vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider)); // Mouse over Hovers
