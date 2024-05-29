@@ -85,8 +85,9 @@
 				{ "include": "#json-pair" },
 				{ "include": "#comments" },
 				{
-					"begin": "^(?=[^(\\[\\]{},\t\"]*+\\([^)\t]*+\\))",
-					"end": "(?=[)\"])",
+					"comment": "This must be strict. So to reduce false positives",
+					"begin": "\\A(?!$|\\s*{\\s*(?>$|})|\\s*\\[\\s*(?>$|\\[|{)|[^\t]*\t|(?>[^\\\\\"]+|\\\\.)*+.)",
+					"end": "(?=[)\"])|$",
 					"name": "meta.embedded.block.regexp.tmLanguage",
 					"patterns": [
 						{ "include": "source.syntax.regexp.tmLanguage" },
