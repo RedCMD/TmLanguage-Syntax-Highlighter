@@ -72,7 +72,8 @@ export async function getScopes() {
 
 async function loadColorTheme(uri: vscode.Uri) {
 	const file = await vscode.workspace.fs.readFile(uri);
-	const text = file.toString();
+	const decoder = new TextDecoder(); // Works in VSCode web
+	const text = decoder.decode(file);
 	const theme: ColorTheme = JSON.parse(text);
 
 	const include = theme.include;
