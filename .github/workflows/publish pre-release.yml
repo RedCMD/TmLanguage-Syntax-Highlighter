@@ -6,7 +6,8 @@ on:
     branches:
       - 'main'
     paths:
-      - '**.json'
+      - '**.tmLanguage.json'
+      - '**.language-configuration.json'
       - '**.ts'
 
 jobs:
