@@ -194,7 +194,7 @@
 				}
 			]
 		},
-		"views": {
+		"//views": {
 			"TextMate": [
 				{
 					"id": "TextMate-Call",
@@ -213,7 +213,7 @@
 				}
 			]
 		},
-		"menus": {
+		"//menus": {
 			"editor/context": [
 				{
 					"command": "textmate.callstack",
@@ -290,7 +290,7 @@
 				}
 			]
 		},
-		"commands": [
+		"//commands": [
 			{
 				"command": "textmate.callstack",
 				"title": "Show TextMate Calling Stack",
