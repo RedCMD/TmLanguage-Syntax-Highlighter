@@ -85,6 +85,9 @@ export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider =
 		const queryString = `"${ch}" @char`;
 		const captures = queryNode(jsonTree.rootNode, queryString, startPoint, endPoint);
 		const capture = captures.pop();
+		if (!capture) {
+			return;
+		}
 		const cursorNode = capture.node;
 		let node: Parser.SyntaxNode;
 
