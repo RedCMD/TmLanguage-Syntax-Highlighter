@@ -34,6 +34,8 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 			(include (value) @include)
 			(name (value) @new_scope)
 			(name (value (scope) @scope))
+			(contentName (value) @new_scope)
+			(contentName (value (scope) @scope))
 			(regex) @regex
 		`;
 		const cursorCapture = queryNode(rootNode, cursorQuery, point);
@@ -317,7 +319,10 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 				}
 
 				const scopes: string[] = [];
-				const scopeQuery = `(name (value (scope) @scope (.not-match? @scope "^(\\\\$0*[0-9]{1,3})+$")))`;
+				const scopeQuery = `
+					(name (value (scope) @scope (.not-match? @scope "^(\\\\$0*[0-9]{1,3})+$")))
+					(contentName (value (scope) @scope (.not-match? @scope "^(\\\\$0*[0-9]{1,3})+$")))
+				`;
 				const scopeCaptures = queryNode(rootNode, scopeQuery);
 				for (const scopeCapture of scopeCaptures) {
 					const scope = scopeCapture.node.text;
