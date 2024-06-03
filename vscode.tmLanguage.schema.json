@@ -31,7 +31,7 @@
 					"suggestSortText": "@name"
 				},
 				"scopeName": {
-					"description": "The `scope-name` for your language\nIt is the same value as \"scopeName\" under \"grammars\" in your `package.json` file",
+					"markdownDescription": "The `scope-name` for your language  \nIt is the same value as `\"scopeName\"` under `\"grammars\"` in your `package.json` file",
 					"type": "string",
 					"pattern": "^(source|text|markdown|html)(\\.[\\w-]+)*$",
 					"suggestSortText": "!!scopeName"
@@ -62,11 +62,11 @@
 					"default": { "L:source.scopeName -comment -string, R:source.scopeName.another": { } }
 				},
 				"injectionSelector": {
-					"description": "Controls which scope-names to inject into and with what priority. Default is 0, L: is -1 and R: is 1\nUsed in conjunction with \"injectTo\" under \"grammars\" in your `package.json` file\nhttps://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#injection-grammars",
+					"markdownDescription": "Controls which scope-names to inject into and with what priority. Default is 0, L: is -1 and R: is 1  \nUsed in conjunction with `\"injectTo\"` under `\"grammars\"` in your `package.json` file  \nhttps://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#injection-grammars",
 					"$ref": "#/definitions/injectionSelector"
 				},
 				"fileTypes": {
-					"description": "An array of file extensions your language supports\nNot currently supported by VSCode\nUse \"extensions\" under \"languages\" in your `package.json` file instead",
+					"markdownDescription": "An array of file extensions your language supports  \n_Not currently supported by VSCode_  \nUse `\"extensions\"` under `\"languages\"` in your `package.json` file instead",
 					"type": "array",
 					"uniqueItems": true,
 					"items": {
@@ -76,20 +76,20 @@
 					"suggestSortText": "~fileTypes"
 				},
 				"firstLineMatch": {
-					"description": "A regex to detect if an open file should get assigned to your language\nNot currently supported by VSCode\nUse \"extensions\" under \"languages\" in your `package.json` file instead",
+					"markdownDescription": "A regex to detect if an open file should get assigned to your language  \n_Not currently supported by VSCode_  \nUse `\"firstLine\"` under `\"languages\"` in your `package.json` file instead",
 					"type": "string",
 					"format": "regex",
 					"suggestSortText": "~firstLineMatch"
 				},
 				"foldingStartMarker": {
-					"description": "A regex to define the start of a folding section\nNot currently supported by VSCode\nUse \"folding\" in your `language-configuration.json` file instead",
+					"markdownDescription": "A regex to define the start of a folding section  \n_Not currently supported by VSCode_  \nUse `\"folding\"` in your `language-configuration.json` file instead",
 					"type": "string",
 					"format": "regex",
 					"pattern": "\\^|\\$",
 					"suggestSortText": "~foldingStartMarker"
 				},
 				"foldingStopMarker": {
-					"description": "A regex to define the end of the folding section\nNot currently supported by VSCode\nUse \"folding\" in your `language-configuration.json` file instead",
+					"markdownDescription": "A regex to define the end of the folding section  \n_Not currently supported by VSCode_  \nUse `\"folding\"` in your `language-configuration.json` file instead",
 					"type": "string",
 					"format": "regex",
 					"pattern": "\\^|\\$",
@@ -149,7 +149,7 @@
 			"type": "object",
 			"properties": {
 				"repo-item": {
-					"description": "A repository item. Reference using \"include\": \"#repo-item\"",
+					"markdownDescription": "A repository item. Reference using `\"include\": \"#repo-item\"`",
 					"$ref": "#/definitions/repo"
 				},
 				"$self": {
@@ -164,7 +164,7 @@
 				}
 			},
 			"additionalProperties": {
-				"description": "A repository item. Reference using \"include\": \"#...\"",
+				"markdownDescription": "A repository item. Reference using `\"include\": \"#...\"`",
 				"$ref": "#/definitions/repo"
 			},
 			"defaultSnippets": [
@@ -221,7 +221,7 @@
 							"oneOf": [
 								true,
 								{
-									"description": "Conflict: \"match\" has higher priority than \"patterns\"",
+									"markdownDescription": "Conflict: \"match\" has higher priority than \"patterns\"",
 									"required": [ "match" ]
 								},
 								{
@@ -662,6 +662,7 @@
 						"while",
 						"begin"
 					],
+					"$comment": "Using \"not\" creates an ugly warning range in VSCode",
 					"oneOf": [
 						true,
 						{ "required": [ "end" ] },
@@ -697,7 +698,7 @@
 			}
 		},
 		"match": {
-			"$comment": "No description; because having hovers is annoying",
+			"$comment": "TODO: ",
 			"description": "match",
 			"type": "string",
 			"defaultSnippets": [
@@ -745,7 +746,7 @@
 			]
 		},
 		"captures": {
-			"$comment": "TODO: description",
+			"$comment": "TODO: ",
 			"description": "captures",
 			"type": "object",
 			"patternProperties": { "^\\d+": { "$ref": "#/definitions/capture" } },
@@ -756,7 +757,7 @@
 			},
 			"additionalProperties": {
 				"description": "Unknown key. Use the format \"0\": { }",
-				"markdownDescriptions": "Unknown key. Use the following format:\n\n\t\"0\": { }",
+				"markdownDescription": "Unknown key. Use the following format:\n\n\t\"0\": { }",
 				"default": { }
 			},
 			"defaultSnippets": [
@@ -768,7 +769,7 @@
 			]
 		},
 		"capture": {
-			"$comment": "Who knew all this could go inside a `capture`?",
+			"$comment": "Who knew all this could go inside a (capture)?",
 			"description": "Target specific capture group",
 			"type": "object",
 			"properties": {
@@ -887,7 +888,7 @@
 			"$ref": "#/definitions/captures"
 		},
 		"applyEndPatternLast": {
-			"description": "Controls if the \"end\" pattern should attempt to match before or after the \"patterns\" array\n`0`, `false` and `null` will disable it. `true` and numbers != `0` will enable it",
+			"markdownDescription": "Controls if the `\"end\"` pattern should attempt to match before or after the `\"patterns\"` array  \n`0`, `false` and `null` will disable it. `true` and numbers != `0` will enable it",
 			"type": [
 				"boolean",
 				"integer",
@@ -908,12 +909,11 @@
 			]
 		},
 		"name": {
-			"$comment": "Should `TextMate` or `VSCode Dark++` be first?",
 			"description": "A list of space-separated scope-names to be assigned to the provided token. VSCode will then colour that token using the current theme\n`comment`, `string` and `regex` disables bracket matching while `meta.embedded` reenables it\nhttps://macromates.com/manual/en/language_grammars#naming_conventions",
 			"$ref": "#/definitions/name-content"
 		},
 		"contentName": {
-			"description": "Same as \"name\", but only applies to inside a \"begin\"/\"end\" region",
+			"markdownDescription": "Same as `\"name\"`, but only applies to inside a `\"begin\"` - `\"end\"`/`\"while\"` region",
 			"$ref": "#/definitions/name-content"
 		},
 		"name-content": {
@@ -1071,13 +1071,13 @@
 				"array"
 			],
 			"items": {
-				"description": "An array of \"injectionSelector\" is not offically supported by VSCode TextMate\nBut still happens to work because JavaScript",
+				"markdownDescription": "An array of `\"injectionSelector\"` is not offically supported by VSCode TextMate  \nBut still happens to work because JavaScript",
 				"$ref": "#/definitions/injectionSelector"
 			},
 			"default": "L:source.js -string -comment"
 		},
 		"disabled": {
-			"description": "Disables the current rule for easy testing\nNot currently supported by VSCode",
+			"markdownDescription": "Disables the current rule for easy testing  \n_Not currently supported by VSCode_",
 			"type": [
 				"integer",
 				"boolean"
@@ -1085,7 +1085,7 @@
 			"suggestSortText": "~disabled"
 		},
 		"id": {
-			"deprecationMessage": "Used internally by VSCode-TextMate. Do Not Use",
+			"deprecationMessage": "Used internally by the VSCode TextMate engine. Do Not Use",
 			"doNotSuggest": true
 		},
 		"comment": {
