@@ -513,6 +513,10 @@
 									"begin": {
 										"$ref": "#/definitions/begin",
 										"suggestSortText": "@begin"
+									},
+									"match": {
+										"$ref": "#/definitions/match",
+										"suggestSortText": "~match"
 									}
 								},
 								"$comment": "Using \"not\" creates an ugly warning range in VSCode",
@@ -555,6 +559,56 @@
 			"additionalProperties": { "description": "Unknown key" },
 			"dependencies": {
 				"match": {
+					"properties": {
+						"name": {
+							"$ref": "#/definitions/name",
+							"suggestSortText": "@name"
+						},
+						"begin": {
+							"$ref": "#/definitions/begin",
+							"suggestSortText": "~begin"
+						},
+						"end": {
+							"$ref": "#/definitions/end",
+							"suggestSortText": "~end"
+						},
+						"while": {
+							"$ref": "#/definitions/while",
+							"suggestSortText": "~while"
+						},
+						"beginCaptures": {
+							"$ref": "#/definitions/beginCaptures",
+							"suggestSortText": "~beginCaptures"
+						},
+						"endCaptures": {
+							"$ref": "#/definitions/endCaptures",
+							"suggestSortText": "~endCaptures"
+						},
+						"whileCaptures": {
+							"$ref": "#/definitions/whileCaptures",
+							"suggestSortText": "~whileCaptures"
+						},
+						"applyEndPatternLast": {
+							"$ref": "#/definitions/applyEndPatternLast",
+							"suggestSortText": "~applyEndPatternLast"
+						},
+						"patterns": {
+							"$ref": "#/definitions/patterns",
+							"suggestSortText": "~patterns"
+						},
+						"contentName": {
+							"$ref": "#/definitions/contentName",
+							"suggestSortText": "~contentName"
+						},
+						"include": {
+							"$ref": "#/definitions/include",
+							"suggestSortText": "~include"
+						},
+						"repository": {
+							"$ref": "#/definitions/repository",
+							"suggestSortText": "~repository"
+						}
+					},
 					"$comment": "Using \"not\" creates an ugly warning range in VSCode",
 					"oneOf": [
 						true,
@@ -571,34 +625,133 @@
 					]
 				},
 				"begin": {
-					"oneOf": [
-						true,
+					"properties": {
+						"beginCaptures": {
+							"$ref": "#/definitions/beginCaptures",
+							"suggestSortText": "@beginCaptures"
+						},
+						"patterns": {
+							"$ref": "#/definitions/patterns",
+							"suggestSortText": "@patterns"
+						},
+						"name": {
+							"$ref": "#/definitions/name",
+							"suggestSortText": "@name"
+						},
+						"contentName": {
+							"$ref": "#/definitions/contentName",
+							"suggestSortText": "@contentName"
+						},
+						"repository": {
+							"$ref": "#/definitions/repository",
+							"suggestSortText": "~repository"
+						},
+						"match": {
+							"$ref": "#/definitions/match",
+							"suggestSortText": "~match"
+						},
+						"include": {
+							"$ref": "#/definitions/include",
+							"suggestSortText": "~include"
+						}
+					},
+					"allOf": [
 						{
-							"required": [
-								"end",
-								"while"
-							],
-							"description": "Conflict: \"while\" has higher priority than \"end\""
+							"oneOf": [
+								{ "required": [ "end" ] },
+								{ "required": [ "while" ] }
+							]
+						},
+						{
+							"if": { "required": [ "while" ] },
+							"else": {
+								"properties": {
+									"end": {
+										"$ref": "#/definitions/end",
+										"suggestSortText": "!end"
+									}
+								}
+							}
+						},
+						{
+							"if": { "required": [ "end" ] },
+							"else": {
+								"properties": {
+									"while": {
+										"$ref": "#/definitions/while",
+										"suggestSortText": "!while"
+									}
+								}
+							}
 						}
 					]
+				},
+				"while": {
+					"required": [ "begin" ],
+					"properties": {
+						"begin": {
+							"$ref": "#/definitions/begin",
+							"suggestSortText": "@begin"
+						},
+						"whileCaptures": {
+							"$ref": "#/definitions/whileCaptures",
+							"suggestSortText": "@whileCaptures"
+						},
+						"applyEndPatternLast": {
+							"$ref": "#/definitions/applyEndPatternLast",
+							"suggestSortText": "~applyEndPatternLast"
+						},
+						"end": {
+							"$ref": "#/definitions/end",
+							"suggestSortText": "~end"
+						},
+						"endCaptures": {
+							"$ref": "#/definitions/endCaptures",
+							"suggestSortText": "~endCaptures"
+						}
+					}
 				},
 				"end": {
 					"required": [ "begin" ],
 					"properties": {
 						"begin": {
-							"suggestSortText": "@begin",
-							"$ref": "#/definitions/begin"
+							"$ref": "#/definitions/begin",
+							"suggestSortText": "!!begin"
+						},
+						"endCaptures": {
+							"$ref": "#/definitions/endCaptures",
+							"suggestSortText": "!endCaptures"
+						},
+						"applyEndPatternLast": {
+							"$ref": "#/definitions/applyEndPatternLast",
+							"suggestSortText": "@applyEndPatternLast"
+						},
+						"while": {
+							"$ref": "#/definitions/while",
+							"suggestSortText": "~while"
+						},
+						"whileCaptures": {
+							"$ref": "#/definitions/whileCaptures",
+							"suggestSortText": "~whileCaptures"
 						}
-					}
-				},
-				"while": {
-					"required": [ "begin" ],
-					"properties": { "begin": { "suggestSortText": "@begin" } }
+					},
+					"oneOf": [
+						true,
+						{
+							"required": [ "while" ],
+							"description": "Conflict: \"while\" has higher priority than \"end\""
+						}
+					]
 				},
 				"captures": {
 					"if": { "required": [ "patterns" ] },
 					"then": {
-						"properties": { "begin": { "suggestSortText": "@begin" } },
+						"properties": {
+							"begin": {
+								"$ref": "#/definitions/begin",
+								"suggestSortText": "@begin"
+							}
+						},
 						"anyOf": [
 							{ "required": [ "begin" ] },
 							{ "required": [ "end" ] },
@@ -609,7 +762,12 @@
 						"anyOf": [
 							{
 								"required": [ "match" ],
-								"properties": { "match": { "suggestSortText": "@match" } }
+								"properties": {
+									"match": {
+										"$ref": "#/definitions/match",
+										"suggestSortText": "@match"
+									}
+								}
 							},
 							{ "required": [ "begin" ] },
 							{ "required": [ "end" ] },
@@ -638,23 +796,11 @@
 				},
 				"beginCaptures": {
 					"required": [ "begin" ],
-					"properties": { "begin": { "suggestSortText": "@begin" } }
-				},
-				"endCaptures": {
-					"required": [
-						"end",
-						"begin"
-					],
-					"$comment": "Using \"not\" creates an ugly warning range in VSCode",
-					"oneOf": [
-						true,
-						{ "required": [ "match" ] },
-						{ "required": [ "while" ] },
-						{ "required": [ "whileCaptures" ] }
-					],
 					"properties": {
-						"begin": { "suggestSortText": "@begin" },
-						"end": { "suggestSortText": "@end" }
+						"begin": {
+							"$ref": "#/definitions/begin",
+							"suggestSortText": "@begin"
+						}
 					}
 				},
 				"whileCaptures": {
@@ -669,8 +815,53 @@
 						{ "required": [ "endCaptures" ] }
 					],
 					"properties": {
-						"begin": { "suggestSortText": "@begin" },
-						"while": { "suggestSortText": "@while" }
+						"begin": {
+							"$ref": "#/definitions/begin",
+							"suggestSortText": "@begin"
+						},
+						"while": {
+							"$ref": "#/definitions/while",
+							"suggestSortText": "@while"
+						},
+						"end": {
+							"$ref": "#/definitions/end",
+							"suggestSortText": "~end"
+						},
+						"endCaptures": {
+							"$ref": "#/definitions/endCaptures",
+							"suggestSortText": "~endCaptures"
+						}
+					}
+				},
+				"endCaptures": {
+					"required": [
+						"end",
+						"begin"
+					],
+					"$comment": "Using \"not\" creates an ugly warning range in VSCode",
+					"oneOf": [
+						true,
+						{ "required": [ "match" ] },
+						{ "required": [ "while" ] },
+						{ "required": [ "whileCaptures" ] }
+					],
+					"properties": {
+						"begin": {
+							"$ref": "#/definitions/begin",
+							"suggestSortText": "@begin"
+						},
+						"end": {
+							"$ref": "#/definitions/end",
+							"suggestSortText": "@end"
+						},
+						"while": {
+							"$ref": "#/definitions/while",
+							"suggestSortText": "~while"
+						},
+						"whileCaptures": {
+							"$ref": "#/definitions/whileCaptures",
+							"suggestSortText": "~whileCaptures"
+						}
 					}
 				},
 				"applyEndPatternLast": {
@@ -820,7 +1011,6 @@
 				"include": {
 					"deprecationMessage": "\"patterns\" is required to be present here for \"include\" to work. But...\nConflict: \"patterns\" has higher priority than \"include\"",
 					"default": "",
-					"suggestSortText": "~include",
 					"doNotSuggest": true
 				},
 				"patterns": {
@@ -852,7 +1042,15 @@
 				"end": { "required": [ "patterns", "begin" ] },
 				"while": { "required": [ "patterns", "begin" ] },
 				"applyEndPatternLast": { "required": [ "patterns", "begin", "end" ] },
-				"captures": { "required": [ "patterns" ] },
+				"captures": {
+					"required": [ "patterns" ],
+					"anyOf": [
+						{ "required": [ "match" ] },
+						{ "required": [ "begin" ] },
+						{ "required": [ "end" ] },
+						{ "required": [ "while" ] }
+					]
+				},
 				"beginCaptures": { "required": [ "patterns", "begin" ] },
 				"endCaptures": { "required": [ "patterns", "begin", "end" ] },
 				"whileCaptures": { "required": [ "patterns", "begin", "while" ] },
