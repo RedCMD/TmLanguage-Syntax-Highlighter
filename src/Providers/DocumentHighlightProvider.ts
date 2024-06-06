@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import * as Parser from 'web-tree-sitter';
 import { getTrees, queryNode, toPoint, toRange, trueParent } from "../TreeSitter";
 
 export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
@@ -10,7 +9,7 @@ export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 		const point = toPoint(position);
 
 		const cursorQuery = `
-			(key) @key
+			(_ (key) @key)
 			(value !scopeName !ruleName !self !base) @value
 			(capture . (key) @key)
 			(repo . (key) @repo)
@@ -22,6 +21,7 @@ export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 			(name (value (scope) @scope))
 		`;
 		const cursorCapture = queryNode(jsonTree.rootNode, cursorQuery, point);
+		// vscode.window.showInformationMessage(JSON.stringify(cursorCapture));
 		if (!cursorCapture) {
 			return;
 		}
@@ -34,7 +34,7 @@ export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 
 		// const scopeName = cursorNode.parent.childForFieldName('scopeName')?.text;
 		const rootScopeName = queryNode(jsonTree.rootNode, `(json (scopeName (value) @scopeName))`).pop()?.node?.text;
-		
+
 
 		let query = ``;
 		switch (cursorName) {
@@ -84,7 +84,7 @@ export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 			default:
 				return;
 		}
-		
+
 		const documentHighlights: vscode.DocumentHighlight[] = [];
 		const queryCaptures = queryNode(jsonTree.rootNode, query);
 		for (const queryCapture of queryCaptures) {
@@ -101,4 +101,4 @@ export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 		// vscode.window.showInformationMessage(JSON.stringify(documentHighlights));
 		return documentHighlights;
 	}
-}
+};
