@@ -326,31 +326,22 @@ export function _tokenizeString(
 			isFirstLine = false;
 		}
 
-		
-		// // @ts-ignore
-		// console.log(grammar._lastRuleId);
 		// @ts-ignore
-		if (r) {
-			// @ts-ignore
-			grammar.rules.push(
-				{
-					captureIndices: captureIndices,
-					matchedRuleId: matchedRuleId == -1 ? -poppedRule.id : matchedRuleId, // While was `-2`!!
-					// ...r,
-					// ...{
-					// lineText: lineText,
-					// isFirstLine: isFirstLine,
-					// linePos: linePos,
-					// stack: stack,
-					anchorPosition: anchorPosition,
-					time: performance.now(),
-					// @ts-ignore
-					// length: grammar._ruleId2desc.length - 1,
-					// lastRuleId: grammar._lastRuleId,
-					// }
-				}
-			);
-		}
+		grammar.rules.push(
+			{
+				captureIndices: captureIndices,
+				matchedRuleId: matchedRuleId == endRuleId ? -poppedRule.id : matchedRuleId,
+				// lineText: lineText,
+				// isFirstLine: isFirstLine,
+				// linePos: linePos,
+				// stack: stack,
+				anchorPosition: anchorPosition,
+				time: performance.now(),
+				// @ts-ignore
+				// length: grammar._ruleId2desc.length - 1,
+				// lastRuleId: grammar._lastRuleId,
+			}
+		);
 	}
 }
 
@@ -403,6 +394,15 @@ function _checkWhileConditions(grammar: Grammar, lineText: OnigString, isFirstLi
 					isFirstLine = false;
 				}
 			}
+			// @ts-ignore
+			grammar.rules.push(
+				{
+					captureIndices: r.captureIndices,
+					matchedRuleId: -whileRule.rule.id,
+					anchorPosition: anchorPosition,
+					time: performance.now(),
+				}
+			);
 		} else {
 			if (DebugFlags.InDebugMode) {
 				console.log('  popping ' + whileRule.rule.debugName + ' - ' + whileRule.rule.debugWhileRegExp);
@@ -618,12 +618,14 @@ function handleCaptures(grammar: Grammar, lineText: OnigString, isFirstLine: boo
 		// pop captures while needed
 		while (localStack.length > 0 && localStack[localStack.length - 1].endPos <= captureIndex.start) {
 			// pop!
-			lineTokens.produceFromScopes(localStack[localStack.length - 1].scopes, localStack[localStack.length - 1].endPos);
+			// @ts-ignore
+			lineTokens.produceFromScopes(localStack[localStack.length - 1].scopes, localStack[localStack.length - 1].endPos, stack.ruleId);
 			localStack.pop();
 		}
 
 		if (localStack.length > 0) {
-			lineTokens.produceFromScopes(localStack[localStack.length - 1].scopes, captureIndex.start);
+			// @ts-ignore
+			lineTokens.produceFromScopes(localStack[localStack.length - 1].scopes, captureIndex.start, stack.ruleId);
 		} else {
 			lineTokens.produce(stack, captureIndex.start);
 		}
@@ -653,7 +655,8 @@ function handleCaptures(grammar: Grammar, lineText: OnigString, isFirstLine: boo
 
 	while (localStack.length > 0) {
 		// pop!
-		lineTokens.produceFromScopes(localStack[localStack.length - 1].scopes, localStack[localStack.length - 1].endPos);
+		// @ts-ignore
+		lineTokens.produceFromScopes(localStack[localStack.length - 1].scopes, localStack[localStack.length - 1].endPos, stack.ruleId);
 		localStack.pop();
 	}
 }

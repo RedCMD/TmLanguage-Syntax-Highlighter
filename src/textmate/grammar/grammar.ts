@@ -980,12 +980,14 @@ export class LineTokens {
 	}
 
 	public produce(stack: StateStackImpl, endIndex: number): void {
-		this.produceFromScopes(stack.contentNameScopesList, endIndex);
+		// @ts-ignore
+		this.produceFromScopes(stack.contentNameScopesList, endIndex, stack.ruleId);
 	}
 
 	public produceFromScopes(
 		scopesList: AttributedScopeStack | null,
-		endIndex: number
+		endIndex: number,
+		ruleId?: RuleId,
 	): void {
 		if (this._lastTokenEndIndex >= endIndex) {
 			return;
@@ -1065,6 +1067,8 @@ export class LineTokens {
 			startIndex: this._lastTokenEndIndex,
 			endIndex: endIndex,
 			// value: lineText.substring(lastTokenEndIndex, endIndex),
+			// @ts-ignore
+			ruleId: ruleId,
 			scopes: scopes
 		});
 

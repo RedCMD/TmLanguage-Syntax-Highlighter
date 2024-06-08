@@ -321,26 +321,6 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				item.iconPath = new vscode.ThemeIcon('symbol-key', new vscode.ThemeColor('symbolIcon.stringForeground'));
 				item.tooltip = `Line: ${line + 1}`;
 
-				// const locations: vscode.Location[] = [];
-				// const range = new vscode.Range(line, 0, line + 1, 0);
-				// const location = new vscode.Location(
-				// 	document.uri,
-				// 	range,
-				// );
-				// locations.push(location);
-				// const position = new vscode.Position(line, 0);
-				// const command: vscode.Command = {
-				// 	title: `title`,
-				// 	tooltip: `tooltip`,
-				// 	command: 'editor.action.goToLocations',
-				// 	arguments: [
-				// 		document.uri,
-				// 		position,
-				// 		locations,
-				// 	]
-				// };
-				// item.command = command;
-
 				return item;
 			}
 			if (id == 1) {
@@ -371,22 +351,6 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				}
 
 				item.tooltip = document.lineAt(line).text.substring(token.startIndex, token.endIndex - newLineAdjust);
-
-				// const location = new vscode.Location(
-				// 	document.uri,
-				// 	new vscode.Range(line, token.startIndex, line, token.endIndex),
-				// );
-				// const command: vscode.Command = {
-				// 	title: `title`,
-				// 	tooltip: `tooltip`,
-				// 	command: 'editor.action.goToLocations',
-				// 	arguments: [
-				// 		document.uri,
-				// 		new vscode.Position(line, token.startIndex),
-				// 		[location],
-				// 	]
-				// };
-				// item.command = command;
 
 				return item;
 			}
@@ -762,7 +726,7 @@ async function gotoGrammar(element: element) {
 	// annoyingly the ids are assigned on a first-served basis
 	// including across included/embedded grammars
 
-	let ruleId = 1;
+	let ruleId: RuleId;
 	let capturesIndex = -1;
 
 	if (element.type == 'tree') {
@@ -789,12 +753,14 @@ async function gotoGrammar(element: element) {
 					break;
 				}
 				let foundRule = false;
-				let captureIndex = 0;
+				let captureIndex = -1;
 				for (const captureIndice of rule.captureIndices) {
 					if (captureIndice.start == tokenStart && captureIndice.end >= tokenEnd) {
 						foundRule = true;
+						// Keep going if next token is identical. (((x))) => 3 not 1
+					}
+					else if (foundRule) {
 						break;
-						// Should keep going if next token is identical. (((x))) => 3 not 1
 					}
 					captureIndex++;
 				}
@@ -805,6 +771,9 @@ async function gotoGrammar(element: element) {
 					break;
 				}
 			}
+			if (!ruleId) {
+				ruleId = token.ruleId;
+			}
 		}
 	}
 
@@ -812,7 +781,7 @@ async function gotoGrammar(element: element) {
 	if (!ruleId) {
 		return;
 	}
-	
+
 	if (ruleId < 0) {
 		ruleId = -ruleId;
 	}
@@ -898,7 +867,6 @@ async function gotoGrammar(element: element) {
 
 async function gotoFile(element: element) {
 	// vscode.window.showInformationMessage(JSON.stringify("goto"));
-	// vscode.window.showInformationMessage(JSON.stringify(args));
 
 	if (!element) {
 		return;
@@ -956,9 +924,10 @@ async function gotoFile(element: element) {
 		}
 		if (id == 1) {
 			const token = grammar.lines[line].tokens[element.tokenId];
+			const range = new vscode.Range(line, token.startIndex, line, token.endIndex);
 			const location = new vscode.Location(
 				document.uri,
-				new vscode.Range(line, token.startIndex, line, token.endIndex),
+				range,
 			);
 			const position = new vscode.Position(line, token.startIndex);
 			vscode.commands.executeCommand('editor.action.goToLocations', document.uri, position, [location]);
@@ -967,7 +936,7 @@ async function gotoFile(element: element) {
 	}
 }
 
-function allChildren(rules: vscodeTextmate.IRawGrammar | IRawRule, ruleId: number, captureIndex?: number): [{ 'repository'?: string, 'patterns'?: number, 'captures'?: string, id?: number }] {
+function allChildren(rules: vscodeTextmate.IRawGrammar | IRawRule, ruleId: number, captureIndex?: number): [{ 'repository'?: string, 'patterns'?: number, 'captures'?: string, id?: number; }] {
 	for (const key in rules) {
 		switch (key) {
 			case 'patterns':
