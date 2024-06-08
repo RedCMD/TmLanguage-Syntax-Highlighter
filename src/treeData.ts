@@ -1,18 +1,21 @@
 import * as vscode from 'vscode';
 import * as vscodeTextmate from "./textmate/main";
 // import * as vscodeTextmate from 'vscode-textmate';
-import { IGrammar, IRawGrammar, RuleId, StateStackImpl, tokenizeFile, tokenizeLine } from "./TextMate";
+import { tokenizeFile } from "./TextMate";
+import { IGrammar, IToken, RuleId, endRuleId, whileRuleId } from "./ITextMate";
 import { stringify } from "./extension";
 import { IRelaxedExtensionManifest } from "./extensions";
 import { IRawCaptures, IRawRule } from "./textmate/rawGrammar";
 import { getTrees, queryNode, toRange } from "./TreeSitter";
+import { getScopes, getSubScope } from "./themeScopeColors";
+
 
 type element = {
 	line?: number,
 	tokenId?: number,
 	scopeId?: number,
 	document: vscode.TextDocument,
-	token?: vscodeTextmate.IToken,
+	token?: IToken,
 	id?: number,
 	ruleId?: RuleId,
 	type?: 'root' | 'tree' | 'list',
@@ -74,13 +77,13 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			// vscode.window.showInformationMessage(JSON.stringify(ruleChached));
 
 			if (callView == 'list') {
-				const linearElement: element = {
+				const listElement: element = {
 					line: 0,
 					id: -1,
 					document: document,
 					type: 'list',
 				};
-				elements.push(linearElement);
+				elements.push(listElement);
 			}
 			else {
 				const treeElement: element = {
@@ -164,7 +167,7 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 
 		if (element.type == 'list') {
 			if (element.id == -1) {
-				for (let index = 0; index < grammar.lines.length; index++) {
+				for (let index = 0; index < grammar.lines.length && index < 125000; index++) {
 					const element: element = {
 						id: 0,
 						line: index,
@@ -177,9 +180,11 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			}
 
 			if (element.id == 0) {
-				for (let index = 0; index < grammar.lines[element.line].tokens.length; index++) {
+				const tokens = grammar.lines[element.line].tokens;
+				for (let index = 0; index < tokens.length && index < 125000; index++) {
 					const tokenElement: element = {
 						id: 1,
+						token: tokens[index],
 						tokenId: index,
 						line: element.line,
 						document: document,
@@ -187,13 +192,13 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 					};
 					elements.push(tokenElement);
 				}
-				// vscode.window.showInformationMessage(JSON.stringify("element done"));
+				// vscode.window.showInformationMessage(JSON.stringify("elements done"));
 				return elements;
 			}
 
 			if (element.id == 1) {
 				const token = element.tokenId;
-				for (let index = 0; index < grammar.lines[element.line].tokens[token].scopes.length; index++) {
+				for (let index = grammar.lines[element.line].tokens[token].scopes.length - 1; index >= 0; index--) {
 					const tokenElement: element = {
 						id: 2,
 						tokenId: element.tokenId,
@@ -208,7 +213,7 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			}
 		}
 	},
-	getTreeItem(element: element): vscode.TreeItem {
+	async getTreeItem(element: element): Promise<vscode.TreeItem> {
 		// vscode.window.showInformationMessage(JSON.stringify("getTreeItem"));
 		// vscode.window.showInformationMessage(JSON.stringify(element));
 
@@ -268,7 +273,7 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				cachedRule._match ? vscode.TreeItemCollapsibleState.None : vscode.TreeItemCollapsibleState.Expanded, // TODO: toggle option
 			);
 			item.id = `${id}`;
-			item.description = timeFixed + "ms" + (time >= 1 ? ' ⚠️' : '');
+			item.description = timeFixed + "ms" + (grammar.lines[line].stoppedEarly ? '❌' : time >= 1 ? ' ⚠️' : '');
 			// item.description = timeFixed + "ms" + (ruleChached[rule.matchedRuleId] == id /* && !cachedRule._match */ ? ' ⚠️' : '');
 			if (cachedRule._match) {
 				item.iconPath = new vscode.ThemeIcon('regex');
@@ -305,7 +310,7 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				const time = grammar.lines[line].time - (grammar.lines[line - 1]?.time ?? 0);
 				const timeFixed = time.toFixed(3);
 
-				const label = /* timeFixed + 'ms: ' + */ document.lineAt(line).text.slice(0, 50);
+				const label = /* timeFixed + 'ms: ' + */ `${line + 1}: ${document.lineAt(line).text.slice(0, 50)}`;
 				const treeLabel: vscode.TreeItemLabel = {
 					label: label,
 					// highlights: time >= 10 ? [[0, timeFixed.length]] : null,
@@ -340,11 +345,13 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			}
 			if (id == 1) {
 				const line = element.line;
-				const token = grammar.lines[line].tokens[element.tokenId];
+				const token = element.token;
+				// const token = grammar.lines[line].tokens[element.tokenId];
 				// const scope = token.scopes[token.scopes.length - 1];
-				const scope = token.scopes.at(-1);
+				const scopes = token.scopes;
+				const scope = scopes.at(-1);
 
-				const label = scope;
+				const label = `${token.ruleId}: ${scope}`;
 				const treeLabel: vscode.TreeItemLabel = {
 					label: label,
 					// highlights: time >= 10 ? [[0, timeFixed.length]] : null,
@@ -352,9 +359,17 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				const item = new vscode.TreeItem(treeLabel, vscode.TreeItemCollapsibleState.Collapsed);
 				item.id = `${line}_${element.tokenId}`;
 				// Account for newlines in uncaptured tokens
-				const newLineAdjust = token.scopes.length == 1 && (grammar.lines[line].tokens.length - 1 == element.tokenId) ? 1 : 0;
+				const newLineAdjust = scopes.length == 1 && (grammar.lines[line].tokens.length - 1 == element.tokenId) ? 1 : 0;
 				item.description = token.startIndex + " - " + (token.endIndex - newLineAdjust);
-				item.iconPath = new vscode.ThemeIcon('symbol-string');
+
+				const subScope = await getSubScope(scopes.slice().reverse(), true);
+				if (subScope) {
+					item.iconPath = new vscode.ThemeIcon('symbol-color', new vscode.ThemeColor(`textMateThemeToken.${subScope}`));
+				}
+				else {
+					item.iconPath = new vscode.ThemeIcon('symbol-string');
+				}
+
 				item.tooltip = document.lineAt(line).text.substring(token.startIndex, token.endIndex - newLineAdjust);
 
 				// const location = new vscode.Location(
@@ -386,6 +401,22 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				};
 				const item = new vscode.TreeItem(treeLabel, vscode.TreeItemCollapsibleState.None);
 				item.id = `${line}_${element.tokenId}_${element.scopeId}`;
+
+				const subScope = await getSubScope(scope);
+				if (subScope) {
+					item.iconPath = new vscode.ThemeIcon('symbol-color', new vscode.ThemeColor(`textMateThemeToken.${subScope}`));
+				}
+				else {
+					item.iconPath = new vscode.ThemeIcon('symbol-string');
+				}
+				// italic
+				// bold
+				// remove
+				// dash
+				// 
+				// symbol-parameter
+				// text-size
+				// wand
 
 				return item;
 			}
@@ -441,8 +472,11 @@ export async function initCallStackView(context: vscode.ExtensionContext): Promi
 	context.subscriptions.push(vscode.commands.registerCommand("textmate.goto.grammar", gotoGrammar));
 	context.subscriptions.push(vscode.commands.registerCommand("textmate.tree-view", () => changeView('tree')));
 	context.subscriptions.push(vscode.commands.registerCommand("textmate.list-view", () => changeView('list')));
+	// context.subscriptions.push(vscode.window.onDidChangeActiveColorTheme(updateWorkbench_colorCustomizations));
 
-	changeView(callView);
+	// await updateWorkbench_colorCustomizations();
+
+	await changeView(callView);
 
 	const options: vscode.TreeViewOptions<element> = {
 		treeDataProvider: TreeDataProvider,
@@ -451,21 +485,100 @@ export async function initCallStackView(context: vscode.ExtensionContext): Promi
 		manageCheckboxStateManually: false,
 	};
 	treeView = vscode.window.createTreeView('TextMate', options);
-	// context.subscriptions.push(
-	// 	vscode.window.onDidChangeActiveTextEditor((editor: vscode.TextEditor) => {
-	// 		// vscode.window.showInformationMessage(JSON.stringify("active"));
-	// 		// vscode.window.showInformationMessage(JSON.stringify(editor));
-	// 		if (!editor) {
-	// 			return;
-	// 		}
-	// 		const document = editor.document;
-	// 		const element: element = {
-	// 			line: -1,
-	// 			document: document,
-	// 		};
-	// 		onDidChangeTreeData.fire(element);
-	// 	})
-	// );
+}
+
+// export function findMatchingThemeRule(theme: IColorTheme, scopes: string[]): ThemeRule | null {
+// 	for (let i = scopes.length - 1; i >= 0; i--) {
+// 		const parentScopes = scopes.slice(0, i);
+// 		const scope = scopes[i];
+// 		const r = findMatchingThemeRule2(theme, scope, parentScopes);
+// 		if (r) {
+// 			return r;
+// 		}
+// 	}
+// 	return null;
+// }
+
+// function findMatchingThemeRule2(theme: IColorTheme, scope: string, parentScopes: string[], onlyColorRules: boolean): ThemeRule | null {
+// 	let result: ThemeRule | null = null;
+
+// 	// Loop backwards, to ensure the last most specific rule wins
+// 	for (let i = theme.tokenColors.length - 1; i >= 0; i--) {
+// 		const rule = theme.tokenColors[i];
+// 		if (!rule.settings.foreground) {
+// 			continue;
+// 		}
+
+// 		let selectors: string[];
+// 		if (typeof rule.scope === 'string') {
+// 			selectors = rule.scope.split(/,/).map(scope => scope.trim());
+// 		} else if (Array.isArray(rule.scope)) {
+// 			selectors = rule.scope;
+// 		} else {
+// 			continue;
+// 		}
+
+// 		for (let j = 0, lenJ = selectors.length; j < lenJ; j++) {
+// 			const rawSelector = selectors[j];
+
+// 			const themeRule = new ThemeRule(rawSelector, rule.settings);
+// 			if (themeRule.matches(scope, parentScopes)) {
+// 				if (themeRule.isMoreSpecific(result)) {
+// 					result = themeRule;
+// 				}
+// 			}
+// 		}
+// 	}
+
+// 	return result;
+// }
+
+interface IThemeScopedColorCustomizations {
+	[colorId: string]: string;
+}
+
+interface IColorCustomizations {
+	[colorId: string]: IThemeScopedColorCustomizations | string;
+	[themeScope: `[${string}]`]: IThemeScopedColorCustomizations;
+}
+
+async function updateWorkbench_colorCustomizations() {
+	const textMateScopes = await getScopes();
+
+	const workbench = vscode.workspace.getConfiguration("workbench");
+	// const colorTheme: string = workbench.get("colorTheme");
+	const colorCustomizations: IColorCustomizations = workbench.get("colorCustomizations", {});
+	// vscode.window.showInformationMessage(JSON.stringify(colorCustomizations));
+
+	// const themeScope: { [colorId: string]: string; } = /* colorCustomizations[`[${colorTheme}]]`] ?? */ {};
+	// for (const colorId in themeScope) {
+	// 	if (colorId.startsWith("textMateThemeToken.")) {
+	// 		delete themeScope[colorId];
+	// 	}
+	// }
+	// for (const colorId in colorCustomizations) {
+	// 	if (colorId.startsWith("textMateThemeToken.")) {
+	// 		delete colorCustomizations[colorId];
+	// 	}
+	// }
+
+	// for (const textMateScope in textMateScopes) {
+	// 	const foreground = textMateScopes[textMateScope].foreground;
+	// 	if (foreground) {
+	// 		themeScope[textMateScope] = foreground;
+	// 	}
+	// }
+	for (const textMateScope in textMateScopes) {
+		const foreground = textMateScopes[textMateScope].foreground;
+		if (foreground) {
+			colorCustomizations[`textMateThemeToken.${textMateScope}`] = foreground;
+		}
+	}
+
+	// colorCustomizations["[textMateThemeTokens"] = themeScope;
+	// colorCustomizations[`[${colorTheme}]]`] = themeScope;
+	// workbench.update("colorCustomizations", themeScope);
+	workbench.update("colorCustomizations", colorCustomizations);
 }
 
 async function CallStackView(textEditor: vscode.TextEditor, edit: vscode.TextEditorEdit): Promise<void> {
@@ -554,15 +667,15 @@ async function CallStackView(textEditor: vscode.TextEditor, edit: vscode.TextEdi
 			select: true,
 		}
 	);
-	treeView.badge = {
-		tooltip: "tooltip badge 56: is there any use for this number?",
-		value: 56,
-	};
-	treeView.title = "new title";
+	// treeView.badge = {
+	// 	tooltip: "tooltip badge 56: is there any use for this number?",
+	// 	value: 56,
+	// };
+	// treeView.title = "new title";
 
 }
 
-function refresh(element?: element) {
+async function refresh(element?: element) {
 	// vscode.window.showInformationMessage(JSON.stringify("refresh"));
 	// vscode.window.showInformationMessage(JSON.stringify(element));
 
@@ -577,6 +690,9 @@ function refresh(element?: element) {
 	// 	);
 	// 	return;
 	// }
+	if (callView == 'list') {
+		await updateWorkbench_colorCustomizations();
+	}
 	onDidChangeTreeData.fire(undefined);
 }
 
@@ -946,10 +1062,13 @@ async function getGrammarDocumentScopeName(scopeName: string) {
 	}
 }
 
-function changeView(view: CallView) {
+async function changeView(view?: CallView) {
 	// vscode.window.showInformationMessage(JSON.stringify("changeView"));
 	// vscode.window.showInformationMessage(JSON.stringify(view));
-	vscode.commands.executeCommand('setContext', 'textmate.call.view', view);
+	if (!view) {
+		view = callView == 'list' ? 'tree' : 'list';
+	}
 	callView = view;
+	vscode.commands.executeCommand('setContext', 'textmate.call.view', view);
 	refresh();
 }

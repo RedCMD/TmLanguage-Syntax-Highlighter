@@ -41,33 +41,103 @@ interface TokenColorizationDeatils {
 interface ColorTheme {
 	readonly name: string;
 	readonly include?: string;
-	readonly colors?: { [key: string]: string },
+	readonly colors?: { [key: string]: string; };
 	readonly tokenColors?: ITextMateThemingRule[];
 	readonly semanticHighlighting?: boolean;
 	readonly semanticTokenColors?: ISemanticTokenColorCustomizations;
 }
 
-const scopeTokens: { [scope: string]: ITokenColorizationSetting & TokenColorizationDeatils } = {};
+let colorThemeName = '';
+const scopeTokens: { [scope: string]: ITokenColorizationSetting & TokenColorizationDeatils; } = {};
+const tokenCache: { [scope: string]: string; } = {};
+
+export function initThemeScopes(context: vscode.ExtensionContext) {
+	context.subscriptions.push(vscode.window.onDidChangeActiveColorTheme(
+		() => {
+			const colorTheme: string = vscode.workspace.getConfiguration("workbench").get("colorTheme");
+			if (colorTheme != colorThemeName) {
+				colorThemeName = '';
+				for (const token in tokenCache) {
+					delete tokenCache[token];
+				}
+			}
+		}
+	));
+}
+
+export async function getSubScope(scopes: string | string[], foregroundOnly: boolean = false) {
+	if (!scopes) {
+		return '';
+	}
+	if (typeof scopes == 'string') {
+		scopes = [scopes];
+	}
+
+	const textMateScopes = await getScopes();
+	// const start = performance.now();
+
+	let score = -1;
+	let matchedScope: string;
+	for (const scope of scopes) {
+		if (tokenCache[scope]) {
+			return tokenCache[scope];
+		}
+		for (const textMateScope in textMateScopes) {
+			if (foregroundOnly && !textMateScopes[textMateScope].foreground) {
+				continue;
+			}
+			const subScopes = scope.split('.');
+			for (let index = subScopes.length; index > 0; index--) {
+				if (score > index) {
+					break;
+				}
+				const subScope = subScopes.join('.');
+				if (textMateScope == subScope) {
+					matchedScope = subScope;
+					score = index;
+					break;
+				}
+				subScopes.pop();
+			}
+		}
+		if (matchedScope) {
+			tokenCache[scope] = matchedScope;
+			break;
+		}
+	}
+	// vscode.window.showInformationMessage(performance.now() - start + "ms");
+
+	return matchedScope;
+}
 
 export async function getScopes() {
-	const colorTheme = vscode.workspace.getConfiguration("workbench").get("colorTheme");
+	if (colorThemeName) {
+		return scopeTokens;
+	}
+	// const start = performance.now();
+
+	const colorTheme: string = vscode.workspace.getConfiguration("workbench").get("colorTheme");
 	for (const extension of vscode.extensions.all) {
 		const packageJSON: IRelaxedExtensionManifest = extension.packageJSON;
 		const themes = packageJSON.contributes?.themes;
-		if (!themes) {
+		if (!Array.isArray(themes)) {
 			continue;
 		}
 		for (const theme of themes) {
-			const id = theme.id || theme.label;
+			const id = theme?.id || theme?.label;
 			if (id == colorTheme) {
 				const uri = vscode.Uri.joinPath(extension.extensionUri, theme.path);
 				await loadColorTheme(uri);
 			}
 		}
 		if (Object.keys(scopeTokens).length) {
-			return scopeTokens;
+			// vscode.window.showInformationMessage(JSON.stringify(scopeTokens));
+			colorThemeName = colorTheme;
+			break;
 		}
 	}
+	// vscode.window.showInformationMessage(performance.now() - start + "ms" + JSON.stringify(scopeTokens));
+	return scopeTokens;
 }
 
 async function loadColorTheme(uri: vscode.Uri) {
@@ -86,7 +156,8 @@ async function loadColorTheme(uri: vscode.Uri) {
 	if (tokenColors) {
 		for (const tokenColor of tokenColors) {
 			const scope = tokenColor.scope;
-			if (typeof scope === 'string') {
+			const scopes = typeof scope === 'string' ? [scope] : scope;
+			for (const scope of scopes) {
 				const settings = tokenColor.settings;
 				scopeTokens[scope] = {
 					foreground: settings.foreground,
@@ -95,19 +166,6 @@ async function loadColorTheme(uri: vscode.Uri) {
 					theme: theme.name,
 					name: tokenColor.name,
 				};
-			}
-			if (scope instanceof Array) {
-				const scopes = scope;
-				for (const scope of scopes) {
-					const settings = tokenColor.settings;
-					scopeTokens[scope] = {
-						foreground: settings.foreground,
-						background: settings.background,
-						fontStyle: settings.fontStyle,
-						theme: theme.name,
-						name: tokenColor.name,
-					};
-				}
 			}
 		}
 	}

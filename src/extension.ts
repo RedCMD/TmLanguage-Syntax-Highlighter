@@ -6,6 +6,7 @@ import { initTextMate } from "./TextMate";
 import { initDiagnostics } from "./DiagnosticCollection";
 import { initCallStackView } from "./treeData";
 import { initTokenColorCustomizations } from "./tokenColorCustomizations";
+import { initThemeScopes } from "./themeScopeColors";
 
 import { HoverProvider } from "./Providers/HoverProvider";
 import { RenameProvider } from "./Providers/RenameProvider";
@@ -38,6 +39,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	initDiagnostics(context);
 	await initCallStackView(context);
 	initTokenColorCustomizations(context);
+	initThemeScopes(context);
 
 	// context.subscriptions.push(vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider)); // Mouse over Hovers
 	context.subscriptions.push(vscode.languages.registerRenameProvider(DocumentSelector, RenameProvider)); // [F2] Rename
