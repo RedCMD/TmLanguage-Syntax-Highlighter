@@ -6,6 +6,8 @@ const cursorQuery = `
 	(include (value (ruleName) @ruleName))
 	;(json (scopeName (value) @root_scopeName))
 	(repo (key) @repo)
+	(name (value (scope) @scope))
+	(contentName (value (scope) @scope))
 `;
 
 export const RenameProvider: vscode.RenameProvider = {
@@ -75,6 +77,10 @@ export const RenameProvider: vscode.RenameProvider = {
 				}
 				const edit = new vscode.TextEdit(cursorRange, newName);
 				edits.push(edit);
+				break;
+			case 'scope':
+				query += `(name (value (scope) @scope (#eq? @scope "${cursorText}")))`
+				query += `(contentName (value (scope) @scope (#eq? @scope "${cursorText}")))`
 				break;
 			default:
 				return;
