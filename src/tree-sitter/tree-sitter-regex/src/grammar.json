@@ -1089,19 +1089,22 @@
                   {
                     "type": "ALIAS",
                     "content": {
-                      "type": "REPEAT",
+                      "type": "TOKEN",
                       "content": {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "PATTERN",
-                            "value": "\\\\[^n]"
-                          },
-                          {
-                            "type": "PATTERN",
-                            "value": "[^\\\\]+"
-                          }
-                        ]
+                        "type": "REPEAT",
+                        "content": {
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "PATTERN",
+                              "value": "\\\\[^n]"
+                            },
+                            {
+                              "type": "PATTERN",
+                              "value": "[^\\\\]+"
+                            }
+                          ]
+                        }
                       }
                     },
                     "named": true,

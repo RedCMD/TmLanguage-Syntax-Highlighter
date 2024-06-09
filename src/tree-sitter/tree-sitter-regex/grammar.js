@@ -326,10 +326,12 @@ module.exports = grammar({
 						seq(
 							'#',
 							alias(
-								repeat(
-									choice(
-										/\\[^n]/,
-										/[^\\]+/,
+								token(
+									repeat(
+										choice(
+											/\\[^n]/,
+											/[^\\]+/,
+										),
 									),
 								),
 								$.comment,
