@@ -532,13 +532,17 @@ function commaSep($, rule) {
 			rule,
 			repeat(
 				seq(
-					repeat($._whitespace),
-					',',
+					optional( // missing comma was causing too many errors
+						seq(
+							repeat($._whitespace),
+							',',
+						),
+					),
 					repeat($._whitespace),
 					rule,
 				),
 			),
-			optional(
+			optional( // trailing comma
 				seq(
 					repeat($._whitespace),
 					',',
