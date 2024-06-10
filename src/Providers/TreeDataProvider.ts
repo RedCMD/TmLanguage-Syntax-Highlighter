@@ -1,13 +1,13 @@
 import * as vscode from 'vscode';
-import * as vscodeTextmate from "./textmate/main";
+import * as vscodeTextmate from "../textmate/main";
 // import * as vscodeTextmate from 'vscode-textmate';
-import { tokenizeFile } from "./TextMate";
-import { IGrammar, IToken, RuleId, endRuleId, whileRuleId } from "./ITextMate";
-import { stringify } from "./extension";
-import { IRelaxedExtensionManifest } from "./extensions";
-import { IRawCaptures, IRawRule } from "./textmate/rawGrammar";
-import { getTrees, queryNode, toRange } from "./TreeSitter";
-import { getScopes, getSubScope } from "./themeScopeColors";
+import { tokenizeFile } from "../TextMate";
+import { IGrammar, IToken, RuleId, endRuleId, whileRuleId } from "../ITextMate";
+import { stringify } from "../extension";
+import { IRelaxedExtensionManifest } from "../extensions";
+import { IRawCaptures, IRawRule } from "../textmate/rawGrammar";
+import { getTrees, queryNode, toRange } from "../TreeSitter";
+import { getScopes, getSubScope } from "../themeScopeColors";
 
 
 type element = {

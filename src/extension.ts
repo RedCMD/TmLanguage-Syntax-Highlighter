@@ -4,7 +4,7 @@ import { initTreeSitter } from "./TreeSitter";
 import { initOniguruma } from "./Oniguruma";
 import { initTextMate } from "./TextMate";
 import { initDiagnostics } from "./DiagnosticCollection";
-import { initCallStackView } from "./treeData";
+import { initCallStackView } from "./Providers/TreeDataProvider";
 import { initTokenColorCustomizations } from "./tokenColorCustomizations";
 import { initThemeScopes } from "./themeScopeColors";
 
