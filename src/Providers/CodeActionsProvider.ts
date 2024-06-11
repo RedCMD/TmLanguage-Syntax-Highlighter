@@ -144,6 +144,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 
 		for (const rootNode of rootNodes) {
 			const minifyQuery = `
+				(backslash) @backslash
 				(comment_group) @comment
 				(comment_extended) @comment
 				(non_capture_group) @non_capture_group
@@ -156,6 +157,50 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 				const minifyRange = toRange(minifyNode);
 
 				switch (minifyName) {
+					case 'backslash':
+						const text = minifyNode.text;
+						switch (text.lastIndexOf('\\')) {
+							case 0: // \["/bfnrt]
+								if (text == '\\/') { // \\/
+									edit.delete(
+										uri,
+										new vscode.Range(
+											minifyRange.start,
+											minifyRange.start.translate(0, 1),
+										),
+									);
+								}
+								break;
+							case 1: // \\.
+								if (/^\\\\[^\x00-\x1F\x7F "#$'()*+,-.0123456789:<?ABDGHKNORSWXYZ\[\\\]^abdefhnorstuvwxyz{|}]$/.test(text)) {
+									edit.delete(
+										uri,
+										new vscode.Range(
+											minifyRange.start,
+											minifyRange.start.translate(0, 2),
+										),
+									);
+								}
+								break;
+							case 2: // \\\["/bfnrt]
+								edit.delete(
+									uri,
+									new vscode.Range(
+										minifyRange.start,
+										minifyRange.start.translate(
+											0,
+											text == '\\\\\\/' ? 3 : 2, // \\\/
+										),
+									),
+								);
+								break;
+							case 3: // \\\\
+								break;
+							default:
+								// tree-sitter bug?
+								break;
+						}
+						break;
 					case 'comment':
 						edit.delete(uri, minifyRange);
 						break;
