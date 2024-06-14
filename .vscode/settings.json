@@ -9,10 +9,9 @@
 	// Turn off tsc task auto detection since we have the necessary tasks as npm scripts
 	"typescript.tsc.autoDetect": "off",
 	"typescript.format.semicolons": "insert",
-	"files.insertFinalNewline": true, // because of Github
 	"files.trimFinalNewlines": true,
 	"C_Cpp.errorSquiggles": "enabled",
-	"[json-textmate]": {
-		"files.insertFinalNewline": false,
+	"[typescript][json][jsonc]": {
+		"files.insertFinalNewline": true, // because of Github
 	},
 }
