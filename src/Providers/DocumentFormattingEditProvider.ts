@@ -57,7 +57,7 @@ export const DocumentRangeFormattingEditProvider: vscode.DocumentRangeFormatting
 				break;
 			}
 			node = nestedNode;
-			level++;
+			level += tabSize;
 		}
 		const indent = Math.min(level, node.startPosition.column);
 
