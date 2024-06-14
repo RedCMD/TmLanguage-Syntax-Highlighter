@@ -125,6 +125,9 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				else
 					return elements;
 			}
+			if (id < 0) {
+				id = 0;
+			}
 
 			for (let index = id; index < grammar.rules.length; index++) {
 				const matchResult = grammar.rules[index];
@@ -904,9 +907,9 @@ async function gotoFile(element: element) {
 		const end = rule.captureIndices[0].end;
 		const location = new vscode.Location(
 			document.uri,
-			new vscode.Range(line - 1, start, line - 1, end),
+			new vscode.Range(line, start, line, end),
 		);
-		const position = new vscode.Position(line - 1, start);
+		const position = new vscode.Position(line, start);
 		vscode.commands.executeCommand('editor.action.goToLocations', document.uri, position, [location]);
 		return;
 	}
