@@ -43,7 +43,7 @@ VSCode TextMate acknowledges [name](https://github.com/microsoft/vscode-textmate
 The [scopeName](https://github.com/microsoft/vscode-textmate/blob/main/src/rawGrammar.ts#L10) for your language.  
 It is the same value as `"scopeName"` under `"grammars"` in your `package.json` file.  
 You should use the recommended format of `source.languageId` or `text.languageId`.  
-Or if you are extending another language via injections etc, use `source/text.theirLanguageId.yourScope`.  
+Or if you are extending another language via injections etc, use `source`/`text.theirLanguageId.yourScope`.  
 For example [HTML (Derivative)](https://github.com/textmate/html.tmbundle/blob/master/Syntaxes/HTML.plist) `text.html.derivative` extending [HTML](https://github.com/textmate/html.tmbundle/blob/master/Syntaxes/HTML%20(Derivative).tmLanguage) `text.html.basic`  
 
 ## patterns
@@ -99,7 +99,7 @@ Use `"extensions"` under `"languages"` in your `package.json` file instead.
 `"firstLineMatch": "..."`  
 A regex to detect if an open file should get assigned to your language.  
 VSCode acknowledges `firstLineMatch`, but doesn't do anything with it.  
-Use `"extensions"` under `"languages"` in your `package.json` file instead.  
+Use `"firstLine"` under `"languages"` in your `package.json` file instead.  
 
 
 ## include
@@ -128,7 +128,7 @@ The VSCode setting `"editor.quickSuggestions"` can be enabled/disabled based on 
 
 ## contentName
 `"contentName": "..."`  
-Same as [name](#name), but only applies to inside a [begin](#begin)/[end](#end) region  
+Same as [name](#name), but only applies to the region within [begin](#begin)/[end](#end) or [begin](#begin)/[while](#while) (includes the while).  
 Also applies to the captured text when paired with [patterns](#patterns) inside a [capture](#capture)  
 
 ## match
@@ -141,16 +141,16 @@ All other rules are effectively ignored. Including [repository](#repository).
 
 ## begin
 `"begin": "..."`  
+`begin` places an invisible 0-width anchor after it. It can then be matched using `\\G`.  
 [Regex](index.md#regex) just like [match](#match).  
 [name](#name) is used to apply a scope-name to both the `begin` text and the entire region covered by `begin`/([end](#end)|[while](#while)).  
 [contentName](#contentname) is used to apply a scope-name to the inner region being covered.  
 [end](#end) is used to end the region that was opened by `begin`. It is effectively placed at the beginning of the [patterns](#patterns) array.  
-[while](#while) [jeff-hykin textmate_while](https://github.com/jeff-hykin/better-cpp-syntax/blob/master/documentation/library/textmate_while.md). It is prioritized over [end](#end).  
+[while](#while) is prioritized over [end](#end).  
 [patterns](#patterns).  
 [captures](#captures) is used to apply scope-names to specific capture groups and/or retokenize the capture groups.  
 [beginCaptures](#begincaptures) is just like [captures](#captures), but specifically targets `begin`. It is prioritized over [captures](#captures).  
 All other rules are effectively ignored. Including [repository](#repository).  
-`begin` places an invisible 0-width anchor after it. It can then be matched using `\\G`.  
 [rule.ts](https://github.com/microsoft/vscode-textmate/blob/8b07a3c2be6fe4674f9ce6bba6d5c962a7f50df5/src/rule.ts#L421-L442)  
 
 ## end
@@ -161,6 +161,7 @@ Meaning items in [patterns](#patterns) can consume the same text as `end` and ef
 `end` can end directly after [begin](#begin). Don't get caught out by it. [Bad usage of 0-wdith `begin` and `end` rules](https://github.com/Microsoft/vscode-textmate/issues/12).  
 If `end` is empty or missing. It will match against the character 0xFFFF `￿`.  
 If `end` is invalid it will either end immediately or carry on to the end of the document.  
+[Regex](index.md#regex) just like [match](#match).  
 [applyEndPatternLast](#applyendpatternlast) controls if `end` should attempt to match before or after the [patterns](#patterns) array.  
 [name](#name) is used to apply a scope-name to the token matched by `end`.  
 [captures](#captures) is used to apply scope-names to specific capture groups and/or retokenize the capture groups.  
@@ -170,7 +171,13 @@ If `end` is invalid it will either end immediately or carry on to the end of the
 ## while
 `"while": "..."`  
 [jeff-hykin textmate_while](https://github.com/jeff-hykin/better-cpp-syntax/blob/master/documentation/library/textmate_while.md)  
-[name](#name) is used to apply a scope-name to the token matched by `while`.  
+`while` is checked once per line (starting on the line after the [begin](#begin)) capturing the matched text.
+Items in the [patterns](#patterns) array are then checked after the captured `while` text.  
+`while` places an invisible 0-width anchor after it. It can then be matched using `\\G`.  
+`while` is a lot more concrete than [end](#end). It cannot be pushed out by items in the [patterns](#patterns) array.  
+[Regex](index.md#regex) just like [match](#match).  
+[name](#name) is used to apply a scope-name to the entire line matched by `while`.  
+[contentName](#contentname) is used to apply a scope-name to the entire line matched by `while`.  
 [captures](#captures) is used to apply scope-names to specific capture groups and/or retokenize the capture groups.  
 [whileCaptures](#begincaptures) is just like [captures](#captures), but specifically targets `while`. It is prioritized over [captures](#captures).  
 
@@ -224,9 +231,9 @@ Valid rules:
 Target specific capture group number 0-999.  
 Group `0` is the entire string, excluding text before `\\K` [regex](index.md#regex).  
 Non-existent capture group numbers are ignored.  
-VSCode will ignore all characters after the numeric `"123 this text is ignored, including 456": { }`
-`capture` can only target capture groups `(...)` or named capture groups `(?<name>...)`, not non-capture groups `(?:...)`, `(?>...)` or 0-width lookarounds `(?=...)`, `(?<!...)` or absent groups `(?~|...|...)` or any other groups.  
-Capture groups inside lookarounds can be targeted, but there can be some side affects.  
+VSCode will ignore all characters after the numeric `"123 this text is ignored, including 456": { }`.  
+`capture` can only target capture groups `(...)` or named capture groups `(?<name>...)`, **not** non-capture groups `(?:...)`, atomic groups `(?>...)`, 0-width lookarounds `(?=...)` `(?<!...)`, absent groups `(?~|...|...)` or any other groups.  
+Capture groups inside lookaheads can be targeted, but there can be some side affects.  
 Capture groups inside negative-lookarounds will cause an error. Use non-capture group `(?:...)` instead.  
 A [patterns](#patterns) array inside `capture` causes a performance hit in VSCode: [issue 167](https://github.com/microsoft/vscode-textmate/issues/167)  
 Valid rules:
