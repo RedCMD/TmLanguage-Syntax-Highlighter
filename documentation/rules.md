@@ -133,7 +133,7 @@ Also applies to the captured text when paired with [patterns](#patterns) inside 
 
 ## match
 `"match": "..."`  
-[Regex](index.md#regex) used to tokenize and capture parts of a file.  
+[Regex](README.md#regex) used to tokenize and capture parts of a file.  
 [name](#name) is used to apply a scope-name to the whole text being matched.  
 [captures](#captures) is used to apply scope-names to specific capture groups and/or retokenize the capture groups.  
 All other rules are effectively ignored. Including [repository](#repository).  
@@ -142,7 +142,7 @@ All other rules are effectively ignored. Including [repository](#repository).
 ## begin
 `"begin": "..."`  
 `begin` places an invisible 0-width anchor after it. It can then be matched using `\\G`.  
-[Regex](index.md#regex) just like [match](#match).  
+[Regex](README.md#regex) just like [match](#match).  
 [name](#name) is used to apply a scope-name to both the `begin` text and the entire region covered by `begin`/([end](#end)|[while](#while)).  
 [contentName](#contentname) is used to apply a scope-name to the inner region being covered.  
 [end](#end) is used to end the region that was opened by `begin`. It is effectively placed at the beginning of the [patterns](#patterns) array.  
@@ -161,7 +161,7 @@ Meaning items in [patterns](#patterns) can consume the same text as `end` and ef
 `end` can end directly after [begin](#begin). Don't get caught out by it. [Bad usage of 0-wdith `begin` and `end` rules](https://github.com/Microsoft/vscode-textmate/issues/12).  
 If `end` is empty or missing. It will match against the character 0xFFFF `￿`.  
 If `end` is invalid it will either end immediately or carry on to the end of the document.  
-[Regex](index.md#regex) just like [match](#match).  
+[Regex](README.md#regex) just like [match](#match).  
 [applyEndPatternLast](#applyendpatternlast) controls if `end` should attempt to match before or after the [patterns](#patterns) array.  
 [name](#name) is used to apply a scope-name to the token matched by `end`.  
 [captures](#captures) is used to apply scope-names to specific capture groups and/or retokenize the capture groups.  
@@ -175,7 +175,7 @@ If `end` is invalid it will either end immediately or carry on to the end of the
 Items in the [patterns](#patterns) array are then checked after the captured `while` text.  
 `while` places an invisible 0-width anchor after it. It can then be matched using `\\G`.  
 `while` is a lot more concrete than [end](#end). It cannot be pushed out by items in the [patterns](#patterns) array.  
-[Regex](index.md#regex) just like [match](#match).  
+[Regex](README.md#regex) just like [match](#match).  
 [name](#name) is used to apply a scope-name to the entire line matched by `while`.  
 [contentName](#contentname) is used to apply a scope-name to the entire line matched by `while`.  
 [captures](#captures) is used to apply scope-names to specific capture groups and/or retokenize the capture groups.  
@@ -229,7 +229,7 @@ Valid rules:
 ## capture
 `"0": { ... }`  
 Target specific capture group number 0-999.  
-Group `0` is the entire string, excluding text before `\\K` [regex](index.md#regex).  
+Group `0` is the entire string, excluding text before `\\K` [regex](README.md#regex).  
 Non-existent capture group numbers are ignored.  
 VSCode will ignore all characters after the numeric `"123 this text is ignored, including 456": { }`.  
 `capture` can only target capture groups `(...)` or named capture groups `(?<name>...)`, **not** non-capture groups `(?:...)`, atomic groups `(?>...)`, 0-width lookarounds `(?=...)` `(?<!...)`, absent groups `(?~|...|...)` or any other groups.  
