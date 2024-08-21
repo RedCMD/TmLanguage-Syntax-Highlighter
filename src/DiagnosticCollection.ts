@@ -36,8 +36,12 @@ export function initDiagnostics(context: vscode.ExtensionContext) {
 
 	const repoQueryString = `
 		(repo
-		;	[(patterns) (include)] (repository ; causes extra 70ms lag
-			(repository
+			(include) (repository
+				(repo
+					(key) @nestRepo))
+			!match !begin)
+		(repo
+			(patterns) (repository
 				(repo
 					(key) @nestRepo))
 			!match !begin)
