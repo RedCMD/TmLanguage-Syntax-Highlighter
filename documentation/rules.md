@@ -42,6 +42,7 @@ VSCode TextMate acknowledges [name](https://github.com/microsoft/vscode-textmate
 `"scopeName:" "..."`  
 The [scopeName](https://github.com/microsoft/vscode-textmate/blob/main/src/rawGrammar.ts#L10) for your language.  
 It is the same value as `"scopeName"` under `"grammars"` in your `package.json` file.  
+It should be globally unique.  
 You should use the recommended format of `source.languageId` or `text.languageId`.  
 Or if you are extending another language via injections etc, use `source`/`text.theirLanguageId.yourScope`.  
 For example [HTML (Derivative)](https://github.com/textmate/html.tmbundle/blob/master/Syntaxes/HTML.plist) `text.html.derivative` extending [HTML](https://github.com/textmate/html.tmbundle/blob/master/Syntaxes/HTML%20(Derivative).tmLanguage) `text.html.basic`  
@@ -141,15 +142,17 @@ All other rules are effectively ignored. Including [repository](#repository).
 
 ## begin
 `"begin": "..."`  
-`begin` places an invisible 0-width anchor after it. It can then be matched using `\\G`.  
+`begin` starts a region that can span multiple lines.  
+An invisible 0-width anchor is placed directly after `begin`. The anchor can then be matched against using `\\G`.  
 [Regex](README.md#regex) just like [match](#match).  
 [name](#name) is used to apply a scope-name to both the `begin` text and the entire region covered by `begin`/([end](#end)|[while](#while)).  
-[contentName](#contentname) is used to apply a scope-name to the inner region being covered.  
+[contentName](#contentname) is used to apply a scope-name to the **inner** region being covered (includes [while](#while)).  
 [end](#end) is used to end the region that was opened by `begin`. It is effectively placed at the beginning of the [patterns](#patterns) array.  
-[while](#while) is prioritized over [end](#end).  
-[patterns](#patterns).  
+[while](#while) is mutually exclusive and is prioritized over `end`.  
+[patterns](#patterns) contains rules that are executed inside the **inner** region.  
 [captures](#captures) is used to apply scope-names to specific capture groups and/or retokenize the capture groups.  
 [beginCaptures](#begincaptures) is just like [captures](#captures), but specifically targets `begin`. It is prioritized over [captures](#captures).  
+[match](#match) is mutually exclusive and is prioritized over `begin`.  
 All other rules are effectively ignored. Including [repository](#repository).  
 [rule.ts](https://github.com/microsoft/vscode-textmate/blob/8b07a3c2be6fe4674f9ce6bba6d5c962a7f50df5/src/rule.ts#L421-L442)  
 
