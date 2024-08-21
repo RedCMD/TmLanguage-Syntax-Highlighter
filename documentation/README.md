@@ -59,6 +59,9 @@ Todo:
 - https://github.com/RedCMD/TmLanguage-Syntax-Highlighter
 - https://github.com/bevry/cson#what-is-cson
 - https://github.com/dunstontc/textmate/blob/master/readme.md
+- https://github.com/kkos/oniguruma
+- https://github.com/microsoft/vscode-oniguruma
+- https://github.com/Microsoft/vscode-textmate
 - https://github.com/microsoft/vscode/tree/main/extensions
 - https://github.com/microsoft/vscode/blob/main/extensions/json/syntaxes/JSON.tmLanguage.json
 - https://github.com/microsoft/vscode-textmate/issues/208
