@@ -41,6 +41,11 @@ export function initDiagnostics(context: vscode.ExtensionContext) {
 				(repo
 					(key) @nestRepo))
 			!match !begin)
+		(pattern
+			(patterns) (repository
+				(repo
+					(key) @nestRepo))
+			!match !begin)
 	`;
 	repoQuery = jsonParserLanguage.query(repoQueryString);
 
@@ -306,6 +311,7 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 				endPosition: node.endPosition,
 			};
 			const repoMatches = repoQuery.matches(rootNode, queryOptions);
+			// vscode.window.showInformationMessage(JSON.stringify(repoMatches));
 			for (const repoMatch of repoMatches) {
 				const repoCaptures = repoMatch.captures;
 				for (const repoCapture of repoCaptures) {
