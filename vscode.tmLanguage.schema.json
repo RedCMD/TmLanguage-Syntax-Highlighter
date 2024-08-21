@@ -53,7 +53,10 @@
 						"description": "An injection selector. https://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#injection-grammars",
 						"type": "object",
 						"properties": {
-							"patterns": { "$ref": "#/definitions/patterns" },
+							"patterns": {
+								"$ref": "#/definitions/patterns",
+								"suggestSortText": "@patterns"
+							},
 							"comment": { "$ref": "#/definitions/comment" },
 							"//": { "$ref": "#/definitions/commentSlash" }
 						},
