@@ -318,6 +318,7 @@
 					"patterns": [ { "include": "#injection-string" } ]
 				},
 				{
+"comment": "An array of `\"injectionSelector\"` is not offically supported by VSCode TextMate. But still happens to work because JavaScript",
 					"begin": "\\[",
 					"end": "]",
 					"beginCaptures": { "0": { "name": "punctuation.definition.array.begin.json.tm" } },
