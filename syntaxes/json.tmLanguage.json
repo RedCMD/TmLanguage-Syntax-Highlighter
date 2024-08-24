@@ -908,7 +908,7 @@
 		"captures": {
 			"comment": "\"captures\": { ... }",
 			"begin": "(\")((?>beginC|whileC|endC|c)aptures)(\")",
-			"end": "(?<=})|(?=[},])",
+			"end": "(?<=}|])|(?=[},])",
 			"beginCaptures": {
 				"1": { "name": "punctuation.definition.string.begin.json.tm" },
 				"2": { "name": "keyword.property-name.string.$2.json.tm" },
@@ -917,7 +917,7 @@
 			"patterns": [
 				{
 					"begin": ":(?!\\s*\")",
-					"end": "(?<=})|(?=[},])",
+					"end": "(?<=}|])|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
 						{
@@ -929,6 +929,34 @@
 								{ "include": "#capture" },
 								{ "include": "#include" },
 								{ "include": "#dictionary-separator" }
+							]
+						},
+						{
+							"comment": "An array of `\"captures\"` is not offically supported by VSCode TextMate. But still happens to work because JavaScript",
+							"begin": "\\[",
+							"end": "]",
+							"beginCaptures": { "0": { "name": "punctuation.definition.array.begin.json.tm" } },
+							"endCaptures": { "0": { "name": "punctuation.definition.array.end.json.tm" } },
+							"patterns": [
+								{
+									"begin": "{",
+									"end": "}",
+									"beginCaptures": { "0": { "name": "punctuation.definition.dictionary.begin.json.tm" } },
+									"endCaptures": { "0": { "name": "punctuation.definition.dictionary.end.json.tm" } },
+									"patterns": [
+										{ "comment": "All normal \"patterns\" rules are allowed here. With the exception of \"include\". But only when they are paired with \"patterns\"" },
+										{ "include": "#name" },
+										{ "include": "#contentName" },
+										{ "include": "#match" },
+										{ "include": "#patterns" },
+										{ "include": "#captures" },
+										{ "include": "#repository" },
+										{ "include": "#applyEndPatternLast" },
+										{ "include": "#id" },
+										{ "include": "#dictionary-separator" }
+									]
+								},
+								{ "include": "#array-separator" }
 							]
 						},
 						{ "include": "#value-separator" }

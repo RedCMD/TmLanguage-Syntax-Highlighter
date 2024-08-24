@@ -98,12 +98,82 @@
     "type": "beginCaptures",
     "named": true,
     "fields": {
+      "begin": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "beginCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "beginCaptures",
+            "named": true
+          }
+        ]
+      },
+      "endCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "endCaptures",
+            "named": true
+          }
+        ]
+      },
       "key": {
         "multiple": false,
         "required": true,
         "types": [
           {
             "type": "key",
+            "named": true
+          }
+        ]
+      },
+      "match": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "match",
+            "named": true
+          }
+        ]
+      },
+      "patterns": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "patterns",
+            "named": true
+          }
+        ]
+      },
+      "repository": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "repository",
+            "named": true
+          }
+        ]
+      },
+      "whileCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "whileCaptures",
             "named": true
           }
         ]
@@ -114,7 +184,15 @@
       "required": false,
       "types": [
         {
+          "type": "applyEndPatternLast",
+          "named": true
+        },
+        {
           "type": "capture",
+          "named": true
+        },
+        {
+          "type": "captures",
           "named": true
         },
         {
@@ -126,7 +204,27 @@
           "named": true
         },
         {
+          "type": "contentName",
+          "named": true
+        },
+        {
+          "type": "end",
+          "named": true
+        },
+        {
+          "type": "include",
+          "named": true
+        },
+        {
           "type": "item",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "while",
           "named": true
         }
       ]
@@ -277,12 +375,82 @@
     "type": "captures",
     "named": true,
     "fields": {
+      "begin": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "beginCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "beginCaptures",
+            "named": true
+          }
+        ]
+      },
+      "endCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "endCaptures",
+            "named": true
+          }
+        ]
+      },
       "key": {
         "multiple": false,
         "required": true,
         "types": [
           {
             "type": "key",
+            "named": true
+          }
+        ]
+      },
+      "match": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "match",
+            "named": true
+          }
+        ]
+      },
+      "patterns": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "patterns",
+            "named": true
+          }
+        ]
+      },
+      "repository": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "repository",
+            "named": true
+          }
+        ]
+      },
+      "whileCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "whileCaptures",
             "named": true
           }
         ]
@@ -293,7 +461,15 @@
       "required": false,
       "types": [
         {
+          "type": "applyEndPatternLast",
+          "named": true
+        },
+        {
           "type": "capture",
+          "named": true
+        },
+        {
+          "type": "captures",
           "named": true
         },
         {
@@ -305,7 +481,27 @@
           "named": true
         },
         {
+          "type": "contentName",
+          "named": true
+        },
+        {
+          "type": "end",
+          "named": true
+        },
+        {
+          "type": "include",
+          "named": true
+        },
+        {
           "type": "item",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "while",
           "named": true
         }
       ]
@@ -443,12 +639,82 @@
     "type": "endCaptures",
     "named": true,
     "fields": {
+      "begin": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "beginCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "beginCaptures",
+            "named": true
+          }
+        ]
+      },
+      "endCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "endCaptures",
+            "named": true
+          }
+        ]
+      },
       "key": {
         "multiple": false,
         "required": true,
         "types": [
           {
             "type": "key",
+            "named": true
+          }
+        ]
+      },
+      "match": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "match",
+            "named": true
+          }
+        ]
+      },
+      "patterns": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "patterns",
+            "named": true
+          }
+        ]
+      },
+      "repository": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "repository",
+            "named": true
+          }
+        ]
+      },
+      "whileCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "whileCaptures",
             "named": true
           }
         ]
@@ -459,7 +725,15 @@
       "required": false,
       "types": [
         {
+          "type": "applyEndPatternLast",
+          "named": true
+        },
+        {
           "type": "capture",
+          "named": true
+        },
+        {
+          "type": "captures",
           "named": true
         },
         {
@@ -471,7 +745,27 @@
           "named": true
         },
         {
+          "type": "contentName",
+          "named": true
+        },
+        {
+          "type": "end",
+          "named": true
+        },
+        {
+          "type": "include",
+          "named": true
+        },
+        {
           "type": "item",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "while",
           "named": true
         }
       ]
@@ -1490,12 +1784,82 @@
     "type": "whileCaptures",
     "named": true,
     "fields": {
+      "begin": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "begin",
+            "named": true
+          }
+        ]
+      },
+      "beginCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "beginCaptures",
+            "named": true
+          }
+        ]
+      },
+      "endCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "endCaptures",
+            "named": true
+          }
+        ]
+      },
       "key": {
         "multiple": false,
         "required": true,
         "types": [
           {
             "type": "key",
+            "named": true
+          }
+        ]
+      },
+      "match": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "match",
+            "named": true
+          }
+        ]
+      },
+      "patterns": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "patterns",
+            "named": true
+          }
+        ]
+      },
+      "repository": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "repository",
+            "named": true
+          }
+        ]
+      },
+      "whileCaptures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "whileCaptures",
             "named": true
           }
         ]
@@ -1506,7 +1870,15 @@
       "required": false,
       "types": [
         {
+          "type": "applyEndPatternLast",
+          "named": true
+        },
+        {
           "type": "capture",
+          "named": true
+        },
+        {
+          "type": "captures",
           "named": true
         },
         {
@@ -1518,7 +1890,27 @@
           "named": true
         },
         {
+          "type": "contentName",
+          "named": true
+        },
+        {
+          "type": "end",
+          "named": true
+        },
+        {
+          "type": "include",
+          "named": true
+        },
+        {
           "type": "item",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "while",
           "named": true
         }
       ]

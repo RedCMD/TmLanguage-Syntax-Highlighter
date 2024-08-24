@@ -942,7 +942,10 @@
 		"captures": {
 			"$comment": "TODO: ",
 			"description": "captures",
-			"type": "object",
+			"type": [
+				"object",
+				"array"
+			],
 			"patternProperties": { "^\\d+": { "$ref": "#/definitions/capture" } },
 			"properties": {
 				"comment": { "$ref": "#/definitions/comment" },
@@ -953,6 +956,10 @@
 				"description": "Unknown key. Use the format \"0\": { }",
 				"markdownDescription": "Unknown key. Use the following format:\n\n\t\"0\": { }",
 				"default": { }
+			},
+			"items": {
+				"markdownDescription": "An array of `\"captures\"` is not offically supported by VSCode TextMate  \nBut still happens to work because JavaScript",
+				"$ref": "#/definitions/capture"
 			},
 			"defaultSnippets": [
 				{
