@@ -7,3 +7,7 @@ node_modules
 *.map
 *.vsix
 *.vsixmanifest
+
+parser.c
+grammar.json
+node-types.json
