@@ -9,7 +9,7 @@ export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 		const point = toPoint(position);
 
 		const cursorQuery = `
-			(_ (key) @key)
+			(key) @key
 			(value !scopeName !ruleName !self !base) @value
 			(capture . (key) @key)
 			(repo . (key) @repo)
