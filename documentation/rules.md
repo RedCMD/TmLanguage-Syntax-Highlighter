@@ -52,11 +52,11 @@ For example [HTML (Derivative)](https://github.com/textmate/html.tmbundle/blob/m
 An array of object pattern's to include.  
 If everything inside `patterns` fails with an error, then any [begin](#begin) rules will fail also.  
 If multiple conflicting rules appear, VSCode will pick the highest one from the list:  
+* [include](#include)
 * [match](#match)
 * [begin](#begin)/[while](#while)
 * [begin](#begin)/[end](#end)
 * [patterns](#patterns)
-* [include](#include)
 
 [getCompiledRuleId](https://github.com/microsoft/vscode-textmate/blob/main/src/rule.ts#L389-L447)  
 
@@ -71,8 +71,8 @@ If multiple conflicting rules appear, VSCode will pick the highest one from the 
 * [match](#match)
 * [begin](#begin)/[while](#while)
 * [begin](#begin)/[end](#end)
-* [include](#include)
 * [patterns](#patterns)
+* [include](#include)
 
 [_compilePatterns](https://github.com/microsoft/vscode-textmate/blob/main/src/rule.ts#L487-L572)  
 

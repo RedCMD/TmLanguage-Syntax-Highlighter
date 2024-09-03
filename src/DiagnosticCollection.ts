@@ -392,6 +392,99 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 		// vscode.window.showInformationMessage(performance.now() - start + "ms");
 	}
 
+	if (true) { // 'dead' TextMate code
+		// vscode.window.showInformationMessage(JSON.stringify("diagnostics TextMate dead"));
+		// const start = performance.now();
+
+		// Some queries are very performance heavy during startup +8000ms
+		const deadQuery = `;scm
+			(json (fileTypes) @fileTypes)
+			(json (firstLineMatch) @firstLineMatch)
+			(json (foldingStartMarker) @foldingStartMarker)
+			(json (foldingStopMarker) @foldingStopMarker)
+
+			(repo (repository) @repository !patterns !include)
+			;(repo (repository) @repository [(match) (begin)])
+			;(repo [(match) (begin)] (repository) @repository)
+			;(repo (patterns) @patterns (match))
+			;(repo (match) (patterns) @patterns)
+			;(repo (include) @include [(match) (begin) (patterns)])
+			;(repo [(match) (begin) (patterns)] (include) @include)
+			;(repo [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @begin (match))
+			;(repo (match) [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @begin)
+			;(repo (end) @end (while))
+			;(repo (while) (end) @end)
+			(repo [(captures) @captures (name) @name] !match !begin)
+			(repo [(while) @while (end) @end (beginCaptures) @beginCaptures (whileCaptures) @whileCaptures (endCaptures) @endCaptures (contentName) @contentName (applyEndPatternLast) @applyEndPatternLast] !begin)
+			(repo (whileCaptures) @whileCaptures !while)
+			(repo [(endCaptures) @endCaptures (applyEndPatternLast) @applyEndPatternLast] !end)
+			(repo (disabled) @disabled)
+
+			(pattern (repository) @repositoryPatterns !patterns)
+			;(pattern (repository) @repositoryPatterns [(match) (begin)])
+			;(pattern [(match) (begin)] (repository) @repositoryPatterns)
+			;(pattern (patterns) @patternsPatterns [(match) (include)])
+			;(pattern [(match) (include)] (patterns) @patternsPatterns)
+			;(pattern (match) @match (include))
+			;(pattern (include) (match) @match)
+			;(pattern [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @beginPatterns [(match) (include)])
+			;(pattern [(match) (include)] [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @beginPatterns)
+			;(pattern (match) [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @beginPatterns)
+			;(pattern (include) [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @beginPatterns)
+			(pattern [(captures) @captures (name) @name] !match !begin)
+			(pattern [(while) @while (end) @end (beginCaptures) @beginCaptures (whileCaptures) @whileCaptures (endCaptures) @endCaptures (contentName) @contentName (applyEndPatternLast) @applyEndPatternLast] !begin)
+			(pattern (whileCaptures) @whileCaptures !while)
+			(pattern [(endCaptures) @endCaptures (applyEndPatternLast) @applyEndPatternLast] !end)
+			(pattern (disabled) @disabled)
+
+			(capture (include) @includeCapture)
+			(capture [(repository) (match) (begin) (while) (end) (contentName) (captures) (beginCaptures) (whileCaptures) (endCaptures) (applyEndPatternLast) (disabled)] @capture !patterns)
+		`;
+
+		const deadCaptures = queryNode(rootNode, deadQuery);
+
+		for (const deadCapture of deadCaptures) {
+			const node = deadCapture.node;
+			const name = deadCapture.name;
+
+			const message = {
+				repository: `"repository" requires either "patterns" or "include" to be present and "match"/"begin" to be absent.`,
+				repositoryPatterns: `"repository" requires "patterns" to be present and "match", "begin" & "include" to be absent.`,
+				patterns: `"patterns" requires "match" to be absent.`,
+				patternsPatterns: `"patterns" requires "match" and "include" to be absent.`,
+				include: `"include" requires "match", "begin" and "patterns" to be absent.`,
+				includeCapture: `"include" requires "patterns" to be present and "patterns" to be absent. Rendering it useless.`,
+				match: `"match" requires "include" to be absent.`,
+				begin: `"begin" requires "match" to be absent.`,
+				beginPatterns: `"begin" requires "match" and "include" to be absent.`,
+				while: `"while" requires "begin" to be present.`,
+				end: `"end" requires "begin" to be present and "while" to be absent.`,
+				name: `"name" requires either "match" or "begin" to be present.`,
+				contentName: `"contentName" requires "begin" to be present.`,
+				captures: `"captures" requires "match", "begin", "while" or "end" to be present.`,
+				beginCaptures: `"beginCaptures" requires "begin" to be present.`,
+				whileCaptures: `"whileCaptures" requires "while" to be present.`,
+				endCaptures: `"endCaptures" requires "end" to be present.`,
+				applyEndPatternLast: `"applyEndPatternLast" requires "end" to be present.`,
+				capture: `"patterns" is required to be present.`,
+			}[name]
+				?? `"${name}" has no affect under VSCode TextMate.`;
+
+			const range = toRange(node);
+			const diagnostic: vscode.Diagnostic = {
+				range: range,
+				message: message,
+				severity: vscode.DiagnosticSeverity.Hint,
+				source: 'TextMate',
+				code: 'dead',
+				tags: [vscode.DiagnosticTag.Unnecessary],
+			};
+			diagnostics.push(diagnostic);
+		}
+
+		// vscode.window.showInformationMessage(performance.now() - start + "ms");
+	}
+
 	if (false) { // create artificial lag
 		const start = performance.now();
 		for (let i = 0; i < 200; i++) {

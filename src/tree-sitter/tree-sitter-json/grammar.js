@@ -65,7 +65,10 @@ module.exports = grammar({
 		),
 		_pattern: $ => object($,
 			choice(
-				$.include,
+				field(
+					'include',
+					$.include,
+				),
 				$.name,
 				$.contentName,
 				field(
@@ -76,8 +79,14 @@ module.exports = grammar({
 					'begin',
 					$.begin,
 				),
-				$.end,
-				$.while,
+				field(
+					'end',
+					$.end,
+				),
+				field(
+					'while',
+					$.while,
+				),
 				field(
 					'patterns',
 					$.patterns,

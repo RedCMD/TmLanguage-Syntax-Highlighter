@@ -184,15 +184,7 @@
 					"dependencies": {
 						"repository": {
 							"anyOf": [
-								{
-									"required": [ "patterns" ],
-									"properties": {
-										"patterns": {
-											"$ref": "#/definitions/patterns",
-											"suggestSortText": "@patterns"
-										}
-									}
-								},
+								{ "required": [ "patterns" ] },
 								{
 									"required": [ "include" ],
 									"properties": {
@@ -201,134 +193,6 @@
 											"suggestSortText": "@include"
 										}
 									}
-								}
-							],
-							"$comment": "Using \"not\" creates an ugly warning range in VSCode",
-							"oneOf": [
-								true,
-								{ "required": [ "match" ] },
-								{ "required": [ "begin" ] },
-								{ "required": [ "end" ] },
-								{ "required": [ "while" ] },
-								{ "required": [ "captures" ] },
-								{ "required": [ "beginCaptures" ] },
-								{ "required": [ "endCaptures" ] },
-								{ "required": [ "whileCaptures" ] },
-								{ "required": [ "applyEndPatternLast" ] },
-								{ "required": [ "name" ] },
-								{ "required": [ "contentName" ] }
-							]
-						},
-						"patterns": {
-							"$comment": "Using \"not\" creates an ugly warning range in VSCode",
-							"oneOf": [
-								true,
-								{
-									"markdownDescription": "Conflict: \"match\" has higher priority than \"patterns\"",
-									"required": [ "match" ]
-								},
-								{
-									"description": "Conflict: \"include\" has higher priority than \"patterns\"",
-									"required": [ "include" ]
-								}
-							],
-							"anyOf": [
-								{
-									"if": {
-										"oneOf": [
-											{ "required": [ "name" ] },
-											{ "required": [ "contentName" ] },
-											{ "required": [ "match" ] },
-											{ "required": [ "end" ] },
-											{ "required": [ "while" ] },
-											{ "required": [ "captures" ] },
-											{ "required": [ "beginCaptures" ] },
-											{ "required": [ "endCaptures" ] },
-											{ "required": [ "whileCaptures" ] },
-											{ "required": [ "applyEndPatternLast" ] }
-										]
-									},
-									"then": {
-										"$comment": "Only one rule paired with \"patterns\" was found, intention is unknown, show `multiple schemas` warning",
-										"oneOf": [
-											true,
-											true
-										]
-									}
-								},
-								{ "required": [ "begin" ] }
-							]
-						},
-						"include": {
-							"$comment": "Using \"not\" creates an ugly warning range in VSCode",
-							"oneOf": [
-								true,
-								{ "required": [ "name" ] },
-								{ "required": [ "contentName" ] },
-								{
-									"description": "Conflict: \"match\" has higher priority than \"include\"",
-									"required": [ "match" ]
-								},
-								{
-									"description": "Conflict: \"begin\" has higher priority than \"include\"",
-									"required": [ "begin" ]
-								},
-								{ "required": [ "end" ] },
-								{ "required": [ "while" ] },
-								{ "required": [ "captures" ] },
-								{ "required": [ "beginCaptures" ] },
-								{ "required": [ "endCaptures" ] },
-								{ "required": [ "whileCaptures" ] },
-								{ "required": [ "applyEndPatternLast" ] }
-							]
-						},
-						"name": {
-							"if": { "required": [ "patterns" ] },
-							"then": {
-								"required": [ "begin" ],
-								"properties": {
-									"begin": {
-										"$ref": "#/definitions/begin",
-										"suggestSortText": "@begin"
-									}
-								}
-							},
-							"else": {
-								"anyOf": [
-									{
-										"required": [ "match" ],
-										"properties": {
-											"begin": {
-												"$ref": "#/definitions/match",
-												"suggestSortText": "@match"
-											}
-										}
-									},
-									{
-										"required": [ "begin" ],
-										"properties": {
-											"begin": {
-												"$ref": "#/definitions/begin",
-												"suggestSortText": "@begin"
-											}
-										}
-									}
-								]
-							}
-						},
-						"contentName": {
-							"required": [ "begin" ],
-							"properties": {
-								"begin": {
-									"$ref": "#/definitions/begin",
-									"suggestSortText": "@begin"
-								}
-							},
-							"oneOf": [
-								true,
-								{
-									"description": "Conflict: \"contentName\" does not work with \"match\"",
-									"required": [ "match" ]
 								}
 							]
 						}
@@ -359,177 +223,11 @@
 							"repository": {
 								"required": [ "patterns" ],
 								"properties": {
-									"patterns": {
-										"$ref": "#/definitions/patterns",
-										"suggestSortText": "@patterns"
+									"include": {
+										"$ref": "#/definitions/include",
+										"suggestSortText": "~include"
 									}
-								},
-								"$comment": "Using \"not\" creates an ugly warning range in VSCode",
-								"oneOf": [
-									true,
-									{ "required": [ "include" ] },
-									{ "required": [ "match" ] },
-									{ "required": [ "begin" ] },
-									{ "required": [ "end" ] },
-									{ "required": [ "while" ] },
-									{ "required": [ "captures" ] },
-									{ "required": [ "beginCaptures" ] },
-									{ "required": [ "endCaptures" ] },
-									{ "required": [ "whileCaptures" ] },
-									{ "required": [ "applyEndPatternLast" ] },
-									{ "required": [ "name" ] },
-									{ "required": [ "contentName" ] }
-								]
-							},
-							"patterns": {
-								"$comment": "Using \"not\" creates an ugly warning range in VSCode",
-								"oneOf": [
-									true,
-									{
-										"description": "Conflict: \"match\" has higher priority than \"patterns\"",
-										"required": [ "match" ]
-									}
-								],
-								"anyOf": [
-									{
-										"if": {
-											"oneOf": [
-												{ "required": [ "name" ] },
-												{ "required": [ "contentName" ] },
-												{ "required": [ "match" ] },
-												{ "required": [ "end" ] },
-												{ "required": [ "while" ] },
-												{ "required": [ "captures" ] },
-												{ "required": [ "beginCaptures" ] },
-												{ "required": [ "endCaptures" ] },
-												{ "required": [ "whileCaptures" ] },
-												{ "required": [ "applyEndPatternLast" ] }
-											]
-										},
-										"then": {
-											"$comment": "Only one rule paired with \"patterns\" was found, intention is unknown, show `multiple schemas` warning",
-											"oneOf": [
-												true,
-												true
-											]
-										}
-									},
-									{ "required": [ "begin" ] }
-								]
-							},
-							"include": {
-								"$comment": "Using \"not\" creates an ugly warning range in VSCode",
-								"oneOf": [
-									true,
-									{
-										"description": "Conflict: \"name\" does not work with \"include\"",
-										"required": [ "name" ]
-									},
-									{
-										"description": "Conflict: \"contentName\" does not work with \"include\"",
-										"required": [ "contentName" ]
-									},
-									{
-										"description": "Conflict: \"match\" has higher priority than \"include\"",
-										"required": [ "match" ]
-									},
-									{
-										"description": "Conflict: \"begin\" has higher priority than \"include\"",
-										"required": [ "begin" ]
-									},
-									{
-										"description": "Conflict: \"end\" does not work with \"include\"",
-										"required": [ "end" ]
-									},
-									{
-										"description": "Conflict: \"while\" does not work with \"include\"",
-										"required": [ "while" ]
-									},
-									{
-										"description": "Conflict: \"captures\" does not work with \"include\"",
-										"required": [ "captures" ]
-									},
-									{
-										"description": "Conflict: \"beginCaptures\" does not work with \"include\"",
-										"required": [ "beginCaptures" ]
-									},
-									{
-										"description": "Conflict: \"endCaptures\" does not work with \"include\"",
-										"required": [ "endCaptures" ]
-									},
-									{
-										"description": "Conflict: \"whileCaptures\" does not work with \"include\"",
-										"required": [ "whileCaptures" ]
-									},
-									{
-										"description": "Conflict: \"applyEndPatternLast\" does not work with \"include\"",
-										"required": [ "applyEndPatternLast" ]
-									},
-									{
-										"description": "Conflict: \"patterns\" has higher priority than \"include\"",
-										"required": [ "patterns" ]
-									}
-								]
-							},
-							"name": {
-								"if": { "required": [ "patterns" ] },
-								"then": {
-									"properties": {
-										"begin": {
-											"$ref": "#/definitions/begin",
-											"suggestSortText": "@begin"
-										}
-									},
-									"anyOf": [
-										{ "required": [ "begin" ] },
-										{ "required": [ "end" ] },
-										{ "required": [ "while" ] },
-										{ "required": [ "beginCaptures" ] },
-										{ "required": [ "endCaptures" ] },
-										{ "required": [ "whileCaptures" ] }
-									]
-								},
-								"else": {
-									"anyOf": [
-										{
-											"required": [ "match" ],
-											"properties": {
-												"match": {
-													"$ref": "#/definitions/match",
-													"suggestSortText": "@match"
-												}
-											}
-										},
-										{ "required": [ "begin" ] },
-										{ "required": [ "end" ] },
-										{ "required": [ "while" ] },
-										{ "required": [ "beginCaptures" ] },
-										{ "required": [ "endCaptures" ] },
-										{ "required": [ "whileCaptures" ] },
-										{ "required": [ "contentName" ] }
-									]
 								}
-							},
-							"contentName": {
-								"required": [ "begin" ],
-								"properties": {
-									"begin": {
-										"$ref": "#/definitions/begin",
-										"suggestSortText": "@begin"
-									},
-									"match": {
-										"$ref": "#/definitions/match",
-										"suggestSortText": "~match"
-									}
-								},
-								"$comment": "Using \"not\" creates an ugly warning range in VSCode",
-								"oneOf": [
-									true,
-									{
-										"required": [ "match" ],
-										"description": "Conflict: \"contentName\" cant target \"match\""
-									}
-								]
 							}
 						}
 					},
@@ -611,24 +309,14 @@
 							"$ref": "#/definitions/repository",
 							"suggestSortText": "~repository"
 						}
-					},
-					"$comment": "Using \"not\" creates an ugly warning range in VSCode",
-					"oneOf": [
-						true,
-						{
-							"description": "Conflict: \"match\" has higher priority than \"begin\"",
-							"required": [ "begin" ]
-						},
-						{ "required": [ "end" ] },
-						{ "required": [ "while" ] },
-						{ "required": [ "beginCaptures" ] },
-						{ "required": [ "endCaptures" ] },
-						{ "required": [ "whileCaptures" ] },
-						{ "required": [ "applyEndPatternLast" ] }
-					]
+					}
 				},
 				"begin": {
 					"properties": {
+						"match": {
+							"$ref": "#/definitions/match",
+							"suggestSortText": "~match"
+						},
 						"beginCaptures": {
 							"$ref": "#/definitions/beginCaptures",
 							"suggestSortText": "@beginCaptures"
@@ -649,41 +337,27 @@
 							"$ref": "#/definitions/repository",
 							"suggestSortText": "~repository"
 						},
-						"match": {
-							"$ref": "#/definitions/match",
-							"suggestSortText": "~match"
-						},
 						"include": {
 							"$ref": "#/definitions/include",
 							"suggestSortText": "~include"
 						}
 					},
-					"allOf": [
+					"oneOf": [
 						{
-							"oneOf": [
-								{ "required": [ "end" ] },
-								{ "required": [ "while" ] }
-							]
-						},
-						{
-							"if": { "required": [ "while" ] },
-							"else": {
-								"properties": {
-									"end": {
-										"$ref": "#/definitions/end",
-										"suggestSortText": "!end"
-									}
+							"required": [ "end" ],
+							"properties": {
+								"end": {
+									"$ref": "#/definitions/end",
+									"suggestSortText": "!end"
 								}
 							}
 						},
 						{
-							"if": { "required": [ "end" ] },
-							"else": {
-								"properties": {
-									"while": {
-										"$ref": "#/definitions/while",
-										"suggestSortText": "!while"
-									}
+							"required": [ "while" ],
+							"properties": {
+								"while": {
+									"$ref": "#/definitions/while",
+									"suggestSortText": "@while"
 								}
 							}
 						}
@@ -692,6 +366,10 @@
 				"while": {
 					"required": [ "begin" ],
 					"properties": {
+						"match": {
+							"$ref": "#/definitions/match",
+							"suggestSortText": "~match"
+						},
 						"begin": {
 							"$ref": "#/definitions/begin",
 							"suggestSortText": "@begin"
@@ -711,12 +389,24 @@
 						"endCaptures": {
 							"$ref": "#/definitions/endCaptures",
 							"suggestSortText": "~endCaptures"
+						},
+						"include": {
+							"$ref": "#/definitions/include",
+							"suggestSortText": "~include"
+						},
+						"repository": {
+							"$ref": "#/definitions/repository",
+							"suggestSortText": "~repository"
 						}
 					}
 				},
 				"end": {
 					"required": [ "begin" ],
 					"properties": {
+						"match": {
+							"$ref": "#/definitions/match",
+							"suggestSortText": "~match"
+						},
 						"begin": {
 							"$ref": "#/definitions/begin",
 							"suggestSortText": "!!begin"
@@ -736,27 +426,30 @@
 						"whileCaptures": {
 							"$ref": "#/definitions/whileCaptures",
 							"suggestSortText": "~whileCaptures"
+						},
+						"include": {
+							"$ref": "#/definitions/include",
+							"suggestSortText": "~include"
+						},
+						"repository": {
+							"$ref": "#/definitions/repository",
+							"suggestSortText": "~repository"
 						}
-					},
-					"oneOf": [
-						true,
-						{
-							"required": [ "while" ],
-							"description": "Conflict: \"while\" has higher priority than \"end\""
-						}
-					]
+					}
 				},
 				"captures": {
 					"if": { "required": [ "patterns" ] },
 					"then": {
-						"properties": {
-							"begin": {
-								"$ref": "#/definitions/begin",
-								"suggestSortText": "@begin"
-							}
-						},
 						"anyOf": [
-							{ "required": [ "begin" ] },
+							{
+								"required": [ "begin" ],
+								"properties": {
+									"begin": {
+										"$ref": "#/definitions/begin",
+										"suggestSortText": "@begin"
+									}
+								}
+							},
 							{ "required": [ "end" ] },
 							{ "required": [ "while" ] }
 						]
@@ -781,28 +474,35 @@
 							{ "required": [ "contentName" ] }
 						]
 					},
-					"oneOf": [
-						true,
-						{
-							"description": "Conflict: \"beginCaptures\"/\"endCaptures\"/\"whileCaptures\" has higher priority than \"captures\"",
-							"allOf": [
-								{ "required": [ "beginCaptures" ] },
-								{
-									"anyOf": [
-										{ "required": [ "endCaptures" ] },
-										{ "required": [ "whileCaptures" ] }
-									]
-								}
-							]
+					"properties": {
+						"include": {
+							"$ref": "#/definitions/include",
+							"suggestSortText": "~include"
+						},
+						"repository": {
+							"$ref": "#/definitions/repository",
+							"suggestSortText": "~repository"
 						}
-					]
+					}
 				},
 				"beginCaptures": {
 					"required": [ "begin" ],
 					"properties": {
+						"match": {
+							"$ref": "#/definitions/match",
+							"suggestSortText": "~match"
+						},
 						"begin": {
 							"$ref": "#/definitions/begin",
 							"suggestSortText": "@begin"
+						},
+						"include": {
+							"$ref": "#/definitions/include",
+							"suggestSortText": "~include"
+						},
+						"repository": {
+							"$ref": "#/definitions/repository",
+							"suggestSortText": "~repository"
 						}
 					}
 				},
@@ -811,13 +511,11 @@
 						"while",
 						"begin"
 					],
-					"$comment": "Using \"not\" creates an ugly warning range in VSCode",
-					"oneOf": [
-						true,
-						{ "required": [ "end" ] },
-						{ "required": [ "endCaptures" ] }
-					],
 					"properties": {
+						"match": {
+							"$ref": "#/definitions/match",
+							"suggestSortText": "~match"
+						},
 						"begin": {
 							"$ref": "#/definitions/begin",
 							"suggestSortText": "@begin"
@@ -833,6 +531,14 @@
 						"endCaptures": {
 							"$ref": "#/definitions/endCaptures",
 							"suggestSortText": "~endCaptures"
+						},
+						"include": {
+							"$ref": "#/definitions/include",
+							"suggestSortText": "~include"
+						},
+						"repository": {
+							"$ref": "#/definitions/repository",
+							"suggestSortText": "~repository"
 						}
 					}
 				},
@@ -841,12 +547,41 @@
 						"end",
 						"begin"
 					],
-					"$comment": "Using \"not\" creates an ugly warning range in VSCode",
-					"oneOf": [
-						true,
-						{ "required": [ "match" ] },
-						{ "required": [ "while" ] },
-						{ "required": [ "whileCaptures" ] }
+					"properties": {
+						"match": {
+							"$ref": "#/definitions/match",
+							"suggestSortText": "~match"
+						},
+						"begin": {
+							"$ref": "#/definitions/begin",
+							"suggestSortText": "@begin"
+						},
+						"end": {
+							"$ref": "#/definitions/end",
+							"suggestSortText": "@end"
+						},
+						"while": {
+							"$ref": "#/definitions/while",
+							"suggestSortText": "~while"
+						},
+						"whileCaptures": {
+							"$ref": "#/definitions/whileCaptures",
+							"suggestSortText": "~whileCaptures"
+						},
+						"include": {
+							"$ref": "#/definitions/include",
+							"suggestSortText": "~include"
+						},
+						"repository": {
+							"$ref": "#/definitions/repository",
+							"suggestSortText": "~repository"
+						}
+					}
+				},
+				"applyEndPatternLast": {
+					"required": [
+						"begin",
+						"end"
 					],
 					"properties": {
 						"begin": {
@@ -864,30 +599,89 @@
 						"whileCaptures": {
 							"$ref": "#/definitions/whileCaptures",
 							"suggestSortText": "~whileCaptures"
+						},
+						"include": {
+							"$ref": "#/definitions/include",
+							"suggestSortText": "~include"
+						},
+						"repository": {
+							"$ref": "#/definitions/repository",
+							"suggestSortText": "~repository"
 						}
 					}
 				},
-				"applyEndPatternLast": {
-					"required": [
-						"begin",
-						"end"
-					],
+				"contentName": {
+					"required": [ "begin" ],
 					"properties": {
 						"begin": {
 							"$ref": "#/definitions/begin",
 							"suggestSortText": "@begin"
 						},
+						"match": {
+							"$ref": "#/definitions/match",
+							"suggestSortText": "~match"
+						},
+						"include": {
+							"$ref": "#/definitions/include",
+							"suggestSortText": "~include"
+						},
+						"repository": {
+							"$ref": "#/definitions/repository",
+							"suggestSortText": "~repository"
+						}
+					}
+				},
+				"repository": {
+					"properties": {
+						"match": {
+							"$ref": "#/definitions/match",
+							"suggestSortText": "~match"
+						},
+						"begin": {
+							"$ref": "#/definitions/begin",
+							"suggestSortText": "~begin"
+						},
 						"end": {
 							"$ref": "#/definitions/end",
-							"suggestSortText": "@end"
+							"suggestSortText": "~end"
+						},
+						"while": {
+							"$ref": "#/definitions/while",
+							"suggestSortText": "~while"
+						},
+						"captures": {
+							"$ref": "#/definitions/captures",
+							"suggestSortText": "~captures"
+						},
+						"beginCaptures": {
+							"$ref": "#/definitions/beginCaptures",
+							"suggestSortText": "~beginCaptures"
+						},
+						"endCaptures": {
+							"$ref": "#/definitions/endCaptures",
+							"suggestSortText": "~endCaptures"
+						},
+						"whileCaptures": {
+							"$ref": "#/definitions/whileCaptures",
+							"suggestSortText": "~whileCaptures"
+						},
+						"applyEndPatternLast": {
+							"$ref": "#/definitions/applyEndPatternLast",
+							"suggestSortText": "~applyEndPatternLast"
+						},
+						"patterns": {
+							"$ref": "#/definitions/patterns",
+							"suggestSortText": "!patterns"
+						},
+						"name": {
+							"$ref": "#/definitions/name",
+							"suggestSortText": "~name"
+						},
+						"contentName": {
+							"$ref": "#/definitions/contentName",
+							"suggestSortText": "~contentName"
 						}
-					},
-					"$comment": "Using \"not\" creates an ugly warning range in VSCode",
-					"oneOf": [
-						true,
-						{ "required": [ "while" ] },
-						{ "required": [ "whileCaptures" ] }
-					]
+					}
 				}
 			}
 		},
@@ -1026,7 +820,8 @@
 				"patterns": {
 					"$comment": "Change `false` to `true` to show a warning on \"patterns\" inside a (capture)",
 					"if": false,
-					"then": { "deprecationMessage": "A \"patterns\" array inside a (capture) causes a performance hit" },
+					"then": { "deprecationMessage": "A \"patterns\" array inside a (capture) causes a performance hit when at the end of a long line." },
+					"else": { "description": "A \"patterns\" array inside a (capture) causes a performance hit when at the end of a long line." },
 					"$ref": "#/definitions/patterns",
 					"suggestSortText": "@patterns"
 				},
@@ -1066,17 +861,12 @@
 				"whileCaptures": { "required": [ "patterns", "begin", "while" ] },
 				"repository": {
 					"required": [ "patterns" ],
-					"oneOf": [
-						true,
-						{
-							"description": "Conflict: \"match\" effectively disables \"repository\"",
-							"required": [ "match" ]
-						},
-						{
-							"description": "Conflict: \"begin\" effectively disables \"repository\"",
-							"required": [ "begin" ]
+					"properties": {
+						"patterns": {
+							"$ref": "#/definitions/patterns",
+							"suggestSortText": "!patterns"
 						}
-					]
+					}
 				}
 			}
 		},
@@ -1102,7 +892,7 @@
 				"integer",
 				"null"
 			],
-			"default": true
+			"default": 1
 		},
 		"include": {
 			"description": "Reference an item in a repository",
