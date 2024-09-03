@@ -169,17 +169,18 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 
 	if (true) { // TreeSitter Regex errors
 		// vscode.window.showInformationMessage(JSON.stringify("diagnostics Regex"));
+		// const start = performance.now();
 		const regexTrees = trees.regexTrees;
 		for (const id in regexTrees) {
 			const tree = regexTrees[id];
 			// vscode.window.showInformationMessage(JSON.stringify(tree.rootNode.toString()));
 
-			const queryString = `
+			const queryString = `;scm
 				(ERROR) @ERROR
 				(error) @error
 				(quantifier) @quantifier
 				(character_property_name) @property
-				_ @missing ;Only the last child node can be missing
+				(_ _ @missing (#eq? @missing ""))
 			`;
 			const queryCaptures = queryNode(tree.rootNode, queryString);
 
@@ -281,6 +282,7 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 				// vscode.window.showInformationMessage(JSON.stringify(diagnostic));
 			}
 		}
+		// vscode.window.showInformationMessage(performance.now() - start + "ms");
 	}
 
 	if (true) { // Oniguruma Regex errors. https://github.com/kkos/oniguruma
