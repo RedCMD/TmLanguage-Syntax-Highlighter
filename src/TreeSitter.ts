@@ -83,15 +83,28 @@ export function getLastNode(rootNode: Parser.SyntaxNode, type: string) {
 	}
 }
 
+const queryCache: { [query: string]: Parser.Query; } = {};
+
 export function queryNode(node: Parser.SyntaxNode, queryString: string): Parser.QueryCapture[];
 export function queryNode(node: Parser.SyntaxNode, queryString: string, point: Parser.Point): Parser.QueryCapture | null;
 export function queryNode(node: Parser.SyntaxNode, queryString: string, point: Parser.Point, mustIntersectPoint: false): Parser.QueryCapture | undefined;
 export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoint: Parser.Point, endPoint: Parser.Point): Parser.QueryCapture[];
 export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoint?: Parser.Point, endPoint?: Parser.Point | false): Parser.QueryCapture[] | Parser.QueryCapture | null | undefined {
-	const language = node.tree.getLanguage();
 	// const start = performance.now();
-	const query = language.query(queryString);
-	query.disableCapture('_ignore_');
+	let query = queryCache[queryString];
+	// query = null;
+
+	if (query == null) {
+		const language = node.tree.getLanguage();
+		// const start = performance.now();
+		query = language.query(queryString);
+		// vscode.window.showInformationMessage(`${(performance.now() - start).toFixed(1)}ms: ${queryString}`);
+		query.disableCapture('_ignore_');
+		queryCache[queryString] = query;
+		// vscode.window.showInformationMessage(JSON.stringify(query, stringify));
+		// vscode.window.showInformationMessage(JSON.stringify(queryString));
+	}
+
 	// vscode.window.showInformationMessage(performance.now() - start + "ms");
 	const queryOptions: Parser.QueryOptions = {
 		startPosition: startPoint,
