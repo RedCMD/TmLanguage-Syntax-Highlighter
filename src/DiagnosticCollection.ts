@@ -120,22 +120,51 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 	const diagnostics: vscode.Diagnostic[] = [];
 
 	if (true) { // TreeSitter JSON errors
-		// vscode.window.showInformationMessage(JSON.stringify("diagnostics JSON"))
-		const queryCaptures = queryNode(rootNode, `(ERROR) @ERROR`);
+		// vscode.window.showInformationMessage(JSON.stringify("diagnostics JSON"));
+		// const start = performance.now();
+		const queryString = `;scm
+			(ERROR) @ERROR
+			(_ _ @missing (#eq? @missing ""))
+		`;
+		const queryCaptures = queryNode(rootNode, queryString);
 
 		for (const queryCapture of queryCaptures) {
 			const node = queryCapture.node;
+			const type = node.type;
 			const text = node.text;
 			const range = toRange(node);
-			const diagnostic = new vscode.Diagnostic(
-				range,
-				`ERROR: \`${text}\``,
-				vscode.DiagnosticSeverity.Error,
-			);
-			diagnostic.source = 'JSON TextMate TreeSitter';
+			const parent = trueParent(node);
+			const parentType = parent.type;
+
+			let diagnostic: vscode.Diagnostic;
+			const name = queryCapture.name;
+			switch (name) {
+				case 'ERROR':
+					diagnostic = {
+						range: range,
+						message: `ERROR: \`${text}\``,
+						severity: vscode.DiagnosticSeverity.Error,
+						source: 'JSON TextMate TreeSitter',
+					};
+					break;
+				case 'missing':
+					if (!node.isMissing) {
+						continue;
+					}
+					diagnostic = {
+						range: range,
+						message: `'${parentType}' is missing character${type.length > 1 ? 's' : ''} '${type}'`,
+						severity: vscode.DiagnosticSeverity.Error,
+						source: 'TreeSitter',
+					};
+					break;
+
+			}
+			diagnostic.code = name;
 			diagnostics.push(diagnostic);
 			// vscode.window.showInformationMessage(JSON.stringify(text));
 		}
+		// vscode.window.showInformationMessage(performance.now() - start + "ms");
 	}
 
 	if (true) { // TreeSitter Regex errors

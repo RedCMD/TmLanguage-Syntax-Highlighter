@@ -10,7 +10,7 @@ module.exports = grammar({
 		//$._whitespace,
 	],
 	externals: $ => [
-		$._forceStringNode, // Forces a 0width empty node if it is before a double quote " . Useful when querrying the resulting syntax tree
+		$._forceStringNode, // Forces a 0width empty node if it is before a double quote " . Useful when querying the resulting syntax tree
 		$.ERROR,
 	],
 
@@ -525,6 +525,11 @@ module.exports = grammar({
 				),
 			),
 		),
+
+		_comma: $ => seq(
+			repeat($._whitespace),
+			',',
+		),
 	},
 });
 
@@ -561,7 +566,7 @@ function array($, rule) {
 /**
  * Boiler plate for creating comma seperated rules. `rule, rule...`
  * @param {GrammarSymbols<string>} $
- * @param {RuleOrLiteral} rule 
+ * @param {RuleOrLiteral} rule
  * @returns {Rule}
  */
 function commaSep($, rule) {
@@ -571,22 +576,12 @@ function commaSep($, rule) {
 			rule,
 			repeat(
 				seq(
-					optional( // missing comma was causing too many errors
-						seq(
-							repeat($._whitespace),
-							',',
-						),
-					),
+					$._comma,
 					repeat($._whitespace),
 					rule,
 				),
 			),
-			optional( // trailing comma
-				seq(
-					repeat($._whitespace),
-					',',
-				)
-			),
+			optional($._comma), // trailing comma
 		),
 	);
 }
@@ -595,7 +590,7 @@ function commaSep($, rule) {
  * Boiler plate for creating a json pair. `key: value`
  * @param {GrammarSymbols<string>} $
  * @param {RuleOrLiteral} key string
- * @param {RuleOrLiteral} value 
+ * @param {RuleOrLiteral} value
  * @returns {Rule}
  */
 function pair($, key, value) {
@@ -611,9 +606,13 @@ function pair($, key, value) {
 				),
 			),
 			repeat($._whitespace),
-			':',
-			repeat($._whitespace),
-			optional(value), // TS bad at error recovery
+			optional(
+				seq(
+					':',
+					repeat($._whitespace),
+					optional(value), // TS bad at error recovery
+				),
+			),
 		),
 	);
 }
