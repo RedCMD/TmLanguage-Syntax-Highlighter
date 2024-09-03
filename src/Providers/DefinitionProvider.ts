@@ -3,16 +3,31 @@ import { getTrees, getTree, toRange, toPoint, queryNode, trees, getLastNode } fr
 import { DocumentSelector, stringify } from "../extension";
 import { Point, SyntaxNode } from 'web-tree-sitter';
 
+let previous: {
+	position: vscode.Position;
+	uriString: string;
+	definitions: vscode.DefinitionLink[];
+};
+
 
 export const DefinitionProvider: vscode.DefinitionProvider = {
 	async provideDefinition(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Promise<vscode.DefinitionLink[]> {
 		// vscode.window.showInformationMessage(JSON.stringify("Definition"));
+
+		const uriString = document.uri.toString();
+		if (previous &&
+			position.isEqual(previous.position) &&
+			previous.uriString == uriString) {
+			// vscode.window.showInformationMessage(JSON.stringify(previous));
+			return previous.definitions;
+		}
+
 		const trees = getTrees(document);
 		const tree = trees.jsonTree;
 		const point = toPoint(position);
 		// vscode.window.showInformationMessage(JSON.stringify(tree.rootNode.namedDescendantForPosition(point).text));
 
-		const cursorQuery = `
+		const cursorQuery = `;scm
 			(json (scopeName (value) @scopeName))
 			(repo (key) @repo)
 			(include (value) @include)
@@ -76,7 +91,7 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 										targetUri: textDocument.uri,
 										targetRange: new vscode.Range(0, 0, textDocument.lineCount, 1000), // Hover text
 										targetSelectionRange: new vscode.Range(0, 0, textDocument.lineCount + 1, 0) // Highlighted text
-									}
+									};
 									definitions.push(definitionLink);
 								}
 							}
@@ -121,7 +136,7 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 						targetUri: document.uri,
 						targetRange: rootPatternsRange, // Hover text
 						targetSelectionRange: targetSelectionRange // Highlighted text
-					}
+					};
 					definitions.push(locationLink);
 					break;
 				}
@@ -138,7 +153,7 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 							targetUri: document.uri,
 							targetRange: toRange(nestedRepoNode.parent), // Hover text
 							targetSelectionRange: toRange(nestedRepoNode) // Highlighted text
-						}
+						};
 						definitions.push(locationLink);
 						break;
 					}
@@ -151,7 +166,7 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 							targetUri: document.uri,
 							targetRange: toRange(rootRepoNode.parent), // Hover text
 							targetSelectionRange: toRange(rootRepoNode) // Highlighted text
-						}
+						};
 						definitions.push(locationLink);
 					}
 					break;
@@ -185,7 +200,7 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 									targetUri: textDocument.uri,
 									targetRange: toRange(repoNode.parent), // Hover text
 									targetSelectionRange: toRange(repoNode) // Highlighted text
-								}
+								};
 								definitions.push(locationLink);
 							}
 						}
@@ -197,7 +212,7 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 								targetUri: textDocument.uri,
 								targetRange: toRange(documentPatternsNode), // Hover text
 								targetSelectionRange: toRange(documentScopeNameNode) // Highlighted text
-							}
+							};
 							definitions.push(locationLink);
 						}
 					}
@@ -321,7 +336,7 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 						targetUri: document.uri,
 						targetRange: targetRange, // Hover text
 						targetSelectionRange: targetRange // Highlighted text
-					}
+					};
 					definitions.push(regexLocationLink);
 				}
 				return definitions;
@@ -335,10 +350,15 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 			pushDefinitionLink(definitions, node.parent, originSelectionRange, uri);
 		}
 
+		previous = {
+			position: position,
+			uriString: uriString,
+			definitions: definitions,
+		};
 		// vscode.window.showInformationMessage(JSON.stringify(definitions));
 		return definitions;
 	}
-}
+};
 
 function pushDefinitionLink(definitions: vscode.LocationLink[], node: SyntaxNode, originSelectionRange: vscode.Range, uri: vscode.Uri) {
 	if (!node) {
@@ -350,7 +370,7 @@ function pushDefinitionLink(definitions: vscode.LocationLink[], node: SyntaxNode
 		targetUri: uri, // Target doc
 		targetRange: targetRange, // Hover text
 		targetSelectionRange: targetRange // Highlighted text
-	}
+	};
 	definitions.push(locationLink);
 	return true;
 }
@@ -359,7 +379,7 @@ function getCaptureRefs(trees: trees, node: SyntaxNode, position: vscode.Positio
 	const regexTrees = trees.regexTrees;
 	const regexNode = regexTrees[node.id]?.rootNode;
 
-	const captureGroupQuery = `
+	const captureGroupQuery = `;scm
 		(capture_group) @group
 		(capture_group_extended) @group
 		(capture_group_name) @name
@@ -381,7 +401,7 @@ function getCaptureRefs(trees: trees, node: SyntaxNode, position: vscode.Positio
 	if (!groupNode) {
 		return;
 	}
-	const groupSyntaxQuery = `
+	const groupSyntaxQuery = `;scm
 		"(" @open
 		")" @close
 		"(?<" @open
@@ -400,7 +420,7 @@ function getCaptureRefs(trees: trees, node: SyntaxNode, position: vscode.Positio
 		return;
 	}
 
-	const targetQuery = `
+	const targetQuery = `;scm
 		;(regex (subroutine (number)) @subroutine)
 		(regex (subroutine (number)) @subroutine (#eq? @subroutine "\\\\\\\\g<${index}>"))
 	`;
@@ -409,7 +429,7 @@ function getCaptureRefs(trees: trees, node: SyntaxNode, position: vscode.Positio
 	vscode.window.showInformationMessage(JSON.stringify(regexNode.toString()));
 	vscode.window.showInformationMessage(JSON.stringify(targetCaptures));
 
-	return { range: toRange(groupNode), captures: targetCaptures }
+	return { range: toRange(groupNode), captures: targetCaptures };
 }
 
 function getRegexGroup(trees: trees, parentNode: SyntaxNode, captureNode: SyntaxNode, type: string): SyntaxNode {
@@ -425,7 +445,7 @@ function getRegexGroup(trees: trees, parentNode: SyntaxNode, captureNode: Syntax
 	if (index == 0) {
 		return regexNode;
 	}
-	const query = `
+	const query = `;scm
 		(capture_group) @group
 		(capture_group_extended) @group
 		(capture_group_name) @name
