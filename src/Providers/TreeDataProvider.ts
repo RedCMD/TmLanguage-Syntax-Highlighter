@@ -1,10 +1,9 @@
 import * as vscode from 'vscode';
 import * as vscodeTextmate from "../textmate/main";
 // import * as vscodeTextmate from 'vscode-textmate';
-import { tokenizeFile } from "../TextMate";
+import { grammarLanguages, tokenizeFile } from "../TextMate";
 import { IGrammar, IToken, RuleId, endRuleId, whileRuleId } from "../ITextMate";
 import { stringify } from "../extension";
-import { IRelaxedExtensionManifest } from "../extensions";
 import { IRawCaptures, IRawRule } from "../textmate/rawGrammar";
 import { getTrees, queryNode, toRange } from "../TreeSitter";
 import { getScopes, getSubScope } from "../themeScopeColors";
@@ -683,44 +682,19 @@ async function gotoGrammar(element: element) {
 	const document = element.document;
 
 	if (id == -2) {
-		const lang = document.languageId;
-		for (const extension of vscode.extensions.all) {
-			const packageJSON: IRelaxedExtensionManifest = extension.packageJSON;
-			const grammars = packageJSON.contributes?.grammars;
-			if (grammars) {
-				for (const grammar of grammars) {
-					if (grammar.language == lang) {
-						const path = grammar.path;
-						if (path) {
-							const uri = vscode.Uri.joinPath(extension.extensionUri, 'package.json');
-							vscode.window.showTextDocument(uri);
-							return;
-						}
-					}
-				}
-			}
+		const extensionUri = grammarLanguages.languageId[document.languageId]?.grammar.extensionUri;
+		if (extensionUri) {
+			const uri = vscode.Uri.joinPath(extensionUri, 'package.json');
+			vscode.window.showTextDocument(uri);
 		}
 		return;
 	}
 
 
 	if (id == -1) {
-		const lang = document.languageId;
-		for (const extension of vscode.extensions.all) {
-			const packageJSON: IRelaxedExtensionManifest = extension.packageJSON;
-			const grammars = packageJSON.contributes?.grammars;
-			if (grammars) {
-				for (const grammar of grammars) {
-					if (grammar.language == lang) {
-						const path = grammar.path;
-						if (path) {
-							const uri = vscode.Uri.joinPath(extension.extensionUri, path);
-							vscode.window.showTextDocument(uri);
-							return;
-						}
-					}
-				}
-			}
+		const uri = grammarLanguages.languageId[document.languageId]?.grammar.uri;
+		if (uri) {
+			vscode.window.showTextDocument(uri);
 		}
 		return;
 	}
@@ -791,19 +765,25 @@ async function gotoGrammar(element: element) {
 
 	// vscode.window.showInformationMessage(JSON.stringify(ruleId));
 	let path = allChildren(grammar._grammar, ruleId);
-	let grammarDoc;
+	let grammarDoc: vscode.TextDocument;
 	if (!path) {
 		for (const key in grammar._includedGrammars) {
 			const includedGrammar = grammar._includedGrammars[key];
 			path = allChildren(includedGrammar, ruleId);
 			if (path) {
-				grammarDoc = await getGrammarDocumentScopeName(includedGrammar.scopeName);
-				break;
+				const uri = grammarLanguages.scopeName[includedGrammar.scopeName]?.uri;
+				if (uri) {
+					grammarDoc = await vscode.workspace.openTextDocument(uri);
+					break;
+				}
 			}
 		}
 	}
 	else {
-		grammarDoc = await getGrammarDocument(document);
+		const uri = grammarLanguages.languageId[document.languageId]?.grammar.uri;
+		if (uri) {
+			grammarDoc = await vscode.workspace.openTextDocument(uri);
+		}
 	}
 	vscode.window.showInformationMessage(JSON.stringify(path) + " Capture: " + capturesIndex);
 
@@ -985,51 +965,6 @@ function allChildren(rules: vscodeTextmate.IRawGrammar | IRawRule, ruleId: numbe
 				}
 			default:
 				break;
-		}
-	}
-}
-
-async function getGrammarDocument(document: vscode.TextDocument) {
-	const lang = document.languageId;
-	for (const extension of vscode.extensions.all) {
-		const packageJSON: IRelaxedExtensionManifest = extension.packageJSON;
-		const grammars = packageJSON.contributes?.grammars;
-		if (grammars) {
-			for (const grammar of grammars) {
-				if (grammar.language == lang) {
-					const path = grammar.path;
-					if (path) {
-						const uri = vscode.Uri.joinPath(extension.extensionUri, path);
-						const grammarDoc = await vscode.workspace.openTextDocument(uri);
-						if (grammarDoc) {
-							return grammarDoc;
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-async function getGrammarDocumentScopeName(scopeName: string) {
-	for (const extension of vscode.extensions.all) {
-		const packageJSON: IRelaxedExtensionManifest = extension.packageJSON;
-		const grammars = packageJSON.contributes?.grammars;
-		if (grammars) {
-			for (const grammar of grammars) {
-				if (grammar.scopeName == scopeName) {
-					const path = grammar.path;
-					if (path) {
-						const uri = vscode.Uri.joinPath(extension.extensionUri, path);
-						if (uri.scheme != 'untitled') {
-							const document = await vscode.workspace.openTextDocument(uri);
-							if (document) {
-								return document;
-							}
-						}
-					}
-				}
-			}
 		}
 	}
 }

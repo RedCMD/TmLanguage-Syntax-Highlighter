@@ -1,19 +1,22 @@
 import * as vscode from 'vscode';
 import { QueryCapture } from 'web-tree-sitter';
 import { getTrees, queryNode, toRange } from "../TreeSitter";
+import { grammarLanguages } from '../TextMate';
+import { IRelaxedExtensionManifest } from '../extensions';
 
 type codeLen = vscode.CodeLens & {
-	capture?: QueryCapture,
-	document?: vscode.TextDocument
+	capture?: QueryCapture;
+	document?: vscode.TextDocument;
 };
 
 export const CodeLensProvider: vscode.CodeLensProvider = {
 	provideCodeLenses(document: vscode.TextDocument, token: vscode.CancellationToken): codeLen[] {
 		// vscode.window.showInformationMessage(JSON.stringify("provideCodeLenses"));
+		// const start = performance.now();
 		const trees = getTrees(document);
 		const tree = trees.jsonTree;
 
-		const query = `
+		const query = `;scm
 			(json (scopeName (value) @scopeName))
 			;(repo (key) @repo)
 		`;
@@ -31,10 +34,12 @@ export const CodeLensProvider: vscode.CodeLensProvider = {
 		}
 
 		// vscode.window.showInformationMessage(JSON.stringify(codeLens));
+		// vscode.window.showInformationMessage(`codeLenses ${performance.now() - start}ms`);
 		return codeLenses;
 	},
 	async resolveCodeLens(codeLen: codeLen, token: vscode.CancellationToken): Promise<vscode.CodeLens> {
 		// vscode.window.showInformationMessage(JSON.stringify("resolveCodeLens"));
+		// const start = performance.now();
 		const text = codeLen.capture.node.text;
 		const uri = codeLen.document.uri;
 		const name = codeLen.capture.name;
@@ -43,21 +48,24 @@ export const CodeLensProvider: vscode.CodeLensProvider = {
 
 		switch (name) {
 			case 'scopeName':
-				for (const extension of vscode.extensions.all) {
-					const grammars = extension.packageJSON?.contributes?.grammars;
-					if (grammars) {
-						for (const grammar of grammars) {
-							if (grammar.scopeName == text) {
-								const uri = vscode.Uri.joinPath(extension.extensionUri, 'package.json');
-								await vscode.workspace.openTextDocument(uri);
-							}
-						}
+				const extensionUri = grammarLanguages.scopeName[text]?.extensionUri;
+				// vscode.window.showInformationMessage(JSON.stringify(extensionUri));
+				if (extensionUri) {
+					const uri = vscode.Uri.joinPath(extensionUri, 'package.json');
+					await vscode.workspace.openTextDocument(uri).then(null, () => { });
+				}
+				const injectionScopes = grammarLanguages.scopeName[text]?.injectionScopes ?? [];
+				for (const injectionScope of injectionScopes) {
+					const extensionUri = grammarLanguages.scopeName[injectionScope]?.extensionUri;
+					if (extensionUri) {
+						const uri = vscode.Uri.joinPath(extensionUri, 'package.json');
+						await vscode.workspace.openTextDocument(uri).then(null, () => { });
 					}
 				}
 
-				const uriPackage = vscode.Uri.joinPath(uri, '../../package.json');
+				const uriPackage = vscode.Uri.joinPath(uri, '..', '..', 'package.json');
 				if (uriPackage.scheme != 'untitled') {
-					await vscode.workspace.openTextDocument(uriPackage);
+					await vscode.workspace.openTextDocument(uriPackage).then(null, () => { });
 				}
 
 				for (const textDocument of vscode.workspace.textDocuments) {
@@ -65,18 +73,32 @@ export const CodeLensProvider: vscode.CodeLensProvider = {
 						continue;
 					}
 					try {
-						const packageJSON = await JSON.parse(textDocument.getText());
-						const grammars = packageJSON?.contributes?.grammars;
-						if (grammars) {
-							for (const grammar of grammars) {
-								if (grammar.scopeName == text) {
+						const packageJSON: IRelaxedExtensionManifest = JSON.parse(textDocument.getText());
+						const grammars = packageJSON?.contributes?.grammars ?? [];
+						for (const grammar of grammars) {
+							if (grammar.scopeName == text) {
+								const location = new vscode.Location(
+									textDocument.uri,
+									new vscode.Range(0, 0, textDocument.lineCount, 1000)
+								);
+								locations.push(location);
+								break;
+							}
+							let exit = false;
+							const injectTo = grammar.injectTo ?? [];
+							for (const injectToScope of injectTo) {
+								if (injectToScope == text) {
 									const location = new vscode.Location(
 										textDocument.uri,
 										new vscode.Range(0, 0, textDocument.lineCount, 1000)
 									);
 									locations.push(location);
+									exit = true;
 									break;
 								}
+							}
+							if (exit) {
+								break;
 							}
 						}
 					}
@@ -105,6 +127,7 @@ export const CodeLensProvider: vscode.CodeLensProvider = {
 
 		const codeLens = new vscode.CodeLens(codeLen.range, command);
 		// vscode.window.showInformationMessage(JSON.stringify(codeLens));
+		// vscode.window.showInformationMessage(`codeLens ${performance.now() - start}ms`);
 		return codeLens;
 	},
-}
+};

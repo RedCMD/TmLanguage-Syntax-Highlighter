@@ -1,3 +1,4 @@
+import * as vscode from 'vscode';
 
 export interface IEmbeddedLanguagesMap {
 	[scopeName: string]: string;
@@ -47,7 +48,7 @@ export interface IConfiguration {
 	id?: string;
 	order?: number;
 	title?: string;
-	properties: { [key: string]: IConfigurationProperty };
+	properties: { [key: string]: IConfigurationProperty; };
 }
 
 export interface IConfigurationDefaults {
@@ -167,7 +168,7 @@ export interface IView {
 export interface IColor {
 	id: string;
 	description: string;
-	defaults: { light: string; dark: string; highContrast: string };
+	defaults: { light: string; dark: string; highContrast: string; };
 }
 
 interface IWebviewEditor {
@@ -199,12 +200,12 @@ export interface IWalkthroughStep {
 	readonly title: string;
 	readonly description: string | undefined;
 	readonly media:
-	| { image: string | { dark: string; light: string; hc: string }; altText: string; markdown?: never; svg?: never }
-	| { markdown: string; image?: never; svg?: never }
-	| { svg: string; altText: string; markdown?: never; image?: never };
+	| { image: string | { dark: string; light: string; hc: string; }; altText: string; markdown?: never; svg?: never; }
+	| { markdown: string; image?: never; svg?: never; }
+	| { svg: string; altText: string; markdown?: never; image?: never; };
 	readonly completionEvents?: string[];
 	/** @deprecated use `completionEvents: 'onCommand:...'` */
-	readonly doneOn?: { command: string };
+	readonly doneOn?: { command: string; };
 	readonly when?: string;
 }
 
@@ -252,7 +253,7 @@ export interface ILocalizationContribution {
 	languageName?: string;
 	localizedLanguageName?: string;
 	translations: ITranslation[];
-	minimalTranslations?: { [key: string]: string };
+	minimalTranslations?: { [key: string]: string; };
 }
 
 export interface IExtensionContributions {
@@ -264,13 +265,13 @@ export interface IExtensionContributions {
 	jsonValidation?: IJSONValidation[];
 	keybindings?: IKeyBinding[];
 	languages?: ILanguage[];
-	menus?: { [context: string]: IMenu[] };
+	menus?: { [context: string]: IMenu[]; };
 	snippets?: ISnippet[];
 	themes?: ITheme[];
 	iconThemes?: ITheme[];
 	productIconThemes?: ITheme[];
-	viewsContainers?: { [location: string]: IViewContainer[] };
-	views?: { [location: string]: IView[] };
+	viewsContainers?: { [location: string]: IViewContainer[]; };
+	views?: { [location: string]: IView[]; };
 	colors?: IColor[];
 	localizations?: ILocalizationContribution[];
 	readonly customEditors?: readonly IWebviewEditor[];
@@ -283,8 +284,6 @@ export interface IExtensionContributions {
 	readonly debugVisualizers?: IDebugVisualizationContribution[];
 }
 
-export type ExtensionKind = 'ui' | 'workspace' | 'web';
-
 export interface IExtensionCapabilities {
 	readonly virtualWorkspaces?: ExtensionVirtualWorkspaceSupport;
 	readonly untrustedWorkspaces?: ExtensionUntrustedWorkspaceSupport;
@@ -292,17 +291,29 @@ export interface IExtensionCapabilities {
 
 export type LimitedWorkspaceSupportType = 'limited';
 export type ExtensionUntrustedWorkspaceSupportType = boolean | LimitedWorkspaceSupportType;
-export type ExtensionUntrustedWorkspaceSupport = { supported: true } | { supported: false; description: string } | { supported: LimitedWorkspaceSupportType; description: string; restrictedConfigurations?: string[] };
+export type ExtensionUntrustedWorkspaceSupport = { supported: true; } | { supported: false; description: string; } | { supported: LimitedWorkspaceSupportType; description: string; restrictedConfigurations?: string[]; };
 
 export type ExtensionVirtualWorkspaceSupportType = boolean | LimitedWorkspaceSupportType;
-export type ExtensionVirtualWorkspaceSupport = boolean | { supported: true } | { supported: false | LimitedWorkspaceSupportType; description: string };
+export type ExtensionVirtualWorkspaceSupport = boolean | { supported: true; } | { supported: false | LimitedWorkspaceSupportType; description: string; };
 
 export interface IRelaxedExtensionManifest {
+	id: string,
+	identifier: {
+		value: string,
+		_lower: string; // lowercase
+	},
+	isBuiltin: boolean,
+	isUserBuiltin: boolean,
+	isUnderDevelopment: boolean,
+	extensionLocation: vscode.Uri,
+	uuid?: string,
+	targetPlatform: string,
+
 	name: string;
 	displayName?: string;
 	publisher: string;
 	version: string;
-	engines: { readonly vscode: string };
+	engines: { readonly vscode: string; };
 	description?: string;
 	main?: string;
 	browser?: string;
@@ -316,12 +327,66 @@ export interface IRelaxedExtensionManifest {
 	activationEvents?: string[];
 	extensionDependencies?: string[];
 	extensionPack?: string[];
-	extensionKind?: ExtensionKind | ExtensionKind[];
+	extensionKind?: vscode.ExtensionKind | vscode.ExtensionKind[];
 	contributes?: IExtensionContributions;
-	repository?: { url: string };
-	bugs?: { url: string };
+	repository?: { url: string; };
+	bugs?: { url: string; };
 	enabledApiProposals?: readonly string[];
 	api?: string;
-	scripts?: { [key: string]: string };
+	scripts?: { [key: string]: string; };
 	capabilities?: IExtensionCapabilities;
+}
+
+// vscode.extensions.all
+export interface IRelaxedExtension {
+
+	/**
+	 * The canonical extension identifier in the form of: `publisher.name`.
+	 */
+	readonly id: string,
+
+	/**
+	 * The uri of the directory containing the extension.
+	 */
+	readonly extensionUri: vscode.Uri,
+
+	/**
+	 * The absolute file path of the directory containing this extension. Shorthand
+	 * notation for {@link Extension.extensionUri Extension.extensionUri.fsPath} (independent of the uri scheme).
+	 */
+	readonly extensionPath: string,
+
+	/**
+	 * `true` if the extension has been activated.
+	 */
+	readonly isActive: boolean;
+
+	/**
+	 * The parsed contents of the extension's package.json.
+	 */
+	readonly packageJSON: IRelaxedExtensionManifest,
+
+	/**
+	 * The extension kind describes if an extension runs where the UI runs
+	 * or if an extension runs where the remote extension host runs. The extension kind
+	 * is defined in the `package.json`-file of extensions but can also be refined
+	 * via the `remote.extensionKind`-setting. When no remote extension host exists,
+	 * the value is {@linkcode ExtensionKind.UI}.
+	 */
+	readonly extensionKind: vscode.ExtensionKind,
+
+	/**
+	 * The public API exported by this extension (return value of `activate`).
+	 * It is an invalid action to access this field before this extension has been activated.
+	 */
+	readonly exports: any;
+
+	/**
+	 * Activates this extension and returns its public API.
+	 *
+	 * @returns A promise that will resolve when this extension has been activated.
+	 */
+	activate(): Thenable<any>;
+
+	readonly isFromDifferentExtensionHost?: boolean;
 }
