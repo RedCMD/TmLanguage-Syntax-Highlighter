@@ -1290,7 +1290,8 @@
 				"integer",
 				"boolean"
 			],
-			"suggestSortText": "~disabled"
+			"suggestSortText": "~disabled",
+			"default": 1
 		},
 		"id": {
 			"deprecationMessage": "Used internally by the VSCode TextMate engine. Do Not Use",

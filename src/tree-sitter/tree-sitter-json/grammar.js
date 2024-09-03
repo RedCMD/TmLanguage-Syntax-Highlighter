@@ -100,6 +100,7 @@ module.exports = grammar({
 					$.whileCaptures,
 				),
 				$.applyEndPatternLast,
+				$.disabled,
 				$._comments,
 				$.item,
 			),
@@ -408,6 +409,15 @@ module.exports = grammar({
 				),
 			),
 			$._pattern,
+		),
+
+		disabled: $ => pair($,
+			"disabled",
+			choice(
+				$.boolean,
+				$.null,
+				$.integer
+			),
 		),
 
 		version: $ => pair($,
