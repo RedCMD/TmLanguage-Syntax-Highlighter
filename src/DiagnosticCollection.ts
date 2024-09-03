@@ -53,14 +53,25 @@ export function initDiagnostics(context: vscode.ExtensionContext) {
 	`;
 	repoQuery = jsonParserLanguage.query(repoQueryString);
 
+	const activeDocuments: {
+		[uriString: string]: {
+			edits: vscode.TextDocumentChangeEvent;
+			timeout: NodeJS.Timeout;
+		};
+	} = {};
+
 	for (const editor of vscode.window.visibleTextEditors) {
 		// vscode.window.showInformationMessage(JSON.stringify("visible"));
+		const uriString = editor.document.uri.toString();
+		activeDocuments[uriString] = { edits: null, timeout: null };
 		Diagnostics(editor.document, DiagnosticCollection);
 	}
 
 	context.subscriptions.push(
 		vscode.workspace.onDidOpenTextDocument((document: vscode.TextDocument) => {
 			// vscode.window.showInformationMessage(JSON.stringify("open"));
+			const uriString = document.uri.toString();
+			activeDocuments[uriString] = { edits: null, timeout: null };
 			Diagnostics(document, DiagnosticCollection);
 		})
 	);
@@ -68,13 +79,49 @@ export function initDiagnostics(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.workspace.onDidChangeTextDocument((edits: vscode.TextDocumentChangeEvent) => {
 			// vscode.window.showInformationMessage(JSON.stringify("change"));
-			Diagnostics(edits.document, DiagnosticCollection);
+
+			if (edits.contentChanges.length == 0) {
+				// File saving triggers onDidChangeTextDocument()
+				return;
+			}
+
+			const uriString = edits.document.uri.toString();
+			const activeDocument = activeDocuments[uriString];
+
+			// Debounce recently repeated requests
+			if (activeDocument.timeout == null) {
+				// Run Diagnostics instantly on first edit
+				Diagnostics(edits.document, DiagnosticCollection);
+
+				// Wait 50ms and execute CallBack reguardless of if there were new edits or not
+				activeDocument.timeout = setTimeout(
+					() => {
+						if (activeDocument.edits == null) {
+							// No new edits? exit.
+							activeDocument.timeout = null;
+							return;
+						}
+
+						// Wait for slow Diagnostics first before rescheduling Timer CallBack
+						Diagnostics(activeDocument.edits.document, DiagnosticCollection);
+						activeDocument.timeout.refresh(); // Setting Timeouts within Timeouts :)
+						activeDocument.edits = null;
+					},
+					50, // 50 milisecond intervals. Does anyone want this as a config?
+				);
+				return;
+			}
+
+			// Use the latest edits
+			activeDocument.edits = edits;
 		})
 	);
 
 	context.subscriptions.push(
 		vscode.workspace.onDidCloseTextDocument((document: vscode.TextDocument) => {
 			// vscode.window.showInformationMessage(JSON.stringify("close"));
+			const uriString = document.uri.toString();
+			delete activeDocuments[uriString];
 			DiagnosticCollection.delete(document.uri);
 		})
 	);
@@ -84,6 +131,8 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 	if (!vscode.languages.match(DocumentSelector, document)) {
 		return;
 	}
+	// vscode.window.showInformationMessage("Diagnostics");
+	// const start = performance.now();
 
 	const trees = getTrees(document);
 	const jsonTree = trees.jsonTree;
@@ -343,8 +392,17 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 		// vscode.window.showInformationMessage(performance.now() - start + "ms");
 	}
 
+	if (false) { // create artificial lag
+		const start = performance.now();
+		for (let i = 0; i < 200; i++) {
+			queryNode(rootNode, `(ERROR) @ERROR`);
+		}
+		vscode.window.showInformationMessage(performance.now() - start + "ms");
+	}
+
 	// vscode.window.showInformationMessage(JSON.stringify(diagnostics));
 	Diagnostics.set(document.uri, diagnostics);
+	// vscode.window.showInformationMessage(`Diagnostics ${performance.now() - start}ms`);
 }
 
 function regexEscapeReplacer(substring: string, ...args: any[]): string {
