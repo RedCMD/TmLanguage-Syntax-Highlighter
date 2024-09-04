@@ -168,7 +168,14 @@ module.exports = grammar({
 		),
 		_includeRuleName: $ => fieldAlias($,
 			'ruleName',
-			$._string,
+			token(
+				repeat1(
+					choice(
+						/\\[^\r\n\t]/,
+						/[^\\\r\n\t"]+/,
+					),
+				),
+			),
 		),
 		_self: $ => fieldAlias($,
 			'self',
