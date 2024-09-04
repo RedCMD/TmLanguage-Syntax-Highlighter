@@ -180,25 +180,33 @@ function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextE
 
 
 	for (const node of parentNode.children) {
+		if (node.isMissing) {
+			range = toRange(node);
+
+			textEdit = vscode.TextEdit.replace(range, node.type);
+			textEdits.push(textEdit);
+		}
 		switch (node.type) {
 			case '{':
 			case '[':
 				indent += tabSize;
-
-				if (node.nextSibling == null)
-					break;
 
 				if (expand == true)
 					whiteSpace = '\n'.padEnd(indent + 1, tabType);
 				else
 					whiteSpace = style.wsBrackets;
 
-				range = new vscode.Range(
-					node.endPosition.row,
-					node.endPosition.column,
-					node.nextSibling.startPosition.row,
-					node.nextSibling.startPosition.column
-				);
+				if (node.isMissing) {
+					range = toRange(node);
+				}
+				else {
+					range = new vscode.Range(
+						node.endPosition.row,
+						node.endPosition.column,
+						node.nextSibling?.startPosition.row ?? parentNode.endPosition.row,
+						node.nextSibling?.startPosition.column ?? parentNode.endPosition.column,
+					);
+				}
 
 				textEdit = vscode.TextEdit.replace(range, whiteSpace);
 				textEdits.push(textEdit);
@@ -208,13 +216,12 @@ function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextE
 			case ']':
 				indent -= tabSize;
 
-				if (node.previousSibling == null)
+				if (node.previousSibling?.type == '{') {
 					break;
-
-				if (node.previousSibling.type == '{')
+				}
+				if (node.previousSibling?.type == '[') {
 					break;
-				if (node.previousSibling.type == '[')
-					break;
+				}
 
 				if (expand == true)
 					whiteSpace = '\n'.padEnd(indent + 1, tabType);
@@ -222,10 +229,10 @@ function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextE
 					whiteSpace = style.wsBrackets;
 
 				range = new vscode.Range(
-					node.previousSibling.endPosition.row,
-					node.previousSibling.endPosition.column,
+					node.previousSibling?.endPosition.row ?? parentNode.startPosition.row,
+					node.previousSibling?.endPosition.column ?? parentNode.startPosition.column,
 					node.startPosition.row,
-					node.startPosition.column
+					node.startPosition.column,
 				);
 
 				textEdit = vscode.TextEdit.replace(range, whiteSpace);
@@ -233,34 +240,45 @@ function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextE
 				break;
 
 			case ',':
-				if (node.nextSibling == null)
+				if (node.nextSibling?.type != '}' && node.nextSibling?.type != ']' || node.isMissing) { // hacks upon hacks
+					if (expand == true)
+						whiteSpace = '\n'.padEnd(indent + 1, tabType);
+					else
+						whiteSpace = ' ';
+
+					if (node.isMissing) {
+						range = toRange(node); // node.nextSibling doesn't work very well on missing nodes
+					}
+					else {
+						range = new vscode.Range(
+							node.endPosition.row,
+							node.endPosition.column,
+							node.nextSibling?.startPosition.row ?? parentNode.endPosition.row,
+							node.nextSibling?.startPosition.column ?? parentNode.endPosition.column,
+						);
+					}
+
+					textEdit = vscode.TextEdit.replace(range, whiteSpace);
+					textEdits.push(textEdit);
+				}
+
+				if (node.previousSibling?.type == '{') {
 					break;
-
-				if (expand == true)
-					whiteSpace = '\n'.padEnd(indent + 1, tabType);
-				else
-					whiteSpace = ' ';
-
-				range = new vscode.Range(
-					node.endPosition.row,
-					node.endPosition.column,
-					node.nextSibling.startPosition.row,
-					node.nextSibling.startPosition.column
-				);
-
-				textEdit = vscode.TextEdit.replace(range, whiteSpace);
-				textEdits.push(textEdit);
-
-				if (node.previousSibling == null)
+				}
+				if (node.previousSibling?.type == '[') {
 					break;
+				}
+				if (node.previousSibling?.type == ',') {
+					break;
+				}
 
 				whiteSpace = '';
 
 				range = new vscode.Range(
-					node.previousSibling.endPosition.row,
-					node.previousSibling.endPosition.column,
+					node.previousSibling?.endPosition.row ?? parentNode.startPosition.row,
+					node.previousSibling?.endPosition.column ?? parentNode.startPosition.column,
 					node.startPosition.row,
-					node.startPosition.column
+					node.startPosition.column,
 				);
 
 				textEdit = vscode.TextEdit.replace(range, whiteSpace);
@@ -268,30 +286,30 @@ function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextE
 				break;
 
 			case ':':
-				if (node.nextSibling == null)
-					break;
 				whiteSpace = ' ';
 
-				range = new vscode.Range(
-					node.endPosition.row,
-					node.endPosition.column,
-					node.nextSibling.startPosition.row,
-					node.nextSibling.startPosition.column
-				);
+				if (node.isMissing) {
+					range = toRange(node);
+				}
+				else {
+					range = new vscode.Range(
+						node.endPosition.row,
+						node.endPosition.column,
+						node.nextSibling?.startPosition.row ?? parentNode.endPosition.row,
+						node.nextSibling?.startPosition.column ?? parentNode.endPosition.column,
+					);
+				}
 
 				textEdit = vscode.TextEdit.replace(range, whiteSpace);
 				textEdits.push(textEdit);
 
-				if (node.previousSibling == null)
-					break;
-
 				whiteSpace = '';
 
 				range = new vscode.Range(
-					node.previousSibling.endPosition.row,
-					node.previousSibling.endPosition.column,
+					node.previousSibling?.endPosition.row ?? parentNode.startPosition.row,
+					node.previousSibling?.endPosition.column ?? parentNode.startPosition.column,
 					node.startPosition.row,
-					node.startPosition.column
+					node.startPosition.column,
 				);
 
 				textEdit = vscode.TextEdit.replace(range, whiteSpace);
