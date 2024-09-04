@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as vscodeOniguruma from 'vscode-oniguruma';
-import { getTrees, jsonParserLanguage, queryNode, toRange, trueParent } from "./TreeSitter";
+import { getTrees, jsonParserLanguage, queryNode, toPosition, toRange, trueParent } from "./TreeSitter";
 import { DocumentSelector } from "./extension";
 import { unicodeproperties } from "./UNICODE_PROPERTIES";
 
@@ -142,7 +142,7 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 				case 'ERROR':
 					diagnostic = {
 						range: range,
-						message: `ERROR: \`${text}\``,
+						message: `ERROR: '${text}'`,
 						severity: vscode.DiagnosticSeverity.Error,
 						source: 'JSON TextMate TreeSitter',
 					};
@@ -152,7 +152,13 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 						continue;
 					}
 					diagnostic = {
-						range: range,
+						range:
+							type == ',' ?
+								new vscode.Range(
+									toPosition(node.previousSibling.endPosition),
+									toPosition(node.previousSibling.endPosition)
+								)
+								: range,
 						message: `'${parentType}' is missing character${type.length > 1 ? 's' : ''} '${type}'`,
 						severity: vscode.DiagnosticSeverity.Error,
 						source: 'TreeSitter',
