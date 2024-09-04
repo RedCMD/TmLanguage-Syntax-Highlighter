@@ -48,10 +48,7 @@ module.exports = grammar({
 			object($, $.repo),
 		),
 		repo: $ => pair($,
-			choice(
-				$._string,
-				$._forceStringNode,
-			),
+			undefined,
 			$._pattern,
 		),
 		patterns: $ => pair($,
@@ -154,44 +151,32 @@ module.exports = grammar({
 				),
 			),
 		),
-		_includeScopeName: $ => field(
+		_includeScopeName: $ => fieldAlias($,
 			'scopeName',
-			alias(
-				token(
-					repeat1(
-						choice(
-							/\\[^\r\n\t#]?/,
-							/[^\\\r\n\t#"]+/,
-						),
+			token(
+				repeat1(
+					choice(
+						/\\[^\r\n\t#]?/,
+						/[^\\\r\n\t#"]+/,
 					),
 				),
-				$.scopeName,
 			),
 		),
 		_sharp: $ => field(
 			'sharp',
 			'#',
 		),
-		_includeRuleName: $ => field(
+		_includeRuleName: $ => fieldAlias($,
 			'ruleName',
-			alias(
-				$._string,
-				$.ruleName,
-			),
+			$._string,
 		),
-		_self: $ => field(
+		_self: $ => fieldAlias($,
 			'self',
-			alias(
-				'$self',
-				$.self,
-			),
+			'$self',
 		),
-		_base: $ => field(
+		_base: $ => fieldAlias($,
 			'base',
-			alias(
-				'$base',
-				$.base,
-			),
+			'$base',
 		),
 
 		scopeName: $ => pair($,
@@ -224,21 +209,17 @@ module.exports = grammar({
 				$.value,
 			),
 		),
-		_scope: $ => field(
+		_scope: $ => fieldAlias($,
 			"scope",
-			alias(
-				// token(
-				prec.right(
-					repeat1(
-						choice(
-							$.replace_capture,
-							/\\[^\r\n\t ]/,
-							/[^\\\r\n\t $"]+/,
-							/\$/,
-						),
+			prec.right(
+				repeat1(
+					choice(
+						$.replace_capture,
+						/\\[^\r\n\t ]/,
+						/[^\\\r\n\t $"]+/,
+						/\$/,
 					),
 				),
-				$.scope,
 			),
 		),
 		replace_capture: $ => token(
@@ -261,10 +242,7 @@ module.exports = grammar({
 			object($, $.injection),
 		),
 		injection: $ => pair($,
-			choice(
-				$._string,
-				$._forceStringNode,
-			),
+			undefined,
 			object($,
 				choice(
 					$.patterns,
@@ -277,14 +255,11 @@ module.exports = grammar({
 		match: $ => pair($,
 			"match",
 			string($,
-				field(
+				fieldAlias($,
 					'regex',
-					alias(
-						choice(
-							$._string,
-							$._forceStringNode,
-						),
-						$.regex,
+					choice(
+						$._string,
+						$._forceStringNode,
 					),
 				),
 			),
@@ -292,14 +267,11 @@ module.exports = grammar({
 		begin: $ => pair($,
 			"begin",
 			string($,
-				field(
+				fieldAlias($,
 					'regex',
-					alias(
-						choice(
-							$._string,
-							$._forceStringNode,
-						),
-						$.regex,
+					choice(
+						$._string,
+						$._forceStringNode,
 					),
 				),
 			),
@@ -307,14 +279,11 @@ module.exports = grammar({
 		end: $ => pair($,
 			"end",
 			string($,
-				field(
+				fieldAlias($,
 					'regex',
-					alias(
-						choice(
-							$._string,
-							$._forceStringNode,
-						),
-						$.regex,
+					choice(
+						$._string,
+						$._forceStringNode,
 					),
 				),
 			),
@@ -322,14 +291,11 @@ module.exports = grammar({
 		while: $ => pair($,
 			"while",
 			string($,
-				field(
+				fieldAlias($,
 					'regex',
-					alias(
-						choice(
-							$._string,
-							$._forceStringNode,
-						),
-						$.regex,
+					choice(
+						$._string,
+						$._forceStringNode,
 					),
 				),
 			),
@@ -338,9 +304,9 @@ module.exports = grammar({
 		applyEndPatternLast: $ => pair($,
 			"applyEndPatternLast",
 			choice(
+				$.integer,
 				$.boolean,
 				$.null,
-				$.integer
 			),
 		),
 
@@ -354,9 +320,9 @@ module.exports = grammar({
 						$.item,
 					),
 				),
-				// array($,
-				// 	$._pattern,
-				// ),
+				array($,
+					$._pattern,
+				),
 			),
 		),
 		beginCaptures: $ => pair($,
@@ -369,9 +335,9 @@ module.exports = grammar({
 						$.item,
 					),
 				),
-				// array($,
-				// 	$._pattern,
-				// ),
+				array($,
+					$._pattern,
+				),
 			),
 		),
 		endCaptures: $ => pair($,
@@ -384,9 +350,9 @@ module.exports = grammar({
 						$.item,
 					),
 				),
-				// array($,
-				// 	$._pattern,
-				// ),
+				array($,
+					$._pattern,
+				),
 			),
 		),
 		whileCaptures: $ => pair($,
@@ -399,9 +365,9 @@ module.exports = grammar({
 						$.item,
 					),
 				),
-				// array($,
-				// 	$._pattern,
-				// ),
+				array($,
+					$._pattern,
+				),
 			),
 		),
 		capture: $ => pair($,
@@ -423,9 +389,9 @@ module.exports = grammar({
 		disabled: $ => pair($,
 			"disabled",
 			choice(
+				$.integer,
 				$.boolean,
 				$.null,
-				$.integer
 			),
 		),
 
@@ -475,74 +441,84 @@ module.exports = grammar({
 			$._value,
 		),
 
-		item: $ => pair($,
-			choice(
-				$._string,
-				$._forceStringNode,
+		item: $ => prec(-1,
+			pair($,
+				undefined,
+				$._value,
 			),
-			$._value,
 		),
-		object: $ => object($, $.item),
-		array: $ => array($,
+		object: $ => prec(-1,
+			object($,
+				$.item,
+				-1,
+			),
+		),
+		array: $ => prec(-1,
+			array($, $._value),
+		),
+		_value: $ => prec(-1,
 			choice(
-				$.object,
-				$.array,
+				object($,
+					$.item,
+					-1,
+				),
+				array($,
+					choice(
+						$.object,
+						$.array,
+						string($),
+						$.integer,
+						$.boolean,
+						$.null,
+					),
+					-1,
+				),
 				string($),
 				$.integer,
 				$.boolean,
 				$.null,
 			),
 		),
-		_value: $ => choice(
-			object($, $.item),
-			array($,
-				choice(
-					$.object,
-					$.array,
-					string($),
-					$.integer,
-					$.boolean,
-					$.null,
-				),
-			),
-			string($),
-			$.integer,
-			$.boolean,
-			$.null,
-		),
 
 		boolean: $ => choice(
-			"true",
-			"false",
+			"true", // Why does this like eating spaces
+			"false", // hmmmm.... commmas... tasty.... WTF
+			/fa[l\t]se/, // Why does it need to also match tab?!?!
+			/tr[u\t]e/, // Why does "true" not just work?!?!
 		),
-		null: $ => "null",
-		integer: $ => /-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/,
+		null: $ => /nu[l\t]l/, // WTF is happening
+		integer: $ => /-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/, // Why does this work?!?!
 		_string: $ => token(
-			repeat1(
-				choice(
-					/\\[^\r\n\t]/,
-					/[^\\\r\n\t"]+/,
+			prec(-1,
+				repeat1(
+					choice(
+						/\\[^\r\n\t]/,
+						/[^\\\r\n\t"]+/,
+					),
 				),
 			),
 		),
 
-		_comma: $ => seq(
-			repeat($._whitespace),
-			',',
+		_comma: $ => repeat1(
+			seq(
+				repeat($._whitespace),
+				',',
+			),
 		),
 	},
 });
 
 /**
-* Boiler plate for creating an object. `{ rule, rule... }`
+ * Boiler plate for creating an object. `{ rule, rule... }`
  * @param {GrammarSymbols<string>} $
-* @param {RuleOrLiteral} rule 
-* @returns {Rule}
-*/
-function object($, rule) {
+ * @param {RuleOrLiteral} rule
+ * @param {String | number} [precedence]
+ * @returns {Rule}
+ */
+function object($, rule, precedence) {
 	return seq(
 		'{',
-		commaSep($, rule),
+		commaSep($, rule, precedence),
 		repeat($._whitespace),
 		'}',
 	);
@@ -551,13 +527,14 @@ function object($, rule) {
 /**
  * Boiler plate for creating an array. `[ rule, rule... ]`
  * @param {GrammarSymbols<string>} $
- * @param {RuleOrLiteral} rule 
+ * @param {RuleOrLiteral} rule
+ * @param {String | number} [precedence]
  * @returns {Rule}
  */
-function array($, rule) {
+function array($, rule, precedence) {
 	return seq(
 		'[',
-		commaSep($, rule),
+		commaSep($, rule, precedence),
 		repeat($._whitespace),
 		']',
 	);
@@ -567,21 +544,27 @@ function array($, rule) {
  * Boiler plate for creating comma seperated rules. `rule, rule...`
  * @param {GrammarSymbols<string>} $
  * @param {RuleOrLiteral} rule
+ * @param {String | number} [precedence]
  * @returns {Rule}
  */
-function commaSep($, rule) {
+function commaSep($, rule, precedence) {
 	return optional(
-		seq(
-			repeat($._whitespace),
-			rule,
-			repeat(
-				seq(
-					$._comma,
-					repeat($._whitespace),
-					rule,
+		choice(
+			seq(
+				repeat(
+					precedence ? prec(precedence, $._whitespace) : $._whitespace
 				),
+				rule,
+				repeat(
+					seq(
+						$._comma,
+						repeat($._whitespace),
+						precedence ? prec(precedence, rule) : rule
+					),
+				),
+				optional($._comma), // trailing comma
 			),
-			optional($._comma), // trailing comma
+			$._comma,
 		),
 	);
 }
@@ -589,7 +572,7 @@ function commaSep($, rule) {
 /**
  * Boiler plate for creating a json pair. `key: value`
  * @param {GrammarSymbols<string>} $
- * @param {RuleOrLiteral} key string
+ * @param {RuleOrLiteral | undefined} key string
  * @param {RuleOrLiteral} value
  * @returns {Rule}
  */
@@ -597,12 +580,18 @@ function pair($, key, value) {
 	return prec.right(
 		seq(
 			string($,
-				field(
+				fieldAlias($,
 					'key',
-					alias(
-						key,
-						$.key,
-					),
+					key == null ?
+						choice(
+							$._string,
+							$._forceStringNode,
+						) :
+						token(
+							prec.right(-1,
+								key,
+							),
+						),
 				),
 			),
 			repeat($._whitespace),
@@ -610,7 +599,14 @@ function pair($, key, value) {
 				seq(
 					':',
 					repeat($._whitespace),
-					optional(value), // TS bad at error recovery
+					optional( // TS bad at error recovery
+						choice(
+							value ?? blank(),
+							prec(-2,
+								$._value,
+							),
+						),
+					),
 				),
 			),
 		),
@@ -634,5 +630,22 @@ function string($, contents) {
 			$.value,
 		),
 		'"',
+	);
+}
+
+/**
+ * MACRO for adding a `field` and `alias`.
+ * @param {GrammarSymbols<string>} $
+ * @param {string} name
+ * @param {RuleOrLiteral} rule
+ * @returns {Rule}
+ */
+function fieldAlias($, name, rule) {
+	return field(
+		name,
+		alias(
+			rule,
+			$[name],
+		),
 	);
 }
