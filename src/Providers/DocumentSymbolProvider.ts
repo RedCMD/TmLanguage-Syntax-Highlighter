@@ -2,6 +2,9 @@ import * as vscode from 'vscode';
 import { getTrees, getRegexNode, toRange } from "../TreeSitter";
 import { SyntaxNode } from 'web-tree-sitter';
 
+export const metaData: vscode.DocumentSymbolProviderMetadata = {
+	label: "JSON TextMate",
+};
 
 export const SymbolKind: { [key: string]: vscode.SymbolKind; } = {
 	/*
@@ -91,15 +94,16 @@ export const SymbolKind: { [key: string]: vscode.SymbolKind; } = {
 	',': vscode.SymbolKind.Property,
 	':': vscode.SymbolKind.Property,
 	'"': vscode.SymbolKind.Property,
-	
+
 	'literal': vscode.SymbolKind.String,
 	'backslash': vscode.SymbolKind.Property,
-}
+};
 
 
 export const DocumentSymbolProvider: vscode.DocumentSymbolProvider = {
 	provideDocumentSymbols(document: vscode.TextDocument, token: vscode.CancellationToken): vscode.DocumentSymbol[] {
 		// vscode.window.showInformationMessage(JSON.stringify("documentSymbol"));
+		// const start = performance.now();
 		const trees = getTrees(document);
 		const tree = trees.jsonTree;
 
@@ -146,11 +150,18 @@ export const DocumentSymbolProvider: vscode.DocumentSymbolProvider = {
 
 			documentSymbol.children.push(newDocumentSymbol(childNode));
 			index++;
+
+			if (token.isCancellationRequested) {
+				// vscode.window.showInformationMessage(`cancel documentSymbols ${performance.now() - start}ms`);
+				return;
+			}
 		}
 
+
+		// vscode.window.showInformationMessage(`documentSymbols ${performance.now() - start}ms\n${document.fileName}`);
 		return [documentSymbol];
 	},
-}
+};
 
 function newDocumentSymbol(node: SyntaxNode): vscode.DocumentSymbol {
 	let text: string;

@@ -16,7 +16,7 @@ import { DefinitionProvider } from "./Providers/DefinitionProvider";
 import { InlayHintsProvider } from "./Providers/InlayHintsProvider";
 import { CodeActionsProvider } from "./Providers/CodeActionsProvider";
 import { CallHierarchyProvider } from "./Providers/CallHierarchyProvider";
-import { DocumentSymbolProvider } from "./Providers/DocumentSymbolProvider";
+import { DocumentSymbolProvider, metaData } from "./Providers/DocumentSymbolProvider";
 import { SelectionRangeProvider } from "./Providers/SelectionRangeProvider";
 import { DocumentDropEditProvider } from "./Providers/DocumentDropEditProvider";
 import { DocumentHighlightProvider } from "./Providers/DocumentHighlightProvider";
