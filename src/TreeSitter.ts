@@ -1,13 +1,13 @@
 import * as vscode from 'vscode';
 import * as Parser from 'web-tree-sitter';
-import { DocumentSelector } from "./extension";
+import { DocumentSelector, stringify } from "./extension";
 
 export type trees = {
-	jsonTree: Parser.Tree;
-	regexTrees: {
+	readonly jsonTree: Parser.Tree;
+	readonly regexTrees: {
 		[id: number]: Parser.Tree;
 	};
-	regexNodes: {
+	readonly regexNodes: {
 		[id: number]: Parser.SyntaxNode;
 	};
 };
@@ -21,20 +21,20 @@ export function getTrees(document: vscode.TextDocument): trees;
 export function getTrees(source: vscode.TextDocument | vscode.Uri): trees {
 	const uriString = 'uri' in source ? source.uri.toString() : source.toString();
 	const docTrees = trees[uriString];
-	if (!docTrees) {
-		vscode.window.showInformationMessage(JSON.stringify(source));
-		vscode.window.showInformationMessage(JSON.stringify(trees));
+	if (docTrees) {
+		return docTrees;
 	}
-	return docTrees;
-}
 
-/**
- * @deprecated use {@link getTrees()} instead
- */
-export function getTree(document: vscode.TextDocument): Parser.Tree {
-	const uriString = document.uri.toString();
-	const tree = trees[uriString]?.jsonTree;
-	return tree;
+	if ('uri' in source) {
+		parseTextDocument(source);
+		const docTrees = trees[uriString];
+		if (docTrees) {
+			return docTrees;
+		}
+	}
+	vscode.window.showInformationMessage(JSON.stringify("TextMate: TS Tree does not exist!"));
+	vscode.window.showInformationMessage(JSON.stringify(source));
+	vscode.window.showInformationMessage(JSON.stringify(trees));
 }
 
 export function getRegexNode(source: vscode.TextDocument | vscode.Uri | trees | trees["regexTrees"], node: Parser.SyntaxNode | number): Parser.SyntaxNode {
@@ -65,7 +65,7 @@ export function getRegexNode(source: vscode.TextDocument | vscode.Uri | trees | 
  */
 export function getComment(node: Parser.SyntaxNode): string | null {
 	const parent = trueParent(node);
-	const query = `
+	const query = `;scm
 		(comment (value) @comment (.not-eq? @comment ""))
 		(comment_slash (value) @comment (.not-eq? @comment ""))
 	`;
@@ -210,8 +210,11 @@ export function trueParent(node: Parser.SyntaxNode): Parser.SyntaxNode {
 	return sibling ? sibling.equals(node) ? parent.parent : parent : parent;
 }
 
-export let jsonParserLanguage: Parser.Language;
-export let regexParserLanguage: Parser.Language;
+
+export const parseEvents: ((document: vscode.TextDocument) => void)[] = [];
+
+export let jsonParser: Parser;
+export let regexParser: Parser;
 
 declare var navigator: object | undefined;
 export async function initTreeSitter(context: vscode.ExtensionContext) {
@@ -229,64 +232,123 @@ export async function initTreeSitter(context: vscode.ExtensionContext) {
 
 	// vscode.window.showInformationMessage(JSON.stringify("Parser"));
 
-	const jsonParser = new Parser();
+	jsonParser = new Parser();
 	const jsonWasmUri = vscode.Uri.joinPath(context.extensionUri, 'out', 'tree-sitter-jsontm.wasm');
 	const jsonWasm = jsonWasmUri.scheme === 'file' ? jsonWasmUri.fsPath : jsonWasmUri.toString(true);
 	const jsonLanguage = await Parser.Language.load(jsonWasm);
 	jsonParser.setLanguage(jsonLanguage);
-	jsonParserLanguage = jsonLanguage;
 
-	const regexParser = new Parser();
+	regexParser = new Parser();
 	const regexWasmUri = vscode.Uri.joinPath(context.extensionUri, 'out', 'tree-sitter-regextm.wasm');
 	const regexWasm = regexWasmUri.scheme === 'file' ? regexWasmUri.fsPath : regexWasmUri.toString(true);
 	const regexLanguage = await Parser.Language.load(regexWasm);
 	regexParser.setLanguage(regexLanguage);
-	regexParserLanguage = regexLanguage;
 
-	vscode.workspace.textDocuments.forEach(document => {
-		// vscode.window.showInformationMessage(JSON.stringify("visible"));
-		parseTextDocument(document, jsonParser, regexParser);
-	});
+	const activeDocuments: {
+		[uriString: string]: {
+			edits: vscode.TextDocumentChangeEvent;
+			timeout: NodeJS.Timeout | number; // VSCode vs VSCode Web
+		};
+	} = {};
 
-	// vscode.window.visibleTextEditors.forEach(editor => {
+	// for (const editor of vscode.window.visibleTextEditors) {
 	// 	// vscode.window.showInformationMessage(JSON.stringify("visible"));
-	// 	parseTextDocument(editor.document, jsonParser, regexParser);
-	// });
+	// 	if (!vscode.languages.match(DocumentSelector, editor.document)) {
+	// 		return;
+	// 	}
+	// 	parseTextDocument(editor.document);
+	// }
+
+	for (const editor of vscode.window.visibleTextEditors) {
+		// vscode.window.showInformationMessage(JSON.stringify("visible"));
+		if (!vscode.languages.match(DocumentSelector, editor.document)) {
+			continue;
+		}
+		parseTextDocument(editor.document);
+	}
 
 	context.subscriptions.push(
 		vscode.workspace.onDidOpenTextDocument(document => {
 			// vscode.window.showInformationMessage(JSON.stringify("open"));
-			parseTextDocument(document, jsonParser, regexParser);
+			if (!vscode.languages.match(DocumentSelector, document)) {
+				return;
+			}
+			parseTextDocument(document);
 		})
 	);
 
 	context.subscriptions.push(
 		vscode.workspace.onDidChangeTextDocument(edits => {
 			// vscode.window.showInformationMessage(JSON.stringify("change"));
-			reparseTextDocument(edits, jsonParser, regexParser);
+			const document = edits.document;
+			if (!vscode.languages.match(DocumentSelector, document)) {
+				return;
+			}
+
+			const uriString = document.uri.toString();
+			const activeDocument = activeDocuments[uriString] ?? { edits: null, timeout: null };
+			activeDocuments[uriString] = activeDocument;
+
+			// Debounce recently repeated requests
+			if (activeDocument.timeout == null) {
+				// Run Diagnostics instantly on first edit
+				reparseTextDocument(edits);
+
+				// Wait 50ms and execute CallBack reguardless of if there are gonna be new edits or not
+				activeDocument.timeout = setInterval(
+					() => {
+						if (activeDocument.edits == null) {
+							// No new edits? exit.
+							clearInterval(activeDocument.timeout); // timeout.refresh() doesn't work in VSCode web
+							activeDocument.timeout = null;
+
+							for (const parseEvent of parseEvents) {
+								try {
+									parseEvent(document);
+								} catch (error) { }
+							}
+							return;
+						}
+
+						// setInterval() waits for current callback to finish
+						reparseTextDocument(activeDocument.edits);
+						activeDocument.edits = null;
+					},
+					50, // 50 milisecond intervals. Does anyone want this as a config?
+				);
+				return;
+			}
+
+			// Add on the latest edits
+			activeDocument.edits = {
+				document: document,
+				contentChanges: (activeDocument.edits?.contentChanges ?? []).concat(edits.contentChanges),
+				reason: activeDocument.edits?.reason,
+			};
+			// vscode.window.showInformationMessage(JSON.stringify(activeDocument.edits));
 		})
 	);
 
 	context.subscriptions.push(
-		vscode.workspace.onDidCloseTextDocument(
-			document => {
-				// vscode.window.showInformationMessage(JSON.stringify("close"));
-				const uriString = document.uri.toString();
-				if (trees[uriString]) {
-					trees[uriString].jsonTree.delete();
-					for (const tree in trees[uriString].regexTrees) {
-						trees[uriString].regexTrees[tree].delete();
-					}
-					delete trees[uriString];
+		vscode.workspace.onDidCloseTextDocument(document => {
+			// vscode.window.showInformationMessage(JSON.stringify("close"));
+			const uriString = document.uri.toString();
+			delete activeDocuments[uriString];
+			if (trees[uriString]) {
+				trees[uriString].jsonTree.delete();
+				for (const tree in trees[uriString].regexTrees) {
+					trees[uriString].regexTrees[tree].delete();
 				}
+				delete trees[uriString];
 			}
-		)
+		})
 	);
 }
 
 
-function parseTextDocument(document: vscode.TextDocument, jsonParser: Parser, regexParser: Parser) {
+function parseTextDocument(document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage(JSON.stringify("ParseTextDocument"));
+	// vscode.window.showInformationMessage(JSON.stringify(document.uri));
 	// const start = performance.now();
 
 	if (!vscode.languages.match(DocumentSelector, document)) {
@@ -314,10 +376,10 @@ function parseTextDocument(document: vscode.TextDocument, jsonParser: Parser, re
 	for (const queryCapture of queryCaptures) {
 		const node = queryCapture.node;
 		const range: Parser.Range = {
+			startIndex: node.startIndex,
+			endIndex: node.endIndex,
 			startPosition: node.startPosition,
 			endPosition: node.endPosition,
-			startIndex: node.startIndex,
-			endIndex: node.endIndex
 		};
 		const ranges: Parser.Range[] = [range];
 		const options: Parser.Options = { includedRanges: ranges };
@@ -355,27 +417,22 @@ function parseTextDocument(document: vscode.TextDocument, jsonParser: Parser, re
 
 
 	//  if(node.hasChanges()) {}
-	// vscode.window.showInformationMessage(performance.now() - start + "ms");
+	// vscode.window.showInformationMessage(`parseTree ${performance.now() - start}ms`);
 }
 
-function reparseTextDocument(edits: vscode.TextDocumentChangeEvent, jsonParser: Parser, regexParser: Parser) {
+function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 	// vscode.window.showInformationMessage(JSON.stringify("ReparseTextDocument"));
 	// const start = performance.now();
 
-	const contentChanges = edits.contentChanges;
-	if (contentChanges.length == 0) {
+	if (edits.contentChanges.length == 0) {
 		return;
 	}
 
 	const document = edits.document;
-	if (!vscode.languages.match(DocumentSelector, document)) {
-		return;
-	}
-
 	const uriString = document.uri.toString();
 	if (!(uriString in trees)) {
 		vscode.window.showInformationMessage(JSON.stringify(document));
-		parseTextDocument(document, jsonParser, regexParser);
+		parseTextDocument(document);
 		return;
 	}
 
@@ -384,9 +441,9 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent, jsonParser: 
 	const jsonTreeOld = trees[uriString].jsonTree;
 	const text = document.getText();
 
-	const deltas = [];
+	const deltas: Parser.Edit[] = [];
 
-	for (const edit of contentChanges) {
+	for (const edit of edits.contentChanges) {
 		const startIndex = edit.rangeOffset;
 		const oldEndIndex = edit.rangeOffset + edit.rangeLength;
 		const newEndIndex = edit.rangeOffset + edit.text.length;
@@ -471,5 +528,5 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent, jsonParser: 
 		oldRegexTrees[regexTree].delete();
 	}
 	// vscode.window.showInformationMessage(JSON.stringify(trees[uriString]));
-	// vscode.window.showInformationMessage(performance.now() - start + "ms");
+	// vscode.window.showInformationMessage(`reparseTree ${edits.contentChanges.length} ${performance.now() - start}ms`);
 }

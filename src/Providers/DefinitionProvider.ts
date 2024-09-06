@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getTrees, getTree, toRange, toPoint, queryNode, trees, getLastNode } from "../TreeSitter";
+import { getTrees, toRange, toPoint, queryNode, trees, getLastNode } from "../TreeSitter";
 import { DocumentSelector, stringify } from "../extension";
 import { Point, SyntaxNode } from 'web-tree-sitter';
 
@@ -187,7 +187,7 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 					if (!vscode.languages.match(DocumentSelector, textDocument)) {
 						continue;
 					}
-					const documentTree = getTree(textDocument);
+					const documentTree = getTrees(textDocument).jsonTree;
 					queryString = `(json (scopeName (value) @scopeName (.eq? @scopeName "${scopeName}")))`;
 					const documentScopeNameNode = queryNode(documentTree.rootNode, queryString).pop()?.node;
 					if (documentScopeNameNode) {

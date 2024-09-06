@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as vscodeOniguruma from 'vscode-oniguruma';
-import { getTrees, jsonParserLanguage, queryNode, toPosition, toRange, trueParent } from "./TreeSitter";
-import { DocumentSelector } from "./extension";
+import { getTrees, parseEvents, queryNode, toPosition, toRange, trueParent } from "./TreeSitter";
+import { DocumentSelector, stringify } from "./extension";
 import { unicodeproperties } from "./UNICODE_PROPERTIES";
 
 
@@ -26,90 +26,97 @@ type OnigScanner = vscodeOniguruma.OnigScanner & {
 	readonly _options: vscodeOniguruma.FindOption[];
 };
 
-
+const DiagnosticCollection = vscode.languages.createDiagnosticCollection("textmate");
 export function initDiagnostics(context: vscode.ExtensionContext) {
 	// vscode.window.showInformationMessage(JSON.stringify("initDiagnostics"));
-	const DiagnosticCollection = vscode.languages.createDiagnosticCollection("textmate");
 	context.subscriptions.push(DiagnosticCollection);
+	parseEvents.push(Diagnostics);
 
-	const activeDocuments: {
-		[uriString: string]: {
-			edits: vscode.TextDocumentChangeEvent;
-			timeout: NodeJS.Timeout;
-		};
-	} = {};
+	// const activeDocuments: {
+	// 	[uriString: string]: {
+	// 		edits: vscode.TextDocumentChangeEvent;
+	// 		timeout: NodeJS.Timeout | number;
+	// 	};
+	// } = {};
 
 	for (const editor of vscode.window.visibleTextEditors) {
 		// vscode.window.showInformationMessage(JSON.stringify("visible"));
-		const uriString = editor.document.uri.toString();
-		activeDocuments[uriString] = { edits: null, timeout: null };
-		Diagnostics(editor.document, DiagnosticCollection);
+		const document = editor.document;
+		if (!vscode.languages.match(DocumentSelector, document)) {
+			continue;
+		}
+		// const uriString = document.uri.toString();
+		// activeDocuments[uriString] = { edits: null, timeout: null };
+		Diagnostics(document);
 	}
 
-	context.subscriptions.push(
-		vscode.workspace.onDidOpenTextDocument((document: vscode.TextDocument) => {
-			// vscode.window.showInformationMessage(JSON.stringify("open"));
-			const uriString = document.uri.toString();
-			activeDocuments[uriString] = { edits: null, timeout: null };
-			Diagnostics(document, DiagnosticCollection);
-		})
-	);
+	// context.subscriptions.push(
+	// 	vscode.workspace.onDidOpenTextDocument((document: vscode.TextDocument) => {
+	// 		// vscode.window.showInformationMessage(JSON.stringify("open"));
+	// 		if (!vscode.languages.match(DocumentSelector, document)) {
+	// 			return;
+	// 		}
+	// 		const uriString = document.uri.toString();
+	// 		activeDocuments[uriString] = { edits: null, timeout: null };
+	// 		Diagnostics(document, DiagnosticCollection);
+	// 	})
+	// );
 
-	context.subscriptions.push(
-		vscode.workspace.onDidChangeTextDocument((edits: vscode.TextDocumentChangeEvent) => {
-			// vscode.window.showInformationMessage(JSON.stringify("change"));
+	// context.subscriptions.push(
+	// 	vscode.workspace.onDidChangeTextDocument((edits: vscode.TextDocumentChangeEvent) => {
+	// 		// vscode.window.showInformationMessage(JSON.stringify("change"));
+	// 		if (!vscode.languages.match(DocumentSelector, edits.document)) {
+	// 			return;
+	// 		}
 
-			if (edits.contentChanges.length == 0) {
-				// File saving triggers onDidChangeTextDocument()
-				return;
-			}
+	// 		if (edits.contentChanges.length == 0) {
+	// 			// File saving triggers onDidChangeTextDocument()
+	// 			return;
+	// 		}
 
-			const uriString = edits.document.uri.toString();
-			const activeDocument = activeDocuments[uriString];
+	// 		const uriString = edits.document.uri.toString();
+	// 		const activeDocument = activeDocuments[uriString];
 
-			// Debounce recently repeated requests
-			if (activeDocument.timeout == null) {
-				// Run Diagnostics instantly on first edit
-				Diagnostics(edits.document, DiagnosticCollection);
+	// 		// Debounce recently repeated requests
+	// 		if (activeDocument.timeout == null) {
+	// 			// Run Diagnostics instantly on first edit
+	// 			Diagnostics(edits.document, DiagnosticCollection);
 
-				// Wait 50ms and execute CallBack reguardless of if there were new edits or not
-				activeDocument.timeout = setTimeout(
-					() => {
-						if (activeDocument.edits == null) {
-							// No new edits? exit.
-							activeDocument.timeout = null;
-							return;
-						}
+	// 			// Wait 50ms and execute CallBack reguardless of if there were new edits or not
+	// 			activeDocument.timeout = setInterval(
+	// 				() => {
+	// 					if (activeDocument.edits == null) {
+	// 						// No new edits? exit.
+	// 						clearInterval(activeDocument.timeout); // Works in VSCode web
+	// 						activeDocument.timeout = null;
+	// 						return;
+	// 					}
 
-						// Wait for slow Diagnostics first before rescheduling Timer CallBack
-						Diagnostics(activeDocument.edits.document, DiagnosticCollection);
-						activeDocument.timeout.refresh(); // Setting Timeouts within Timeouts :)
-						activeDocument.edits = null;
-					},
-					50, // 50 milisecond intervals. Does anyone want this as a config?
-				);
-				return;
-			}
+	// 					// setInterval() waits for current callback to finish
+	// 					Diagnostics(activeDocument.edits.document, DiagnosticCollection);
+	// 					activeDocument.edits = null;
+	// 				},
+	// 				50, // 50 milisecond intervals. Does anyone want this as a config?
+	// 			);
+	// 			return;
+	// 		}
 
-			// Use the latest edits
-			activeDocument.edits = edits;
-		})
-	);
+	// 		// Use the latest edits
+	// 		activeDocument.edits = edits;
+	// 	})
+	// );
 
-	context.subscriptions.push(
-		vscode.workspace.onDidCloseTextDocument((document: vscode.TextDocument) => {
-			// vscode.window.showInformationMessage(JSON.stringify("close"));
-			const uriString = document.uri.toString();
-			delete activeDocuments[uriString];
-			DiagnosticCollection.delete(document.uri);
-		})
-	);
+	// context.subscriptions.push(
+	// 	vscode.workspace.onDidCloseTextDocument((document: vscode.TextDocument) => {
+	// 		// vscode.window.showInformationMessage(JSON.stringify("close"));
+	// 		const uriString = document.uri.toString();
+	// 		delete activeDocuments[uriString];
+	// 		DiagnosticCollection.delete(document.uri);
+	// 	})
+	// );
 }
 
-function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.DiagnosticCollection) {
-	if (!vscode.languages.match(DocumentSelector, document)) {
-		return;
-	}
+function Diagnostics(document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage("Diagnostics");
 	// const start = performance.now();
 
@@ -293,6 +300,7 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 
 	if (true) { // Oniguruma Regex errors. https://github.com/kkos/oniguruma
 		// vscode.window.showInformationMessage(JSON.stringify("diagnostics Regex Oniguruma"));
+		// const start = performance.now();
 		const regexNodes = trees.regexNodes;
 
 		for (const id in regexNodes) {
@@ -331,6 +339,7 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 				diagnostics.push(diagnostic);
 			}
 		}
+		// vscode.window.showInformationMessage(performance.now() - start + "ms");
 	}
 
 	if (true) { // missing `#include`
@@ -340,7 +349,7 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 		let prevParent;
 		let errorCount;
 
-		const repoQueryString = `
+		const repoQueryString = `;scm
 			(repo
 				[(include) (patterns)] (repository
 					(repo
@@ -530,14 +539,14 @@ function Diagnostics(document: vscode.TextDocument, Diagnostics: vscode.Diagnost
 
 	if (false) { // create artificial lag
 		const start = performance.now();
-		for (let i = 0; i < 200; i++) {
+		for (let i = 0; i < 1000; i++) {
 			queryNode(rootNode, `(ERROR) @ERROR`);
 		}
-		vscode.window.showInformationMessage(performance.now() - start + "ms");
+		// vscode.window.showInformationMessage(performance.now() - start + "ms");
 	}
 
 	// vscode.window.showInformationMessage(JSON.stringify(diagnostics));
-	Diagnostics.set(document.uri, diagnostics);
+	DiagnosticCollection.set(document.uri, diagnostics);
 	// vscode.window.showInformationMessage(`Diagnostics ${performance.now() - start}ms`);
 }
 

@@ -1,20 +1,20 @@
 import * as vscode from 'vscode';
-import { getTree, toRange, toPoint, queryNode } from "../TreeSitter";
+import { getTrees, toRange, toPoint, queryNode } from "../TreeSitter";
 
 
 export const ReferenceProvider: vscode.ReferenceProvider = {
 	provideReferences(document: vscode.TextDocument, position: vscode.Position, context: vscode.ReferenceContext, token: vscode.CancellationToken): vscode.Location[] {
 		// vscode.window.showInformationMessage(JSON.stringify("references"));
-		const tree = getTree(document);
+		const tree = getTrees(document).jsonTree;
 		const point = toPoint(position);
 		let queryString: string;
 		// vscode.window.showInformationMessage(JSON.stringify(tree.rootNode.namedDescendantForPosition(point).text));
 
-		queryString = `
+		queryString = `;scm
 			;(json (scopeName (value) @scopeName))
 			(include (value) @include)
 			(repo (key) @repo)
-		`
+		`;
 		const referenceQueryCapture = queryNode(tree.rootNode, queryString, point);
 		if (referenceQueryCapture == null) {
 			return;
@@ -91,7 +91,7 @@ export const ReferenceProvider: vscode.ReferenceProvider = {
 					else if (node.childForFieldName('self') || (scopeName && !ruleName)) { // $self
 						// vscode.window.showInformationMessage("$self");
 						queryString =
-							`(include (value) @include (#match? @include "^#?\\\\$self$"))`
+							`(include (value) @include (#match? @include "^#?\\\\$self$"))`;
 						if (rootScopeName) {
 							queryString +=
 								`(include (value) @include (#eq? @include "${rootScopeName}"))` +
@@ -150,4 +150,4 @@ export const ReferenceProvider: vscode.ReferenceProvider = {
 		// vscode.window.showInformationMessage(JSON.stringify(locations));
 		return locations;
 	}
-}
+};
