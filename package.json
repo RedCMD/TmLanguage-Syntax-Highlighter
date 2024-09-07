@@ -369,9 +369,9 @@
 		"web-tree-sitter": "^0.23.0"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.78.0",
-		"@vscode/test-web": "^0.0.57",
-		"@vscode/vsce": "^3.0.0",
+		"@types/vscode": "^1.87.0",
+		"@vscode/test-web": "^0.0.59",
+		"@vscode/vsce": "^3.1.0",
 		"path-browserify": "^1.0.1",
 		"tree-sitter-cli": "^0.23.0",
 		"ts-loader": "^9.5.1",
