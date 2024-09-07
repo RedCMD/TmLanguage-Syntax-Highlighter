@@ -5,7 +5,7 @@
 
 module.exports = grammar({
 	name: "jsontm",
-	word: $ => $._string,
+	// word: $ => $._string,
 	extras: $ => [
 		//$._whitespace,
 	],
@@ -488,13 +488,11 @@ module.exports = grammar({
 		),
 
 		boolean: $ => choice(
-			"true", // Why does this like eating spaces
-			"false", // hmmmm.... commmas... tasty.... WTF
-			/fa[l\t]se/, // Why does it need to also match tab?!?!
-			/tr[u\t]e/, // Why does "true" not just work?!?!
+			"true",
+			"false",
 		),
-		null: $ => /nu[l\t]l/, // WTF is happening
-		integer: $ => /-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/, // Why does this work?!?!
+		null: $ => /null/,
+		integer: $ => /-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/,
 		_string: $ => token(
 			prec(-1,
 				repeat1(
