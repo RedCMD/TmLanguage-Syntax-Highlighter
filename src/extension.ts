@@ -84,6 +84,9 @@ export function stringify(this: any, key: string, value: any) {
 	if (value == null) {
 		return null;
 	}
+	if (value instanceof Map) {
+		return Array.from(value.entries());
+	}
 	if (key.startsWith("HEAP")) {
 		return "<error>";
 	}

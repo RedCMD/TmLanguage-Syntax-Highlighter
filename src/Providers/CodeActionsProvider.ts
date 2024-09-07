@@ -14,6 +14,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 	provideCodeActions(document: vscode.TextDocument, range: vscode.Range | vscode.Selection, context: vscode.CodeActionContext, token: vscode.CancellationToken): vscode.CodeAction[] {
 		// vscode.window.showInformationMessage(JSON.stringify("CodeActions"));
 		// vscode.window.showInformationMessage(JSON.stringify(context));
+		// const start = performance.now();
 
 		const codeActions: vscode.CodeAction[] = [];
 		let codeAction: CodeAction;
@@ -87,15 +88,14 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 
 		const trees = getTrees(document);
 		const regexNodes = trees.regexNodes;
-		for (const key in regexNodes) {
-			const regexNode = regexNodes[key];
+		for (const regexNode of regexNodes.values()) {
 			const parentRange = toRange(trueParent(regexNode));
 			if (parentRange.intersection(range)) {
 				codeAction = {
 					title: `Minify Regex`,
 					kind: vscode.CodeActionKind.RefactorRewrite.append("minify"),
 					document: document,
-					nodeId: <number><unknown>key, // why?
+					nodeId: regexNode.id,
 				};
 				codeActions.push(codeAction);
 				minifyRegex = true;
@@ -112,10 +112,12 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 		}
 
 		// vscode.window.showInformationMessage(JSON.stringify(codeActions));
+		// vscode.window.showInformationMessage(`codeActions ${performance.now() - start}ms`);
 		return codeActions;
 	},
 	resolveCodeAction(codeAction: CodeAction, token: vscode.CancellationToken): vscode.CodeAction {
 		// vscode.window.showInformationMessage(JSON.stringify(codeAction));
+		// const start = performance.now();
 		const document = codeAction.document;
 		const uri = document.uri;
 
@@ -126,16 +128,15 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 		const id = codeAction.nodeId;
 
 		if (id == -1) {
-			for (const key in regexTrees) {
-				const regexTree = regexTrees[key];
+			for (const regexTree of regexTrees.values()) {
 				const rootNode = regexTree.rootNode;
 				rootNodes.push(rootNode);
 			}
 		}
 		else {
 			const regexNodes = trees.regexNodes;
-			const jsonNode = regexNodes[id];
-			const regexTree = regexTrees[jsonNode.id];
+			const jsonNode = regexNodes.get(id);
+			const regexTree = regexTrees.get(jsonNode.id);
 			const rootNode = regexTree.rootNode;
 			rootNodes.push(rootNode);
 		}
@@ -143,7 +144,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 		const edit = new vscode.WorkspaceEdit;
 
 		for (const rootNode of rootNodes) {
-			const minifyQuery = `
+			const minifyQuery = `;scm
 				(backslash) @backslash
 				(comment_group) @comment
 				(comment_extended) @comment
@@ -300,6 +301,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 
 		// vscode.window.showInformationMessage(JSON.stringify(edit));
 		codeAction.edit = edit;
+		// vscode.window.showInformationMessage(`codeAction ${performance.now() - start}ms`);
 		return codeAction;
 	},
 };

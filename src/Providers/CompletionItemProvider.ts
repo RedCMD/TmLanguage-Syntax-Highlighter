@@ -27,7 +27,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 		const rootNode = tree.rootNode;
 		const point = toPoint(position);
 
-		const cursorQuery = `
+		const cursorQuery = `;scm
 			(schema (value) @schema)
 			(scopeName (value) @scopeName)
 			(name_display (value) @name)
@@ -319,7 +319,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 				}
 
 				const scopes: string[] = [];
-				const scopeQuery = `
+				const scopeQuery = `;scm
 					(name (value (scope) @scope (.not-match? @scope "^(\\\\$0*[0-9]{1,3})+$")))
 					(contentName (value (scope) @scope (.not-match? @scope "^(\\\\$0*[0-9]{1,3})+$")))
 				`;
@@ -359,9 +359,9 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 
 				break;
 			case 'regex':
-				const regexRootNode = trees.regexTrees[cursorNode.id].rootNode;
+				const regexRootNode = trees.regexTrees.get(cursorNode.id).rootNode;
 
-				const regexQuery = `
+				const regexQuery = `;scm
 					(character_property (character_property_name) @property)
 				`;
 				const regexCapture = queryNode(regexRootNode, regexQuery, point);

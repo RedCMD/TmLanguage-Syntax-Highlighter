@@ -377,7 +377,7 @@ function pushDefinitionLink(definitions: vscode.LocationLink[], node: SyntaxNode
 
 function getCaptureRefs(trees: trees, node: SyntaxNode, position: vscode.Position) {
 	const regexTrees = trees.regexTrees;
-	const regexNode = regexTrees[node.id]?.rootNode;
+	const regexNode = regexTrees.get(node.id)?.rootNode;
 
 	const captureGroupQuery = `;scm
 		(capture_group) @group
@@ -439,7 +439,7 @@ function getRegexGroup(trees: trees, parentNode: SyntaxNode, captureNode: Syntax
 	}
 	const regexTrees = trees.regexTrees;
 	const id = node.childForFieldName('regex').id;
-	const regexNode = regexTrees[id]?.rootNode;
+	const regexNode = regexTrees.get(id)?.rootNode;
 
 	const index = parseInt(captureNode.text.replace('$', '')); // Ignores random characters after the first numerics, just like VSCode TextMate
 	if (index == 0) {

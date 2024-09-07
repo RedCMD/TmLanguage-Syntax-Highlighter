@@ -16,7 +16,7 @@ export const HoverProvider: vscode.HoverProvider = {
 
 		if (node.type == 'regex') {
 			const regexTrees = getTrees(document).regexTrees;
-			const regexTree = regexTrees[node.id];
+			const regexTree = regexTrees.get(node.id);
 			const regexNode = regexTree.rootNode.descendantForPosition(point);
 			const parentNode = regexNode.parent;
 			const markdownString = new vscode.MarkdownString();

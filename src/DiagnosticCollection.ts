@@ -163,7 +163,7 @@ function Diagnostics(document: vscode.TextDocument) {
 							type == ',' ?
 								new vscode.Range(
 									toPosition(node.previousSibling.endPosition),
-									toPosition(node.previousSibling.endPosition)
+									toPosition(node.previousSibling.endPosition),
 								)
 								: range,
 						message: `'${parentType}' is missing character${type.length > 1 ? 's' : ''} '${type}'`,
@@ -184,8 +184,13 @@ function Diagnostics(document: vscode.TextDocument) {
 		// vscode.window.showInformationMessage(JSON.stringify("diagnostics Regex"));
 		// const start = performance.now();
 		const regexTrees = trees.regexTrees;
-		for (const id in regexTrees) {
-			const tree = regexTrees[id];
+		for (const tree of regexTrees.values()) {
+			// diagnostics.push({
+			// 	range: toRange(tree.rootNode),
+			// 	message: tree.rootNode.text,
+			// 	severity: vscode.DiagnosticSeverity.Information,
+			// 	source: 'regex',
+			// });
 			// vscode.window.showInformationMessage(JSON.stringify(tree.rootNode.toString()));
 
 			const queryString = `;scm
@@ -303,11 +308,11 @@ function Diagnostics(document: vscode.TextDocument) {
 		// const start = performance.now();
 		const regexNodes = trees.regexNodes;
 
-		for (const id in regexNodes) {
-			const regexNode = regexNodes[id];
+		for (const regexNode of regexNodes.values()) {
 			const text = regexNode.text;
 			const key = regexNode.previousNamedSibling;
 			if (!key) { // `previousNamedSibling` is broken on 0width nodes
+				vscode.window.showInformationMessage("0width broken!!");
 				continue;
 			}
 
