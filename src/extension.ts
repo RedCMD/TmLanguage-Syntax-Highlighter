@@ -85,6 +85,9 @@ export function stringify(this: any, key: string, value: any) {
 		return null;
 	}
 	if (value instanceof Map) {
+		if (key == "_grammars") {
+			return Array.from(value.keys());
+		}
 		return Array.from(value.entries());
 	}
 	if (key.startsWith("HEAP")) {

@@ -155,7 +155,7 @@ function getInjections(scopeName: ScopeName): ScopeName[] | undefined {
 	}
 
 	if (injections.length) {
-		vscode.window.showInformationMessage(`injections:\n${JSON.stringify(injections)}`);
+		// vscode.window.showInformationMessage(`injections:\n${JSON.stringify(injections)}`);
 		return injections;
 	}
 }
