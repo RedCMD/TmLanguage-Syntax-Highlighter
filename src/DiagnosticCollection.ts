@@ -50,17 +50,15 @@ export function initDiagnostics(context: vscode.ExtensionContext) {
 		Diagnostics(document);
 	}
 
-	// context.subscriptions.push(
-	// 	vscode.workspace.onDidOpenTextDocument((document: vscode.TextDocument) => {
-	// 		// vscode.window.showInformationMessage(JSON.stringify("open"));
-	// 		if (!vscode.languages.match(DocumentSelector, document)) {
-	// 			return;
-	// 		}
-	// 		const uriString = document.uri.toString();
-	// 		activeDocuments[uriString] = { edits: null, timeout: null };
-	// 		Diagnostics(document, DiagnosticCollection);
-	// 	})
-	// );
+	context.subscriptions.push(
+		vscode.workspace.onDidOpenTextDocument((document: vscode.TextDocument) => {
+			// vscode.window.showInformationMessage(JSON.stringify("open"));
+			if (!vscode.languages.match(DocumentSelector, document)) {
+				return;
+			}
+			Diagnostics(document);
+		})
+	);
 
 	// context.subscriptions.push(
 	// 	vscode.workspace.onDidChangeTextDocument((edits: vscode.TextDocumentChangeEvent) => {
@@ -106,14 +104,12 @@ export function initDiagnostics(context: vscode.ExtensionContext) {
 	// 	})
 	// );
 
-	// context.subscriptions.push(
-	// 	vscode.workspace.onDidCloseTextDocument((document: vscode.TextDocument) => {
-	// 		// vscode.window.showInformationMessage(JSON.stringify("close"));
-	// 		const uriString = document.uri.toString();
-	// 		delete activeDocuments[uriString];
-	// 		DiagnosticCollection.delete(document.uri);
-	// 	})
-	// );
+	context.subscriptions.push(
+		vscode.workspace.onDidCloseTextDocument((document: vscode.TextDocument) => {
+			// vscode.window.showInformationMessage(JSON.stringify("close"));
+			DiagnosticCollection.delete(document.uri);
+		})
+	);
 }
 
 function Diagnostics(document: vscode.TextDocument) {
