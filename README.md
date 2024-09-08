@@ -1,18 +1,19 @@
 # TmLanguage-Syntax-Highlighter
 Syntax Highlighter for VSCodes JSON TextMate grammars
 
-# NEW! CallStack feature thingy
-Feedback welcomed [Github](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/issues/10)
-
 ## Features
 * Syntax Highlighting
 * Basic Intellisense
+* Diagnostics error reporting
 * Ctrl+click Definitions
 * Breadcrumbs/Outline
 * Formatting
 * Schema support
 * `repository`/`include` Call Hierarchy View
 * [F2] Rename
+* CodeLens
+* CallStack Viewer
+* Deadcode dims
 * Supported in [VSCode Web](https://insiders.vscode.dev/)
 
 Example code:  
@@ -81,5 +82,4 @@ Highlights scope names with their own themed colour in realtime:
 * Improve tree-sitter grammar
 * Update README.md pictures
 * Improve TextMate [documentation](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/index.md)
-* Add CodeLens
 * Finish CallStack viewer
