@@ -28,9 +28,7 @@ export function getTrees(source: vscode.TextDocument | vscode.Uri): trees {
 			return docTrees;
 		}
 	}
-	vscode.window.showInformationMessage(JSON.stringify("TextMate: TS Tree does not exist!"));
-	vscode.window.showInformationMessage(JSON.stringify(source));
-	vscode.window.showInformationMessage(JSON.stringify(trees));
+	vscode.window.showInformationMessage(`TextMate: TreeSitter Tree does not exist!\nFile:\n${JSON.stringify(source)}\nTrees:\n${JSON.stringify(trees)}`);
 }
 
 export function getRegexNode(source: vscode.TextDocument | vscode.Uri | trees | trees["regexTrees"], node: Parser.SyntaxNode | number): Parser.SyntaxNode {
