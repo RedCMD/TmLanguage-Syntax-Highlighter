@@ -85,6 +85,10 @@
 				{ "include": "#json-pair" },
 				{ "include": "#comments" },
 				{
+					"match": ",",
+					"name": "punctuation.separator.json.tm"
+				},
+				{
 					"comment": "This must be strict. So to reduce false positives",
 					"begin": "\\A(?!$|\\s*{\\s*(?>$|})|\\s*\\[\\s*(?>$|\\[|{)|[^\t]*\t|(?>[^\\\\\"]+|\\\\.)*+.)",
 					"end": "(?=[)\"])|$",
@@ -318,7 +322,7 @@
 					"patterns": [ { "include": "#injection-string" } ]
 				},
 				{
-"comment": "An array of `\"injectionSelector\"` is not offically supported by VSCode TextMate. But still happens to work because JavaScript",
+					"comment": "An array of `\"injectionSelector\"` is not offically supported by VSCode TextMate. But still happens to work because JavaScript",
 					"begin": "\\[",
 					"end": "]",
 					"beginCaptures": { "0": { "name": "punctuation.definition.array.begin.json.tm" } },
