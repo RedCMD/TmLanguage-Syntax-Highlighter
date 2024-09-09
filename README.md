@@ -17,7 +17,7 @@ Syntax Highlighter for VSCodes JSON TextMate grammars
 * Supported in [VSCode Web](https://insiders.vscode.dev/)
 
 Example code:  
-![example-code](https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/images/Example%20Code%20V1.2.png)
+![example-code](https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/images/Example%20Code%20V2.5.png)
 
 Highlights scope names with their own themed colour in realtime:  
 ![list-of-VSCode-Dark+-scopenames-and-their-colours](https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/images/VSCode%20Dark+%20theme%20coloured%20scope-names.png)
@@ -80,6 +80,5 @@ Highlights scope names with their own themed colour in realtime:
 * Finish ctrl+click definitions and references
 * Add hovers
 * Improve tree-sitter grammar
-* Update README.md pictures
 * Improve TextMate [documentation](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/index.md)
 * Finish CallStack viewer
