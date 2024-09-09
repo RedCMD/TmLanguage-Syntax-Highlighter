@@ -4,11 +4,12 @@ import { getTrees, queryNode, toPoint, toRange, trueParent } from "../TreeSitter
 export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 	provideDocumentHighlights(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.DocumentHighlight[] {
 		// vscode.window.showInformationMessage(JSON.stringify("DocumentHighlights"));
+		// const start = performance.now();
 		const trees = getTrees(document);
 		const jsonTree = trees.jsonTree;
 		const point = toPoint(position);
 
-		const cursorQuery = `
+		const cursorQuery = `;scm
 			(key) @key
 			(value !scopeName !ruleName !self !base) @value
 			(capture . (key) @key)
@@ -32,7 +33,7 @@ export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 		// const cursorRange = toRange(cursorNode);
 
 
-		// const scopeName = cursorNode.parent.childForFieldName('scopeName')?.text;
+		// const scopeName = cursorNode.parent.childForFieldName('scopeName')?.text; 
 		const rootScopeName = queryNode(jsonTree.rootNode, `(json (scopeName (value) @scopeName))`).pop()?.node?.text;
 
 
@@ -40,15 +41,24 @@ export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 		switch (cursorName) {
 			case 'key':
 				const cursorType = trueParent(cursorNode).type;
-				// const cursorType = cursorText ? cursorNode.parent.type : cursorNode.parent.parent.type;
-				query = `(${cursorType} . (key) @key (#eq? @key "${cursorText}"))`;
+				if (cursorType != 'repo') {
+					query = `(${cursorType} . (key) @key (#eq? @key "${cursorText}"))`;
+					break;
+				}
+			// FallThrough
+			case 'repo':
+				query = `;scm
+					(repo (key) @repo (#eq? @repo "${cursorText}"))
+					(include
+						(value
+							(scopeName)? @_scopeName (#eq? @_scopeName "${rootScopeName}")
+							(ruleName) @_ruleName (#eq? @_ruleName "${cursorText}")
+						) @include
+					)
+				`;
 				break;
 			case 'value':
 				query = `(_ (value) @value (#eq? @value "${cursorText}"))`;
-				break;
-			case 'repo':
-				query = `(repo (key) @repo (#eq? @repo "${cursorText}"))`;
-				query += `(include (value (scopeName)? @_scopeName (#eq? @_scopeName "${rootScopeName}") (ruleName) @_ruleName (#eq? @_ruleName "${cursorText}")) @include)`;
 				break;
 			case 'self':
 			case 'rootScopeName':
@@ -99,6 +109,7 @@ export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 		}
 
 		// vscode.window.showInformationMessage(JSON.stringify(documentHighlights));
+		// vscode.window.showInformationMessage(`documentHighlights ${performance.now() - start}ms`);
 		return documentHighlights;
 	}
 };
