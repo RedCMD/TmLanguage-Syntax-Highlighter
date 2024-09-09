@@ -1,5 +1,5 @@
 # TmLanguage-Syntax-Highlighter
-Syntax Highlighter for VSCodes JSON TextMate grammars
+Syntax Highlighting and Intellisense for VSCodes's JSON based TextMate grammars
 
 ## Features
 * Syntax Highlighting

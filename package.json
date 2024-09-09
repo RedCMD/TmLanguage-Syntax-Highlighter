@@ -1,7 +1,7 @@
 {
 	"name": "tmlanguage-syntax-highlighter",
 	"displayName": "TextMate Syntax Highlighting and Intellisense",
-	"description": "Syntax Highlighting for Json based Text Mate Language",
+	"description": "Syntax Highlighting and Intellisense for VSCodes's JSON based TextMate grammars",
 	"publisher": "RedCMD",
 	"version": "2.4.12",
 	"engines": {
