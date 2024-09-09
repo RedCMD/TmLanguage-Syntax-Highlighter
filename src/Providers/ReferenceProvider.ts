@@ -7,35 +7,38 @@ export const ReferenceProvider: vscode.ReferenceProvider = {
 		// vscode.window.showInformationMessage(JSON.stringify("references"));
 		const tree = getTrees(document).jsonTree;
 		const point = toPoint(position);
-		let queryString: string;
 		// vscode.window.showInformationMessage(JSON.stringify(tree.rootNode.namedDescendantForPosition(point).text));
 
-		queryString = `;scm
+		const cursorQuery = `;scm
 			;(json (scopeName (value) @scopeName))
 			(include (value) @include)
 			(repo (key) @repo)
 		`;
-		const referenceQueryCapture = queryNode(tree.rootNode, queryString, point);
-		if (referenceQueryCapture == null) {
+		const cursorQueryCapture = queryNode(tree.rootNode, cursorQuery, point);
+		if (cursorQueryCapture == null) {
 			return;
 		}
-		const node = referenceQueryCapture.node;
-		const text = node.text;
+		const cursorNode = cursorQueryCapture.node;
+		const cursorText = cursorNode.text;
 		// vscode.window.showInformationMessage(JSON.stringify(node.toString()));
 
-		queryString = `(json (scopeName (value) @scopeName))`;
-		const rootScopeName = queryNode(tree.rootNode, queryString).pop().text;
+		const rootScopeNameQuery = `(json (scopeName (value) @scopeName))`;
+		const rootScopeName = queryNode(tree.rootNode, rootScopeNameQuery).pop()?.node?.text ?? '';
 
-		switch (referenceQueryCapture.name) {
+		let queryString: string;
+		switch (cursorQueryCapture.name) {
 			case 'repo':
-				if (text == '$self' || text == '$base') {
+				if (cursorText == '$self' || cursorText == '$base') {
 					return;
 				}
-				queryString =
-					`(include (value) @include (#eq? @include "#${text}"))` +
-					`(repo (key) @repo (#eq? @repo "${text}"))`;
-				if (rootScopeName && text)
-					queryString += `(include (value) @include (#eq? @include "${rootScopeName}#${text}"))`;
+				queryString = `;scm
+					(include
+						(value
+							(scopeName)? @_scopeName (#eq? @_scopeName "${rootScopeName}")
+							(ruleName) @_ruleName (#eq? @_ruleName "${cursorText}")
+						) @include
+					)
+				`;
 				break;
 			case 'include': // move to own function. Can be used for code-lens and symbol-highlight etc
 				/*
@@ -63,18 +66,18 @@ export const ReferenceProvider: vscode.ReferenceProvider = {
 				source.other#$self		other
 				source.other#include	other#include
 				*/
-				if (text == '') { // *fail
+				if (cursorText == '') { // *fail
 					// vscode.window.showInformationMessage("*fail");
 					return;
 				}
 
-				if (node.childForFieldName('base')) { // $base
+				if (cursorNode.childForFieldName('base')) { // $base
 					// vscode.window.showInformationMessage("$base");
 					queryString = `(include (value) @include (#match? @include "^([^#]*#)?\\\\$base$"))`;
 				}
 				else {
-					const scopeName = node.childForFieldName('scopeName')?.text;
-					const ruleName = node.childForFieldName('ruleName')?.text;
+					const scopeName = cursorNode.childForFieldName('scopeName')?.text;
+					const ruleName = cursorNode.childForFieldName('ruleName')?.text;
 					if (scopeName && scopeName != rootScopeName) {
 						if (ruleName) { // other#include
 							// vscode.window.showInformationMessage("other#include");
@@ -88,7 +91,7 @@ export const ReferenceProvider: vscode.ReferenceProvider = {
 								`(include (value) @include (#eq? @include "${scopeName}#$self"))`;
 						}
 					}
-					else if (node.childForFieldName('self') || (scopeName && !ruleName)) { // $self
+					else if (cursorNode.childForFieldName('self') || (scopeName && !ruleName)) { // $self
 						// vscode.window.showInformationMessage("$self");
 						queryString =
 							`(include (value) @include (#match? @include "^#?\\\\$self$"))`;
@@ -137,7 +140,7 @@ export const ReferenceProvider: vscode.ReferenceProvider = {
 
 
 		if ((/* referenceQueryCapture.name == 'repo' && */ locations.length == 0) ||
-			(referenceQueryCapture.name == 'include' && locations.length <= 1)) {
+			(cursorQueryCapture.name == 'include' && locations.length <= 1)) {
 			for (const queryCapture of queryCaptures) {
 				if (queryCapture.name == 'repo') {
 					const range = toRange(queryCapture.node); // .parent?
