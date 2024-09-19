@@ -10,6 +10,7 @@ import { getScopes, getSubScope } from "../themeScopeColors";
 
 
 type element = {
+	type: 'file' | 'root' | 'line' | 'token' | 'scope' | 'rule' | 'name' | 'regex' | 'capture' | 'pattern',
 	line?: number,
 	tokenId?: number,
 	scopeId?: number,
@@ -17,7 +18,6 @@ type element = {
 	ruleId?: RuleId,
 	token?: IToken,
 	document: vscode.TextDocument,
-	type: 'file' | 'root' | 'line' | 'token' | 'scope' | 'rule' | 'name' | 'regex' | 'capture' | 'pattern',
 };
 
 // type rule = {
@@ -38,6 +38,7 @@ const grammars: {
 } = {};
 let grammar: IGrammar;
 let callView: CallView = 'tree';
+let currentFile: string;
 
 // const ruleChached: number[] = [];
 
@@ -54,9 +55,10 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				return;
 			}
 
+			currentFile = activeTextEditor.document.uri.toString();
 			const treeElement: element = {
-				document: activeTextEditor.document,
 				type: 'file',
+				document: activeTextEditor.document,
 			};
 			elements.push(treeElement);
 			return elements;
@@ -67,8 +69,8 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 
 		if (type == 'file') {
 			const treeElement: element = {
-				document: document,
 				type: 'root',
+				document: document,
 			};
 			elements.push(treeElement);
 			return elements;
@@ -147,11 +149,11 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 
 				if (depth == 0) {
 					const childElement: element = {
+						type: 'rule',
 						line: line,
 						ruleId: ruleId,
 						ruleIndex: index,
 						document: document,
-						type: 'rule',
 						// stage: 'name',
 					};
 					elements.push(childElement);
@@ -173,9 +175,9 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			if (type == 'root') {
 				for (let index = 0; index < grammar.lines.length && index < 125000; index++) {
 					const element: element = {
+						type: 'line',
 						line: index,
 						document: document,
-						type: 'line',
 					};
 					elements.push(element);
 				}
@@ -186,11 +188,11 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				const tokens = grammar.lines[element.line].tokens;
 				for (let index = 0; index < tokens.length && index < 125000; index++) {
 					const tokenElement: element = {
+						type: 'token',
 						token: tokens[index],
 						tokenId: index,
 						line: element.line,
 						document: document,
-						type: 'token',
 					};
 					elements.push(tokenElement);
 				}
@@ -202,11 +204,11 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				const token = element.tokenId;
 				for (let index = grammar.lines[element.line].tokens[token].scopes.length - 1; index >= 0; index--) {
 					const tokenElement: element = {
+						type: 'scope',
 						tokenId: element.tokenId,
 						scopeId: index,
 						line: element.line,
 						document: document,
-						type: 'scope',
 					};
 					elements.push(tokenElement);
 				}
@@ -218,6 +220,16 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 		// vscode.window.showInformationMessage(`getTreeItem\n${JSON.stringify(element)}`);
 
 		const type = element.type;
+		const document = element.document;
+
+		if (type == 'file') {
+			const item = new vscode.TreeItem(document.uri, vscode.TreeItemCollapsibleState.Collapsed);
+			item.description = document.languageId;
+			item.iconPath = vscode.ThemeIcon.File;
+			item.contextValue = 'document';
+			item.id = document.uri.toString();
+			return item;
+		}
 
 		if (type == 'root') {
 			grammar = await tokenizeFile(element.document, true);
@@ -233,16 +245,8 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			const item = new vscode.TreeItem(treeLabel, vscode.TreeItemCollapsibleState.Collapsed);
 			item.iconPath = new vscode.ThemeIcon('symbol-variable');
 			item.tooltip = `Time: ${time}`;
-			item.description = timeFixed + "ms" + (time > 500 ? ' ⚠️' : '');
-			return item;
-		}
-
-		const document = element.document;
-		if (type == 'file') {
-			const item = new vscode.TreeItem(document.uri, vscode.TreeItemCollapsibleState.Collapsed);
-			item.description = document.languageId;
-			item.iconPath = vscode.ThemeIcon.File;
-			item.contextValue = 'document';
+			item.description = `${timeFixed}ms${(time > 500 ? ' ⚠️' : '')}`;
+			item.id = grammar._rootScopeName;
 			return item;
 		}
 
@@ -450,25 +454,28 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 	},
 	getParent(element: element): element {
 		// vscode.window.showInformationMessage(`getParent\n${JSON.stringify(element)}`);
-		const type = element.type;
-
-		if (type == 'root') {
-			const parentElement: element = {
-				document: element.document,
-				type: 'file',
-			};
-			return parentElement;
+		const document = element.document;
+		switch (element.type) {
+			case 'token':
+				return {
+					type: 'line',
+					line: element.line,
+					document: document,
+				};
+			case 'line':
+				return {
+					type: 'root',
+					document: document,
+				};
+			case 'root':
+				return {
+					type: 'file',
+					document: document,
+				};
+			case 'file':
+			default:
+				return undefined;
 		}
-
-		if (type == 'line') {
-			const parentElement: element = {
-				document: element.document,
-				type: 'root',
-			};
-			return parentElement;
-		}
-
-		return undefined;
 	},
 	resolveTreeItem(item: vscode.TreeItem, element: element, token: vscode.CancellationToken): vscode.TreeItem {
 		// vscode.window.showInformationMessage(`resolveTreeItem\n${JSON.stringify(element)}\n${JSON.stringify(item, stringify)}`);
@@ -568,82 +575,50 @@ async function CallStackView(textEditor: vscode.TextEditor, edit: vscode.TextEdi
 	const document = textEditor.document;
 	const position = textEditor.selection.active;
 
-	// const tokenLineResults = await tokenizeFile(document);
-	// // vscode.window.showInformationMessage(JSON.stringify(tokenLineResults, stringify));
+	if (currentFile != document.uri.toString()) {
+		refresh();
+	}
 
-	// let rootParent = true;
-	// let index = 0;
-	// const ruleList: {
-	// 	scopeName: string,
-	// 	ruleId: RuleId,
-	// 	depth: number,
-	// 	_enterPos: number,
-	// 	line: number,
-	// }[] = [];
-	// for (const tokenLine of tokenLineResults) {
-	// 	let parentRule = <StateStackImpl>tokenLine.ruleStack;
-	// 	index++;
-	// 	const tempRules = [];
-	// 	while (parentRule) {
-	// 		if (parentRule._enterPos != -1 || rootParent) {
-	// 			const rule = {
-	// 				scopeName: parentRule.nameScopesList.scopePath.scopeName,
-	// 				ruleId: parentRule.ruleId,
-	// 				depth: parentRule.depth,
-	// 				_enterPos: parentRule._enterPos,
-	// 				line: index,
-	// 			};
-	// 			tempRules.unshift(rule);
-	// 			rootParent = false;
-	// 		}
-	// 		parentRule = parentRule.parent;
-	// 	}
-	// 	ruleList.push(...tempRules);
-	// 	// ruleList = [...ruleList, ...tempRules];
-	// }
+	await treeView.reveal(
+		{
+			type: 'root',
+			document: document,
+		},
+		{
+			expand: true,
+			focus: false,
+			select: false,
+		}
+	);
 
-	// const ruleTree = {};
-
-	// vscode.window.showInformationMessage(JSON.stringify(ruleList, stringify));
-
-	// const grammar = await tokenizeFile(document);
-
-	// onDidChangeTreeData.fire(undefined);
-
-	const activeTextEditor = vscode.window.activeTextEditor;
-	if (!activeTextEditor) {
+	if (callView == 'list') {
+		const line = position.line;
+		const character = position.character;
+		const tokens = grammar.lines[line].tokens;
+		let index = 0;
+		for (const token of tokens) {
+			if (token.startIndex <= character && token.endIndex >= character) {
+				break;
+			}
+			index++;
+		}
+		await treeView.reveal(
+			{
+				type: 'token',
+				token: tokens[index],
+				tokenId: index,
+				line: line,
+				document: document,
+			},
+			{
+				expand: false,
+				focus: true,
+				select: true,
+			},
+		);
 		return;
 	}
-	await treeView.reveal(
-		undefined,
-		{
-			expand: true,
-			focus: true,
-			select: true,
-		}
-	);
-	await treeView.reveal(
-		{
-			document: activeTextEditor.document,
-			type: 'file',
-		},
-		{
-			expand: true,
-			focus: true,
-			select: true,
-		}
-	);
-	await treeView.reveal(
-		{
-			document: activeTextEditor.document,
-			type: 'root',
-		},
-		{
-			expand: true,
-			focus: true,
-			select: true,
-		}
-	);
+
 	// treeView.badge = {
 	// 	tooltip: "tooltip badge 56: is there any use for this number?",
 	// 	value: 56,
