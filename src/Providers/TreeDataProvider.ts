@@ -714,37 +714,41 @@ async function gotoGrammar(element: element) {
 		const line = element.line;
 		if (id == 0) {
 			ruleId = grammar.lines[line].lastRule;
+			// vscode.window.showInformationMessage(`LineTokens: ${JSON.stringify(grammar.lines[line])}`);
 		}
 
 		if (id == 1) {
+			// Find the last (scopeNamed) rule that intersects the token
 			const tokenLine = grammar.lines[line];
 			// vscode.window.showInformationMessage(JSON.stringify(tokenLine));
 			const token = tokenLine.tokens[element.tokenId];
 			const tokenStart = token.startIndex;
 			const tokenEnd = token.endIndex; // This is required otherwise 0 width end rules get in the way
-			const rulesLength = tokenLine.rulesLength;
+			const rulesLength = tokenLine.rulesLength; // Start at the first rule in the line
 			// vscode.window.showInformationMessage(JSON.stringify(rulesLength));
+			let foundRule = false;
+			let breakLoop = false;
 			for (let index = rulesLength; index < grammar.rules.length; index++) {
 				const rule = grammar.rules[index];
 				if (!rule) {
 					break;
 				}
-				let foundRule = false;
 				let captureIndex = -1;
 				for (const captureIndice of rule.captureIndices) {
+					captureIndex++;
 					if (captureIndice.start == tokenStart && captureIndice.end >= tokenEnd) {
+						ruleId = rule.matchedRuleId;
+						capturesIndex = captureIndex;
+						// vscode.window.showInformationMessage("Capture: " + captureIndex);
 						foundRule = true;
 						// Keep going if next token is identical. (((x))) => 3 not 1
 					}
 					else if (foundRule) {
+						breakLoop = true;
 						break;
 					}
-					captureIndex++;
 				}
-				if (foundRule) {
-					ruleId = rule.matchedRuleId;
-					capturesIndex = captureIndex;
-					// vscode.window.showInformationMessage("Capture: " + captureIndex);
+				if (breakLoop) {
 					break;
 				}
 			}
@@ -785,7 +789,7 @@ async function gotoGrammar(element: element) {
 			grammarDoc = await vscode.workspace.openTextDocument(uri);
 		}
 	}
-	vscode.window.showInformationMessage(JSON.stringify(path) + " Capture: " + capturesIndex);
+	vscode.window.showInformationMessage(`${JSON.stringify(path)} Capture: ${capturesIndex}`);
 
 	const trees = getTrees(grammarDoc);
 	const tree = trees.jsonTree;
