@@ -72,7 +72,6 @@ Highlights scope names with their own themed colour in realtime:
 
 ### Todo
 * Support unicode character insertions `\u00b0`
-* Improve bracket features: Colourization, matching, autocomplete, surround
 * Unify ways of displaying errors
 * Improve performance: [Github Issue - Capturing and applying a pattern causes performance loss](https://github.com/microsoft/vscode-textmate/issues/167)
 * Finish ctrl+click definitions and references
