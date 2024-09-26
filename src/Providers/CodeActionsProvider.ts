@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { getTrees, queryNode, toRange, trueParent } from "../TreeSitter";
 import { unicodeproperties, UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
-import { wagnerFischer } from "../extension";
+import { stringify, wagnerFischer } from "../extension";
 import { SyntaxNode } from 'web-tree-sitter';
 
 
@@ -12,8 +12,7 @@ type CodeAction = vscode.CodeAction & {
 
 export const CodeActionsProvider: vscode.CodeActionProvider = {
 	provideCodeActions(document: vscode.TextDocument, range: vscode.Range | vscode.Selection, context: vscode.CodeActionContext, token: vscode.CancellationToken): vscode.CodeAction[] {
-		// vscode.window.showInformationMessage(JSON.stringify("CodeActions"));
-		// vscode.window.showInformationMessage(JSON.stringify(context));
+		// vscode.window.showInformationMessage(`provideCodeActions\n${JSON.stringify(context)}`);
 		// const start = performance.now();
 
 		const codeActions: vscode.CodeAction[] = [];
@@ -111,12 +110,11 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 			codeActions.push(codeAction);
 		}
 
-		// vscode.window.showInformationMessage(JSON.stringify(codeActions));
-		// vscode.window.showInformationMessage(`codeActions ${performance.now() - start}ms`);
+		// vscode.window.showInformationMessage(`codeActions ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(codeActions)}`);
 		return codeActions;
 	},
 	resolveCodeAction(codeAction: CodeAction, token: vscode.CancellationToken): vscode.CodeAction {
-		// vscode.window.showInformationMessage(JSON.stringify(codeAction));
+		// vscode.window.showInformationMessage(`resolveCodeAction\n${JSON.stringify(codeAction)}`);
 		// const start = performance.now();
 		const document = codeAction.document;
 		const uri = document.uri;
@@ -134,9 +132,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 			}
 		}
 		else {
-			const regexNodes = trees.regexNodes;
-			const jsonNode = regexNodes.get(id);
-			const regexTree = regexTrees.get(jsonNode.id);
+			const regexTree = regexTrees.get(id);
 			const rootNode = regexTree.rootNode;
 			rootNodes.push(rootNode);
 		}
@@ -299,9 +295,8 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 			}
 		}
 
-		// vscode.window.showInformationMessage(JSON.stringify(edit));
 		codeAction.edit = edit;
-		// vscode.window.showInformationMessage(`codeAction ${performance.now() - start}ms`);
+		// vscode.window.showInformationMessage(`codeAction ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(edit)}`);
 		return codeAction;
 	},
 };
