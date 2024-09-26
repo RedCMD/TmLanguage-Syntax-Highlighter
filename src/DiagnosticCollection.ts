@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as vscodeOniguruma from 'vscode-oniguruma';
-import { getTrees, parseEvents, queryNode, toPosition, toRange, trueParent } from "./TreeSitter";
+import { getLastNode, getTrees, parseEvents, queryNode, toPosition, toRange, trueParent } from "./TreeSitter";
 import { DocumentSelector, stringify } from "./extension";
 import { unicodeproperties } from "./UNICODE_PROPERTIES";
 
@@ -173,7 +173,7 @@ function Diagnostics(document: vscode.TextDocument) {
 			diagnostics.push(diagnostic);
 			// vscode.window.showInformationMessage(JSON.stringify(text));
 		}
-		// vscode.window.showInformationMessage(performance.now() - start + "ms");
+		// vscode.window.showInformationMessage(`JSON ${(performance.now() - start).toFixed(3)}ms`);
 	}
 
 	if (true) { // TreeSitter Regex errors
@@ -296,7 +296,7 @@ function Diagnostics(document: vscode.TextDocument) {
 				// vscode.window.showInformationMessage(JSON.stringify(diagnostic));
 			}
 		}
-		// vscode.window.showInformationMessage(performance.now() - start + "ms");
+		// vscode.window.showInformationMessage(`Regex ${(performance.now() - start).toFixed(3)}ms`);
 	}
 
 	if (true) { // Oniguruma Regex errors. https://github.com/kkos/oniguruma
@@ -312,13 +312,41 @@ function Diagnostics(document: vscode.TextDocument) {
 				continue;
 			}
 
-			let regex = text.replace(/\\[\\\/bfnrt"]|\\u[0-9a-fA-F]{4}/g, regexEscapeReplacer);
+			let regex = text.replace(/\\[\\\/bfnrt"]|\\u[0-9a-fA-F]{4}/g, jsonEscapeReplacer);
 			if (key.text == 'end' || key.text == 'while') {
-				// `\\3` could be valid; could be invalid. Who knows?
-				// Would need to check the `begin` regex first for the number of capture groups
-				// Then how to tell Oniguruma how many are available??
-				// Keeping in mind /(?I:...)/
-				regex = regex.replace(/\\[1-9](\d{2})?(?!\d)/g, '\\0');
+				/* `\\3` could be valid; could be invalid. Who knows?
+				 * Need to check the `begin` regex first for the number of capture groups
+				 * VSCode TextMate escapes all special regex characters
+				 * and replaces the backreferences directly
+				 */
+				if (/\\[1-9](\d{2})?(?!\d)/.test(regex)) {
+					const beginNode = getLastNode(regexNode.parent.parent, 'begin').childForFieldName('regex');
+					if (beginNode) {
+						const beginRegex = trees.regexTrees.get(beginNode.id).rootNode;
+						const captureGroupQuery = `;scm
+							(capture_group) @group
+							(capture_group_extended) @group
+							(capture_group_name) @name
+							(capture_group_name_extended) @name
+						`;
+						let index = 1;
+						const groupCaptures = queryNode(beginRegex, captureGroupQuery);
+						for (const groupCapture of groupCaptures) {
+							const groupText = groupCapture.node.text.slice( // substring() doesn't work with -1
+								groupCapture.name == 'name' ? groupCapture.node.firstNamedChild.text.length + 4 : 1, // remove `(?<name>`
+								-1, // remove `)`
+							).replace(/[\-\\\{\}\*\+\?\|\^\$\.\,\[\]\(\)\#\s]/g, '\\$&'); // TextMate 2.0 only escapes these characters \|([{}]).?*+^$
+							// https://github.com/textmate/textmate/blob/master/Frameworks/parse/src/parse.cc#L120
+							// https://github.com/microsoft/vscode-textmate/blob/main/src/utils.ts#L160
+							// https://github.com/microsoft/vscode-textmate/issues/239
+							regex = regex.replace(
+								new RegExp(`\\\\${index}(?!\\d)`, 'g'),
+								groupText,
+							);
+							index++;
+						}
+					}
+				}
 			}
 
 			const scanner = new vscodeOniguruma.OnigScanner([regex]);
@@ -340,7 +368,7 @@ function Diagnostics(document: vscode.TextDocument) {
 				diagnostics.push(diagnostic);
 			}
 		}
-		// vscode.window.showInformationMessage(performance.now() - start + "ms");
+		// vscode.window.showInformationMessage(`Oniguruma ${(performance.now() - start).toFixed(3)}ms`);
 	}
 
 	if (true) { // missing `#include`
@@ -442,7 +470,7 @@ function Diagnostics(document: vscode.TextDocument) {
 			}
 			prevParent = parent.id;
 		}
-		// vscode.window.showInformationMessage(performance.now() - start + "ms");
+		// vscode.window.showInformationMessage(`include ${(performance.now() - start).toFixed(3)}ms`);
 	}
 
 	if (true) { // 'dead' TextMate code
@@ -535,7 +563,7 @@ function Diagnostics(document: vscode.TextDocument) {
 			diagnostics.push(diagnostic);
 		}
 
-		// vscode.window.showInformationMessage(performance.now() - start + "ms");
+		// vscode.window.showInformationMessage(`dead ${(performance.now() - start).toFixed(3)}ms`);
 	}
 
 	if (false) { // create artificial lag
@@ -548,10 +576,10 @@ function Diagnostics(document: vscode.TextDocument) {
 
 	// vscode.window.showInformationMessage(JSON.stringify(diagnostics));
 	DiagnosticCollection.set(document.uri, diagnostics);
-	// vscode.window.showInformationMessage(`Diagnostics ${performance.now() - start}ms`);
+	// vscode.window.showInformationMessage(`Diagnostics ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function regexEscapeReplacer(substring: string, ...args: any[]): string {
+function jsonEscapeReplacer(substring: string): string {
 	const char = substring.charAt(1);
 	switch (char) {
 		case '\\': return '\\';
@@ -562,7 +590,7 @@ function regexEscapeReplacer(substring: string, ...args: any[]): string {
 		case 'r': return '\r';
 		case 't': return '\t';
 		case '"': return '"';
-		case 'u':
+		case 'u': // unicode \u0000
 			const hexStr = substring.substring(2, 6);
 			const hexCode = parseInt(hexStr, 16);
 			const char = String.fromCodePoint(hexCode);
