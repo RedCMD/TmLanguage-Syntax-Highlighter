@@ -170,6 +170,22 @@
 				"editor.defaultFormatter": "RedCMD.tmlanguage-syntax-highlighter"
 			}
 		},
+		"configuration": [
+			{
+				"title": "JSON TextMate",
+				"properties": {
+					"tmlanguage-syntax-highlighter.formattingStyle": {
+						"type": "string",
+						"enum": [
+							"tight",
+							"default"
+						],
+						"default": "default",
+						"scope": "resource"
+					}
+				}
+			}
+		],
 		"jsonLanguageParticipants": [
 			{
 				"languageId": "json-textmate"
@@ -345,22 +361,6 @@
 				"title": "Developer: Inspect Editor Tokens and Scopes",
 				"category": "TextMate",
 				"icon": "$(inspect)"
-			}
-		],
-		"configuration": [
-			{
-				"title": "TextMate Syntax Highlighting and Intellisense",
-				"properties": {
-					"tmlanguage-syntax-highlighter.formattingStyle": {
-						"type": "string",
-						"enum": [
-							"tight",
-							"default"
-						],
-						"default": "default",
-						"scope": "resource"
-					}
-				}
 			}
 		]
 	},

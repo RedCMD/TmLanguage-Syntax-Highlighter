@@ -71,6 +71,10 @@ export function deactivate() {
 }
 
 
+export function sleep(miliseconds: number) {
+	return new Promise(resolve => setTimeout(resolve, miliseconds));
+}
+
 export function stringify(this: any, key: string, value: any) {
 	if (typeof value === 'function') {
 		return "<function>";

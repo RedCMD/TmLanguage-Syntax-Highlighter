@@ -1,16 +1,25 @@
 import * as vscode from 'vscode';
 import * as Parser from 'web-tree-sitter';
 import { getTrees, toRange, toPoint, queryNode } from "../TreeSitter";
+import { sleep } from "../extension";
 
 
-/* 
-	const filesConfig = workspace.getConfiguration('files', document);
-	const fileFormattingOptions = {
-		trimTrailingWhitespace: filesConfig.get<boolean>('trimTrailingWhitespace'),
-		trimFinalNewlines: filesConfig.get<boolean>('trimFinalNewlines'),
-		insertFinalNewline: filesConfig.get<boolean>('insertFinalNewline'),
+type formattingStyle = {
+	tabType: ' ' | '\t';
+	tabSize: number;
+	wsBrackets: string;
+};
+
+function getFormattingStyle(options: vscode.FormattingOptions): formattingStyle {
+	const styleName: 'tight' | 'default' = vscode.workspace.getConfiguration('tmlanguage-syntax-highlighter').get('formattingStyle');
+	const style: formattingStyle = {
+		tabType: options.insertSpaces ? ' ' : '\t',
+		tabSize: options.insertSpaces ? options.tabSize : 1,
+		wsBrackets: styleName == 'tight' ? '' : ' ',
 	};
- */
+	return style;
+}
+
 
 export const DocumentFormattingEditProvider: vscode.DocumentFormattingEditProvider = {
 	provideDocumentFormattingEdits(document: vscode.TextDocument, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.TextEdit[] {
@@ -19,15 +28,12 @@ export const DocumentFormattingEditProvider: vscode.DocumentFormattingEditProvid
 		const jsonTree = trees.jsonTree;
 		const textEdits: vscode.TextEdit[] = [];
 
-		const tabType = options.insertSpaces ? ' ' : '\t';
-		const tabSize = options.insertSpaces ? options.tabSize : 1;
-		const style = getFormattingStyle();
+		const style = getFormattingStyle(options);
 
 		// const start = performance.now();
-		parseAllChildren(jsonTree.rootNode, textEdits, 0, tabSize, tabType, style);
-		// vscode.window.showInformationMessage(performance.now() - start + "ms");
+		formatChildren(jsonTree.rootNode, textEdits, 0, style);
 
-		// vscode.window.showInformationMessage(JSON.stringify(textEdits));
+		// vscode.window.showInformationMessage(`Format ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(textEdits)}`);
 		return textEdits;
 	},
 };
@@ -35,13 +41,12 @@ export const DocumentFormattingEditProvider: vscode.DocumentFormattingEditProvid
 export const DocumentRangeFormattingEditProvider: vscode.DocumentRangeFormattingEditProvider = {
 	provideDocumentRangeFormattingEdits(document: vscode.TextDocument, range: vscode.Range, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.TextEdit[] {
 		// vscode.window.showInformationMessage(JSON.stringify("FormatRange"));
+		// const start = performance.now();
 		const trees = getTrees(document);
 		const jsonTree = trees.jsonTree;
 		const textEdits: vscode.TextEdit[] = [];
 
-		const tabType = options.insertSpaces ? ' ' : '\t';
-		const tabSize = options.insertSpaces ? options.tabSize : 1;
-		const style = getFormattingStyle();
+		const style = getFormattingStyle(options);
 
 		const startPoint = toPoint(range.start);
 		const endPoint = toPoint(range.end);
@@ -57,27 +62,28 @@ export const DocumentRangeFormattingEditProvider: vscode.DocumentRangeFormatting
 				break;
 			}
 			node = nestedNode;
-			level += tabSize;
+			level += style.tabSize;
 		}
 		const indent = Math.min(level, node.startPosition.column);
 
-		parseAllChildren(node, textEdits, indent, tabSize, tabType, style);
+		formatChildren(node, textEdits, indent, style);
 
-		// vscode.window.showInformationMessage(JSON.stringify(textEdits));
+		// vscode.window.showInformationMessage(`FormatRange ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(textEdits)}`);
 		return textEdits;
 	},
 };
 
 export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider = {
-	provideOnTypeFormattingEdits(document: vscode.TextDocument, position: vscode.Position, ch: string, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.TextEdit[] {
-		// vscode.window.showInformationMessage(JSON.stringify("FormatRange"));
+	async provideOnTypeFormattingEdits(document: vscode.TextDocument, position: vscode.Position, ch: string, options: vscode.FormattingOptions, token: vscode.CancellationToken): Promise<vscode.TextEdit[]> {
+		// vscode.window.showInformationMessage(JSON.stringify("FormatType"));
+		// const start = performance.now();
+		await sleep(50); // partially avoids race condition with reparseTextDocument()
+
 		const trees = getTrees(document);
 		const jsonTree = trees.jsonTree;
 		const textEdits: vscode.TextEdit[] = [];
 
-		const tabType = options.insertSpaces ? ' ' : '\t';
-		const tabSize = options.insertSpaces ? options.tabSize : 1;
-		const style = getFormattingStyle();
+		const style = getFormattingStyle(options);
 
 		const startPoint = toPoint(position.translate(0, -1));
 		const endPoint = toPoint(position);
@@ -97,6 +103,7 @@ export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider =
 				break;
 			case '}':
 			case ']':
+			case ':':
 				node = cursorNode.parent;
 				break;
 			default:
@@ -112,31 +119,19 @@ export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider =
 
 		const indent = Math.min(level, node.startPosition.column);
 
-		parseAllChildren(node, textEdits, indent, tabSize, tabType, style);
+		formatChildren(node, textEdits, indent, style);
 
-		// vscode.window.showInformationMessage(JSON.stringify(textEdits));
+		// vscode.window.showInformationMessage(`FormatType ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(textEdits)}`);
 		return textEdits;
 	},
 };
 
-type formattingStyle = { wsBrackets: string; };
-function getFormattingStyle(): formattingStyle {
-	const styleName: 'tight' | 'default' = vscode.workspace.getConfiguration('tmlanguage-syntax-highlighter').get('formattingStyle');
-	const style = {
-		default: { wsBrackets: ' ' },
-		tight: { wsBrackets: '' },
-	}[styleName];
-	return style;
-}
 
-function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextEdit[], indent: number, tabSize: number, tabType: string, style: formattingStyle) {
-	let range: vscode.Range;
-	let whiteSpace: string;
-	let textEdit: vscode.TextEdit;
-	let expand: Boolean = false;
+function formatChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextEdit[], indent: number, style: formattingStyle): boolean {
+	let expand: boolean = false;
 
 	for (const node of parentNode.namedChildren) {
-		if (parseAllChildren(node, textEdits, indent + tabSize, tabSize, tabType, style)) {
+		if (formatChildren(node, textEdits, indent + style.tabSize, style)) {
 			expand = true;
 		}
 	}
@@ -160,7 +155,7 @@ function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextE
 						expand = true;
 						break;
 					}
-
+				/* FallThrough */
 				default:
 					if (namedChildCount > 2) {
 						expand = true;
@@ -180,140 +175,89 @@ function parseAllChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextE
 
 
 	for (const node of parentNode.children) {
-		if (node.isMissing) {
-			range = toRange(node);
-
-			textEdit = vscode.TextEdit.replace(range, node.type);
-			textEdits.push(textEdit);
+		if (node.isError) {
+			continue;
 		}
+
+		const nextSibling = node.nextSibling;
+		const prevSibling = node.previousSibling;
+
 		switch (node.type) {
 			case '{':
 			case '[':
-				indent += tabSize;
+				indent += style.tabSize;
 
-				if (expand == true)
-					whiteSpace = '\n'.padEnd(indent + 1, tabType);
-				else
-					whiteSpace = style.wsBrackets;
-
-				if (node.isMissing) {
-					range = toRange(node);
-				}
-				else {
-					range = new vscode.Range(
-						node.endPosition.row,
-						node.endPosition.column,
-						node.nextSibling?.startPosition.row ?? parentNode.endPosition.row,
-						node.nextSibling?.startPosition.column ?? parentNode.endPosition.column,
-					);
+				if (nextSibling?.type == '}' || nextSibling?.type == ']') { // Don't double up spaces in empty objects/arrays
+					break;
 				}
 
-				textEdit = vscode.TextEdit.replace(range, whiteSpace);
-				textEdits.push(textEdit);
+				textEdits.push( // Whitespace after opening bracket
+					vscode.TextEdit.replace(
+						toRange(
+							node.startPosition,
+							nextSibling?.startPosition ?? parentNode.endPosition,
+						),
+						expand ?
+							node.type + '\n'.padEnd(indent + 1, style.tabType) :
+							node.type + style.wsBrackets,
+					),
+				);
 				break;
 
 			case '}':
 			case ']':
-				indent -= tabSize;
+				indent -= style.tabSize;
 
-				if (node.previousSibling?.type == '{') {
-					break;
-				}
-				if (node.previousSibling?.type == '[') {
-					break;
-				}
-
-				if (expand == true)
-					whiteSpace = '\n'.padEnd(indent + 1, tabType);
-				else
-					whiteSpace = style.wsBrackets;
-
-				range = new vscode.Range(
-					node.previousSibling?.endPosition.row ?? parentNode.startPosition.row,
-					node.previousSibling?.endPosition.column ?? parentNode.startPosition.column,
-					node.startPosition.row,
-					node.startPosition.column,
+				textEdits.push( // Whitespace before closing bracket
+					vscode.TextEdit.replace(
+						toRange(
+							prevSibling?.endPosition ?? parentNode.startPosition,
+							node.endPosition,
+						),
+						expand ?
+							'\n'.padEnd(indent + 1, style.tabType) + node.type :
+							style.wsBrackets + node.type,
+					),
 				);
-
-				textEdit = vscode.TextEdit.replace(range, whiteSpace);
-				textEdits.push(textEdit);
 				break;
 
 			case ',':
-				if (node.nextSibling?.type != '}' && node.nextSibling?.type != ']' || node.isMissing) { // hacks upon hacks
-					if (expand == true)
-						whiteSpace = '\n'.padEnd(indent + 1, tabType);
-					else
-						whiteSpace = ' ';
-
-					if (node.isMissing) {
-						range = toRange(node); // node.nextSibling doesn't work very well on missing nodes
-					}
-					else {
-						range = new vscode.Range(
-							node.endPosition.row,
-							node.endPosition.column,
-							node.nextSibling?.startPosition.row ?? parentNode.endPosition.row,
-							node.nextSibling?.startPosition.column ?? parentNode.endPosition.column,
-						);
-					}
-
-					textEdit = vscode.TextEdit.replace(range, whiteSpace);
-					textEdits.push(textEdit);
-				}
-
-				if (node.previousSibling?.type == '{') {
-					break;
-				}
-				if (node.previousSibling?.type == '[') {
-					break;
-				}
-				if (node.previousSibling?.type == ',') {
+				if (prevSibling?.type == '{' || prevSibling?.type == '[' || nextSibling?.type == '}' || nextSibling?.type == ']' || nextSibling?.type == ',') {
+					textEdits.push( // Remove extra comma
+						vscode.TextEdit.delete(
+							toRange(node),
+						),
+					);
 					break;
 				}
 
-				whiteSpace = '';
-
-				range = new vscode.Range(
-					node.previousSibling?.endPosition.row ?? parentNode.startPosition.row,
-					node.previousSibling?.endPosition.column ?? parentNode.startPosition.column,
-					node.startPosition.row,
-					node.startPosition.column,
+				textEdits.push( // No whitespace before comma. Only whitespace after comma
+					vscode.TextEdit.replace(
+						toRange(
+							prevSibling?.endPosition ?? parentNode.startPosition,
+							node.isMissing ? // node.nextSibling doesn't work very well on missing nodes
+								node.endPosition :
+								nextSibling?.startPosition ?? parentNode.endPosition,
+						),
+						expand ?
+							',\n'.padEnd(indent + 2, style.tabType) :
+							', ',
+					),
 				);
-
-				textEdit = vscode.TextEdit.replace(range, whiteSpace);
-				textEdits.push(textEdit);
 				break;
 
 			case ':':
-				whiteSpace = ' ';
-
-				if (node.isMissing) {
-					range = toRange(node);
-				}
-				else {
-					range = new vscode.Range(
-						node.endPosition.row,
-						node.endPosition.column,
-						node.nextSibling?.startPosition.row ?? parentNode.endPosition.row,
-						node.nextSibling?.startPosition.column ?? parentNode.endPosition.column,
-					);
-				}
-
-				textEdit = vscode.TextEdit.replace(range, whiteSpace);
-				textEdits.push(textEdit);
-
-				whiteSpace = '';
-
-				range = new vscode.Range(
-					node.previousSibling?.endPosition.row ?? parentNode.startPosition.row,
-					node.previousSibling?.endPosition.column ?? parentNode.startPosition.column,
-					node.startPosition.row,
-					node.startPosition.column,
+				textEdits.push( // One space after colon
+					vscode.TextEdit.replace(
+						toRange(
+							prevSibling?.endPosition ?? parentNode.startPosition,
+							node.isMissing ? // node.nextSibling doesn't work very well on missing nodes
+								node.endPosition :
+								nextSibling?.startPosition ?? parentNode.endPosition,
+						),
+						': ',
+					)
 				);
-
-				textEdit = vscode.TextEdit.replace(range, whiteSpace);
-				textEdits.push(textEdit);
 				break;
 		}
 	}

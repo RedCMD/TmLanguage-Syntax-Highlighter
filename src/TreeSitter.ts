@@ -146,12 +146,14 @@ export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoi
 	return queryCaptures;
 }
 
-export function toRange(node: Parser.SyntaxNode): vscode.Range {
+export function toRange(node: Parser.SyntaxNode): vscode.Range;
+export function toRange(start: Parser.Point, end: Parser.Point): vscode.Range;
+export function toRange(node: Parser.SyntaxNode | Parser.Point, end?: Parser.Point): vscode.Range {
 	if (!node) {
 		return null;
 	}
-	const startPosition = node.startPosition;
-	const endPosition = node.endPosition;
+	const startPosition = 'startPosition' in node ? node.startPosition : node;
+	const endPosition = 'startPosition' in node ? node.endPosition : end;
 	const range = new vscode.Range(
 		startPosition.row,
 		startPosition.column,
@@ -453,7 +455,7 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 	const oldRegexTreesIterator = oldRegexTrees.values();
 	let skip = false;
 	let oldRegexTree: Parser.Tree;
-	let oldRegexTreeCopy: Parser.Tree;
+	// let oldRegexTreeCopy: Parser.Tree;
 
 	const queryCaptures = queryNode(jsonTree.rootNode, `(regex) @regex`);
 	// vscode.window.showInformationMessage(`Old: ${(performance.now() - start).toFixed(3)}ms ${JSON.stringify(oldRegexTrees.size)}`);
@@ -483,7 +485,7 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 					break;
 				}
 
-				oldRegexTreeCopy = oldRegexTree.copy();
+				// oldRegexTreeCopy = oldRegexTree.copy();
 				for (const delta of deltas) {
 					oldRegexTree.edit(delta);
 				}

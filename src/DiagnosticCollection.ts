@@ -155,13 +155,7 @@ function Diagnostics(document: vscode.TextDocument) {
 						continue;
 					}
 					diagnostic = {
-						range:
-							type == ',' ?
-								new vscode.Range(
-									toPosition(node.previousSibling.endPosition),
-									toPosition(node.previousSibling.endPosition),
-								)
-								: range,
+						range: toRange(node.previousSibling.endPosition, node.previousSibling.endPosition),
 						message: `'${parentType}' is missing character${type.length > 1 ? 's' : ''} '${type}'`,
 						severity: vscode.DiagnosticSeverity.Error,
 						source: 'TreeSitter',

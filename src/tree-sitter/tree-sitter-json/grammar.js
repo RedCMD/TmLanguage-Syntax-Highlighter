@@ -504,11 +504,15 @@ module.exports = grammar({
 			),
 		),
 
-		_comma: $ => repeat1(
+		_comma: $ => repeat1( // Is able to insert `missing` comma
 			seq(
 				repeat($._whitespace),
 				',',
 			),
+		),
+		_colon: $ => seq( // Is able to insert `missing` colon
+			repeat($._whitespace),
+			':',
 		),
 	},
 });
@@ -599,10 +603,9 @@ function pair($, key, value) {
 						),
 				),
 			),
-			repeat($._whitespace),
 			optional(
 				seq(
-					':',
+					$._colon,
 					repeat($._whitespace),
 					optional( // TS bad at error recovery
 						choice(
