@@ -11,9 +11,9 @@ install emscripten in a separate private folder
 `git clone https://github.com/emscripten-core/emsdk.git`  
 `cd emsdk`  
 `git pull`  
-(the latest version (`3.X.X`) doesn't seem to work with the `vscode-parse-tree` extension on Windows. Install version `2.0.34` instead)  
-`./emsdk install 2.0.34`  
-`./emsdk activate 2.0.34 --permanent`  
+https://github.com/sogaiu/ts-questions/blob/master/questions/which-version-of-emscripten-should-be-used-for-the-playground/README.md  
+`./emsdk install latest`  
+`./emsdk activate latest --permanent`  
 `./emsdk_env.bat`  
 restart powershell and/or vscode  
   

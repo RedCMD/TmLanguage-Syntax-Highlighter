@@ -10,13 +10,13 @@ Push-Location $PSScriptRoot
 
 # generate and build the json wasm
 cd tree-sitter-json
-../../../node_modules/.bin/tree-sitter generate --no-bindings
-../../../node_modules/.bin/tree-sitter build --wasm -o ../../../out/tree-sitter-jsontm.wasm
+../../../node_modules/.bin/tree-sitter generate
+../../../node_modules/.bin/tree-sitter build --wasm --output ../../../out/tree-sitter-jsontm.wasm
 
 # generate and build the regex wasm
 cd ../tree-sitter-regex
-../../../node_modules/.bin/tree-sitter generate --no-bindings
-../../../node_modules/.bin/tree-sitter build --wasm -o ../../../out/tree-sitter-regextm.wasm
+../../../node_modules/.bin/tree-sitter generate
+../../../node_modules/.bin/tree-sitter build --wasm --output ../../../out/tree-sitter-regextm.wasm
 
 # return to previous location
 Pop-Location

@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getTrees, queryNode, toPoint, toRange, trueParent } from "../TreeSitter";
+import { getTrees, queryNode, toPoint, toRange } from "../TreeSitter";
 
 export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 	provideDocumentHighlights(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.DocumentHighlight[] {
@@ -40,7 +40,7 @@ export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 		let query = ``;
 		switch (cursorName) {
 			case 'key':
-				const cursorType = trueParent(cursorNode).type;
+				const cursorType = cursorNode.parent.type;
 				if (cursorType != 'repo') {
 					query = `(${cursorType} . (key) @key (#eq? @key "${cursorText}"))`;
 					break;
@@ -108,8 +108,7 @@ export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 			documentHighlights.push(documentHighlight);
 		}
 
-		// vscode.window.showInformationMessage(JSON.stringify(documentHighlights));
-		// vscode.window.showInformationMessage(`documentHighlights ${performance.now() - start}ms`);
+		// vscode.window.showInformationMessage(`documentHighlights ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(documentHighlights)}`);
 		return documentHighlights;
 	}
 };

@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getTrees, toPoint, queryNode, toRange, trueParent, getComment } from "../TreeSitter";
+import { getTrees, toPoint, queryNode, toRange, getComment } from "../TreeSitter";
 import { SymbolKind } from "./DocumentSymbolProvider";
 
 
@@ -16,7 +16,7 @@ export const CallHierarchyProvider: vscode.CallHierarchyProvider = {
 		const includeCapture = queryNode(rootNode, includeQuery, point);
 		const includeText = includeCapture?.node?.text;
 
-		const repoQuery = includeText ? `
+		const repoQuery = includeText ? `;scm
 			(json (repository (repo (key) @repo (.eq? @repo "${includeText}"))))
 			(repo
 				[(patterns) (include)] (repository
@@ -33,11 +33,11 @@ export const CallHierarchyProvider: vscode.CallHierarchyProvider = {
 
 		const node = repoCapture.node;
 		const selectionRange = toRange(node);
-		const range = toRange(trueParent(node));
+		const range = toRange(node.parent);
 		const detail = getComment(node);
 		const name = node.text;
 		const kind = SymbolKind[repoCapture.name];
-		
+
 		const callHierarchyItem = new vscode.CallHierarchyItem(kind, name, detail, uri, range, selectionRange);
 
 		// vscode.window.showInformationMessage(JSON.stringify(callHierarchyItem));
@@ -58,19 +58,19 @@ export const CallHierarchyProvider: vscode.CallHierarchyProvider = {
 		for (const includeCapture of includeCaptures) {
 			const includeNode = includeCapture.node;
 			const selectionRange = toRange(includeNode);
-			const range = toRange(trueParent(includeNode));
+			const range = toRange(includeNode.parent);
 
-			const targetQuery = `
+			const targetQuery = `;scm
 				(json (scopeName (value) @scopeName))
 				(repo (key) @repo)
-			`
+			`;
 			const targetCapture = queryNode(rootNode, targetQuery, includeNode.startPosition, false);
 			const targetNode = targetCapture.node;
-			
+
 			const detail = getComment(targetNode);
 			const name = targetNode.text;
 			const kind = SymbolKind[includeCapture.name];
-			
+
 			const callHierarchyItem = new vscode.CallHierarchyItem(kind, name, detail, uri, range, selectionRange);
 
 			const ranges: vscode.Range[] = [range];
@@ -93,7 +93,7 @@ export const CallHierarchyProvider: vscode.CallHierarchyProvider = {
 		const callHierarchyOutgoingCalls: vscode.CallHierarchyOutgoingCall[] = [];
 
 
-		const includeQuery = `
+		const includeQuery = `;scm
 			;(include (value) @include)
 			(include (value !scopeName (ruleName) @include))
 		`;
@@ -105,7 +105,7 @@ export const CallHierarchyProvider: vscode.CallHierarchyProvider = {
 			const includeNode = includeCapture.node;
 			const includeText = includeNode.text;
 
-			const repoQuery = `
+			const repoQuery = `;scm
 				(json (repository (repo (key) @repo (.eq? @repo "${includeText}"))))
 				(repo
 					[(patterns) (include)] (repository
@@ -120,14 +120,14 @@ export const CallHierarchyProvider: vscode.CallHierarchyProvider = {
 
 			const repoNode = repoCapture.node;
 			const selectionRange = toRange(repoNode);
-			const range = toRange(trueParent(repoNode));
+			const range = toRange(repoNode.parent);
 			const text = repoNode.text;
 			const detail = getComment(repoNode);
 			const kind = SymbolKind[repoCapture.name];
 
 			const callHierarchyItem = new vscode.CallHierarchyItem(kind, text, detail, uri, range, selectionRange);
 
-			const parentRange = toRange(trueParent(includeNode));
+			const parentRange = toRange(includeNode.parent);
 			const ranges: vscode.Range[] = [parentRange];
 
 			const callHierarchyOutgoingCall = new vscode.CallHierarchyOutgoingCall(callHierarchyItem, ranges);
@@ -137,4 +137,4 @@ export const CallHierarchyProvider: vscode.CallHierarchyProvider = {
 		// vscode.window.showInformationMessage(JSON.stringify(callHierarchyOutgoingCalls));
 		return callHierarchyOutgoingCalls;
 	},
-}
+};

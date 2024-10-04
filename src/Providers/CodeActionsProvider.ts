@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getTrees, queryNode, toRange, trueParent } from "../TreeSitter";
+import { getTrees, queryNode, toRange } from "../TreeSitter";
 import { unicodeproperties, UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
 import { stringify, wagnerFischer } from "../extension";
 import { SyntaxNode } from 'web-tree-sitter';
@@ -88,7 +88,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 		const trees = getTrees(document);
 		const regexNodes = trees.regexNodes;
 		for (const regexNode of regexNodes.values()) {
-			const parentRange = toRange(trueParent(regexNode));
+			const parentRange = toRange(regexNode.parent);
 			if (parentRange.intersection(range)) {
 				codeAction = {
 					title: `Minify Regex`,

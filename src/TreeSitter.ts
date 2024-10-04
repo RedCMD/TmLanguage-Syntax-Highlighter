@@ -58,7 +58,7 @@ export function getRegexNode(source: vscode.TextDocument | vscode.Uri | trees | 
  * Returns the first non-empty comment in the parent node
  */
 export function getComment(node: Parser.SyntaxNode): string | null {
-	const parent = trueParent(node);
+	const parent = node.parent;
 	const query = `;scm
 		(comment (value) @comment (.not-eq? @comment ""))
 		(comment_slash (value) @comment (.not-eq? @comment ""))
@@ -181,29 +181,6 @@ export function toPosition(point: Parser.Point): vscode.Position {
 	const character = point.column;
 	const position = new vscode.Position(line, character);
 	return position;
-}
-
-/**
- * TreeSitter bug
- * Using `.parent` on a 0width node returns the `previousSilbing` rather than the `parent`
- * https://github.com/tree-sitter/tree-sitter/issues/1872
- */
-export function trueParent(node: Parser.SyntaxNode): Parser.SyntaxNode {
-	const parent = node.parent;
-	if (parent == null) {
-		// vscode.window.showInformationMessage(JSON.stringify(node.toString()));
-		// vscode.window.showInformationMessage(JSON.stringify(node.type));
-		// vscode.window.showInformationMessage(JSON.stringify(node.text));
-		return node;
-	}
-	if (node.text != '') {
-		return parent;
-	}
-	// return parent;
-	// return parent.parent;
-
-	const sibling = parent.nextSibling;
-	return sibling ? sibling.equals(node) ? parent.parent : parent : parent;
 }
 
 

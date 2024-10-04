@@ -1,10 +1,10 @@
 import * as vscode from 'vscode';
 import * as Parser from 'web-tree-sitter';
-import { getTrees, toRange, toPoint, queryNode, trueParent } from "../TreeSitter";
+import { getTrees, toRange, toPoint, queryNode } from "../TreeSitter";
 import { IRelaxedExtensionManifest } from "../extensions";
 import { getScopes } from "../themeScopeColors";
-import { UNICODE_PROPERTIES } from '../UNICODE_PROPERTIES';
-import { unicode_property_data } from '../unicode_property_data';
+import { UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
+import { unicode_property_data } from "../unicode_property_data";
 
 type CompletionItem = vscode.CompletionItem & { type?: string; };
 
@@ -373,7 +373,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 				const regexRange = toRange(regexNode);
 				switch (regexName) {
 					case 'property':
-						const characterProperty = trueParent(regexNode);
+						const characterProperty = regexNode.parent;
 						if (characterProperty.text.charAt(4) != '^') { // \\p{^Letter}
 							completionItems.push({
 								label: '^',

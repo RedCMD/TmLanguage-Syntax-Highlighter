@@ -1,0 +1,28 @@
+{
+  "grammars": [
+    {
+      "name": "regextm",
+      "camelcase": "Regextm",
+      "scope": "source.regextm",
+      "path": ".",
+      "file-types": null,
+      "injection-regex": "^regextm$"
+    }
+  ],
+  "metadata": {
+    "version": "0.0.1",
+    "license": "MIT",
+    "description": "Regextm grammar for tree-sitter",
+    "links": {
+      "repository": "https://github.com/tree-sitter/tree-sitter-regextm"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true
+  }
+}

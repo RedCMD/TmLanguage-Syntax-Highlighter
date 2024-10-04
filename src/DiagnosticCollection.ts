@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as vscodeOniguruma from 'vscode-oniguruma';
-import { getLastNode, getTrees, parseEvents, queryNode, toPosition, toRange, trueParent } from "./TreeSitter";
+import { getLastNode, getTrees, parseEvents, queryNode, toPosition, toRange } from "./TreeSitter";
 import { DocumentSelector, stringify } from "./extension";
 import { unicodeproperties } from "./UNICODE_PROPERTIES";
 
@@ -136,7 +136,7 @@ function Diagnostics(document: vscode.TextDocument) {
 			const type = node.type;
 			const text = node.text;
 			const range = toRange(node);
-			const parent = trueParent(node);
+			const parent = node.parent;
 			const parentType = parent.type;
 
 			let diagnostic: vscode.Diagnostic;
@@ -197,7 +197,7 @@ function Diagnostics(document: vscode.TextDocument) {
 				const type = node.type;
 				const text = node.text;
 				const range = toRange(node);
-				const parent = trueParent(node);
+				const parent = node.parent;
 				const parentType = parent.type;
 				const parentRange = toRange(parent);
 
