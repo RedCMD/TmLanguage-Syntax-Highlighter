@@ -99,7 +99,7 @@ function parseExtensions() {
 }
 
 
-function getScopeName(lang: string): ScopeName | null {
+export function getScopeName(lang: string): ScopeName | null {
 	// vscode.window.showInformationMessage(`getScopeName: ${lang}`);
 	if (Object.keys(grammarLanguages.languageId).length == 0) {
 		parseExtensions();
@@ -242,8 +242,12 @@ export async function tokenizeFile(document: vscode.TextDocument, runTwice?: boo
 
 	// const start = performance.now();
 	activeScopeName = scopeName;
-	const grammar = <IGrammar>await registry.loadGrammar(scopeName);
+	const grammar = <IGrammar>await registry.loadGrammar(scopeName).catch(() => { });
 	activeScopeName = null;
+	if (!grammar) {
+		vscode.window.showInformationMessage(`registered_languages:\n${JSON.stringify(grammarLanguages)}`);
+		return grammar;
+	}
 	// vscode.window.showInformationMessage(`grammar ${performance.now() - start}ms`);
 
 

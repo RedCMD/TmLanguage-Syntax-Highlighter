@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as vscodeTextmate from "../textmate/main";
 // import * as vscodeTextmate from 'vscode-textmate';
-import { grammarLanguages, tokenizeFile } from "../TextMate";
+import { getScopeName, grammarLanguages, tokenizeFile } from "../TextMate";
 import { IGrammar, IToken, RuleId, endRuleId, whileRuleId } from "../ITextMate";
 import { stringify } from "../extension";
 import { IRawCaptures, IRawRule } from "../textmate/rawGrammar";
@@ -232,21 +232,30 @@ export const TreeDataProvider: vscode.TreeDataProvider<element> = {
 		}
 
 		if (type == 'root') {
-			grammar = await tokenizeFile(element.document, true);
+			grammar = await tokenizeFile(element.document, false);
 
-			const time = grammar.lines[grammar.lines.length - 1].time;
-			const timeFixed = time.toFixed(3);
-			const label = /* timeFixed + ': ' + */ grammar._rootScopeName;
-			const treeLabel: vscode.TreeItemLabel = {
-				label: label,
-				// highlights: time >= 500 ? [[0, label.length]] : null,
-				// highlights: time >= 500 ? [[0, timeFixed.length]] : null,
-			};
-			const item = new vscode.TreeItem(treeLabel, vscode.TreeItemCollapsibleState.Collapsed);
+			if (grammar) {
+				const time = grammar.lines[grammar.lines.length - 1].time;
+				const timeFixed = time.toFixed(3);
+				const label = /* timeFixed + ': ' + */ grammar._rootScopeName;
+				const treeLabel: vscode.TreeItemLabel = {
+					label: label,
+					// highlights: time >= 500 ? [[0, label.length]] : null,
+					// highlights: time >= 500 ? [[0, timeFixed.length]] : null,
+				};
+				const item = new vscode.TreeItem(treeLabel, vscode.TreeItemCollapsibleState.Collapsed);
+				item.iconPath = new vscode.ThemeIcon('symbol-variable');
+				item.tooltip = `Time: ${time}\nRules: ${grammar.rules.length}`;
+				item.description = `${timeFixed}ms${(time > 500 ? ' ⚠️' : '')}`;
+				item.id = grammar._rootScopeName;
+				return item;
+			}
+
+			const label = getScopeName(document.languageId) ?? '<no grammar>';
+			const item = new vscode.TreeItem(label, vscode.TreeItemCollapsibleState.None);
 			item.iconPath = new vscode.ThemeIcon('symbol-variable');
-			item.tooltip = `Time: ${time}`;
-			item.description = `${timeFixed}ms${(time > 500 ? ' ⚠️' : '')}`;
-			item.id = grammar._rootScopeName;
+			item.tooltip = `There is no valid grammar assigned to the language \`${document.languageId}\``;
+			item.description = '❌';
 			return item;
 		}
 
