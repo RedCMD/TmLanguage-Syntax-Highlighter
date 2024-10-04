@@ -473,10 +473,14 @@ function Diagnostics(document: vscode.TextDocument) {
 
 		// Some queries are very performance heavy during startup +8000ms
 		const deadQuery = `;scm
-			(json (fileTypes) @fileTypes)
-			(json (firstLineMatch) @firstLineMatch)
-			(json (foldingStartMarker) @foldingStartMarker)
-			(json (foldingStopMarker) @foldingStopMarker)
+			(fileTypes) @fileTypes
+			(firstLineMatch) @firstLineMatch
+			(foldingStartMarker) @foldingStartMarker
+			(foldingStopMarker) @foldingStopMarker
+			(disabled) @disabled
+
+			((end) @end (while))
+			((while) (end) @end)
 
 			(repo (repository) @repository !patterns !include)
 			;(repo (repository) @repository [(match) (begin)])
@@ -487,13 +491,10 @@ function Diagnostics(document: vscode.TextDocument) {
 			;(repo [(match) (begin) (patterns)] (include) @include)
 			;(repo [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @begin (match))
 			;(repo (match) [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @begin)
-			;(repo (end) @end (while))
-			;(repo (while) (end) @end)
 			(repo [(captures) @captures (name) @name] !match !begin)
 			(repo [(while) @while (end) @end (beginCaptures) @beginCaptures (whileCaptures) @whileCaptures (endCaptures) @endCaptures (contentName) @contentName (applyEndPatternLast) @applyEndPatternLast] !begin)
 			(repo (whileCaptures) @whileCaptures !while)
 			(repo [(endCaptures) @endCaptures (applyEndPatternLast) @applyEndPatternLast] !end)
-			(repo (disabled) @disabled)
 
 			(pattern (repository) @repositoryPatterns !patterns)
 			;(pattern (repository) @repositoryPatterns [(match) (begin)])
@@ -510,7 +511,6 @@ function Diagnostics(document: vscode.TextDocument) {
 			(pattern [(while) @while (end) @end (beginCaptures) @beginCaptures (whileCaptures) @whileCaptures (endCaptures) @endCaptures (contentName) @contentName (applyEndPatternLast) @applyEndPatternLast] !begin)
 			(pattern (whileCaptures) @whileCaptures !while)
 			(pattern [(endCaptures) @endCaptures (applyEndPatternLast) @applyEndPatternLast] !end)
-			(pattern (disabled) @disabled)
 
 			(capture (include) @includeCapture)
 			(capture [(repository) (match) (begin) (while) (end) (contentName) (captures) (beginCaptures) (whileCaptures) (endCaptures) (applyEndPatternLast) (disabled)] @capture !patterns)
