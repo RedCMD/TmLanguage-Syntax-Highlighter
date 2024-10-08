@@ -141,6 +141,9 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 					break;
 				}
 				if (!scopeName || scopeName == rootScopeNameText) { // #include
+					if (!node.childForFieldName('sharp')) {
+						break;
+					}
 					queryString = `(repo
 										[(patterns) (include)] (repository
 											(repo

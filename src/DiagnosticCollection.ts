@@ -125,13 +125,13 @@ function Diagnostics(document: vscode.TextDocument) {
 	if (true) { // TreeSitter JSON errors
 		// vscode.window.showInformationMessage(JSON.stringify("diagnostics JSON"));
 		// const start = performance.now();
-		const queryString = `;scm
+		const jsonQuery = `;scm
 			(ERROR) @ERROR
 			(_ _ @missing (#eq? @missing ""))
 		`;
-		const queryCaptures = queryNode(rootNode, queryString);
+		const jsonCaptures = queryNode(rootNode, jsonQuery);
 
-		for (const queryCapture of queryCaptures) {
+		for (const queryCapture of jsonCaptures) {
 			const node = queryCapture.node;
 			const type = node.type;
 			const text = node.text;
@@ -387,12 +387,12 @@ function Diagnostics(document: vscode.TextDocument) {
 				(patterns) (repository
 					(repo
 						(key) @nestRepo))
-				!match !begin)
+				!match !begin !include)
 			(pattern
 				(repository
 					(repo
 						(key) @nestRepo)) (patterns)
-				!match !begin)
+				!match !begin !include)
 			(capture
 				(patterns) (repository
 					(repo
@@ -497,8 +497,8 @@ function Diagnostics(document: vscode.TextDocument) {
 			(repo [(endCaptures) @endCaptures (applyEndPatternLast) @applyEndPatternLast] !end)
 
 			(pattern (repository) @repositoryPatterns !patterns)
-			;(pattern (repository) @repositoryPatterns [(match) (begin)])
-			;(pattern [(match) (begin)] (repository) @repositoryPatterns)
+			;(pattern (repository) @repositoryPatterns [(match) (begin) (include)])
+			;(pattern [(match) (begin) (include)] (repository) @repositoryPatterns)
 			;(pattern (patterns) @patternsPatterns [(match) (include)])
 			;(pattern [(match) (include)] (patterns) @patternsPatterns)
 			;(pattern (match) @match (include))

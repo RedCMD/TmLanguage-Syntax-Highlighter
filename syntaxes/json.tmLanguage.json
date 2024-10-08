@@ -891,15 +891,15 @@
 									}
 								},
 								{
-									"begin": "#(?!\")",
+									"match": "(?!\\G)#(?=\")",
+									"name": "keyword.json.tm markup.strikethrough.json.tm"
+								},
+								{
+									"begin": "#",
 									"end": "(?=\")",
 									"beginCaptures": { "0": { "name": "keyword.json.tm" } },
 									"contentName": "variable.json.tm",
 									"patterns": [ { "include": "#escape-characters" } ]
-								},
-								{
-									"match": "#",
-									"name": "keyword.json.tm markup.strikethrough.json.tm"
 								},
 								{ "include": "#scope-string" }
 							]

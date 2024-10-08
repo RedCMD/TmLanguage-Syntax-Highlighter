@@ -140,7 +140,19 @@ module.exports = grammar({
 			$._base,
 			$._includeScopeName,
 			seq(
-				optional($._includeScopeName),
+				$._sharp,
+				choice(
+					$._includeRuleName,
+					$._self,
+					$._base,
+					fieldAlias($,
+						'ruleName',
+						$._forceStringNode,
+					),
+				),
+			),
+			seq(
+				$._includeScopeName,
 				$._sharp,
 				optional(
 					choice(
