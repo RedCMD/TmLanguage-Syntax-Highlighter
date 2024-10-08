@@ -503,7 +503,7 @@ module.exports = grammar({
 			"true",
 			"false",
 		),
-		null: $ => /null/,
+		null: $ => "null",
 		integer: $ => /-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/,
 		_string: $ => token(
 			prec(-1,
@@ -615,17 +615,13 @@ function pair($, key, value) {
 						),
 				),
 			),
+			$._colon,
+			repeat($._whitespace),
 			optional(
-				seq(
-					$._colon,
-					repeat($._whitespace),
-					optional( // TS bad at error recovery
-						choice(
-							value ?? blank(),
-							prec(-2,
-								$._value,
-							),
-						),
+				choice(
+					value ?? blank(),
+					prec(-2,
+						$._value,
 					),
 				),
 			),

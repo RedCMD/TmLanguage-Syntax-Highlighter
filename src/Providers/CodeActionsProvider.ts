@@ -43,7 +43,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 					};
 					break;
 				case 'missing':
-					const missing = message.split("'")[3];
+					const missing = message.split("'")[3] || "'";
 
 					edit.insert(document.uri, diagnostic.range.end, missing);
 					codeAction = {
