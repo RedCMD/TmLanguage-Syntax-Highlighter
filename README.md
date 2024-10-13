@@ -72,9 +72,9 @@ Highlights scope names with their own themed colour in realtime:
 
 ### Todo
 * Support unicode character insertions `\u00b0`
-* Improve performance: [Github Issue - Capturing and applying a pattern causes performance loss](https://github.com/microsoft/vscode-textmate/issues/167)
 * Finish ctrl+click definitions and references
 * Add hovers
 * Improve tree-sitter grammar
 * Improve TextMate [documentation](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/index.md)
 * Finish CallStack viewer
+* Redo TextMate scopeNames [Naming conventions](https://github.com/atom/flight-manual.atom.io/pull/564)

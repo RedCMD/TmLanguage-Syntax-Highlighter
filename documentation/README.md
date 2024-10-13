@@ -56,6 +56,7 @@ Todo:
 - https://github.com/mjbvz/vscode-fenced-code-block-grammar-injection-example
 - https://github.com/kkos/oniguruma/blob/master/doc/RE
 - https://github.com/chbk/flight-manual.atom.io/blob/scopes/content/hacking-atom/sections/syntax-naming-conventions.md
+- https://github.com/atom/flight-manual.atom.io/pull/564
 - https://github.com/jeff-hykin/better-cpp-syntax/blob/master/documentation/library/textmate_while.md
 - https://github.com/RedCMD/TmLanguage-Syntax-Highlighter
 - https://github.com/bevry/cson#what-is-cson
