@@ -540,7 +540,6 @@ function object($, rule, precedence) {
 	return seq(
 		'{',
 		commaSep($, rule, precedence),
-		repeat($._whitespace),
 		'}',
 	);
 }
@@ -556,7 +555,6 @@ function array($, rule, precedence) {
 	return seq(
 		'[',
 		commaSep($, rule, precedence),
-		repeat($._whitespace),
 		']',
 	);
 }
@@ -569,24 +567,23 @@ function array($, rule, precedence) {
  * @returns {Rule}
  */
 function commaSep($, rule, precedence) {
-	return optional(
-		choice(
+	return seq(
+		optional($._comma), // extra comma
+		optional(
 			seq(
-				repeat(
-					precedence ? prec(precedence, $._whitespace) : $._whitespace
-				),
+				repeat($._whitespace),
 				rule,
 				repeat(
 					seq(
 						$._comma,
 						repeat($._whitespace),
-						precedence ? prec(precedence, rule) : rule
+						precedence ? prec(precedence, rule) : rule,
 					),
 				),
 				optional($._comma), // trailing comma
 			),
-			$._comma,
 		),
+		repeat($._whitespace),
 	);
 }
 
