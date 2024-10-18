@@ -325,7 +325,7 @@
 				},
 				{
 					"comment": "(...)",
-					"begin": "\\((?!\\?[-~<=:!{|IimxWDSPy]|\\*[A-Za-z_])",
+					"begin": "\\((?!\\?[-~<>=:!{(|IimxWDSPy]|\\*[A-Za-z_])",
 					"end": "\\)|(?=\")",
 					"captures": { "0": { "name": "invalid.illegal.tm markup.underline" } },
 					"patterns": [
@@ -351,7 +351,7 @@
 				},
 				{
 					"comment": "(...)",
-					"begin": "\\((?!\\?[-~<=:!{|IimxWDSPy]|\\*[A-Za-z_])",
+					"begin": "\\((?!\\?[-~<>=:!{(|IimxWDSPy]|\\*[A-Za-z_])",
 					"end": "\\)|(?=\")",
 					"captures": { "0": { "name": "invalid.illegal.tm markup.underline" } },
 					"patterns": [
