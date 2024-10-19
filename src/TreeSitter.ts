@@ -106,6 +106,7 @@ export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoi
 		// startIndex: 0,
 		// endIndex: 10000000,
 		matchLimit: 10000,
+		timeoutMicros: 1000 * 1000 * 10, // 10 seconds
 	};
 
 	// const queryCaptures = query.captures(node, queryOptions);
