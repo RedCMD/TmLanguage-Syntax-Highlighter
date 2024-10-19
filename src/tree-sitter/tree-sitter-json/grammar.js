@@ -571,7 +571,11 @@ function commaSep($, rule, precedence) {
 		optional($._comma), // extra comma
 		optional(
 			seq(
-				repeat($._whitespace),
+				repeat(
+					precedence ?
+						prec(precedence, $._whitespace) :
+						$._whitespace
+				),
 				rule,
 				repeat(
 					seq(
@@ -616,7 +620,7 @@ function pair($, key, value) {
 			repeat($._whitespace),
 			optional(
 				choice(
-					value ?? blank(),
+					value,
 					prec(-2,
 						$._value,
 					),
