@@ -9,7 +9,7 @@ import { getTrees, queryNode, toRange } from "../TreeSitter";
 import { getScopes, getSubScope } from "../themeScopeColors";
 import { createOnigScanner, createOnigString, FindOption } from 'vscode-oniguruma';
 import { ruleIdToNumber } from "../textmate/rule";
-import { ITextEditorOptions, EditorOpenSource, TextEditorSelectionSource } from "../extensions";
+// import { ITextEditorOptions, EditorOpenSource, TextEditorSelectionSource } from "../extensions";
 import { gotoLocationsBroken } from "./DefinitionProvider";
 
 type element = {
