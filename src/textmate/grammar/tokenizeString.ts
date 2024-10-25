@@ -80,6 +80,7 @@ export function _tokenizeString(
 					.replace(/\n$/, "\\n")}|`
 			);
 		}
+		const prevLinePos = linePos;
 		const r = matchRuleOrInjections(
 			grammar,
 			lineText,
@@ -333,7 +334,7 @@ export function _tokenizeString(
 				matchedRuleId: matchedRuleId == endRuleId ? -poppedRule.id : matchedRuleId,
 				// lineText: lineText,
 				// isFirstLine: isFirstLine,
-				// linePos: linePos,
+				linePos: prevLinePos,
 				// stack: stack,
 				anchorPosition: anchorPosition,
 				time: performance.now(),

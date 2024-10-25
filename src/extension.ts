@@ -26,7 +26,8 @@ import { DocumentSemanticTokensProvider, SemanticTokensLegend } from "./Provider
 
 
 export const DocumentSelector: vscode.DocumentSelector = [
-	{ language: 'json-textmate' }
+	{ language: 'json-textmate' },
+	{ pattern: '**/syntaxes/*.json' }
 ];
 
 export async function activate(context: vscode.ExtensionContext) {
@@ -37,7 +38,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	await initOniguruma(context);
 	initTextMate(context);
 	initDiagnostics(context);
-	await initCallStackView(context);
+	initCallStackView(context);
 	initTokenColorCustomizations(context);
 	initThemeScopes(context);
 

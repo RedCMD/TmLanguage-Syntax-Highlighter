@@ -88,7 +88,6 @@ interface IRegExpSourceAnchorCache {
 }
 
 type RegExpSource<TRuleId = RuleId | typeof endRuleId> = {
-
 	readonly source: string;
 	readonly ruleId: TRuleId;
 	readonly hasAnchor: boolean;
@@ -107,6 +106,8 @@ type IRegExpSourceListAnchorCache<TRuleId> = {
 	readonly A1_G1: CompiledRule<TRuleId> | null,
 };
 export type CompiledRule<TRuleId = RuleId | typeof endRuleId> = {
+	readonly regExps: string[];
+	readonly rules: RuleId[];
 	readonly scanner: vscodeOniguruma.OnigScanner;
 };
 export type RegExpSourceList<TRuleId = RuleId | typeof endRuleId> = {
@@ -162,6 +163,7 @@ interface IOnigCaptureIndex {
 export type IMatchResult = {
 	readonly captureIndices: IOnigCaptureIndex[];
 	readonly matchedRuleId: RuleId;
+	readonly linePos: number;
 	readonly time: number;
 	readonly anchorPosition: number;
 };

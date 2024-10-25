@@ -287,22 +287,22 @@
 				{
 					"command": "textmate.goto.file",
 					"group": "inline@2",
-					"when": "view == TextMate"
+					"when": "view == TextMate || view == TextMate-Call"
 				},
 				{
 					"command": "textmate.goto.grammar",
 					"group": "inline@3",
-					"when": "view == TextMate"
+					"when": "view == TextMate || view == TextMate-Call"
 				},
 				{
 					"command": "textmate.goto.file",
 					"group": "0_navigation@1",
-					"when": "view == TextMate"
+					"when": "view == TextMate || view == TextMate-Call"
 				},
 				{
 					"command": "textmate.goto.grammar",
 					"group": "0_navigation@2",
-					"when": "view == TextMate"
+					"when": "view == TextMate || view == TextMate-Call"
 				}
 			]
 		},
@@ -325,6 +325,12 @@
 				"title": "Follow Cursor",
 				"category": "TextMate",
 				"icon": "assets/TextMate-file-icon.svg"
+			},
+			{
+				"command": "textmate.call.details",
+				"title": "Show Call Details",
+				"category": "TextMate",
+				"icon": "$(link-external)"
 			},
 			{
 				"command": "textmate.goto.file",
