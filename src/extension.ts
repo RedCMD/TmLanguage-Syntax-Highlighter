@@ -42,25 +42,28 @@ export async function activate(context: vscode.ExtensionContext) {
 	initTokenColorCustomizations(context);
 	initThemeScopes(context);
 
-	// context.subscriptions.push(vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider)); // Mouse over Hovers
-	context.subscriptions.push(vscode.languages.registerRenameProvider(DocumentSelector, RenameProvider)); // [F2] Rename
-	context.subscriptions.push(vscode.languages.registerCodeLensProvider(DocumentSelector, CodeLensProvider)); // Code Lens
-	context.subscriptions.push(vscode.languages.registerReferenceProvider(DocumentSelector, ReferenceProvider)); // Go to References
-	context.subscriptions.push(vscode.languages.registerDefinitionProvider(DocumentSelector, DefinitionProvider)); // ctrl+click Go to Definition
-	// context.subscriptions.push(vscode.languages.registerInlayHintsProvider(DocumentSelector, InlayHintsProvider)); // Mouse over Hovers
-	context.subscriptions.push(vscode.languages.registerCodeActionsProvider(DocumentSelector, CodeActionsProvider)); // Mouse over Hovers
-	context.subscriptions.push(vscode.languages.registerCallHierarchyProvider(DocumentSelector, CallHierarchyProvider)); // right click => Peak Call Hierarchy
-	context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(DocumentSelector, DocumentSymbolProvider)); // Breadcrumbs
-	context.subscriptions.push(vscode.languages.registerSelectionRangeProvider(DocumentSelector, SelectionRangeProvider)); // Expand and Shrink Selection
-	context.subscriptions.push(vscode.languages.registerDocumentDropEditProvider(DocumentSelector, DocumentDropEditProvider)); // Drag and Drop `tmLanguage.json` files to `#include`
-	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(DocumentSelector, CompletionItemProvider, ...triggerCharacters)); // Intellisense ctrl+space completions
-	context.subscriptions.push(vscode.languages.registerDocumentHighlightProvider(DocumentSelector, DocumentHighlightProvider)); // Context aware variable highlighting
-	context.subscriptions.push(vscode.languages.registerOnTypeFormattingEditProvider(DocumentSelector, OnTypeFormattingEditProvider, '}', ']', ',')); // right-click => Format Document
-	context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider(DocumentSelector, DocumentFormattingEditProvider)); // right-click => Format Document
-	context.subscriptions.push(vscode.languages.registerDocumentRangeFormattingEditProvider(DocumentSelector, DocumentRangeFormattingEditProvider)); // right-click => Format Selection
-	// context.subscriptions.push(vscode.languages.registerDocumentSemanticTokensProvider(DocumentSelector, DocumentSemanticTokensProvider, SemanticTokensLegend)); // Context aware syntax highlighting
+	context.subscriptions.push(
+		// vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider), // Mouse over Hovers
+		vscode.languages.registerRenameProvider(DocumentSelector, RenameProvider), // [F2] Rename
+		vscode.languages.registerCodeLensProvider(DocumentSelector, CodeLensProvider), // Code Lens
+		vscode.languages.registerReferenceProvider(DocumentSelector, ReferenceProvider), // Go to References
+		vscode.languages.registerDefinitionProvider(DocumentSelector, DefinitionProvider), // ctrl+click Go to Definition
+		// vscode.languages.registerInlayHintsProvider(DocumentSelector, InlayHintsProvider), // 
+		vscode.languages.registerCodeActionsProvider(DocumentSelector, CodeActionsProvider), // right click => Refactor...
+		vscode.languages.registerCallHierarchyProvider(DocumentSelector, CallHierarchyProvider), // right click => Peak Call Hierarchy
+		vscode.languages.registerDocumentSymbolProvider(DocumentSelector, DocumentSymbolProvider, metaData), // Breadcrumbs/Outline
+		vscode.languages.registerSelectionRangeProvider(DocumentSelector, SelectionRangeProvider), // Expand and Shrink Selection
+		vscode.languages.registerCompletionItemProvider(DocumentSelector, CompletionItemProvider, ...triggerCharacters), // Intellisense ctrl+space completions
+		vscode.languages.registerDocumentDropEditProvider(DocumentSelector, DocumentDropEditProvider), // Drag and Drop `tmLanguage.json` files to `#include`
+		vscode.languages.registerDocumentHighlightProvider(DocumentSelector, DocumentHighlightProvider), // Context aware cursor highlights
+		vscode.languages.registerOnTypeFormattingEditProvider(DocumentSelector, OnTypeFormattingEditProvider, '}', ']', ':', ','), // Auto Format on certain characters
+		vscode.languages.registerDocumentFormattingEditProvider(DocumentSelector, DocumentFormattingEditProvider), // right-click => Format Document
+		// vscode.languages.registerDocumentSemanticTokensProvider(DocumentSelector, DocumentSemanticTokensProvider, SemanticTokensLegend), // Context aware syntax highlighting
+		// vscode.languages.registerDocumentRangeSemanticTokensProvider(DocumentSelector, DocumentRangeSemanticTokensProvider, SemanticTokensLegend), // Context aware syntax highlighting
+		vscode.languages.registerDocumentRangeFormattingEditProvider(DocumentSelector, DocumentRangeFormattingEditProvider), // right-click => Format Selection
+	);
 
-	// vscode.window.showInformationMessage(performance.now() - start + "ms");
+	// vscode.window.showInformationMessage(`Extension ${(performance.now() - start).toFixed(3)}ms`);
 }
 
 
