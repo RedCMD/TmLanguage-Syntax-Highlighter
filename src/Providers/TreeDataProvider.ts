@@ -967,7 +967,7 @@ async function gotoGrammar(element: element) {
 				new vscode.Position(0, 0),
 				[
 					new vscode.Location(
-						document.uri,
+						uri,
 						new vscode.Range(0, 0, document.lineCount, 0),
 					)
 				],
