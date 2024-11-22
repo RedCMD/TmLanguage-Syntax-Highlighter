@@ -136,75 +136,65 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 					}
 				}
 				break;
-			case 'name':
-				if (!document.isUntitled) {
-					try {
-						const uri = document.uri;
-						const path = uri.path;
-						const packageUri = vscode.Uri.joinPath(uri, '../../package.json');
-						const packageDocument = await vscode.workspace.openTextDocument(packageUri);
-						if (packageDocument) {
-							const packageJSON: IRelaxedExtensionManifest = await JSON.parse(packageDocument?.getText());
-							const contributes = packageJSON.contributes;
-							const grammars = contributes?.grammars;
-							if (grammars) {
-								for (const grammar of grammars) {
-									const grammarPath = vscode.Uri.joinPath(packageUri, '..', grammar.path).path;
-									if (grammarPath == path) {
-										const languageId = grammar.language;
-										if (languageId) {
-											const languages = contributes.languages;
-											if (languages) {
-												for (const language of languages) {
-													if (languageId == language.id) {
-														const aliases = language.aliases;
-														if (aliases) {
-															for (const alias of aliases) {
-																completionItems.push({
-																	label: {
-																		label: alias,
-																		description: grammar.scopeName || languageId,
-																	},
-																	range: cursorRange,
-																	kind: vscode.CompletionItemKind.Text,
-																});
-															}
-														}
-													}
+			case 'name': {
+				const { packageJSON, packageUri } = await getPackageJSON(document);
+				const contributes = packageJSON?.contributes;
+				const grammars = contributes?.grammars;
+				if (Array.isArray(grammars)) {
+					const documentPath = document.uri.path;
+					for (const grammar of grammars) {
+						const grammarPath = vscode.Uri.joinPath(packageUri, '..', grammar.path).path;
+						if (grammarPath == documentPath) {
+							const languageId = grammar.language;
+							if (languageId) {
+								const languages = contributes.languages;
+								if (Array.isArray(languages)) {
+									for (const language of languages) {
+										if (languageId == language.id) {
+											const aliases = language.aliases;
+											if (Array.isArray(aliases)) {
+												for (const alias of aliases) {
+													completionItems.push({
+														label: {
+															label: alias,
+															description: grammar.scopeName || languageId,
+														},
+														range: cursorRange,
+														kind: vscode.CompletionItemKind.Text,
+													});
 												}
 											}
-										}
-										const displayName = packageJSON.displayName;
-										if (displayName) {
-											completionItems.push({
-												label: {
-													label: displayName,
-													description: packageJSON.name || languageId || grammar.scopeName,
-												},
-												range: cursorRange,
-												kind: vscode.CompletionItemKind.Text,
-											});
-										}
-										const description = packageJSON.description;
-										if (description) {
-											completionItems.push({
-												label: {
-													label: description,
-													description: displayName || packageJSON.name || languageId || grammar.scopeName,
-												},
-												range: cursorRange,
-												kind: vscode.CompletionItemKind.Text,
-											});
 										}
 									}
 								}
 							}
+							const displayName = packageJSON.displayName;
+							if (displayName) {
+								completionItems.push({
+									label: {
+										label: displayName,
+										description: packageJSON.name || languageId || grammar.scopeName,
+									},
+									range: cursorRange,
+									kind: vscode.CompletionItemKind.Text,
+								});
+							}
+							const description = packageJSON.description;
+							if (description) {
+								completionItems.push({
+									label: {
+										label: description,
+										description: displayName || packageJSON.name || languageId || grammar.scopeName,
+									},
+									range: cursorRange,
+									kind: vscode.CompletionItemKind.Text,
+								});
+							}
 						}
-					} catch (error) {
-						console.warn("TextMate: Failed to parse package.json\n" + error);
 					}
 				}
 				break;
+			}
 			case 'include':
 				const rootPatternsQuery = `(json (patterns) @patterns)`;
 				const rootPatternsText = queryNode(tree.rootNode, rootPatternsQuery).pop()?.node?.text;
