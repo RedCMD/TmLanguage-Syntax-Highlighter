@@ -51,6 +51,7 @@ Todo:
 - https://www.sublimetext.com/docs/3/scope_naming.html
 - https://www.regular-expressions.info/refquick.html
 - https://techblog.kayac.com/vscode-extension-syntax-highlight
+- https://markdown-all-in-one.github.io/docs/contributing/textmate-language-grammar.html
 - https://gist.github.com/Aerijo/b8c82d647db783187804e86fa0a604a1
 - https://gist.github.com/DamnedScholar/622926bcd222eb1ddc483d12103fd315
 - https://github.com/mjbvz/vscode-fenced-code-block-grammar-injection-example
