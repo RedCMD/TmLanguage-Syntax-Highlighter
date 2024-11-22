@@ -41,7 +41,25 @@ module.exports = grammar({
 			),
 		),
 
-		_whitespace: $ => /\s+/,
+		_whitespace: $ => choice(
+			/\s+/,
+			$.cComment,
+		),
+		cComment: $ => token(
+			choice(
+				seq(
+					'//',
+					repeat(/./),
+				),
+				seq(
+					'/*',
+					repeat('/'),
+					repeat(/\**[^*/][^*]*/),
+					repeat('*'),
+					'*/',
+				),
+			),
+		),
 
 		repository: $ => pair($,
 			"repository",
