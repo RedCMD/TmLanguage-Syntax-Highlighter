@@ -57,6 +57,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 
 		const cursorQuery = `;scm
 			(schema (value) @schema)
+			(schema) @new_schema
 			(scopeName (value) @scopeName)
 			(name_display (value) @name)
 			(include (value) @include)
@@ -81,12 +82,15 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 		const completionItems: CompletionItem[] = [];
 
 		switch (cursorName) {
+			case 'new_schema':
 			case 'schema':
+				const schema = "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json";
 				completionItems.push({
-					label: "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
-					range: cursorRange,
+					label: cursorName == 'schema' ? schema : `"${schema}"`,
+					range: cursorName == 'schema' ? cursorRange : new vscode.Range(position, cursorRange.end),
 					kind: vscode.CompletionItemKind.Reference,
 					documentation: "Schema for VSCode's TextMate JSON grammars",
+					sortText: ' ',
 				});
 				break;
 			case 'scopeName':
