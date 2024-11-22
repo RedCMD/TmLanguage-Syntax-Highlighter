@@ -968,7 +968,7 @@ async function gotoGrammar(element: element) {
 				[
 					new vscode.Location(
 						uri,
-						new vscode.Range(0, 0, document.lineCount, 0),
+						new vscode.Range(0, 0, (await vscode.workspace.openTextDocument(uri))?.lineCount ?? 0, 0),
 					)
 				],
 			);
