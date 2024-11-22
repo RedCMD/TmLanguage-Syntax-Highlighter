@@ -5,6 +5,7 @@ import { ITextMateThemingRule } from "../extensions";
 import { getScopes } from "../themeScopeColors";
 import { UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
 import { unicode_property_data } from "../unicode_property_data";
+import { getPackageJSON } from '../extension';
 
 type CompletionItem = vscode.CompletionItem & { type?: string; };
 
@@ -115,33 +116,23 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 					sortText: '~source',
 				});
 
-				if (!document.isUntitled) {
-					try {
-						const uri = document.uri;
-						const path = uri.path;
-						const packageUri = vscode.Uri.joinPath(uri, '../../package.json');
-						const packageDocument = await vscode.workspace.openTextDocument(packageUri);
-						if (packageDocument) {
-							const packageJSON: IRelaxedExtensionManifest = await JSON.parse(packageDocument?.getText());
-							const grammars = packageJSON.contributes?.grammars;
-							if (grammars) {
-								for (const grammar of grammars) {
-									const grammarPath = vscode.Uri.joinPath(packageUri, '..', grammar.path).path;
-									if (grammarPath == path) {
-										completionItems.push({
-											label: {
-												label: grammar.scopeName,
-												description: grammar.language,
-											},
-											range: cursorRange,
-											kind: vscode.CompletionItemKind.Variable,
-										});
-									}
-								}
-							}
+				const { packageJSON, packageUri } = await getPackageJSON(document);
+				const grammars = packageJSON?.contributes?.grammars;
+				if (Array.isArray(grammars)) {
+					const documentPath = document.uri.path;
+					for (const grammar of grammars) {
+						const grammarPath = vscode.Uri.joinPath(packageUri, '..', grammar.path).path;
+						if (grammarPath == documentPath) {
+							completionItems.push({
+								label: {
+									label: grammar.scopeName || `source.${grammar.language}`,
+									description: grammar.language,
+								},
+								documentation: documentPath,
+								range: cursorRange,
+								kind: vscode.CompletionItemKind.Variable,
+							});
 						}
-					} catch (error) {
-						console.warn("TextMate: Failed to parse package.json\n" + error);
 					}
 				}
 				break;
