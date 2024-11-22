@@ -369,7 +369,7 @@ function Diagnostics(document: vscode.TextDocument) {
 		// vscode.window.showInformationMessage(JSON.stringify("diagnostics #includes"))
 		// const start = performance.now();
 
-		let prevParent;
+		let prevPatternsArrayId;
 		let errorCount;
 
 		const repoQueryString = `;scm
@@ -449,20 +449,42 @@ function Diagnostics(document: vscode.TextDocument) {
 			diagnostics.push(diagnostic);
 
 			// Change `severity` to `Error` if every single `#include` cannot be found inside a `"patterns"` array
-			const parent = node.parent.parent.parent.parent;
-			if (prevParent != parent.id) {
+			const patternsArray = node.parent.parent.parent.parent;
+			if (patternsArray.type != 'patterns') {
+				continue;
+			}
+
+			const parentRule = patternsArray.parent;
+			if (parentRule.type == 'capture') {
+				continue;
+			}
+
+			if (prevPatternsArrayId != patternsArray.id) {
 				errorCount = 0;
 			}
 
 			errorCount++;
-			if (parent.namedChildCount - 1 == errorCount) {
+			if (patternsArray.namedChildCount - 1 == errorCount) {
 				for (let index = diagnostics.length - errorCount; index < diagnostics.length; index++) {
 					const diagnostic = diagnostics[index];
 					diagnostic.severity = vscode.DiagnosticSeverity.Error;
 					diagnostics[index] = diagnostic;
 				}
+
+				if (!parentRule.childForFieldName('match') && !(parentRule.type == 'pattern' && parentRule.childForFieldName('include'))) {
+					const range = toRange(parentRule);
+					const diagnostic: vscode.Diagnostic = {
+						range: range,
+						message: 'The entire parent rule is nullified because all "#includes" failed.',
+						severity: vscode.DiagnosticSeverity.Hint,
+						source: 'TextMate',
+						code: 'dead',
+						tags: [vscode.DiagnosticTag.Unnecessary],
+					};
+					diagnostics.push(diagnostic);
+				}
 			}
-			prevParent = parent.id;
+			prevPatternsArrayId = patternsArray.id;
 		}
 		// vscode.window.showInformationMessage(`include ${(performance.now() - start).toFixed(3)}ms`);
 	}
@@ -505,8 +527,6 @@ function Diagnostics(document: vscode.TextDocument) {
 			;(pattern (include) (match) @match)
 			;(pattern [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @beginPatterns [(match) (include)])
 			;(pattern [(match) (include)] [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @beginPatterns)
-			;(pattern (match) [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @beginPatterns)
-			;(pattern (include) [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @beginPatterns)
 			(pattern [(captures) @captures (name) @name] !match !begin)
 			(pattern [(while) @while (end) @end (beginCaptures) @beginCaptures (whileCaptures) @whileCaptures (endCaptures) @endCaptures (contentName) @contentName (applyEndPatternLast) @applyEndPatternLast] !begin)
 			(pattern (whileCaptures) @whileCaptures !while)
