@@ -23,6 +23,7 @@ import { DocumentHighlightProvider } from "./Providers/DocumentHighlightProvider
 import { CompletionItemProvider, triggerCharacters } from "./Providers/CompletionItemProvider";
 import { OnTypeFormattingEditProvider, DocumentFormattingEditProvider, DocumentRangeFormattingEditProvider } from "./Providers/DocumentFormattingEditProvider";
 import { DocumentSemanticTokensProvider, SemanticTokensLegend } from "./Providers/DocumentSemanticTokensProvider";
+import { IRelaxedExtensionManifest } from "./extensions";
 
 
 export const DocumentSelector: vscode.DocumentSelector = [
@@ -160,4 +161,49 @@ export function wagnerFischer(word: string, directory: string[]): { distance: nu
 	});
 
 	return distances;
+}
+
+
+/*
+ Parsing normal JSON
+ Getting locations of all nodes
+https://www.npmjs.com/package/jsonc-parser
+https://www.npmjs.com/package/flatted
+https://www.npmjs.com/package/json-asty
+https://www.npmjs.com/package/json-cst
+*/
+
+export async function getPackageJSON(baseUri: vscode.TextDocument | vscode.Uri, ...pathSegments: string[]) {
+	if ('isUntitled' in baseUri) {
+		if (baseUri.isUntitled) {
+			return null;
+		}
+	}
+
+	const uri = 'uri' in baseUri ? baseUri.uri : baseUri;
+
+	const packageUri1 = vscode.Uri.joinPath(uri, ...pathSegments, '..', '..', 'package.json');
+	const packageUri2 = vscode.Uri.joinPath(uri, ...pathSegments, '..', 'package.json'); // Maybe grammar file is at the same level as `package.json`
+
+	const file1 = await vscode.workspace.fs.readFile(packageUri1).then(null, () => { });
+	const packageUri = file1 ? packageUri1 : packageUri2;
+
+	const file = file1 || await vscode.workspace.fs.readFile(packageUri2).then(null, () => { });
+	if (!file) {
+		return null;
+	}
+
+	try {
+		const decoder = new TextDecoder(); // Works in VSCode web
+		const text = decoder.decode(file);
+
+		const packageJSON: IRelaxedExtensionManifest = JSON.parse(text);
+		if (packageJSON) {
+			return { packageJSON: packageJSON, packageUri: packageUri };
+		}
+	} catch (error) {
+		console.warn(`TextMate: Failed to parse package.json\n${error}`);
+	}
+
+	return null;
 }

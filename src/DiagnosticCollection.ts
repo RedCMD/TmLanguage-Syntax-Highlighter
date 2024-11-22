@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as vscodeOniguruma from 'vscode-oniguruma';
 import { getLastNode, getTrees, parseEvents, queryNode, toPosition, toRange } from "./TreeSitter";
-import { DocumentSelector, stringify } from "./extension";
+import { DocumentSelector, getPackageJSON, stringify } from "./extension";
 import { unicodeproperties } from "./UNICODE_PROPERTIES";
 
 
@@ -112,7 +112,7 @@ export function initDiagnostics(context: vscode.ExtensionContext) {
 	);
 }
 
-function Diagnostics(document: vscode.TextDocument) {
+async function Diagnostics(document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage("Diagnostics");
 	// const start = performance.now();
 
@@ -580,6 +580,44 @@ function Diagnostics(document: vscode.TextDocument) {
 		// vscode.window.showInformationMessage(`dead ${(performance.now() - start).toFixed(3)}ms`);
 	}
 
+	if (true) {
+		// vscode.window.showInformationMessage(JSON.stringify("diagnostics scopeName"));
+		// const start = performance.now();
+		const { packageJSON, packageUri } = await getPackageJSON(document);
+		if (packageJSON) {
+			const scopeNameQuery = `;scm
+			(scopeName (value) @scopeName)
+		`;
+			const scopeNameCapture = queryNode(rootNode, scopeNameQuery).pop();
+
+			if (!scopeNameCapture) {
+				return;
+			}
+			const scopeName = scopeNameCapture.node.text;
+
+			const grammars = packageJSON.contributes?.grammars;
+			for (const grammar of grammars) {
+				const uri = vscode.Uri.joinPath(packageUri, '..', grammar.path);
+				if (document.uri.path == uri.path) {
+					if (grammar.scopeName == scopeName) {
+						continue;
+					}
+
+					const range = toRange(scopeNameCapture.node);
+					const diagnostic: vscode.Diagnostic = {
+						range: range,
+						message: `scopeName '${scopeName}' does not match scopeName '${grammar.scopeName}' inside '${packageUri.path}'`,
+						severity: vscode.DiagnosticSeverity.Error,
+						source: 'TextMate',
+						code: 'scopeName',
+					};
+					diagnostics.push(diagnostic);
+				}
+			}
+		}
+		// vscode.window.showInformationMessage(`scopeName ${(performance.now() - start).toFixed(3)}ms`);
+	}
+	
 	if (false) { // create artificial lag
 		const start = performance.now();
 		for (let i = 0; i < 1000; i++) {
