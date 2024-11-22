@@ -27,7 +27,10 @@ import { DocumentSemanticTokensProvider, SemanticTokensLegend } from "./Provider
 
 export const DocumentSelector: vscode.DocumentSelector = [
 	{ language: 'json-textmate' },
-	{ pattern: '**/syntaxes/*.json' }
+	{
+		language: 'json',
+		pattern: '**/syntaxes/*.json'
+	}
 ];
 
 export async function activate(context: vscode.ExtensionContext) {
@@ -139,14 +142,14 @@ export function wagnerFischer(word: string, directory: string[]): { distance: nu
 
 		index++;
 	}
-	
+
 	distances.sort((a, b) => {
 		if (a.distance > b.distance) {
 			return 1;
 		}
 		if (a.distance < b.distance) {
 			return -1;
-		} 
+		}
 		if (a.string.length < b.string.length) {
 			return 1;
 		}
