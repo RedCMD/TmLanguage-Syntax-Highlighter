@@ -438,7 +438,7 @@ function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: S
 				diagnostics[index] = diagnostic;
 			}
 
-			if (!parentRule.childForFieldName('match') && !(parentRule.type == 'pattern' && parentRule.childForFieldName('include'))) {
+			if (!parentRule.childForFieldName('match') && !(parentRule.type == 'pattern' && parentRule.childForFieldName('include')) && parentRule.type != 'json') {
 				const range = toRange(parentRule);
 				const diagnostic: vscode.Diagnostic = {
 					range: range,
