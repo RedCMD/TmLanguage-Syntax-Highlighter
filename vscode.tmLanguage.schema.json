@@ -65,7 +65,7 @@
 					"default": { "L:source.scopeName -comment -string, R:source.scopeName.another": { } }
 				},
 				"injectionSelector": {
-					"markdownDescription": "Controls which scope-names to inject into and with what priority. Default is 0, L: is -1 and R: is 1  \nUsed in conjunction with `\"injectTo\"` under `\"grammars\"` in your `package.json` file  \nhttps://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#injection-grammars",
+					"markdownDescription": "Controls which scope-names to inject the grammar into and with what priority. Default is 0, L: is -1 and R: is 1  \nUsed in conjunction with `\"injectTo\"` under `\"grammars\"` in your `package.json` file  \nhttps://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#injection-grammars",
 					"$ref": "#/definitions/injectionSelector"
 				},
 				"fileTypes": {
@@ -686,8 +686,7 @@
 			}
 		},
 		"match": {
-			"$comment": "TODO: ",
-			"description": "match",
+			"$comment": "Having hovers over regexs is annoying",
 			"type": "string",
 			"defaultSnippets": [
 				{
@@ -698,8 +697,7 @@
 			]
 		},
 		"begin": {
-			"$comment": "TODO: ",
-			"description": "begin",
+			"$comment": "Having hovers over regexs is annoying",
 			"type": "string",
 			"defaultSnippets": [
 				{
@@ -710,8 +708,7 @@
 			]
 		},
 		"end": {
-			"$comment": "TODO: ",
-			"description": "end",
+			"$comment": "Having hovers over regexs is annoying",
 			"type": "string",
 			"defaultSnippets": [
 				{
@@ -722,8 +719,7 @@
 			]
 		},
 		"while": {
-			"$comment": "TODO: ",
-			"description": "while",
+			"$comment": "Having hovers over regexs is annoying",
 			"type": "string",
 			"defaultSnippets": [
 				{
@@ -734,8 +730,8 @@
 			]
 		},
 		"captures": {
-			"$comment": "TODO: ",
-			"description": "captures",
+			"$comment": "`\"markdownDescription\"` overrides `\"description\"`",
+			"description": "Allows you to assign scopeNames/retokenize the captured text",
 			"type": [
 				"object",
 				"array"
@@ -871,18 +867,15 @@
 			}
 		},
 		"beginCaptures": {
-			"$comment": "TODO: ",
-			"description": "beginCaptures",
+			"markdownDescription": "Allows you to assign `scopeNames`/retokenize the captured text  \nOnly applies to `\"begin\"`  \nOverrides `\"captures\"`",
 			"$ref": "#/definitions/captures"
 		},
 		"endCaptures": {
-			"$comment": "TODO: ",
-			"description": "endCaptures",
+			"markdownDescription": "Allows you to assign `scopeNames`/retokenize the captured text  \nOnly applies to `\"end\"`  \nOverrides `\"captures\"`",
 			"$ref": "#/definitions/captures"
 		},
 		"whileCaptures": {
-			"$comment": "TODO: ",
-			"description": "whileCaptures",
+			"markdownDescription": "Allows you to assign `scopeNames`/retokenize the captured text  \nOnly applies to `\"while\"`  \nOverrides `\"captures\"`",
 			"$ref": "#/definitions/captures"
 		},
 		"applyEndPatternLast": {
