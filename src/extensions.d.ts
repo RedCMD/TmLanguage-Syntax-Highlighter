@@ -69,6 +69,23 @@ export interface ITextMateThemingRule {
 	settings: ITokenColorizationSetting;
 }
 
+export interface ISemanticTokenColorizationSetting {
+	foreground?: string;
+	fontStyle?: string; /* [italic|bold|underline|strikethrough] */
+	bold?: boolean;
+	underline?: boolean;
+	strikethrough?: boolean;
+	italic?: boolean;
+}
+
+export interface IThemeScopedColorCustomizations {
+	[colorId: string]: string;
+}
+
+export interface IColorCustomizations {
+	[colorIdOrThemeScope: string]: IThemeScopedColorCustomizations | string;
+}
+
 export interface IThemeScopedTokenColorCustomizations {
 	[groupId: string]: ITextMateThemingRule[] | ITokenColorizationSetting | boolean | string | undefined;
 	comments?: string | ITokenColorizationSetting;
@@ -95,6 +112,42 @@ export interface ITokenColorCustomizations {
 	variables?: string | ITokenColorizationSetting;
 	textMateRules?: ITextMateThemingRule[];
 	semanticHighlighting?: boolean; // deprecated, use ISemanticTokenColorCustomizations.enabled instead
+}
+
+export interface IThemeScopedSemanticTokenColorCustomizations {
+	[styleRule: string]: ISemanticTokenRules | boolean | undefined;
+	enabled?: boolean;
+	rules?: ISemanticTokenRules;
+}
+
+export interface ISemanticTokenColorCustomizations {
+	[styleRuleOrThemeScope: string]: IThemeScopedSemanticTokenColorCustomizations | ISemanticTokenRules | boolean | undefined;
+	enabled?: boolean;
+	rules?: ISemanticTokenRules;
+}
+
+export interface IThemeScopedExperimentalSemanticTokenColorCustomizations {
+	[themeScope: string]: ISemanticTokenRules | undefined;
+}
+
+export interface IExperimentalSemanticTokenColorCustomizations {
+	[styleRuleOrThemeScope: string]: IThemeScopedExperimentalSemanticTokenColorCustomizations | ISemanticTokenRules | undefined;
+}
+
+export type IThemeScopedCustomizations =
+	IThemeScopedColorCustomizations
+	| IThemeScopedTokenColorCustomizations
+	| IThemeScopedExperimentalSemanticTokenColorCustomizations
+	| IThemeScopedSemanticTokenColorCustomizations;
+
+export type IThemeScopableCustomizations =
+	IColorCustomizations
+	| ITokenColorCustomizations
+	| IExperimentalSemanticTokenColorCustomizations
+	| ISemanticTokenColorCustomizations;
+
+export interface ISemanticTokenRules {
+	[selector: string]: string | ISemanticTokenColorizationSetting | undefined;
 }
 
 export interface IDebugger {

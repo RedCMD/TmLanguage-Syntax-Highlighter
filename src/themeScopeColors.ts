@@ -1,38 +1,6 @@
 import * as vscode from 'vscode';
-import { IRelaxedExtensionManifest } from "./extensions";
+import { IRelaxedExtensionManifest, ISemanticTokenColorCustomizations, ITextMateThemingRule, ITokenColorizationSetting } from "./extensions";
 
-interface ISemanticTokenColorizationSetting {
-	foreground?: string;
-	fontStyle?: string; /* [italic|bold|underline|strikethrough] */
-	bold?: boolean;
-	underline?: boolean;
-	strikethrough?: boolean;
-	italic?: boolean;
-}
-interface ISemanticTokenRules {
-	[selector: string]: string | ISemanticTokenColorizationSetting | undefined;
-}
-interface IThemeScopedSemanticTokenColorCustomizations {
-	[styleRule: string]: ISemanticTokenRules | boolean | undefined;
-	enabled?: boolean;
-	rules?: ISemanticTokenRules;
-}
-interface ISemanticTokenColorCustomizations {
-	[styleRuleOrThemeScope: string]: IThemeScopedSemanticTokenColorCustomizations | ISemanticTokenRules | boolean | undefined;
-	enabled?: boolean;
-	rules?: ISemanticTokenRules;
-}
-
-interface ITextMateThemingRule {
-	name?: string;
-	scope?: string | string[];
-	settings: ITokenColorizationSetting;
-}
-interface ITokenColorizationSetting {
-	foreground?: string;
-	background?: string;
-	fontStyle?: string; /* [italic|bold|underline|strikethrough] */
-}
 interface TokenColorizationDeatils {
 	theme: string;
 	name?: string;
