@@ -1,10 +1,11 @@
 import * as vscode from 'vscode';
 import * as Parser from 'web-tree-sitter';
-import { getTrees, toRange, toPoint, queryNode } from "../TreeSitter";
+import { getTrees, toRange, toPoint, queryNode, getLastNode, trees } from "../TreeSitter";
 import { ITextMateThemingRule } from "../extensions";
 import { getScopes } from "../themeScopeColors";
 import { UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
 import { unicode_property_data } from "../unicode_property_data";
+import { SyntaxNode } from 'web-tree-sitter';
 import { getPackageJSON } from '../extension';
 
 type CompletionItem = vscode.CompletionItem & { type?: string; };
@@ -51,6 +52,8 @@ const defaultThemeColors: { [baseTheme: string]: ITextMateThemingRule[]; } = {
 export const CompletionItemProvider: vscode.CompletionItemProvider = {
 	async provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext): Promise<vscode.CompletionList<vscode.CompletionItem>> {
 		// vscode.window.showInformationMessage(JSON.stringify("Completions"));
+		// const start = performance.now();
+
 		const trees = getTrees(document);
 		const tree = trees.jsonTree;
 		const rootNode = tree.rootNode;
@@ -391,20 +394,35 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 					});
 				}
 
-				const noOfCaptureGroups = 5; // TODO: get actual number
+				const noOfCaptureGroups = locateRegex(trees, cursorName == 'scope' ? cursorNode.parent.parent : cursorNode.parent);
+				// vscode.window.showInformationMessage(`noOfCaptureGroups: ${(performance.now() - start).toFixed(3)}ms ${noOfCaptureGroups.length}\n${JSON.stringify(noOfCaptureGroups)}`);
 				const updowncaseSnippet =
-					new vscode.SnippetString('${')
-						.appendChoice([...Array(noOfCaptureGroups).keys()].map(String))
+					new vscode.SnippetString()
+						.appendText('${')
+						.appendChoice([...Array(noOfCaptureGroups.length || 1).keys()].map(String))
 						.appendText(':/')
-						.appendChoice(['upcase', 'downcase'])
+						.appendChoice(['downcase', 'upcase'])
 						.appendText('}');
 				completionItems.push({
 					label: {
 						label: '${0:/updowncase}',
+						description: "Transform Capture's Case",
 					},
 					range: cursorRange,
 					kind: vscode.CompletionItemKind.Function,
 					insertText: updowncaseSnippet,
+					documentation: "Converts all the alphabetic characters in a capture to UPPERCASE or lowercase.\nAll leading dots (.) are stripped.",
+				});
+				const replaceSnippet = new vscode.SnippetString('$').appendChoice([...Array(noOfCaptureGroups.length || 1).keys()].map(String));
+				completionItems.push({
+					label: {
+						label: '$0',
+						description: "Capture Replacement",
+					},
+					range: cursorRange,
+					kind: vscode.CompletionItemKind.Function,
+					insertText: replaceSnippet,
+					documentation: "Replaced with the corresponding capture's captured text.\nAll leading dots (.) are stripped.",
 				});
 
 				break;
@@ -485,7 +503,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 
 
 		const completionList = new vscode.CompletionList(completionItems);
-		// vscode.window.showInformationMessage(JSON.stringify(completionList));
+		// vscode.window.showInformationMessage(`completionList: ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(completionList)}`);
 		return completionList;
 	},
 	resolveCompletionItem(item: CompletionItem, token: vscode.CancellationToken): vscode.CompletionItem {
@@ -508,7 +526,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 					// }
 					unicodeChars += "; '";
 					for (let char = unicodeDataStart; char <= unicodeDataEnd && char < (unicodeDataStart + 100); char++) {
-						unicodeChars += String.fromCodePoint(char).replace('\\', '\\\\').replace("'", "\\'").replace('\n', '\\n').replace('\r', '\\r');
+						unicodeChars += String.fromCodePoint(char).replace('\\', '\\\\').replace("'", "\\'").replace('\n', '\\n').replace('\r', '\\r').replace('\t', '\\t');
 					}
 					if ((unicodeDataStart + 100) <= unicodeDataEnd) {
 						unicodeChars += '...';
@@ -530,6 +548,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 		return item;
 	},
 };
+
 
 function repoCompletionItems(completionItems: CompletionItem[], tree: Parser.Tree, cursorRange: vscode.Range, scopeName?: string): void {
 	const rootNode = tree.rootNode;
@@ -590,4 +609,87 @@ function repoCompletionItems(completionItems: CompletionItem[], tree: Parser.Tre
 		}
 		completionItems.push(repoCompletionItem);
 	}
+}
+
+function locateRegex(trees: trees, nameNode: SyntaxNode): Parser.QueryCapture[] {
+	const parent = nameNode.parent;
+	if (nameNode.type == 'name' && parent.childForFieldName('match')) {
+		return getCaptureGroups(trees, parent, 'match');
+	}
+
+	const beginCaptures = getCaptureGroups(trees, parent, 'begin');
+	if (beginCaptures.length) {
+		return beginCaptures;
+	}
+
+	const doubleParent = parent.parent;
+	const tripleParent = doubleParent.parent;
+
+	if (doubleParent.type == 'captures') {
+		const matchCaptures = getCaptureGroups(trees, tripleParent, 'match');
+		if (matchCaptures.length) {
+			return matchCaptures;
+		}
+
+		if (!tripleParent.childForFieldName('begin')) {
+			return [];
+		}
+		let beginCaptures: Parser.QueryCapture[] = [];
+		if (!getLastNode(tripleParent, 'beginCaptures')) {
+			beginCaptures = getCaptureGroups(trees, tripleParent, 'begin');
+		}
+
+		if (tripleParent.childForFieldName('while')) {
+			if (!tripleParent.childForFieldName('whileCaptures')) {
+				const whileCaptures = getCaptureGroups(trees, tripleParent, 'while');
+				if (whileCaptures.length > beginCaptures.length) {
+					return whileCaptures;
+				}
+			}
+			return beginCaptures;
+		}
+
+		if (tripleParent.childForFieldName('end')) {
+			if (!tripleParent.childForFieldName('endCaptures')) {
+				const endCaptures = getCaptureGroups(trees, tripleParent, 'end');
+				if (endCaptures.length > beginCaptures.length) {
+					return endCaptures;
+				}
+			}
+			return beginCaptures;
+		}
+	}
+
+	if (doubleParent.type == 'beginCaptures') {
+		return getCaptureGroups(trees, tripleParent, 'begin');
+	}
+
+	if (doubleParent.type == 'whileCaptures') {
+		return getCaptureGroups(trees, tripleParent, 'while');
+	}
+
+	if (doubleParent.type == 'endCaptures') {
+		return getCaptureGroups(trees, tripleParent, 'end');
+	}
+	return [];
+}
+
+function getCaptureGroups(trees: trees, parentNode: SyntaxNode, type: string): Parser.QueryCapture[] {
+	const node = getLastNode(parentNode, type);
+	if (!node) {
+		return [];
+	}
+	const regexTrees = trees.regexTrees;
+	const id = node.childForFieldName('regex').id;
+	const regexNode = regexTrees.get(id)?.rootNode;
+
+	const query = `;scm
+		(regex) @root
+		(capture_group) @group
+		(capture_group_extended) @group
+		(capture_group_name) @name
+		(capture_group_name_extended) @name
+	`;
+	const captures = queryNode(regexNode, query);
+	return captures;
 }
