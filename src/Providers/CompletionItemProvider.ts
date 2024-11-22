@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as Parser from 'web-tree-sitter';
 import { getTrees, toRange, toPoint, queryNode } from "../TreeSitter";
-import { IRelaxedExtensionManifest } from "../extensions";
+import { ITextMateThemingRule } from "../extensions";
 import { getScopes } from "../themeScopeColors";
 import { UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
 import { unicode_property_data } from "../unicode_property_data";
@@ -18,6 +18,34 @@ const triggerCharacterSets: { [key: string]: string[]; } = {
 	regex: ['{', '^',/* '\\', '(', '?', '<', '\'' */],
 };
 export const triggerCharacters = Object.values(triggerCharacterSets).flat();
+
+const defaultThemeColors: { [baseTheme: string]: ITextMateThemingRule[]; } = {
+	'light': [
+		{ scope: 'token.info-token', settings: { foreground: '#316bcd' } },
+		{ scope: 'token.warn-token', settings: { foreground: '#cd9731' } },
+		{ scope: 'token.error-token', settings: { foreground: '#cd3131' } },
+		{ scope: 'token.debug-token', settings: { foreground: '#800080' } }
+	],
+	'dark': [
+		{ scope: 'token.info-token', settings: { foreground: '#6796e6' } },
+		{ scope: 'token.warn-token', settings: { foreground: '#cd9731' } },
+		{ scope: 'token.error-token', settings: { foreground: '#f44747' } },
+		{ scope: 'token.debug-token', settings: { foreground: '#b267e6' } }
+	],
+	'hcLight': [
+		{ scope: 'token.info-token', settings: { foreground: '#316bcd' } },
+		{ scope: 'token.warn-token', settings: { foreground: '#cd9731' } },
+		{ scope: 'token.error-token', settings: { foreground: '#cd3131' } },
+		{ scope: 'token.debug-token', settings: { foreground: '#800080' } }
+	],
+	'hcDark': [
+		{ scope: 'token.info-token', settings: { foreground: '#6796e6' } },
+		{ scope: 'token.warn-token', settings: { foreground: '#008000' } },
+		{ scope: 'token.error-token', settings: { foreground: '#FF0000' } },
+		{ scope: 'token.debug-token', settings: { foreground: '#b267e6' } }
+	]
+};
+
 
 export const CompletionItemProvider: vscode.CompletionItemProvider = {
 	async provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext): Promise<vscode.CompletionList<vscode.CompletionItem>> {
@@ -299,22 +327,58 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 				for (const key in themeScopes) {
 					const scope = themeScopes[key];
 					const standardTokenType = key.match(/\b(?:comment|string|regex|meta\.embedded)\b/);
+					const documentation = new vscode.MarkdownString();
+					documentation.appendMarkdown(
+						`Theme: \`${scope.theme}\`  \n` +
+						`Comment: ${scope.name ? `\`${scope.name}\`` : ''}  \n` +
+						`Foreground: \`${scope.foreground ?? 'editor.foreground'}\`  \n` +
+						`Background: \`${scope.background ?? 'editor.background'}\`  \n` +
+						`FontStyle: ${scope.fontStyle ? `\`${scope.fontStyle}\`` : ''}  \n` +
+						`StandardTokenType: ${standardTokenType ? (standardTokenType[0] == 'meta.embedded' ? '`other`' : `\`${standardTokenType[0]}\``) : ''}`
+					);
 					completionItems.push({
 						label: {
 							label: key,
+							// detail: scope.foreground,
 							description: scope.name,
 						},
 						range: cursorName == 'scope' ? cursorRange : null,
 						kind: vscode.CompletionItemKind.Color,
 						detail: scope.foreground || scope.background,
-						documentation:
-							'Theme: ' + scope.theme + '\n' +
-							'Comment: ' + (scope.name ?? '') + '\n' +
-							'Foreground: ' + (scope.foreground ?? 'editor.foreground') + '\n' +
-							'Background: ' + (scope.background ?? 'editor.background') + '\n' +
-							'FontStyle: ' + (scope.fontStyle ?? '') + '\n' +
-							'StandardTokenType: ' + (standardTokenType ? (standardTokenType[0] == 'meta.embedded' ? 'other' : standardTokenType[0]) : ''),
-						// sortText: ' ' + key,
+						documentation: documentation,
+					});
+				}
+
+				const baseTheme = [
+					null,
+					'light',
+					'dark',
+					'hcDark',
+					'hcLight',
+				][vscode.window.activeColorTheme.kind];
+				const themeRules = defaultThemeColors[baseTheme];
+				for (const themeRule of themeRules) {
+					const scope = <string>themeRule.scope;
+					const settings = themeRule.settings;
+					const documentation = new vscode.MarkdownString();
+					documentation.appendMarkdown(
+						`Theme: \`${baseTheme}\`  \n` +
+						`Comment: \`VSCode Debug Tokens\`  \n` +
+						`Foreground: \`${settings.foreground}\`  \n` +
+						`Background: \`editor.background\`  \n` +
+						`FontStyle:  \n` +
+						`StandardTokenType:`
+					);
+					completionItems.push({
+						label: {
+							label: scope,
+							description: "VSCode Debug Tokens",
+						},
+						range: cursorName == 'scope' ? cursorRange : null,
+						kind: vscode.CompletionItemKind.Color,
+						detail: settings.foreground || settings.background,
+						sortText: `~${scope}`,
+						documentation: documentation,
 					});
 				}
 
@@ -337,7 +401,8 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 					completionItems.push({
 						label: scope,
 						range: cursorName == 'scope' ? cursorRange : null,
-						kind: vscode.CompletionItemKind.Function,
+						kind: vscode.CompletionItemKind.Text,
+						sortText: ` ${scope}`,
 					});
 				}
 

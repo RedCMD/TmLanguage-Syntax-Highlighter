@@ -1569,7 +1569,7 @@
 		"test": {
 			"comment": "Uncomment \"//include\": \"#test\" in the root \"patterns\"",
 			"match": "(*FAIL).",
-			"name": "keyword.control strong regex"
+			"name": "token.debug-token strong regex"
 		},
 		"_disabled_": {
 			"comment": "Basic visual test",
