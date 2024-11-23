@@ -1,7 +1,8 @@
 {
 	"version": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/syntaxes/scopetm.tmLanguage.json",
-	"scopeName": "source.scopetm",
+	"$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
 	"name": "VSCode TextMate scope-name highlighter",
+	"scopeName": "source.scopetm",
 	"patterns": [ { "include": "#scope-name" } ],
 	"repository": {
 		"scope-name": {

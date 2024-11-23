@@ -115,8 +115,8 @@
 					"markdownDescription": "\t{\n\t\t\"scopeName\": \"source.languageId\",\n\t\t\"patterns\": [\n\t\t\t{ }\n\t\t],\n\t\t\"repository\": { }\n\t}",
 					"body": {
 						"$${_///}schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
-						"scopeName": "source.${1:languageId}",
 						"name": "${1:languageId}",
+						"scopeName": "source.${1:languageId}",
 						"patterns": [
 							"^{ \"include\": \"#$2\" }",
 							"^{ \"include\": \"#string\" }",

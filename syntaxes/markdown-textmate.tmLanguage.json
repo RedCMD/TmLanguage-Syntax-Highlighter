@@ -1,7 +1,8 @@
 {
+	"version": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/syntaxes/markdown-textmate.tmLanguage.json",
 	"$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
-	"scopeName": "markdown.json.textmate.codeblock",
 	"name": "JSON TextMate Markdown codeblock",
+	"scopeName": "markdown.json.textmate.codeblock",
 	"injectionSelector": "L:text.html.markdown -meta.embedded.block.json.textmate",
 	"patterns": [
 		{ "include": "#fenced_code_block_json-textmate" }

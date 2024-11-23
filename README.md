@@ -25,8 +25,8 @@ Highlights scope names with their own themed colour in realtime:
 ```json textmate
 {
   "$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
-  "scopeName": "source.languageId",
   "name": "languageId",
+  "scopeName": "source.languageId",
   "patterns": [
     { "include": "#repo-item" },
     { "include": "#string" },
