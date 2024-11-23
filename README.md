@@ -43,6 +43,8 @@ Highlights scope names with their own themed colour in realtime:
       "comment": "\"begin\" & \"end\" can create a multi-line region",
       "begin": "\"",
       "end": "\"",
+      "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.languageId" } },
+      "endCaptures": { "0": { "name": "punctuation.definition.string.end.languageId" } },
       "name": "string.quoted.double.languageId",
       "patterns": [
         {

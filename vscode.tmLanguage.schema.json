@@ -118,7 +118,7 @@
 						"name": "${1:languageId}",
 						"scopeName": "source.${1:languageId}",
 						"patterns": [
-							"^{ \"include\": \"#$2\" }",
+							"^{ \"include\": \"#${2:repo-item}\" }",
 							"^{ \"include\": \"#string\" }",
 							"^{ \"include\": \"#boolean\" }"
 						],
@@ -133,6 +133,8 @@
 								"comment": "\"begin\" & \"end\" can create a multi-line region",
 								"begin": "\"",
 								"end": "\"",
+								"beginCaptures": "^{ \"0\": { \"name\": \"punctuation.definition.string.begin.${1:languageId}\" } }",
+								"endCaptures": "^{ \"0\": { \"name\": \"punctuation.definition.string.end.${1:languageId}\" } }",
 								"name": "string.quoted.double.${1:languageId}",
 								"patterns": [
 									{
