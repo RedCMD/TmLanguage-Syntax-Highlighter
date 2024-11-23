@@ -54,6 +54,19 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 						edit: edit,
 					};
 					break;
+				case 'scopeName': {
+					const scopeName = message.split("'")[3];
+
+					edit.replace(document.uri, diagnostic.range, scopeName);
+					codeAction = {
+						title: `Change spelling to '${scopeName}'`,
+						kind: vscode.CodeActionKind.QuickFix,
+						diagnostics: [diagnostic],
+						isPreferred: true,
+						edit: edit,
+					};
+					break;
+				}
 				case 'property':
 					const property = message.split("'")[1].replaceAll(/[ _-]+/g, '').toLowerCase();
 					if (property.length < 2) {
