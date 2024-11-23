@@ -578,7 +578,7 @@ function array($, rule, precedence) {
 }
 
 /**
- * Boiler plate for creating comma seperated rules. `rule, rule...`
+ * Boiler plate for creating comma separated rules. `rule, rule...`
  * @param {GrammarSymbols<string>} $
  * @param {RuleOrLiteral} rule
  * @param {String | number} [precedence]

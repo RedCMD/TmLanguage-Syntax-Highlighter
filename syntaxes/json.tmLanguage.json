@@ -234,7 +234,7 @@
 								},
 								{
 									"match": "-",
-									"name": "seperator.uuid.json.tm"
+									"name": "separator.uuid.json.tm"
 								},
 								{ "include": "#escape-characters" }
 							]
@@ -322,7 +322,7 @@
 					"patterns": [ { "include": "#injection-string" } ]
 				},
 				{
-					"comment": "An array of `\"injectionSelector\"` is not offically supported by VSCode TextMate. But still happens to work because JavaScript",
+					"comment": "An array of `\"injectionSelector\"` is not officially supported by VSCode TextMate. But still happens to work because JavaScript",
 					"begin": "\\[",
 					"end": "]",
 					"beginCaptures": { "0": { "name": "punctuation.definition.array.begin.json.tm" } },
@@ -765,10 +765,10 @@
 				"If a scopename is placed at the beginning of \"name\" and has leading dots `.`",
 				" \"name\": \"...keyword\" ",
 				"The dots will be striped by `$1` and it will appear that `...keyword` matches the scopename `keyword`, highlighting it",
-				"We can *partially* correct this by putting another character infront of the first dot `.`",
+				"We can *partially* correct this by putting another character in front of the first dot `.`",
 				"Sadly the beginning double quote `\"` is the only one available to us. Space ` ` would have been nicer",
 				"and it ends up showing up in `Inspect Editor Tokens and Scopes`. Once again deviating from VSCode TextMate",
-				"However, I doubt anyone would create a scopename starting with a dobule quote `\"` and leading dots `.`",
+				"However, I doubt anyone would create a scopename starting with a double quote `\"` and leading dots `.`",
 				" \"...scopename "
 			],
 			"begin": "(?=(\"\\.(?>[^\\\\\"]++|\\\\.)*)\")\"|\"(?=((?>[^\\\\\"]++|\\\\.)*)\")",
@@ -937,7 +937,7 @@
 							]
 						},
 						{
-							"comment": "An array of `\"captures\"` is not offically supported by VSCode TextMate. But still happens to work because JavaScript",
+							"comment": "An array of `\"captures\"` is not officially supported by VSCode TextMate. But still happens to work because JavaScript",
 							"begin": "\\[",
 							"end": "]",
 							"beginCaptures": { "0": { "name": "punctuation.definition.array.begin.json.tm" } },

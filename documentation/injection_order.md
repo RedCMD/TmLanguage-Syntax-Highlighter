@@ -48,7 +48,7 @@ The injection syntax is parsed into the following tokens
 
 Any rogue closing bracket `)` or `|` (when at root level) will cause all text afterwards to be ignored.  
 Duplicate `,` commas or `|` are ignored.  
-Double `-` just inverts twice. Negitive + Negitive = Positive.  
+Double `-` just inverts twice. Negative + Negative = Positive.  
 The order of (positive) scopeNames (`identifier`'s) matters.  
 However the order of negated scopeNames does not.  
 Negating multiple scopeNames must be separated with non-whitespace tokens

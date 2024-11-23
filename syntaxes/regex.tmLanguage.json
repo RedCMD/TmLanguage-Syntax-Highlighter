@@ -1171,7 +1171,7 @@
 			]
 		},
 		"character-class-literal": {
-			"comment": "Match anything left over and all non-meta charaters",
+			"comment": "Match anything left over and all non-meta characters",
 			"match": ".(?>[^]\\x-\\x1F\"&:\\[\\\\\\x7F-]+(?!-))?",
 			"name": "literal.tm regex"
 		},
@@ -1197,7 +1197,7 @@
 								"3": { "name": "invalid.illegal.tm markup.underline" }
 							}
 						},
-						{ "patterns": [ { "include": "#code-point-sequence-seperator" } ] },
+						{ "patterns": [ { "include": "#code-point-sequence-separator" } ] },
 						{
 							"match": ".[^[0-7] }\\\\\"]*",
 							"name": "invalid.illegal.tm markup.underline regex"
@@ -1223,7 +1223,7 @@
 								"3": { "name": "invalid.illegal.tm markup.underline" }
 							}
 						},
-						{ "patterns": [ { "include": "#code-point-sequence-seperator" } ] },
+						{ "patterns": [ { "include": "#code-point-sequence-separator" } ] },
 						{
 							"match": ".[^\\h }\\\\\"]*",
 							"name": "invalid.illegal.tm markup.underline regex"
@@ -1249,7 +1249,7 @@
 								"3": { "name": "invalid.illegal.tm markup.underline" }
 							}
 						},
-						{ "patterns": [ { "include": "#code-point-sequence-seperator" } ] },
+						{ "patterns": [ { "include": "#code-point-sequence-separator" } ] },
 						{
 							"match": ".[^[0-7] }\\\\\"]*",
 							"name": "invalid.illegal.tm markup.underline regex"
@@ -1269,7 +1269,7 @@
 								"3": { "name": "invalid.illegal.tm markup.underline" }
 							}
 						},
-						{ "patterns": [ { "include": "#code-point-sequence-seperator" } ] },
+						{ "patterns": [ { "include": "#code-point-sequence-separator" } ] },
 						{
 							"match": ".[^\\h }\\\\\"]*",
 							"name": "invalid.illegal.tm markup.underline regex"
@@ -1304,7 +1304,7 @@
 								"3": { "name": "invalid.illegal.tm markup.underline" }
 							}
 						},
-						{ "patterns": [ { "include": "#code-point-sequence-seperator" } ] },
+						{ "patterns": [ { "include": "#code-point-sequence-separator" } ] },
 						{
 							"match": ".[^[0-7] }\\\\\"]*",
 							"name": "invalid.illegal.tm markup.underline regex"
@@ -1324,7 +1324,7 @@
 								"3": { "name": "invalid.illegal.tm markup.underline" }
 							}
 						},
-						{ "patterns": [ { "include": "#code-point-sequence-seperator" } ] },
+						{ "patterns": [ { "include": "#code-point-sequence-separator" } ] },
 						{
 							"match": ".[^\\h }\\\\\"]*",
 							"name": "invalid.illegal.tm markup.underline regex"
@@ -1403,7 +1403,7 @@
 				}
 			]
 		},
-		"code-point-sequence-seperator": {
+		"code-point-sequence-separator": {
 			"comment": "Spaces ` `, Newlines `\n` and their unicode equivalents \u0020 & \u000A. Tabs `\t` are not allowed",
 			"patterns": [
 				{ "match": " +" },
@@ -1557,7 +1557,7 @@
 			"name": "punctuation.definition.list.begin.markdown"
 		},
 		"character-literal": {
-			"comment": "Match anything left over and all non-meta charaters",
+			"comment": "Match anything left over and all non-meta characters",
 			"match": ".[^\\x-\\x1F\\x7F \"#$^.+*?|\\[{()\\\\]*",
 			"name": "entity.name.label.tm strong regex"
 		},

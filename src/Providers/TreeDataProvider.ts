@@ -13,7 +13,7 @@ import { ruleIdToNumber } from "../textmate/rule";
 import { gotoLocationsBroken } from "./DefinitionProvider";
 
 type element = {
-	type: 'file' | 'root' | 'line' | 'token' | 'scope' | 'rule' | 'regexs' | 'regex',
+	type: 'file' | 'root' | 'line' | 'token' | 'scope' | 'rule' | 'regexes' | 'regex',
 	line?: number,
 	tokenId?: number,
 	scopeId?: number,
@@ -386,11 +386,11 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			const time = rule.time - prevTime;
 			const timeFixed = time.toFixed(3);
 
-			// const label = cachedRule.id + ": " + ruleChached[rule.matchedRuleId] + ": " + id;
+			// const label = cachedRule.id + ": " + ruleCached[rule.matchedRuleId] + ": " + id;
 			const label = cachedRule._name || cachedRule._contentName || Math.abs(ruleId).toString();
 			const treeLabel: vscode.TreeItemLabel = {
 				label: `${label}${time >= 1 ? '⚠️' : ''}`,
-				// highlights: ruleChached[rule.matchedRuleId] == id ? [[0, label.length]] : null,
+				// highlights: ruleCached[rule.matchedRuleId] == id ? [[0, label.length]] : null,
 				// highlights: time >= 1 ? [[0, label.length]] : null,
 			};
 			const item = new vscode.TreeItem(
@@ -404,7 +404,7 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				// vscode.window.showInformationMessage(JSON.stringify(grammar.lines));
 			}
 			item.description = timeFixed + "ms" + (grammar.lines[line]?.stoppedEarly ? '❌' : time >= 1 ? ' ⚠️' : '');
-			// item.description = timeFixed + "ms" + (ruleChached[rule.matchedRuleId] == id /* && !cachedRule._match */ ? ' ⚠️' : '');
+			// item.description = timeFixed + "ms" + (ruleCached[rule.matchedRuleId] == id /* && !cachedRule._match */ ? ' ⚠️' : '');
 			if (cachedRule._match) {
 				item.iconPath = new vscode.ThemeIcon('regex');
 				// item.iconPath = new vscode.ThemeIcon('symbol-event');
@@ -583,19 +583,19 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 		}
 		const document = selectedElement.document;
 		if (!element) {
-			const regexsElement: element = {
-				type: 'regexs',
+			const regexesElement: element = {
+				type: 'regexes',
 				ruleId: selectedElement.ruleId,
 				line: selectedElement.line,
 				ruleIndex: selectedElement.ruleIndex,
 				document: document,
 			};
-			elements.push(regexsElement);
+			elements.push(regexesElement);
 			return elements;
 		}
 
 		const type = element.type;
-		if (type == 'regexs') {
+		if (type == 'regexes') {
 			let index = 0;
 			const ruleId = selectedElement.parent;
 			const cachedRule = grammar._ruleId2desc[Math.abs(ruleId)];
@@ -623,7 +623,7 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 		// vscode.window.showInformationMessage(`getTreeItemCall\n${JSON.stringify(element)}`);
 		const type = element.type;
 
-		if (type == 'regexs') {
+		if (type == 'regexes') {
 			const ruleId = selectedElement.parent;
 			const line = selectedElement.line;
 			// const id = selectedElement.ruleIndex;
@@ -646,11 +646,11 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 
 			const cachedRule = grammar._ruleId2desc[Math.abs(ruleId)];
 			// vscode.window.showInformationMessage(`cachedRule\n${JSON.stringify(cachedRule, stringify)}`);
-			const regexs: string[] = [];
+			const regexes: string[] = [];
 			for (const regexSource of cachedRule._cachedCompiledPatterns._items) {
-				regexs.push(regexSource.source);
+				regexes.push(regexSource.source);
 			}
-			const scanner = createOnigScanner(regexs);
+			const scanner = createOnigScanner(regexes);
 
 			const options =
 				(line > 0 ? FindOption.NotBeginString : FindOption.None) |
@@ -674,7 +674,7 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 				vscode.TreeItemCollapsibleState.Expanded,
 			);
 
-			item.id = 'regexs';
+			item.id = 'regexes';
 			item.description = `${timeFixed}ms${grammar.lines[line]?.stoppedEarly ? '❌' : time >= 1 ? ' ⚠️' : ''}`;
 			item.tooltip = `RuleId: ${selectedElement.ruleId}`;
 			item.iconPath = new vscode.ThemeIcon('regex');
@@ -911,7 +911,7 @@ async function refresh(element?: element) {
 	}
 
 	const type = element?.type;
-	if (type == 'regex' || type == 'regexs') {
+	if (type == 'regex' || type == 'regexes') {
 		onDidChangeTreeDataCall.fire(undefined);
 		return;
 	}

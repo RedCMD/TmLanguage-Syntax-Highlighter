@@ -9,5 +9,5 @@
 **0.0.1**
 - Initial release
 - +JSON syntax highlighting
-- +tmlanguage regex syntax higlighting
+- +tmlanguage regex syntax highlighting
 - +2 snippets

@@ -686,7 +686,7 @@
 			}
 		},
 		"match": {
-			"$comment": "Having hovers over regexs is annoying",
+			"$comment": "Having hovers over regexes is annoying",
 			"type": "string",
 			"defaultSnippets": [
 				{
@@ -697,7 +697,7 @@
 			]
 		},
 		"begin": {
-			"$comment": "Having hovers over regexs is annoying",
+			"$comment": "Having hovers over regexes is annoying",
 			"type": "string",
 			"defaultSnippets": [
 				{
@@ -708,7 +708,7 @@
 			]
 		},
 		"end": {
-			"$comment": "Having hovers over regexs is annoying",
+			"$comment": "Having hovers over regexes is annoying",
 			"type": "string",
 			"defaultSnippets": [
 				{
@@ -719,7 +719,7 @@
 			]
 		},
 		"while": {
-			"$comment": "Having hovers over regexs is annoying",
+			"$comment": "Having hovers over regexes is annoying",
 			"type": "string",
 			"defaultSnippets": [
 				{
@@ -748,7 +748,7 @@
 				"default": { }
 			},
 			"items": {
-				"markdownDescription": "An array of `\"captures\"` is not offically supported by VSCode TextMate  \nBut still happens to work because JavaScript",
+				"markdownDescription": "An array of `\"captures\"` is not officially supported by VSCode TextMate  \nBut still happens to work because JavaScript",
 				"$ref": "#/definitions/capture"
 			},
 			"defaultSnippets": [
@@ -1062,7 +1062,7 @@
 				"array"
 			],
 			"items": {
-				"markdownDescription": "An array of `\"injectionSelector\"` is not offically supported by VSCode TextMate  \nBut still happens to work because JavaScript",
+				"markdownDescription": "An array of `\"injectionSelector\"` is not officially supported by VSCode TextMate  \nBut still happens to work because JavaScript",
 				"$ref": "#/definitions/injectionSelector"
 			},
 			"default": "L:source.js -string -comment"

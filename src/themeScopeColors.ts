@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { IRelaxedExtensionManifest, ISemanticTokenColorCustomizations, ITextMateThemingRule, ITokenColorizationSetting } from "./extensions";
 
-interface TokenColorizationDeatils {
+interface TokenColorizationDetails {
 	theme: string;
 	name?: string;
 }
@@ -16,7 +16,7 @@ interface ColorTheme {
 }
 
 let colorThemeName = '';
-const scopeTokens: { [scope: string]: ITokenColorizationSetting & TokenColorizationDeatils; } = {};
+const scopeTokens: { [scope: string]: ITokenColorizationSetting & TokenColorizationDetails; } = {};
 const tokenCache: { [scope: string]: string; } = {};
 
 export function initThemeScopes(context: vscode.ExtensionContext) {
