@@ -21,7 +21,7 @@ export const HoverProvider: vscode.HoverProvider = {
 			const parentNode = regexNode.parent;
 			const markdownString = new vscode.MarkdownString();
 			markdownString.appendText(parentNode.type + ' => ' + regexNode.type);
-			markdownString.appendCodeblock(parentNode.text, 'regex-tmLanguage');
+			markdownString.appendCodeblock(parentNode.text, 'json-textmate-regex');
 			markdownString.appendCodeblock(parentNode.toString(), 'scm');
 
 			const range = toRange(parentNode);

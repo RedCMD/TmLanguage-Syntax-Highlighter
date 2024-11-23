@@ -76,19 +76,12 @@
 				}
 			},
 			{
-				"id": "regex-tmLanguage",
+				"id": "json-textmate-regex",
 				"aliases": [
-					"RedCMD.Regex.TextMateLanguage"
+					"JSON TextMate Regex"
 				],
 				"extensions": [
-					".json.regex",
-					".regex.json",
-					".tmRegexLanguage.json",
-					".JSON-regex-tmLanguage"
-				],
-				"filenames": [
-					"regex.json",
-					"json.regex"
+					".tmLanguage.json.regex"
 				],
 				"configuration": "./language-configurations/regex.language-configuration.json",
 				"icon": {
@@ -120,7 +113,7 @@
 				"scopeName": "source.json.textmate",
 				"path": "./syntaxes/json.tmLanguage.json",
 				"embeddedLanguages": {
-					"meta.embedded.block.regexp.tmLanguage": "regex-tmLanguage"
+					"meta.embedded.block.json.textmate.regexp": "json-textmate-regex"
 				},
 				"unbalancedBracketScopes": [
 					"invalid.illegal.expected-dictionary-separator.json",
@@ -129,8 +122,8 @@
 				]
 			},
 			{
-				"language": "regex-tmLanguage",
-				"scopeName": "source.syntax.regexp.tmLanguage",
+				"language": "json-textmate-regex",
+				"scopeName": "source.json.textmate.regexp",
 				"path": "./syntaxes/regex.tmLanguage.json"
 			},
 			{
@@ -149,7 +142,7 @@
 				],
 				"embeddedLanguages": {
 					"meta.embedded.block.json.textmate": "json-textmate",
-					"meta.embedded.block.regexp.tmLanguage": "regex-tmLanguage"
+					"meta.embedded.block.json.textmate.regexp": "json-textmate-regex"
 				}
 			}
 		],

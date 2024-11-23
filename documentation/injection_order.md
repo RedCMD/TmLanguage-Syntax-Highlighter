@@ -10,8 +10,8 @@ There are two different injection types:
 "injections": {
   "L:capture-group-lookbehind -capture-group-modify-extended -character-class -comment": {
     "patterns": [
-      { "include": "source.syntax.regexp.tmLanguage#capture-group-lookbehind-invalid" },
-      { "include": "source.syntax.regexp.tmLanguage#absent-invalid" }
+      { "include": "source.json.textmate.regexp#capture-group-lookbehind-invalid" },
+      { "include": "source.json.textmate.regexp#absent-invalid" }
     ]
   }
 }

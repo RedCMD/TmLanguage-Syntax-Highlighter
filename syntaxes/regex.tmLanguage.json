@@ -2,7 +2,7 @@
 	"version": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/syntaxes/regex.tmLanguage.json",
 	"$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
 	"name": "JSON TextMate Oniguruma Regular Expressions",
-	"scopeName": "source.syntax.regexp.tmLanguage",
+	"scopeName": "source.json.textmate.regexp",
 	"injections": {
 		"L:capture-group-lookbehind -capture-group-modify-extended -character-class -comment": {
 			"patterns": [
