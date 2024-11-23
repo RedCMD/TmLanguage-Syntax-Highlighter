@@ -146,20 +146,20 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 		}
 		else {
 			const regexTree = regexTrees.get(id);
-			const rootNode = regexTree.rootNode;
+			const rootNode = regexTree?.rootNode;
 			rootNodes.push(rootNode);
 		}
 
 		const edit = new vscode.WorkspaceEdit;
 
+		const minifyQuery = `;scm
+			(backslash) @backslash
+			(comment_group) @comment
+			(comment_extended) @comment
+			(non_capture_group) @non_capture_group
+			(non_capture_group_extended) @non_capture_group
+		`;
 		for (const rootNode of rootNodes) {
-			const minifyQuery = `;scm
-				(backslash) @backslash
-				(comment_group) @comment
-				(comment_extended) @comment
-				(non_capture_group) @non_capture_group
-				(non_capture_group_extended) @non_capture_group
-			`;
 			const minifyCaptures = queryNode(rootNode, minifyQuery);
 			for (const minifyCapture of minifyCaptures) {
 				const minifyName = minifyCapture.name;
@@ -167,6 +167,9 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 				const minifyRange = toRange(minifyNode);
 
 				switch (minifyName) {
+					case 'comment':
+						edit.delete(uri, minifyRange);
+						break;
 					case 'backslash':
 						const text = minifyNode.text;
 						switch (text.lastIndexOf('\\')) {
@@ -211,18 +214,17 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 								break;
 						}
 						break;
-					case 'comment':
-						edit.delete(uri, minifyRange);
-						break;
 					case 'non_capture_group':
 						const childCount = minifyNode.namedChildCount;
 
+						let siblingCommentCount = 0; // Only accounts for comments directly after the group
 						let nextSibling = minifyNode.nextNamedSibling;
 						while (nextSibling?.type?.startsWith('comment')) {
 							nextSibling = nextSibling.nextNamedSibling;
+							siblingCommentCount++;
 						}
 
-						if (nextSibling?.type == 'quantifier') {
+						if (nextSibling?.type == 'quantifier') { // Only minify group if theres only one valid child inside
 							if (childCount > 1) { // (?:..)?
 								break;
 							}
@@ -252,7 +254,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 								case 'look_around':
 								case 'callout':
 								case 'alteration':
-									continue; // (?:(?=))?
+									continue; // Quantifier's can't be placed on certain expressions. (?:(?=))?
 								default:
 									break;
 							}
@@ -269,7 +271,14 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 								break;
 							}
 						}
-						else if (minifyNode.parent.namedChildCount > 1) { // TODO: ignore comment nodes
+						else if (minifyNode.parent.namedChildCount - siblingCommentCount > 1) {
+							if (childCount == 1 && minifyNode.firstNamedChild.type == 'alteration') {
+								edit.delete( // `(?:|)`
+									uri,
+									minifyRange,
+								);
+								break;
+							}
 							let stop = false; // why
 							for (const child of minifyNode.namedChildren) {
 								const type = child.type;
@@ -283,7 +292,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 							}
 						}
 
-						if (childCount == 1 && minifyNode.firstNamedChild.type == 'non_capture_group') { // prevents issues with nested groups /a(?:(?:b|c))/
+						if (childCount == 1 && minifyNode.firstNamedChild.type == 'non_capture_group' && minifyNode.firstNamedChild.namedChildCount > 1) { // prevents issues with nested groups. a(?:(?:b|c))
 							break;
 						}
 

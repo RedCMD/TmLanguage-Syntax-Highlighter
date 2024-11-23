@@ -110,7 +110,7 @@ export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoi
 	};
 
 	// const queryCaptures = query.captures(node, queryOptions);
-	const queryMatches = query.matches(node, queryOptions);
+	const queryMatches = node ? query.matches(node, queryOptions) : [];
 	// vscode.window.showInformationMessage(JSON.stringify(queryMatches));
 	// if (queryCaptures.length > 10000) {
 	// 	vscode.window.showWarningMessage("Unoptimized Query: " + queryCaptures.length + " results returned:\n" + queryString);
