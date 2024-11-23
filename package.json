@@ -3,7 +3,7 @@
 	"displayName": "TextMate Syntax Highlighting and Intellisense",
 	"description": "Syntax Highlighting and Intellisense for VSCodes's JSON based TextMate grammars",
 	"publisher": "RedCMD",
-	"version": "2.5.6",
+	"version": "2.5.7",
 	"engines": {
 		"vscode": "^1.87.0"
 	},
