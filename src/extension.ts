@@ -47,7 +47,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	initThemeScopes(context);
 
 	context.subscriptions.push(
-		// vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider), // Mouse over Hovers
+		vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider), // Mouse over Hovers
 		vscode.languages.registerRenameProvider(DocumentSelector, RenameProvider), // [F2] Rename
 		vscode.languages.registerCodeLensProvider(DocumentSelector, CodeLensProvider), // Code Lens
 		vscode.languages.registerReferenceProvider(DocumentSelector, ReferenceProvider), // Go to References

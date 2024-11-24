@@ -688,7 +688,7 @@
 			}
 		},
 		"match": {
-			"$comment": "Having hovers over regexes is annoying",
+			"$comment": "Having hovers over regex's is annoying. https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/src/Providers/HoverProvider.ts",
 			"type": "string",
 			"defaultSnippets": [
 				{
@@ -699,7 +699,7 @@
 			]
 		},
 		"begin": {
-			"$comment": "Having hovers over regexes is annoying",
+			"$comment": "Having hovers over regex's is annoying. https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/src/Providers/HoverProvider.ts",
 			"type": "string",
 			"defaultSnippets": [
 				{
@@ -710,7 +710,7 @@
 			]
 		},
 		"end": {
-			"$comment": "Having hovers over regexes is annoying",
+			"$comment": "Having hovers over regex's is annoying. https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/src/Providers/HoverProvider.ts",
 			"type": "string",
 			"defaultSnippets": [
 				{
@@ -721,7 +721,7 @@
 			]
 		},
 		"while": {
-			"$comment": "Having hovers over regexes is annoying",
+			"$comment": "Having hovers over regex's is annoying. https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/src/Providers/HoverProvider.ts",
 			"type": "string",
 			"defaultSnippets": [
 				{

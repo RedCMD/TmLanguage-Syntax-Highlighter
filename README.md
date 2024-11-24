@@ -75,12 +75,10 @@ Highlights scope names with their own themed colour in realtime:
 ### Todo
 * Support unicode character insertions `\u00b0`
 * Finish ctrl+click definitions and references
-* Add hovers
 * Improve tree-sitter grammar
 * Improve TextMate [documentation](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/index.md)
 * Finish CallStack viewer
 * Redo TextMate scopeNames [Naming conventions](https://github.com/atom/flight-manual.atom.io/pull/564)
-* `"match"`/`"begin"`/`"while"`/`"end"` hovers
 * Move `.vsix` file to releases
 * Refactor: Sort JSON keys
 * Move to LanguageServer
