@@ -5,12 +5,12 @@ on:
     inputs:
       version:
         description: 'Version'
-        default: 'minor x.1.0'
+        default: 'minor'
         type: choice
         options:
-          - patch x.x.1
-          - minor x.1.0
-          - major 1.0.0
+          - patch
+          - minor
+          - major
 
 jobs:
   release:
@@ -18,22 +18,33 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: Install Dependencies
-        run: |
+      - name: Install Dependencies # vsce etc
+        run: | # shell
           npm i
-          npm i @vscode/vsce -g
 
-      - name: Build Extension
-        run: npm run build
+      - name: Build Extension # build `extension.js` and `*.wasm` files
+        run: | # shell
+          npm run build
 
-      - name: Setup Github Actions
-        run: |
+      - name: Setup Github Actions # allow use of `git push`
+        run: | # shell
           git config --global user.name "RedCMD"
           git config --global user.email "theredcmd@gmail.com"
           git add .
           git diff-index --quiet HEAD || git commit -m "Sync Github Actions"
 
-      - name: Publish Release
-        run: |
-          vsce publish ${{ github.event.inputs.version }} -p ${{ secrets.VSCE_PAT }}
-          git push
+      - name: Package Extension # `.vsix` file
+        run: | # shell
+          npx vsce package ${{ github.event.inputs.version }}
+          git push --follow-tags
+          echo "VERSION=$(node -p "require('./package.json').version")" >> "$GITHUB_ENV"
+
+      - name: Generate Release # create release page on github with `.vsix` file
+        run: | # shell
+          gh release create v$VERSION --generate-notes tmlanguage-syntax-highlighter-$VERSION.vsix
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Publish Release # upload to Extension Marketplace
+        run: | # shell
+          npx vsce publish -p ${{ secrets.VSCE_PAT }} --packagePath tmlanguage-syntax-highlighter-$VERSION.vsix
