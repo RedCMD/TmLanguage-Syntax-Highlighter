@@ -176,7 +176,7 @@ https://www.npmjs.com/package/json-cst
 export async function getPackageJSON(baseUri: vscode.TextDocument | vscode.Uri, ...pathSegments: string[]) {
 	if ('isUntitled' in baseUri) {
 		if (baseUri.isUntitled) {
-			return null;
+			return {};
 		}
 	}
 
@@ -190,7 +190,7 @@ export async function getPackageJSON(baseUri: vscode.TextDocument | vscode.Uri, 
 
 	const file = file1 || await vscode.workspace.fs.readFile(packageUri2).then(null, () => { });
 	if (!file) {
-		return null;
+		return {};
 	}
 
 	try {
@@ -205,5 +205,5 @@ export async function getPackageJSON(baseUri: vscode.TextDocument | vscode.Uri, 
 		console.warn(`TextMate: Failed to parse package.json\n${error}`);
 	}
 
-	return null;
+	return {};
 }

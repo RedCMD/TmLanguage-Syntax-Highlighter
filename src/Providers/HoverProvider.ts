@@ -18,6 +18,10 @@ export const HoverProvider: vscode.HoverProvider = {
 			(while (key) @while)
 		`;
 		const hoverCapture = queryNode(rootNode, hoverQuery, point);
+		if (!hoverCapture) {
+			return;
+		}
+
 		const hoverNode = hoverCapture.node;
 
 		const markdownString = new vscode.MarkdownString();
@@ -71,7 +75,7 @@ function debugTreeSitterHovers(trees: trees, point: Point): vscode.Hover {
 	const node = trees.jsonTree.rootNode.descendantForPosition(point);
 	// const node = jsonTree.rootNode.namedDescendantForPosition(point);
 
-	if (node == null) {
+	if (!node) {
 		return;
 	}
 

@@ -115,7 +115,7 @@ function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[], rootN
 					continue;
 				}
 				diagnostic = {
-					range: toRange(node.previousSibling.endPosition, node.previousSibling.endPosition),
+					range: toRange(node.previousSibling.endPosition),
 					message: `'${parentType}' is missing character${type.length > 1 ? 's' : ''} '${type}'`,
 					severity: vscode.DiagnosticSeverity.Error,
 					source: 'TreeSitter',

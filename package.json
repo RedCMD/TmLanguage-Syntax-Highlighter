@@ -365,7 +365,7 @@
 	},
 	"dependencies": {
 		"vscode-oniguruma": "1.7.0",
-		"web-tree-sitter": "^0.24.4"
+		"web-tree-sitter": "^0.24.3"
 	},
 	"devDependencies": {
 		"@types/vscode": "^1.87.0",

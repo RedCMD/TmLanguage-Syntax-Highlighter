@@ -148,13 +148,14 @@ export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoi
 }
 
 export function toRange(node: Parser.SyntaxNode): vscode.Range;
+export function toRange(points: Parser.Point): vscode.Range;
 export function toRange(start: Parser.Point, end: Parser.Point): vscode.Range;
 export function toRange(node: Parser.SyntaxNode | Parser.Point, end?: Parser.Point): vscode.Range {
 	if (!node) {
 		return null;
 	}
 	const startPosition = 'startPosition' in node ? node.startPosition : node;
-	const endPosition = 'startPosition' in node ? node.endPosition : end;
+	const endPosition = 'endPosition' in node ? node.endPosition : end || startPosition;
 	const range = new vscode.Range(
 		startPosition.row,
 		startPosition.column,
