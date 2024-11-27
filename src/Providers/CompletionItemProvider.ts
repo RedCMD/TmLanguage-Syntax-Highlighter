@@ -6,17 +6,18 @@ import { getScopes } from "../themeScopeColors";
 import { UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
 import { unicode_property_data } from "../unicode_property_data";
 import { SyntaxNode } from 'web-tree-sitter';
-import { getPackageJSON } from '../extension';
+import { getPackageJSON, sleep } from '../extension';
 
 type CompletionItem = vscode.CompletionItem & { type?: string; };
 
 const triggerCharacterSets: { [key: string]: string[]; } = {
-	schema: ['"', ':'],
+	schema: ['"'],
+	schema_new: [':'],
 	scopeName: ['"', '.'],
 	name: ['"'],
 	include: ['"', '#', '.', '$'],
-	new_scope: ['"', ' '],
 	scope: ['.', '$'],
+	scope_new: ['"', ' '],
 	regex: ['{', '^',/* '\\', '(', '?', '<', '\'' */],
 };
 export const triggerCharacters = Object.values(triggerCharacterSets).flat();
@@ -53,6 +54,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 	async provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext): Promise<vscode.CompletionList<vscode.CompletionItem>> {
 		// vscode.window.showInformationMessage(JSON.stringify("Completions"));
 		// const start = performance.now();
+		await sleep(50); // partially avoids race condition with reparseTextDocument()
 
 		const trees = getTrees(document);
 		const tree = trees.jsonTree;
@@ -61,14 +63,14 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 
 		const cursorQuery = `;scm
 			(schema (value) @schema)
-			(schema) @new_schema
+			(schema) @schema_new
 			(scopeName (value) @scopeName)
 			(name_display (value) @name)
 			(include (value) @include)
-			(name (value) @new_scope)
 			(name (value (scope) @scope))
-			(contentName (value) @new_scope)
+			(name (value) @scope_new)
 			(contentName (value (scope) @scope))
+			(contentName (value) @scope_new)
 			(regex) @regex
 		`;
 		const cursorCapture = queryNode(rootNode, cursorQuery, point);
@@ -82,16 +84,16 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 			}
 		}
 		const cursorNode = cursorCapture.node;
-		const cursorRange = toRange(cursorNode);
+		const cursorRange = cursorName.endsWith("_new") ? new vscode.Range(position, position) : toRange(cursorNode);
 		const completionItems: CompletionItem[] = [];
 
 		switch (cursorName) {
-			case 'new_schema':
 			case 'schema':
+			case 'schema_new':
 				const schema = "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json";
 				completionItems.push({
 					label: cursorName == 'schema' ? schema : `"${schema}"`,
-					range: cursorName == 'schema' ? cursorRange : new vscode.Range(position, cursorRange.end),
+					range: cursorRange,
 					kind: vscode.CompletionItemKind.Reference,
 					documentation: "Schema for VSCode's TextMate JSON grammars",
 					sortText: ' ',
@@ -310,7 +312,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 				}
 				break;
 			case 'scope':
-			case 'new_scope':
+			case 'scope_new':
 				const themeScopes = await getScopes();
 				for (const key in themeScopes) {
 					const scope = themeScopes[key];
@@ -330,7 +332,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 							// detail: scope.foreground,
 							description: scope.name,
 						},
-						range: cursorName == 'scope' ? cursorRange : null,
+						range: cursorRange,
 						kind: vscode.CompletionItemKind.Color,
 						detail: scope.foreground || scope.background,
 						documentation: documentation,
@@ -362,7 +364,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 							label: scope,
 							description: "VSCode Debug Tokens",
 						},
-						range: cursorName == 'scope' ? cursorRange : null,
+						range: cursorRange,
 						kind: vscode.CompletionItemKind.Color,
 						detail: settings.foreground || settings.background,
 						sortText: `~${scope}`,
@@ -388,7 +390,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 					}
 					completionItems.push({
 						label: scope,
-						range: cursorName == 'scope' ? cursorRange : null,
+						range: cursorRange,
 						kind: vscode.CompletionItemKind.Text,
 						sortText: ` ${scope}`,
 					});
