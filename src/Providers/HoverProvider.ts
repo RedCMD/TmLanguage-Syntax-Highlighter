@@ -28,7 +28,7 @@ export const HoverProvider: vscode.HoverProvider = {
 		switch (hoverCapture.name) {
 			case 'match':
 				markdownString.appendMarkdown('Regular Expression to match, (capture) and apply `scopeNames` to text  \n');
-				markdownString.appendMarkdown('TextMate uses the [Oniguruma](https://github.com/kkos/oniguruma/blob/master/doc/RE) regex dialect  \n');
+				markdownString.appendMarkdown('TextMate uses the [Oniguruma](https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE) regex dialect  \n');
 				markdownString.appendCodeblock('Example: \\\\b(true|false)\\\\b', 'json-textmate-regex');
 				break;
 			case 'begin':

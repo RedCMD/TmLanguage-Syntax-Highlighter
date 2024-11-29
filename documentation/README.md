@@ -30,10 +30,10 @@ Todo: Explain basics of the `Package.json` in relation to TextMate syntaxes.
 ## Regex
 VSCode TextMate uses the [oniguruma](https://github.com/kkos/oniguruma) dialect.  
 It used to use Ruby.  
-Here is a list of all valid regex [expressions](https://github.com/kkos/oniguruma/blob/master/doc/RE).  
+Here is a list of all valid regex [expressions](https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE).  
 [regex.tmLanguage.json](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/syntaxes/regex.tmLanguage.json).  
-`\\K` [Keep](https://github.com/kkos/oniguruma/blob/master/doc/RE#L183) effectively moves the start position of the captured text.  
-`\\G` [MatchAnchor](https://github.com/kkos/oniguruma/blob/master/doc/RE#L182) matches against the end of a [begin](./rules.md#begin) rule.  
+`\\K` [Keep](https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE#L183) effectively moves the start position of the captured text.  
+`\\G` [MatchAnchor](https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE#L182) matches against the end of a [begin](./rules.md#begin) rule.  
 Capture groups inside a positive-lookaround can be targeted by [capture](rules.md#capture).  
 Capture groups inside a negative-lookaround will cause an error. Use non-capture group `(?:...)` instead.  
 
@@ -55,7 +55,7 @@ Todo:
 - https://gist.github.com/Aerijo/b8c82d647db783187804e86fa0a604a1
 - https://gist.github.com/DamnedScholar/622926bcd222eb1ddc483d12103fd315
 - https://github.com/mjbvz/vscode-fenced-code-block-grammar-injection-example
-- https://github.com/kkos/oniguruma/blob/master/doc/RE
+- https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE
 - https://github.com/chbk/flight-manual.atom.io/blob/scopes/content/hacking-atom/sections/syntax-naming-conventions.md
 - https://github.com/atom/flight-manual.atom.io/pull/564
 - https://github.com/jeff-hykin/better-cpp-syntax/blob/master/documentation/library/textmate_while.md

@@ -64,7 +64,7 @@ Highlights scope names with their own themed colour in realtime:
 * [Github - TextMate](https://github.com/textmate/textmate)
 * [Github - VSCode TextMate](https://github.com/microsoft/vscode-textmate)
 * [Github - Oniguruma](https://github.com/kkos/oniguruma)
-* [Github - Oniguruma: list of all expressions](https://github.com/kkos/oniguruma/blob/master/doc/RE)
+* [Github - Oniguruma: list of all expressions](https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE)
 * [Github - VSCode Oniguruma](https://github.com/microsoft/vscode-oniguruma)
 * [Github - Unit testing](https://github.com/PanAeon/vscode-tmgrammar-test)
 * [Github - TmLanguage-Syntax-Highlighter](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter)
