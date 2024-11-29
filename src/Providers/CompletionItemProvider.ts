@@ -97,7 +97,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 					label: cursorName == 'schema' ? schema : `"${schema}"`,
 					range: cursorRange,
 					kind: vscode.CompletionItemKind.Reference,
-					documentation: "Schema for VSCode's TextMate JSON grammars",
+					documentation: "Schema for VSCode's JSON TextMate grammars",
 					sortText: ' ',
 				});
 				break;

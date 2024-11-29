@@ -15,7 +15,7 @@ Atom supports [CSON](https://github.com/lifthrasiir/cson).
 TextMate is a top down line based lexer. This was done for performance reasons.  
 Meaning you cant match new lines `\n`.  
 
-The rest of this file will be in the context of VSCode's TextMate JSON.  
+The rest of this file will be in the context of VSCode's JSON TextMate.  
 
 * Todo: Improve layout of this file. Split each section into its own separate file?  
 

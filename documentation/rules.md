@@ -266,14 +266,14 @@ Nest them inside the [patterns](#patterns) array instead.
 `"comment": "..."`  
 `"//": ...`  
 VSCode's TextMate does NOT acknowledge `comment` but instead just ignores it like all other unsupported keys.  
-C styled comments `//...` and `/* ... */` are NOT allowed in TextMate JSON files.  
+C styled comments `//...` and `/* ... */` are NOT allowed in JSON TextMate files.  
 VSCode's JSON validator ignores duplicate `"//"` keys.  
 
 
 ## schema
 `"$schema:" "..."`  
 A link or relative file path to a json schema.  
-[Schema](https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json) used to validate VSCode TextMate json files.  
+[Schema](https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json) used to validate VSCode JSON TextMate files.  
 Not supported by TextMate.  
 
 ## uuid
