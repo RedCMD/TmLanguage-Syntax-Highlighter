@@ -158,7 +158,7 @@ function diagnosticsTreeSitterRegexErrors(diagnostics: vscode.Diagnostic[], tree
 			const text = node.text;
 			const range = toRange(node);
 			const parent = node.parent;
-			const parentType = parent.type;
+			const parentType = parent?.type;
 			const parentRange = toRange(parent);
 
 			let diagnostic: vscode.Diagnostic;
