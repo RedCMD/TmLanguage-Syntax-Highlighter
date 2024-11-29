@@ -550,36 +550,40 @@ function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], rootNode:
 async function diagnosticsMismatchingRootScopeName(diagnostics: vscode.Diagnostic[], rootNode: SyntaxNode, document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics scopeName"));
 	// const start = performance.now();
+
+	const scopeNameQuery = `;scm
+		(scopeName (value) @scopeName)
+	`;
+	const scopeNameCapture = queryNode(rootNode, scopeNameQuery).pop();
+	if (!scopeNameCapture) {
+		return;
+	}
+
 	const { packageJSON, packageUri } = await getPackageJSON(document);
-	if (packageJSON) {
-		const scopeNameQuery = `;scm
-			(scopeName (value) @scopeName)
-		`;
-		const scopeNameCapture = queryNode(rootNode, scopeNameQuery).pop();
+	if (!packageJSON) {
+		return;
+	}
 
-		if (!scopeNameCapture) {
-			return;
-		}
-		const scopeName = scopeNameCapture.node.text;
+	const node = scopeNameCapture.node;
+	const scopeName = node.text;
 
-		const grammars = packageJSON.contributes?.grammars;
-		for (const grammar of grammars) {
-			const uri = vscode.Uri.joinPath(packageUri, '..', grammar.path);
-			if (document.uri.path == uri.path) {
-				if (grammar.scopeName == scopeName) {
-					continue;
-				}
-
-				const range = toRange(scopeNameCapture.node);
-				const diagnostic: vscode.Diagnostic = {
-					range: range,
-					message: `scopeName '${scopeName}' does not match scopeName '${grammar.scopeName}' inside '${packageUri.path}'`,
-					severity: vscode.DiagnosticSeverity.Error,
-					source: 'TextMate',
-					code: 'scopeName',
-				};
-				diagnostics.push(diagnostic);
+	const grammars = packageJSON.contributes?.grammars;
+	for (const grammar of grammars) {
+		const uri = vscode.Uri.joinPath(packageUri, '..', grammar.path);
+		if (document.uri.path == uri.path) {
+			if (grammar.scopeName == scopeName) {
+				continue;
 			}
+
+			const range = toRange(node);
+			const diagnostic: vscode.Diagnostic = {
+				range: range,
+				message: `scopeName '${scopeName}' does not match scopeName '${grammar.scopeName}' inside '${packageUri.path}'`,
+				severity: vscode.DiagnosticSeverity.Error,
+				source: 'TextMate',
+				code: 'scopeName',
+			};
+			diagnostics.push(diagnostic);
 		}
 	}
 	// vscode.window.showInformationMessage(`scopeName ${(performance.now() - start).toFixed(3)}ms`);
