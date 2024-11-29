@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'main'
+      - main
     paths:
       - '**.tmLanguage.json'
       - '**.language-configuration.json'
@@ -33,5 +33,7 @@ jobs:
 
       - name: Publish Pre-release # upload to Extension Marketplace
         run: | # shell
-          npx vsce publish patch --pre-release -p ${{ secrets.VSCE_PAT }}
+          npx vsce publish patch --pre-release
           git push --follow-tags
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}

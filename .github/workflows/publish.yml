@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version'
-        default: 'minor'
+        description: Version
+        default: minor
         type: choice
         options:
           - patch
@@ -47,4 +47,6 @@ jobs:
 
       - name: Publish Release # upload to Extension Marketplace
         run: | # shell
-          npx vsce publish -p ${{ secrets.VSCE_PAT }} --packagePath tmlanguage-syntax-highlighter-$VERSION.vsix
+          npx vsce publish --packagePath tmlanguage-syntax-highlighter-$VERSION.vsix
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
