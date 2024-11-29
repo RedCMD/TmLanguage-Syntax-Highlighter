@@ -11,11 +11,11 @@ type formattingStyle = {
 };
 
 function getFormattingStyle(options: vscode.FormattingOptions): formattingStyle {
-	const styleName: 'tight' | 'default' = vscode.workspace.getConfiguration('tmlanguage-syntax-highlighter').get('formattingStyle');
+	const bracketStyle: 'tight' | 'default' = vscode.workspace.getConfiguration('tmlanguage-syntax-highlighter').get('formattingStyle');
 	const style: formattingStyle = {
 		tabType: options.insertSpaces ? ' ' : '\t',
 		tabSize: options.insertSpaces ? options.tabSize : 1,
-		wsBrackets: styleName == 'tight' ? '' : ' ',
+		wsBrackets: bracketStyle == 'tight' ? '' : ' ',
 	};
 	return style;
 }
@@ -114,7 +114,7 @@ export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider =
 		let parent = node.parent;
 		while (parent) {
 			parent = parent.parent;
-			level++;
+			level += style.tabSize;
 		};
 
 		const indent = Math.min(level, node.startPosition.column);
