@@ -274,7 +274,7 @@ function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[], trees
 			 * and replaces the backreferences directly
 			 */
 			if (/\\[1-9](\d{2})?(?!\d)/.test(regex)) {
-				const beginNode = getLastNode(regexNode.parent.parent, 'begin').childForFieldName('regex');
+				const beginNode = getLastNode(regexNode.parent.parent, 'begin')?.childForFieldName('regex');
 				if (beginNode) {
 					const beginRegex = trees.regexTrees.get(beginNode.id).rootNode;
 					const captureGroupQuery = `;scm
