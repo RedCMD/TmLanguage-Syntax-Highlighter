@@ -260,9 +260,21 @@ module.exports = grammar({
 			),
 		),
 		replace_capture: $ => token(
-			seq(
-				'$',
-				/\d+/,
+			choice(
+				seq(
+					'$',
+					/\d+/,
+				),
+				seq(
+					'${',
+					/\d+/,
+					':/',
+					choice(
+						'downcase',
+						'upcase'
+					),
+					'}',
+				),
 			),
 		),
 

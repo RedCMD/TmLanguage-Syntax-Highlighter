@@ -16,6 +16,7 @@ const triggerCharacterSets: { [key: string]: string[]; } = {
 	scopeName: ['"', '.'],
 	name: ['"'],
 	include: ['"', '#', '.', '$'],
+	replace_capture: ['$', '{'],
 	scope: ['.', '$'],
 	scope_new: ['"', ' '],
 	regex: ['{', '^',/* '\\', '(', '?', '<', '\'' */],
@@ -67,6 +68,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 			(scopeName (value) @scopeName)
 			(name_display (value) @name)
 			(include (value) @include)
+			(name (value (scope (replace_capture) @replace_capture)))
 			(name (value (scope) @scope))
 			(name (value) @scope_new)
 			(contentName (value (scope) @scope))
@@ -395,8 +397,14 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 						sortText: ` ${scope}`,
 					});
 				}
+			/* FallThrough */
 
-				const noOfCaptureGroups = locateRegex(trees, cursorName == 'scope' ? cursorNode.parent.parent : cursorNode.parent);
+			case 'replace_capture': {
+				const nameNode =
+					cursorName == 'replace_capture' ? cursorNode.parent.parent.parent :
+						cursorName == 'scope' ? cursorNode.parent.parent :
+							cursorNode.parent;
+				const noOfCaptureGroups = locateRegex(trees, nameNode);
 				// vscode.window.showInformationMessage(`noOfCaptureGroups: ${(performance.now() - start).toFixed(3)}ms ${noOfCaptureGroups.length}\n${JSON.stringify(noOfCaptureGroups)}`);
 				const updowncaseSnippet =
 					new vscode.SnippetString()
@@ -410,7 +418,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 						label: '${0:/updowncase}',
 						description: "Transform Capture's Case",
 					},
-					range: cursorRange,
+					range: cursorName == 'replace_capture' ? cursorRange : undefined,
 					kind: vscode.CompletionItemKind.Function,
 					insertText: updowncaseSnippet,
 					documentation: "Converts all the alphabetic characters in a capture to UPPERCASE or lowercase.\nAll leading dots (.) are stripped.",
@@ -421,11 +429,12 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 						label: '$0',
 						description: "Capture Replacement",
 					},
-					range: cursorRange,
+					range: cursorName == 'replace_capture' ? cursorRange : undefined,
 					kind: vscode.CompletionItemKind.Function,
 					insertText: replaceSnippet,
 					documentation: "Replaced with the corresponding capture's captured text.\nAll leading dots (.) are stripped.",
 				});
+			}
 
 				break;
 			case 'regex':
