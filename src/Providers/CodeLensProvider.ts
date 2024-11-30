@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
 import { QueryCapture } from 'web-tree-sitter';
 import { getTrees, queryNode, toRange } from "../TreeSitter";
-import { grammarLanguages } from '../TextMate';
-import { IRelaxedExtensionManifest } from '../extensions';
+import { grammarLanguages } from "../TextMate";
+import { IRelaxedExtensionManifest } from "../extensions";
 
 type codeLen = vscode.CodeLens & {
 	capture?: QueryCapture;
@@ -34,7 +34,7 @@ export const CodeLensProvider: vscode.CodeLensProvider = {
 		}
 
 		// vscode.window.showInformationMessage(JSON.stringify(codeLens));
-		// vscode.window.showInformationMessage(`codeLenses ${performance.now() - start}ms`);
+		// vscode.window.showInformationMessage(`codeLenses ${(performance.now() - start).toFixed(3)}ms`);
 		return codeLenses;
 	},
 	async resolveCodeLens(codeLen: codeLen, token: vscode.CancellationToken): Promise<vscode.CodeLens> {
@@ -79,27 +79,27 @@ export const CodeLensProvider: vscode.CodeLensProvider = {
 							if (grammar.scopeName == text) {
 								const location = new vscode.Location(
 									textDocument.uri,
-									new vscode.Range(0, 0, textDocument.lineCount, 1000)
+									new vscode.Range(0, 0, textDocument.lineCount, 1000),
 								);
 								locations.push(location);
 								break;
 							}
-							let exit = false;
+							// let exit = false;
 							const injectTo = grammar.injectTo ?? [];
 							for (const injectToScope of injectTo) {
 								if (injectToScope == text) {
 									const location = new vscode.Location(
 										textDocument.uri,
-										new vscode.Range(0, 0, textDocument.lineCount, 1000)
+										new vscode.Range(0, 0, 0, 0),
 									);
 									locations.push(location);
-									exit = true;
+									// exit = true;
 									break;
 								}
 							}
-							if (exit) {
-								break;
-							}
+							// if (exit) {
+							// 	break;
+							// }
 						}
 					}
 					catch (error) { }
@@ -127,7 +127,7 @@ export const CodeLensProvider: vscode.CodeLensProvider = {
 
 		const codeLens = new vscode.CodeLens(codeLen.range, command);
 		// vscode.window.showInformationMessage(JSON.stringify(codeLens));
-		// vscode.window.showInformationMessage(`codeLens ${performance.now() - start}ms`);
+		// vscode.window.showInformationMessage(`codeLens ${(performance.now() - start).toFixed(3)}ms`);
 		return codeLens;
 	},
 };
