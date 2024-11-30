@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { getTrees, queryNode, toPoint, toRange } from "../TreeSitter";
 
 export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
-	provideDocumentHighlights(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.DocumentHighlight[] {
+	provideDocumentHighlights(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.DocumentHighlight[] | undefined {
 		// vscode.window.showInformationMessage(JSON.stringify("DocumentHighlights"));
 		// const start = performance.now();
 		const trees = getTrees(document);
@@ -40,7 +40,7 @@ export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 		let query = ``;
 		switch (cursorName) {
 			case 'key':
-				const cursorType = cursorNode.parent.type;
+				const cursorType = cursorNode.parent!.type;
 				if (cursorType != 'repo') {
 					query = `(${cursorType} . (key) @key (#eq? @key "${cursorText}"))`;
 					break;

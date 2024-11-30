@@ -4,7 +4,7 @@ import { SymbolKind } from "./DocumentSymbolProvider";
 
 
 export const CallHierarchyProvider: vscode.CallHierarchyProvider = {
-	prepareCallHierarchy(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.CallHierarchyItem | vscode.CallHierarchyItem[] {
+	prepareCallHierarchy(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.CallHierarchyItem | vscode.CallHierarchyItem[] | undefined {
 		// vscode.window.showInformationMessage(JSON.stringify("CallHierarchy"));
 		const uri = document.uri;
 		const trees = getTrees(uri);
@@ -33,7 +33,7 @@ export const CallHierarchyProvider: vscode.CallHierarchyProvider = {
 
 		const node = repoCapture.node;
 		const selectionRange = toRange(node);
-		const range = toRange(node.parent);
+		const range = toRange(node.parent!);
 		const detail = getComment(node);
 		const name = node.text;
 		const kind = SymbolKind[repoCapture.name];
@@ -58,13 +58,13 @@ export const CallHierarchyProvider: vscode.CallHierarchyProvider = {
 		for (const includeCapture of includeCaptures) {
 			const includeNode = includeCapture.node;
 			const selectionRange = toRange(includeNode);
-			const range = toRange(includeNode.parent);
+			const range = toRange(includeNode.parent!);
 
 			const targetQuery = `;scm
 				(json (scopeName (value) @scopeName))
 				(repo (key) @repo)
 			`;
-			const targetCapture = queryNode(rootNode, targetQuery, includeNode.startPosition, false);
+			const targetCapture = queryNode(rootNode, targetQuery, includeNode.startPosition, false)!;
 			const targetNode = targetCapture.node;
 
 			const detail = getComment(targetNode);
@@ -120,14 +120,14 @@ export const CallHierarchyProvider: vscode.CallHierarchyProvider = {
 
 			const repoNode = repoCapture.node;
 			const selectionRange = toRange(repoNode);
-			const range = toRange(repoNode.parent);
+			const range = toRange(repoNode.parent!);
 			const text = repoNode.text;
 			const detail = getComment(repoNode);
 			const kind = SymbolKind[repoCapture.name];
 
 			const callHierarchyItem = new vscode.CallHierarchyItem(kind, text, detail, uri, range, selectionRange);
 
-			const parentRange = toRange(includeNode.parent);
+			const parentRange = toRange(includeNode.parent!);
 			const ranges: vscode.Range[] = [parentRange];
 
 			const callHierarchyOutgoingCall = new vscode.CallHierarchyOutgoingCall(callHierarchyItem, ranges);

@@ -3,7 +3,7 @@ import { getTrees, toRange, toPoint, queryNode } from "../TreeSitter";
 
 
 export const ReferenceProvider: vscode.ReferenceProvider = {
-	provideReferences(document: vscode.TextDocument, position: vscode.Position, context: vscode.ReferenceContext, token: vscode.CancellationToken): vscode.Location[] {
+	provideReferences(document: vscode.TextDocument, position: vscode.Position, context: vscode.ReferenceContext, token: vscode.CancellationToken): vscode.Location[] | undefined {
 		// vscode.window.showInformationMessage(JSON.stringify("references"));
 		const tree = getTrees(document).jsonTree;
 		const point = toPoint(position);

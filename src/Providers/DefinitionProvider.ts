@@ -13,8 +13,9 @@ export let gotoLocationsBroken = false;
 
 
 export const DefinitionProvider: vscode.DefinitionProvider = {
-	async provideDefinition(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Promise<vscode.DefinitionLink[]> {
+	async provideDefinition(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Promise<vscode.DefinitionLink[] | undefined> {
 		// vscode.window.showInformationMessage(JSON.stringify("Definition"));
+		// const start = performance.now();
 		gotoLocationsBroken = true;
 
 		const uriString = document.uri.toString();
@@ -124,14 +125,14 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 				const scopeName = node.childForFieldName('scopeName')?.text ?? '';
 				const ruleName = node.childForFieldName('ruleName')?.text ?? '';
 				queryString = `(json (patterns) @patterns)`;
-				const rootPatternsNode = queryNode(tree.rootNode, queryString).pop()?.node;
-				const rootPatternsRange = toRange(rootPatternsNode);
 				if ((node.childForFieldName('self') && !scopeName) || (scopeName == rootScopeNameText && !ruleName)) { // $self
-					if (rootPatternsNode == null) {
+					const rootPatternsNode = queryNode(tree.rootNode, queryString).pop()?.node;
+					if (!rootPatternsNode) {
 						break;
 					}
+					const rootPatternsRange = toRange(rootPatternsNode);
 					const targetSelectionRange = rootPatternsRange.contains(originSelectionRange) ?
-						toRange(rootPatternsNode.childForFieldName('key')) :
+						toRange(rootPatternsNode.childForFieldName('key')!) :
 						rootPatternsRange;
 
 					const locationLink: vscode.DefinitionLink = {
@@ -147,18 +148,22 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 					if (!node.childForFieldName('sharp')) {
 						break;
 					}
-					queryString = `(repo
-										[(patterns) (include)] (repository
-											(repo
-												(key) @repo (.eq? @repo "${ruleName}")))
-										!match !begin)`;
+					queryString = `;scm
+						(repo
+							[(patterns) (include)] (repository
+								(repo
+									(key) @repo (.eq? @repo "${ruleName}")))
+							!match !begin)
+					`;
+					// const start = performance.now();
 					const nestedRepoNode = queryNode(tree.rootNode, queryString, point, false)?.node;
+					// vscode.window.showInformationMessage(`mid ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(definitions)}`);
 					if (nestedRepoNode) {
 						const locationLink: vscode.DefinitionLink = {
 							originSelectionRange: originSelectionRange, // Underlined text
 							targetUri: document.uri,
-							targetRange: toRange(nestedRepoNode.parent), // Hover text
-							targetSelectionRange: toRange(nestedRepoNode) // Highlighted text
+							targetRange: toRange(nestedRepoNode.parent!), // Hover text
+							targetSelectionRange: toRange(nestedRepoNode), // Highlighted text
 						};
 						definitions.push(locationLink);
 						break;
@@ -170,8 +175,8 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 						const locationLink: vscode.DefinitionLink = {
 							originSelectionRange: originSelectionRange, // Underlined text
 							targetUri: document.uri,
-							targetRange: toRange(rootRepoNode.parent), // Hover text
-							targetSelectionRange: toRange(rootRepoNode) // Highlighted text
+							targetRange: toRange(rootRepoNode.parent!), // Hover text
+							targetSelectionRange: toRange(rootRepoNode), // Highlighted text
 						};
 						definitions.push(locationLink);
 					}
@@ -204,8 +209,8 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 								const locationLink: vscode.DefinitionLink = {
 									originSelectionRange: originSelectionRange, // Underlined text
 									targetUri: textDocument.uri,
-									targetRange: toRange(repoNode.parent), // Hover text
-									targetSelectionRange: toRange(repoNode) // Highlighted text
+									targetRange: toRange(repoNode.parent!), // Hover text
+									targetSelectionRange: toRange(repoNode), // Highlighted text
 								};
 								definitions.push(locationLink);
 							}
@@ -216,24 +221,24 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 							const locationLink: vscode.DefinitionLink = {
 								originSelectionRange: originSelectionRange, // Underlined text
 								targetUri: textDocument.uri,
-								targetRange: toRange(documentPatternsNode), // Hover text
-								targetSelectionRange: toRange(documentScopeNameNode) // Highlighted text
+								targetRange: toRange(documentPatternsNode || documentScopeNameNode), // Hover text
+								targetSelectionRange: toRange(documentScopeNameNode), // Highlighted text
 							};
 							definitions.push(locationLink);
 						}
 					}
 				}
 				break;
-			case 'replace':
-				const nameNode = node.parent.parent.parent;
-				const quadParent = nameNode.parent;
+			case 'replace': {
+				const nameNode = node.parent!.parent!.parent!;
+				const quadParent = nameNode.parent!;
 				const replaceGroup = (nameNode.type == 'name' ? getRegexGroup(trees, quadParent, node, 'match') : null) ?? getRegexGroup(trees, quadParent, node, 'begin');
 				if (pushDefinitionLink(definitions, replaceGroup, originSelectionRange, uri)) {
 					break;
 				}
 
-				const quintParent = quadParent.parent;
-				const sextParent = quintParent.parent;
+				const quintParent = quadParent.parent!;
+				const sextParent = quintParent.parent!;
 
 				if (quintParent.type == 'captures') {
 					const matchReplaceGroup = getRegexGroup(trees, sextParent, node, 'match');
@@ -288,8 +293,9 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 				}
 
 				break;
-			case 'capture':
-				const tripleParent = node.parent.parent.parent;
+			}
+			case 'capture': {
+				const tripleParent = node.parent!.parent!.parent!;
 
 				if (tripleParent.childForFieldName('match')) {
 					const matchNode = getRegexGroup(trees, tripleParent, node, 'match');
@@ -318,16 +324,17 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 					pushDefinitionLink(definitions, endNode, originSelectionRange, uri);
 				}
 				break;
+			}
 			case 'beginCapture':
-				const beginNode = getRegexGroup(trees, node.parent.parent.parent, node, 'begin');
+				const beginNode = getRegexGroup(trees, node.parent!.parent!.parent!, node, 'begin');
 				pushDefinitionLink(definitions, beginNode, originSelectionRange, uri);
 				break;
 			case 'endCapture':
-				const endNode = getRegexGroup(trees, node.parent.parent.parent, node, 'end');
+				const endNode = getRegexGroup(trees, node.parent!.parent!.parent!, node, 'end');
 				pushDefinitionLink(definitions, endNode, originSelectionRange, uri);
 				break;
 			case 'whileCapture':
-				const whileNode = getRegexGroup(trees, node.parent.parent.parent, node, 'while');
+				const whileNode = getRegexGroup(trees, node.parent!.parent!.parent!, node, 'while');
 				pushDefinitionLink(definitions, whileNode, originSelectionRange, uri);
 				break;
 			case 'regex':
@@ -353,7 +360,7 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 
 		if (definitions.length == 0) {
 			// vscode will automatically run the ReferenceProvider() if the only location overlaps with the input
-			pushDefinitionLink(definitions, node.parent, originSelectionRange, uri);
+			pushDefinitionLink(definitions, node.parent!, originSelectionRange, uri);
 		}
 
 		previous = {
@@ -361,12 +368,12 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 			uriString: uriString,
 			definitions: definitions,
 		};
-		// vscode.window.showInformationMessage(JSON.stringify(definitions));
+		// vscode.window.showInformationMessage(`Definitions ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(definitions)}`);
 		return definitions;
 	}
 };
 
-function pushDefinitionLink(definitions: vscode.LocationLink[], node: SyntaxNode, originSelectionRange: vscode.Range, uri: vscode.Uri) {
+function pushDefinitionLink(definitions: vscode.LocationLink[], node: SyntaxNode | undefined, originSelectionRange: vscode.Range, uri: vscode.Uri) {
 	if (!node) {
 		return false;
 	}
@@ -384,6 +391,9 @@ function pushDefinitionLink(definitions: vscode.LocationLink[], node: SyntaxNode
 function getCaptureRefs(trees: trees, node: SyntaxNode, position: vscode.Position) {
 	const regexTrees = trees.regexTrees;
 	const regexNode = regexTrees.get(node.id)?.rootNode;
+	if (!regexNode) {
+		return;
+	}
 
 	const captureGroupQuery = `;scm
 		(capture_group) @group
@@ -396,7 +406,7 @@ function getCaptureRefs(trees: trees, node: SyntaxNode, position: vscode.Positio
 	const groupCaptures = queryNode(regexNode, captureGroupQuery);
 	let index = groupCaptures.length;
 	while (groupCaptures.length) {
-		const captureNode = groupCaptures.pop().node;
+		const captureNode = groupCaptures.pop()!.node;
 		if (toRange(captureNode).contains(position)) {
 			groupNode = captureNode;
 			break;
@@ -438,19 +448,23 @@ function getCaptureRefs(trees: trees, node: SyntaxNode, position: vscode.Positio
 	return { range: toRange(groupNode), captures: targetCaptures };
 }
 
-function getRegexGroup(trees: trees, parentNode: SyntaxNode, captureNode: SyntaxNode, type: string): SyntaxNode {
+function getRegexGroup(trees: trees, parentNode: SyntaxNode, captureNode: SyntaxNode, type: string): SyntaxNode | undefined {
 	const node = getLastNode(parentNode, type);
 	if (!node) {
 		return;
 	}
 	const regexTrees = trees.regexTrees;
-	const id = node.childForFieldName('regex').id;
+	const id = node.childForFieldName('regex')?.id;
+	if (!id) {
+		return;
+	}
 	const regexNode = regexTrees.get(id)?.rootNode;
 
 	const index = parseInt(captureNode.text.replace('$', '')); // Ignores random characters after the first numerics, just like VSCode TextMate
-	if (index == 0) {
+	if (index == 0 || !regexNode) {
 		return regexNode;
 	}
+
 	const query = `;scm
 		(capture_group) @group
 		(capture_group_extended) @group

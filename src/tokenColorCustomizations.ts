@@ -8,7 +8,7 @@ export function initTokenColorCustomizations(context: vscode.ExtensionContext) {
 	update(packageJSON(activeDocument) || jsonTextMate(activeDocument));
 
 	context.subscriptions.push(
-		vscode.window.onDidChangeActiveTextEditor((editor: vscode.TextEditor) => {
+		vscode.window.onDidChangeActiveTextEditor((editor: vscode.TextEditor | undefined) => {
 			// vscode.window.showInformationMessage(JSON.stringify("active"));
 			const document = editor?.document; // `editor` can be `undefined`!
 			update(packageJSON(document) || jsonTextMate(document));
@@ -53,7 +53,7 @@ export function initTokenColorCustomizations(context: vscode.ExtensionContext) {
 		vscode.workspace.onDidCloseTextDocument((document: vscode.TextDocument) => {
 			// vscode.window.showInformationMessage(JSON.stringify("close"));
 			if (document == vscode.window.activeTextEditor?.document) { // `activeTextEditor` can be `undefined`!
-				update(null);
+				update(undefined);
 			}
 		})
 	);
@@ -70,10 +70,10 @@ const jsonTextMateSelector: vscode.DocumentSelector = [
 ];
 // const documentSelector: vscode.DocumentSelector = [packageJSONSelector, jsonTextMateSelector];
 
-function packageJSON(document: vscode.TextDocument): vscode.Uri {
+function packageJSON(document: vscode.TextDocument | undefined): vscode.Uri | undefined {
 	// vscode.window.showInformationMessage(JSON.stringify("packageJSON"));
 	if (!document) {
-		return null;
+		return;
 	}
 	if (vscode.languages.match(packageJSONSelector, document)) {
 		const uri = document.uri;
@@ -81,10 +81,10 @@ function packageJSON(document: vscode.TextDocument): vscode.Uri {
 	}
 }
 
-function jsonTextMate(document: vscode.TextDocument): vscode.Uri {
+function jsonTextMate(document: vscode.TextDocument | undefined): vscode.Uri | undefined {
 	// vscode.window.showInformationMessage(JSON.stringify("jsonTextMate"));
 	if (!document) {
-		return null;
+		return;
 	}
 	if (vscode.languages.match(jsonTextMateSelector, document)) {
 		const uri = vscode.Uri.joinPath(document.uri, '../../package.json');
@@ -97,7 +97,7 @@ let hadTokenColorCustomizations = false;
 
 
 const bak = '[tokenColorCustomizations_bak_JSON_TextMate'; // The square bracket is there on purpose so that the json `settings` schema doesn't complain about it
-async function update(uri: vscode.Uri) {
+async function update(uri: vscode.Uri | undefined) {
 	// vscode.window.showInformationMessage(JSON.stringify("update"));
 
 	// Workspace settings have higher priority than Global settings. But... Workspace settings don't work when there is no Workspace
@@ -112,7 +112,7 @@ async function update(uri: vscode.Uri) {
 
 			if (package_tokenColorCustomizations) {
 				const editor = vscode.workspace.getConfiguration("editor");
-				const tokenColorCustomizations = <ITokenColorCustomizations>editor.inspect("tokenColorCustomizations")[configurationValue] ?? {};
+				const tokenColorCustomizations = <ITokenColorCustomizations>editor.inspect("tokenColorCustomizations")![configurationValue] ?? {};
 				const tokenColorCustomizations_bak = tokenColorCustomizations[bak] ?? tokenColorCustomizations;
 
 				delete tokenColorCustomizations_bak[bak];
@@ -137,7 +137,7 @@ async function update(uri: vscode.Uri) {
 	}
 
 	const editor = vscode.workspace.getConfiguration("editor");
-	const tokenColorCustomizations = <ITokenColorCustomizations>editor.inspect("tokenColorCustomizations")[configurationValue] ?? {};
+	const tokenColorCustomizations = <ITokenColorCustomizations>editor.inspect("tokenColorCustomizations")![configurationValue] ?? {};
 	const tokenColorCustomizations_bak = tokenColorCustomizations[bak];
 
 	if (tokenColorCustomizations_bak !== undefined) {

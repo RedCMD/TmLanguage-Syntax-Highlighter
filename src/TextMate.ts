@@ -15,8 +15,8 @@ enum priority {
 
 type grammar = {
 	grammarPath: string;
-	extensionUri: vscode.Uri;
-	uri: vscode.Uri;
+	extensionUri: vscode.Uri | null;
+	uri: vscode.Uri | null;
 	injectionScopes: ScopeName[];
 };
 
@@ -108,7 +108,7 @@ export function getScopeName(lang: string): ScopeName | null {
 	return grammarLanguages.languageId[lang]?.scopeName;
 }
 
-async function loadGrammar(scopeName: ScopeName): Promise<vscodeTextmate.IRawGrammar | null> {
+async function loadGrammar(scopeName: ScopeName): Promise<vscodeTextmate.IRawGrammar | undefined> {
 	// vscode.window.showInformationMessage(`loadGrammar: ${scopeName}`);
 	if (Object.keys(grammarLanguages.scopeName).length == 0) {
 		parseExtensions();
@@ -194,7 +194,10 @@ export function initTextMate(context: vscode.ExtensionContext) {
 export async function tokenizeLine(document: vscode.TextDocument, lineNumber: number) {
 	const lang = document.languageId;
 	const scopeName = getScopeName(lang);
-	const grammar = await registry.loadGrammar(scopeName);
+	const grammar = await registry.loadGrammar(scopeName ?? '');
+	if (!grammar) {
+		return;
+	}
 	// vscode.window.showInformationMessage(JSON.stringify(grammar));
 	// vscode.window.showInformationMessage(JSON.stringify(grammar, stringify));
 
@@ -205,7 +208,7 @@ export async function tokenizeLine(document: vscode.TextDocument, lineNumber: nu
 	// ];
 	// const text = document.getText();
 
-	let tokenLineResult;
+	let tokenLineResult: vscodeTextmate.ITokenizeLineResult;
 	let ruleStack = vscodeTextmate.INITIAL;
 	for (let i = 0; i <= lineNumber; i++) {
 		const line = document.lineAt(i).text;
@@ -234,7 +237,7 @@ export async function tokenizeLine(document: vscode.TextDocument, lineNumber: nu
 	return tokenLineResult;
 }
 
-let activeScopeName: ScopeName;
+let activeScopeName: ScopeName | null;
 export async function tokenizeFile(document: vscode.TextDocument, runTwice?: boolean): Promise<IGrammar> {
 	const lang = document.languageId;
 	const scopeName = getScopeName(lang);
@@ -242,7 +245,7 @@ export async function tokenizeFile(document: vscode.TextDocument, runTwice?: boo
 
 	// const start = performance.now();
 	activeScopeName = scopeName;
-	const grammar = <IGrammar>await registry.loadGrammar(scopeName).catch(() => { });
+	const grammar = <IGrammar>await registry.loadGrammar(scopeName ?? '').catch(() => { });
 	activeScopeName = null;
 	if (!grammar) {
 		vscode.window.showInformationMessage(`registered_languages:\n${JSON.stringify(grammarLanguages)}`);

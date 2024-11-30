@@ -331,7 +331,7 @@ export function _tokenizeString(
 		grammar.rules.push(
 			{
 				captureIndices: captureIndices,
-				matchedRuleId: matchedRuleId == endRuleId ? -poppedRule.id : matchedRuleId,
+				matchedRuleId: matchedRuleId == endRuleId ? -poppedRule!.id : matchedRuleId,
 				// lineText: lineText,
 				// isFirstLine: isFirstLine,
 				linePos: prevLinePos,

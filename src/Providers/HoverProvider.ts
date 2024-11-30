@@ -3,7 +3,7 @@ import { getTrees, queryNode, toPoint, toRange, trees } from "../TreeSitter";
 import { Point } from 'web-tree-sitter';
 
 export const HoverProvider: vscode.HoverProvider = {
-	provideHover(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.Hover {
+	provideHover(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.Hover | undefined {
 		// vscode.window.showInformationMessage(JSON.stringify("Hover"));
 		const trees = getTrees(document);
 		const point = toPoint(position);
@@ -71,7 +71,7 @@ export const HoverProvider: vscode.HoverProvider = {
 	}
 };
 
-function debugTreeSitterHovers(trees: trees, point: Point): vscode.Hover {
+function debugTreeSitterHovers(trees: trees, point: Point): vscode.Hover | undefined {
 	const node = trees.jsonTree.rootNode.descendantForPosition(point);
 	// const node = jsonTree.rootNode.namedDescendantForPosition(point);
 
@@ -82,8 +82,11 @@ function debugTreeSitterHovers(trees: trees, point: Point): vscode.Hover {
 	if (node.type == 'regex') {
 		const regexTrees = trees.regexTrees;
 		const regexTree = regexTrees.get(node.id);
+		if (!regexTree) {
+			return;
+		}
 		const regexNode = regexTree.rootNode.descendantForPosition(point);
-		const parentNode = regexNode.parent;
+		const parentNode = regexNode.parent!;
 		const markdownString = new vscode.MarkdownString();
 		markdownString.appendText(parentNode.type + ' => ' + regexNode.type);
 		markdownString.appendCodeblock(parentNode.text, 'json-textmate-regex');

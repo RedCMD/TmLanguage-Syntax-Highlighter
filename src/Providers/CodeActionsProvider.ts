@@ -6,8 +6,8 @@ import { SyntaxNode } from 'web-tree-sitter';
 
 
 type CodeAction = vscode.CodeAction & {
-	document?: vscode.TextDocument,
-	nodeId?: number;
+	document: vscode.TextDocument,
+	nodeId: number;
 };
 
 export const CodeActionsProvider: vscode.CodeActionProvider = {
@@ -16,7 +16,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 		// const start = performance.now();
 
 		const codeActions: vscode.CodeAction[] = [];
-		let codeAction: CodeAction;
+		let codeAction: CodeAction | vscode.CodeAction;
 
 		const diagnostics = context.diagnostics;
 		for (const diagnostic of diagnostics) {
@@ -101,7 +101,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 		const trees = getTrees(document);
 		const regexNodes = trees.regexNodes;
 		for (const regexNode of regexNodes.values()) {
-			const parentRange = toRange(regexNode.parent);
+			const parentRange = toRange(regexNode.parent!);
 			if (parentRange.intersection(range)) {
 				codeAction = {
 					title: `Minify Regex`,
@@ -145,9 +145,11 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 			}
 		}
 		else {
-			const regexTree = regexTrees.get(id);
+			const regexTree = regexTrees.get(id!);
 			const rootNode = regexTree?.rootNode;
-			rootNodes.push(rootNode);
+			if (rootNode) {
+				rootNodes.push(rootNode);
+			}
 		}
 
 		const edit = new vscode.WorkspaceEdit;
@@ -240,7 +242,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 								break;
 							}
 
-							const child = minifyNode.firstNamedChild;
+							const child = minifyNode.firstNamedChild!; // Only child
 							switch (child.type) {
 								case 'literal':
 									if (child.text.length > 1) { // (?:ab)?
@@ -271,8 +273,8 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 								break;
 							}
 						}
-						else if (minifyNode.parent.namedChildCount - siblingCommentCount > 1) {
-							if (childCount == 1 && minifyNode.firstNamedChild.type == 'alteration') {
+						else if (minifyNode.parent!.namedChildCount - siblingCommentCount > 1) {
+							if (childCount == 1 && minifyNode.firstNamedChild!.type == 'alteration') {
 								edit.delete( // `(?:|)`
 									uri,
 									minifyRange,
@@ -292,7 +294,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 							}
 						}
 
-						if (childCount == 1 && minifyNode.firstNamedChild.type == 'non_capture_group' && minifyNode.firstNamedChild.namedChildCount > 1) { // prevents issues with nested groups. a(?:(?:b|c))
+						if (childCount == 1 && minifyNode.firstNamedChild!.type == 'non_capture_group' && minifyNode.firstNamedChild!.namedChildCount > 1) { // prevents issues with nested groups. a(?:(?:b|c))
 							break;
 						}
 

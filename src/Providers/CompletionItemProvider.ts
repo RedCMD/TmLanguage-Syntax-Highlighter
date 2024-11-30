@@ -52,7 +52,7 @@ const defaultThemeColors: { [baseTheme: string]: ITextMateThemingRule[]; } = {
 
 
 export const CompletionItemProvider: vscode.CompletionItemProvider = {
-	async provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext): Promise<vscode.CompletionList<vscode.CompletionItem>> {
+	async provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext): Promise<vscode.CompletionList<vscode.CompletionItem> | undefined> {
 		// vscode.window.showInformationMessage(JSON.stringify("Completions"));
 		// const start = performance.now();
 		await sleep(50); // partially avoids race condition with reparseTextDocument()
@@ -81,7 +81,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 		}
 		const cursorName = cursorCapture.name;
 		if (context.triggerKind == vscode.CompletionTriggerKind.TriggerCharacter) {
-			if (triggerCharacterSets[cursorName].indexOf(context.triggerCharacter) == -1) {
+			if (triggerCharacterSets[cursorName].indexOf(context.triggerCharacter!) == -1) {
 				return;
 			}
 		}
@@ -128,7 +128,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 				if (Array.isArray(grammars)) {
 					const documentPath = document.uri.path;
 					for (const grammar of grammars) {
-						const grammarPath = vscode.Uri.joinPath(packageUri, '..', grammar.path).path;
+						const grammarPath = vscode.Uri.joinPath(packageUri!, '..', grammar.path).path;
 						if (grammarPath == documentPath) {
 							completionItems.push({
 								label: {
@@ -147,59 +147,61 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 				const { packageJSON, packageUri } = await getPackageJSON(document);
 				const contributes = packageJSON?.contributes;
 				const grammars = contributes?.grammars;
-				if (Array.isArray(grammars)) {
-					const documentPath = document.uri.path;
-					for (const grammar of grammars) {
-						const grammarPath = vscode.Uri.joinPath(packageUri, '..', grammar.path).path;
-						if (grammarPath == documentPath) {
-							const languageId = grammar.language;
-							if (languageId) {
-								const languages = contributes.languages;
-								if (Array.isArray(languages)) {
-									for (const language of languages) {
-										if (languageId == language.id) {
-											const aliases = language.aliases;
-											if (Array.isArray(aliases)) {
-												for (const alias of aliases) {
-													completionItems.push({
-														label: {
-															label: alias,
-															description: grammar.scopeName || languageId,
-														},
-														range: cursorRange,
-														kind: vscode.CompletionItemKind.Text,
-													});
-												}
+				if (!Array.isArray(grammars)) { // TypeScript doesn't understand implications of Array.isArray() == false
+					break;
+				}
+				const documentPath = document.uri.path;
+				for (const grammar of grammars) {
+					const grammarPath = vscode.Uri.joinPath(packageUri!, '..', grammar.path).path;
+					if (grammarPath == documentPath) {
+						const languageId = grammar.language;
+						if (languageId) {
+							const languages = contributes!.languages;
+							if (Array.isArray(languages)) {
+								for (const language of languages) {
+									if (languageId == language.id) {
+										const aliases = language.aliases;
+										if (Array.isArray(aliases)) {
+											for (const alias of aliases) {
+												completionItems.push({
+													label: {
+														label: alias,
+														description: grammar.scopeName || languageId,
+													},
+													range: cursorRange,
+													kind: vscode.CompletionItemKind.Text,
+												});
 											}
 										}
 									}
 								}
 							}
-							const displayName = packageJSON.displayName;
-							if (displayName) {
-								completionItems.push({
-									label: {
-										label: displayName,
-										description: packageJSON.name || languageId || grammar.scopeName,
-									},
-									range: cursorRange,
-									kind: vscode.CompletionItemKind.Text,
-								});
-							}
-							const description = packageJSON.description;
-							if (description) {
-								completionItems.push({
-									label: {
-										label: description,
-										description: displayName || packageJSON.name || languageId || grammar.scopeName,
-									},
-									range: cursorRange,
-									kind: vscode.CompletionItemKind.Text,
-								});
-							}
+						}
+						const displayName = packageJSON!.displayName;
+						if (displayName) {
+							completionItems.push({
+								label: {
+									label: displayName,
+									description: packageJSON!.name || languageId || grammar.scopeName,
+								},
+								range: cursorRange,
+								kind: vscode.CompletionItemKind.Text,
+							});
+						}
+						const description = packageJSON!.description;
+						if (description) {
+							completionItems.push({
+								label: {
+									label: description,
+									description: displayName || packageJSON!.name || languageId || grammar.scopeName,
+								},
+								range: cursorRange,
+								kind: vscode.CompletionItemKind.Text,
+							});
 						}
 					}
 				}
+
 				break;
 			}
 			case 'include':
@@ -211,7 +213,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 					description: 'Includes the current grammar file',
 				};
 				const selfDocumentation = new vscode.MarkdownString();
-				selfDocumentation.appendCodeblock(rootPatternsText, 'json-textmate');
+				selfDocumentation.appendCodeblock(rootPatternsText || '"patterns": []', 'json-textmate');
 				const selfCompletionItem: vscode.CompletionItem = {
 					label: selfLabel,
 					documentation: selfDocumentation,
@@ -237,24 +239,25 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 				if (cursorScopeName) {
 					const rootScopeNameQuery = `(json (scopeName (value) @scopeName))`;
 					const rootScopeName = queryNode(tree.rootNode, rootScopeNameQuery).pop()?.node?.text;
+					if (rootScopeName) {
+						const rootScopeNameLabel: vscode.CompletionItemLabel = {
+							label: rootScopeName,
+							description: '$self',
+						};
+						const rootScopeNameCompletionItem: vscode.CompletionItem = {
+							label: rootScopeNameLabel,
+							range: cursorRange,
+							kind: vscode.CompletionItemKind.Field,
+							documentation: selfDocumentation,
+							commitCharacters: ['#'],
+							command: { command: 'editor.action.triggerSuggest', title: 'Trigger `source#include` completions' },
+							tags: [vscode.CompletionItemTag.Deprecated],
+						};
+						completionItems.push(rootScopeNameCompletionItem);
 
-					const rootScopeNameLabel: vscode.CompletionItemLabel = {
-						label: rootScopeName,
-						description: '$self',
-					};
-					const rootScopeNameCompletionItem: vscode.CompletionItem = {
-						label: rootScopeNameLabel,
-						range: cursorRange,
-						kind: vscode.CompletionItemKind.Field,
-						documentation: selfDocumentation,
-						commitCharacters: ['#'],
-						command: { command: 'editor.action.triggerSuggest', title: 'Trigger `source#include` completions' },
-						tags: [vscode.CompletionItemTag.Deprecated],
-					};
-					completionItems.push(rootScopeNameCompletionItem);
-
-					if (rootScopeName == cursorScopeName) {
-						repoCompletionItems(completionItems, tree, cursorRange, rootScopeName);
+						if (rootScopeName == cursorScopeName) {
+							repoCompletionItems(completionItems, tree, cursorRange, rootScopeName);
+						}
 					}
 				}
 
@@ -276,19 +279,21 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 									if (cursorText == grammarScopeName) {
 										const grammarPatternsText = queryNode(grammarTree.rootNode, rootPatternsQuery).pop()?.node?.text;
 										// grammarDocumentation.appendCodeblock(grammarPatternsText, 'json-textmate'); // if Word Wrap worked
-										let grammarDocText: string;
-										if (grammarDocument.lineCount == 1) {
-											try {
-												const parsedPatterns = JSON.parse('{' + grammarPatternsText + '}');
-												grammarDocText = '"patterns": ' + JSON.stringify(parsedPatterns.patterns, null, 2).slice(0, 99900);
-											} catch (error) {
-												grammarDocText = grammarPatternsText.slice(0, 1000); // How to enable Word Wrap?
+										if (grammarPatternsText) {
+											let grammarDocText: string;
+											if (grammarDocument.lineCount == 1) {
+												try {
+													const parsedPatterns = JSON.parse('{' + grammarPatternsText + '}');
+													grammarDocText = '"patterns": ' + JSON.stringify(parsedPatterns.patterns, null, 2).slice(0, 99900);
+												} catch (error) {
+													grammarDocText = grammarPatternsText.slice(0, 1000); // How to enable Word Wrap?
+												}
 											}
+											else {
+												grammarDocText = grammarPatternsText.slice(0, 99900);
+											}
+											grammarDocumentation.appendCodeblock(grammarDocText, 'json-textmate'); // but no, it doesn't work....
 										}
-										else {
-											grammarDocText = grammarPatternsText.slice(0, 99900);
-										}
-										grammarDocumentation.appendCodeblock(grammarDocText, 'json-textmate'); // but no, it doesn't work....
 									}
 								}
 								else {
@@ -342,7 +347,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 				}
 
 				const baseTheme = [
-					null,
+					'',
 					'light',
 					'dark',
 					'hcDark',
@@ -401,9 +406,9 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 
 			case 'replace_capture': {
 				const nameNode =
-					cursorName == 'replace_capture' ? cursorNode.parent.parent.parent :
-						cursorName == 'scope' ? cursorNode.parent.parent :
-							cursorNode.parent;
+					cursorName == 'replace_capture' ? cursorNode.parent!.parent!.parent! :
+						cursorName == 'scope' ? cursorNode.parent!.parent! :
+							cursorNode.parent!;
 				const noOfCaptureGroups = locateRegex(trees, nameNode);
 				// vscode.window.showInformationMessage(`noOfCaptureGroups: ${(performance.now() - start).toFixed(3)}ms ${noOfCaptureGroups.length}\n${JSON.stringify(noOfCaptureGroups)}`);
 				const updowncaseSnippet =
@@ -438,7 +443,10 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 
 				break;
 			case 'regex':
-				const regexRootNode = trees.regexTrees.get(cursorNode.id).rootNode;
+				const regexRootNode = trees.regexTrees.get(cursorNode.id)?.rootNode;
+				if (!regexRootNode) {
+					return;
+				}
 
 				const regexQuery = `;scm
 					(character_property (character_property_name) @property)
@@ -452,7 +460,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 				const regexRange = toRange(regexNode);
 				switch (regexName) {
 					case 'property':
-						const characterProperty = regexNode.parent;
+						const characterProperty = regexNode.parent!;
 						if (characterProperty.text.charAt(4) != '^') { // \\p{^Letter}
 							completionItems.push({
 								label: '^',
@@ -579,19 +587,20 @@ function repoCompletionItems(completionItems: CompletionItem[], tree: Parser.Tre
 		const repoNode = repoCapture.node;
 		const repoText = repoNode.text;
 
-		const repoNodeParent = repoText ? repoNode.parent : repoNode.parent.parent; // Tree-sitter buggy on 0width nodes
+		const repoParent = repoNode.parent!;
 
-		const commentQuery =
-			`(comment (value) @comment (.not-eq? @comment ""))` +
-			`(comment_slash (value) @comment (.not-eq? @comment ""))`;
-		const commentText = queryNode(repoNodeParent, commentQuery)[0]?.node?.text?.replace(/\\(.)?/g, '$1');
+		const commentQuery = `;scm
+			(comment (value) @comment (.not-eq? @comment ""))
+			(comment_slash (value) @comment (.not-eq? @comment ""))
+		`;
+		const commentText = queryNode(repoParent, commentQuery)[0]?.node?.text?.replace(/\\(.)?/g, '$1');
 
 		const repoLabel: vscode.CompletionItemLabel = {
 			label: (scopeName ?? '') + '#' + repoText,
 			description: commentText,
 		};
 
-		const repoNodeParentText = repoNodeParent.text;
+		const repoNodeParentText = repoParent.text;
 		let repoDocText: string;
 		if (rootNode.startPosition.row == rootNode.endPosition.row) {
 			try {
@@ -623,7 +632,7 @@ function repoCompletionItems(completionItems: CompletionItem[], tree: Parser.Tre
 }
 
 function locateRegex(trees: trees, nameNode: SyntaxNode): Parser.QueryCapture[] {
-	const parent = nameNode.parent;
+	const parent = nameNode.parent!;
 	if (nameNode.type == 'name' && parent.childForFieldName('match')) {
 		return getCaptureGroups(trees, parent, 'match');
 	}
@@ -633,8 +642,8 @@ function locateRegex(trees: trees, nameNode: SyntaxNode): Parser.QueryCapture[] 
 		return beginCaptures;
 	}
 
-	const doubleParent = parent.parent;
-	const tripleParent = doubleParent.parent;
+	const doubleParent = parent.parent!;
+	const tripleParent = doubleParent.parent!;
 
 	if (doubleParent.type == 'captures') {
 		const matchCaptures = getCaptureGroups(trees, tripleParent, 'match');
@@ -691,8 +700,14 @@ function getCaptureGroups(trees: trees, parentNode: SyntaxNode, type: string): P
 		return [];
 	}
 	const regexTrees = trees.regexTrees;
-	const id = node.childForFieldName('regex').id;
+	const id = node.childForFieldName('regex')?.id;
+	if (!id) {
+		return [];
+	}
 	const regexNode = regexTrees.get(id)?.rootNode;
+	if (!regexNode) {
+		return [];
+	}
 
 	const query = `;scm
 		(regex) @root

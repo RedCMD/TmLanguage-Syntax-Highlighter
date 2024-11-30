@@ -97,9 +97,9 @@ function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[], rootN
 		const text = node.text;
 		const range = toRange(node);
 		const parent = node.parent;
-		const parentType = parent.type;
+		const parentType = parent?.type;
 
-		let diagnostic: vscode.Diagnostic;
+		let diagnostic!: vscode.Diagnostic;
 		const name = queryCapture.name;
 		switch (name) {
 			case 'ERROR':
@@ -115,7 +115,7 @@ function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[], rootN
 					continue;
 				}
 				diagnostic = {
-					range: toRange(node.previousSibling.endPosition),
+					range: toRange(node.previousSibling!.endPosition),
 					message: `'${parentType}' is missing character${type.length > 1 ? 's' : ''} '${type}'`,
 					severity: vscode.DiagnosticSeverity.Error,
 					source: 'TreeSitter',
@@ -159,7 +159,6 @@ function diagnosticsTreeSitterRegexErrors(diagnostics: vscode.Diagnostic[], tree
 			const range = toRange(node);
 			const parent = node.parent;
 			const parentType = parent?.type;
-			const parentRange = toRange(parent);
 
 			let diagnostic: vscode.Diagnostic;
 			const name = queryCapture.name;
@@ -169,7 +168,7 @@ function diagnosticsTreeSitterRegexErrors(diagnostics: vscode.Diagnostic[], tree
 				case 'error_':
 					diagnostic = {
 						range: range,
-						message: `'${text}' is not valid at this position inside '${parentType}'`,
+						message: `'${text}' is not valid at this position inside '${parentType || 'regex'}'`,
 						severity: vscode.DiagnosticSeverity.Error,
 						source: 'JSON TextMate Oniguruma',
 					};
@@ -186,6 +185,7 @@ function diagnosticsTreeSitterRegexErrors(diagnostics: vscode.Diagnostic[], tree
 					if (!node.isMissing) {
 						continue;
 					}
+					const parentRange = toRange(parent!);
 					diagnostic = {
 						range: parentRange,
 						message: `'${parentType}' is missing ending char${type.length > 1 ? 's' : ''} '${type}'`,
@@ -274,9 +274,12 @@ function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[], trees
 			 * and replaces the backreferences directly
 			 */
 			if (/\\[1-9](\d{2})?(?!\d)/.test(regex)) {
-				const beginNode = getLastNode(regexNode.parent.parent, 'begin')?.childForFieldName('regex');
+				const beginNode = getLastNode(regexNode.parent!.parent!, 'begin')?.childForFieldName('regex');
 				if (beginNode) {
-					const beginRegex = trees.regexTrees.get(beginNode.id).rootNode;
+					const beginRegex = trees.regexTrees.get(beginNode.id)?.rootNode;
+					if (!beginRegex) {
+						continue;
+					}
 					const captureGroupQuery = `;scm
 							(capture_group) @group
 							(capture_group_extended) @group
@@ -287,7 +290,7 @@ function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[], trees
 					const groupCaptures = queryNode(beginRegex, captureGroupQuery);
 					for (const groupCapture of groupCaptures) {
 						const groupText = groupCapture.node.text.slice( // substring() doesn't work with -1
-							groupCapture.name == 'name' ? groupCapture.node.firstNamedChild.text.length + 4 : 1, // remove `(?<name>`
+							groupCapture.name == 'name' ? groupCapture.node.firstNamedChild!.text.length + 4 : 1, // remove `(?<name>`
 							-1, // remove `)`
 						).replace(/[\-\\\{\}\*\+\?\|\^\$\.\,\[\]\(\)\#\s]/g, '\\$&'); // TextMate 2.0 only escapes these characters \|([{}]).?*+^$
 						// https://github.com/textmate/textmate/blob/master/Frameworks/parse/src/parse.cc#L120
@@ -331,8 +334,8 @@ function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: S
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics #includes"))
 	// const start = performance.now();
 
-	let prevPatternsArrayId;
-	let errorCount;
+	let prevPatternsArrayId!: number;
+	let errorCount!: number;
 
 	// TreeSitter compiling sibling nodes query very slow
 	// https://github.com/tree-sitter/tree-sitter/issues/3956
@@ -416,12 +419,12 @@ function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: S
 		diagnostics.push(diagnostic);
 
 		// Change `severity` to `Error` if every single `#include` cannot be found inside a `"patterns"` array
-		const patternsArray = node.parent.parent.parent.parent;
+		const patternsArray = node.parent!.parent!.parent!.parent!;
 		if (patternsArray.type != 'patterns') {
 			continue;
 		}
 
-		const parentRule = patternsArray.parent;
+		const parentRule = patternsArray.parent!;
 		if (parentRule.type == 'capture') {
 			continue;
 		}
@@ -563,11 +566,14 @@ async function diagnosticsMismatchingRootScopeName(diagnostics: vscode.Diagnosti
 	if (!packageJSON) {
 		return;
 	}
+	const grammars = packageJSON?.contributes?.grammars;
+	if (!Array.isArray(grammars)) {
+		return;
+	}
 
 	const node = scopeNameCapture.node;
 	const scopeName = node.text;
 
-	const grammars = packageJSON.contributes?.grammars;
 	for (const grammar of grammars) {
 		const uri = vscode.Uri.joinPath(packageUri, '..', grammar.path);
 		if (document.uri.path == uri.path) {
@@ -606,4 +612,5 @@ function jsonEscapeReplacer(substring: string): string {
 			const char = String.fromCodePoint(hexCode);
 			return char;
 	}
+	return substring;
 }

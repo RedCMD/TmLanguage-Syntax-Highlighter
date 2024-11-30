@@ -12,7 +12,7 @@ export const SelectionRangeProvider: vscode.SelectionRangeProvider = {
 		const selectionRanges: vscode.SelectionRange[] = [];
 
 		for (const position of positions) {
-			let selectionRange: vscode.SelectionRange;
+			let selectionRange: vscode.SelectionRange | undefined = undefined;
 
 			const point = toPoint(position);
 			const cursorCaptures = queryNode(rootNode, cursorQuery, point, point);
@@ -21,7 +21,9 @@ export const SelectionRangeProvider: vscode.SelectionRangeProvider = {
 				const range = toRange(node);
 				selectionRange = new vscode.SelectionRange(range, selectionRange);
 			}
-			selectionRanges.push(selectionRange);
+			if (selectionRange) {
+				selectionRanges.push(selectionRange);
+			}
 		}
 
 		/**

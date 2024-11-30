@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { getTrees, queryNode, toPoint, toRange } from "../TreeSitter";
 
-const cursorQuery = `
+const cursorQuery = `;scm
 	(include (value (scopeName) @scopeName))
 	(include (value (ruleName) @ruleName))
 	;(json (scopeName (value) @root_scopeName))
@@ -11,7 +11,7 @@ const cursorQuery = `
 `;
 
 export const RenameProvider: vscode.RenameProvider = {
-	/* async */ provideRenameEdits(document: vscode.TextDocument, position: vscode.Position, newName: string, token: vscode.CancellationToken): /* Promise< */vscode.WorkspaceEdit/* > */ {
+	/* async */ provideRenameEdits(document: vscode.TextDocument, position: vscode.Position, newName: string, token: vscode.CancellationToken): /* Promise< */vscode.WorkspaceEdit | undefined/* > */ {
 		// vscode.window.showInformationMessage(JSON.stringify("RenameEdit"));
 		const trees = getTrees(document);
 		const jsonTree = trees.jsonTree;
@@ -31,7 +31,7 @@ export const RenameProvider: vscode.RenameProvider = {
 
 		const edits: vscode.TextEdit[] = [];
 		const workspaceEdits = new vscode.WorkspaceEdit();
-		
+
 		const uri = document.uri;
 
 		let query = ``;
@@ -79,8 +79,8 @@ export const RenameProvider: vscode.RenameProvider = {
 				edits.push(edit);
 				break;
 			case 'scope':
-				query += `(name (value (scope) @scope (#eq? @scope "${cursorText}")))`
-				query += `(contentName (value (scope) @scope (#eq? @scope "${cursorText}")))`
+				query += `(name (value (scope) @scope (#eq? @scope "${cursorText}")))`;
+				query += `(contentName (value (scope) @scope (#eq? @scope "${cursorText}")))`;
 				break;
 			default:
 				return;
@@ -98,7 +98,7 @@ export const RenameProvider: vscode.RenameProvider = {
 		}
 
 		workspaceEdits.set(uri, edits);
-		// vscode.window.showInformationMessage(JSON.stringify(workspaceEdits));
+		// vscode.window.showInformationMessage(`rename: ${query}\n${JSON.stringify(workspaceEdits)}`);
 		return workspaceEdits;
 	},
 	prepareRename(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.ProviderResult<{ range: vscode.Range; placeholder: string; }> {
@@ -116,7 +116,7 @@ export const RenameProvider: vscode.RenameProvider = {
 		const cursorNode = cursorCapture.node;
 		const cursorText = cursorNode.text;
 		const cursorRange = toRange(cursorNode);
-		
+
 		// if (cursorName == 'root_scopeName') {
 		// 	const uriPackage = vscode.Uri.joinPath(document.uri, '../../package.json');
 		// 	vscode.workspace.openTextDocument(uriPackage);
@@ -126,4 +126,4 @@ export const RenameProvider: vscode.RenameProvider = {
 		// vscode.window.showInformationMessage(JSON.stringify(rename));
 		return rename;
 	},
-}
+};

@@ -28,10 +28,12 @@ export function getTrees(source: vscode.TextDocument | vscode.Uri): trees {
 			return docTrees;
 		}
 	}
-	vscode.window.showInformationMessage(`TextMate: TreeSitter Tree does not exist!\nFile:\n${JSON.stringify(source)}\nTrees:\n${JSON.stringify(trees)}`);
+
+	vscode.window.showWarningMessage(`TextMate: TreeSitter Tree does not exist!\nFile:\n${JSON.stringify(source)}\nTrees:\n${JSON.stringify(trees)}`);
+	return docTrees;
 }
 
-export function getRegexNode(source: vscode.TextDocument | vscode.Uri | trees | trees["regexTrees"], node: Parser.SyntaxNode | number): Parser.SyntaxNode {
+export function getRegexNode(source: vscode.TextDocument | vscode.Uri | trees | trees["regexTrees"], node: Parser.SyntaxNode | number): Parser.SyntaxNode | undefined {
 	const nodeId = typeof node == 'number' ? node : node.id;
 	if ('uri' in source) {
 		const uriString = source.uri.toString();
@@ -57,14 +59,14 @@ export function getRegexNode(source: vscode.TextDocument | vscode.Uri | trees | 
 /**
  * Returns the first non-empty comment in the parent node
  */
-export function getComment(node: Parser.SyntaxNode): string | null {
-	const parent = node.parent;
+export function getComment(node: Parser.SyntaxNode): string {
+	const parent = node.parent!;
 	const query = `;scm
 		(comment (value) @comment (.not-eq? @comment ""))
 		(comment_slash (value) @comment (.not-eq? @comment ""))
 	`;
 	const capture = queryNode(parent, query)[0];
-	return capture?.node?.text?.replace(/\\(.)?/g, '$1');
+	return capture?.node?.text?.replace(/\\(.)?/g, '$1') || '';
 }
 
 export function getLastNode(rootNode: Parser.SyntaxNode, type: string) {
@@ -88,11 +90,13 @@ export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoi
 	let query = queryCache[queryString];
 	// query = null;
 
-	if (query == null) {
+	if (query == null && node) {
 		const language = node.tree.getLanguage();
 		// const start = performance.now();
 		query = language.query(queryString);
-		// vscode.window.showInformationMessage(`${(performance.now() - start).toFixed(1)}ms: ${queryString}`);
+		// if (performance.now() - start > 100) {
+		// 	vscode.window.showInformationMessage(`queryString ${(performance.now() - start).toFixed(3)}ms: ${queryString}\n${JSON.stringify(query)}`);
+		// }
 		query.disableCapture('_ignore_');
 		queryCache[queryString] = query;
 		// vscode.window.showInformationMessage(JSON.stringify(query, stringify));
@@ -110,7 +114,14 @@ export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoi
 	};
 
 	// const queryCaptures = query.captures(node, queryOptions);
+	// const start = performance.now();
 	const queryMatches = node ? query.matches(node, queryOptions) : [];
+	// if (query.didExceedMatchLimit()) {
+	// 	vscode.window.showInformationMessage(`matchLimit ${queryString}\n${JSON.stringify(queryMatches)}`);
+	// }
+	// if ((performance.now() - start) > 100) {
+	// 	vscode.window.showInformationMessage(`queryMatches ${(performance.now() - start).toFixed(3)}ms: ${queryString}\n${JSON.stringify(queryMatches)}`);
+	// }
 	// vscode.window.showInformationMessage(JSON.stringify(queryMatches));
 	// if (queryCaptures.length > 10000) {
 	// 	vscode.window.showWarningMessage("Unoptimized Query: " + queryCaptures.length + " results returned:\n" + queryString);
@@ -131,7 +142,7 @@ export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoi
 			const queryMatch = queryMatches.pop(); // the last/inner most node
 			const captures = queryMatch?.captures;
 			while (captures?.length) { // TreeSitter doesn't actually check if the captured node intersects the startPoint :/
-				const queryCapture = captures.pop(); // the last/inner most node
+				const queryCapture = captures.pop()!; // the last/inner most node
 				if (toRange(queryCapture.node).contains(position)) {
 					return queryCapture;
 				}
@@ -150,12 +161,9 @@ export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoi
 export function toRange(node: Parser.SyntaxNode): vscode.Range;
 export function toRange(points: Parser.Point): vscode.Range;
 export function toRange(start: Parser.Point, end: Parser.Point): vscode.Range;
-export function toRange(node: Parser.SyntaxNode | Parser.Point, end?: Parser.Point): vscode.Range {
-	if (!node) {
-		return null;
-	}
-	const startPosition = 'startPosition' in node ? node.startPosition : node;
-	const endPosition = 'endPosition' in node ? node.endPosition : end || startPosition;
+export function toRange(nodePoint: Parser.SyntaxNode | Parser.Point, end?: Parser.Point): vscode.Range {
+	const startPosition = (<Parser.SyntaxNode>nodePoint)?.startPosition || nodePoint;
+	const endPosition = (<Parser.SyntaxNode>nodePoint)?.endPosition || end || startPosition;
 	const range = new vscode.Range(
 		startPosition.row,
 		startPosition.column,
@@ -166,21 +174,15 @@ export function toRange(node: Parser.SyntaxNode | Parser.Point, end?: Parser.Poi
 }
 
 export function toPoint(position: vscode.Position): Parser.Point {
-	if (!position) {
-		return null;
-	}
-	const row = position.line;
-	const column = position.character;
+	const row = position?.line;
+	const column = position?.character;
 	const point: Parser.Point = { row: row, column: column };
 	return point;
 }
 
 export function toPosition(point: Parser.Point): vscode.Position {
-	if (!point) {
-		return null;
-	}
-	const line = point.row;
-	const character = point.column;
+	const line = point?.row;
+	const character = point?.column;
 	const position = new vscode.Position(line, character);
 	return position;
 }
@@ -221,8 +223,9 @@ export async function initTreeSitter(context: vscode.ExtensionContext) {
 
 	const activeDocuments: {
 		[uriString: string]: {
-			edits: vscode.TextDocumentChangeEvent;
-			timeout: NodeJS.Timeout | number; // VSCode vs VSCode Web
+			edits: vscode.TextDocumentChangeEvent | undefined;
+			timeout: NodeJS.Timeout | number | undefined; // VSCode vs VSCode Web
+			// version: number;
 		};
 	} = {};
 
@@ -270,13 +273,13 @@ export async function initTreeSitter(context: vscode.ExtensionContext) {
 				// Run Diagnostics instantly on first edit
 				reparseTextDocument(edits);
 
-				// Wait 50ms and execute CallBack reguardless of if there are gonna be new edits or not
+				// Wait 50ms and execute CallBack regardless of if there are gonna be new edits or not
 				activeDocument.timeout = setInterval(
 					() => {
-						if (activeDocument.edits == null) {
+						if (activeDocument.edits == undefined) {
 							// No new edits? exit.
 							clearInterval(activeDocument.timeout); // timeout.refresh() doesn't work in VSCode web
-							activeDocument.timeout = null;
+							activeDocument.timeout = undefined;
 
 							for (const parseEvent of parseEvents) {
 								try {
@@ -292,9 +295,9 @@ export async function initTreeSitter(context: vscode.ExtensionContext) {
 						} catch (error) {
 							vscode.window.showInformationMessage(JSON.stringify(error));
 						}
-						activeDocument.edits = null;
+						activeDocument.edits = undefined;
 					},
-					50, // 50 milisecond intervals. Does anyone want this as a config?
+					50, // 50 millisecond intervals. Does anyone want this as a config?
 				);
 				return;
 			}
@@ -354,7 +357,7 @@ function parseTextDocument(document: vscode.TextDocument) {
 			endPosition: node.endPosition,
 		};
 		const options: Parser.Options = { includedRanges: [range] };
-		const regexTree = regexParser.parse(text, null, options);
+		const regexTree = regexParser.parse(text, undefined, options);
 
 		regexTrees.set(node.id, regexTree);
 		regexNodes.set(regexTree.rootNode.id, node);
@@ -404,7 +407,7 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 		const lines = edit.text.split(/\r?\n/g);
 		const newEndPos = new vscode.Position(
 			startPos.line + lines.length - 1,
-			lines.length > 1 ? lines.pop().length : startPos.character + lines.pop().length
+			lines.length > 1 ? lines.pop()!.length : startPos.character + lines.pop()!.length
 		);
 		const startPosition = toPoint(startPos);
 		const oldEndPosition = toPoint(oldEndPos);
@@ -433,7 +436,7 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 
 	const oldRegexTreesIterator = oldRegexTrees.values();
 	let skip = false;
-	let oldRegexTree: Parser.Tree;
+	let oldRegexTree: Parser.Tree | undefined;
 	// let oldRegexTreeCopy: Parser.Tree;
 
 	const queryCaptures = queryNode(jsonTree.rootNode, `(regex) @regex`);
@@ -455,7 +458,7 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 						endPosition: queryNode.endPosition,
 					};
 					const options: Parser.Options = { includedRanges: [range] };
-					const newRegexTree = regexParser.parse(text, null, options);
+					const newRegexTree = regexParser.parse(text, undefined, options);
 					// vscode.window.showInformationMessage(`New: ${(performance.now() - start).toFixed(3)}ms\n${newRegexTree.rootNode.text}\n${JSON.stringify(toRange(newRegexTree.rootNode))}\n${JSON.stringify(newRegexTree.getIncludedRanges())}`);
 
 					regexTrees.set(queryNode.id, newRegexTree);
@@ -471,7 +474,7 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 			}
 			skip = false;
 
-			const oldRange = toRange(oldRegexTree.rootNode);
+			const oldRange = toRange(oldRegexTree!.rootNode);
 			const newRange = toRange(queryNode);
 
 			// if (oldRange.isEqual(newRange)) {
@@ -520,7 +523,7 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 					endPosition: queryNode.endPosition,
 				};
 				const options: Parser.Options = { includedRanges: [range] };
-				const newRegexTree = regexParser.parse(text, null, options);
+				const newRegexTree = regexParser.parse(text, undefined, options);
 
 				regexTrees.set(queryNode.id, newRegexTree);
 				regexNodes.set(newRegexTree.rootNode.id, queryNode);

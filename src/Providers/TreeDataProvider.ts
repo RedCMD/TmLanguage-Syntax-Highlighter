@@ -60,11 +60,11 @@ let callView: CallView = 'tree';
 let currentFile: string;
 let selectedElement: element;
 
-let treeView: vscode.TreeView<element>;
+let treeView: vscode.TreeView<element | undefined>;
 const onDidChangeTreeData: vscode.EventEmitter<element | void | element[]> = new vscode.EventEmitter<element | void | element[]>();
 
 const TreeDataProvider: vscode.TreeDataProvider<element> = {
-	getChildren(element?: element): element[] {
+	getChildren(element?: element): element[] | undefined {
 		// vscode.window.showInformationMessage(`getChildren\n${JSON.stringify(element)}`);
 		const elements: element[] = [];
 
@@ -90,6 +90,7 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			const treeElement: element = {
 				type: 'root',
 				document: document,
+				ruleId: 0,
 			};
 			elements.push(treeElement);
 			// treeNodeCount = 0;
@@ -102,8 +103,8 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			// 	return elements;
 			// }
 			// treeNodeCount++;
-
-			if (element.ruleId < 0) {
+			const ruleId = element.ruleId!;
+			if (ruleId < 0) {
 				return elements;
 			}
 
@@ -127,7 +128,7 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			// line++;
 			// }
 
-			const rule = grammar._ruleId2desc[element.ruleId];
+			const rule = grammar._ruleId2desc[ruleId]; // [0] is null
 			if (rule) {
 				if (rule._end) {
 					id++;
@@ -241,7 +242,7 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			}
 
 			if (type == 'line') {
-				const tokens = grammar.lines[element.line].tokens;
+				const tokens = grammar.lines[element.line!].tokens;
 				for (let index = 0; index < tokens.length && index < 125000; index++) { // VSCode cannot handle many tree nodes
 					const tokenElement: element = {
 						type: 'token',
@@ -257,8 +258,8 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			}
 
 			if (type == 'token') {
-				const token = element.tokenId;
-				for (let index = grammar.lines[element.line].tokens[token].scopes.length - 1; index >= 0; index--) {
+				const token = element.tokenId!;
+				for (let index = grammar.lines[element.line!].tokens[token].scopes.length - 1; index >= 0; index--) {
 					const tokenElement: element = {
 						type: 'scope',
 						tokenId: element.tokenId,
@@ -369,16 +370,17 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			// 	return item;
 			// }
 
-			const ruleId = element.ruleId;
-			const line = element.line;
-			const id = element.ruleIndex;
+			const ruleId = element.ruleId!;
+			const line = element.line!;
+			const id = element.ruleIndex!;
 
 			const cachedRule = grammar._ruleId2desc[Math.abs(ruleId)];
-			const rule = grammar.rules[id];
+			const rule = grammar.rules[id]!;
 			let prevTime = grammar.startTime;
 			for (let index = id - 1; index >= 0; index--) {
-				if (grammar.rules[index]) {
-					prevTime = grammar.rules[index].time;
+				const rule = grammar.rules[index];
+				if (rule) {
+					prevTime = rule.time;
 					break;
 				}
 			}
@@ -443,9 +445,8 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 		}
 
 		if (callView == 'list') {
+			const line = element.line!;
 			if (type == 'line') {
-				const line = element.line;
-
 				const time = grammar.lines[line].time - (grammar.lines[line - 1]?.time ?? 0);
 				const timeFixed = time.toFixed(3);
 
@@ -463,8 +464,7 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				return item;
 			}
 			if (type == 'token') {
-				const line = element.line;
-				const token = element.token;
+				const token = element.token!;
 				// const token = grammar.lines[line].tokens[element.tokenId];
 				// const scope = token.scopes[token.scopes.length - 1];
 				const scopes = token.scopes;
@@ -494,9 +494,8 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				return item;
 			}
 			if (type == 'scope') {
-				const line = element.line;
-				const token = grammar.lines[line].tokens[element.tokenId];
-				const scope = token.scopes[element.scopeId];
+				const token = grammar.lines[line].tokens[element.tokenId!];
+				const scope = token.scopes[element.scopeId!];
 
 				const label = scope;
 				const treeLabel: vscode.TreeItemLabel = {
@@ -525,8 +524,9 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			}
 		}
 
+		return undefined!;
 	},
-	getParent(element: element): element {
+	getParent(element: element): element | undefined {
 		// vscode.window.showInformationMessage(`getParent\n${JSON.stringify(element)}`);
 		const document = element.document;
 		switch (element.type) {
@@ -548,10 +548,10 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				};
 			case 'file':
 			default:
-				return undefined;
+				return;
 		}
 	},
-	resolveTreeItem(item: vscode.TreeItem, element: element, token: vscode.CancellationToken): vscode.TreeItem {
+	resolveTreeItem(item: vscode.TreeItem, element: element, token: vscode.CancellationToken): vscode.TreeItem | undefined {
 		// vscode.window.showInformationMessage(`resolveTreeItem\n${JSON.stringify(element)}\n${JSON.stringify(item, stringify)}`);
 
 		// const id = element.id;
@@ -570,16 +570,16 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 };
 
 
-let treeViewCall: vscode.TreeView<element>;
+let treeViewCall: vscode.TreeView<element | undefined>;
 const onDidChangeTreeDataCall: vscode.EventEmitter<element | void | element[]> = new vscode.EventEmitter<element | void | element[]>();
 
 const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
-	getChildren(element?: element): element[] {
+	getChildren(element?: element): element[] | undefined {
 		// vscode.window.showInformationMessage(`getChildrenCall\n${JSON.stringify(element)}`);
 		const elements: element[] = [];
 
 		if (!selectedElement) {
-			return elements;
+			return;
 		}
 		const document = selectedElement.document;
 		if (!element) {
@@ -597,10 +597,10 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 		const type = element.type;
 		if (type == 'regexes') {
 			let index = 0;
-			const ruleId = selectedElement.parent;
+			const ruleId = selectedElement.parent!;
 			const cachedRule = grammar._ruleId2desc[Math.abs(ruleId)];
 			// vscode.window.showInformationMessage(`cachedRule\n${JSON.stringify(cachedRule, stringify)}`);
-			for (const rule of cachedRule._cachedCompiledPatterns._items) {
+			for (const rule of cachedRule._cachedCompiledPatterns!._items) {
 				// for (const rule of cachedRule._cachedCompiledPatterns._cached.rules) {
 				const ruleId = rule.ruleId;
 				const regexElement: element = {
@@ -624,10 +624,10 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 		const type = element.type;
 
 		if (type == 'regexes') {
-			const ruleId = selectedElement.parent;
-			const line = selectedElement.line;
+			const ruleId = selectedElement.parent!;
+			const line = selectedElement.line!;
 			// const id = selectedElement.ruleIndex;
-			const rule = grammar.rules[selectedElement.ruleIndex];
+			const rule = grammar.rules[selectedElement.ruleIndex!]!;
 			const start = rule.linePos;
 
 			// let prevTime = grammar.startTime;
@@ -647,7 +647,7 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 			const cachedRule = grammar._ruleId2desc[Math.abs(ruleId)];
 			// vscode.window.showInformationMessage(`cachedRule\n${JSON.stringify(cachedRule, stringify)}`);
 			const regexes: string[] = [];
-			for (const regexSource of cachedRule._cachedCompiledPatterns._items) {
+			for (const regexSource of cachedRule._cachedCompiledPatterns!._items) {
 				regexes.push(regexSource.source);
 			}
 			const scanner = createOnigScanner(regexes);
@@ -670,7 +670,7 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 			// const regex = cachedRule._match?.source ?? (ruleId < 0 ? cachedRule._while?.source ?? cachedRule._end?.source : cachedRule._begin?.source);
 			const item = new vscode.TreeItem(
 				// regex.substring(0, 50),
-				cachedRule._cachedCompiledPatterns._items[onigMatch.index].source.substring(0, 50),
+				cachedRule._cachedCompiledPatterns!._items[onigMatch!.index].source.substring(0, 50),
 				vscode.TreeItemCollapsibleState.Expanded,
 			);
 
@@ -682,8 +682,8 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 		}
 
 		if (type == 'regex') {
-			const line = selectedElement.line;
-			const rule = grammar.rules[selectedElement.ruleIndex];
+			const line = selectedElement.line!;
+			const rule = grammar.rules[selectedElement.ruleIndex!]!;
 			const start = rule.linePos;
 			// const end = rule.captureIndices[0].end; // Inside a capture
 
@@ -693,7 +693,7 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 
 			// const cachedRule = grammar._ruleId2desc[ruleId == -1 ? selectedElement.ruleId : ruleId];
 			// const regex = cachedRule._match?.source ?? cachedRule._begin?.source ?? '';
-			const regex = element.itemRule.source;
+			const regex = element.itemRule!.source;
 			const scanner = createOnigScanner([regex]);
 
 			const options =
@@ -714,14 +714,14 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 			const label = regex.substring(0, 50);
 			const treeLabel: vscode.TreeItemLabel = {
 				label: label,
-				highlights: onigMatch ? [[0, label.length]] : null,
+				highlights: onigMatch ? [[0, label.length]] : undefined,
 			};
 			const item = new vscode.TreeItem(
 				treeLabel,
 				vscode.TreeItemCollapsibleState.Collapsed,
 			);
 
-			const ruleId = element.itemRule.ruleId;
+			const ruleId = element.itemRule!.ruleId;
 			item.id = `${element.itemIndex}`;
 			item.description = `${regex.length > 50 ? '...' : ''}${timeFixed}ms${time >= 1 ? ' ⚠️' : ''}`;
 			item.tooltip = `RuleId: ${ruleId}\n${onigMatch?.captureIndices[0].start} - ${onigMatch?.captureIndices[0].end}`;
@@ -732,12 +732,14 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 
 			return item;
 		}
+
+		return undefined!;
 	},
-	getParent(element: element): element {
+	getParent(element: element): element | undefined {
 		// vscode.window.showInformationMessage(`getParentCall\n${JSON.stringify(element)}`);
 		return;
 	},
-	resolveTreeItem(item: vscode.TreeItem, element: element, token: vscode.CancellationToken): vscode.TreeItem {
+	resolveTreeItem(item: vscode.TreeItem, element: element, token: vscode.CancellationToken): vscode.TreeItem | undefined {
 		// vscode.window.showInformationMessage(`resolveTreeItemCall\n${JSON.stringify(element)}\n${JSON.stringify(item, stringify)}`);
 		return item;
 	},
@@ -766,7 +768,7 @@ export function initCallStackView(context: vscode.ExtensionContext): void {
 		canSelectMany: false,
 		showCollapseAll: true,
 		manageCheckboxStateManually: false,
-		dragAndDropController: null,
+		dragAndDropController: undefined,
 	};
 	treeView = vscode.window.createTreeView('TextMate', options);
 
@@ -775,7 +777,7 @@ export function initCallStackView(context: vscode.ExtensionContext): void {
 		canSelectMany: false,
 		showCollapseAll: true,
 		manageCheckboxStateManually: false,
-		dragAndDropController: null,
+		dragAndDropController: undefined,
 	};
 	treeViewCall = vscode.window.createTreeView('TextMate-Call', optionsCall);
 }
@@ -932,7 +934,7 @@ async function find(element?: element) {
 	// vscode.commands.executeCommand('list.toggleFindMatchType');
 }
 
-async function callDetails(element?: element) {
+async function callDetails(element: element) {
 	// vscode.window.showInformationMessage(`callDetails\n${JSON.stringify(element)}`);
 	selectedElement = element;
 	onDidChangeTreeDataCall.fire(undefined);
@@ -980,7 +982,7 @@ async function gotoGrammar(element: element) {
 	// annoyingly the ids are assigned on a first-served basis
 	// including across included/embedded grammars
 
-	let ruleId: RuleId;
+	let ruleId: RuleId | undefined = undefined;
 	let capturesIndex = -1;
 
 	if (callView == 'tree') {
@@ -988,7 +990,7 @@ async function gotoGrammar(element: element) {
 	}
 
 	if (callView == 'list') {
-		const line = element.line;
+		const line = element.line!;
 		if (type == 'line') {
 			ruleId = grammar.lines[line].lastRule;
 			// vscode.window.showInformationMessage(`LineTokens: ${JSON.stringify(grammar.lines[line])}`);
@@ -998,7 +1000,7 @@ async function gotoGrammar(element: element) {
 			// Find the last (scopeNamed) rule that intersects the token
 			const tokenLine = grammar.lines[line];
 			// vscode.window.showInformationMessage(JSON.stringify(tokenLine));
-			const token = tokenLine.tokens[element.tokenId];
+			const token = tokenLine.tokens[element.tokenId!];
 			const tokenStart = token.startIndex;
 			const tokenEnd = token.endIndex; // This is required otherwise 0 width end rules get in the way
 			const rulesLength = tokenLine.rulesLength; // Start at the first rule in the line
@@ -1045,12 +1047,12 @@ async function gotoGrammar(element: element) {
 	}
 
 	// vscode.window.showInformationMessage(JSON.stringify(ruleId));
-	let path = allChildren(grammar._grammar, ruleId);
-	let grammarDoc: vscode.TextDocument;
+	let path = findPath(grammar._grammar, ruleId);
+	let grammarDoc: vscode.TextDocument | undefined = undefined;
 	if (!path) {
 		for (const key in grammar._includedGrammars) {
 			const includedGrammar = grammar._includedGrammars[key];
-			path = allChildren(includedGrammar, ruleId);
+			path = findPath(includedGrammar, ruleId);
 			if (path) {
 				const uri = grammarLanguages.scopeName[includedGrammar.scopeName]?.uri;
 				if (uri) {
@@ -1068,11 +1070,19 @@ async function gotoGrammar(element: element) {
 	}
 	vscode.window.showInformationMessage(`${JSON.stringify(path)} Capture: ${capturesIndex}`);
 
+	if (!grammarDoc || !path) {
+		return;
+	}
+
 	const trees = getTrees(grammarDoc);
 	const tree = trees.jsonTree;
 	let node = tree.rootNode;
 
 	for (const step of path) {
+		if (!node) {
+			break;
+		}
+
 		const repo = step.repository;
 		if (repo != null) {
 			for (const childNode of node.namedChildren) {
@@ -1097,7 +1107,11 @@ async function gotoGrammar(element: element) {
 					break;
 				}
 			}
-			node = node.namedChild(pattern + 1);
+			const childNode = node.namedChild(pattern + 1);
+			if (!childNode) {
+				break;
+			}
+			node = childNode;
 			continue;
 		}
 		const capture = step.captures;
@@ -1166,7 +1180,7 @@ async function gotoFile(element: element) {
 		return;
 	}
 
-	const line = element.line;
+	const line = element.line!;
 
 	if (type == 'regex') {
 		const start = element.start;
@@ -1186,7 +1200,7 @@ async function gotoFile(element: element) {
 	}
 
 	if (callView == 'tree') {
-		const rule = grammar.rules[element.ruleIndex];
+		const rule = grammar.rules[element.ruleIndex!]!;
 
 		const start = rule.captureIndices[0].start;
 		const end = rule.captureIndices[0].end;
@@ -1231,7 +1245,7 @@ async function gotoFile(element: element) {
 			return;
 		}
 		if (type == 'token') {
-			const token = grammar.lines[line].tokens[element.tokenId];
+			const token = grammar.lines[line].tokens[element.tokenId!];
 			const range = new vscode.Range(line, token.startIndex, line, token.endIndex);
 			const location = new vscode.Location(
 				document.uri,
@@ -1244,14 +1258,14 @@ async function gotoFile(element: element) {
 	}
 }
 
-function allChildren(rules: vscodeTextmate.IRawGrammar | IRawRule, ruleId: number, captureIndex?: number): [{ 'repository'?: string, 'patterns'?: number, 'captures'?: string, id?: number; }] {
+function findPath(rules: vscodeTextmate.IRawGrammar | IRawRule, ruleId: RuleId, captureIndex?: number): [{ 'repository'?: string, 'patterns'?: number, 'captures'?: string, id?: RuleId; }] | undefined {
 	for (const key in rules) {
 		switch (key) {
 			case 'patterns':
-				const patterns = rules[key];
+				const patterns = rules[key]!;
 				for (let index = 0; index < patterns.length; index++) {
 					const pattern = patterns[index];
-					const path = allChildren(pattern, ruleId);
+					const path = findPath(pattern, ruleId);
 					if (path) {
 						path.unshift({ "patterns": index });
 						return path;
@@ -1259,10 +1273,10 @@ function allChildren(rules: vscodeTextmate.IRawGrammar | IRawRule, ruleId: numbe
 				}
 				break;
 			case 'repository':
-				const repository = rules[key];
+				const repository = rules[key]!;
 				for (const key in repository) {
 					const repo = repository[key];
-					const path = allChildren(repo, ruleId);
+					const path = findPath(repo, ruleId);
 					if (path) {
 						path.unshift({ "repository": key });
 						return path;
@@ -1270,11 +1284,10 @@ function allChildren(rules: vscodeTextmate.IRawGrammar | IRawRule, ruleId: numbe
 				}
 				break;
 			case 'captures':
-				// @ts-ignore
-				const captures = <IRawCaptures>rules[key];
+				const captures = (<IRawRule>rules)[key]!;
 				for (const key in captures) {
 					const capture = captures[key];
-					const path = allChildren(capture, ruleId);
+					const path = findPath(capture, ruleId);
 					if (path) {
 						path.unshift({ "captures": key });
 						return path;
@@ -1282,12 +1295,12 @@ function allChildren(rules: vscodeTextmate.IRawGrammar | IRawRule, ruleId: numbe
 				}
 				break;
 			case 'id':
-				// @ts-ignore
-				const id = <number>rules[key];
+				const id = ruleIdToNumber((<IRawRule>rules)[key]!);
 				if (id == ruleId) {
 					// return [];
 					return [{ id: id }];
 				}
+				break;
 			default:
 				break;
 		}

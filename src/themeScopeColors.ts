@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { IRelaxedExtensionManifest, ISemanticTokenColorCustomizations, ITextMateThemingRule, ITokenColorizationSetting } from "./extensions";
+import { IRelaxedExtension, ISemanticTokenColorCustomizations, ITextMateThemingRule, ITokenColorizationSetting } from "./extensions";
 
 interface TokenColorizationDetails {
 	theme: string;
@@ -22,7 +22,7 @@ const tokenCache: { [scope: string]: string; } = {};
 export function initThemeScopes(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.window.onDidChangeActiveColorTheme(
 		() => {
-			const colorTheme: string = vscode.workspace.getConfiguration("workbench").get("colorTheme");
+			const colorTheme: string | undefined = vscode.workspace.getConfiguration("workbench").get("colorTheme");
 			if (colorTheme != colorThemeName) {
 				colorThemeName = '';
 				for (const token in tokenCache) {
@@ -45,7 +45,7 @@ export async function getSubScope(scopes: string | string[], foregroundOnly: boo
 	// const start = performance.now();
 
 	let score = -1;
-	let matchedScope: string;
+	let matchedScope!: string;
 	for (const scope of scopes) {
 		if (tokenCache[scope]) {
 			return tokenCache[scope];
@@ -84,10 +84,9 @@ export async function getScopes() {
 	}
 	// const start = performance.now();
 
-	const colorTheme: string = vscode.workspace.getConfiguration("workbench").get("colorTheme");
-	for (const extension of vscode.extensions.all) {
-		const packageJSON: IRelaxedExtensionManifest = extension.packageJSON;
-		const themes = packageJSON.contributes?.themes;
+	const colorTheme: string = vscode.workspace.getConfiguration("workbench").get("colorTheme")!;
+	for (const extension of vscode.extensions.all as IRelaxedExtension[]) {
+		const themes = extension.packageJSON.contributes?.themes;
 		if (!Array.isArray(themes)) {
 			continue;
 		}
@@ -124,6 +123,9 @@ async function loadColorTheme(uri: vscode.Uri) {
 	if (tokenColors) {
 		for (const tokenColor of tokenColors) {
 			const scope = tokenColor.scope;
+			if (!scope) {
+				continue;
+			}
 			const scopes = typeof scope === 'string' ? [scope] : scope;
 			for (const scope of scopes) {
 				const settings = tokenColor.settings;

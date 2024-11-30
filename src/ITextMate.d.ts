@@ -240,7 +240,7 @@ interface TokenTypeMatcher {
 export type IGrammar = vscodeTextmate.IGrammar & {
 	startTime: number,
 	lines: { tokens: IToken[]; stoppedEarly: boolean; time: number; lastRule: number; rulesLength: number; }[],
-	rules: IMatchResult[],
+	rules: (IMatchResult | undefined)[],
 	readonly _rootScopeName: ScopeName,
 	readonly grammar: vscodeTextmate.IRawGrammar,
 	readonly initialLanguage: number,

@@ -101,7 +101,7 @@ export const SymbolKind: { [key: string]: vscode.SymbolKind; } = {
 
 
 export const DocumentSymbolProvider: vscode.DocumentSymbolProvider = {
-	provideDocumentSymbols(document: vscode.TextDocument, token: vscode.CancellationToken): vscode.DocumentSymbol[] {
+	provideDocumentSymbols(document: vscode.TextDocument, token: vscode.CancellationToken): vscode.DocumentSymbol[] | undefined {
 		// vscode.window.showInformationMessage(JSON.stringify("documentSymbol"));
 		// const start = performance.now();
 		const trees = getTrees(document);
@@ -119,26 +119,26 @@ export const DocumentSymbolProvider: vscode.DocumentSymbolProvider = {
 			let childNode = node.namedChild(index);
 
 			if (!childNode) {
-				node = nodeStack.pop();
-				if (node === undefined) {
+				const parentNode = nodeStack.pop();
+				if (!parentNode) {
 					break;
 				}
-				index = indexStack.pop();
+				node = parentNode;
+				index = indexStack.pop()!;
 				index++;
-				const tempSymbol = documentSymbolStack.pop();
-				tempSymbol.children.push(documentSymbol);
-				documentSymbol = tempSymbol;
+				const parentDocumentSymbol = documentSymbolStack.pop()!;
+				parentDocumentSymbol.children.push(documentSymbol);
+				documentSymbol = parentDocumentSymbol;
 				continue;
 			}
-
 
 			if (childNode.type == 'regex') {
 				childNode = getRegexNode(trees, childNode) ?? childNode;
 				// childNode = regexTrees[childNode.id]?.rootNode ?? childNode;
 			}
 
-			// if (childNode.childCount && indexStack.length < 900) { // StackOverFlow
-			if (childNode.namedChildCount && indexStack.length < 900) { // StackOverFlow
+			// if (childNode.childCount && nodeStack.length < 900) { // StackOverFlow
+			if (childNode.namedChildCount && nodeStack.length < 900) { // StackOverFlow
 				nodeStack.push(node);
 				indexStack.push(index);
 				documentSymbolStack.push(documentSymbol);
@@ -152,24 +152,23 @@ export const DocumentSymbolProvider: vscode.DocumentSymbolProvider = {
 			index++;
 
 			if (token.isCancellationRequested) {
-				// vscode.window.showInformationMessage(`cancel documentSymbols ${performance.now() - start}ms`);
+				// vscode.window.showInformationMessage(`cancel documentSymbols ${(performance.now() - start).toFixed(3)}ms`);
 				return;
 			}
 		}
 
-
-		// vscode.window.showInformationMessage(`documentSymbols ${performance.now() - start}ms\n${document.fileName}`);
+		// vscode.window.showInformationMessage(`documentSymbols ${(performance.now() - start).toFixed(3)}ms\n${document.fileName}`);
 		return [documentSymbol];
 	},
 };
 
 function newDocumentSymbol(node: SyntaxNode): vscode.DocumentSymbol {
-	let text: string;
+	let text = '';
 	switch (node.type) {
 		case 'pattern':
 		case 'injection':
 			let index = 0;
-			let sibling = node;
+			let sibling: SyntaxNode | null = node;
 			while (sibling = sibling.previousNamedSibling) {
 				index++;
 			}
@@ -177,7 +176,7 @@ function newDocumentSymbol(node: SyntaxNode): vscode.DocumentSymbol {
 			break;
 		case 'repo':
 		case 'capture':
-			text = node.firstNamedChild.text;
+			text = node.firstNamedChild!.text;
 			break;
 		case 'name':
 			text = 'name';

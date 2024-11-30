@@ -11,7 +11,7 @@ type formattingStyle = {
 };
 
 function getFormattingStyle(options: vscode.FormattingOptions): formattingStyle {
-	const bracketStyle: 'tight' | 'default' = vscode.workspace.getConfiguration('tmlanguage-syntax-highlighter').get('formattingStyle');
+	const bracketStyle = <'tight' | 'default'>vscode.workspace.getConfiguration('tmlanguage-syntax-highlighter').get('formattingStyle');
 	const style: formattingStyle = {
 		tabType: options.insertSpaces ? ' ' : '\t',
 		tabSize: options.insertSpaces ? options.tabSize : 1,
@@ -55,7 +55,7 @@ export const DocumentRangeFormattingEditProvider: vscode.DocumentRangeFormatting
 		const nestedCaptures = queryNode(jsonTree.rootNode, queryString, startPoint, endPoint);
 
 		let level = -1;
-		let node: Parser.SyntaxNode;
+		let node!: Parser.SyntaxNode;
 		for (const nestedCapture of nestedCaptures) {
 			const nestedNode = nestedCapture.node;
 			if (!toRange(nestedNode).contains(range)) {
@@ -74,7 +74,7 @@ export const DocumentRangeFormattingEditProvider: vscode.DocumentRangeFormatting
 };
 
 export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider = {
-	async provideOnTypeFormattingEdits(document: vscode.TextDocument, position: vscode.Position, ch: string, options: vscode.FormattingOptions, token: vscode.CancellationToken): Promise<vscode.TextEdit[]> {
+	async provideOnTypeFormattingEdits(document: vscode.TextDocument, position: vscode.Position, ch: string, options: vscode.FormattingOptions, token: vscode.CancellationToken): Promise<vscode.TextEdit[] | undefined> {
 		// vscode.window.showInformationMessage(JSON.stringify("FormatType"));
 		// const start = performance.now();
 		await sleep(50); // partially avoids race condition with reparseTextDocument()
@@ -95,7 +95,7 @@ export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider =
 			return;
 		}
 		const cursorNode = capture.node;
-		let node: Parser.SyntaxNode;
+		let node: Parser.SyntaxNode | null;
 
 		switch (ch) {
 			case ',':
@@ -108,6 +108,10 @@ export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider =
 				break;
 			default:
 				return;
+		}
+
+		if (!node) {
+			return;
 		}
 
 		let level = 0;
@@ -151,7 +155,7 @@ function formatChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextEdi
 					break;
 
 				case 'patterns':
-					if (parentNode.parent.type == 'json') {
+					if (parentNode.parent!.type == 'json') {
 						expand = true;
 						break;
 					}
@@ -161,7 +165,7 @@ function formatChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextEdi
 						expand = true;
 						break;
 					}
-					if (parentNode.firstNamedChild.type != 'key') {
+					if (parentNode.firstNamedChild!.type != 'key') {
 						expand = true;
 						break;
 					}

@@ -4,13 +4,13 @@ import { getTrees, queryNode, toRange } from "../TreeSitter";
 import { grammarLanguages } from "../TextMate";
 import { IRelaxedExtensionManifest } from "../extensions";
 
-type codeLen = vscode.CodeLens & {
-	capture?: QueryCapture;
-	document?: vscode.TextDocument;
+type CodeLens = vscode.CodeLens & {
+	capture: QueryCapture;
+	document: vscode.TextDocument;
 };
 
 export const CodeLensProvider: vscode.CodeLensProvider = {
-	provideCodeLenses(document: vscode.TextDocument, token: vscode.CancellationToken): codeLen[] {
+	provideCodeLenses(document: vscode.TextDocument, token: vscode.CancellationToken): CodeLens[] {
 		// vscode.window.showInformationMessage(JSON.stringify("provideCodeLenses"));
 		// const start = performance.now();
 		const trees = getTrees(document);
@@ -22,12 +22,12 @@ export const CodeLensProvider: vscode.CodeLensProvider = {
 		`;
 		const captures = queryNode(tree.rootNode, query);
 
-		const codeLenses: vscode.CodeLens[] = [];
+		const codeLenses: CodeLens[] = [];
 
 		for (const capture of captures) {
 			const node = capture.node;
 			const range = toRange(node);
-			const codeLens: codeLen = new vscode.CodeLens(range);
+			const codeLens = new vscode.CodeLens(range) as CodeLens;
 			codeLens.capture = capture;
 			codeLens.document = document;
 			codeLenses.push(codeLens);
@@ -37,7 +37,7 @@ export const CodeLensProvider: vscode.CodeLensProvider = {
 		// vscode.window.showInformationMessage(`codeLenses ${(performance.now() - start).toFixed(3)}ms`);
 		return codeLenses;
 	},
-	async resolveCodeLens(codeLen: codeLen, token: vscode.CancellationToken): Promise<vscode.CodeLens> {
+	async resolveCodeLens(codeLen: CodeLens, token: vscode.CancellationToken): Promise<vscode.CodeLens> {
 		// vscode.window.showInformationMessage(JSON.stringify("resolveCodeLens"));
 		// const start = performance.now();
 		const text = codeLen.capture.node.text;
@@ -106,10 +106,11 @@ export const CodeLensProvider: vscode.CodeLensProvider = {
 				}
 				break;
 			case 'repo':
-
+				// Implement behind setting
 				break;
 			default:
-				return;
+				console.warn(`JSON TextMate: CodLens. Invalid 'name' ${name}`);
+				break;
 		}
 
 
