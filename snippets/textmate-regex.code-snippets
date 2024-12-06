@@ -1,0 +1,356 @@
+// https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE
+// https://github.com/jeff-hykin/better-snippet-syntax
+// https://code.visualstudio.com/docs/editor/userdefinedsnippets#_snippet-syntax
+{
+	"Backslash": {
+		"scope": "json-textmate-regex",
+		"prefix": "\\\\\\\\",
+		"body": "\\\\\\\\\\\\\\\\",
+		"description": "Quad-backslashes are required for one literal backslash. Due to both JSON and Regex escaping"
+	},
+	"Capture Group": {
+		"prefix": "()",
+		"body": "(${1:${TM_SELECTED_TEXT:...}})",
+		"description": "Capture Group"
+	},
+	"Non-Capture Group": {
+		"prefix": "(?:)",
+		"body": "(?:${1:${TM_SELECTED_TEXT:...}})",
+		"description": "Non-Capturing Group"
+	},
+	"Named Capture Group <brackets>": {
+		"prefix": "(?<>)",
+		"body": "(?<${1:name}>${2:${TM_SELECTED_TEXT:...}})",
+		"description": "Named Capture Group"
+	},
+	"Named Capture Group 'quotes'": {
+		"prefix": "(?'')",
+		"body": "(?'${1:name}'${2:${TM_SELECTED_TEXT:...}})",
+		"description": "Named Capture Group"
+	},
+	"Modify Group": {
+		"prefix": "(?imx)",
+		"body": "(?${1|i,m,x,W,D,S,P,y{g},y{w}|}${2:-${3|i,m,x,W,D,S,P,y{g},y{w}|}}${4::${5:${TM_SELECTED_TEXT:...}}})",
+		"description": "Option Modify Group\ni: ignore case\nm: multi-line (dot (.) also matches newline)\nx: extended form\nW: ASCII only word (\\w, \\p{Word}, [[:word:]])\n   ASCII only word bound (\\b)\nD: ASCII only digit (\\d, \\p{Digit}, [[:digit:]])\nS: ASCII only space (\\s, \\p{Space}, [[:space:]])\nP: ASCII only POSIX properties (includes W,D,S)\n   (alnum, alpha, blank, cntrl, digit, graph,\n    lower, print, punct, space, upper, xdigit, word)\ny{?}: Text Segment mode\n   This option changes the meaning of \\X, \\y, \\Y.\n   Currently, this option is supported in Unicode only.\n   y{g}: Extended Grapheme Cluster mode (default)\n   y{w}: Word mode\n   See [Unicode Standard Annex #29]\n"
+	},
+	"Modify Group (whole option)": {
+		"prefix": "(?CIL)",
+		"body": "(?${1|I,C,L|}${2::${3:${TM_SELECTED_TEXT:...}}})",
+		"description": "Whole Option Modify Group. MUST be placed at the beginning of the regex"
+	},
+	"Comment Group": {
+		"prefix": "(?#)",
+		"body": "(?#${1:${TM_SELECTED_TEXT:comment}})$0",
+		"description": "Comment Group. Escapes allowed"
+	},
+	"Look-Ahead": {
+		"prefix": "(?=)",
+		"body": "(?=${1:${TM_SELECTED_TEXT:...}})",
+		"description": "0width non-capturing Look-Ahead group"
+	},
+	"Look-Behind": {
+		"prefix": "(?<=)",
+		"body": "(?<=${1:${TM_SELECTED_TEXT:...}})",
+		"description": "0width non-capturing Look-Behind group. Look-Ahead, Negative-Look-Ahead, Negative-Look-Behind and Absent are not allowed to be nested inside"
+	},
+	"Negative-Look-Ahead": {
+		"prefix": "(?!)",
+		"body": "(?!${1:${TM_SELECTED_TEXT:...}})",
+		"description": "0width non-capturing Look-Ahead group"
+	},
+	"Negative-Look-Behind": {
+		"prefix": "(?<!)",
+		"body": "(?<!${1:${TM_SELECTED_TEXT:...}})",
+		"description": "0width non-capturing Negative-Look-Behind group. Capture Group, Look-Ahead, Negative-Look-Ahead and Absent are not allowed to be nested inside"
+	},
+	"Conditional": {
+		"prefix": "(?()|)",
+		"body": "(?(${1|condition,1,-2+3,<name>,'name+1',\\\\\\1,*FAIL,{callout}|})${2:true}|${3:false})",
+		"description": "Conditional Group\n`condition` can be a backreference number/name or a normal regular expression\nWhen `condition` is a backreference number/name, both `true` and `false` can be omitted\nThen it works as a backreference validity checker\n"
+	},
+	"Absent": {
+		"prefix": "(?~)",
+		"body": "(?~|${1:${TM_SELECTED_TEXT:absent}}|${2:\\\\\\O*})",
+		"description": "Absent Groups. (?~|...|...) (?~|...) (?~...) (?~|)"
+	},
+	"Callout": {
+		"prefix": "(*)",
+		"body": "(*${TM_SELECTED_TEXT:${1|FAIL,MISMATCH,ERROR,COUNT,TOTAL_COUNT,CMP|}})",
+		"description": "Named Callout. (*name[tag]{args...}) https://github.com/kkos/oniguruma/blob/v6.9.8/doc/CALLOUTS.BUILTIN"
+	},
+	"Callout Contents": {
+		"prefix": "(?{})",
+		"body": "(?{${1:${TM_SELECTED_TEXT:contents}}}[${2:tag}]${3|X,<,>|})",
+		"description": "Content Callout"
+	},
+	"Quantifier ?": {
+		"prefix": "?",
+		"body": "${TM_SELECTED_TEXT}?${1|?,+|}",
+		"description": "Quantifier Matches 1 or 0 times greedy/reluctant/possessive"
+	},
+	"Quantifier *": {
+		"prefix": "*",
+		"body": "${TM_SELECTED_TEXT}*${1|?,+|}",
+		"description": "Quantifier Matches 0 or more times greedy/reluctant/possessive"
+	},
+	"Quantifier +": {
+		"prefix": "+",
+		"body": "${TM_SELECTED_TEXT}+${1|?,+|}",
+		"description": "Quantifier Matches 1 or more times greedy/reluctant/possessive"
+	},
+	"Quantifier {n}": {
+		"prefix": "{}",
+		"body": "{${TM_SELECTED_TEXT:${1|0,1,2|}},${2|7,8,9|}}${3|?,+|}",
+		"description": "Quantifier Matches n to m times greedy/reluctant/possessive"
+	},
+	"Beginning of the line": {
+		"prefix": "^",
+		"body": "^",
+		"description": "Beginning of the line "
+	},
+	"End of the line": {
+		"prefix": "$",
+		"body": "$",
+		"description": "End of the line "
+	},
+	"Subroutine <brackets>": {
+		"prefix": "\\\\g<>",
+		"body": "\\\\\\g<${TM_SELECTED_TEXT:${1|0,-2,name|}}>",
+		"description": "Subexp calls (\"Tanaka Akira special\")   (* original function)\nWhen we say \"call a group,\" it actually means, \"re-execute the subexp in\nthat group.\"\n\\g<n>     \\g'n'     (n >= 1) call the nth group\n\\g<0>     \\g'0'     call zero (call the total regexp)\n\\g<-n>    \\g'-n'    (n >= 1) call the nth group counting backwards from\n                    the calling position\n\\g<+n>    \\g'+n'    (n >= 1) call the nth group counting forwards from\n                    the calling position\n\\g<name>  \\g'name'  call the group with the specified name\n* Left-most recursive calls are not allowed.\n  ex. (?<name>a|\\g<name>b)    => error\n      (?<name>a|b\\g<name>c)   => OK\n* Calls with a name that is assigned to more than one groups are not\n  allowed.\n* Call by number is forbidden if any named group is defined and\n  ONIG_OPTION_CAPTURE_GROUP is not set.\n* The option status of the called group is always effective.\n  ex. /(?-i:\\g<name>)(?i:(?<name>a)){0}/.match(\"A\")"
+	},
+	"Subroutine 'quotes'": {
+		"prefix": "\\\\g''",
+		"body": "\\\\\\g'${TM_SELECTED_TEXT:${1|0,-2,name|}}'",
+		"description": "Subexp calls (\"Tanaka Akira special\")   (* original function)\nWhen we say \"call a group,\" it actually means, \"re-execute the subexp in\nthat group.\"\n\\g<n>     \\g'n'     (n >= 1) call the nth group\n\\g<0>     \\g'0'     call zero (call the total regexp)\n\\g<-n>    \\g'-n'    (n >= 1) call the nth group counting backwards from\n                    the calling position\n\\g<+n>    \\g'+n'    (n >= 1) call the nth group counting forwards from\n                    the calling position\n\\g<name>  \\g'name'  call the group with the specified name\n* Left-most recursive calls are not allowed.\n  ex. (?<name>a|\\g<name>b)    => error\n      (?<name>a|b\\g<name>c)   => OK\n* Calls with a name that is assigned to more than one groups are not\n  allowed.\n* Call by number is forbidden if any named group is defined and\n  ONIG_OPTION_CAPTURE_GROUP is not set.\n* The option status of the called group is always effective.\n  ex. /(?-i:\\g<name>)(?i:(?<name>a)){0}/.match(\"A\")"
+	},
+	"Backreference <brackets>": {
+		"prefix": "\\\\k<>",
+		"body": "\\\\\\k<${TM_SELECTED_TEXT:${1|1,-2+1,name|}}>",
+		"description": "Backreferences\n  When we say \"backreference a group,\" it actually means, \"re-match the same\n  text matched by the subexp in that group.\"\n  \\n  \\k<n>     \\k'n'     (n >= 1) backreference the nth group in the regexp\n      \\k<-n>    \\k'-n'    (n >= 1) backreference the nth group counting\n                          backwards from the referring position\n      \\k<+n>    \\k'+n'    (n >= 1) backreference the nth group counting\n                          forwards from the referring position\n      \\k<name>  \\k'name'  backreference a group with the specified name\n  When backreferencing with a name that is assigned to more than one groups,\n  the last group with the name is checked first, if not matched then the\n  previous one with the name, and so on, until there is a match.\n  * Backreference by number is forbidden if any named group is defined and\n    ONIG_OPTION_CAPTURE_GROUP is not set.\nBackreference with recursion level:\n  (n >= 1, level >= 0)\n  \\k<n+level> \\k'n+level'\n  \\k<n-level> \\k'n-level'\n  \\k<name+level> \\k'name+level'\n  \\k<name-level> \\k'name-level'\n  Destine a group on the recursion level relative to the referring position.\n  ex 1.\n    /\\A(?<a>|.|(?:(?<b>.)\\g<a>\\k<b>))\\z/.match(\"reee\")\n    /\\A(?<a>|.|(?:(?<b>.)\\g<a>\\k<b+0>))\\z/.match(\"reer\")\n    \\k<b+0> refers to the (?<b>.) on the same recursion level with it.\n  ex 2.\n    r = Regexp.compile(<<'__REGEXP__'.strip, Regexp::EXTENDED)\n    (?<element> \\g<stag> \\g<content>* \\g<etag> ){0}\n    (?<stag> < \\g<name> \\s* > ){0}\n    (?<name> [a-zA-Z_:]+ ){0}\n    (?<content> [^<&]+ (\\g<element> | [^<&]+)* ){0}\n    (?<etag> </ \\k<name+1> >){0}\n    \\g<element>\n    __REGEXP__\n    p r.match(\"<foo>f<bar>bbb</bar>f</foo>\").captures"
+	},
+	"Backreference 'quotes'": {
+		"prefix": "\\\\k''",
+		"body": "\\\\\\k'${TM_SELECTED_TEXT:${1|1,-2+1,name|}}'",
+		"description": "Backreferences\n  When we say \"backreference a group,\" it actually means, \"re-match the same\n  text matched by the subexp in that group.\"\n  \\n  \\k<n>     \\k'n'     (n >= 1) backreference the nth group in the regexp\n      \\k<-n>    \\k'-n'    (n >= 1) backreference the nth group counting\n                          backwards from the referring position\n      \\k<+n>    \\k'+n'    (n >= 1) backreference the nth group counting\n                          forwards from the referring position\n      \\k<name>  \\k'name'  backreference a group with the specified name\n  When backreferencing with a name that is assigned to more than one groups,\n  the last group with the name is checked first, if not matched then the\n  previous one with the name, and so on, until there is a match.\n  * Backreference by number is forbidden if any named group is defined and\n    ONIG_OPTION_CAPTURE_GROUP is not set.\nBackreference with recursion level:\n  (n >= 1, level >= 0)\n  \\k<n+level> \\k'n+level'\n  \\k<n-level> \\k'n-level'\n  \\k<name+level> \\k'name+level'\n  \\k<name-level> \\k'name-level'\n  Destine a group on the recursion level relative to the referring position.\n  ex 1.\n    /\\A(?<a>|.|(?:(?<b>.)\\g<a>\\k<b>))\\z/.match(\"reee\")\n    /\\A(?<a>|.|(?:(?<b>.)\\g<a>\\k<b+0>))\\z/.match(\"reer\")\n    \\k<b+0> refers to the (?<b>.) on the same recursion level with it.\n  ex 2.\n    r = Regexp.compile(<<'__REGEXP__'.strip, Regexp::EXTENDED)\n    (?<element> \\g<stag> \\g<content>* \\g<etag> ){0}\n    (?<stag> < \\g<name> \\s* > ){0}\n    (?<name> [a-zA-Z_:]+ ){0}\n    (?<content> [^<&]+ (\\g<element> | [^<&]+)* ){0}\n    (?<etag> </ \\k<name+1> >){0}\n    \\g<element>\n    __REGEXP__\n    p r.match(\"<foo>f<bar>bbb</bar>f</foo>\").captures"
+	},
+	"Character Class": {
+		"prefix": "[]",
+		"body": "[${1:^}${2:${TM_SELECTED_TEXT:...}}]",
+		"description": "Character Class (nestable). ^ negative class (lowest precedence)"
+	},
+	"Intersection": {
+		"prefix": "&&",
+		"body": "&&",
+		"description": "&& Character Class Intersection (low precedence, only higher than ^)"
+	},
+	"Range": {
+		"prefix": "a-z",
+		"body": "${1:${TM_SELECTED_TEXT:a}}-${2:z}",
+		"description": "range from a to z"
+	},
+	"POSIX": {
+		"prefix": "[::]",
+		"body": "[:${1:${TM_SELECTED_TEXT:alpha}}:]",
+		"description": "POSIX bracket ([:xxxxx:], negate [:^xxxxx:])\n  Not Unicode Case:\n    alnum    alphabet or digit char\n    alpha    alphabet\n    ascii    code value: [0 - 127]\n    blank    \\t, \\x20\n    cntrl\n    digit    0-9\n    graph    include all of multibyte encoded characters\n    lower\n    print    include all of multibyte encoded characters\n    punct\n    space    \\t, \\n, \\v, \\f, \\r, \\x20\n    upper\n    xdigit   0-9, a-f, A-F\n    word     alphanumeric, \"_\" and multibyte characters\n  Unicode Case:\n    alnum    Letter | Mark | Decimal_Number\n    alpha    Letter | Mark\n    ascii    0000 - 007F\n    blank    Space_Separator | 0009\n    cntrl    Control | Format | Unassigned | Private_Use | Surrogate\n    digit    Decimal_Number\n    graph    [[:^space:]] && ^Control && ^Unassigned && ^Surrogate\n    lower    Lowercase_Letter\n    print    [[:graph:]] | [[:space:]]\n    punct    Connector_Punctuation | Dash_Punctuation | Close_Punctuation |\n             Final_Punctuation | Initial_Punctuation | Other_Punctuation |\n             Open_Punctuation\n    space    Space_Separator | Line_Separator | Paragraph_Separator |\n             U+0009 | U+000A | U+000B | U+000C | U+000D | U+0085\n    upper    Uppercase_Letter\n    xdigit   U+0030 - U+0039 | U+0041 - U+0046 | U+0061 - U+0066\n             (0-9, a-f, A-F)\n    word     Letter | Mark | Decimal_Number | Connector_Punctuation"
+	},
+	"Word Boundary": {
+		"prefix": "\\\\b",
+		"body": "\\\\\\b",
+		"description": "Word boundary "
+	},
+	"Non-word Boundary": {
+		"prefix": "\\\\B",
+		"body": "\\\\\\B",
+		"description": "Non-word boundary "
+	},
+	"Beginning of String": {
+		"prefix": "\\\\A",
+		"body": "\\\\\\A",
+		"description": "Beginning of string "
+	},
+	"End of String (Newline)": {
+		"prefix": "\\\\Z",
+		"body": "\\\\\\Z",
+		"description": "End of string, or before newline at the end "
+	},
+	"End of String": {
+		"prefix": "\\\\z",
+		"body": "\\\\\\z",
+		"description": "End of string "
+	},
+	"Search Anchor": {
+		"prefix": "\\\\G",
+		"body": "\\\\\\G",
+		"description": "Where the current search attempt begins "
+	},
+	"Keep": {
+		"prefix": "\\\\K",
+		"body": "\\\\\\K",
+		"description": "Keep (keep start position of the result string) "
+	},
+	"Text Segment boundary": {
+		"prefix": "\\\\y",
+		"body": "\\\\\\y",
+		"description": "Text Segment boundary "
+	},
+	"Text Segment non-boundary": {
+		"prefix": "\\\\Y",
+		"body": "\\\\\\Y",
+		"description": "Text Segment non-boundary \nThe meaning of these operators(\\y, \\Y) changes depending on the setting of the option (?y{..}).\n[Extended Grapheme Cluster mode] (default)\n  Unicode case:\n    See [Unicode Standard Annex #29: http://unicode.org/reports/tr29/]\n  Not Unicode:\n    All positions except between \\r and \\n.\n[Word mode]\n  Currently, this mode is supported in Unicode only.\n  See [Unicode Standard Annex #29: http://unicode.org/reports/tr29/]"
+	},
+	"Horizontal Tab": {
+		"prefix": "\\\\t",
+		"body": "\\\\\\t",
+		"description": "Horizontal tab (0x09)"
+	},
+	"Vertical Tab": {
+		"prefix": "\\\\v",
+		"body": "\\\\\\v",
+		"description": "Vertical tab (0x0B)"
+	},
+	"Newline": {
+		"prefix": "\\\\n",
+		"body": "\\\\\\n",
+		"description": "Newline (line feed) (0x0A)"
+	},
+	"Carriage Return": {
+		"prefix": "\\\\r",
+		"body": "\\\\\\r",
+		"description": "Carriage return (0x0D)"
+	},
+	"Backspace": {
+		"prefix": "\\b",
+		"body": "\\b",
+		"description": "Backspace (0x08)"
+	},
+	"Form Feed": {
+		"prefix": "\\\\f",
+		"body": "\\\\\\f",
+		"description": "Form feed (0x0C)"
+	},
+	"Bell": {
+		"prefix": "\\\\a",
+		"body": "\\\\\\a",
+		"description": "Bell (0x07)"
+	},
+	"Escape": {
+		"prefix": "\\\\e",
+		"body": "\\\\\\e",
+		"description": "Escape (0x1B)"
+	},
+	"Octal Char": {
+		"prefix": "\\\\0",
+		"body": "\\\\\\\\${1:${TM_SELECTED_TEXT:012}}",
+		"description": "Octal char (encoded byte value)"
+	},
+	"Octal Character": {
+		"prefix": "\\\\o{}",
+		"body": "\\\\\\o{${1:${TM_SELECTED_TEXT:0123 4567}}}",
+		"description": "(1-11 digits) Octal char (code point value)"
+	},
+	"Hexadecimal Char": {
+		"prefix": "\\\\x",
+		"body": "\\\\\\x${1:${TM_SELECTED_TEXT:41}}",
+		"description": "Hexadecimal char (encoded byte value)"
+	},
+	"Hexadecimal Character": {
+		"prefix": "\\\\x{}",
+		"body": "\\\\\\x{${1:${TM_SELECTED_TEXT:41 42}}}",
+		"description": "(1-8 digits) Hexadecimal char (code point value)"
+	},
+	"Unicode": {
+		"prefix": "\\\\u",
+		"body": "\\\\\\u${1:${TM_SELECTED_TEXT:0041}}",
+		"description": "Unicode character (code point value)"
+	},
+	"Control Char": {
+		"prefix": "\\\\c",
+		"body": "\\\\\\c${1:${TM_SELECTED_TEXT:x}}",
+		"description": "Control char (code point value)"
+	},
+	"Control": {
+		"prefix": "\\\\C",
+		"body": "\\\\\\C-${1:${TM_SELECTED_TEXT:x}}",
+		"description": "Control char (code point value)"
+	},
+	"Meta": {
+		"prefix": "\\\\M",
+		"body": "\\\\\\M-${1:${TM_SELECTED_TEXT:x}}",
+		"description": "Meta (x|0x80) (code point value)"
+	},
+	"Meta Control": {
+		"prefix": "\\\\M-\\\\C",
+		"body": "\\\\\\M-\\\\\\C-${1:${TM_SELECTED_TEXT:x}}",
+		"description": "Meta control char (code point value)"
+	},
+	"Any Char": {
+		"prefix": ".",
+		"body": ".",
+		"description": "Any character (except newline) "
+	},
+	"Word Char": {
+		"prefix": "\\\\w",
+		"body": "\\\\\\w",
+		"description": "Word character\nNot Unicode:\n alphanumeric, \"_\" and multibyte char.\nUnicode:\n General_Category -- (Letter|Mark|Number|Connector_Punctuation)\n"
+	},
+	"Non-Word Char": {
+		"prefix": "\\\\W",
+		"body": "\\\\\\W",
+		"description": "Non-word char"
+	},
+	"Whitespace char": {
+		"prefix": "\\\\s",
+		"body": "\\\\\\s",
+		"description": "Whitespace char\nNot Unicode:\n \\t, \\n, \\v, \\f, \\r, \\x20\nUnicode case:\n U+0009, U+000A, U+000B, U+000C, U+000D, U+0085(NEL),\n General_Category -- Line_Separator\n                  -- Paragraph_Separator\n                  -- Space_Separator\n"
+	},
+	"Non-Whitespace Char": {
+		"prefix": "\\\\S",
+		"body": "\\\\\\S",
+		"description": "Non-whitespace char"
+	},
+	"Decimal Digit Char": {
+		"prefix": "\\\\d",
+		"body": "\\\\\\d",
+		"description": "Decimal digit char Unicode: General_Category -- Decimal_Number"
+	},
+	"Non-Decimal-Digit Char": {
+		"prefix": "\\\\D",
+		"body": "\\\\\\D",
+		"description": "Non-decimal-digit char"
+	},
+	"Hexadecimal Digit Char": {
+		"prefix": "\\\\h",
+		"body": "\\\\\\h",
+		"description": "Hexadecimal digit char [0-9a-fA-F]"
+	},
+	"Non-Hexdigit Char": {
+		"prefix": "\\\\H",
+		"body": "\\\\\\H",
+		"description": "Non-hexdigit char"
+	},
+	"General Newline": {
+		"prefix": "\\\\R",
+		"body": "\\\\\\R",
+		"description": "General newline (*can't be used in character-class)\n\"\\r\\n\" or \\n,\\v,\\f,\\r (*but doesn't backtrack from \\r\\n to \\r)\nUnicode case:\n \"\\r\\n\" or \\n,\\v,\\f,\\r or U+0085, U+2028, U+2029\n"
+	},
+	"Negative Newline": {
+		"prefix": "\\\\N",
+		"body": "\\\\\\N",
+		"description": "Negative newline (?-m:.)"
+	},
+	"True AnyChar": {
+		"prefix": "\\\\O",
+		"body": "\\\\\\O",
+		"description": "True anychar (?m:.)"
+	},
+	"Text Segment": {
+		"prefix": "\\\\X",
+		"body": "\\\\\\X",
+		"description": "Text Segment \\X === (?>\\O(?:\\Y\\O)*)\nThe meaning of this operator changes depending on the setting of the option (?y{..}).\n\\X doesn't check whether matching start position is boundary or not.\nPlease write as \\y\\X if you want to ensure it.\n[Extended Grapheme Cluster mode] (default)\n Unicode case:\n    See [Unicode Standard Annex #29: http://unicode.org/reports/tr29\n Not Unicode case: \\X === (?>\\r\\n|\\O)\n[Word mode]\n Currently, this mode is supported in Unicode only.\n See [Unicode Standard Annex #29: http://unicode.org/reports/tr29/]\n"
+	},
+	"Property": {
+		"prefix": "\\\\p{}",
+		"body": "\\\\\\p{${1:^}${2:${TM_SELECTED_TEXT:Alpha}}}",
+		"description": "property-name\n + works on all encodings\n   Alnum, Alpha, Blank, Cntrl, Digit, Graph, Lower,\n   Print, Punct, Space, Upper, XDigit, Word, ASCII\n + works on EUC_JP, Shift_JIS\n   Hiragana, Katakana\n + works on UTF8, UTF16, UTF32\n   See doc/UNICODE_PROPERTIES."
+	},
+}

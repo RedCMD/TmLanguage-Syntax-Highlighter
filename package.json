@@ -147,6 +147,10 @@
 		],
 		"snippets": [
 			{
+				"language": "json-textmate-regex",
+				"path": "./snippets/textmate-regex.code-snippets"
+			},
+			{
 				"language": "scopetm",
 				"path": "./snippets/scopetm.code-snippets"
 			}
@@ -155,11 +159,26 @@
 			"[json-textmate]": {
 				"editor.maxTokenizationLineLength": 500000,
 				"editor.suggest.insertMode": "replace",
+				"editor.suggest.preview": true,
 				"editor.quickSuggestions": {
-					"strings": true,
-					"other": true
+					"strings": "on",
+					"other": "on"
 				},
+				"editor.inlineSuggest.syntaxHighlightingEnabled": true,
 				"editor.defaultFormatter": "RedCMD.tmlanguage-syntax-highlighter"
+			},
+			"[json-textmate-regex]": {
+				"editor.snippetSuggestions": "top",
+				"editor.suggest.insertMode": "replace",
+				"editor.suggest.snippetsPreventQuickSuggestions": true,
+				"editor.suggest.preview": true,
+				"editor.suggest.matchOnWordStartOnly": false,
+				"editor.quickSuggestions": {
+					"other": "inline",
+					"comments": "off"
+				},
+				"editor.inlineSuggest.syntaxHighlightingEnabled": true,
+				"editor.inlineSuggest.enabled": true
 			}
 		},
 		"configuration": [
