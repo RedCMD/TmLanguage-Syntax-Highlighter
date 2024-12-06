@@ -158,7 +158,7 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			// let depth = 0;
 			// let whileDepth = 0;
 			// let prevWhileDepth = 0;
-			const parents = [element.ruleId ?? 1];
+			const parents = [ruleId || 1];
 			for (let index = id; index < grammar.rules.length; index++) {
 				const matchResult = grammar.rules[index];
 				if (matchResult === undefined) {
@@ -645,7 +645,7 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 			const onigLineText = createOnigString(text);
 
 			const cachedRule = grammar._ruleId2desc[Math.abs(ruleId)];
-			// vscode.window.showInformationMessage(`cachedRule\n${JSON.stringify(cachedRule, stringify)}`);
+			// vscode.window.showInformationMessage(`cachedRule ${JSON.stringify(ruleId, stringify)}\n${JSON.stringify(cachedRule, stringify)}`);
 			const regexes: string[] = [];
 			for (const regexSource of cachedRule._cachedCompiledPatterns!._items) {
 				regexes.push(regexSource.source);
@@ -1310,7 +1310,7 @@ function findPath(rules: vscodeTextmate.IRawGrammar | IRawRule, ruleId: RuleId, 
 function changeView(view?: CallView, element?: element) {
 	// vscode.window.showInformationMessage(`changeView ${view}\n${JSON.stringify(element)}`);
 	if (!view) {
-		view = callView == 'list' ? 'tree' : 'list';
+		view = callView == 'tree' ? 'list' : 'tree';
 	}
 	callView = view;
 	vscode.commands.executeCommand('setContext', 'textmate.call.view', view);
