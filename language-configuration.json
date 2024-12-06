@@ -13,11 +13,16 @@
 		["[", "]"]
 	],
 	// symbols that are auto closed when typing
-	"autoClosingPairs": [ // Doesn't work in embedded languages
+	"autoClosingPairs": [ // https://github.com/microsoft/vscode/issues/133397
 		["${", "}"],
 		["{", "}"],
+		["\\\\[:", ""],
+		["[:", ":]"],
+		["\\\\[", ""],
 		["[", "]"],
+		["\\\"", ""],
 		["\"", "\""],
+		["\\\\(", ""], // Disable auto closing when escaped
 		["(", ")"], // Fallback for `regex.language-configuration.json`
 		["(?'", "'"],
 		["(?(<", ">"],
@@ -27,7 +32,7 @@
 		["\\\\k<", ">"],
 		["\\\\k'", "'"]
 	],
-	"autoCloseBefore": "[]{}():,\" \n\t", // Doesn't work in embedded languages
+	"autoCloseBefore": "[]{}():,\\\" \n\t", // https://github.com/microsoft/vscode/issues/133397
 	// symbols that can be used to surround a selection
 	"surroundingPairs": [ // Doesn't work in embedded languages
 		["{", "}"],
