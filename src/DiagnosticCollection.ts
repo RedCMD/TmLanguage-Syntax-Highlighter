@@ -261,8 +261,7 @@ function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[], trees
 	for (const regexNode of regexNodes.values()) {
 		const text = regexNode.text;
 		const key = regexNode.previousNamedSibling;
-		if (!key) { // `previousNamedSibling` is broken on 0width nodes
-			vscode.window.showInformationMessage("0width broken!!");
+		if (!key) {
 			continue;
 		}
 

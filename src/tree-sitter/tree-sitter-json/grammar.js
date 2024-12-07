@@ -15,27 +15,53 @@ module.exports = grammar({
 	],
 
 	rules: {
-		json: $ => repeat(
-			choice(
-				$._whitespace,
-				object($,
-					choice(
-						$.version,
-						$.schema,
-						$.scopeName,
-						$.name_display,
-						$.information_for_contributors,
-						$.fileTypes,
-						$.firstLineMatch,
-						$.foldingStartMarker,
-						$.foldingStopMarker,
-						$.injectionSelector,
-						$.injections,
-						$.patterns,
-						$.repository,
-						$.uuid,
-						$._comments,
-						$.item,
+		json: $ => seq(
+			optional(
+				seq(
+					fieldAlias($,
+						'regex',
+						token.immediate(
+							seq(
+								repeat(' '),
+								choice(
+									/[^\x00-\x1F\\"{\[]+/,
+									/\\[^\x00-\x1F]/,
+								),
+								repeat(
+									choice(
+										/[^\x00-\x1F\\"]+/,
+										/\\[^\x00-\x1F]/,
+									),
+								),
+
+							),
+						),
+					),
+					/\r?\n|\x00/, // '\0' is treated as EOF
+				),
+			),
+			repeat(
+				choice(
+					$._whitespace,
+					object($,
+						choice(
+							$.version,
+							$.schema,
+							$.scopeName,
+							$.name_display,
+							$.information_for_contributors,
+							$.fileTypes,
+							$.firstLineMatch,
+							$.foldingStartMarker,
+							$.foldingStopMarker,
+							$.injectionSelector,
+							$.injections,
+							$.patterns,
+							$.repository,
+							$.uuid,
+							$._comments,
+							$.item,
+						),
 					),
 				),
 			),
