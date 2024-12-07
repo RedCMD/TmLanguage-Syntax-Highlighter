@@ -68,6 +68,7 @@
 					"**/syntaxes/*.tmLanguage copy{, [0-9]*}.json",
 					"**/syntaxes/*.tmLanguage{, copy} - Copy{, ([0-9]*)}{, - Copy*}.json"
 				],
+				"firstLine": "{(\"scopeName\"|\"(information_for_contributors|fileTypes)\":\\[)",
 				"configuration": "./language-configuration.json",
 				"icon": {
 					"dark": "assets/TextMate-file-icon.svg",
