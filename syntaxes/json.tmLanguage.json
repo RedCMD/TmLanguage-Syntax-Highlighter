@@ -73,6 +73,7 @@
 				{ "include": "#repository" },
 				{ "include": "#uuid" },
 				{ "include": "#name" },
+				{ "include": "#contentName" },
 				{ "include": "#match" },
 				{ "include": "#include" },
 				{ "include": "#captures" },
