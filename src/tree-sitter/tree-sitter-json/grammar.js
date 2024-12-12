@@ -16,30 +16,7 @@ module.exports = grammar({
 
 	rules: {
 		json: $ => seq(
-			optional(
-				seq(
-					fieldAlias($,
-						'regex',
-						token.immediate(
-							seq(
-								repeat(' '),
-								choice(
-									/[^\x00-\x1F\\"{\[]+/,
-									/\\[^\x00-\x1F]/,
-								),
-								repeat(
-									choice(
-										/[^\x00-\x1F\\"]+/,
-										/\\[^\x00-\x1F]/,
-									),
-								),
-
-							),
-						),
-					),
-					/\r?\n|\x00/, // '\0' is treated as EOF
-				),
-			),
+			optional($.regex),
 			repeat(
 				choice(
 					$._whitespace,
@@ -85,6 +62,28 @@ module.exports = grammar({
 					'*/',
 				),
 			),
+		),
+
+		regex: $ => seq(
+			fieldAlias($,
+				'regex',
+				token.immediate(
+					seq(
+						repeat(' '),
+						choice(
+							/[^\x00-\x1F\\"{\[]+/,
+							/\\[^\x00-\x1F]/,
+						),
+						repeat(
+							choice(
+								/[^\x00-\x1F\\"]+/,
+								/\\[^\x00-\x1F]/,
+							),
+						),
+					),
+				),
+			),
+			/\r?\n|\x00/, // '\0' is treated as EOF
 		),
 
 		repository: $ => pair($,
