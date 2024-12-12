@@ -81,10 +81,6 @@
 				{ "include": "#capture" },
 				{ "include": "#comment" },
 				{ "include": "#repo" },
-				{ "include": "#json-value" },
-				{ "include": "#json-array" },
-				{ "include": "#json-pair" },
-				{ "include": "#comments" },
 				{
 					"match": ",",
 					"name": "punctuation.separator.json.tm"
@@ -102,10 +98,7 @@
 						}
 					]
 				},
-				{
-					"match": "\\S[^,:/{}\\[\\]\\s\"]*",
-					"name": "invalid.illegal.expected-object.json.tm"
-				}
+				{ "include": "#json-value" }
 			]
 		},
 		"scopeName": {
@@ -119,7 +112,7 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*{)",
+					"begin": ":",
 					"end": "(?<=\")|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
@@ -148,7 +141,7 @@
 								{ "include": "#escape-characters" }
 							]
 						},
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -165,12 +158,12 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*{)",
+					"begin": ":",
 					"end": "(?<=\")|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
 						{ "include": "#string" },
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -188,7 +181,7 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*{)",
+					"begin": ":",
 					"end": "(?<=])|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
@@ -202,7 +195,7 @@
 								{ "include": "#array-separator" }
 							]
 						},
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -219,7 +212,7 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*{)",
+					"begin": ":",
 					"end": "(?<=\")|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
@@ -240,7 +233,7 @@
 								{ "include": "#escape-characters" }
 							]
 						},
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -257,12 +250,12 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*{)",
+					"begin": ":",
 					"end": "(?<=\")|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
 						{ "include": "#string" },
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -279,12 +272,12 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*{)",
+					"begin": ":",
 					"end": "(?<=\")|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
 						{ "include": "#string" },
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -301,12 +294,12 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*{)",
+					"begin": ":",
 					"end": "(?<=\")|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
 						{ "include": "#injectionSelectorValue" },
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -346,7 +339,7 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*\")",
+					"begin": ":",
 					"end": "(?<=})|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
@@ -360,7 +353,7 @@
 								{ "include": "#dictionary-separator" }
 							]
 						},
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -380,7 +373,7 @@
 					"patterns": [ { "include": "#injection-string" } ]
 				},
 				{
-					"begin": ":(?!\\s*\")",
+					"begin": ":",
 					"end": "(?<=})|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
@@ -394,7 +387,7 @@
 								{ "include": "#dictionary-separator" }
 							]
 						},
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -492,7 +485,7 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*{)",
+					"begin": ":",
 					"end": "(?<=\")|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
@@ -510,7 +503,7 @@
 								}
 							]
 						},
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -527,7 +520,7 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*{)",
+					"begin": ":",
 					"end": "(?<=\")|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
@@ -545,7 +538,7 @@
 								}
 							]
 						},
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -562,7 +555,7 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*{)",
+					"begin": ":",
 					"end": "(?<=\")|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
@@ -580,7 +573,7 @@
 								}
 							]
 						},
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -597,7 +590,7 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*[{\"])",
+					"begin": ":",
 					"end": "(?<=])|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
@@ -629,7 +622,7 @@
 								{ "include": "#array-separator" }
 							]
 						},
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -646,7 +639,7 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*\")",
+					"begin": ":",
 					"end": "(?<=})|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
@@ -661,7 +654,7 @@
 								{ "include": "#dictionary-separator" }
 							]
 						},
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -687,7 +680,7 @@
 					]
 				},
 				{
-					"begin": ":(?!\\s*\")",
+					"begin": ":",
 					"end": "(?<=})|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
@@ -709,7 +702,7 @@
 								{ "include": "#dictionary-separator" }
 							]
 						},
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				}
 			]
@@ -725,12 +718,12 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*{)",
+					"begin": ":",
 					"end": "(?<=\")|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
 						{ "include": "#name_scopes" },
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -747,12 +740,12 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*{)",
+					"begin": ":",
 					"end": "(?<=\")|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
 						{ "include": "#name_scopes" },
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -818,7 +811,7 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*{)",
+					"begin": ":",
 					"end": "(?<=\")|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
@@ -836,7 +829,7 @@
 								}
 							]
 						},
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -853,7 +846,7 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*{)",
+					"begin": ":",
 					"end": "(?<=\")|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
@@ -905,7 +898,7 @@
 								{ "include": "#scope-string" }
 							]
 						},
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -922,7 +915,7 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*\")",
+					"begin": ":",
 					"end": "(?<=}|])|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
@@ -965,7 +958,7 @@
 								{ "include": "#array-separator" }
 							]
 						},
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -981,7 +974,7 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*\")",
+					"begin": ":",
 					"end": "(?<=})|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
@@ -1003,7 +996,7 @@
 								{ "include": "#dictionary-separator" }
 							]
 						},
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -1020,7 +1013,7 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*{)",
+					"begin": ":",
 					"end": "(?<=\\w)|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
@@ -1032,7 +1025,7 @@
 							"match": "-?\\d+",
 							"name": "constant.numeric.json.tm"
 						},
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				{ "include": "#dictionary-separator" }
@@ -1049,13 +1042,10 @@
 			},
 			"patterns": [
 				{
-					"begin": ":(?!\\s*{)",
+					"begin": ":",
 					"end": "(?<=\\w)|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
-					"patterns": [
-						{ "include": "#json-value" },
-						{ "include": "#value-separator" }
-					]
+					"patterns": [ { "include": "#json-value" } ]
 				},
 				{ "include": "#dictionary-separator" }
 			]
@@ -1074,7 +1064,7 @@
 					},
 					"patterns": [
 						{
-							"begin": ":(?!\\s*{)",
+							"begin": ":",
 							"end": "(?<=\")|(?=[},])",
 							"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 							"patterns": [
@@ -1092,7 +1082,7 @@
 										{ "include": "#escape-characters" }
 									]
 								},
-								{ "include": "#value-separator" }
+								{ "include": "#json-value" }
 							]
 						},
 						{ "include": "#dictionary-separator" }
@@ -1149,7 +1139,7 @@
 						{ "include": "#comment-slash-dictionary" },
 						{ "include": "#comment-slash-array" },
 						{ "include": "#comment-slash-string" },
-						{ "include": "#value-separator" }
+						{ "include": "#json-value" }
 					]
 				},
 				"comment-slash-dictionary": {
@@ -1206,7 +1196,7 @@
 		"scope-string": {
 			"patterns": [
 				{
-					"match": "(?<=\\s|\"|\\b[LR]:)(?>source|text)\\.(?![\\s\"#])",
+					"match": "(?<= |\")(?>source|text)\\.(?![ \"#])",
 					"name": "support.function.json.tm"
 				},
 				{
@@ -1214,7 +1204,7 @@
 					"name": "support.function.json.tm"
 				},
 				{
-					"match": "[\\w:][\\w:-]*",
+					"match": "[\\w:][\\w:-]*+",
 					"name": "string"
 				},
 				{
@@ -1249,15 +1239,15 @@
 				{
 					"match": "(\\\\u)(\\h{4,0})",
 					"captures": {
-						"1": { "name": "constant.character.escape.tm" },
+						"1": { "name": "constant.character.escape.json.tm" },
 						"2": { "name": "constant.numeric.json.tm" },
 						"3": {
 							"comment": "Fallback if `\\h{4}` fails. \"patterns\" inside a (capture) causes a performance hit",
-							"name": "constant.numeric.tm",
+							"name": "constant.numeric.json.tm",
 							"patterns": [
 								{
 									"match": "\\H+",
-									"name": "invalid.illegal.regex.tm"
+									"name": "invalid.illegal.regex.json.tm"
 								}
 							]
 						}
@@ -1271,21 +1261,10 @@
 		},
 		"dictionary-separator": {
 			"patterns": [
-				{
-					"begin": ":",
-					"end": "(?<=[]}\"])|(?=[},])",
-					"patterns": [
-						{ "include": "#json-dictionary" },
-						{ "include": "#json-array" },
-						{ "include": "#json-value" },
-						{ "include": "#value-separator" }
-					]
-				},
 				{ "include": "#comment" },
 				{ "include": "#json-pair" },
-				{ "include": "#comments" },
 				{
-					"begin": ",",
+					"begin": "\\G|,",
 					"end": "(?!\\s|,|$)",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.json.tm" } },
 					"patterns": [
@@ -1295,19 +1274,13 @@
 						}
 					]
 				},
-				{
-					"match": "\\S[^,/:}\\s\"]*",
-					"name": "invalid.illegal.expected-dictionary-separator.json.tm"
-				}
+				{ "include": "#json-value" }
 			]
 		},
 		"array-separator": {
 			"patterns": [
-				{ "include": "#json-array" },
-				{ "include": "#json-value" },
-				{ "include": "#comments" },
 				{
-					"begin": ",",
+					"begin": "\\G|,",
 					"end": "(?!\\s|,|$)",
 					"beginCaptures": { "0": { "name": "punctuation.separator.array.json.tm" } },
 					"patterns": [
@@ -1317,29 +1290,16 @@
 						}
 					]
 				},
-				{
-					"match": "\\S[^,/{}\\]\\s\"]*",
-					"name": "invalid.illegal.expected-array-separator.json.tm"
-				}
-			]
-		},
-		"value-separator": {
-			"patterns": [
-				{ "include": "#json-value" },
-				{ "include": "#comments" },
-				{
-					"match": "\\S[^,/{}\\[\\]\\s\"]*",
-					"name": "invalid.illegal.expected-value-separator.json.tm"
-				}
+				{ "include": "#json-value" }
 			]
 		},
 		"json-pair": {
 			"comment": "\"...\": ...",
 			"begin": "(?=\")",
-			"end": "(?<=[]}\"])(?!\\G)|(?=[},])",
+			"end": "(?<=[]}])(?!\\G)|(?!\\G)(?=[},\"])",
 			"patterns": [
 				{
-					"begin": "\"",
+					"begin": "\\G\"",
 					"end": "\"",
 					"beginCaptures": { "0": { "name": "punctuation.support.type.property-name.begin.json.tm" } },
 					"endCaptures": { "0": { "name": "punctuation.support.type.property-name.end.json.tm" } },
@@ -1362,12 +1322,7 @@
 				{
 					"begin": ":",
 					"end": "(?<=[]}\"])|(?=[},])",
-					"patterns": [
-						{ "include": "#json-dictionary" },
-						{ "include": "#json-array" },
-						{ "include": "#json-value" },
-						{ "include": "#value-separator" }
-					]
+					"patterns": [ { "include": "#json-value" } ]
 				},
 				{ "include": "#dictionary-separator" }
 			]
@@ -1378,10 +1333,7 @@
 			"end": "}",
 			"beginCaptures": { "0": { "name": "punctuation.definition.dictionary.begin.json.tm" } },
 			"endCaptures": { "0": { "name": "punctuation.definition.dictionary.end.json.tm" } },
-			"patterns": [
-				{ "include": "#json-pair" },
-				{ "include": "#dictionary-separator" }
-			]
+			"patterns": [ { "include": "#dictionary-separator" } ]
 		},
 		"json-array": {
 			"comment": "[ ... ]",
@@ -1389,14 +1341,13 @@
 			"end": "]",
 			"beginCaptures": { "0": { "name": "punctuation.definition.array.begin.json.tm" } },
 			"endCaptures": { "0": { "name": "punctuation.definition.array.end.json.tm" } },
-			"patterns": [
-				{ "include": "#json-dictionary" },
-				{ "include": "#json-array" },
-				{ "include": "#array-separator" }
-			]
+			"patterns": [ { "include": "#array-separator" } ]
 		},
 		"json-value": {
 			"patterns": [
+				{ "include": "#comments" },
+				{ "include": "#json-dictionary" },
+				{ "include": "#json-array" },
 				{
 					"comment": "\"...\"",
 					"begin": "\"",
@@ -1438,6 +1389,10 @@
 				{
 					"match": "-?(?>0|[1-9]\\d*)(?>\\.\\d+)?(?>[eE][+-]?\\d+)?",
 					"name": "constant.numeric.json.tm"
+				},
+				{
+					"match": "\\S[^,:/{}\\[\\]\\s\"]*",
+					"name": "invalid.illegal.expected-separator.json.tm"
 				}
 			]
 		},
