@@ -90,7 +90,7 @@
 				}
 			},
 			{
-				"id": "scopetm",
+				"id": "textmate-scopes",
 				"aliases": [
 					"TextMate Scopes"
 				],
@@ -113,7 +113,7 @@
 				"scopeName": "source.json.textmate",
 				"path": "./syntaxes/json.tmLanguage.json",
 				"embeddedLanguages": {
-					"meta.embedded.block.json.textmate.regexp": "json-textmate-regex"
+					"meta.embedded.json.textmate.regexp": "json-textmate-regex"
 				},
 				"unbalancedBracketScopes": [
 					"invalid.illegal.expected-dictionary-separator.json",
@@ -127,16 +127,16 @@
 				"path": "./syntaxes/regex.tmLanguage.json"
 			},
 			{
-				"language": "scopetm",
-				"scopeName": "source.scopetm",
-				"path": "./syntaxes/scopetm.tmLanguage.json",
+				"language": "textmate-scopes",
+				"scopeName": "source.textmate.scopes",
+				"path": "./syntaxes/scopes.tmLanguage.json",
 				"balancedBracketScopes": [
 					"replace.capture"
 				]
 			},
 			{
 				"scopeName": "markdown.json.textmate.codeblock",
-				"path": "./syntaxes/markdown-textmate.tmLanguage.json",
+				"path": "./syntaxes/markdown.tmLanguage.json",
 				"injectTo": [
 					"text.html.markdown"
 				],
@@ -152,8 +152,8 @@
 				"path": "./snippets/textmate-regex.code-snippets"
 			},
 			{
-				"language": "scopetm",
-				"path": "./snippets/scopetm.code-snippets"
+				"language": "textmate-scopes",
+				"path": "./snippets/textmate-scopes.code-snippets"
 			}
 		],
 		"configurationDefaults": {

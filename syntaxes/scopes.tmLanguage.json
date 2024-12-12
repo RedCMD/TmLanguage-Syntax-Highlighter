@@ -1,8 +1,8 @@
 {
-	"version": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/syntaxes/scopetm.tmLanguage.json",
+	"version": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/syntaxes/scopes.tmLanguage.json",
 	"$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
 	"name": "VSCode TextMate scope-name highlighter",
-	"scopeName": "source.scopetm",
+	"scopeName": "source.textmate.scopes",
 	"patterns": [ { "include": "#scope-name" } ],
 	"repository": {
 		"scope-name": {
@@ -17,7 +17,7 @@
 				},
 				{
 					"comment": "Unresolvable capture group references do not convert, but instead just become plain text",
-					"match": "(\\$)(0*)(\\d{1,3})(?!\\d)",
+					"match": "(\\$)(0*)(\\d{3,1})(?!\\d)",
 					"captures": {
 						"0": { "name": "replace.capture.tm" },
 						"1": { "name": "constant.character.escape.tm markup.italic.tm" },
@@ -26,7 +26,7 @@
 					}
 				},
 				{
-					"match": "(\\$)({)(0*)(\\d{1,3})(:/)(upcase|downcase)(})",
+					"match": "(\\$)({)(0*)(\\d{3,1})(:/)(upcase|downcase)(})",
 					"captures": {
 						"0": { "name": "replace.capture.$6.tm" },
 						"1": { "name": "constant.character.escape.tm markup.italic.tm" },

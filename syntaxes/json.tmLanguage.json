@@ -93,7 +93,7 @@
 					"comment": "This must be strict. So to reduce false positives",
 					"begin": "\\A(?!$|\\s*{\\s*(?>$|})|\\s*\\[\\s*(?>$|\\[|{)|[^\t]*\t|(?>[^\\\\\"]+|\\\\.)*+.)",
 					"end": "(?=[)\"])|$",
-					"name": "meta.embedded.block.json.textmate.regexp",
+					"name": "meta.embedded.json.textmate.regexp",
 					"patterns": [
 						{ "include": "source.json.textmate.regexp" },
 						{
@@ -501,7 +501,7 @@
 							"end": "\"",
 							"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.json.tm" } },
 							"endCaptures": { "0": { "name": "punctuation.definition.string.end.json.tm" } },
-							"contentName": "meta.embedded.block.json.textmate.regexp",
+							"contentName": "meta.embedded.json.textmate.regexp",
 							"patterns": [
 								{ "include": "source.json.textmate.regexp" },
 								{
@@ -536,7 +536,7 @@
 							"end": "\"",
 							"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.json.tm" } },
 							"endCaptures": { "0": { "name": "punctuation.definition.string.end.json.tm" } },
-							"contentName": "meta.embedded.block.json.textmate.regexp",
+							"contentName": "meta.embedded.json.textmate.regexp",
 							"patterns": [
 								{ "include": "source.json.textmate.regexp" },
 								{
@@ -571,7 +571,7 @@
 							"end": "\"",
 							"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.json.tm" } },
 							"endCaptures": { "0": { "name": "punctuation.definition.string.end.json.tm" } },
-							"contentName": "meta.embedded.block.json.textmate.regexp",
+							"contentName": "meta.embedded.json.textmate.regexp",
 							"patterns": [
 								{ "include": "source.json.textmate.regexp" },
 								{
@@ -827,7 +827,7 @@
 							"end": "\"",
 							"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.json.tm" } },
 							"endCaptures": { "0": { "name": "punctuation.definition.string.end.json.tm" } },
-							"contentName": "meta.embedded.block.json.textmate.regexp",
+							"contentName": "meta.embedded.json.textmate.regexp",
 							"patterns": [
 								{ "include": "source.json.textmate.regexp" },
 								{

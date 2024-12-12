@@ -1,15 +1,16 @@
 {
-	"version": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/syntaxes/markdown-textmate.tmLanguage.json",
+	"version": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/syntaxes/markdown.tmLanguage.json",
 	"$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
-	"name": "JSON TextMate Markdown codeblock",
+	"comment": "https://github.com/mjbvz/vscode-fenced-code-block-grammar-injection-example/blob/master/syntaxes/codeblock.json",
+	"name": "Markdown Code-Block Injection JSON TextMate",
 	"scopeName": "markdown.json.textmate.codeblock",
 	"injectionSelector": "L:text.html.markdown -meta.embedded.block.json.textmate",
 	"patterns": [
-		{ "include": "#fenced_code_block_json-textmate" }
+		{ "include": "#fenced_code_block_json_textmate" }
 	],
 	"repository": {
-		"fenced_code_block_json-textmate": {
-			"begin": "(^|\\G)(\\s*)(`{3,}|~{3,})\\s*(?i:(json)((\\s+|:|,|\\{|\\?|-)textmate\\b[^`]*)$)",
+		"fenced_code_block_json_textmate": {
+			"begin": "(^|\\G)(\\s*)(\\`{3,}|~{3,})\\s*(?i:(json)((\\s+|:|,|\\{|\\?|-)textmate\\b[^`]*)$)",
 			"name": "markup.fenced_code.block.markdown",
 			"end": "(^|\\G)(\\2|\\s{0,3})(\\3)\\s*$",
 			"beginCaptures": {
