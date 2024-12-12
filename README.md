@@ -83,5 +83,6 @@ Highlights scope names with their own themed colour in realtime:
 * Move to LanguageServer
 * Add unit tests
 * Improve TreeSitter Query performance: [Node contains `&fieldName`](https://github.com/tree-sitter/tree-sitter/issues/3956), [Caching or Serializing a `TSQuery`](https://github.com/tree-sitter/tree-sitter/issues/1942)
-* use strict `null` checks
 * Improve ctrl+click definitions performance
+* Add [FlameGraph](https://www.brendangregg.com/flamegraphs.html) [schema](https://chromedevtools.github.io/devtools-protocol/tot/Profiler/#type-Profile)
+* Update [CHANGELOG.md](/CHANGELOG.md)
