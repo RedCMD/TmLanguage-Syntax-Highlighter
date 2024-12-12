@@ -144,6 +144,17 @@
 					"meta.embedded.block.json.textmate": "json-textmate",
 					"meta.embedded.block.json.textmate.regexp": "json-textmate-regex"
 				}
+			},
+			{
+				"scopeName": "text.searchResult.json.textmate",
+				"path": "./syntaxes/searchResult.tmLanguage.json",
+				"injectTo": [
+					"text.searchResult"
+				],
+				"embeddedLanguages": {
+					"meta.embedded.json.textmate": "json-textmate",
+					"meta.embedded.json.textmate.regexp": "json-textmate-regex"
+				}
 			}
 		],
 		"snippets": [
