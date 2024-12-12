@@ -111,11 +111,11 @@
 			"dependencies": { "foldingStopMarker": { "required": [ "foldingStartMarker" ] } },
 			"defaultSnippets": [
 				{
-					"label": "New grammar",
-					"markdownDescription": "\t{\n\t\t\"scopeName\": \"source.languageId\",\n\t\t\"patterns\": [\n\t\t\t{ }\n\t\t],\n\t\t\"repository\": { }\n\t}",
+					"label": "New Grammar",
+					"markdownDescription": "\t{\n\t\t\"scopeName\": \"source.languageId\",\n\t\t\"patterns\": [\n\t\t\t{ ... }\n\t\t],\n\t\t\"repository\": { ... }\n\t}\n\n\t/* package.json */\n\t\"grammars\": [\n\t\t{\n\t\t\t\"language\": \"languageId\",\n\t\t\t\"scopeName\": \"source.languageId\",\n\t\t\t\"path\": \"./syntaxes/languageId.tmLanguage.json\",\n\t\t}\n\t]\n",
 					"body": {
 						"$${_///}schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
-						"name": "${1:languageId}",
+						"name": "${1/([._-]+)|([a-zA-Z]+)/${1:+ }${2:/capitalize}/g}",
 						"scopeName": "source.${1:languageId}",
 						"patterns": [
 							"^{ \"include\": \"#${2:repo-item}\" }",
@@ -141,6 +141,101 @@
 										"comment": "Quad backslash required to match one literal backslash",
 										"match": "\\\\\\\\.",
 										"name": "constant.character.escape.${1:languageId}"
+									}
+								]
+							}
+						}
+					}
+				},
+				{
+					"label": "New Markdown Code-Block Injection",
+					"markdownDescription": "\t{\n\t\t\"name\": \"Markdown Code-Block Injection languageId\",\n\t\t\"scopeName\": \"markdown.languageId.codeblock\",\n\t\t\"injectionSelector\": \"L:text.html.markdown\",\n\t\t\"patterns\": [\n\t\t\t{ \"include\": \"#fenced_code_block_languageId\" }\n\t\t],\n\t\t\"repository\": {\n\t\t\t\"fenced_code_block_languageId\": { ... }\n\t\t}\n\t}\n\n\t/* package.json */\n\t\"grammars\": [\n\t\t{\n\t\t\t\"scopeName\": \"markdown.languageId.codeblock\",\n\t\t\t\"path\": \"./syntaxes/languageId.tmLanguage.json\",\n\t\t\t\"injectTo\": [\n\t\t\t\t\"text.html.markdown\"\n\t\t\t],\n\t\t\t\"embeddedLanguages\": {\n\t\t\t\t\"meta.embedded.block.languageId\": \"languageId\"\n\t\t\t}\n\t\t}\n\t]",
+					"body": {
+						"$${_///}schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
+						"comment": "https://github.com/mjbvz/vscode-fenced-code-block-grammar-injection-example/blob/master/syntaxes/codeblock.json",
+						"name": "Markdown Code-Block Injection ${1/([._-]+)|([a-zA-Z]+)/${1:+ }${2:/capitalize}/g}$0",
+						"scopeName": "markdown.${1:languageId}.codeblock",
+						"injectionSelector": "L:text.html.markdown -meta.embedded.block.${1:languageId}",
+						"patterns": [
+							"^{ \"include\": \"#fenced_code_block_${1/[. -]/_/g}\" }"
+						],
+						"repository": {
+							"fenced_code_block_${1/[. -]/_/g}": {
+								"begin": "(^|\\\\G)(\\\\s*)(\\\\`{3,}|~{3,})\\\\s*(?i:(${1/([.+])/\\\\$1/g})((\\\\s+|:|,|\\\\{|\\\\?)[^`]*)?$)",
+								"name": "markup.fenced_code.block.markdown",
+								"end": "(^|\\\\G)(\\\\2|\\\\s{0,3})(\\\\3)\\\\s*$",
+								"beginCaptures": {
+									"3": "^{ \"name\": \"punctuation.definition.markdown\" }",
+									"4": "^{ \"name\": \"fenced_code.block.language.markdown\" }",
+									"5": "^{ \"name\": \"fenced_code.block.language.attributes.markdown\" }"
+								},
+								"endCaptures": "^{ \"3\": { \"name\": \"punctuation.definition.markdown\" } }",
+								"patterns": [
+									{
+										"begin": "(^|\\\\G)(\\\\s*)(.*)",
+										"while": "(^|\\\\G)(?!\\\\s*([`~]{3,})\\\\s*$)",
+										"contentName": "meta.embedded.block.${1:languageId}",
+										"patterns": "^[ { \"include\": \"source.${1:languageId}\" } ]"
+									}
+								]
+							}
+						}
+					}
+				},
+				{
+					"label": "New Search Results Injection",
+					"markdownDescription": "\t{\n\t\t\"name\": \"Search Results Injection languageId\",\n\t\t\"scopeName\": \"text.searchResult.languageId\",\n\t\t\"injectionSelector\": \"L:text.searchResult\",\n\t\t\"patterns\": [\n\t\t\t{ \"include\": \"#languageId\" }\n\t\t],\n\t\t\"repository\": {\n\t\t\t\"languageId\": { ... }\n\t\t}\n\t}\n\n\t/* package.json */\n\t\"grammars\": [\n\t\t{\n\t\t\t\"scopeName\": \"text.searchResult.languageId\",\n\t\t\t\"path\": \"./syntaxes/languageId.tmLanguage.json\",\n\t\t\t\"injectTo\": [\n\t\t\t\t\"text.searchResult\"\n\t\t\t]\n\t\t}\n\t]",
+					"body": {
+						"$${_///}schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
+						"comment": "https://github.com/microsoft/vscode/issues/185430",
+						"name": "Search Results Injection ${1/([._-]+)|([a-zA-Z]+)/${1:+ }${2:/capitalize}/g}$0",
+						"scopeName": "text.searchResult.${1:languageId}",
+						"injectionSelector": "L:text.searchResult -meta.resultBlock.search",
+						"patterns": [
+							"^{ \"include\": \"#${1/[. -]/_/g}\" }"
+						],
+						"repository": {
+							"${1/[. -]/_/g}": {
+								"name": "meta.resultBlock.search",
+								"begin": "${_///}^(?!\\\\s)(.*?)([^\\\\\\\\\\\\/\\\\n]*\\\\.${1/([.+])/\\\\$1/g})(:)$",
+								"end": "${_///}^(?!\\\\s)",
+								"beginCaptures": {
+									"0": "^{ \"name\": \"string meta.path.search\" }",
+									"1": "^{ \"name\": \"meta.path.dirname.search\" }",
+									"2": "^{ \"name\": \"meta.path.basename.search\" }",
+									"3": "^{ \"name\": \"punctuation.separator\" }"
+								},
+								"patterns": [
+									{
+										"name": "meta.resultLine.search meta.resultLine.multiLine.search",
+										"begin": "${_///}^  (?:\\\\s*)((\\\\d+) )",
+										"while": "${_///}^  (?:\\\\s*)(?:((\\\\d+)(:))|((\\\\d+) ))",
+										"beginCaptures": {
+											"0": "^{ \"name\": \"constant.numeric.integer meta.resultLinePrefix.search\" }",
+											"1": "^{ \"name\": \"meta.resultLinePrefix.contextLinePrefix.search\" }",
+											"2": "^{ \"name\": \"meta.resultLinePrefix.lineNumber.search\" }"
+										},
+										"whileCaptures": {
+											"0": "^{ \"name\": \"constant.numeric.integer meta.resultLinePrefix.search\" }",
+											"1": "^{ \"name\": \"meta.resultLinePrefix.matchLinePrefix.search\" }",
+											"2": "^{ \"name\": \"meta.resultLinePrefix.lineNumber.search\" }",
+											"3": "^{ \"name\": \"punctuation.separator\" }",
+											"4": "^{ \"name\": \"meta.resultLinePrefix.contextLinePrefix.search\" }",
+											"5": "^{ \"name\": \"meta.resultLinePrefix.lineNumber.search\" }"
+										},
+										"patterns": "^[ { \"include\": \"source.${1:languageId}\" } ]"
+									},
+									{
+										"begin": "${_///}^  (?:\\\\s*)((\\\\d+)(:))",
+										"while": "(?=not)possible",
+										"name": "meta.resultLine.search meta.resultLine.singleLine.search",
+										"beginCaptures": {
+											"0": "^{ \"name\": \"constant.numeric.integer meta.resultLinePrefix.search\" }",
+											"1": "^{ \"name\": \"meta.resultLinePrefix.matchLinePrefix.search\" }",
+											"2": "^{ \"name\": \"meta.resultLinePrefix.lineNumber.search\" }",
+											"3": "^{ \"name\": \"punctuation.separator\" }"
+										},
+										"patterns": "^[ { \"include\": \"source.${1:languageId}\" } ]"
 									}
 								]
 							}
