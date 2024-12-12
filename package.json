@@ -395,17 +395,17 @@
 	},
 	"dependencies": {
 		"vscode-oniguruma": "1.7.0",
-		"web-tree-sitter": "0.24.3"
+		"web-tree-sitter": "^0.24.5"
 	},
 	"devDependencies": {
 		"@types/vscode": "^1.87.0",
-		"@vscode/test-web": "^0.0.64",
+		"@vscode/test-web": "^0.0.65",
 		"@vscode/vsce": "^3.2.1",
 		"path-browserify": "^1.0.1",
-		"tree-sitter-cli": "^0.24.4",
+		"tree-sitter-cli": "^0.24.5",
 		"ts-loader": "^9.5.1",
 		"typescript": "^5.7.2",
-		"webpack": "^5.96.1",
+		"webpack": "^5.97.1",
 		"webpack-cli": "^5.1.4"
 	},
 	"__metadata": {
