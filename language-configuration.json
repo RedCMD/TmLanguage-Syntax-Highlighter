@@ -32,7 +32,7 @@
 		["\\\\k<", ">"],
 		["\\\\k'", "'"]
 	],
-	"autoCloseBefore": "[]{}():,\\\" \n\t", // https://github.com/microsoft/vscode/issues/133397
+	"autoCloseBefore": "[]{}()|:,\\\" \n\t", // https://github.com/microsoft/vscode/issues/133397
 	// symbols that can be used to surround a selection
 	"surroundingPairs": [ // Doesn't work in embedded languages
 		["{", "}"],
