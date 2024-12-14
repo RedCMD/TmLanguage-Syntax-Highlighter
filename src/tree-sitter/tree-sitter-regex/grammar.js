@@ -733,89 +733,59 @@ module.exports = grammar({
 				'\'',
 			),
 		),
-		backreference: $ => choice(
+		backreference: $ => choice( // \\k<name+1>
 			seq(
 				'\\\\k<',
-				optional(
-					alias(
-						repeat1(/[^\w>"()\\\[]/),
-						$.error
-					),
+				alias(
+					repeat(/[^A-Za-z_1-9>)]/),
+					$.error,
 				),
-				choice(
-					seq(
+				optional(
+					choice(
 						alias(
 							token(
-								seq(
-									optional(
-										choice(
-											'+',
-											'-',
-										),
-									),
-									repeat1(/\d/),
+								prec(1,
+									/[+-]?0*[1-9]\d*/, // ref number `0` is not allowed
 								),
 							),
-							$.number
+							$.number,
 						),
-						optional(
-							alias(
-								repeat1(/[^>"()\\\[]/),
-								$.error
-							),
+						alias(
+							/[A-Za-z_]\w*/, // Should allow all unicode numbers and letters
+							$.name,
 						),
 					),
+				),
+				optional(
 					alias(
-						token(
-							seq(
-								/[A-Za-z_]/,
-								repeat(/[^>]/),
-							),
-						),
-						$.name
+						/[+-]\d+/,
+						$.level,
 					),
 				),
 				'>',
 			),
 			seq(
 				'\\\\k\'',
+				alias(
+					repeat(/[^A-Za-z_1-9')]/),
+					$.error,
+				),
 				optional(
-					alias(
-						repeat1(/[^\w>"()\\\[]/),
-						$.error
+					choice(
+						alias(
+							/[+-]?0*[1-9]\d*/, // ref number `0` is not allowed
+							$.number,
+						),
+						alias(
+							/[A-Za-z_]\w*/, // Should allow all unicode numbers and letters
+							$.name,
+						),
 					),
 				),
-				choice(
-					seq(
-						alias(
-							token(
-								seq(
-									optional(
-										choice(
-											'+',
-											'-',
-										),
-									),
-									repeat1(/\d/),
-								),
-							),
-							$.number
-						),
-						optional(
-							alias(
-								repeat1(/[^>"()\\\[]/),
-								$.error
-							),
-						),
-					),
+				optional(
 					alias(
-						token(
-							seq(
-								/[A-Za-z_]/,
-								repeat(/[^']/),
-							),
-						),
-						$.name
+						/[+-]\d+/,
+						$.level,
 					),
 				),
 				'\'',

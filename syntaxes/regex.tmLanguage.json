@@ -1432,23 +1432,38 @@
 					}
 				},
 				{
-					"comment": "\\k<1> \\k'-2' \\k'+003' \\k<name> \\k'name_123+5' \\k<9-2>",
-					"match": "(?D)(\\\\{2}k)(?>((?<quote>')|<)(?>((?~|(?>(?(<quote>)'|>)|\\)|(?<!\\\\)\\\\{2}*\")|.*?))(?>(?>(?>((0*)[1-9]\\d{,2}(\\d{,2}))|([\\w&&[^0-9]]\\w*))([-+](0*)[12]?\\d{1,9})?)|([-+](0*)[1-9]\\d*)))?((?~(?('quote')'|>)|\\)|(?<!\\\\)\\\\{2}*\"))((?('quote')'|>))?)",
-					"captures": {
+					"comment": "\\k<1> \\k'-2' \\k<name> \\k'name_123+5' \\k<+000999-2147483647>",
+					"begin": "(\\\\{2}k)('|<)",
+					"end": "(?((?=\\2))'|>)|(?=[\")])",
+					"beginCaptures": {
 						"1": { "name": "string.regexp.tm" },
-						"2": { "name": "constant.character.set.regexp.tm" },
-						"4": { "name": "invalid.illegal.tm markup.underline regex" },
-						"5": { "name": "constant.numeric.tm" },
-						"6": { "name": "punctuation.definition.tag.tm" },
-						"7": { "name": "invalid.illegal.tm markup.italic" },
-						"8": { "name": "markup.bold" },
-						"9": { "name": "constant.numeric.tm" },
-						"10": { "name": "punctuation.definition.tag.tm" },
-						"11": { "name": "constant.numeric.tm" },
-						"12": { "name": "punctuation.definition.tag.tm" },
-						"13": { "name": "invalid.illegal.tm markup.underline regex" },
-						"14": { "name": "constant.character.set.regexp.tm" }
-					}
+						"2": { "name": "constant.character.set.regexp.tm" }
+					},
+					"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
+					"patterns": [
+						{
+							"comment": "Capture group nesting level",
+							"match": "(?<=\\w)[+-]0*+(?>2(?>0[0-9]{8}|1(?>[0-3][0-9]{7}|4(?>[0-6][0-9]{6}|7(?>[0-3][0-9]{5}|4(?>[0-7][0-9]{4}|8(?>[0-2][0-9]{3}|3(?>[0-5][0-9]{2}|6(?>[0-3][0-9]|4[0-7]))))))))|1?+[0-9]{9,0})(\\w*+)",
+							"captures": { "1": { "name": "invalid.illegal.tm" } },
+							"name": "constant.numeric.tm"
+						},
+						{
+							"comment": "Capture group reference number",
+							"match": "[+-]?+0*+[1-9][0-9]{2,0}(\\w*+)",
+							"captures": { "1": { "name": "invalid.illegal.tm" } },
+							"name": "constant.numeric.tm"
+						},
+						{
+							"comment": "Named capture group reference name",
+							"match": "(?!0)\\w++",
+							"name": "markup.bold.tm"
+						},
+						{ "include": "source.json.textmate#escape-characters" },
+						{
+							"match": ".[^\\\\\"'>\\w+-]*+",
+							"name": "invalid.illegal.tm"
+						}
+					]
 				}
 			]
 		},
