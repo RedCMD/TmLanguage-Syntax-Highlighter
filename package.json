@@ -240,7 +240,7 @@
 					"name": "Call Details",
 					"contextualTitle": "TextMate Call Details",
 					"icon": "assets/TextMate-file-icon.svg",
-					"visibility": "collapsed",
+					"visibility": "visible",
 					"initialSize": 10
 				},
 				{
