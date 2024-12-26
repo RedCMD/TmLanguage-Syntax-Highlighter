@@ -44,7 +44,8 @@
 	"colorizedBracketPairs": [
 		["${", "}"],
 		["{", "}"],
-		["[", "]"]
+		["[", "]"],
+		["(", ")"]
 	],
 	// "wordPattern" doesn't support `atomic` groups or `possessive quantifiers`, leading to catastrophic backtracking. Workaround is to use a lookahead and backreference /(?=(?<name>)...)\\k<name>/
 	// "wordPattern" is used in reference for intellisense suggestion triggering, word highlighting and ctrl+hover definitions
