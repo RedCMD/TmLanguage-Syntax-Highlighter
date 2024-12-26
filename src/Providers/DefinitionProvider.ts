@@ -148,24 +148,30 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 					if (!node.childForFieldName('sharp')) {
 						break;
 					}
-					queryString = `;scm
+					const nestedRepoQuery = `;scm
 						(repo
 							[(patterns) (include)] (repository
 								(repo
-									(key) @repo (.eq? @repo "${ruleName}")))
+									(key) @repo))
 							!match !begin)
 					`;
-					// const start = performance.now();
-					const nestedRepoNode = queryNode(tree.rootNode, queryString, point, false)?.node;
+					const nestedRepoCaptures = queryNode(tree.rootNode, nestedRepoQuery, point, point);
 					// vscode.window.showInformationMessage(`mid ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(definitions)}`);
-					if (nestedRepoNode) {
-						const locationLink: vscode.DefinitionLink = {
-							originSelectionRange: originSelectionRange, // Underlined text
-							targetUri: document.uri,
-							targetRange: toRange(nestedRepoNode.parent!), // Hover text
-							targetSelectionRange: toRange(nestedRepoNode), // Highlighted text
-						};
-						definitions.push(locationLink);
+					nestedRepoCaptures.reverse();
+					let exit = false;
+					for (const nestedRepoCapture of nestedRepoCaptures) {
+						const nestedRepoNode = nestedRepoCapture.node;
+						if (nestedRepoNode.text == ruleName) {
+							exit = pushDefinitionLink(
+								definitions,
+								nestedRepoNode.parent,
+								toRange(nestedRepoNode),
+								uri,
+							);
+							break;
+						}
+					}
+					if (exit) {
 						break;
 					}
 
@@ -373,7 +379,7 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 	}
 };
 
-function pushDefinitionLink(definitions: vscode.LocationLink[], node: SyntaxNode | undefined, originSelectionRange: vscode.Range, uri: vscode.Uri) {
+function pushDefinitionLink(definitions: vscode.LocationLink[], node: SyntaxNode | null | undefined, originSelectionRange: vscode.Range, uri: vscode.Uri) {
 	if (!node) {
 		return false;
 	}
