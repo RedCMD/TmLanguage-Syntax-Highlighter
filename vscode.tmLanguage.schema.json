@@ -2,13 +2,13 @@
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"$id": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
 	"title": "VSCode JSON TextMate",
-	"markdownDescription": "[Documentation](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/index.md) | [Schema](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/vscode.tmLanguage.schema.json)",
 	"$comment": "https://opis.io/json-schema/2.x/",
 	"allowComments": false,
 	"allowTrailingCommas": false,
 	"$ref": "#/definitions/root",
 	"definitions": {
 		"root": {
+			"markdownDescription": "[Documentation](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/index.md) | [Schema](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/vscode.tmLanguage.schema.json)",
 			"type": "object",
 			"required": [
 				"scopeName",
@@ -987,7 +987,7 @@
 		"include": {
 			"description": "Reference an item in a repository",
 			"type": "string",
-			"pattern": "^[\\w\\-.$]*#?[\\w\\-#. $]*$",
+			"pattern": "^[\\w.#$-]*$",
 			"defaultSnippets": [
 				{
 					"label": "#repo-item",
