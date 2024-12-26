@@ -186,6 +186,7 @@
 				"editor.suggest.preview": true,
 				"editor.suggest.matchOnWordStartOnly": false,
 				"editor.quickSuggestions": {
+					"strings": "inline",
 					"other": "inline",
 					"comments": "off"
 				},
