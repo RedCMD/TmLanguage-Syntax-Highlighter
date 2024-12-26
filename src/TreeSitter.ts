@@ -93,14 +93,16 @@ export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoi
 	if (query == null && node) {
 		const language = node.tree.getLanguage();
 		// const start = performance.now();
-		query = language.query(queryString);
-		// if (performance.now() - start > 100) {
-		// 	vscode.window.showInformationMessage(`queryString ${(performance.now() - start).toFixed(3)}ms: ${queryString}\n${JSON.stringify(query)}`);
-		// }
-		query.disableCapture('_ignore_');
-		queryCache[queryString] = query;
-		// vscode.window.showInformationMessage(JSON.stringify(query, stringify));
-		// vscode.window.showInformationMessage(JSON.stringify(queryString));
+		try {
+			query = language.query(queryString);
+			// if (performance.now() - start > 100) {
+			// 	vscode.window.showInformationMessage(`queryString ${(performance.now() - start).toFixed(3)}ms: ${queryString}\n${JSON.stringify(query)}`);
+			// }
+			query.disableCapture('_ignore_');
+			queryCache[queryString] = query;
+			// vscode.window.showInformationMessage(JSON.stringify(query, stringify));
+			// vscode.window.showInformationMessage(JSON.stringify(queryString));
+		} catch (error) { }
 	}
 
 	// vscode.window.showInformationMessage(performance.now() - start + "ms");
@@ -115,7 +117,7 @@ export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoi
 
 	// const queryCaptures = query.captures(node, queryOptions);
 	// const start = performance.now();
-	const queryMatches = node ? query.matches(node, queryOptions) : [];
+	const queryMatches = node && query ? query.matches(node, queryOptions) : [];
 	// if (query.didExceedMatchLimit()) {
 	// 	vscode.window.showInformationMessage(`matchLimit ${queryString}\n${JSON.stringify(queryMatches)}`);
 	// }

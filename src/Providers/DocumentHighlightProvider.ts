@@ -3,25 +3,30 @@ import { getTrees, queryNode, toPoint, toRange } from "../TreeSitter";
 
 export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 	provideDocumentHighlights(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.DocumentHighlight[] | undefined {
-		// vscode.window.showInformationMessage(JSON.stringify("DocumentHighlights"));
+		// vscode.window.showInformationMessage(`DocumentHighlights ${JSON.stringify(position)}\n${JSON.stringify(document)}`);
 		// const start = performance.now();
 		const trees = getTrees(document);
-		const jsonTree = trees.jsonTree;
+		const rootNode = trees.jsonTree.rootNode;
 		const point = toPoint(position);
 
 		const cursorQuery = `;scm
-			(key) @key
-			(value !scopeName !ruleName !self !base) @value
 			(capture . (key) @key)
 			(repo . (key) @repo)
 			(json (scopeName (value) @rootScopeName))
-			(include (value (scopeName) !ruleName !base) @scopeName)
+			(include (value (scopeName) @scopeName !ruleName !base))
 			(include (value (ruleName)) @include)
 			(include (value !scopeName (self) @self))
 			(include (value (base) @base))
-			(name (value (scope) @scope))
+			(name (value (scope) @name))
+			(contentName (value (scope) @name))
+			(injectionSelector (value (scope) @injection))
+			(injection (key (scope) @injection))
 		`;
-		const cursorCapture = queryNode(jsonTree.rootNode, cursorQuery, point);
+		const fallbackQuery = `;scm
+			(key) @key
+			(value !scopeName !ruleName !self !base) @value
+		`;
+		const cursorCapture = queryNode(rootNode, cursorQuery, point) || queryNode(rootNode, fallbackQuery, point);
 		// vscode.window.showInformationMessage(JSON.stringify(cursorCapture));
 		if (!cursorCapture) {
 			return;
@@ -34,18 +39,22 @@ export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 
 
 		// const scopeName = cursorNode.parent.childForFieldName('scopeName')?.text; 
-		const rootScopeName = queryNode(jsonTree.rootNode, `(json (scopeName (value) @scopeName))`).pop()?.node?.text;
+		const rootScopeName = queryNode(rootNode, `(json (scopeName (value) @scopeName))`).pop()?.node?.text;
 
 
 		let query = ``;
 		switch (cursorName) {
 			case 'key':
 				const cursorType = cursorNode.parent!.type;
-				if (cursorType != 'repo') {
-					query = `(${cursorType} . (key) @key (#eq? @key "${cursorText}"))`;
-					break;
-				}
-			// FallThrough
+				query = `;scm
+					(${cursorType} . (key) @key (#eq? @key "${cursorText}"))
+				`;
+				break;
+			case 'value':
+				query = `;scm
+					((value) @value (#eq? @value "${cursorText}"))
+				`;
+				break;
 			case 'repo':
 				query = `;scm
 					(repo (key) @repo (#eq? @repo "${cursorText}"))
@@ -57,46 +66,83 @@ export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 					)
 				`;
 				break;
-			case 'value':
-				query = `(_ (value) @value (#eq? @value "${cursorText}"))`;
-				break;
 			case 'self':
 			case 'rootScopeName':
-				query = `(json (scopeName (value) @scopeName))`;
-				query += `(include (value (scopeName) @_scopeName (#eq? @_scopeName "${rootScopeName}") !ruleName !base) @include)`;
-				query += `(include (value (self) !scopeName) @self)`;
+				query = `;scm
+					(json (scopeName (value) @scopeName))
+					(include (value (scopeName) @scopeName (#eq? @scopeName "${rootScopeName}") !base))
+					(include (value (self) !scopeName) @self)
+					(injectionSelector (value (scope) @scope (#eq? @scope "${cursorText}")))
+					(injection (key (scope) @scope (#eq? @scope "${cursorText}")))
+				`;
 				break;
 			case 'base':
-				query = `(include (value (base)) @base)`;
+				query = `;scm
+					(include (value (base)) @base)
+				`;
 				break;
 			case 'scopeName':
-				const scopeName = cursorNode.childForFieldName('scopeName')?.text;
-				query = `(include (value (scopeName) @_scopeName (#eq? @_scopeName "${scopeName}") !ruleName !base) @include)`;
-				if (scopeName == rootScopeName) {
-					query += `(json (scopeName (value) @scopeName))`;
-					query += `(include (value (self) !scopeName) @self)`;
+				query = `;scm
+					(include (value (scopeName) @scopeName (#eq? @scopeName "${cursorText}") !base))
+					(injectionSelector (value (scope) @scope (#eq? @scope "${cursorText}")))
+					(injection (key (scope) @scope (#eq? @scope "${cursorText}")))
+				`;
+				if (cursorText == rootScopeName) {
+					query += `;scm
+						(json (scopeName (value) @scopeName))
+						(include (value (self) !scopeName) @self)
+					`;
 				}
 				break;
 			case 'include':
-				const scopeName2 = cursorNode.childForFieldName('scopeName')?.text;
-				const ruleName = cursorNode.childForFieldName('ruleName')?.text;
-				if (!scopeName2 || scopeName2 == rootScopeName) {
-					query = `(include (value (scopeName)? @_scopeName (#eq? @_scopeName "${scopeName2 ?? rootScopeName}") (ruleName) @_ruleName (#eq? @_ruleName "${ruleName}")) @include)`;
-					query += `(repo (key) @repo (#eq? @repo "${ruleName}"))`;
+				const scopeName = cursorNode.childForFieldName('scopeName')?.text || '';
+				const ruleName = cursorNode.childForFieldName('ruleName')?.text || '';
+				if (!scopeName || scopeName == rootScopeName) {
+					query = `;scm
+						(include
+							(value
+								(scopeName)? @_scopeName (#eq? @_scopeName "${scopeName || rootScopeName}")
+								(ruleName) @_ruleName (#eq? @_ruleName "${ruleName}")
+							) @include
+						)
+						(repo (key) @repo (#eq? @repo "${ruleName}"))
+					`;
 				}
 				else {
-					query = `(include (value (scopeName) @_scopeName (#eq? @_scopeName "${scopeName2}") (ruleName) @_ruleName (#eq? @_ruleName "${ruleName}")) @include)`;
+					query = `;scm
+						(include
+							(value
+								(scopeName) @_scopeName (#eq? @_scopeName "${scopeName}")
+								(ruleName) @_ruleName (#eq? @_ruleName "${ruleName}")
+							) @include
+						)
+					`;
 				}
 				break;
-			case 'scope':
-				query = `(name (value (scope) @scope (#eq? @scope "${cursorText}")))`;
+			case 'name':
+				query = `;scm
+					(name (value (scope) @scope (#eq? @scope "${cursorText}")))
+					(contentName (value (scope) @scope (#eq? @scope "${cursorText}")))
+					(injectionSelector (value (scope) @scope (#eq? @scope "${cursorText}")))
+					(injection (key (scope) @scope (#eq? @scope "${cursorText}")))
+				`;
+				break;
+			case 'injection':
+				query = `;scm
+					(name (value (scope) @scope (#eq? @scope "${cursorText}")))
+					(contentName (value (scope) @scope (#eq? @scope "${cursorText}")))
+					(injectionSelector (value (scope) @scope (#eq? @scope "${cursorText}")))
+					(injection (key (scope) @scope (#eq? @scope "${cursorText}")))
+					(include (value (scopeName) @scopeName (#eq? @scopeName "${cursorText}") !base))
+					(json (scopeName (value) @scopeName (#eq? @scopeName "${cursorText}")))
+				`;
 				break;
 			default:
 				return;
 		}
 
 		const documentHighlights: vscode.DocumentHighlight[] = [];
-		const queryCaptures = queryNode(jsonTree.rootNode, query);
+		const queryCaptures = queryNode(rootNode, query);
 		for (const queryCapture of queryCaptures) {
 			if (queryCapture.name.charAt(0) == '_') {
 				// Ignore internal use captures
@@ -108,7 +154,7 @@ export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 			documentHighlights.push(documentHighlight);
 		}
 
-		// vscode.window.showInformationMessage(`documentHighlights ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(documentHighlights)}`);
+		// vscode.window.showInformationMessage(`documentHighlights ${(performance.now() - start).toFixed(3)}ms\n${query}\n${JSON.stringify(documentHighlights)}`);
 		return documentHighlights;
 	}
 };

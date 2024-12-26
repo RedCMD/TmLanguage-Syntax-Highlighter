@@ -1,4 +1,4 @@
-// https://github.com/tree-sitter/tree-sitter/blob/master/docs/section-3-creating-parsers.md
+// https://github.com/tree-sitter/tree-sitter/blob/master/docs/src/creating-parsers/3-writing-the-grammar.md
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 

@@ -546,7 +546,7 @@ function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], rootNode:
 		diagnostics.push(diagnostic);
 	}
 
-	// vscode.window.showInformationMessage(`dead ${(performance.now() - start).toFixed(3)}ms`);
+	// vscode.window.showInformationMessage(`dead ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(diagnostics, stringify)}`);
 }
 
 async function diagnosticsMismatchingRootScopeName(diagnostics: vscode.Diagnostic[], rootNode: SyntaxNode, document: vscode.TextDocument) {

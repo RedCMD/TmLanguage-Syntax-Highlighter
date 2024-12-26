@@ -1,4 +1,4 @@
-// https://github.com/tree-sitter/tree-sitter/blob/master/docs/section-3-creating-parsers.md
+// https://github.com/tree-sitter/tree-sitter/blob/master/docs/src/creating-parsers/3-writing-the-grammar.md
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
@@ -262,7 +262,7 @@ module.exports = grammar({
 				choice(
 					repeat1(
 						choice(
-							$._scope,
+							$._name_scope,
 							/ +/,
 						),
 					),
@@ -271,7 +271,7 @@ module.exports = grammar({
 				$.value,
 			),
 		),
-		_scope: $ => fieldAlias($,
+		_name_scope: $ => fieldAlias($,
 			"scope",
 			prec.right(
 				repeat1(
@@ -309,19 +309,83 @@ module.exports = grammar({
 		),
 		_injectionSelectorValue: $ => choice(
 			array($, $._injectionSelectorValue),
-			string($),
+			string($,
+				alias(
+					choice(
+						$.injection_string,
+						$._forceStringNode,
+					),
+					$.value,
+				),
+			),
 		),
 		injections: $ => pair($,
 			"injections",
 			object($, $.injection),
 		),
 		injection: $ => pair($,
-			undefined,
+			$.injection_string,
 			object($,
 				choice(
 					$.patterns,
 					$._comments,
 					$.item,
+				),
+			),
+		),
+		injection_string: $ => choice(
+			repeat1($._injection_scopes),
+			seq(
+				seq(
+					optional($._injection_whitespace),
+					choice(
+						alias(
+							token(
+								prec(1,
+									choice(
+										'L:',
+										'R:',
+									),
+								),
+							),
+							$.selector,
+						),
+						seq(
+							alias(
+								/[_a-zA-Z0-9:.]:/,
+								$.selector,
+							),
+							$._injection_whitespace,
+						),
+					),
+				),
+				repeat($._injection_scopes),
+			),
+		),
+		_injection_scopes: $ => choice(
+			// fieldAlias($,
+			// 	"scope",
+			// 	/[_a-zA-Z0-9.:][_a-zA-Z0-9.:-]*/,
+			// ),
+			alias(
+				/[_a-zA-Z0-9.:][_a-zA-Z0-9.:-]*/,
+				$.scope,
+			),
+			'-',
+			',',
+			'|',
+			seq(
+				'(',
+				repeat($._injection_scopes),
+				')',
+			),
+			$._injection_whitespace,
+		),
+		_injection_whitespace: $ => token(
+			repeat1(
+				choice(
+					/\\[\\"/bfnrt]/,
+					/[^\\"\w.:|()-]/,
 				),
 			),
 		),
@@ -664,11 +728,13 @@ function pair($, key, value) {
 							$._string,
 							$._forceStringNode,
 						) :
-						token(
-							prec.right(-1,
-								key,
-							),
-						),
+						typeof key == "string" ?
+							token(
+								prec.right(-1,
+									key,
+								),
+							) :
+							key,
 				),
 			),
 			$._colon,
