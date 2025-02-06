@@ -30,6 +30,7 @@
 		}
 	},
 	"patterns": [
+		{ "//include": "#test" },
 		{ "include": "#character-types" },
 		{ "include": "#character-types-2" },
 		{ "include": "#characters" },
@@ -54,7 +55,6 @@
 		{ "include": "#capture-group" },
 		{ "include": "#escape-character" },
 		{ "include": "#invalid" },
-		{ "//include": "#test" },
 		{ "include": "#character-literal" }
 	],
 	"repository": {
@@ -249,7 +249,7 @@
 			]
 		},
 		"capture-group-lookbehind-invalid": {
-			"comment": "(?=...)? (?!...)+ (?<!...)*",
+			"comment": "(?=...)? (?!...)+ (?<!...)* (?~...)",
 			"begin": "\\(\\?(<?!|=)",
 			"end": "\\)(?>[+*?]|(?D){(?>\\d+,?\\d*|,\\d+)})?|(?=\")",
 			"captures": {
@@ -263,7 +263,7 @@
 			]
 		},
 		"capture-group-lookbehind-invalid-extended": {
-			"comment": "(?=...)? (?!...)+ (?<!...)*",
+			"comment": "(?=...)? (?!...)+ (?<!...)* (?~...)",
 			"begin": "\\(\\?(<?!|=)",
 			"end": "\\)(?>[+*?]|(?D){(?>\\d+,?\\d*|,\\d+)})?|(?=\")",
 			"captures": {
@@ -1056,7 +1056,7 @@
 		"character-class-posix": {
 			"patterns": [
 				{
-					"match": "\\[::]",
+					"match": "\\[:\\^?+:]",
 					"name": "posix.tm invalid.illegal.tm"
 				},
 				{
