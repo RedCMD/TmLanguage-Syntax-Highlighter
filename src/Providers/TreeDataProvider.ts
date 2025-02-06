@@ -216,7 +216,8 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				}
 				const rule = grammar._ruleId2desc[ruleId];
 				if (!rule) {
-					vscode.window.showInformationMessage(JSON.stringify(matchResult, stringify));
+					// vscode.window.showInformationMessage(`noRule: ${ruleId}\n${JSON.stringify(matchResult, stringify)}`);
+					continue;
 				}
 				if (rule._begin && !rule._while) {
 					depth++;
@@ -389,7 +390,9 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			const timeFixed = time.toFixed(3);
 
 			// const label = cachedRule.id + ": " + ruleCached[rule.matchedRuleId] + ": " + id;
-			const label = cachedRule._name || cachedRule._contentName || Math.abs(ruleId).toString();
+			// vscode.window.showInformationMessage(`cachedRule\n${JSON.stringify(cachedRule)}`);
+			const label = cachedRule?._name || cachedRule?._contentName || (ruleId ? Math.abs(ruleId).toString() : '<EOL>');
+			// vscode.window.showInformationMessage(`label\n${JSON.stringify(label)}`);
 			const treeLabel: vscode.TreeItemLabel = {
 				label: `${label}${time >= 1 ? '⚠️' : ''}`,
 				// highlights: ruleCached[rule.matchedRuleId] == id ? [[0, label.length]] : null,
@@ -397,7 +400,7 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			};
 			const item = new vscode.TreeItem(
 				treeLabel,
-				cachedRule._begin && ruleId >= 0 ? vscode.TreeItemCollapsibleState.Expanded : vscode.TreeItemCollapsibleState.None, // TODO: toggle option
+				cachedRule?._begin && ruleId >= 0 ? vscode.TreeItemCollapsibleState.Expanded : vscode.TreeItemCollapsibleState.None, // TODO: toggle option
 			);
 			item.id = `_${id}`;
 			if (!grammar.lines[line]) {
@@ -407,14 +410,14 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			}
 			item.description = timeFixed + "ms" + (grammar.lines[line]?.stoppedEarly ? '❌' : time >= 1 ? ' ⚠️' : '');
 			// item.description = timeFixed + "ms" + (ruleCached[rule.matchedRuleId] == id /* && !cachedRule._match */ ? ' ⚠️' : '');
-			if (cachedRule._match) {
+			if (cachedRule?._match) {
 				item.iconPath = new vscode.ThemeIcon('regex');
 				// item.iconPath = new vscode.ThemeIcon('symbol-event');
 			}
-			else if (cachedRule._begin && ruleId < 0) {
+			else if (cachedRule?._begin && ruleId < 0) {
 				item.iconPath = new vscode.ThemeIcon('chevron-up');
 			}
-			item.tooltip = `${cachedRule._match ? `match: ${cachedRule._match.source}` : ''}${ruleId >= 0 ? (cachedRule._begin ? `begin: ${cachedRule._begin.source}` : '') : (cachedRule._end ? `end: ${cachedRule._end.source}` : '')}${cachedRule._while ? `while: ${cachedRule._while.source}` : ''}\nRuleId: ${ruleId}`;
+			item.tooltip = `${cachedRule?._match ? `match: ${cachedRule._match.source}` : ''}${ruleId >= 0 ? (cachedRule?._begin ? `begin: ${cachedRule._begin.source}` : '') : (cachedRule?._end ? `end: ${cachedRule._end.source}` : '')}${cachedRule?._while ? `while: ${cachedRule._while.source}` : ''}${ruleId ? '' : '<EndOfLine>'}\nRuleId: ${ruleId}`;
 			item.command = {
 				title: `Show Call Details`,
 				command: 'textmate.call.details',
@@ -647,6 +650,7 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 			const cachedRule = grammar._ruleId2desc[Math.abs(ruleId)];
 			// vscode.window.showInformationMessage(`cachedRule ${JSON.stringify(ruleId, stringify)}\n${JSON.stringify(cachedRule, stringify)}`);
 			const regexes: string[] = [];
+			// vscode.window.showInformationMessage(`_cachedCompiledPatterns\n${JSON.stringify(cachedRule._cachedCompiledPatterns!._items, stringify)}`);
 			for (const regexSource of cachedRule._cachedCompiledPatterns!._items) {
 				regexes.push(regexSource.source);
 			}
@@ -665,12 +669,13 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 			const onigMatch = scanner.findNextMatchSync(onigLineText, start, options);
 			const time = performance.now() - startTime;
 			const timeFixed = time.toFixed(3);
+			// vscode.window.showInformationMessage(`onigMatch ${start} ${options}\n${JSON.stringify(onigMatch, stringify)}\n${JSON.stringify(onigLineText, stringify)}`);
 			scanner.dispose();
 
 			// const regex = cachedRule._match?.source ?? (ruleId < 0 ? cachedRule._while?.source ?? cachedRule._end?.source : cachedRule._begin?.source);
 			const item = new vscode.TreeItem(
 				// regex.substring(0, 50),
-				cachedRule._cachedCompiledPatterns!._items[onigMatch!.index].source.substring(0, 50),
+				onigMatch ? cachedRule._cachedCompiledPatterns!._items[onigMatch.index].source.substring(0, 50) : '<EOL>',
 				vscode.TreeItemCollapsibleState.Expanded,
 			);
 
@@ -749,15 +754,17 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 
 export function initCallStackView(context: vscode.ExtensionContext): void {
 	// vscode.window.showInformationMessage(`initCallStackView\n${JSON.stringify(context)}`);
-	context.subscriptions.push(vscode.commands.registerTextEditorCommand("textmate.callstack", CallStackView));
-	context.subscriptions.push(vscode.commands.registerCommand("textmate.refresh", refresh));
-	context.subscriptions.push(vscode.commands.registerCommand("textmate.find", find));
-	context.subscriptions.push(vscode.commands.registerCommand("textmate.call.details", callDetails));
-	context.subscriptions.push(vscode.commands.registerCommand("textmate.goto.file", gotoFile));
-	context.subscriptions.push(vscode.commands.registerCommand("textmate.goto.grammar", gotoGrammar));
-	context.subscriptions.push(vscode.commands.registerCommand("textmate.tree-view", (element: element) => changeView('tree', element)));
-	context.subscriptions.push(vscode.commands.registerCommand("textmate.list-view", (element: element) => changeView('list', element)));
-	// context.subscriptions.push(vscode.window.onDidChangeActiveColorTheme(updateWorkbench_colorCustomizations));
+	context.subscriptions.push(
+		vscode.commands.registerTextEditorCommand("textmate.callstack", CallStackView),
+		vscode.commands.registerCommand("textmate.refresh", refresh),
+		vscode.commands.registerCommand("textmate.find", find),
+		vscode.commands.registerCommand("textmate.call.details", callDetails),
+		vscode.commands.registerCommand("textmate.goto.file", gotoFile),
+		vscode.commands.registerCommand("textmate.goto.grammar", gotoGrammar),
+		vscode.commands.registerCommand("textmate.tree-view", (element: element) => changeView('tree', element)),
+		vscode.commands.registerCommand("textmate.list-view", (element: element) => changeView('list', element)),
+		// vscode.window.onDidChangeActiveColorTheme(updateWorkbench_colorCustomizations),
+	);
 
 	// await updateWorkbench_colorCustomizations();
 

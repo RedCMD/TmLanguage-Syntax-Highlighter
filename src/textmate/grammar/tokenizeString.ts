@@ -97,6 +97,30 @@ export function _tokenizeString(
 			// No match
 			lineTokens.produce(stack, lineLength);
 			STOP = true;
+			const captureIndices = [
+				{
+					start: linePos,
+					end: lineLength,
+					length: lineLength - linePos,
+				}
+			];
+			// @ts-ignore
+			grammar.rules.push(
+				{
+					captureIndices: captureIndices,
+					// captureIndices: captureIndices,
+					// matchedRuleId: matchedRuleId == endRuleId ? -poppedRule!.id : matchedRuleId,
+					// lineText: lineText,
+					// isFirstLine: isFirstLine,
+					linePos: prevLinePos,
+					// stack: stack,
+					anchorPosition: anchorPosition,
+					time: performance.now(),
+					// @ts-ignore
+					// length: grammar._ruleId2desc.length - 1,
+					// lastRuleId: grammar._lastRuleId,
+				}
+			);
 			return;
 		}
 
