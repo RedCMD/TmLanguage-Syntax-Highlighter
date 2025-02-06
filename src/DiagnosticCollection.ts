@@ -272,7 +272,7 @@ function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[], trees
 			 * VSCode TextMate escapes all special regex characters
 			 * and replaces the backreferences directly
 			 */
-			if (/\\[1-9](\d{2})?(?!\d)/.test(regex)) {
+			if (/\\[0-9]/.test(regex)) {
 				const beginNode = getLastNode(regexNode.parent!.parent!, 'begin')?.childForFieldName('regex');
 				if (beginNode) {
 					const beginRegex = trees.regexTrees.get(beginNode.id)?.rootNode;
@@ -296,11 +296,12 @@ function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[], trees
 						// https://github.com/microsoft/vscode-textmate/blob/main/src/utils.ts#L160
 						// https://github.com/microsoft/vscode-textmate/issues/239
 						regex = regex.replace(
-							new RegExp(`\\\\${index}(?!\\d)`, 'g'),
+							new RegExp(`\\\\0*${index}(?![0-9])`, 'g'), // TextMate 2.0 only targets single digit backreferences `\\[0-9]` vs `\\[0-9]+`
 							groupText,
 						);
 						index++;
 					}
+					regex = regex.replace(new RegExp(`\\\\[0-9]+`, 'g'), ''); // All non-existent backreferences are removed
 				}
 			}
 		}
