@@ -1,11 +1,11 @@
 import * as vscode from 'vscode';
 import * as Parser from 'web-tree-sitter';
+import { Node } from 'web-tree-sitter';
 import { getTrees, toRange, toPoint, queryNode, getLastNode, trees } from "../TreeSitter";
 import { ITextMateThemingRule } from "../extensions";
 import { getScopes } from "../themeScopeColors";
 import { UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
 import { unicode_property_data } from "../unicode_property_data";
-import { SyntaxNode } from 'web-tree-sitter';
 import { getPackageJSON, sleep } from '../extension';
 
 type CompletionItem = vscode.CompletionItem & { type?: string; };
@@ -631,7 +631,7 @@ function repoCompletionItems(completionItems: CompletionItem[], tree: Parser.Tre
 	}
 }
 
-function locateRegex(trees: trees, nameNode: SyntaxNode): Parser.QueryCapture[] {
+function locateRegex(trees: trees, nameNode: Node): Parser.QueryCapture[] {
 	const parent = nameNode.parent!;
 	if (nameNode.type == 'name' && parent.childForFieldName('match')) {
 		return getCaptureGroups(trees, parent, 'match');
@@ -694,7 +694,7 @@ function locateRegex(trees: trees, nameNode: SyntaxNode): Parser.QueryCapture[] 
 	return [];
 }
 
-function getCaptureGroups(trees: trees, parentNode: SyntaxNode, type: string): Parser.QueryCapture[] {
+function getCaptureGroups(trees: trees, parentNode: Node, type: string): Parser.QueryCapture[] {
 	const node = getLastNode(parentNode, type);
 	if (!node) {
 		return [];

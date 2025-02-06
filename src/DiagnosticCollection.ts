@@ -1,9 +1,9 @@
 import * as vscode from 'vscode';
 import * as vscodeOniguruma from 'vscode-oniguruma';
+import { Node } from 'web-tree-sitter';
 import { getLastNode, getTrees, parseEvents, queryNode, toRange, trees } from "./TreeSitter";
 import { DocumentSelector, getPackageJSON, stringify } from "./extension";
 import { unicodeproperties } from "./UNICODE_PROPERTIES";
-import { SyntaxNode } from 'web-tree-sitter';
 
 
 type IOnigBinding = {
@@ -82,7 +82,7 @@ async function Diagnostics(document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage(`Diagnostics ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(diagnostics)}`);
 }
 
-function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[], rootNode: SyntaxNode) {
+function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[], rootNode: Node) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics JSON"));
 	// const start = performance.now();
 	const jsonQuery = `;scm
@@ -314,6 +314,7 @@ function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[], trees
 
 		// const string = vscodeOniguruma.createOnigString(''); // blank. Maybe can test against a user provided string?
 		// const match = scanner.findNextMatchSync(string, 0); // returns null if `regex` is invalid
+		// vscode.window.showInformationMessage(`Oniguruma ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(match, stringify)}`);
 
 		if (errorCode != 'undefined error code') {
 			const range = toRange(key);
@@ -329,7 +330,7 @@ function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[], trees
 	// vscode.window.showInformationMessage(`Oniguruma ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: SyntaxNode) {
+function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: Node) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics #includes"))
 	// const start = performance.now();
 
@@ -458,7 +459,7 @@ function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: S
 	// vscode.window.showInformationMessage(`include ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], rootNode: SyntaxNode) {
+function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], rootNode: Node) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics TextMate dead"));
 	// const start = performance.now();
 
@@ -549,7 +550,7 @@ function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], rootNode:
 	// vscode.window.showInformationMessage(`dead ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(diagnostics, stringify)}`);
 }
 
-async function diagnosticsMismatchingRootScopeName(diagnostics: vscode.Diagnostic[], rootNode: SyntaxNode, document: vscode.TextDocument) {
+async function diagnosticsMismatchingRootScopeName(diagnostics: vscode.Diagnostic[], rootNode: Node, document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics scopeName"));
 	// const start = performance.now();
 

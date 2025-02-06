@@ -1,11 +1,11 @@
 import * as vscode from 'vscode';
-import * as Parser from 'web-tree-sitter';
+import * as TreeSitter from 'web-tree-sitter';
 import { DocumentSelector, stringify } from "./extension";
 
 export type trees = {
-	readonly jsonTree: Parser.Tree;
-	readonly regexTrees: Map<number, Parser.Tree>;
-	readonly regexNodes: Map<number, Parser.SyntaxNode>;
+	readonly jsonTree: TreeSitter.Tree;
+	readonly regexTrees: Map<number, TreeSitter.Tree>;
+	readonly regexNodes: Map<number, TreeSitter.Node>;
 };
 
 const trees: {
@@ -33,7 +33,7 @@ export function getTrees(source: vscode.TextDocument | vscode.Uri): trees {
 	return docTrees;
 }
 
-export function getRegexNode(source: vscode.TextDocument | vscode.Uri | trees | trees["regexTrees"], node: Parser.SyntaxNode | number): Parser.SyntaxNode | undefined {
+export function getRegexNode(source: vscode.TextDocument | vscode.Uri | trees | trees["regexTrees"], node: TreeSitter.Node | number): TreeSitter.Node | undefined {
 	const nodeId = typeof node == 'number' ? node : node.id;
 	if ('uri' in source) {
 		const uriString = source.uri.toString();
@@ -59,7 +59,7 @@ export function getRegexNode(source: vscode.TextDocument | vscode.Uri | trees | 
 /**
  * Returns the first non-empty comment in the parent node
  */
-export function getComment(node: Parser.SyntaxNode): string {
+export function getComment(node: TreeSitter.Node): string {
 	const parent = node.parent!;
 	const query = `;scm
 		(comment (value) @comment (.not-eq? @comment ""))
@@ -69,32 +69,32 @@ export function getComment(node: Parser.SyntaxNode): string {
 	return capture?.node?.text?.replace(/\\(.)?/g, '$1') || '';
 }
 
-export function getLastNode(rootNode: Parser.SyntaxNode, type: string) {
+export function getLastNode(rootNode: TreeSitter.Node, type: string) {
 	const nodes = rootNode.namedChildren;
 	for (let index = nodes.length - 1; index >= 0; index--) { // bottom up
 		const childNode = nodes[index];
-		if (childNode.type == type) {
+		if (childNode?.type == type) {
 			return childNode;
 		}
 	}
 }
 
-const queryCache: { [query: string]: Parser.Query; } = {};
+const queryCache: { [query: string]: TreeSitter.Query; } = {};
 
-export function queryNode(node: Parser.SyntaxNode, queryString: string): Parser.QueryCapture[];
-export function queryNode(node: Parser.SyntaxNode, queryString: string, point: Parser.Point): Parser.QueryCapture | null;
-export function queryNode(node: Parser.SyntaxNode, queryString: string, point: Parser.Point, mustIntersectPoint: false): Parser.QueryCapture | undefined;
-export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoint: Parser.Point, endPoint: Parser.Point): Parser.QueryCapture[];
-export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoint?: Parser.Point, endPoint?: Parser.Point | false): Parser.QueryCapture[] | Parser.QueryCapture | null | undefined {
+export function queryNode(node: TreeSitter.Node, queryString: string): TreeSitter.QueryCapture[];
+export function queryNode(node: TreeSitter.Node, queryString: string, point: TreeSitter.Point): TreeSitter.QueryCapture | null;
+export function queryNode(node: TreeSitter.Node, queryString: string, point: TreeSitter.Point, mustIntersectPoint: false): TreeSitter.QueryCapture | undefined;
+export function queryNode(node: TreeSitter.Node, queryString: string, startPoint: TreeSitter.Point, endPoint: TreeSitter.Point): TreeSitter.QueryCapture[];
+export function queryNode(node: TreeSitter.Node, queryString: string, startPoint?: TreeSitter.Point, endPoint?: TreeSitter.Point | false): TreeSitter.QueryCapture[] | TreeSitter.QueryCapture | null | undefined {
 	// const start = performance.now();
 	let query = queryCache[queryString];
 	// query = null;
 
 	if (query == null && node) {
-		const language = node.tree.getLanguage();
+		const language = node.tree.language;
 		// const start = performance.now();
 		try {
-			query = language.query(queryString);
+			query = new TreeSitter.Query(language, queryString);
 			// if (performance.now() - start > 100) {
 			// 	vscode.window.showInformationMessage(`queryString ${(performance.now() - start).toFixed(3)}ms: ${queryString}\n${JSON.stringify(query)}`);
 			// }
@@ -106,7 +106,7 @@ export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoi
 	}
 
 	// vscode.window.showInformationMessage(performance.now() - start + "ms");
-	const queryOptions: Parser.QueryOptions = {
+	const queryOptions: TreeSitter.QueryOptions = {
 		startPosition: startPoint,
 		endPosition: endPoint || startPoint,
 		// startIndex: 0,
@@ -152,7 +152,7 @@ export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoi
 		}
 		return null;
 	}
-	let queryCaptures: Parser.QueryCapture[] = [];
+	let queryCaptures: TreeSitter.QueryCapture[] = [];
 	for (const queryMatch of queryMatches) {
 		const captures = queryMatch.captures;
 		queryCaptures = queryCaptures.concat(captures);
@@ -160,12 +160,12 @@ export function queryNode(node: Parser.SyntaxNode, queryString: string, startPoi
 	return queryCaptures;
 }
 
-export function toRange(node: Parser.SyntaxNode): vscode.Range;
-export function toRange(points: Parser.Point): vscode.Range;
-export function toRange(start: Parser.Point, end: Parser.Point): vscode.Range;
-export function toRange(nodePoint: Parser.SyntaxNode | Parser.Point, end?: Parser.Point): vscode.Range {
-	const startPosition = (<Parser.SyntaxNode>nodePoint)?.startPosition || nodePoint;
-	const endPosition = (<Parser.SyntaxNode>nodePoint)?.endPosition || end || startPosition;
+export function toRange(node: TreeSitter.Node): vscode.Range;
+export function toRange(points: TreeSitter.Point): vscode.Range;
+export function toRange(start: TreeSitter.Point, end: TreeSitter.Point): vscode.Range;
+export function toRange(nodePoint: TreeSitter.Node | TreeSitter.Point, end?: TreeSitter.Point): vscode.Range {
+	const startPosition = (<TreeSitter.Node>nodePoint)?.startPosition || nodePoint;
+	const endPosition = (<TreeSitter.Node>nodePoint)?.endPosition || end || startPosition;
 	const range = new vscode.Range(
 		startPosition.row,
 		startPosition.column,
@@ -175,14 +175,14 @@ export function toRange(nodePoint: Parser.SyntaxNode | Parser.Point, end?: Parse
 	return range;
 }
 
-export function toPoint(position: vscode.Position): Parser.Point {
+export function toPoint(position: vscode.Position): TreeSitter.Point {
 	const row = position?.line;
 	const column = position?.character;
-	const point: Parser.Point = { row: row, column: column };
+	const point: TreeSitter.Point = { row: row, column: column };
 	return point;
 }
 
-export function toPosition(point: Parser.Point): vscode.Position {
+export function toPosition(point: TreeSitter.Point): vscode.Position {
 	const line = point?.row;
 	const character = point?.column;
 	const position = new vscode.Position(line, character);
@@ -192,35 +192,36 @@ export function toPosition(point: Parser.Point): vscode.Position {
 
 export const parseEvents: ((document: vscode.TextDocument) => void)[] = [];
 
-let jsonParser: Parser;
-let regexParser: Parser;
+let jsonParser: TreeSitter.Parser;
+let regexParser: TreeSitter.Parser;
 
-declare var navigator: object | undefined;
+declare var navigator: EmscriptenModule | undefined;
 export async function initTreeSitter(context: vscode.ExtensionContext) {
 	// vscode.window.showInformationMessage(JSON.stringify("TreeSitterInit"));
 
 	// We only need to provide these options when running in the web worker
-	const moduleOptions: object | undefined = typeof navigator === 'undefined'
+	// @ts-ignore
+	const moduleOptions: EmscriptenModule | undefined = typeof navigator === 'undefined'
 		? undefined
 		: {
-			locateFile() {
+			locateFile(): string {
 				return vscode.Uri.joinPath(context.extensionUri, 'node_modules', 'web-tree-sitter', 'tree-sitter.wasm').toString(true);
 			}
 		};
-	await Parser.init(moduleOptions); // Everything MUST wait until TreeSitter initializes
+	await TreeSitter.Parser.init(moduleOptions); // Everything MUST wait until TreeSitter initializes
 
 	// vscode.window.showInformationMessage(JSON.stringify("Parser"));
 
-	jsonParser = new Parser();
+	jsonParser = new TreeSitter.Parser();
 	const jsonWasmUri = vscode.Uri.joinPath(context.extensionUri, 'out', 'tree-sitter-jsontm.wasm');
 	const jsonWasm = jsonWasmUri.scheme === 'file' ? jsonWasmUri.fsPath : jsonWasmUri.toString(true);
-	const jsonLanguage = await Parser.Language.load(jsonWasm);
+	const jsonLanguage = await TreeSitter.Language.load(jsonWasm);
 	jsonParser.setLanguage(jsonLanguage);
 
-	regexParser = new Parser();
+	regexParser = new TreeSitter.Parser();
 	const regexWasmUri = vscode.Uri.joinPath(context.extensionUri, 'out', 'tree-sitter-regextm.wasm');
 	const regexWasm = regexWasmUri.scheme === 'file' ? regexWasmUri.fsPath : regexWasmUri.toString(true);
-	const regexLanguage = await Parser.Language.load(regexWasm);
+	const regexLanguage = await TreeSitter.Language.load(regexWasm);
 	regexParser.setLanguage(regexLanguage);
 
 	const activeDocuments: {
@@ -345,21 +346,27 @@ function parseTextDocument(document: vscode.TextDocument) {
 
 	const text = document.getText();
 	const jsonTree = jsonParser.parse(text);
+	if (!jsonTree) {
+		return;
+	}
 
 	const queryCaptures = queryNode(jsonTree.rootNode, `(regex) @regex`);
-	const regexTrees: trees['regexTrees'] = new Map<number, Parser.Tree>(); // Maps keep their insertion order
-	const regexNodes: trees['regexNodes'] = new Map<number, Parser.SyntaxNode>();
+	const regexTrees: trees['regexTrees'] = new Map<number, TreeSitter.Tree>(); // Maps keep their insertion order
+	const regexNodes: trees['regexNodes'] = new Map<number, TreeSitter.Node>();
 
 	for (const queryCapture of queryCaptures) {
 		const node = queryCapture.node;
-		const range: Parser.Range = {
+		const range: TreeSitter.Range = {
 			startIndex: node.startIndex,
 			endIndex: node.endIndex,
 			startPosition: node.startPosition,
 			endPosition: node.endPosition,
 		};
-		const options: Parser.Options = { includedRanges: [range] };
+		const options: TreeSitter.ParseOptions = { includedRanges: [range] };
 		const regexTree = regexParser.parse(text, undefined, options);
+		if (!regexTree) {
+			continue;
+		}
 
 		regexTrees.set(node.id, regexTree);
 		regexNodes.set(regexTree.rootNode.id, node);
@@ -395,7 +402,7 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 	const jsonTreeOld = trees[uriString].jsonTree;
 	const text = document.getText();
 
-	const deltas: Parser.Edit[] = [];
+	const deltas: TreeSitter.Edit[] = [];
 
 	for (const edit of edits.contentChanges) {
 		const startIndex = edit.rangeOffset;
@@ -414,7 +421,7 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 		const startPosition = toPoint(startPos);
 		const oldEndPosition = toPoint(oldEndPos);
 		const newEndPosition = toPoint(newEndPos);
-		const delta: Parser.Edit = {
+		const delta: TreeSitter.Edit = {
 			startIndex,
 			oldEndIndex,
 			newEndIndex,
@@ -428,17 +435,20 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 	// vscode.window.showInformationMessage(JSON.stringify(deltas));
 
 	const jsonTree = jsonParser.parse(text, jsonTreeOld);
+	if (!jsonTree) {
+		return;
+	}
 
 
 	// Reparse Regex's
 	const oldRegexTrees = trees[uriString].regexTrees;
 
-	const regexTrees: trees['regexTrees'] = new Map<number, Parser.Tree>();
-	const regexNodes: trees['regexNodes'] = new Map<number, Parser.SyntaxNode>();
+	const regexTrees: trees['regexTrees'] = new Map<number, TreeSitter.Tree>();
+	const regexNodes: trees['regexNodes'] = new Map<number, TreeSitter.Node>();
 
 	const oldRegexTreesIterator = oldRegexTrees.values();
 	let skip = false;
-	let oldRegexTree: Parser.Tree | undefined;
+	let oldRegexTree: TreeSitter.Tree | undefined;
 	// let oldRegexTreeCopy: Parser.Tree;
 
 	const queryCaptures = queryNode(jsonTree.rootNode, `(regex) @regex`);
@@ -453,14 +463,17 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 
 				if (!oldRegexTree) {
 					// New regex node. Parse it
-					const range: Parser.Range = {
+					const range: TreeSitter.Range = {
 						startIndex: queryNode.startIndex,
 						endIndex: queryNode.endIndex,
 						startPosition: queryNode.startPosition,
 						endPosition: queryNode.endPosition,
 					};
-					const options: Parser.Options = { includedRanges: [range] };
+					const options: TreeSitter.ParseOptions = { includedRanges: [range] };
 					const newRegexTree = regexParser.parse(text, undefined, options);
+					if (!newRegexTree) {
+						break;
+					}
 					// vscode.window.showInformationMessage(`New: ${(performance.now() - start).toFixed(3)}ms\n${newRegexTree.rootNode.text}\n${JSON.stringify(toRange(newRegexTree.rootNode))}\n${JSON.stringify(newRegexTree.getIncludedRanges())}`);
 
 					regexTrees.set(queryNode.id, newRegexTree);
@@ -487,14 +500,17 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 
 
 				// if (oldRegexTree.rootNode.hasChanges) {
-				const range: Parser.Range = {
+				const range: TreeSitter.Range = {
 					startIndex: queryNode.startIndex,
 					endIndex: queryNode.endIndex,
 					startPosition: queryNode.startPosition,
 					endPosition: queryNode.endPosition,
 				};
-				const options: Parser.Options = { includedRanges: [range] };
+				const options: TreeSitter.ParseOptions = { includedRanges: [range] };
 				const newRegexTree = regexParser.parse(text, oldRegexTree, options);
+				if (!newRegexTree) {
+					break;
+				}
 
 				regexTrees.set(queryNode.id, newRegexTree);
 				regexNodes.set(newRegexTree.rootNode.id, queryNode);
@@ -518,14 +534,17 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 				// New regex node. Parse it
 				// vscode.window.showInformationMessage(`After: ${(performance.now() - start).toFixed(3)}ms\n${oldRegexTree.rootNode.text}\n${JSON.stringify(oldRegexTreeCopy.rootNode.text)}\n${JSON.stringify(oldRange)}\n${JSON.stringify(toRange(oldRegexTreeCopy.rootNode))}\n${JSON.stringify(newRange)}\n${JSON.stringify(oldRegexTree.getIncludedRanges())}`);
 
-				const range: Parser.Range = {
+				const range: TreeSitter.Range = {
 					startIndex: queryNode.startIndex,
 					endIndex: queryNode.endIndex,
 					startPosition: queryNode.startPosition,
 					endPosition: queryNode.endPosition,
 				};
-				const options: Parser.Options = { includedRanges: [range] };
+				const options: TreeSitter.ParseOptions = { includedRanges: [range] };
 				const newRegexTree = regexParser.parse(text, undefined, options);
+				if (!newRegexTree) {
+					break;
+				}
 
 				regexTrees.set(queryNode.id, newRegexTree);
 				regexNodes.set(newRegexTree.rootNode.id, queryNode);

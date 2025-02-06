@@ -396,18 +396,19 @@
 	},
 	"dependencies": {
 		"vscode-oniguruma": "1.7.0",
-		"web-tree-sitter": "^0.24.5"
+		"web-tree-sitter": "^0.25.1"
 	},
 	"devDependencies": {
+		"@types/emscripten": "^1.40.0",
 		"@types/vscode": "^1.87.0",
-		"@vscode/test-web": "^0.0.65",
-		"@vscode/vsce": "^3.2.1",
+		"@vscode/test-web": "^0.0.66",
+		"@vscode/vsce": "^3.2.2",
 		"path-browserify": "^1.0.1",
-		"tree-sitter-cli": "^0.24.5",
-		"ts-loader": "^9.5.1",
-		"typescript": "^5.7.2",
+		"tree-sitter-cli": "^0.25.1",
+		"ts-loader": "^9.5.2",
+		"typescript": "^5.7.3",
 		"webpack": "^5.97.1",
-		"webpack-cli": "^5.1.4"
+		"webpack-cli": "^6.0.1"
 	},
 	"__metadata": {
 		"id": "7f5ff7e8-575f-4fbf-bff6-201486b6327e",

@@ -86,6 +86,9 @@ function debugTreeSitterHovers(trees: trees, point: Point): vscode.Hover | undef
 			return;
 		}
 		const regexNode = regexTree.rootNode.descendantForPosition(point);
+		if (!regexNode) {
+			return;
+		}
 		const parentNode = regexNode.parent!;
 		const markdownString = new vscode.MarkdownString();
 		markdownString.appendText(parentNode.type + ' => ' + regexNode.type);

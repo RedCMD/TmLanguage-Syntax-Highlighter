@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
+import { Node } from 'web-tree-sitter';
 import { getTrees, getRegexNode, toRange } from "../TreeSitter";
-import { SyntaxNode } from 'web-tree-sitter';
 
 export const metaData: vscode.DocumentSymbolProviderMetadata = {
 	label: "JSON TextMate",
@@ -110,7 +110,7 @@ export const DocumentSymbolProvider: vscode.DocumentSymbolProvider = {
 		let node = tree.rootNode;
 		let index = 0;
 		let documentSymbol: vscode.DocumentSymbol = newDocumentSymbol(node);
-		const nodeStack: SyntaxNode[] = [];
+		const nodeStack: Node[] = [];
 		const indexStack: number[] = [];
 		const documentSymbolStack: vscode.DocumentSymbol[] = [];
 
@@ -162,13 +162,13 @@ export const DocumentSymbolProvider: vscode.DocumentSymbolProvider = {
 	},
 };
 
-function newDocumentSymbol(node: SyntaxNode): vscode.DocumentSymbol {
+function newDocumentSymbol(node: Node): vscode.DocumentSymbol {
 	let text = '';
 	switch (node.type) {
 		case 'pattern':
 		case 'injection':
 			let index = 0;
-			let sibling: SyntaxNode | null = node;
+			let sibling: Node | null = node;
 			while (sibling = sibling.previousNamedSibling) {
 				index++;
 			}

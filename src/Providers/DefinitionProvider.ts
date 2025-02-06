@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
+import { Point, Node } from 'web-tree-sitter';
 import { getTrees, toRange, toPoint, queryNode, trees, getLastNode } from "../TreeSitter";
 import { DocumentSelector, stringify } from "../extension";
-import { Point, SyntaxNode } from 'web-tree-sitter';
 
 let previous: {
 	position: vscode.Position;
@@ -379,7 +379,7 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 	}
 };
 
-function pushDefinitionLink(definitions: vscode.LocationLink[], node: SyntaxNode | null | undefined, originSelectionRange: vscode.Range, uri: vscode.Uri) {
+function pushDefinitionLink(definitions: vscode.LocationLink[], node: Node | null | undefined, originSelectionRange: vscode.Range, uri: vscode.Uri) {
 	if (!node) {
 		return false;
 	}
@@ -394,7 +394,7 @@ function pushDefinitionLink(definitions: vscode.LocationLink[], node: SyntaxNode
 	return true;
 }
 
-function getCaptureRefs(trees: trees, node: SyntaxNode, position: vscode.Position) {
+function getCaptureRefs(trees: trees, node: Node, position: vscode.Position) {
 	const regexTrees = trees.regexTrees;
 	const regexNode = regexTrees.get(node.id)?.rootNode;
 	if (!regexNode) {
@@ -454,7 +454,7 @@ function getCaptureRefs(trees: trees, node: SyntaxNode, position: vscode.Positio
 	return { range: toRange(groupNode), captures: targetCaptures };
 }
 
-function getRegexGroup(trees: trees, parentNode: SyntaxNode, captureNode: SyntaxNode, type: string): SyntaxNode | undefined {
+function getRegexGroup(trees: trees, parentNode: Node, captureNode: Node, type: string): Node | undefined {
 	const node = getLastNode(parentNode, type);
 	if (!node) {
 		return;

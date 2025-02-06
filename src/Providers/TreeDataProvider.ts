@@ -1086,13 +1086,13 @@ async function gotoGrammar(element: element) {
 		const repo = step.repository;
 		if (repo != null) {
 			for (const childNode of node.namedChildren) {
-				if (childNode.type == 'repository') {
+				if (childNode?.type == 'repository') {
 					node = childNode;
 					break;
 				}
 			}
 			for (const repoNode of node.namedChildren) {
-				if (repoNode.firstNamedChild?.text == repo) {
+				if (repoNode?.firstNamedChild?.text == repo) {
 					node = repoNode;
 					break;
 				}
@@ -1102,7 +1102,7 @@ async function gotoGrammar(element: element) {
 		const pattern = step.patterns;
 		if (pattern != null) {
 			for (const patternNode of node.namedChildren) {
-				if (patternNode.type == 'patterns') {
+				if (patternNode?.type == 'patterns') {
 					node = patternNode;
 					break;
 				}
@@ -1117,13 +1117,13 @@ async function gotoGrammar(element: element) {
 		const capture = step.captures;
 		if (capture != null) {
 			for (const childNode of node.namedChildren) {
-				if (childNode.type == 'captures') {
+				if (childNode?.type == 'captures') {
 					node = childNode;
 					break;
 				}
 			}
 			for (const captureNode of node.namedChildren) {
-				if (captureNode.firstNamedChild?.text == capture) {
+				if (captureNode?.firstNamedChild?.text == capture) {
 					node = captureNode;
 					break;
 				}

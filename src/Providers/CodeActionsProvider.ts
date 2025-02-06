@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
+import { Node } from 'web-tree-sitter';
 import { getTrees, queryNode, toRange } from "../TreeSitter";
 import { unicodeproperties, UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
 import { stringify, wagnerFischer } from "../extension";
-import { SyntaxNode } from 'web-tree-sitter';
 
 
 type CodeAction = vscode.CodeAction & {
@@ -135,7 +135,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 		const trees = getTrees(document);
 		const regexTrees = trees.regexTrees;
 
-		const rootNodes: SyntaxNode[] = [];
+		const rootNodes: Node[] = [];
 		const id = codeAction.nodeId;
 
 		if (id == -1) {
@@ -263,7 +263,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 
 							let stop = false; // why
 							for (const child of minifyNode.namedChildren) { // c(?:a|b)?
-								const type = child.type;
+								const type = child?.type;
 								if (type == 'alteration') {
 									stop = true;
 									break;
@@ -283,7 +283,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 							}
 							let stop = false; // why
 							for (const child of minifyNode.namedChildren) {
-								const type = child.type;
+								const type = child?.type;
 								if (type == 'alteration') {
 									stop = true;
 									break;

@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import * as Parser from 'web-tree-sitter';
+import * as TreeSitter from 'web-tree-sitter';
 import { getTrees, toRange, toPoint, queryNode } from "../TreeSitter";
 import { sleep } from "../extension";
 
@@ -55,7 +55,7 @@ export const DocumentRangeFormattingEditProvider: vscode.DocumentRangeFormatting
 		const nestedCaptures = queryNode(jsonTree.rootNode, queryString, startPoint, endPoint);
 
 		let level = -1;
-		let node!: Parser.SyntaxNode;
+		let node!: TreeSitter.Node;
 		for (const nestedCapture of nestedCaptures) {
 			const nestedNode = nestedCapture.node;
 			if (!toRange(nestedNode).contains(range)) {
@@ -83,8 +83,6 @@ export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider =
 		const jsonTree = trees.jsonTree;
 		const textEdits: vscode.TextEdit[] = [];
 
-		const style = getFormattingStyle(options);
-
 		const startPoint = toPoint(position.translate(0, -1));
 		const endPoint = toPoint(position);
 
@@ -95,7 +93,7 @@ export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider =
 			return;
 		}
 		const cursorNode = capture.node;
-		let node: Parser.SyntaxNode | null;
+		let node: TreeSitter.Node | null;
 
 		switch (ch) {
 			case ',':
@@ -114,6 +112,8 @@ export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider =
 			return;
 		}
 
+		const style = getFormattingStyle(options);
+
 		let level = 0;
 		let parent = node.parent;
 		while (parent) {
@@ -131,13 +131,17 @@ export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider =
 };
 
 
-function formatChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextEdit[], indent: number, style: formattingStyle): boolean {
+function formatChildren(parentNode: TreeSitter.Node, textEdits: vscode.TextEdit[], indent: number, style: formattingStyle): boolean {
 	let expand: boolean = false;
 
 	for (const node of parentNode.namedChildren) {
-		if (formatChildren(node, textEdits, indent + style.tabSize, style)) {
-			expand = true;
+		if (!node) {
+			continue;
 		}
+		if (node.isError) {
+			continue;
+		}
+		expand = formatChildren(node, textEdits, indent + style.tabSize, style) || expand;
 	}
 
 	if (expand == false) {
@@ -179,6 +183,9 @@ function formatChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextEdi
 
 
 	for (const node of parentNode.children) {
+		if (!node) {
+			continue;
+		}
 		if (node.isError) {
 			continue;
 		}
@@ -239,9 +246,7 @@ function formatChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextEdi
 					vscode.TextEdit.replace(
 						toRange(
 							prevSibling?.endPosition ?? parentNode.startPosition,
-							node.isMissing ? // node.nextSibling doesn't work very well on missing nodes
-								node.endPosition :
-								nextSibling?.startPosition ?? parentNode.endPosition,
+							nextSibling?.startPosition ?? parentNode.endPosition,
 						),
 						expand ?
 							',\n'.padEnd(indent + 2, style.tabType) :
@@ -255,9 +260,7 @@ function formatChildren(parentNode: Parser.SyntaxNode, textEdits: vscode.TextEdi
 					vscode.TextEdit.replace(
 						toRange(
 							prevSibling?.endPosition ?? parentNode.startPosition,
-							node.isMissing ? // node.nextSibling doesn't work very well on missing nodes
-								node.endPosition :
-								nextSibling?.startPosition ?? parentNode.endPosition,
+							nextSibling?.startPosition ?? parentNode.endPosition,
 						),
 						': ',
 					)
