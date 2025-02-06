@@ -255,10 +255,8 @@ export async function initTreeSitter(context: vscode.ExtensionContext) {
 				return;
 			}
 			parseTextDocument(document);
-		})
-	);
+		}),
 
-	context.subscriptions.push(
 		vscode.workspace.onDidChangeTextDocument(edits => {
 			// vscode.window.showInformationMessage(JSON.stringify("change"));
 			const document = edits.document;
@@ -312,10 +310,8 @@ export async function initTreeSitter(context: vscode.ExtensionContext) {
 				reason: activeDocument.edits?.reason,
 			};
 			// vscode.window.showInformationMessage(JSON.stringify(activeDocument.edits));
-		})
-	);
+		}),
 
-	context.subscriptions.push(
 		vscode.workspace.onDidCloseTextDocument(document => {
 			// vscode.window.showInformationMessage(JSON.stringify("close"));
 			const uriString = document.uri.toString();
@@ -325,7 +321,7 @@ export async function initTreeSitter(context: vscode.ExtensionContext) {
 				trees[uriString].regexTrees.clear();
 				delete trees[uriString];
 			}
-		})
+		}),
 	);
 }
 

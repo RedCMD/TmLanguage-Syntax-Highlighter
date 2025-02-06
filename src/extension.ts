@@ -186,12 +186,12 @@ export async function getPackageJSON(baseUri: vscode.TextDocument | vscode.Uri, 
 	const packageUri2 = vscode.Uri.joinPath(uri, ...pathSegments, '..', 'package.json'); // Maybe grammar file is at the same level as `package.json`
 
 	const file1 = await vscode.workspace.fs.readFile(packageUri1).then(null, () => { });
-	const packageUri = file1 ? packageUri1 : packageUri2;
-
 	const file = file1 || await vscode.workspace.fs.readFile(packageUri2).then(null, () => { });
 	if (!file) {
 		return {};
 	}
+
+	const packageUri = file1 ? packageUri1 : packageUri2;
 
 	try {
 		const decoder = new TextDecoder(); // Works in VSCode web

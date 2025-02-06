@@ -12,19 +12,13 @@ export function initTokenColorCustomizations(context: vscode.ExtensionContext) {
 			// vscode.window.showInformationMessage(JSON.stringify("active"));
 			const document = editor?.document; // `editor` can be `undefined`!
 			update(packageJSON(document) || jsonTextMate(document));
-		})
-	);
-
-	context.subscriptions.push(
+		}),
 		vscode.workspace.onDidOpenTextDocument((document: vscode.TextDocument) => {
 			// vscode.window.showInformationMessage(JSON.stringify("open"));
 			if (document == vscode.window.activeTextEditor?.document) { // `activeTextEditor` can be `undefined`!
 				update(packageJSON(document) || jsonTextMate(document));
 			}
-		})
-	);
-
-	context.subscriptions.push(
+		}),
 		vscode.workspace.onDidChangeTextDocument((edits: vscode.TextDocumentChangeEvent) => {
 			// vscode.window.showInformationMessage(JSON.stringify("change"));
 			if (edits.contentChanges.length == 0) {
@@ -36,26 +30,20 @@ export function initTokenColorCustomizations(context: vscode.ExtensionContext) {
 					update(packageJSON(document));
 				}
 			}
-		})
-	);
-
-	// context.subscriptions.push(
-	// 	vscode.workspace.onDidChangeConfiguration((event: vscode.ConfigurationChangeEvent) => {
-	// 		// vscode.window.showInformationMessage(JSON.stringify("config"));
-	// 		if (event.affectsConfiguration("editor.tokenColorCustomizations")) {
-	// 			const document = vscode.window.activeTextEditor?.document; // `activeTextEditor` can be `undefined`!
-	// 			update(packageJSON(document) || jsonTextMate(document));
-	// 		}
-	// 	})
-	// );
-
-	context.subscriptions.push(
+		}),
+		// vscode.workspace.onDidChangeConfiguration((event: vscode.ConfigurationChangeEvent) => {
+		// 	// vscode.window.showInformationMessage(JSON.stringify("config"));
+		// 	if (event.affectsConfiguration("editor.tokenColorCustomizations")) {
+		// 		const document = vscode.window.activeTextEditor?.document; // `activeTextEditor` can be `undefined`!
+		// 		update(packageJSON(document) || jsonTextMate(document));
+		// 	}
+		// }),
 		vscode.workspace.onDidCloseTextDocument((document: vscode.TextDocument) => {
 			// vscode.window.showInformationMessage(JSON.stringify("close"));
 			if (document == vscode.window.activeTextEditor?.document) { // `activeTextEditor` can be `undefined`!
 				update(undefined);
 			}
-		})
+		}),
 	);
 }
 
