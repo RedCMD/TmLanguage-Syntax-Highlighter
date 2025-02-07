@@ -16,7 +16,7 @@ module.exports = grammar({
 
 	rules: {
 		json: $ => seq(
-			optional($.regex),
+			optional($._regex),
 			repeat(
 				choice(
 					$._whitespace,
@@ -64,7 +64,7 @@ module.exports = grammar({
 			),
 		),
 
-		regex: $ => seq(
+		_regex: $ => seq(
 			fieldAlias($,
 				'regex',
 				token.immediate(
