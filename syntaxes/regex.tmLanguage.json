@@ -1397,28 +1397,48 @@
 			]
 		},
 		"subroutine": {
-			"comment": "\\g<0> \\g'+999' \\g<-0065535> \\g'name_123'  \\g<_\\#°$\u00b0% ^&(\"'[0-9]>",
-			"begin": "(\\\\{2}g)((?<bracket><)|')(?=((?(<bracket>)>|'))?)((?~\\w|[-+]0*[1-9]|\"|(?(<bracket>)>|')))(?>([-+]?(0*)[1-9][0-9]{,2}([0-9]{,2}([0-9]*))|(0*)0)((?~\"|(?(<bracket>)>|'))))?",
-			"end": "(\\\\(?>u\\h{,3})?)?((?((?!\\3))>|'))|(?=\")",
-			"name": "subroutine",
+			"comment": "\\g<0> \\g'+999' \\g<-0065535> \\g'name_123' \\g<_\\#°$\u00b0% ^&(\"'[0-9]>",
+			"begin": "(\\\\{2}g)('|<)",
+			"end": "(?((?=\\2))'|>)|(?=[\")])",
 			"beginCaptures": {
 				"1": { "name": "string.regexp.tm" },
-				"2": { "name": "constant.character.set.regexp.tm" },
-				"4": { "name": "invalid.illegal.tm markup.strikethrough" },
-				"5": { "name": "invalid.illegal.tm markup.underline regex" },
-				"6": { "name": "constant.numeric.tm" },
-				"7": { "name": "punctuation.definition.tag.tm" },
-				"8": { "name": "invalid.illegal.tm markup.italic" },
-				"9": { "name": "markup.underline" },
-				"10": { "name": "punctuation.definition.tag.tm" },
-				"11": { "name": "invalid.illegal.tm markup.underline regex" }
-			},
-			"endCaptures": {
-				"1": { "name": "invalid.illegal.tm markup.underline" },
 				"2": { "name": "constant.character.set.regexp.tm" }
 			},
-			"contentName": "markup.bold regex",
-			"patterns": [ { "include": "source.json.textmate#escape-characters" } ]
+			"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
+			"name": "subroutine.tm",
+			"patterns": [
+				{
+					"comment": "Capture group reference number",
+					"match": "(?<!\\w)[+-]?0*[0-9]{3,1}",
+					"name": "constant.numeric.tm"
+				},
+				{
+					"comment": "Quoted named capture group reference name",
+					"begin": "(?<=')\\G(?=\\w)",
+					"end": "(?=[\"'])",
+					"name": "markup.bold.tm regex",
+					"patterns": [ { "include": "source.json.textmate#escape-characters" } ]
+				},
+				{
+					"comment": "Bracketed named capture group reference name",
+					"begin": "(?<=<)\\G(?=\\w)",
+					"end": "(?=[\">])",
+					"name": "markup.bold.tm regex",
+					"patterns": [ { "include": "source.json.textmate#escape-characters" } ]
+				},
+				{
+					"comment": "Named capture group reference name",
+					"begin": "(?<!\\w)(?=\\w)",
+					"end": "(?=[\"'>)])",
+					"name": "markup.bold.tm regex",
+					"patterns": [ { "include": "source.json.textmate#escape-characters" } ]
+				},
+				{ "include": "source.json.textmate#escape-characters" },
+				{
+					"match": ".[^\\\\\"\\w)'>+-]+",
+					"name": "invalid.illegal.tm"
+				}
+			]
 		},
 		"backreference": {
 			"patterns": [
