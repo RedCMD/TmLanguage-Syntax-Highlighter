@@ -10,9 +10,11 @@
 		"root": {
 			"markdownDescription": "[Documentation](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/index.md) | [Schema](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/vscode.tmLanguage.schema.json)",
 			"type": "object",
-			"required": [
-				"scopeName",
-				"patterns"
+			"required": [ "scopeName" ],
+			"anyOf": [
+				{ "required": [ "patterns" ] },
+				{ "required": [ "repository" ] },
+				{ "required": [ "injections" ] }
 			],
 			"properties": {
 				"version": {
@@ -108,7 +110,10 @@
 				}
 			},
 			"additionalProperties": { "description": "Unknown key" },
-			"dependencies": { "foldingStopMarker": { "required": [ "foldingStartMarker" ] } },
+			"dependencies": {
+				"foldingStopMarker": { "required": [ "foldingStartMarker" ] },
+				"injectionSelector": { "required": [ "patterns" ] }
+			},
 			"defaultSnippets": [
 				{
 					"label": "New Grammar",
@@ -156,9 +161,7 @@
 						"name": "Markdown Code-Block Injection ${1/([._-]+)|([a-zA-Z]+)/${1:+ }${2:/capitalize}/g}$0",
 						"scopeName": "markdown.${1:languageId}.codeblock",
 						"injectionSelector": "L:text.html.markdown -meta.embedded.block.${1:languageId}",
-						"patterns": [
-							"^{ \"include\": \"#fenced_code_block_${1/[. -]/_/g}\" }"
-						],
+						"patterns": [ "^{ \"include\": \"#fenced_code_block_${1/[. -]/_/g}\" }" ],
 						"repository": {
 							"fenced_code_block_${1/[. -]/_/g}": {
 								"begin": "(^|\\\\G)(\\\\s*)(\\\\`{3,}|~{3,})\\\\s*(?i:(${1/([.+])/\\\\$1/g})((\\\\s+|:|,|\\\\{|\\\\?)[^`]*)?$)",
@@ -191,9 +194,7 @@
 						"name": "Search Results Injection ${1/([._-]+)|([a-zA-Z]+)/${1:+ }${2:/capitalize}/g}$0",
 						"scopeName": "text.searchResult.${1:languageId}",
 						"injectionSelector": "L:text.searchResult -meta.resultBlock.search",
-						"patterns": [
-							"^{ \"include\": \"#${1/[. -]/_/g}\" }"
-						],
+						"patterns": [ "^{ \"include\": \"#${1/[. -]/_/g}\" }" ],
 						"repository": {
 							"${1/[. -]/_/g}": {
 								"name": "meta.resultBlock.search",
