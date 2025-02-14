@@ -9,14 +9,11 @@ let previous: {
 	definitions: vscode.DefinitionLink[];
 };
 
-export let gotoLocationsBroken = false;
-
 
 export const DefinitionProvider: vscode.DefinitionProvider = {
 	async provideDefinition(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Promise<vscode.DefinitionLink[] | undefined> {
 		// vscode.window.showInformationMessage(JSON.stringify("Definition"));
 		// const start = performance.now();
-		gotoLocationsBroken = true;
 
 		const uriString = document.uri.toString();
 		if (previous &&

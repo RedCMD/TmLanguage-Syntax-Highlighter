@@ -10,7 +10,6 @@ import { getScopes, getSubScope } from "../themeScopeColors";
 import { createOnigScanner, createOnigString, FindOption } from 'vscode-oniguruma';
 import { ruleIdToNumber } from "../textmate/rule";
 // import { ITextEditorOptions, EditorOpenSource, TextEditorSelectionSource } from "../extensions";
-import { gotoLocationsBroken } from "./DefinitionProvider";
 
 type element = {
 	type: 'file' | 'root' | 'line' | 'token' | 'scope' | 'rule' | 'regexes' | 'regex',
@@ -1147,13 +1146,13 @@ async function gotoGrammar(element: element) {
 	const uri = grammarDoc.uri;
 	const location = new vscode.Location(uri, range);
 	const locations = [location];
-	if (gotoLocationsBroken) {
-		const options: vscode.TextDocumentShowOptions = {
-			selection: range,
-			preview: true,
-		};
-		vscode.window.showTextDocument(grammarDoc, options);
-	}
+	// if (gotoLocationsBroken) {
+	// 	const options: vscode.TextDocumentShowOptions = {
+	// 		selection: range,
+	// 		preview: true,
+	// 	};
+	// 	vscode.window.showTextDocument(grammarDoc, options);
+	// }
 	vscode.commands.executeCommand('editor.action.goToLocations', uri, range.start, locations);
 }
 
@@ -1229,13 +1228,13 @@ async function gotoFile(element: element) {
 		// 	selectionSource: TextEditorSelectionSource.NAVIGATION,
 		// };
 		// vscode.commands.executeCommand('vscode.open', document.uri, [start, textEditorOptions]);
-		if (gotoLocationsBroken) {
-			const options: vscode.TextDocumentShowOptions = {
-				selection: range,
-				preview: true,
-			};
-			vscode.window.showTextDocument(document, options);
-		}
+		// if (gotoLocationsBroken) {
+		// 	const options: vscode.TextDocumentShowOptions = {
+		// 		selection: range,
+		// 		preview: true,
+		// 	};
+		// 	vscode.window.showTextDocument(document, options);
+		// }
 		vscode.commands.executeCommand('editor.action.goToLocations', document.uri, position, [location]);
 		return;
 	}
