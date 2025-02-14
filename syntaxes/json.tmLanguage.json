@@ -1264,7 +1264,7 @@
 				{ "include": "#comment" },
 				{ "include": "#json-pair" },
 				{
-					"begin": "\\G|,",
+					"begin": "\\G(?=\\s|,|$)|,",
 					"end": "(?!\\s|,|$)",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.json.tm" } },
 					"patterns": [
@@ -1280,7 +1280,7 @@
 		"array-separator": {
 			"patterns": [
 				{
-					"begin": "\\G|,",
+					"begin": "\\G(?=\\s|,|$)|,",
 					"end": "(?!\\s|,|$)",
 					"beginCaptures": { "0": { "name": "punctuation.separator.array.json.tm" } },
 					"patterns": [
