@@ -90,6 +90,22 @@
 				}
 			},
 			{
+				"id": "yaml-textmate",
+				"aliases": [
+					"YAML TextMate"
+				],
+				"extensions": [
+					".tmLanguage.yaml",
+					".tmLanguage.yml",
+					".YAML-tmLanguage"
+				],
+				"configuration": "./language-configurations/yaml.language-configuration.json",
+				"icon": {
+					"dark": "assets/TextMate-file-icon.svg",
+					"light": "assets/TextMate-file-icon.svg"
+				}
+			},
+			{
 				"id": "textmate-scopes",
 				"aliases": [
 					"TextMate Scopes"
@@ -125,6 +141,24 @@
 				"language": "json-textmate-regex",
 				"scopeName": "source.json.textmate.regexp",
 				"path": "./syntaxes/regex.tmLanguage.json"
+			},
+			{
+				"language": "yaml-textmate",
+				"scopeName": "source.yaml.textmate",
+				"path": "./syntaxes/yaml.tmLanguage.json",
+				"embeddedLanguages": {
+					"meta.embedded.json.textmate.regexp": "json-textmate-regex",
+					"meta.embedded.yaml.textmate.regexp": "json-textmate-regex"
+				},
+				"unbalancedBracketScopes": [
+					"invalid.illegal",
+					"storage.type.tag.shorthand.yaml",
+					"keyword.control.flow"
+				]
+			},
+			{
+				"scopeName": "source.yaml.textmate.regexp",
+				"path": "./syntaxes/yaml-regex.tmLanguage.json"
 			},
 			{
 				"language": "textmate-scopes",
@@ -215,12 +249,28 @@
 				"languageId": "json-textmate"
 			}
 		],
+		"yamlLanguageParticipants": [
+			{
+				"languageId": "yaml-textmate"
+			}
+		],
 		"jsonValidation": [
 			{
 				"fileMatch": [
 					"*.tmLanguage.json",
 					"*.tmGrammar.json",
 					"*.JSON-tmLanguage"
+				],
+				"url": "./vscode.tmLanguage.schema.json"
+			}
+		],
+		"yamlValidation": [
+			{
+				"fileMatch": [
+					"*.tmLanguage.yaml",
+					"*.tmLanguage.yml",
+					"*.YAML-tmLanguage",
+					"*.yaml-tmLanguage"
 				],
 				"url": "./vscode.tmLanguage.schema.json"
 			}
