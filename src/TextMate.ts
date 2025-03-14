@@ -245,11 +245,13 @@ export async function tokenizeFile(document: vscode.TextDocument, runTwice?: boo
 
 	// const start = performance.now();
 	activeScopeName = scopeName;
-	const grammar = <IGrammar>await registry.loadGrammar(scopeName ?? '').catch(() => { });
+	const grammar = <IGrammar>await registry.loadGrammar(scopeName ?? '').catch(error =>
+		console.log("JSON TextMate: Invalid grammar for scopeName:", scopeName, '\n', error)
+	);
 	activeScopeName = null;
 	if (!grammar) {
 		vscode.window.showInformationMessage(`registered_languages:\n${JSON.stringify(grammarLanguages)}`);
-		return grammar;
+		return grammar; // yes `grammar` is `never` at this point
 	}
 	// vscode.window.showInformationMessage(`grammar ${performance.now() - start}ms`);
 
