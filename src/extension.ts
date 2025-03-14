@@ -65,13 +65,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		// vscode.languages.registerDocumentSemanticTokensProvider(DocumentSelector, DocumentSemanticTokensProvider, SemanticTokensLegend), // Context aware syntax highlighting
 		// vscode.languages.registerDocumentRangeSemanticTokensProvider(DocumentSelector, DocumentRangeSemanticTokensProvider, SemanticTokensLegend), // Context aware syntax highlighting
 		vscode.languages.registerDocumentRangeFormattingEditProvider(DocumentSelector, DocumentRangeFormattingEditProvider), // right-click => Format Selection
-
-		vscode.workspace.onDidOpenTextDocument(activateRedHatExtension), // Activates YAML language features on yaml-textmate files
 	);
-
-	for (const editor of vscode.window.visibleTextEditors) {
-		activateRedHatExtension(editor.document);
-	}
 
 	// vscode.window.showInformationMessage(`Extension ${(performance.now() - start).toFixed(3)}ms`);
 }
@@ -82,18 +76,6 @@ export function deactivate() {
 	// vscode.window.showInformationMessage(JSON.stringify("deactivate"));
 	// https://github.com/microsoft/vscode/issues/105484
 	// https://github.com/microsoft/vscode/issues/201664
-}
-
-
-function activateRedHatExtension(document: vscode.TextDocument) {
-	if (vscode.languages.match({ language: 'yaml-textmate' }, document)) {
-		const extensionRedHat = vscode.extensions.getExtension("redhat.vscode-yaml");
-		if (extensionRedHat) {
-			if (!extensionRedHat.isActive) {
-				extensionRedHat.activate();
-			}
-		}
-	}
 }
 
 export function sleep(milliseconds: number) {
