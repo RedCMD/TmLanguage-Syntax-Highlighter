@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
-import { getTrees, queryNode, toPoint, toRange, trees } from "../TreeSitter";
+import { toRegExpDetails, ToRegExpOptions } from 'oniguruma-to-es';
 import { Point } from 'web-tree-sitter';
+import { getTrees, queryNode, toPoint, toRange, trees } from "../TreeSitter";
 
 export const HoverProvider: vscode.HoverProvider = {
 	provideHover(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.Hover | undefined {
@@ -54,7 +55,7 @@ export const HoverProvider: vscode.HoverProvider = {
 				markdownString.appendMarkdown('Unlike `"end"`, `"while"` is line-based, not character-based. It is only checked once per line (starting on the line after the `"begin"`)  \n');
 				markdownString.appendMarkdown('If it matches then the _rest_ of the line is now part of the block (same also applies to the `"begin"` rule)  \n');
 				markdownString.appendMarkdown('Rules can be nested inside the block with the `"patterns"` key  \n');
-				markdownString.appendMarkdown('VSCode: `"while"` is always tested first, before any inner `"patterns"`.  \n');
+				markdownString.appendMarkdown('VSCode: `"while"` is always tested first, before any inner `"patterns"`  \n');
 				markdownString.appendMarkdown('VSCode: When `"while"` doesn\'t match, all unfinished/unclosed patterns are terminated and the `"begin"`/`"while"` block is then finished/closed  \n');
 				markdownString.appendMarkdown('Apple: `"begin"`&`"end"` rules \'push\' the `"while"` rule to the next line  \n');
 				markdownString.appendMarkdown('An anchor is placed after the `"begin"` rule; that you can then match with `\\\\G`  \n');
@@ -62,6 +63,31 @@ export const HoverProvider: vscode.HoverProvider = {
 				markdownString.appendMarkdown('(Captures) inside the `"begin"` key can be referenced here with regex back-references `\\\\1`  \n');
 				markdownString.appendCodeblock('Example: ^\\\\1(?!\\\\s*\\")', 'json-textmate-regex');
 				break;
+		}
+
+		try {
+			const regexNode = hoverNode.parent?.childForFieldName('regex');
+			if (regexNode?.text) {
+				const text: string = JSON.parse(`"${regexNode.text}"`);
+				const options: ToRegExpOptions = {
+					accuracy: 'default',
+					avoidSubclass: true,
+					rules: {
+						// Follow `vscode-oniguruma` which enables this Oniguruma option by default
+						captureGroup: true,
+						allowOrphanBackrefs: true,
+					},
+				};
+				const jsRegex = toRegExpDetails(text, options);
+
+				// markdownString.appendMarkdown('<details><summary>Click to show JS Translation</summary>  \n');
+				markdownString.appendMarkdown('Optimized literal [translation](https://github.com/slevithan/oniguruma-to-es) from Oniguruma to JavaScript:  \n');
+				markdownString.appendCodeblock(`/${jsRegex.pattern}/${jsRegex.flags}`, 'javascript');
+				// markdownString.appendMarkdown('</details>  \n');
+				// markdownString.supportHtml = true;
+			}
+		} catch (error) {
+			console.warn("JSON TextMate: oniguruma-to-es:\n", error);
 		}
 
 		const range = toRange(hoverNode);
