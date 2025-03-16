@@ -445,6 +445,7 @@
 		]
 	},
 	"dependencies": {
+		"oniguruma-parser": "^0.7.0",
 		"vscode-oniguruma": "1.7.0",
 		"web-tree-sitter": "^0.25.3"
 	},

@@ -926,7 +926,7 @@
 					"name": "constant.character.escape.tm"
 				},
 				{
-					"match": "\\\\.?|[\"\\x{00}-\\x{1F}\\x{7F}]",
+					"match": "\\\\.?|[\"\\x00-\\x1F\\x7F]",
 					"name": "invalid.illegal.tm markup.underline regex"
 				}
 			]
@@ -934,7 +934,7 @@
 		"character-class-range": {
 			"patterns": [
 				{
-					"match": "([\\\\-\\x{FFFFFFFF}]-(?!&&)[\\x{00}-Z]|[+-\\x{FFFFFFFF}]-(?!&&)[\\x{00}-*])(\\\\{2}(?=-))?",
+					"match": "([\\\\-\\x{10FFFF}]-(?!&&)[\\x00-Z]|[+-\\x{10FFFF}]-(?!&&)[\\x00-*])(\\\\{2}(?=-))?",
 					"captures": {
 						"1": { "name": "character-class-range.tm invalid.illegal.tm regex" },
 						"2": { "name": "punctuation.definition.tag.tm" }
@@ -1120,7 +1120,7 @@
 		},
 		"character-class-literal": {
 			"comment": "Match anything left over and all non-meta characters",
-			"match": ".(?>[^]\\x{00}-\\x{1F}\"&:\\[\\\\\\x{7F}-]+(?!-))?",
+			"match": ".(?>[^]\\x00-\\x1F\"&:\\[\\\\\\x7F-]+(?!-))?",
 			"name": "literal.tm regex"
 		},
 		"character-class-range-code-point": {
@@ -1147,7 +1147,7 @@
 						},
 						{ "patterns": [ { "include": "#code-point-sequence-separator" } ] },
 						{
-							"match": ".[^[0-7] }\\\\\"]*",
+							"match": ".[^0-7 }\\\\\"]*",
 							"name": "invalid.illegal.tm markup.underline regex"
 						}
 					]
@@ -1199,7 +1199,7 @@
 						},
 						{ "patterns": [ { "include": "#code-point-sequence-separator" } ] },
 						{
-							"match": ".[^[0-7] }\\\\\"]*",
+							"match": ".[^0-7 }\\\\\"]*",
 							"name": "invalid.illegal.tm markup.underline regex"
 						}
 					]
@@ -1232,7 +1232,7 @@
 			"patterns": [
 				{
 					"comment": "The look-ahead increases performance. No clue why :shrug:",
-					"match": "(\\\\{2})([Ppox])(?=\\\\\\\\{)(\\\\{2})({)",
+					"match": "(\\\\{2})([Ppox])(?=\\\\{2}{)(\\\\{2})({)",
 					"captures": {
 						"1": { "name": "punctuation.definition.tag.tm" },
 						"2": { "name": "entity.name.label.tm strong" },
@@ -1255,7 +1255,7 @@
 						},
 						{ "patterns": [ { "include": "#code-point-sequence-separator" } ] },
 						{
-							"match": ".[^[0-7] }\\\\\"]*",
+							"match": ".[^0-7 }\\\\\"]*",
 							"name": "invalid.illegal.tm markup.underline regex"
 						}
 					]
@@ -1570,12 +1570,12 @@
 		},
 		"character-literal": {
 			"comment": "Match anything left over and all non-meta characters",
-			"match": ".[^\\x{00}-\\x{1F}\\x{7F} \"#$^.+*?|\\[{()\\\\]*",
+			"match": ".[^\\x00-\\x1F\\x7F \"#$^.+*?|\\[{()\\\\]*",
 			"name": "entity.name.label.tm strong regex"
 		},
 		"invalid": {
 			"comment": "invalid: single escaped characters (including at newlines), rouge right brackets, unescaped double quotes and any invalid control characters",
-			"match": "\\\\.?|[)\"\\x{00}-\\x{1F}\\x{7F}]",
+			"match": "\\\\.?|[)\"\\x00-\\x1F\\x7F]",
 			"name": "invalid.illegal.tm markup.underline regex"
 		},
 		"test": {

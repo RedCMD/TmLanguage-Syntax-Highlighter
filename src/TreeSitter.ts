@@ -3,9 +3,9 @@ import * as TreeSitter from 'web-tree-sitter';
 import { DocumentSelector, stringify } from "./extension";
 
 export type trees = {
-	readonly jsonTree: TreeSitter.Tree;
-	readonly regexTrees: Map<number, TreeSitter.Tree>;
-	readonly regexNodes: Map<number, TreeSitter.Node>;
+	readonly jsonTree: TreeSitter.Tree; // The JSON TextMate Tree
+	readonly regexNodes: Map<number, TreeSitter.Node>; // The barren Regex Nodes within the JSON Tree
+	readonly regexTrees: Map<number, TreeSitter.Tree>; // The (separated) Regex Trees
 };
 
 const trees: {

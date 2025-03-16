@@ -1254,7 +1254,7 @@
 					}
 				},
 				{
-					"match": "\\\\.?|[\"\\x{00}-\\x{1F}\\x{7F}]",
+					"match": "\\\\.?|[\"\\x00-\\x1F\\x7F]",
 					"name": "invalid.illegal.json.tm markup.underline regex"
 				}
 			]
@@ -1369,7 +1369,7 @@
 							"name": "invalid.illegal.unrecognized-string-escape.json.tm"
 						},
 						{
-							"match": "[\\x{00}-\\x{1F}\\x{7F}]+",
+							"match": "[\\x00-\\x1F\\x7F]+",
 							"name": "invalid.illegal.control-character.json.tm"
 						}
 					]

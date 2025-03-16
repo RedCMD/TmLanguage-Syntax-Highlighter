@@ -1,6 +1,7 @@
 {
 	"compilerOptions": {
-		"module": "CommonJS", // Cleaner output than Node16
+		"module": "Node16",
+		"moduleResolution": "node16",
 		"target": "ES2023",
 		"outDir": "out",
 		"lib": [

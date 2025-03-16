@@ -9,6 +9,7 @@ Syntax Highlighting and Intellisense for VSCodes's JSON based TextMate grammars
 * Breadcrumbs/Outline
 * Formatting
 * Schema support
+* Regex [Optimizer](https://github.com/slevithan/oniguruma-parser)
 * `repository`/`include` Call Hierarchy View
 * [F2] Rename
 * CodeLens
@@ -66,6 +67,7 @@ Highlights scope names with their own themed colour in realtime:
 * [Github - Oniguruma](https://github.com/kkos/oniguruma)
 * [Github - Oniguruma: list of all expressions](https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE)
 * [Github - VSCode Oniguruma](https://github.com/microsoft/vscode-oniguruma)
+* [Github - Oniguruma Optimizer](https://github.com/slevithan/oniguruma-parser)
 * [Github - Unit testing](https://github.com/PanAeon/vscode-tmgrammar-test)
 * [Github - TmLanguage-Syntax-Highlighter](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter)
 * [Github - Documentation](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/index.md)
