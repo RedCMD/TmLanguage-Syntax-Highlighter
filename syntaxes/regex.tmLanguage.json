@@ -1127,7 +1127,7 @@
 			"comment": "\\o{37777777777 0 1777777} \\x{FFFFFFFF 0 1FFFFF}",
 			"patterns": [
 				{
-					"begin": "(\\\\{2}o{)(0{,10}+)(3?[0-7]{1,10})(?<!\\h{12})([0-7]*)",
+					"begin": "(\\\\{2}o{)(0{,10}+)(3?[0-7]{1,10})(?<![0-7]{12})([0-7]*)",
 					"end": "}|(?=\")",
 					"beginCaptures": {
 						"1": { "name": "punctuation.definition.list.begin.markdown.tm" },
@@ -1138,7 +1138,7 @@
 					"endCaptures": { "0": { "name": "punctuation.definition.list.begin.markdown.tm" } },
 					"patterns": [
 						{
-							"match": "(0{,10}+)([0-7]{1,7})(?<!\\h{12})([0-7]*)",
+							"match": "(0{,10}+)([0-7]{1,7})(?<![0-7]{12})([0-7]*)",
 							"captures": {
 								"1": { "name": "punctuation.definition.tag.tm" },
 								"2": { "name": "constant.numeric.tm" },
@@ -1190,7 +1190,7 @@
 					"captures": { "0": { "name": "punctuation.definition.list.begin.markdown.tm" } },
 					"patterns": [
 						{
-							"match": "(0{,10}+)([0-7]{1,7})(?<!\\h{12})([0-7]*)",
+							"match": "(0{,10}+)([0-7]{1,7})(?<![0-7]{12})([0-7]*)",
 							"captures": {
 								"1": { "name": "punctuation.definition.tag.tm" },
 								"2": { "name": "constant.numeric.tm" },
@@ -1246,7 +1246,7 @@
 					"captures": { "0": { "name": "punctuation.definition.list.begin.markdown.tm" } },
 					"patterns": [
 						{
-							"match": "(0{,10}+)([1-4]?[0-7]{1,6})(?<!\\h{12})([0-7]*)",
+							"match": "(0{,10}+)([1-4]?[0-7]{1,6})(?<![0-7]{12})([0-7]*)",
 							"captures": {
 								"1": { "name": "punctuation.definition.tag.tm" },
 								"2": { "name": "constant.numeric.tm" },
