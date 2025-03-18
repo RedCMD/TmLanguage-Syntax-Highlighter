@@ -38,7 +38,6 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 						title: `Remove error '${error}'`,
 						kind: vscode.CodeActionKind.QuickFix,
 						diagnostics: [diagnostic],
-						isPreferred: true,
 						edit: edit,
 					};
 					break;
@@ -50,7 +49,6 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 						title: `Add missing '${missing}'`,
 						kind: vscode.CodeActionKind.QuickFix,
 						diagnostics: [diagnostic],
-						isPreferred: true,
 						edit: edit,
 					};
 					break;
@@ -90,6 +88,21 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 						edit: edit,
 					};
 					break;
+				case 'include': {
+					const include = message.split("'")[3];
+					if (!include) {
+						continue;
+					}
+					edit.replace(document.uri, diagnostic.range, include);
+					codeAction = {
+						title: `Change spelling to '${include}'`,
+						kind: vscode.CodeActionKind.QuickFix,
+						diagnostics: [diagnostic],
+						isPreferred: true,
+						edit: edit,
+					};
+					break;
+				}
 				default:
 					continue;
 			}

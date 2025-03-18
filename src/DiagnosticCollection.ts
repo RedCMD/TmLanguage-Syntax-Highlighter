@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
 import * as vscodeOniguruma from 'vscode-oniguruma';
-import { Node } from 'web-tree-sitter';
+import { Node, QueryCapture } from 'web-tree-sitter';
 import { getLastNode, getTrees, parseEvents, queryNode, toRange, trees } from "./TreeSitter";
-import { DocumentSelector, getPackageJSON, stringify } from "./extension";
+import { DocumentSelector, getPackageJSON, stringify, wagnerFischer } from "./extension";
 import { unicodeproperties } from "./UNICODE_PROPERTIES";
 
 
@@ -338,6 +338,11 @@ function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: N
 	let prevPatternsArrayId!: number;
 	let errorCount!: number;
 
+	const nestedRepoQuery = `;scm
+		(repo (repository (repo (key) @repo)))
+	`;
+	let nestedRepoCaptures: QueryCapture[] = [];
+
 	// TreeSitter compiling sibling nodes query very slow
 	// https://github.com/tree-sitter/tree-sitter/issues/3956
 	const repoQuery = `;scm
@@ -409,10 +414,37 @@ function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: N
 			continue;
 		}
 
+		const repoItems: string[] = [];
+		for (const repoCapture of rootRepoCaptures) {
+			repoItems.push(repoCapture.node.text);
+		}
+		for (const repoCapture of repoCaptures) {
+			repoItems.push(repoCapture.node.text);
+		}
+		const distances = wagnerFischer(text, repoItems);
+		const distance = distances[0].distance;
+
+		let message = `Cannot find repo '${text}'`;
+		if (distance < 3) {
+			message += `. Did you mean '${distances[0].string}'?`;
+		}
+		else {
+			if (nestedRepoCaptures.length == 0) {
+				nestedRepoCaptures = queryNode(rootNode, nestedRepoQuery);
+			}
+			for (const repoCapture of nestedRepoCaptures) {
+				const repoText = repoCapture.node.text;
+				if (repoText == text) {
+					message += `. Nested repository inaccessible`;
+					break;
+				}
+			}
+		}
+
 		const range = toRange(node);
 		const diagnostic: vscode.Diagnostic = {
 			range: range,
-			message: `'${text}' was not found in a repository.`,
+			message: message,
 			severity: vscode.DiagnosticSeverity.Warning,
 			source: 'TextMate',
 			code: 'include',
