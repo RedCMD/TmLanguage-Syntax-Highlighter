@@ -3,6 +3,8 @@
 	// for the documentation about the extensions.json format
 	"recommendations": [
 		"redcmd.tmlanguage-syntax-highlighter",
+		"redcmd.json-embedded-languages",
+		"redcmd.snippets-snippets",
 		"amodio.tsl-problem-matcher",
 		"yoavbls.pretty-ts-errors",
 		"ms-vscode.cpptools"
