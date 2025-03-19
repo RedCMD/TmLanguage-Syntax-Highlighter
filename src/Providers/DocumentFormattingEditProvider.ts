@@ -11,7 +11,7 @@ type formattingStyle = {
 };
 
 function getFormattingStyle(options: vscode.FormattingOptions): formattingStyle {
-	const bracketStyle = <'tight' | 'default'>vscode.workspace.getConfiguration('tmlanguage-syntax-highlighter').get('formattingStyle');
+	const bracketStyle = <'tight' | 'default'>vscode.workspace.getConfiguration('json.textmate').get('formattingStyle');
 	const style: formattingStyle = {
 		tabType: options.insertSpaces ? ' ' : '\t',
 		tabSize: options.insertSpaces ? options.tabSize : 1,

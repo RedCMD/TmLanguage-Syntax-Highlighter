@@ -232,11 +232,15 @@
 			{
 				"title": "JSON TextMate",
 				"properties": {
-					"tmlanguage-syntax-highlighter.formattingStyle": {
+					"json.textmate.formattingStyle": {
 						"type": "string",
 						"enum": [
 							"tight",
 							"default"
+						],
+						"enumDescriptions": [
+							"Leave no space between brackets",
+							"Separate brackets with a space"
 						],
 						"default": "default",
 						"scope": "resource"
