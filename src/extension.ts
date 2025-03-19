@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { IRelaxedExtensionManifest } from "./extensions";
 
 import { initTreeSitter } from "./TreeSitter";
 import { initOniguruma } from "./Oniguruma";
@@ -23,7 +24,6 @@ import { DocumentHighlightProvider } from "./Providers/DocumentHighlightProvider
 import { CompletionItemProvider, triggerCharacters } from "./Providers/CompletionItemProvider";
 import { OnTypeFormattingEditProvider, DocumentFormattingEditProvider, DocumentRangeFormattingEditProvider } from "./Providers/DocumentFormattingEditProvider";
 import { DocumentSemanticTokensProvider, SemanticTokensLegend } from "./Providers/DocumentSemanticTokensProvider";
-import { IRelaxedExtensionManifest } from "./extensions";
 
 
 export const DocumentSelector: vscode.DocumentSelector = [
@@ -82,7 +82,7 @@ export function sleep(milliseconds: number) {
 	return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
-export function stringify(this: any, key: string, value: any) {
+export function stringify(this: any, key: string, value: any): any {
 	if (typeof value === 'function') {
 		return "<function>";
 	}
@@ -220,7 +220,7 @@ export async function getPackageJSON(baseUri: vscode.TextDocument | vscode.Uri, 
 			return { packageJSON: packageJSON, packageUri: packageUri };
 		}
 	} catch (error) {
-		console.warn(`TextMate: Failed to parse package.json\n${error}`);
+		console.warn("TextMate: Failed to parse package.json\n", error);
 	}
 
 	return {};

@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
-import * as Parser from 'web-tree-sitter';
-import { Node } from 'web-tree-sitter';
+import { Node, QueryCapture, Tree } from 'web-tree-sitter';
 import { getTrees, toRange, toPoint, queryNode, getLastNode, trees, toPosition } from "../TreeSitter";
 import { ITextMateThemingRule } from "../extensions";
 import { getScopes } from "../themeScopeColors";
@@ -69,6 +68,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 		const point = toPoint(position);
 
 		const cursorQuery = `;scm
+			; (json) @json_new
 			(schema (value) @schema)
 			(schema) @schema_new
 			(scopeName (value) @scopeName)
@@ -279,7 +279,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 			}
 			case 'include':
 				const rootPatternsQuery = `(json (patterns) @patterns)`;
-				const rootPatternsText = queryNode(tree.rootNode, rootPatternsQuery).pop()?.node?.text;
+				const rootPatternsText = queryNode(rootNode, rootPatternsQuery).pop()?.node?.text;
 
 				const selfLabel: vscode.CompletionItemLabel = {
 					label: '$self',
@@ -311,7 +311,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 				const cursorScopeName = cursorNode.childForFieldName('scopeName')?.text;
 				if (cursorScopeName) {
 					const rootScopeNameQuery = `(json (scopeName (value) @scopeName))`;
-					const rootScopeName = queryNode(tree.rootNode, rootScopeNameQuery).pop()?.node?.text;
+					const rootScopeName = queryNode(rootNode, rootScopeNameQuery).pop()?.node?.text;
 					if (rootScopeName) {
 						const rootScopeNameLabel: vscode.CompletionItemLabel = {
 							label: rootScopeName,
@@ -573,7 +573,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 				// 	default:
 				// 		break;
 				// }
-				// const newPoint: Parser.Point = {
+				// const newPoint: Point = {
 				// 	row: point.row,
 				// 	column: point.column - 1
 				// }
@@ -587,8 +587,38 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 				// vscode.window.showInformationMessage("6" + JSON.stringify(context.triggerCharacter));
 				// vscode.window.showInformationMessage("7" + JSON.stringify(queryNode(regexNode, `(_ _ @node)`, point).node.text));
 				// vscode.window.showInformationMessage("8" + JSON.stringify(queryNode(regexNode, `(_ _ @node)`, newPoint).node.text));
-
 				break;
+			/* case 'json_new':
+				completionItems.push(
+					{ label: "Text", range: cursorRange, kind: vscode.CompletionItemKind.Text, },
+					{ label: "Method", range: cursorRange, kind: vscode.CompletionItemKind.Method, },
+					{ label: "Function", range: cursorRange, kind: vscode.CompletionItemKind.Function, },
+					{ label: "Constructor", range: cursorRange, kind: vscode.CompletionItemKind.Constructor, },
+					{ label: "Field", range: cursorRange, kind: vscode.CompletionItemKind.Field, },
+					{ label: "Variable", range: cursorRange, kind: vscode.CompletionItemKind.Variable, },
+					{ label: "Class", range: cursorRange, kind: vscode.CompletionItemKind.Class, },
+					{ label: "Interface", range: cursorRange, kind: vscode.CompletionItemKind.Interface, },
+					{ label: "Module", range: cursorRange, kind: vscode.CompletionItemKind.Module, },
+					{ label: "Property", range: cursorRange, kind: vscode.CompletionItemKind.Property, },
+					{ label: "Unit", range: cursorRange, kind: vscode.CompletionItemKind.Unit, },
+					{ label: "Value", range: cursorRange, kind: vscode.CompletionItemKind.Value, },
+					{ label: "Enum", range: cursorRange, kind: vscode.CompletionItemKind.Enum, },
+					{ label: "Keyword", range: cursorRange, kind: vscode.CompletionItemKind.Keyword, },
+					{ label: "Snippet", range: cursorRange, kind: vscode.CompletionItemKind.Snippet, },
+					{ label: "Color", range: cursorRange, kind: vscode.CompletionItemKind.Color, },
+					{ label: "Reference", range: cursorRange, kind: vscode.CompletionItemKind.Reference, },
+					{ label: "File", range: cursorRange, kind: vscode.CompletionItemKind.File, },
+					{ label: "Folder", range: cursorRange, kind: vscode.CompletionItemKind.Folder, },
+					{ label: "EnumMember", range: cursorRange, kind: vscode.CompletionItemKind.EnumMember, },
+					{ label: "Constant", range: cursorRange, kind: vscode.CompletionItemKind.Constant, },
+					{ label: "Struct", range: cursorRange, kind: vscode.CompletionItemKind.Struct, },
+					{ label: "Event", range: cursorRange, kind: vscode.CompletionItemKind.Event, },
+					{ label: "Operator", range: cursorRange, kind: vscode.CompletionItemKind.Operator, },
+					{ label: "TypeParameter", range: cursorRange, kind: vscode.CompletionItemKind.TypeParameter, },
+					{ label: "User", range: cursorRange, kind: vscode.CompletionItemKind.User, },
+					{ label: "Issue", range: cursorRange, kind: vscode.CompletionItemKind.Issue, },
+				);
+				break; */
 			default:
 				return;
 		}
@@ -642,7 +672,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 };
 
 
-function repoCompletionItems(completionItems: CompletionItem[], tree: Parser.Tree, cursorRange: vscode.Range, scopeName?: string): void {
+function repoCompletionItems(completionItems: CompletionItem[], tree: Tree, cursorRange: vscode.Range, scopeName?: string): void {
 	const rootNode = tree.rootNode;
 
 	const repoQuery =
@@ -704,7 +734,7 @@ function repoCompletionItems(completionItems: CompletionItem[], tree: Parser.Tre
 	}
 }
 
-function locateRegex(trees: trees, nameNode: Node): Parser.QueryCapture[] {
+function locateRegex(trees: trees, nameNode: Node): QueryCapture[] {
 	const parent = nameNode.parent!;
 	if (nameNode.type == 'name' && parent.childForFieldName('match')) {
 		return getCaptureGroups(trees, parent, 'match');
@@ -727,7 +757,7 @@ function locateRegex(trees: trees, nameNode: Node): Parser.QueryCapture[] {
 		if (!tripleParent.childForFieldName('begin')) {
 			return [];
 		}
-		let beginCaptures: Parser.QueryCapture[] = [];
+		let beginCaptures: QueryCapture[] = [];
 		if (!getLastNode(tripleParent, 'beginCaptures')) {
 			beginCaptures = getCaptureGroups(trees, tripleParent, 'begin');
 		}
@@ -767,7 +797,7 @@ function locateRegex(trees: trees, nameNode: Node): Parser.QueryCapture[] {
 	return [];
 }
 
-function getCaptureGroups(trees: trees, parentNode: Node, type: string): Parser.QueryCapture[] {
+function getCaptureGroups(trees: trees, parentNode: Node, type: string): QueryCapture[] {
 	const node = getLastNode(parentNode, type);
 	if (!node) {
 		return [];
