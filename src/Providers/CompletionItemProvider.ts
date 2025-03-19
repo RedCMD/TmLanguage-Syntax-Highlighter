@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as Parser from 'web-tree-sitter';
 import { Node } from 'web-tree-sitter';
-import { getTrees, toRange, toPoint, queryNode, getLastNode, trees } from "../TreeSitter";
+import { getTrees, toRange, toPoint, queryNode, getLastNode, trees, toPosition } from "../TreeSitter";
 import { ITextMateThemingRule } from "../extensions";
 import { getScopes } from "../themeScopeColors";
 import { UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
@@ -50,6 +50,9 @@ const defaultThemeColors: { [baseTheme: string]: ITextMateThemingRule[]; } = {
 	]
 };
 
+function comma(cursorNode: Node, position: vscode.Position) {
+	return toPosition(cursorNode.lastNamedChild!.endPosition).isBefore(position) ? '' : ',';
+}
 
 export const CompletionItemProvider: vscode.CompletionItemProvider = {
 	async provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext): Promise<vscode.CompletionList<vscode.CompletionItem> | undefined> {
@@ -94,11 +97,12 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 			case 'schema_new':
 				const schema = "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json";
 				completionItems.push({
-					label: cursorName == 'schema' ? schema : `"${schema}"`,
+					label: `"${schema}"`,
 					range: cursorRange,
 					kind: vscode.CompletionItemKind.Reference,
 					documentation: "Schema for VSCode's JSON TextMate grammars",
-					sortText: ' ',
+					insertText: cursorName == 'schema' ? schema : `"${schema}"${comma(cursorNode, position)}`,
+					sortText: ' ', // top
 				});
 				break;
 			case 'scopeName':
