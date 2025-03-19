@@ -240,6 +240,40 @@
 						],
 						"default": "default",
 						"scope": "resource"
+					},
+					"json.textmate.sortOrder": {
+						"markdownDescription": "Order in which items are sorted when running refactor `Sort JSON Keys` ([settings.json](command:workbench.action.openSettingsJson))",
+						"type": "array",
+						"items": {
+							"type": "string",
+							"uniqueItems": true
+						},
+						"default": [
+							"version",
+							"$schema",
+							"match",
+							"begin",
+							"end",
+							"captures",
+							"beginCaptures",
+							"endCaptures",
+							"whileCaptures",
+							"name",
+							"contentName",
+							"scopeName",
+							"fileTypes",
+							"firstLineMatch",
+							"foldingStartMarker",
+							"foldingStopMarker",
+							"injectionSelector",
+							"injections",
+							"include",
+							"applyEndPatternLast",
+							"patterns",
+							"repository",
+							"uuid"
+						],
+						"scope": "resource"
 					}
 				}
 			}

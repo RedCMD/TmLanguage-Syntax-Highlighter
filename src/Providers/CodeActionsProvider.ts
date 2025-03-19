@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { Node } from 'web-tree-sitter';
+import { Node, Tree } from 'web-tree-sitter';
 import { getTrees, queryNode, toRange, trees } from "../TreeSitter";
 import { unicodeproperties, UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
 import { stringify, wagnerFischer } from "../extension";
@@ -136,6 +136,15 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 			codeActions.push(codeAction);
 		}
 
+		if (context.triggerKind == vscode.CodeActionTriggerKind.Invoke) {
+			codeAction = {
+				title: `Sort JSON Keys`,
+				kind: vscode.CodeActionKind.RefactorRewrite.append("sort"),
+				document: document,
+			};
+			codeActions.push(codeAction);
+		}
+
 		// vscode.window.showInformationMessage(`codeActions ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(codeActions)}`);
 		return codeActions;
 	},
@@ -147,18 +156,31 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 
 		const trees = getTrees(document);
 
-		const node = codeAction.node;
 		const edit = new vscode.WorkspaceEdit;
+		const kind = codeAction.kind?.value;
 
-		if (node) {
-			const regexNode = trees.regexTrees.get(node.id)!.rootNode;
-			await optimizeRegex(edit, regexNode, uri);
-		}
-		else {
-			const regexNodes = trees.regexNodes;
-			for (const regexNode of regexNodes.values()) {
-				await optimizeRegex(edit, regexNode, uri);
-			}
+		switch (kind) {
+			case 'quickfix':
+				return codeAction;
+			case 'refactor.rewrite.minify':
+				const node = codeAction.node;
+				if (node) {
+					const regexNode = trees.regexTrees.get(node.id)!.rootNode;
+					await optimizeRegex(edit, regexNode, uri);
+				}
+				else {
+					const regexNodes = trees.regexNodes;
+					for (const regexNode of regexNodes.values()) {
+						await optimizeRegex(edit, regexNode, uri);
+					}
+				}
+				break;
+			case 'refactor.rewrite.sort':
+				const jsonTree = trees.jsonTree;
+				sortJSON(edit, jsonTree, uri);
+				break;
+			default:
+				return codeAction;
 		}
 
 		codeAction.edit = edit;
@@ -355,4 +377,109 @@ async function optimizeRegex(edit: vscode.WorkspaceEdit, regexNode: Node, uri: v
 				break;
 		}
 	}
+}
+
+function replaceStringAt(string: string, replacement: string, startIndex: number, endIndex?: number) {
+	return string.substring(0, startIndex) + replacement + string.substring(endIndex ?? startIndex + replacement.length);
+}
+
+function sortJSON(edit: vscode.WorkspaceEdit, jsonTree: Tree, uri: vscode.Uri) {
+	const rootNode = jsonTree.rootNode;
+	let newRootText = rootNode.text;
+
+	const sortOrder = vscode.workspace.getConfiguration('json.textmate').get('sortOrder', [
+		"version",
+		"$schema",
+		// "comment",
+		"match",
+		"begin",
+		"end",
+		"captures",
+		"beginCaptures",
+		"endCaptures",
+		"whileCaptures",
+		"name",
+		"contentName",
+		"scopeName",
+		"fileTypes",
+		"firstLineMatch",
+		"foldingStartMarker",
+		"foldingStopMarker",
+		"injectionSelector",
+		"injections",
+		"include",
+		"applyEndPatternLast",
+		"patterns",
+		"repository",
+		"uuid",
+	]);
+
+	const sortQuery = `;scm
+		(json) @root
+		(repo) @repo
+		(pattern) @pattern
+		(capture) @capture
+	`;
+	const sortCaptures = queryNode(rootNode, sortQuery);
+	sortCaptures.reverse(); // inner/bottom up
+	// vscode.window.showInformationMessage(`sortCaptures\n${JSON.stringify(sortCaptures)}`);
+
+	for (const sortCapture of sortCaptures) {
+		const node = sortCapture.node;
+		// vscode.window.showInformationMessage(`node\n${JSON.stringify(node.toString())}`);
+
+		const keys: {
+			keyNode: Node;
+			nodeText: string;
+		}[] = [];
+		for (const child of node.namedChildren) {
+			const key = child?.firstNamedChild;
+			if (key) {
+				const childText = newRootText.substring(child.startIndex, child.endIndex); // nested children nodes may have been sorted
+				keys.push(
+					{
+						keyNode: key,
+						nodeText: childText,
+					}
+				);
+			}
+		}
+
+		keys.sort((a, b) => {
+			const indexA = sortOrder.indexOf(a.keyNode.text);
+			const indexB = sortOrder.indexOf(b.keyNode.text);
+
+			// attempt to preserve order of unknown items
+			if (indexA == -1) {
+				return 0;
+			}
+			if (indexB == -1) {
+				return 0;
+			}
+
+			if (indexA > indexB) {
+				return 1;
+			}
+			if (indexB > indexA) {
+				return -1;
+			}
+
+			return 0;
+		});
+		keys.reverse(); // bottom up
+
+		let index = node.namedChildCount; // `repo` and `captures` have an extra (key) node
+		for (const key of keys) {
+			index--;
+			const text = key.nodeText;
+			const sibling = node.namedChild(index)!; // the new position
+			newRootText = replaceStringAt(newRootText, text, sibling.startIndex, sibling.endIndex);
+
+			// const range = toRange(sibling);
+			// edit.replace(uri, range, text); // Error: Overlapping ranges are not allowed!
+		}
+	}
+
+	const range = toRange(rootNode);
+	edit.replace(uri, range, newRootText);
 }

@@ -607,7 +607,6 @@
 			"comment": "(?<name>...) (?'name'...)",
 			"begin": "(\\()(\\?)(<|(?<quote>'))(?=((?(<quote>)'|>))?)",
 			"end": "\\)|(?=\")",
-			"name": "capture-group-name",
 			"beginCaptures": {
 				"1": { "name": "constant.character.set.regexp.tm strong" },
 				"2": { "name": "support.function.tm" },
@@ -615,6 +614,7 @@
 				"5": { "name": "invalid.illegal.tm markup.strikethrough" }
 			},
 			"endCaptures": { "0": { "name": "constant.character.set.regexp.tm strong" } },
+			"name": "capture-group-name",
 			"patterns": [
 				{ "include": "#capture-group-name-name" },
 				{ "include": "$self" }
@@ -624,7 +624,6 @@
 			"comment": "(?<name>...) (?'name'...)",
 			"begin": "(\\()(\\?)(<|(?<quote>'))(?=((?(<quote>)'|>))?)",
 			"end": "\\)|(?=\")",
-			"name": "capture-group-name",
 			"beginCaptures": {
 				"1": { "name": "constant.character.set.regexp.tm strong" },
 				"2": { "name": "support.function.tm" },
@@ -632,6 +631,7 @@
 				"5": { "name": "invalid.illegal.tm markup.strikethrough" }
 			},
 			"endCaptures": { "0": { "name": "constant.character.set.regexp.tm strong" } },
+			"name": "capture-group-name",
 			"patterns": [
 				{ "include": "#capture-group-name-name" },
 				{ "include": "#$self-extended" }
