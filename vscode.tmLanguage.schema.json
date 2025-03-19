@@ -249,10 +249,6 @@
 			"description": "A dictionary of rules\nhttps://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#contributing-a-basic-grammar",
 			"type": "object",
 			"properties": {
-				"repo-item": {
-					"markdownDescription": "A repository item. Reference using `\"include\": \"#repo-item\"`",
-					"$ref": "#/definitions/repo"
-				},
 				"$self": {
 					"description": "Internal VSCode TextMate node. Is overridden at parse time",
 					"$ref": "#/definitions/repo",

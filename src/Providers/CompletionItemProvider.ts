@@ -15,6 +15,9 @@ const triggerCharacterSets: { [key: string]: string[]; } = {
 	schema_new: [':'],
 	scopeName: ['"', '.'],
 	name: ['"'],
+	repo: ['"', '#', '.', '$'],
+	_nothing_: [],
+	repo_new: ['"'],
 	include: ['"', '#', '.', '$'],
 	replace_capture: ['$', '{'],
 	scope: ['.', '$'],
@@ -70,6 +73,9 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 			(schema) @schema_new
 			(scopeName (value) @scopeName)
 			(name_display (value) @name)
+			(repository (repo (key) @repo))
+			(repository (repo) @_nothing_)
+			(repository) @repo_new
 			(include (value) @include)
 			(name (value (scope (replace_capture) @replace_capture)))
 			(name (value (scope) @scope))
@@ -206,6 +212,69 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 					}
 				}
 
+				break;
+			}
+			case 'repo':
+			case 'repo_new': {
+				const includeQuery = `;scm
+					(include (value !scopeName (ruleName) @include !self !base))
+				`;
+				const repoQuery = `;scm
+					(repo (key) @repo)
+				`;
+
+				const includeCaptures = queryNode(rootNode, includeQuery);
+				const repoCaptures = queryNode(rootNode, repoQuery);
+
+				// find includes with no repo
+				for (const repo of repoCaptures) {
+					const text = repo.node.text;
+					// TS query's are slow
+					for (let index = 0; index < includeCaptures.length; index++) {
+						const includeCapture = includeCaptures[index];
+						if (text == includeCapture.node.text) {
+							includeCaptures.splice(index, 1);
+							index--; // array is shorter now
+						}
+					}
+				}
+				// vscode.window.showInformationMessage(`includeCaptures ${includeCaptures.length}\n${JSON.stringify(includeCaptures)}`);
+
+				const rootScopeNameQuery = `(json (scopeName (value) @rootScopeName))`;
+				const rootScopeName = queryNode(rootNode, rootScopeNameQuery).pop()?.node.text || 'source.langId';
+
+				for (const includeCapture of includeCaptures) {
+					const text = includeCapture.node.text;
+					const documentation = new vscode.MarkdownString();
+					documentation.appendText("A repository item. Reference using:");
+					documentation.appendCodeblock(`"include": "#${text}"`, 'json-textmate');
+					documentation.appendText("Or from another grammar:");
+					documentation.appendCodeblock(`"include": "${rootScopeName}#${text}"`, 'json-textmate');
+					completionItems.push({
+						label: text,
+						range: cursorRange,
+						kind: vscode.CompletionItemKind.Property,
+						documentation: documentation,
+						insertText: cursorName == 'repo' ? text : new vscode.SnippetString(`"${text}": {$0}${comma(cursorNode, position)}`),
+					});
+				}
+				const documentation = new vscode.MarkdownString();
+				documentation.appendText("A repository item. Reference using:");
+				documentation.appendCodeblock(`"include": "#repo-item"`, 'json-textmate');
+				documentation.appendText("Or from another grammar:");
+				documentation.appendCodeblock(`"include": "${rootScopeName}#repo-item"`, 'json-textmate');
+				completionItems.push({
+					label: "repo-item",
+					range: cursorRange,
+					kind: vscode.CompletionItemKind.Property,
+					documentation: documentation,
+					insertText: cursorName == 'repo' ?
+						"repo-item" :
+						new vscode.SnippetString(
+							`"\${1:repo-item}": {$0}${comma(cursorNode, position)}`
+						),
+					sortText: "~repo-item", // bottom
+				});
 				break;
 			}
 			case 'include':
