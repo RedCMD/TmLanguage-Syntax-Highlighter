@@ -14,7 +14,7 @@ import { CodeLensProvider } from "./Providers/CodeLensProvider";
 import { ReferenceProvider } from "./Providers/ReferenceProvider";
 import { DefinitionProvider } from "./Providers/DefinitionProvider";
 import { InlayHintsProvider } from "./Providers/InlayHintsProvider";
-import { CodeActionsProvider } from "./Providers/CodeActionsProvider";
+import { CodeActionsProvider, metadata } from "./Providers/CodeActionsProvider";
 import { CallHierarchyProvider } from "./Providers/CallHierarchyProvider";
 import { DocumentSymbolProvider, metaData } from "./Providers/DocumentSymbolProvider";
 import { SelectionRangeProvider } from "./Providers/SelectionRangeProvider";
@@ -53,7 +53,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		vscode.languages.registerReferenceProvider(DocumentSelector, ReferenceProvider), // Go to References
 		vscode.languages.registerDefinitionProvider(DocumentSelector, DefinitionProvider), // ctrl+click Go to Definition
 		// vscode.languages.registerInlayHintsProvider(DocumentSelector, InlayHintsProvider), // 
-		vscode.languages.registerCodeActionsProvider(DocumentSelector, CodeActionsProvider), // right click => Refactor...
+		vscode.languages.registerCodeActionsProvider(DocumentSelector, CodeActionsProvider, metadata), // right click => Refactor...
 		vscode.languages.registerCallHierarchyProvider(DocumentSelector, CallHierarchyProvider), // right click => Peak Call Hierarchy
 		vscode.languages.registerDocumentSymbolProvider(DocumentSelector, DocumentSymbolProvider, metaData), // Breadcrumbs/Outline
 		vscode.languages.registerSelectionRangeProvider(DocumentSelector, SelectionRangeProvider), // Expand and Shrink Selection

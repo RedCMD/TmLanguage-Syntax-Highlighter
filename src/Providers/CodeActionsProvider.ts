@@ -4,6 +4,14 @@ import { getTrees, queryNode, toRange, trees } from "../TreeSitter";
 import { unicodeproperties, UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
 import { stringify, wagnerFischer } from "../extension";
 
+export const metadata: vscode.CodeActionProviderMetadata = {
+	providedCodeActionKinds: [
+		vscode.CodeActionKind.QuickFix,
+		vscode.CodeActionKind.RefactorRewrite.append("minify"),
+		vscode.CodeActionKind.RefactorRewrite.append("sort"),
+	],
+	documentation: undefined,
+};
 
 type CodeAction = vscode.CodeAction & {
 	document: vscode.TextDocument,
