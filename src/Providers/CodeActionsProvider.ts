@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { Node, Tree } from 'web-tree-sitter';
 import { getTrees, queryNode, toRange, trees } from "../TreeSitter";
 import { unicodeproperties, UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
-import { stringify, wagnerFischer } from "../extension";
+import { closeEnoughQuestionMark, stringify, wagnerFischer } from "../extension";
 
 export const metadata: vscode.CodeActionProviderMetadata = {
 	providedCodeActionKinds: [
@@ -82,7 +82,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 					const distances = wagnerFischer(property, unicodeproperties);
 					// vscode.window.showInformationMessage(JSON.stringify(distances));
 					const distance = distances[0].distance;
-					if (distance > 2) {
+					if (!closeEnoughQuestionMark(distance, property)) {
 						continue;
 					}
 

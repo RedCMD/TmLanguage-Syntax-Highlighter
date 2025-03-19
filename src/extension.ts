@@ -107,8 +107,22 @@ export function stringify(this: any, key: string, value: any) {
 	return value;
 }
 
-export function wagnerFischer(word: string, directory: string[]): { distance: number, index: number, string: string; }[] {
-	const distances: { distance: number, index: number, string: string; }[] = [];
+
+export function closeEnoughQuestionMark(distance: number, text: string): boolean {
+	return distance < 1.5 * Math.sqrt(text.length); // more lenient for longer words
+}
+
+type wagnerFischerResult = {
+	distance: number,
+	index: number,
+	string: string | string[],
+};
+/** Wagner–Fischer algorithm is a dynamic programming algorithm that computes the edit distance between two strings of characters */
+export function wagnerFischer(word: string, directory: string[]): { distance: number, index: number, string: string; }[];
+/** Interestingly this also works with arrays of strings */
+export function wagnerFischer(words: string[], directorys: string[][]): { distance: number, index: number, string: string[]; }[];
+export function wagnerFischer(word: string | string[], directory: string[] | string[][]): wagnerFischerResult[] {
+	const distances: wagnerFischerResult[] = [];
 	let index = 0;
 
 	for (const targetWord of directory) {
@@ -137,7 +151,12 @@ export function wagnerFischer(word: string, directory: string[]): { distance: nu
 			prev = next;
 		}
 
-		const distance = { 'distance': prev[targetWord.length], index: index, string: targetWord };
+		const distance = {
+			distance: prev[targetWord.length],
+			index: index,
+			string: targetWord,
+			prev: prev,
+		};
 		distances.push(distance);
 
 		index++;

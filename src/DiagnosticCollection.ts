@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as vscodeOniguruma from 'vscode-oniguruma';
 import { Node, QueryCapture } from 'web-tree-sitter';
 import { getLastNode, getTrees, parseEvents, queryNode, toRange, trees } from "./TreeSitter";
-import { DocumentSelector, getPackageJSON, stringify, wagnerFischer } from "./extension";
+import { closeEnoughQuestionMark, DocumentSelector, getPackageJSON, stringify, wagnerFischer } from "./extension";
 import { unicodeproperties } from "./UNICODE_PROPERTIES";
 
 
@@ -424,8 +424,8 @@ function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: N
 		const distances = wagnerFischer(text, repoItems);
 		const distance = distances[0].distance;
 
-		let message = `Cannot find repo '${text}'`;
-		if (distance < 3) {
+		let message = `Cannot find repo name '${text}'`;
+		if (closeEnoughQuestionMark(distance, text)) {
 			message += `. Did you mean '${distances[0].string}'?`;
 		}
 		else {
