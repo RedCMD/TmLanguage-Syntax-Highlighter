@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json
 version: https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/syntaxes/yaml.tmLanguage.json
 $schema: https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json
 name: YAML TextMate
