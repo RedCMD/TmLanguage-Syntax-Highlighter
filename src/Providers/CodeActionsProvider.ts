@@ -203,6 +203,7 @@ const minifyQuery = `;scm
 	(comment_extended) @comment
 	(non_capture_group) @non_capture_group
 	(non_capture_group_extended) @non_capture_group
+	(character_class (backslash) @backslash_class)
 `;
 
 async function optimizeRegex(edit: vscode.WorkspaceEdit, regexNode: Node, uri: vscode.Uri) {
@@ -239,6 +240,17 @@ async function optimizeRegex(edit: vscode.WorkspaceEdit, regexNode: Node, uri: v
 		switch (minifyName) {
 			case 'comment':
 				edit.delete(uri, minifyRange);
+				break;
+			case 'backslash_class':
+				if (/^\\\\[ #$'()*+,.89<?ABGKNORXYZ^yz{|}]$/.test(minifyNode.text)) { // MUST be mutually exclusive with the regex below! // Error: Overlapping ranges are not allowed!
+					edit.delete(
+						uri,
+						new vscode.Range(
+							minifyRange.start,
+							minifyRange.start.translate(0, 2),
+						),
+					);
+				}
 				break;
 			case 'backslash':
 				const text = minifyNode.text;
