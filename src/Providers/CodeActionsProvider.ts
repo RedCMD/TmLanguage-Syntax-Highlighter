@@ -173,13 +173,13 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 			case 'refactor.rewrite.minify':
 				const node = codeAction.node;
 				if (node) {
-					const regexNode = trees.regexTrees.get(node.id)!.rootNode;
-					await optimizeRegex(edit, regexNode, uri);
+					const rootNode = trees.regexTrees.get(node.id)!.rootNode;
+					await optimizeRegex(edit, rootNode, uri);
 				}
 				else {
-					const regexNodes = trees.regexNodes;
-					for (const regexNode of regexNodes.values()) {
-						await optimizeRegex(edit, regexNode, uri);
+					const regexTrees = trees.regexTrees;
+					for (const regexTree of regexTrees.values()) {
+						await optimizeRegex(edit, regexTree.rootNode, uri);
 					}
 				}
 				break;
