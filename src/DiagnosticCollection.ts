@@ -4,6 +4,7 @@ import { Node, QueryCapture } from 'web-tree-sitter';
 import { getLastNode, getTrees, parseEvents, queryNode, toRange, trees } from "./TreeSitter";
 import { closeEnoughQuestionMark, DocumentSelector, getPackageJSON, stringify, wagnerFischer } from "./extension";
 import { unicodeproperties } from "./UNICODE_PROPERTIES";
+import { ignoreDiagnosticsUnusedRepos } from "./Providers/CodeActionsProvider";
 
 
 type IOnigBinding = {
@@ -26,6 +27,7 @@ type OnigScanner = vscodeOniguruma.OnigScanner & {
 	readonly _ptr: Pointer;
 	readonly _options: vscodeOniguruma.FindOption[];
 };
+
 
 const DiagnosticCollection = vscode.languages.createDiagnosticCollection("textmate");
 export function initDiagnostics(context: vscode.ExtensionContext) {
@@ -60,7 +62,8 @@ export function initDiagnostics(context: vscode.ExtensionContext) {
 	);
 }
 
-async function Diagnostics(document: vscode.TextDocument) {
+
+export async function Diagnostics(document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage("Diagnostics");
 	// const start = performance.now();
 
@@ -75,12 +78,14 @@ async function Diagnostics(document: vscode.TextDocument) {
 		diagnosticsTreeSitterRegexErrors(diagnostics, trees),
 		diagnosticsOnigurumaRegexErrors(diagnostics, trees),
 		diagnosticsBrokenIncludes(diagnostics, rootNode),
+		diagnosticsUnusedRepos(diagnostics, rootNode),
 		diagnosticsDeadTextMateCode(diagnostics, rootNode),
 	]);
 
 	DiagnosticCollection.set(document.uri, diagnostics);
 	// vscode.window.showInformationMessage(`Diagnostics ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(diagnostics)}`);
 }
+
 
 function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[], rootNode: Node) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics JSON"));
@@ -489,6 +494,66 @@ function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: N
 		}
 		prevPatternsArrayId = patternsArray.id;
 	}
+	// vscode.window.showInformationMessage(`include ${(performance.now() - start).toFixed(3)}ms`);
+}
+
+function diagnosticsUnusedRepos(diagnostics: vscode.Diagnostic[], rootNode: Node) {
+	if (ignoreDiagnosticsUnusedRepos) {
+		return;
+	}
+	// vscode.window.showInformationMessage(`diagnostics #includes\n${JSON.stringify(rootNode)}`)
+	// const start = performance.now();
+
+	// should validate all #include first
+	// but TS too slow
+	const includeQuery = `;scm
+		(include (value !scopeName (ruleName) @include))
+	`;
+
+	const repoQuery = `;scm
+		(repo (key) @repo)
+	`;
+	const repoCaptures = queryNode(rootNode, repoQuery);
+	for (const repoCapture of repoCaptures) {
+		const repoNode = repoCapture.node;
+		const repoText = repoNode.text;
+
+		const repositoryParentNode = repoNode.parent!.parent!.parent!;
+		const includeCaptures = queryNode(repositoryParentNode, includeQuery);
+
+		let foundInclude = false;
+		for (const includeCapture of includeCaptures) {
+			const includeText = includeCapture.node.text;
+			if (repoText == includeText) {
+				foundInclude = true;
+				break;
+			}
+		}
+		if (foundInclude) {
+			continue;
+		}
+
+		for (const includeCapture of includeCaptures) {
+			const includeText = includeCapture.node.text;
+			if (repoText == includeText) {
+				foundInclude = true;
+				break;
+			}
+		}
+		if (foundInclude) {
+			continue;
+		}
+
+		const range = toRange(repoNode);
+		diagnostics.push({
+			range: range,
+			message: `No "#include" references found to '${repoText}'`,
+			severity: vscode.DiagnosticSeverity.Information,
+			source: 'TextMate',
+			code: 'repo',
+		});
+	}
+
 	// vscode.window.showInformationMessage(`include ${(performance.now() - start).toFixed(3)}ms`);
 }
 

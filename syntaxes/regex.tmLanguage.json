@@ -30,7 +30,7 @@
 		}
 	},
 	"patterns": [
-		{ "//include": "#test" },
+		{ "include": "#test" },
 		{ "include": "#character-types" },
 		{ "include": "#character-types-2" },
 		{ "include": "#characters" },
@@ -1579,7 +1579,7 @@
 			"name": "invalid.illegal.tm markup.underline regex"
 		},
 		"test": {
-			"comment": "Uncomment \"//include\": \"#test\" in the root \"patterns\"",
+			"comment": "Just a easy for testing rule",
 			"match": "(*FAIL).",
 			"name": "token.debug-token strong regex"
 		},
@@ -1587,6 +1587,7 @@
 			"comment": "Basic visual test",
 			"//": "https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE",
 			"patterns": [
+				{ "include": "#_disabled_" },
 				{ "match": "(*FAIL)  !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ " },
 				{ "match": "(*FAIL) \"\/\b\f\n\r\t\u0000 " },
 				{ "match": "(*FAIL) \\ \\!\\\"\\#\\$\\%\\&\\'\\(\\)\\*\\+\\,\\-\\.\\/\\0\\10\\20\\30\\40\\50\\60\\70\\80\\90\\:\\;\\<\\=\\>\\\\\\?\\@\\A\\B\\C- \\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z\\[\\\\\\]\\^\\_\\`\\a\\b\\c]\\d\\e\\f\\g\\h\\i\\j\\k\\l\\m\\n\\o\\p\\q\\r\\s\\t\\u0000\\v\\w\\x\\y\\z\\{\\|\\}\\~ " },

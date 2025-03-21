@@ -3,10 +3,12 @@ import { Node, Tree } from 'web-tree-sitter';
 import { getTrees, queryNode, toRange, trees } from "../TreeSitter";
 import { unicodeproperties, UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
 import { closeEnoughQuestionMark, stringify, wagnerFischer } from "../extension";
+import { Diagnostics } from '../DiagnosticCollection';
 
 export const metadata: vscode.CodeActionProviderMetadata = {
 	providedCodeActionKinds: [
 		vscode.CodeActionKind.QuickFix,
+		vscode.CodeActionKind.QuickFix.append('ignore'),
 		vscode.CodeActionKind.RefactorRewrite.append("minify"),
 		vscode.CodeActionKind.RefactorRewrite.append("sort"),
 	],
@@ -17,6 +19,8 @@ type CodeAction = vscode.CodeAction & {
 	document: vscode.TextDocument,
 	node?: Node;
 };
+
+export let ignoreDiagnosticsUnusedRepos: boolean = false;
 
 export const CodeActionsProvider: vscode.CodeActionProvider = {
 	provideCodeActions(document: vscode.TextDocument, range: vscode.Range | vscode.Selection, context: vscode.CodeActionContext, token: vscode.CancellationToken): vscode.CodeAction[] {
@@ -110,6 +114,15 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 					});
 					break;
 				}
+				case 'repo': {
+					codeActions.push({
+						title: `Ignore no reference warnings`,
+						kind: vscode.CodeActionKind.QuickFix.append('ignore'),
+						diagnostics: [diagnostic],
+						document: document,
+					});
+					break;
+				}
 				default:
 					continue;
 			}
@@ -180,6 +193,10 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 				const jsonTree = trees.jsonTree;
 				sortJSON(edit, jsonTree, uri);
 				break;
+			case 'quickfix.ignore':
+				ignoreDiagnosticsUnusedRepos = true;
+				Diagnostics(document);
+			/* FALLTHROUGH */
 			case 'quickfix':
 			default:
 				return codeAction;
