@@ -1,11 +1,38 @@
 {
 	"${}": {
-		"description": "Capture replace case format",
-		"body": "${${1:1}:/${2|upcase,downcase|}}$0",
 		"prefix": [
 			"${}",
-			"upcase",
-			"downcase"
+		],
+		"body": "${${1:${TM_SELECTED_TEXT:0}}:/${2|upcase,downcase|}}$0",
+		"description": [
+			"Capture replace case format.",
+			"Converts all the captured alphabetic characters to UPPERCASE or lowercase.",
+			"All leading dots (.) are stripped.",
+			""
 		]
-	}
+	},
+	"${UPCASE}": {
+		"prefix": [
+			"upcase",
+		],
+		"body": "${${1:${TM_SELECTED_TEXT:1}}:/upcase}$0",
+		"description": [
+			"Capture replace case format.",
+			"Converts all the captured alphabetic characters to UPPERCASE.",
+			"All leading dots (.) are stripped.",
+			""
+		]
+	},
+	"${downcase}": {
+		"prefix": [
+			"downcase"
+		],
+		"body": "${${1:${TM_SELECTED_TEXT:2}}:/downcase}$0",
+		"description": [
+			"Capture replace case format.",
+			"Converts all the captured alphabetic characters to lowercase.",
+			"All leading dots (.) are stripped.",
+			""
+		]
+	},
 }
