@@ -414,7 +414,7 @@
 					}
 				},
 				{
-					"begin": "text|source(?=\\.[\\w.:])",
+					"begin": "(?>text|source)(?=\\.[\\w.:])",
 					"end": "(?![\\w.:-])",
 					"beginCaptures": { "0": { "name": "support.function.tm" } },
 					"name": "string",
