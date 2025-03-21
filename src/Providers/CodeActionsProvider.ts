@@ -15,16 +15,15 @@ export const metadata: vscode.CodeActionProviderMetadata = {
 
 type CodeAction = vscode.CodeAction & {
 	document: vscode.TextDocument,
-	node: Node | null;
+	node?: Node;
 };
 
 export const CodeActionsProvider: vscode.CodeActionProvider = {
 	provideCodeActions(document: vscode.TextDocument, range: vscode.Range | vscode.Selection, context: vscode.CodeActionContext, token: vscode.CancellationToken): vscode.CodeAction[] {
-		// vscode.window.showInformationMessage(`provideCodeActions\n${JSON.stringify(context)}`);
+		// vscode.window.showInformationMessage(`provideCodeActions\n${JSON.stringify(context, stringify)}`);
 		// const start = performance.now();
 
-		const codeActions: vscode.CodeAction[] = [];
-		let codeAction: CodeAction | vscode.CodeAction;
+		const codeActions: (CodeAction | vscode.CodeAction)[] = [];
 
 		const diagnostics = context.diagnostics;
 		for (const diagnostic of diagnostics) {
@@ -42,35 +41,35 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 					const error = message.split("'")[1];
 
 					edit.delete(document.uri, diagnostic.range);
-					codeAction = {
+					codeActions.push({
 						title: `Remove error '${error}'`,
 						kind: vscode.CodeActionKind.QuickFix,
 						diagnostics: [diagnostic],
 						edit: edit,
-					};
+					});
 					break;
 				case 'missing':
 					const missing = message.split("'")[3] || "'";
 
 					edit.insert(document.uri, diagnostic.range.end, missing);
-					codeAction = {
+					codeActions.push({
 						title: `Add missing '${missing}'`,
 						kind: vscode.CodeActionKind.QuickFix,
 						diagnostics: [diagnostic],
 						edit: edit,
-					};
+					});
 					break;
 				case 'scopeName': {
 					const scopeName = message.split("'")[3];
 
 					edit.replace(document.uri, diagnostic.range, scopeName);
-					codeAction = {
+					codeActions.push({
 						title: `Change spelling to '${scopeName}'`,
 						kind: vscode.CodeActionKind.QuickFix,
 						diagnostics: [diagnostic],
 						isPreferred: true,
 						edit: edit,
-					};
+					});
 					break;
 				}
 				case 'property':
@@ -88,13 +87,13 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 
 					const propertyName = UNICODE_PROPERTIES[distances[0].index];
 					edit.replace(document.uri, diagnostic.range, propertyName);
-					codeAction = {
+					codeActions.push({
 						title: `Change spelling to '${propertyName}'`,
 						kind: vscode.CodeActionKind.QuickFix,
 						diagnostics: [diagnostic],
 						isPreferred: true,
 						edit: edit,
-					};
+					});
 					break;
 				case 'include': {
 					const include = message.split("'")[3];
@@ -102,55 +101,51 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 						continue;
 					}
 					edit.replace(document.uri, diagnostic.range, include);
-					codeAction = {
+					codeActions.push({
 						title: `Change spelling to '${include}'`,
 						kind: vscode.CodeActionKind.QuickFix,
 						diagnostics: [diagnostic],
 						isPreferred: true,
 						edit: edit,
-					};
+					});
 					break;
 				}
 				default:
 					continue;
 			}
-			codeActions.push(codeAction);
 		}
 
-		let optimizeAllRegex = false;
+		let showAllCodeActions = context.triggerKind == vscode.CodeActionTriggerKind.Invoke;
 
 		const trees = getTrees(document);
 		const regexNodes = trees.regexNodes;
 		for (const regexNode of regexNodes.values()) {
 			const parentRange = toRange(regexNode.parent!);
 			if (parentRange.intersection(range)) {
-				codeAction = {
+				codeActions.push({
 					title: `Optimize Regex`,
 					kind: vscode.CodeActionKind.RefactorRewrite.append("minify"),
 					document: document,
 					node: regexNode,
-				};
-				codeActions.push(codeAction);
-				optimizeAllRegex = true;
+				});
+				showAllCodeActions = true;
 			}
 		}
-		if (optimizeAllRegex || context.triggerKind == vscode.CodeActionTriggerKind.Invoke) {
-			codeAction = {
-				title: `Optimize all Regexes`,
-				kind: vscode.CodeActionKind.RefactorRewrite.append("minify"),
-				document: document,
-				node: null,
-			};
-			codeActions.push(codeAction);
-		}
 
-		if (context.triggerKind == vscode.CodeActionTriggerKind.Invoke) {
-			codeAction = {
-				title: `Sort JSON Keys`,
-				kind: vscode.CodeActionKind.RefactorRewrite.append("sort"),
-				document: document,
-			};
-			codeActions.push(codeAction);
+		if (showAllCodeActions) {
+			codeActions.push(
+				{
+					title: `Optimize all Regexes`,
+					kind: vscode.CodeActionKind.RefactorRewrite.append("minify"),
+					document: document,
+					node: undefined,
+				},
+				{
+					title: `Sort JSON Keys`,
+					kind: vscode.CodeActionKind.RefactorRewrite.append("sort"),
+					document: document,
+				},
+			);
 		}
 
 		// vscode.window.showInformationMessage(`codeActions ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(codeActions)}`);
@@ -168,16 +163,14 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 		const kind = codeAction.kind?.value;
 
 		switch (kind) {
-			case 'quickfix':
-				return codeAction;
 			case 'refactor.rewrite.minify':
 				const node = codeAction.node;
+				const regexTrees = trees.regexTrees;
 				if (node) {
-					const rootNode = trees.regexTrees.get(node.id)!.rootNode;
+					const rootNode = regexTrees.get(node.id)!.rootNode;
 					await optimizeRegex(edit, rootNode, uri);
 				}
 				else {
-					const regexTrees = trees.regexTrees;
 					for (const regexTree of regexTrees.values()) {
 						await optimizeRegex(edit, regexTree.rootNode, uri);
 					}
@@ -187,6 +180,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 				const jsonTree = trees.jsonTree;
 				sortJSON(edit, jsonTree, uri);
 				break;
+			case 'quickfix':
 			default:
 				return codeAction;
 		}
