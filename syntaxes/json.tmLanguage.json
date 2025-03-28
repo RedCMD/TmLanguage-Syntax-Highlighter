@@ -650,7 +650,6 @@
 							"endCaptures": { "0": { "name": "punctuation.definition.dictionary.end.json.tm" } },
 							"patterns": [
 								{ "include": "#repo" },
-								{ "include": "#json-pair" },
 								{ "include": "#dictionary-separator" }
 							]
 						},
@@ -885,7 +884,7 @@
 									}
 								},
 								{
-									"match": "(?!\\G)#(?=\")",
+									"match": "(?!\\G)#?(?=\")",
 									"name": "keyword.json.tm markup.strikethrough.json.tm"
 								},
 								{

@@ -105,17 +105,25 @@
 					}
 				},
 				{
-					"match": "(\\\\{2})?({([0-9]+)?)(?>((?(<1>)(\\\\{2})|(\\\\{2})))?(,))?((?(<3>)[0-9]*|[0-9]+))(?(<4>)(\\\\{2})|\\g<4>)?(})",
-					"captures": {
-						"1": { "name": "constant.character.escape.tm" },
-						"2": { "name": "entity.name.label.tm strong regex" },
-						"5": { "name": "punctuation.definition.tag.tm" },
-						"6": { "name": "constant.character.escape.tm" },
-						"7": { "name": "entity.name.label.tm strong" },
-						"8": { "name": "entity.name.label.tm strong" },
-						"9": { "name": "punctuation.definition.tag.tm" },
-						"10": { "name": "entity.name.label.tm strong regex" }
-					}
+					"begin": "(?=\\\\{2}?{)",
+					"end": "(\\\\{2})?({)|",
+					"endCaptures": {
+						"1": { "name": "punctuation.definition.tag.tm" },
+						"2": { "name": "entity.name.label.tm strong regex" }
+					},
+					"applyEndPatternLast": 1,
+					"patterns": [
+						{
+							"comment": "Regex Slow",
+							"begin": "(?=\\\\{2}?{(?>[0-9]+\\\\{2}?,?[0-9]*|\\\\{2}?,?[0-9]+)\\\\{2}?})",
+							"end": "(\\\\{2})({)?",
+							"endCaptures": {
+								"1": { "name": "constant.character.escape.tm" },
+								"2": { "name": "entity.name.label.tm strong regex" }
+							},
+							"contentName": "entity.name.label.tm strong regex"
+						}
+					]
 				},
 				{
 					"match": "(\\\\{2})([\\[()$?|^*+.])",
@@ -455,7 +463,7 @@
 		"capture-group-modify-extended": {
 			"patterns": [
 				{
-					"match": "\\(\\?-++:?+\\)",
+					"match": "\\(\\?-+:?\\)",
 					"name": "punctuation.definition.tag.tm"
 				},
 				{
@@ -709,7 +717,7 @@
 		},
 		"absent": {
 			"comment": "(?~|...|...) (?~|...) (?~...) (?~|)",
-			"begin": "(\\()(\\?~\\|?+)",
+			"begin": "(\\()(\\?~\\|?)",
 			"end": "\\)|(?=\")",
 			"beginCaptures": {
 				"1": { "name": "constant.character.set.regexp.tm" },
@@ -966,7 +974,7 @@
 				},
 				{
 					"match": "\\\\.?|[\"\\x00-\\x1F\\x7F]",
-					"name": "invalid.illegal.tm markup.underline regex"
+					"name": "invalid.illegal.tm regex"
 				}
 			]
 		},
@@ -980,7 +988,7 @@
 					}
 				},
 				{
-					"match": "(\\*(-)\\+)(\\\\{2}(?=-))?+",
+					"match": "(\\*(-)\\+)(\\\\{2}(?=-))?",
 					"captures": {
 						"1": { "name": "character-class-range.tm support.class.tm" },
 						"2": { "name": "punctuation.definition.tag.tm strong" },
@@ -1095,7 +1103,7 @@
 		"character-class-posix": {
 			"patterns": [
 				{
-					"match": "\\[:\\^?+:]",
+					"match": "\\[:\\^?:]",
 					"name": "posix.tm invalid.illegal.tm"
 				},
 				{
@@ -1130,7 +1138,7 @@
 				{
 					"comment": "[:...[:...\\]...:...[:...:]",
 					"begin": "\\[:(?=(?~(?<!\\\\)(?>\\\\{2}*+\"|\\\\{4}*+]))(?>$|(?<!\\\\)\\\\{4}*:]))",
-					"end": ":(?=])|(?<=:)(?=])|(?<=:])",
+					"end": ":(?=])|(?<=:)(?=])|(?<=:])|(?=\")",
 					"captures": { "0": { "name": "support.function.tm markup.italic regex" } },
 					"patterns": [
 						{
@@ -1334,12 +1342,27 @@
 					}
 				},
 				{
-					"match": "(?>(\\\\{2}u)|(\\\\u))(?>(\\h{4})|([^\"].{3,0}))",
+					"match": "(\\\\{2}u)(?>(\\h{4})|([^\"].{3,0}))",
 					"captures": {
 						"1": { "name": "variable.language.tm" },
-						"2": { "name": "constant.character.escape.tm" },
-						"3": { "name": "constant.numeric.json.tm" },
-						"4": {
+						"2": { "name": "constant.numeric.json.tm" },
+						"3": {
+							"name": "constant.numeric.tm",
+							"patterns": [
+								{
+									"match": "\\H+",
+									"name": "invalid.illegal.regex.tm"
+								}
+							]
+						}
+					}
+				},
+				{
+					"match": "(\\\\u)(?>(\\h{4})|([^\"].{3,0}))",
+					"captures": {
+						"1": { "name": "constant.character.escape.tm" },
+						"2": { "name": "constant.numeric.json.tm" },
+						"3": {
 							"name": "constant.numeric.tm",
 							"patterns": [
 								{
@@ -1367,7 +1390,7 @@
 				{
 					"//": "[pP] degrades performance :shrug:",
 					"comment": "https://github.com/kkos/oniguruma/blob/v6.9.8/doc/UNICODE_PROPERTIES",
-					"begin": "(\\\\{2}p{)(\\^)?+",
+					"begin": "(\\\\{2}p{)(\\^)?",
 					"end": "}|$|(?=[(){|\"])",
 					"beginCaptures": {
 						"1": { "name": "variable.language.tm" },
@@ -1393,7 +1416,7 @@
 				{
 					"//": "[pP] degrades performance :shrug:",
 					"comment": "https://github.com/kkos/oniguruma/blob/v6.9.8/doc/UNICODE_PROPERTIES",
-					"begin": "(\\\\{2}P{)(\\^)?+",
+					"begin": "(\\\\{2}P{)(\\^)?",
 					"end": "}|$|(?=[(){|\"])",
 					"beginCaptures": {
 						"1": { "name": "variable.language.tm" },
@@ -1604,20 +1627,19 @@
 			"name": "entity.name.label.tm strong regex"
 		},
 		"invalid": {
-			"comment": "invalid: single escaped characters (including at newlines), rouge right brackets, unescaped double quotes and any invalid control characters",
+			"comment": "invalid: single escaped characters (including at EOL), rogue right brackets, unescaped double quotes and any invalid control characters",
 			"match": "\\\\.?|[)\"\\x00-\\x1F\\x7F]",
 			"name": "invalid.illegal.tm markup.underline regex"
 		},
 		"test": {
-			"comment": "Just a easy for testing rule",
-			"match": "(*FAIL).",
+			"comment": "Just a easy spot for testing",
+			"//match": "(*FAIL).",
 			"name": "token.debug-token strong regex"
 		},
 		"_disabled_": {
 			"comment": "Basic visual test",
 			"//": "https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE",
 			"patterns": [
-				{ "include": "#_disabled_" },
 				{ "match": "(*FAIL)  !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ " },
 				{ "match": "(*FAIL) \"\/\b\f\n\r\t\u0000 " },
 				{ "match": "(*FAIL) \\ \\!\\\"\\#\\$\\%\\&\\'\\(\\)\\*\\+\\,\\-\\.\\/\\0\\10\\20\\30\\40\\50\\60\\70\\80\\90\\:\\;\\<\\=\\>\\\\\\?\\@\\A\\B\\C- \\D\\E\\F\\G\\H\\I\\J\\K\\L\\M-a\\N\\O\\P\\Q\\R\\S\\T\\U\\V\\W\\X\\Y\\Z\\[\\\\\\]\\^\\_\\`\\a\\b\\c]\\d\\e\\f\\g\\h\\i\\j\\k\\l\\m\\n\\o\\p\\q\\r\\s\\t\\u0000\\v\\w\\x\\y\\z\\{\\|\\}\\~ " },
@@ -1633,7 +1655,8 @@
 				{ "match": "(*FAIL) QabcE $ \\$   an{name}bc  At aT aa abc abd cd a1 b a1b n1000 Q.E q.e test a<name0>b$abc " },
 				{ "match": "(*FAIL) (?x)#comment\n \\# abc (?-x)#notcomment\n \\# abc " },
 				{ "match": "(*FAIL) (?<_azAZ0-9 #$('°>) (?<_azAZ0>) (?(<_azAZ0-9>)true|false) \\g<_azAZ0-9 #$('°> \\k<_azAZ0-9> " },
-				{ "match": "(*FAIL) (){0}[[:word:]]\\g<1>\\k'1' (( (){0}[[:word:]]\\g<1>\\k'1' )) " }
+				{ "match": "(*FAIL) (){0}[[:word:]]\\g<1>\\k'1' (( (){0}[[:word:]]\\g<1>\\k'1' )) " },
+				{ "include": "#_disabled_" }
 			]
 		}
 	}
