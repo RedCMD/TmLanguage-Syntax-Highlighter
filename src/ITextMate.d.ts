@@ -111,7 +111,6 @@ export type CompiledRule<TRuleId = RuleId | typeof endRuleId> = {
 	readonly scanner: vscodeOniguruma.OnigScanner;
 };
 export type RegExpSourceList<TRuleId = RuleId | typeof endRuleId> = {
-
 	readonly _items: RegExpSource<TRuleId>[],
 	readonly _hasAnchors: boolean,
 	readonly _cached: CompiledRule<TRuleId> | null,
@@ -161,8 +160,9 @@ interface IOnigCaptureIndex {
 	readonly length: number;
 }
 export type IMatchResult = {
+	readonly parentId: RuleId;
 	readonly captureIndices: IOnigCaptureIndex[];
-	readonly matchedRuleId: RuleId;
+	readonly matchedRuleId?: RuleId;
 	readonly linePos: number;
 	readonly time: number;
 	readonly anchorPosition: number;

@@ -80,7 +80,10 @@ export function _tokenizeString(
 					.replace(/\n$/, "\\n")}|`
 			);
 		}
+		// @ts-expect-error
+		const parentId = stack.ruleId;
 		const prevLinePos = linePos;
+		const prevAnchorPosition = anchorPosition;
 		const r = matchRuleOrInjections(
 			grammar,
 			lineText,
@@ -104,9 +107,10 @@ export function _tokenizeString(
 					length: lineLength - linePos,
 				}
 			];
-			// @ts-ignore
+			// @ts-expect-error
 			grammar.rules.push(
 				{
+					parentId: parentId,
 					captureIndices: captureIndices,
 					// captureIndices: captureIndices,
 					// matchedRuleId: matchedRuleId == endRuleId ? -poppedRule!.id : matchedRuleId,
@@ -114,7 +118,7 @@ export function _tokenizeString(
 					// isFirstLine: isFirstLine,
 					linePos: prevLinePos,
 					// stack: stack,
-					anchorPosition: anchorPosition,
+					anchorPosition: prevAnchorPosition,
 					time: performance.now(),
 					// @ts-ignore
 					// length: grammar._ruleId2desc.length - 1,
@@ -351,16 +355,17 @@ export function _tokenizeString(
 			isFirstLine = false;
 		}
 
-		// @ts-ignore
+		// @ts-expect-error
 		grammar.rules.push(
 			{
+				parentId: parentId,
 				captureIndices: captureIndices,
 				matchedRuleId: matchedRuleId == endRuleId ? -poppedRule!.id : matchedRuleId,
 				// lineText: lineText,
 				// isFirstLine: isFirstLine,
 				linePos: prevLinePos,
 				// stack: stack,
-				anchorPosition: anchorPosition,
+				anchorPosition: prevAnchorPosition,
 				time: performance.now(),
 				// @ts-ignore
 				// length: grammar._ruleId2desc.length - 1,

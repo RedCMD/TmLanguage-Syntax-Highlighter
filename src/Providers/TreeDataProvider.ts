@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as vscodeTextmate from "../textmate/main";
 // import * as vscodeTextmate from 'vscode-textmate';
 import { getScopeName, grammarLanguages, tokenizeFile } from "../TextMate";
-import { IGrammar, IToken, RegExpSource, RuleId, endRuleId, whileRuleId } from "../ITextMate";
+import { IGrammar, IMatchResult, IToken, RegExpSource, RuleId, endRuleId, whileRuleId } from "../ITextMate";
 import { stringify } from "../extension";
 import { IRawCaptures, IRawRule } from "../textmate/rawGrammar";
 import { getTrees, queryNode, toRange } from "../TreeSitter";
@@ -12,21 +12,22 @@ import { ruleIdToNumber } from "../textmate/rule";
 // import { ITextEditorOptions, EditorOpenSource, TextEditorSelectionSource } from "../extensions";
 
 type element = {
-	type: 'file' | 'root' | 'line' | 'token' | 'scope' | 'rule' | 'regexes' | 'regex',
-	line?: number,
-	tokenId?: number,
-	scopeId?: number,
-	ruleIndex?: number,
-	ruleId?: RuleId,
-	token?: IToken,
-	parent?: RuleId,
-	start?: number,
-	end?: number,
-	first?: boolean,
-	itemRule?: RegExpSource,
-	itemIndex?: number,
-	// nestLevel?: number,
-	document: vscode.TextDocument,
+	type: 'file' | 'root' | 'line' | 'token' | 'scope' | 'rule' | 'regexes' | 'regex' | 'regexes-cached' | 'regex-cached';
+	line?: number; // Line number. 0 based
+	tokenId?: number;
+	scopeId?: number;
+	ruleIndex?: number;
+	ruleId?: RuleId;
+	token?: IToken;
+	parentId?: RuleId;
+	start?: number;
+	end?: number;
+	first?: boolean;
+	itemRule?: RegExpSource;
+	itemIndex?: number;
+	duplicateId?: number; // has the ruled been used twice
+	// nestLevel?: number;
+	document: vscode.TextDocument; // element's document
 };
 
 // type rule = {
@@ -174,7 +175,7 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 					continue;
 				}
 				const ruleId = matchResult.matchedRuleId;
-				if (ruleId < 0) {
+				if (ruleId && ruleId < 0) {
 					depth--;
 					if (depth == -1) {
 						const endElement: element = {
@@ -182,7 +183,7 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 							line: line,
 							ruleId: ruleId,
 							ruleIndex: index,
-							parent: parents.at(-1),
+							parentId: parents.at(-1),
 							first: first,
 							document: document,
 							// nestLevel: nest + 1,
@@ -203,7 +204,7 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 						line: line,
 						ruleId: ruleId,
 						ruleIndex: index,
-						parent: parents.at(-1),
+						parentId: parents.at(-1),
 						first: first,
 						document: document,
 						// nestLevel: nest + 1,
@@ -213,11 +214,14 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 					first = false;
 					// count++;
 				}
-				const rule = grammar._ruleId2desc[ruleId];
-				if (!rule) {
-					// vscode.window.showInformationMessage(`noRule: ${ruleId}\n${JSON.stringify(matchResult, stringify)}`);
+				if (ruleId == undefined) {
 					continue;
 				}
+				const rule = grammar._ruleId2desc[ruleId];
+				// if (!rule) {
+				// 	// vscode.window.showInformationMessage(`noRule: ${ruleId}\n${JSON.stringify(matchResult, stringify)}`);
+				// 	continue;
+				// }
 				if (rule._begin && !rule._while) {
 					depth++;
 					parents.push(ruleId);
@@ -302,8 +306,17 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				};
 				const item = new vscode.TreeItem(treeLabel, vscode.TreeItemCollapsibleState.Collapsed);
 				item.iconPath = new vscode.ThemeIcon('symbol-variable');
-				item.tooltip = `Time: ${time}\nRules: ${grammar.rules.length}`;
-				item.description = `${timeFixed}ms${(time > 500 ? ' ⚠️' : '')}`;
+
+				let regexCount = 0;
+				for (const rule of grammar.rules) {
+					if (!rule) {
+						continue;
+					}
+					regexCount += grammar._ruleId2desc[Math.abs(rule.parentId)]._cachedCompiledPatterns?._items.length ?? 0;
+				}
+
+				item.tooltip = `Time: ${time}\nRuleCount: ${grammar.rules.length - grammar.lines.length}\nRegexCount: ${regexCount}`;
+				item.description = `${timeFixed}ms${time > 500 ? ' ⚠️' : ''}`;
 				item.id = grammar._rootScopeName;
 				return item;
 			}
@@ -390,7 +403,7 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 
 			// const label = cachedRule.id + ": " + ruleCached[rule.matchedRuleId] + ": " + id;
 			// vscode.window.showInformationMessage(`cachedRule\n${JSON.stringify(cachedRule)}`);
-			const label = cachedRule?._name || cachedRule?._contentName || (ruleId ? Math.abs(ruleId).toString() : '<EOL>');
+			const label = cachedRule?._name || cachedRule?._contentName || (ruleId ? Math.abs(ruleId).toString() : `${line + 1}: <EOL>`);
 			// vscode.window.showInformationMessage(`label\n${JSON.stringify(label)}`);
 			const treeLabel: vscode.TreeItemLabel = {
 				label: `${label}${time >= 1 ? '⚠️' : ''}`,
@@ -407,7 +420,8 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				// vscode.window.showInformationMessage(JSON.stringify(grammar.lines[line]));
 				// vscode.window.showInformationMessage(JSON.stringify(grammar.lines));
 			}
-			item.description = timeFixed + "ms" + (grammar.lines[line]?.stoppedEarly ? '❌' : time >= 1 ? ' ⚠️' : '');
+			const stoppedEarly = grammar.lines[line]?.stoppedEarly && (!grammar.rules[id - 1] || !grammar.rules[id + 1]);;
+			item.description = timeFixed + "ms" + (stoppedEarly ? '❌' : time >= 1 ? ' ⚠️' : '');
 			// item.description = timeFixed + "ms" + (ruleCached[rule.matchedRuleId] == id /* && !cachedRule._match */ ? ' ⚠️' : '');
 			if (cachedRule?._match) {
 				item.iconPath = new vscode.ThemeIcon('regex');
@@ -416,7 +430,7 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			else if (cachedRule?._begin && ruleId < 0) {
 				item.iconPath = new vscode.ThemeIcon('chevron-up');
 			}
-			item.tooltip = `${cachedRule?._match ? `match: ${cachedRule._match.source}` : ''}${ruleId >= 0 ? (cachedRule?._begin ? `begin: ${cachedRule._begin.source}` : '') : (cachedRule?._end ? `end: ${cachedRule._end.source}` : '')}${cachedRule?._while ? `while: ${cachedRule._while.source}` : ''}${ruleId ? '' : '<EndOfLine>'}\nRuleId: ${ruleId}`;
+			item.tooltip = `${stoppedEarly ? `Tokenization for line ${line + 1} was stopped early due to hitting time limit: 15sec\n` : ''}${cachedRule?._match ? `match: ${cachedRule._match.source}` : ''}${ruleId >= 0 ? (cachedRule?._begin ? `begin: ${cachedRule._begin.source}` : '') : (cachedRule?._end ? `end: ${cachedRule._end.source}` : '')}${cachedRule?._while ? `while: ${cachedRule._while.source}` : ''}${ruleId ? '' : '<EndOfLine>'}\nRuleId: ${ruleId}\nParentId: ${rule.parentId}`;
 			item.command = {
 				title: `Show Call Details`,
 				command: 'textmate.call.details',
@@ -585,34 +599,47 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 		}
 		const document = selectedElement.document;
 		if (!element) {
-			const regexesElement: element = {
+			elements.push({
 				type: 'regexes',
 				ruleId: selectedElement.ruleId,
 				line: selectedElement.line,
 				ruleIndex: selectedElement.ruleIndex,
 				document: document,
-			};
-			elements.push(regexesElement);
+			});
+			elements.push({
+				type: 'regexes-cached',
+				ruleId: selectedElement.ruleId,
+				line: selectedElement.line,
+				ruleIndex: selectedElement.ruleIndex,
+				document: document,
+			});
 			return elements;
 		}
 
 		const type = element.type;
-		if (type == 'regexes') {
+		if (type == 'regexes' || type == 'regexes-cached') {
 			let index = 0;
-			const ruleId = selectedElement.parent!;
+			const ruleId = selectedElement.parentId!;
 			const cachedRule = grammar._ruleId2desc[Math.abs(ruleId)];
 			// vscode.window.showInformationMessage(`cachedRule\n${JSON.stringify(cachedRule, stringify)}`);
 			for (const rule of cachedRule._cachedCompiledPatterns!._items) {
 				// for (const rule of cachedRule._cachedCompiledPatterns._cached.rules) {
 				const ruleId = rule.ruleId;
+				let duplicateId = 0;
+				for (const element of elements) {
+					if (element.itemRule?.ruleId == ruleId) {
+						duplicateId++;
+					}
+				}
 				const regexElement: element = {
-					type: 'regex',
+					type: type == 'regexes' ? 'regex' : 'regex-cached',
 					ruleId: ruleId < 0 ? cachedRule.id : ruleId,
 					line: element.line,
 					ruleIndex: element.ruleIndex,
 					first: selectedElement.first,
 					itemRule: rule,
 					itemIndex: index,
+					duplicateId: duplicateId,
 					document: document,
 				};
 				elements.push(regexElement);
@@ -625,12 +652,12 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 		// vscode.window.showInformationMessage(`getTreeItemCall\n${JSON.stringify(element)}`);
 		const type = element.type;
 
-		if (type == 'regexes') {
-			const ruleId = selectedElement.parent!;
+		if (type == 'regexes' || type == 'regexes-cached') {
+			const parentId = selectedElement.parentId!;
 			const line = selectedElement.line!;
-			// const id = selectedElement.ruleIndex;
-			const rule = grammar.rules[selectedElement.ruleIndex!]!;
-			const start = rule.linePos;
+			const ruleIndex = selectedElement.ruleIndex!;
+			const rule = grammar.rules[ruleIndex]!;
+			const linePos = rule.linePos;
 
 			// let prevTime = grammar.startTime;
 			// for (let index = id - 1; index >= 0; index--) {
@@ -646,26 +673,59 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 			const text = selectedElement.document.lineAt(line).text + '\n';
 			const onigLineText = createOnigString(text);
 
-			const cachedRule = grammar._ruleId2desc[Math.abs(ruleId)];
+			const allowAnchorA = line == 0;
+			const allowAnchorG = rule.anchorPosition == linePos;
+			const allowAnchorZ = line == grammar.lines.length - 1;
+			const cachedRule = grammar._ruleId2desc[Math.abs(parentId)];
 			// vscode.window.showInformationMessage(`cachedRule ${JSON.stringify(ruleId, stringify)}\n${JSON.stringify(cachedRule, stringify)}`);
 			const regexes: string[] = [];
 			// vscode.window.showInformationMessage(`_cachedCompiledPatterns\n${JSON.stringify(cachedRule._cachedCompiledPatterns!._items, stringify)}`);
 			for (const regexSource of cachedRule._cachedCompiledPatterns!._items) {
+				// https://github.com/microsoft/vscode-textmate/issues/126
+				// https://github.com/microsoft/vscode/issues/119915
+				// https://github.com/kkos/oniguruma/issues/198
+				if (!allowAnchorA) {
+					regexSource.source.replaceAll('\\A', '\\\uFFFF');
+				}
+				if (!allowAnchorG) {
+					regexSource.source.replaceAll('\\G', '\\\uFFFF');
+				}
+				// if (!allowAnchorZ) { // https://github.com/microsoft/vscode-textmate/blob/f03a6a8790af81372d0e81facae75554ec5e97ef/src/rule.ts#L603-L606
+				// 	regexSource.source.replaceAll('\\z', '$(?!\\n)(?<!\\n)');
+				// }
 				regexes.push(regexSource.source);
 			}
 			const scanner = createOnigScanner(regexes);
 
-			const options =
-				(line > 0 ? FindOption.NotBeginString : FindOption.None) |
-				(line != grammar.lines.length - 1 ? FindOption.NotEndString : FindOption.None) |
-				(false ? FindOption.NotBeginPosition : FindOption.None) |
-				(false ? FindOption.DebugCall : FindOption.None);
+			const options: FindOption =
+				(allowAnchorA ? FindOption.None : FindOption.NotBeginString) |
+				(allowAnchorZ ? FindOption.None : FindOption.NotEndString) |
+				(allowAnchorG ? FindOption.None : FindOption.NotBeginPosition) |
+				(true ? FindOption.None : FindOption.DebugCall);
 
-			if (element.first === false) {
-				// scanner.findNextMatchSync(onigLineText, start, options); // internal caching
+			let isCached = false;
+			if (type == 'regexes-cached') {
+				for (let index = ruleIndex - 1; index >= 0; index--) {
+					const prevRule = grammar.rules[index];
+					if (!prevRule) { // prevLine
+						break;
+					}
+					if (prevRule.parentId == parentId &&
+						((prevRule.anchorPosition == prevRule.linePos) == allowAnchorG)) {
+						// oniguruma caching
+						// console.log("options", JSON.stringify(options));
+						// console.log("prevOpt", JSON.stringify(prevOptions));
+						// console.log("rule", JSON.stringify(rule));
+						// console.log("prev", JSON.stringify(prevRule));
+						scanner.findNextMatchSync(onigLineText, prevRule.linePos, options);
+						isCached = true;
+						break;
+					}
+				}
 			}
+
 			const startTime = performance.now();
-			const onigMatch = scanner.findNextMatchSync(onigLineText, start, options);
+			const onigMatch = scanner.findNextMatchSync(onigLineText, linePos, options);
 			const time = performance.now() - startTime;
 			const timeFixed = time.toFixed(3);
 			// vscode.window.showInformationMessage(`onigMatch ${start} ${options}\n${JSON.stringify(onigMatch, stringify)}\n${JSON.stringify(onigLineText, stringify)}`);
@@ -678,57 +738,87 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 				vscode.TreeItemCollapsibleState.Expanded,
 			);
 
-			item.id = 'regexes';
-			item.description = `${timeFixed}ms${grammar.lines[line]?.stoppedEarly ? '❌' : time >= 1 ? ' ⚠️' : ''}`;
-			item.tooltip = `RuleId: ${selectedElement.ruleId}`;
+			item.id = type;
+			item.description = `${timeFixed}ms${time >= 1 ? ' ⚠️' : ''}${type == 'regexes-cached' ? isCached ? ' (Cached)' : ' (Uncached)' : ''}`;
+			item.tooltip = `${type == 'regexes-cached' ? 'VSCode TextMate caches the Oniguruma regexes from the previous position\n' : ''}RuleId: ${selectedElement.ruleId}\nRegexes: ${cachedRule._cachedCompiledPatterns!._items.length}`;
 			item.iconPath = new vscode.ThemeIcon('regex');
 			return item;
 		}
 
-		if (type == 'regex') {
+		if (type == 'regex' || type == 'regex-cached') {
+			const parentId = selectedElement.parentId!;
 			const line = selectedElement.line!;
-			const rule = grammar.rules[selectedElement.ruleIndex!]!;
-			const start = rule.linePos;
+			const ruleIndex = selectedElement.ruleIndex!;
+			const rule = grammar.rules[ruleIndex]!;
+			const linePos = rule.linePos;
 			// const end = rule.captureIndices[0].end; // Inside a capture
 
 			// const text = selectedElement.document.lineAt(line).text.substring(start, end);
 			const text = selectedElement.document.lineAt(line).text + '\n';
 			const onigLineText = createOnigString(text);
 
+			const allowAnchorA = line == 0;
+			const allowAnchorG = rule.anchorPosition == linePos;
+			const allowAnchorZ = line == grammar.lines.length - 1;
 			// const cachedRule = grammar._ruleId2desc[ruleId == -1 ? selectedElement.ruleId : ruleId];
 			// const regex = cachedRule._match?.source ?? cachedRule._begin?.source ?? '';
-			const regex = element.itemRule!.source;
-			const scanner = createOnigScanner([regex]);
-
-			const options =
-				(line > 0 ? FindOption.NotBeginString : FindOption.None) |
-				(line != grammar.lines.length - 1 ? FindOption.NotEndString : FindOption.None) |
-				(false ? FindOption.NotBeginPosition : FindOption.None) |
-				(false ? FindOption.DebugCall : FindOption.None);
-
-			if (element.first === false) {
-				// scanner.findNextMatchSync(onigLineText, start, options); // internal caching
+			const regexSource = element.itemRule!.source;
+			// https://github.com/microsoft/vscode-textmate/issues/126
+			// https://github.com/microsoft/vscode/issues/119915
+			// https://github.com/kkos/oniguruma/issues/198
+			if (!allowAnchorA) {
+				regexSource.replaceAll('\\A', '\\\uFFFF');
 			}
+			if (!allowAnchorG) {
+				regexSource.replaceAll('\\G', '\\\uFFFF');
+			}
+			// if (!allowAnchorZ) { // https://github.com/microsoft/vscode-textmate/blob/f03a6a8790af81372d0e81facae75554ec5e97ef/src/rule.ts#L603-L606
+			// 	regexSource.source.replaceAll('\\z', '$(?!\\n)(?<!\\n)');
+			// }
+			const scanner = createOnigScanner([regexSource]);
+
+			const options: FindOption =
+				(allowAnchorA ? FindOption.None : FindOption.NotBeginString) |
+				(allowAnchorZ ? FindOption.None : FindOption.NotEndString) |
+				(allowAnchorG ? FindOption.None : FindOption.NotBeginPosition) |
+				(true ? FindOption.None : FindOption.DebugCall);
+
+			if (type == 'regex-cached') {
+				for (let index = ruleIndex - 1; index >= 0; index--) {
+					const prevRule = grammar.rules[index];
+					if (!prevRule) { // prevLine
+						break;
+					}
+					if (prevRule.parentId == parentId &&
+						((prevRule.anchorPosition == prevRule.linePos) == allowAnchorG)) {
+						// oniguruma caching
+						scanner.findNextMatchSync(onigLineText, prevRule.linePos, options);
+						break;
+					}
+				}
+			}
+
 			const startTime = performance.now();
-			const onigMatch = scanner.findNextMatchSync(onigLineText, start, options);
+			const onigMatch = scanner.findNextMatchSync(onigLineText, linePos, options);
 			const time = performance.now() - startTime;
 			const timeFixed = time.toFixed(3);
 			scanner.dispose();
 
-			const label = regex.substring(0, 50);
+			const label = regexSource.substring(0, 50);
 			const treeLabel: vscode.TreeItemLabel = {
 				label: label,
 				highlights: onigMatch ? [[0, label.length]] : undefined,
 			};
 			const item = new vscode.TreeItem(
 				treeLabel,
-				vscode.TreeItemCollapsibleState.Collapsed,
+				vscode.TreeItemCollapsibleState.None,
 			);
 
 			const ruleId = element.itemRule!.ruleId;
-			item.id = `${element.itemIndex}`;
-			item.description = `${regex.length > 50 ? '...' : ''}${timeFixed}ms${time >= 1 ? ' ⚠️' : ''}`;
-			item.tooltip = `RuleId: ${ruleId}\n${onigMatch?.captureIndices[0].start} - ${onigMatch?.captureIndices[0].end}`;
+			const duplicateId = element.duplicateId;
+			item.id = `${ruleId}${type == 'regex' ? '' : '_'}${duplicateId ? `_${duplicateId}` : ''}`;
+			item.description = `${regexSource.length > 50 ? '...' : ''}${timeFixed}ms${time >= 1 ? ' ⚠️' : ''}${duplicateId ? '‼️' : ''}`;
+			item.tooltip = `RuleId: ${ruleId}\n${onigMatch?.captureIndices[0].start} - ${onigMatch?.captureIndices[0].end}${duplicateId ? `\nDuplicate Rule: ${duplicateId}x` : ''}`;
 			item.iconPath = new vscode.ThemeIcon('regex');
 
 			element.start = onigMatch?.captureIndices[0].start;
@@ -919,7 +1009,7 @@ async function refresh(element?: element) {
 	}
 
 	const type = element?.type;
-	if (type == 'regex' || type == 'regexes') {
+	if (type?.startsWith('regex')) {
 		onDidChangeTreeDataCall.fire(undefined);
 		return;
 	}
@@ -1188,7 +1278,7 @@ async function gotoFile(element: element) {
 
 	const line = element.line!;
 
-	if (type == 'regex') {
+	if (type == 'regex' || type == 'regex-cached') {
 		const start = element.start;
 		const end = element.end;
 		if (start != null && end != null) {
