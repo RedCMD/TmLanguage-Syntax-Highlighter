@@ -306,8 +306,8 @@ function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[], trees
 						);
 						index++;
 					}
-					regex = regex.replace(new RegExp(`\\\\[0-9]+`, 'g'), ''); // All non-existent backreferences are removed
 				}
+				regex = regex.replace(new RegExp(`\\\\[0-9]+`, 'g'), ''); // All non-existent backreferences are removed
 			}
 		}
 
