@@ -86,3 +86,4 @@ Highlights scope names with their own themed colour in realtime:
 * Improve TreeSitter Query performance: [Node contains `&fieldName`](https://github.com/tree-sitter/tree-sitter/issues/3956), [Caching or Serializing a `TSQuery`](https://github.com/tree-sitter/tree-sitter/issues/1942)
 * Add [FlameGraph](https://www.brendangregg.com/flamegraphs.html) [schema](https://chromedevtools.github.io/devtools-protocol/tot/Profiler/#type-Profile)
 * Update [CHANGELOG.md](/CHANGELOG.md)
+* Fix TreeSitter minified empty repo name

@@ -71,12 +71,12 @@ module.exports = grammar({
 					seq(
 						repeat(' '),
 						choice(
-							/[^\x00-\x1F\\"{\[]+/,
+							/[^\\\x00-\x1F "{\[]+/,
 							/\\[^\x00-\x1F]/,
 						),
 						repeat(
 							choice(
-								/[^\x00-\x1F\\"]+/,
+								/[^\\\x00-\x1F"]+/,
 								/\\[^\x00-\x1F]/,
 							),
 						),
@@ -211,8 +211,8 @@ module.exports = grammar({
 			token(
 				repeat1(
 					choice(
-						/\\[^\r\n\t#]?/,
-						/[^\\\r\n\t#"]+/,
+						/\\[^\x00-\x1F#]?/,
+						/[^\\\x00-\x1F#"]+/,
 					),
 				),
 			),
@@ -226,8 +226,8 @@ module.exports = grammar({
 			token(
 				repeat1(
 					choice(
-						/\\[^\r\n\t]/,
-						/[^\\\r\n\t"]+/,
+						/\\[^\x00-\x1F]/,
+						/[^\\\x00-\x1F"]+/,
 					),
 				),
 			),
@@ -277,8 +277,8 @@ module.exports = grammar({
 				repeat1(
 					choice(
 						$.replace_capture,
-						/\\[^\r\n\t ]/,
-						/[^\\\r\n\t $"]+/,
+						/\\[^\x00-\x1F ]/,
+						/[^\\\x00-\x1F $"]+/,
 						/\$/,
 					),
 				),
@@ -514,8 +514,8 @@ module.exports = grammar({
 				alias(
 					repeat(
 						choice(
-							/\\./,
-							/[^\\"\r\n]+/,
+							/\\[^\x00-\x1F]/,
+							/[^\\\x00-\x1F"]+/,
 						),
 					),
 					'~',
@@ -628,8 +628,8 @@ module.exports = grammar({
 			prec(-1,
 				repeat1(
 					choice(
-						/\\[^\r\n\t]/,
-						/[^\\\r\n\t"]+/,
+						/\\[^\x00-\x1F]/,
+						/[^\\\x00-\x1F"]+/,
 					),
 				),
 			),
@@ -652,7 +652,7 @@ module.exports = grammar({
  * Boiler plate for creating an object. `{ rule, rule... }`
  * @param {GrammarSymbols<string>} $
  * @param {RuleOrLiteral} rule
- * @param {String | number} [precedence]
+ * @param {string | number} [precedence]
  * @returns {Rule}
  */
 function object($, rule, precedence) {
@@ -667,7 +667,7 @@ function object($, rule, precedence) {
  * Boiler plate for creating an array. `[ rule, rule... ]`
  * @param {GrammarSymbols<string>} $
  * @param {RuleOrLiteral} rule
- * @param {String | number} [precedence]
+ * @param {string | number} [precedence]
  * @returns {Rule}
  */
 function array($, rule, precedence) {
@@ -682,7 +682,7 @@ function array($, rule, precedence) {
  * Boiler plate for creating comma separated rules. `rule, rule...`
  * @param {GrammarSymbols<string>} $
  * @param {RuleOrLiteral} rule
- * @param {String | number} [precedence]
+ * @param {string | number} [precedence]
  * @returns {Rule}
  */
 function commaSep($, rule, precedence) {
