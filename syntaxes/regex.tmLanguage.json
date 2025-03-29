@@ -31,6 +31,8 @@
 	},
 	"patterns": [
 		{ "include": "#test" },
+		{ "include": "#dot" },
+		{ "include": "#anchor" },
 		{ "include": "#alternation" },
 		{ "include": "#quantifier" },
 		{ "include": "#character-class" },
@@ -158,7 +160,7 @@
 				{ "include": "#character-types" },
 				{ "include": "#character-types-2" },
 				{ "include": "#characters" },
-				{ "include": "#anchor" },
+				{ "include": "#escaped-anchor" },
 				{ "include": "#subroutine" },
 				{ "include": "#backreference" },
 				{ "include": "#code-point" },
@@ -1623,11 +1625,19 @@
 			]
 		},
 		"anchor": {
-			"comment": "$ ^ \\A \\B \\b \\G \\K \\Y \\y \\Z \\z",
-			"match": "(?>[$^]|\\\\{2}[ABbGKYyZz])([+*?]|{(?>[0-9]+,?[0-9]*|,[0-9]+)})?",
+			"comment": "$ ^",
+			"match": "[$^]([+*?]|{(?>[0-9]+,?[0-9]*|,[0-9]+)})?",
 			"captures": {
 				"0": { "name": "variable.tm" },
-				"1": { "name": "invalid.illegal.tm markup.underline regex" }
+				"1": { "name": "invalid.illegal.tm regex" }
+			}
+		},
+		"escaped-anchor": {
+			"comment": "\\A \\B \\b \\G \\K \\Y \\y \\Z \\z",
+			"match": "\\G\\\\{2}[ABbGKYyZz]([+*?]|{(?>[0-9]+,?[0-9]*|,[0-9]+)})?",
+			"captures": {
+				"0": { "name": "variable.tm" },
+				"1": { "name": "invalid.illegal.tm regex" }
 			}
 		},
 		"alternation": {
@@ -1635,7 +1645,7 @@
 			"match": "\\|([+*?]|{(?>[0-9]+,?[0-9]*|,[0-9]+)})?",
 			"captures": {
 				"0": { "name": "keyword.control.tm" },
-				"1": { "name": "invalid.illegal.tm markup.underline regex" }
+				"1": { "name": "invalid.illegal.tm regex" }
 			}
 		},
 		"character-types": {
@@ -1644,14 +1654,19 @@
 			"name": "variable.other.enummember.tm"
 		},
 		"character-types-2": {
-			"comment": "\\. \\N \\O \\R \\X cannot be used in character classes",
-			"match": "\\.|\\\\{2}[NORX]",
+			"comment": "\\N \\O \\R \\X cannot be used in character classes",
+			"match": "\\G\\\\{2}[NORX]",
 			"name": "variable.other.enummember.tm"
 		},
 		"characters": {
 			"comment": "\\a \\e \\f \\n \\r \\t \\v",
 			"match": "\\G\\\\{2}[aefnrtv]",
 			"name": "punctuation.definition.list.begin.markdown"
+		},
+		"dot": {
+			"comment": "\\. cannot be used in character classes",
+			"match": "\\.",
+			"name": "variable.other.enummember.tm"
 		},
 		"character-literal": {
 			"comment": "Match anything left over and all non-meta characters",
