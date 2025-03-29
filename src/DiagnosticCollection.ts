@@ -105,7 +105,7 @@ async function Diagnostics(document: vscode.TextDocument) {
 
 	const diagnostics: vscode.Diagnostic[] = [];
 
-	await Promise.all([
+	const results = await Promise.allSettled([
 		diagnosticsMismatchingRootScopeName(diagnostics, rootNode, document),
 		diagnosticsTreeSitterJSONErrors(diagnostics, rootNode),
 		diagnosticsTreeSitterRegexErrors(diagnostics, trees),
@@ -115,12 +115,18 @@ async function Diagnostics(document: vscode.TextDocument) {
 		diagnosticsDeadTextMateCode(diagnostics, rootNode),
 	]);
 
+	for (const result of results) {
+		if (result.status == 'rejected') {
+			console.warn("JSON TextMate: Diagnostics error\n", result.reason);
+		}
+	}
+
 	DiagnosticCollection.set(document.uri, diagnostics);
 	// vscode.window.showInformationMessage(`Diagnostics ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(diagnostics)}`);
 }
 
 
-function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[], rootNode: Node) {
+async function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[], rootNode: Node) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics JSON"));
 	// const start = performance.now();
 	const jsonQuery = `;scm
@@ -168,7 +174,7 @@ function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[], rootN
 	// vscode.window.showInformationMessage(`JSON ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsTreeSitterRegexErrors(diagnostics: vscode.Diagnostic[], trees: trees) {
+async function diagnosticsTreeSitterRegexErrors(diagnostics: vscode.Diagnostic[], trees: trees) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics Regex"));
 	// const start = performance.now();
 	const regexTrees = trees.regexTrees;
@@ -291,7 +297,7 @@ function diagnosticsTreeSitterRegexErrors(diagnostics: vscode.Diagnostic[], tree
 	// vscode.window.showInformationMessage(`Regex ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[], trees: trees) {
+async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[], trees: trees) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics Regex Oniguruma"));
 	// const start = performance.now();
 	const regexNodes = trees.regexNodes;
@@ -369,7 +375,7 @@ function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[], trees
 	// vscode.window.showInformationMessage(`Oniguruma ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: Node) {
+async function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: Node) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics #includes"))
 	// const start = performance.now();
 
@@ -460,7 +466,7 @@ function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: N
 			repoItems.push(repoCapture.node.text);
 		}
 		const distances = wagnerFischer(text, repoItems);
-		const distance = distances[0].distance;
+		const distance = distances[0]?.distance;
 
 		let message = `Cannot find repo name '${text}'`;
 		if (closeEnoughQuestionMark(distance, text)) {
@@ -530,12 +536,14 @@ function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: N
 	// vscode.window.showInformationMessage(`include ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsUnusedRepos(diagnostics: vscode.Diagnostic[], rootNode: Node) {
+async function diagnosticsUnusedRepos(diagnostics: vscode.Diagnostic[], rootNode: Node) {
 	if (ignoreDiagnosticsUnusedRepos) {
 		return;
 	}
-	// vscode.window.showInformationMessage(`diagnostics #includes\n${JSON.stringify(rootNode)}`)
+	// vscode.window.showInformationMessage(`diagnostics unusedRepos\n${JSON.stringify(rootNode)}`)
 	// const start = performance.now();
+
+	const includeCapturesCache: { [id: number]: QueryCapture[]; } = {};
 
 	// should validate all #include first
 	// but TS too slow
@@ -552,21 +560,14 @@ function diagnosticsUnusedRepos(diagnostics: vscode.Diagnostic[], rootNode: Node
 		const repoText = repoNode.text;
 
 		const repositoryParentNode = repoNode.parent!.parent!.parent!;
-		const includeCaptures = queryNode(repositoryParentNode, includeQuery);
+		const repoParentId = repositoryParentNode.id;
+
+		if (!includeCapturesCache[repoParentId]) {
+			includeCapturesCache[repoParentId] = queryNode(repositoryParentNode, includeQuery);
+		}
 
 		let foundInclude = false;
-		for (const includeCapture of includeCaptures) {
-			const includeText = includeCapture.node.text;
-			if (repoText == includeText) {
-				foundInclude = true;
-				break;
-			}
-		}
-		if (foundInclude) {
-			continue;
-		}
-
-		for (const includeCapture of includeCaptures) {
+		for (const includeCapture of includeCapturesCache[repoParentId]) {
 			const includeText = includeCapture.node.text;
 			if (repoText == includeText) {
 				foundInclude = true;
@@ -587,10 +588,10 @@ function diagnosticsUnusedRepos(diagnostics: vscode.Diagnostic[], rootNode: Node
 		});
 	}
 
-	// vscode.window.showInformationMessage(`include ${(performance.now() - start).toFixed(3)}ms`);
+	// vscode.window.showInformationMessage(`unusedRepos ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], rootNode: Node) {
+async function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], rootNode: Node) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics TextMate dead"));
 	// const start = performance.now();
 
