@@ -372,7 +372,7 @@
 				{
 					"command": "editor.action.inspectTMScopes",
 					"group": "navigation@6",
-					"when": "view == TextMate"
+					"when": "view == TextMate || view == TextMate-Call"
 				},
 				{
 					"command": "textmate.tree-view",

@@ -62,9 +62,9 @@ export async function activate(context: vscode.ExtensionContext) {
 		vscode.languages.registerDocumentHighlightProvider(DocumentSelector, DocumentHighlightProvider), // Context aware cursor highlights
 		vscode.languages.registerOnTypeFormattingEditProvider(DocumentSelector, OnTypeFormattingEditProvider, '}', ']', ':', ','), // Auto Format on certain characters
 		vscode.languages.registerDocumentFormattingEditProvider(DocumentSelector, DocumentFormattingEditProvider), // right-click => Format Document
+		vscode.languages.registerDocumentRangeFormattingEditProvider(DocumentSelector, DocumentRangeFormattingEditProvider), // right-click => Format Selection
 		// vscode.languages.registerDocumentSemanticTokensProvider(DocumentSelector, DocumentSemanticTokensProvider, SemanticTokensLegend), // Context aware syntax highlighting
 		// vscode.languages.registerDocumentRangeSemanticTokensProvider(DocumentSelector, DocumentRangeSemanticTokensProvider, SemanticTokensLegend), // Context aware syntax highlighting
-		vscode.languages.registerDocumentRangeFormattingEditProvider(DocumentSelector, DocumentRangeFormattingEditProvider), // right-click => Format Selection
 	);
 
 	// vscode.window.showInformationMessage(`Extension ${(performance.now() - start).toFixed(3)}ms`);
@@ -92,7 +92,7 @@ export function stringify(this: any, key: string, value: any): any {
 	if (typeof value === 'undefined') {
 		return "<undefined>";
 	}
-	if (value == null) {
+	if (value === null) {
 		return null;
 	}
 	if (value instanceof Map) {
@@ -109,6 +109,9 @@ export function stringify(this: any, key: string, value: any): any {
 
 
 export function closeEnoughQuestionMark(distance: number, text: string): boolean {
+	if (typeof distance != 'number') {
+		return false;
+	}
 	return distance < 1.5 * Math.sqrt(text.length); // more lenient for longer words
 }
 
@@ -120,7 +123,7 @@ type wagnerFischerResult = {
 /** Wagner–Fischer algorithm is a dynamic programming algorithm that computes the edit distance between two strings of characters */
 export function wagnerFischer(word: string, directory: string[]): { distance: number, index: number, string: string; }[];
 /** Interestingly this also works with arrays of strings */
-export function wagnerFischer(words: string[], directorys: string[][]): { distance: number, index: number, string: string[]; }[];
+export function wagnerFischer(words: string[], directories: string[][]): { distance: number, index: number, string: string[]; }[];
 export function wagnerFischer(word: string | string[], directory: string[] | string[][]): wagnerFischerResult[] {
 	const distances: wagnerFischerResult[] = [];
 	let index = 0;
