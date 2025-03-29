@@ -29,7 +29,7 @@ export function getTrees(source: vscode.TextDocument | vscode.Uri): trees {
 		}
 	}
 
-	vscode.window.showWarningMessage(`TextMate: TreeSitter Tree does not exist!\nFile:\n${JSON.stringify(source)}\nTrees:\n${JSON.stringify(trees)}`);
+	vscode.window.showWarningMessage(`TextMate: TreeSitter Tree does not exist!\nFile:\n${JSON.stringify(source)}\nTrees:\n${JSON.stringify(trees, stringify)}`);
 	return docTrees;
 }
 
@@ -190,8 +190,6 @@ export function toPosition(point: TreeSitter.Point): vscode.Position {
 }
 
 
-export const parseEvents: ((document: vscode.TextDocument) => void)[] = [];
-
 let jsonParser: TreeSitter.Parser;
 let regexParser: TreeSitter.Parser;
 
@@ -224,98 +222,30 @@ export async function initTreeSitter(context: vscode.ExtensionContext) {
 	const regexLanguage = await TreeSitter.Language.load(regexWasm);
 	regexParser.setLanguage(regexLanguage);
 
-	const activeDocuments: {
-		[uriString: string]: {
-			edits: vscode.TextDocumentChangeEvent | undefined;
-			timeout: NodeJS.Timeout | number | undefined; // VSCode vs VSCode Web
-			// version: number;
-		};
-	} = {};
-
-	// for (const editor of vscode.window.visibleTextEditors) {
-	// 	// vscode.window.showInformationMessage(JSON.stringify("visible"));
-	// 	if (!vscode.languages.match(DocumentSelector, editor.document)) {
-	// 		return;
-	// 	}
-	// 	parseTextDocument(editor.document);
-	// }
-
 	for (const editor of vscode.window.visibleTextEditors) {
-		// vscode.window.showInformationMessage(JSON.stringify("visible"));
-		if (!vscode.languages.match(DocumentSelector, editor.document)) {
-			continue;
-		}
+		// vscode.window.showInformationMessage(`visible\n${JSON.stringify(editor)}`);
 		parseTextDocument(editor.document);
 	}
 
 	context.subscriptions.push(
 		vscode.workspace.onDidOpenTextDocument(document => {
-			// vscode.window.showInformationMessage(JSON.stringify("open"));
-			if (!vscode.languages.match(DocumentSelector, document)) {
-				return;
-			}
+			// vscode.window.showInformationMessage(`open\n${JSON.stringify(document)}`);
 			parseTextDocument(document);
 		}),
 
 		vscode.workspace.onDidChangeTextDocument(edits => {
-			// vscode.window.showInformationMessage(JSON.stringify("change"));
+			// vscode.window.showInformationMessage(`edit\n${JSON.stringify(edits)}`);
 			const document = edits.document;
 			if (!vscode.languages.match(DocumentSelector, document)) {
 				return;
 			}
 
-			// https://github.com/microsoft/vscode/issues/11487
-			const uriString = document.uri.toString();
-			const activeDocument = activeDocuments[uriString] ?? { edits: null, timeout: null };
-			activeDocuments[uriString] = activeDocument;
-
-			// Debounce recently repeated requests
-			if (activeDocument.timeout == null) {
-				// Run Diagnostics instantly on first edit
-				reparseTextDocument(edits);
-
-				// Wait 50ms and execute CallBack regardless of if there are gonna be new edits or not
-				activeDocument.timeout = setInterval(
-					() => {
-						if (activeDocument.edits == undefined) {
-							// No new edits? exit.
-							clearInterval(activeDocument.timeout); // timeout.refresh() doesn't work in VSCode web
-							activeDocument.timeout = undefined;
-
-							for (const parseEvent of parseEvents) {
-								try {
-									parseEvent(document);
-								} catch (error) { }
-							}
-							return;
-						}
-
-						try {
-							// setInterval() waits for current callback to finish
-							reparseTextDocument(activeDocument.edits);
-						} catch (error) {
-							vscode.window.showInformationMessage(JSON.stringify(error));
-						}
-						activeDocument.edits = undefined;
-					},
-					50, // 50 millisecond intervals. Does anyone want this as a config?
-				);
-				return;
-			}
-
-			// Add on the latest edits
-			activeDocument.edits = {
-				document: document,
-				contentChanges: (activeDocument.edits?.contentChanges ?? []).concat(edits.contentChanges),
-				reason: activeDocument.edits?.reason,
-			};
-			// vscode.window.showInformationMessage(JSON.stringify(activeDocument.edits));
+			reparseTextDocument(edits);
 		}),
 
 		vscode.workspace.onDidCloseTextDocument(document => {
-			// vscode.window.showInformationMessage(JSON.stringify("close"));
+			// vscode.window.showInformationMessage(`close\n${JSON.stringify(document)}`);
 			const uriString = document.uri.toString();
-			delete activeDocuments[uriString];
 			if (trees[uriString]) {
 				trees[uriString].jsonTree.delete();
 				trees[uriString].regexTrees.clear();
@@ -327,7 +257,7 @@ export async function initTreeSitter(context: vscode.ExtensionContext) {
 
 
 function parseTextDocument(document: vscode.TextDocument) {
-	// vscode.window.showInformationMessage(JSON.stringify("ParseTextDocument"));
+	// vscode.window.showInformationMessage(`ParseTextDocument\n${JSON.stringify(document)}`);
 	// const start = performance.now();
 
 	if (!vscode.languages.match(DocumentSelector, document)) {
@@ -377,7 +307,7 @@ function parseTextDocument(document: vscode.TextDocument) {
 }
 
 function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
-	// vscode.window.showInformationMessage(JSON.stringify("ReparseTextDocument"));
+	// vscode.window.showInformationMessage(`ReparseTextDocument\n${JSON.stringify(edits)}`);
 	// const start = performance.now();
 
 	if (edits.contentChanges.length == 0) {

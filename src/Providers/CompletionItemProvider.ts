@@ -60,7 +60,6 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 	async provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext): Promise<vscode.CompletionList<vscode.CompletionItem> | undefined> {
 		// vscode.window.showInformationMessage(JSON.stringify("Completions"));
 		// const start = performance.now();
-		await sleep(50); // partially avoids race condition with reparseTextDocument()
 
 		const trees = getTrees(document);
 		const tree = trees.jsonTree;

@@ -77,7 +77,6 @@ export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider =
 	async provideOnTypeFormattingEdits(document: vscode.TextDocument, position: vscode.Position, ch: string, options: vscode.FormattingOptions, token: vscode.CancellationToken): Promise<vscode.TextEdit[] | undefined> {
 		// vscode.window.showInformationMessage(JSON.stringify("FormatType"));
 		// const start = performance.now();
-		await sleep(50); // partially avoids race condition with reparseTextDocument()
 
 		const trees = getTrees(document);
 		const jsonTree = trees.jsonTree;

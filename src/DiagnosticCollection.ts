@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as vscodeOniguruma from 'vscode-oniguruma';
 import { Node, QueryCapture } from 'web-tree-sitter';
-import { getLastNode, getTrees, parseEvents, queryNode, toRange, trees } from "./TreeSitter";
+import { getLastNode, getTrees, queryNode, toRange, trees } from "./TreeSitter";
 import { closeEnoughQuestionMark, DocumentSelector, getPackageJSON, stringify, wagnerFischer } from "./extension";
 import { unicodeproperties } from "./UNICODE_PROPERTIES";
 import { ignoreDiagnosticsUnusedRepos } from "./Providers/CodeActionsProvider";
@@ -28,43 +28,76 @@ type OnigScanner = vscodeOniguruma.OnigScanner & {
 	readonly _options: vscodeOniguruma.FindOption[];
 };
 
+const activeDocuments: {
+	[uriString: string]: {
+		countDown: number;
+		timeout: NodeJS.Timeout | number | undefined; // VSCode vs VSCode Web;
+	};
+} = {};
 
 const DiagnosticCollection = vscode.languages.createDiagnosticCollection("textmate");
 export function initDiagnostics(context: vscode.ExtensionContext) {
 	// vscode.window.showInformationMessage(JSON.stringify("initDiagnostics"));
 	context.subscriptions.push(DiagnosticCollection);
-	parseEvents.push(Diagnostics);
 
 	for (const editor of vscode.window.visibleTextEditors) {
-		// vscode.window.showInformationMessage(JSON.stringify("visible"));
-		const document = editor.document;
-		if (!vscode.languages.match(DocumentSelector, document)) {
-			continue;
-		}
-		Diagnostics(document);
+		// vscode.window.showInformationMessage(`visible\n${JSON.stringify(document)}`);
+		debouncedDiagnostics(editor.document);
 	}
 
 	context.subscriptions.push(
 		vscode.workspace.onDidOpenTextDocument((document: vscode.TextDocument) => {
-			// vscode.window.showInformationMessage(JSON.stringify("open"));
-			if (!vscode.languages.match(DocumentSelector, document)) {
-				return;
-			}
-			Diagnostics(document);
-		})
-	);
-
-	context.subscriptions.push(
+			// vscode.window.showInformationMessage(`open\n${JSON.stringify(document)}`);
+			debouncedDiagnostics(document);
+		}),
+		vscode.workspace.onDidChangeTextDocument((edits: vscode.TextDocumentChangeEvent) => {
+			// vscode.window.showInformationMessage(`edit\n${JSON.stringify(edits)}`);
+			debouncedDiagnostics(edits.document);
+		}),
 		vscode.workspace.onDidCloseTextDocument((document: vscode.TextDocument) => {
-			// vscode.window.showInformationMessage(JSON.stringify("close"));
+			// vscode.window.showInformationMessage(`close\n${JSON.stringify(document)}`);
+			delete activeDocuments[document.uri.toString()];
 			DiagnosticCollection.delete(document.uri);
 		})
 	);
 }
 
+export function debouncedDiagnostics(document: vscode.TextDocument) {
+	if (!vscode.languages.match(DocumentSelector, document)) {
+		return;
+	}
 
-export async function Diagnostics(document: vscode.TextDocument) {
-	// vscode.window.showInformationMessage("Diagnostics");
+	// https://github.com/microsoft/vscode/issues/11487
+	const uriString = document.uri.toString();
+	const activeDocument = activeDocuments[uriString] = activeDocuments[uriString] ?? {
+		countDown: 0,
+		timeout: undefined,
+	};
+	activeDocument.countDown++; // waits longer the more edits there are
+
+	// Debounce recently repeated requests
+	if (activeDocument.timeout == undefined) {
+
+		// Wait 50ms and repeatedly execute CallBack
+		activeDocument.timeout = setInterval(
+			async () => {
+				// setInterval() waits for current callback to finish
+
+				if (activeDocument.countDown < 0) {
+					clearInterval(activeDocument.timeout); // timeout.refresh() doesn't work in VSCode web
+					await Diagnostics(document);
+					activeDocument.timeout = undefined;
+				}
+
+				activeDocument.countDown -= 2;
+			},
+			50, // 50 milliseconds
+		);
+	}
+}
+
+async function Diagnostics(document: vscode.TextDocument) {
+	// vscode.window.showInformationMessage(`Diagnostics${JSON.stringify(document)}`);
 	// const start = performance.now();
 
 	const trees = getTrees(document);

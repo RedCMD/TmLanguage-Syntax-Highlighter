@@ -3,7 +3,7 @@ import { Node, Tree } from 'web-tree-sitter';
 import { getTrees, queryNode, toRange, trees } from "../TreeSitter";
 import { unicodeproperties, UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
 import { closeEnoughQuestionMark, stringify, wagnerFischer } from "../extension";
-import { Diagnostics } from '../DiagnosticCollection';
+import { debouncedDiagnostics } from '../DiagnosticCollection';
 
 export const metadata: vscode.CodeActionProviderMetadata = {
 	providedCodeActionKinds: [
@@ -195,7 +195,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 				break;
 			case 'quickfix.ignore':
 				ignoreDiagnosticsUnusedRepos = true;
-				Diagnostics(document);
+				debouncedDiagnostics(document);
 			/* FALLTHROUGH */
 			case 'quickfix':
 			default:
