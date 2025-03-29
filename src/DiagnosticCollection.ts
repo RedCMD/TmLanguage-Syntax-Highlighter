@@ -30,6 +30,7 @@ type OnigScanner = vscodeOniguruma.OnigScanner & {
 
 const activeDocuments: {
 	[uriString: string]: {
+		document: vscode.TextDocument;
 		countDown: number;
 		timeout: NodeJS.Timeout | number | undefined; // VSCode vs VSCode Web;
 	};
@@ -69,10 +70,12 @@ export function debouncedDiagnostics(document: vscode.TextDocument) {
 
 	// https://github.com/microsoft/vscode/issues/11487
 	const uriString = document.uri.toString();
-	const activeDocument = activeDocuments[uriString] = activeDocuments[uriString] ?? {
+	const activeDocument: typeof activeDocuments[string] = activeDocuments[uriString] = activeDocuments[uriString] ?? {
+		document: document,
 		countDown: 0,
 		timeout: undefined,
 	};
+	activeDocument.document = document;
 	activeDocument.countDown++; // waits longer the more edits there are
 
 	// Debounce recently repeated requests
@@ -85,7 +88,7 @@ export function debouncedDiagnostics(document: vscode.TextDocument) {
 
 				if (activeDocument.countDown < 0) {
 					clearInterval(activeDocument.timeout); // timeout.refresh() doesn't work in VSCode web
-					await Diagnostics(document);
+					await Diagnostics(activeDocument.document);
 					activeDocument.timeout = undefined;
 				}
 
