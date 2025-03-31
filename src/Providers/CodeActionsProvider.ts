@@ -253,7 +253,7 @@ async function optimizeRegex(edit: vscode.WorkspaceEdit, regexNode: Node, uri: v
 				edit.delete(uri, minifyRange);
 				break;
 			case 'backslash_class':
-				if (/^\\\\[ #$'()*+,.89<?ABGKNORXYZ^yz{|}]$/.test(minifyNode.text)) { // MUST be mutually exclusive with the regex below! // Error: Overlapping ranges are not allowed!
+				if (/^\\\\[ #$'()*+,.89<?ABGKNORXYZyz{|}]$/.test(minifyNode.text)) { // MUST be mutually exclusive with the regex below! // Error: Overlapping ranges are not allowed!
 					edit.delete(
 						uri,
 						new vscode.Range(
