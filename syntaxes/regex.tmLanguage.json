@@ -895,8 +895,14 @@
 			"patterns": [
 				{ "include": "#character-class-range" },
 				{ "include": "#character-class-escape" },
-				{ "include": "#character-class-posix" },
-				{ "include": "#character-class" },
+				{
+					"begin": "(?=\\[)",
+					"end": "(?!\\G)",
+					"patterns": [
+						{ "include": "#character-class-posix" },
+						{ "include": "#character-class" }
+					]
+				},
 				{ "include": "#character-class-literal" }
 			]
 		},
@@ -1120,8 +1126,6 @@
 			]
 		},
 		"character-class-posix": {
-			"begin": "(?=\\[:)",
-			"end": "(?!\\G)",
 			"patterns": [
 				{
 					"match": "\\G\\[:\\^?:]",
