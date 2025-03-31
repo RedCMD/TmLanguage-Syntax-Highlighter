@@ -1395,14 +1395,14 @@
 					}
 				},
 				{
-					"match": "\\G\\\\{2}(?>c|[CM](?>-|(.))?+)(?>(\\\\{3})(\\\\)|\\g<0>|(\\\\{2})?+(\\\\u.{4,0}|\\\\?+.))?+",
+					"match": "\\G(\\\\{2}(?>c|[CM](?>-|(.))?+)(?>(\\\\{3})(\\\\)|\\g<1>|(\\\\{2})?+(\\\\u.{4,0}|\\\\?+.))?+)",
 					"captures": {
 						"0": { "name": "punctuation.definition.list.begin.markdown.tm" },
-						"1": { "name": "invalid.illegal.tm markup.underline regex" },
-						"2": { "name": "constant.character.escape.tm" },
-						"3": { "name": "markup.bold" },
-						"4": { "name": "punctuation.definition.tag.tm" },
-						"5": {
+						"2": { "name": "invalid.illegal.tm regex" },
+						"3": { "name": "constant.character.escape.tm" },
+						"4": { "name": "markup.bold" },
+						"5": { "name": "punctuation.definition.tag.tm" },
+						"6": {
 							"name": "markup.bold regex",
 							"patterns": [ { "include": "source.json.textmate#escape-characters" } ]
 						}
