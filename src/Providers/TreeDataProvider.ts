@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { createOnigScanner, createOnigString, FindOption } from 'vscode-oniguruma';
 import * as vscodeTextmate from "../textmate/main";
 // import * as vscodeTextmate from 'vscode-textmate';
 import { getScopeName, grammarLanguages, tokenizeFile } from "../TextMate";
@@ -7,7 +8,6 @@ import { stringify } from "../extension";
 import { IRawCaptures, IRawRule } from "../textmate/rawGrammar";
 import { getTrees, queryNode, toRange } from "../TreeSitter";
 import { getScopes, getSubScope } from "../themeScopeColors";
-import { createOnigScanner, createOnigString, FindOption } from 'vscode-oniguruma';
 import { ruleIdToNumber } from "../textmate/rule";
 // import { ITextEditorOptions, EditorOpenSource, TextEditorSelectionSource } from "../extensions";
 
@@ -680,20 +680,23 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 			// vscode.window.showInformationMessage(`cachedRule ${JSON.stringify(ruleId, stringify)}\n${JSON.stringify(cachedRule, stringify)}`);
 			const regexes: string[] = [];
 			// vscode.window.showInformationMessage(`_cachedCompiledPatterns\n${JSON.stringify(cachedRule._cachedCompiledPatterns!._items, stringify)}`);
-			for (const regexSource of cachedRule._cachedCompiledPatterns!._items) {
+			const _items = cachedRule._cachedCompiledPatterns!._items;
+			for (const regexSource of _items) {
 				// https://github.com/microsoft/vscode-textmate/issues/126
 				// https://github.com/microsoft/vscode/issues/119915
 				// https://github.com/kkos/oniguruma/issues/198
-				if (!allowAnchorA) {
-					regexSource.source.replaceAll('\\A', '\\\uFFFF');
-				}
-				if (!allowAnchorG) {
-					regexSource.source.replaceAll('\\G', '\\\uFFFF');
+				if (typeof regexSource.source === 'string') {
+					if (!allowAnchorA) {
+						regexSource.source.replaceAll('\\A', '\\\uFFFF');
+					}
+					if (!allowAnchorG) {
+						regexSource.source.replaceAll('\\G', '\\\uFFFF');
+					}
 				}
 				// if (!allowAnchorZ) { // https://github.com/microsoft/vscode-textmate/blob/f03a6a8790af81372d0e81facae75554ec5e97ef/src/rule.ts#L603-L606
 				// 	regexSource.source.replaceAll('\\z', '$(?!\\n)(?<!\\n)');
 				// }
-				regexes.push(regexSource.source);
+				regexes.push(regexSource.source!);
 			}
 			const scanner = createOnigScanner(regexes);
 
@@ -732,9 +735,10 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 			scanner.dispose();
 
 			// const regex = cachedRule._match?.source ?? (ruleId < 0 ? cachedRule._while?.source ?? cachedRule._end?.source : cachedRule._begin?.source);
+			const matchedSource = onigMatch ? _items[onigMatch.index].source : undefined;
 			const item = new vscode.TreeItem(
 				// regex.substring(0, 50),
-				onigMatch ? cachedRule._cachedCompiledPatterns!._items[onigMatch.index].source.substring(0, 50) : '<EOL>',
+				onigMatch ? typeof matchedSource === 'string' ? matchedSource.substring(0, 50) : matchedSource! : '<EOL>',
 				vscode.TreeItemCollapsibleState.Expanded,
 			);
 
@@ -766,16 +770,18 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 			// https://github.com/microsoft/vscode-textmate/issues/126
 			// https://github.com/microsoft/vscode/issues/119915
 			// https://github.com/kkos/oniguruma/issues/198
-			if (!allowAnchorA) {
-				regexSource.replaceAll('\\A', '\\\uFFFF');
-			}
-			if (!allowAnchorG) {
-				regexSource.replaceAll('\\G', '\\\uFFFF');
+			if (typeof regexSource === 'string') {
+				if (!allowAnchorA) {
+					regexSource.replaceAll('\\A', '\\\uFFFF');
+				}
+				if (!allowAnchorG) {
+					regexSource.replaceAll('\\G', '\\\uFFFF');
+				}
 			}
 			// if (!allowAnchorZ) { // https://github.com/microsoft/vscode-textmate/blob/f03a6a8790af81372d0e81facae75554ec5e97ef/src/rule.ts#L603-L606
 			// 	regexSource.source.replaceAll('\\z', '$(?!\\n)(?<!\\n)');
 			// }
-			const scanner = createOnigScanner([regexSource]);
+			const scanner = createOnigScanner([regexSource!]);
 
 			const options: FindOption =
 				(allowAnchorA ? FindOption.None : FindOption.NotBeginString) |
@@ -804,10 +810,10 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 			const timeFixed = time.toFixed(3);
 			scanner.dispose();
 
-			const label = regexSource.substring(0, 50);
+			const label = typeof regexSource === 'string' ? regexSource.substring(0, 50) : regexSource;
 			const treeLabel: vscode.TreeItemLabel = {
-				label: label,
-				highlights: onigMatch ? [[0, label.length]] : undefined,
+				label: label!,
+				highlights: onigMatch ? [[0, label?.length ?? 1]] : undefined,
 			};
 			const item = new vscode.TreeItem(
 				treeLabel,
@@ -817,7 +823,7 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 			const ruleId = element.itemRule!.ruleId;
 			const duplicateId = element.duplicateId;
 			item.id = `${ruleId}${type == 'regex' ? '' : '_'}${duplicateId ? `_${duplicateId}` : ''}`;
-			item.description = `${regexSource.length > 50 ? '...' : ''}${timeFixed}ms${time >= 1 ? ' ⚠️' : ''}${duplicateId ? '‼️' : ''}`;
+			item.description = `${typeof regexSource === 'string' && regexSource.length > 50 ? '...' : ''}${timeFixed}ms${time >= 1 ? ' ⚠️' : ''}${duplicateId ? '‼️' : ''}`;
 			item.tooltip = `RuleId: ${ruleId}\n${onigMatch?.captureIndices[0].start} - ${onigMatch?.captureIndices[0].end}${duplicateId ? `\nDuplicate Rule: ${duplicateId}x` : ''}`;
 			item.iconPath = new vscode.ThemeIcon('regex');
 

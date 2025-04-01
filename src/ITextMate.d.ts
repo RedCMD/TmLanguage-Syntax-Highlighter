@@ -88,7 +88,7 @@ interface IRegExpSourceAnchorCache {
 }
 
 type RegExpSource<TRuleId = RuleId | typeof endRuleId> = {
-	readonly source: string;
+	readonly source: string | undefined;
 	readonly ruleId: TRuleId;
 	readonly hasAnchor: boolean;
 	readonly hasBackReferences: boolean;
