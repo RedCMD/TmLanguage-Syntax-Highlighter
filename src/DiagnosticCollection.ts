@@ -355,9 +355,9 @@ async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[],
 
 		// https://github.com/kkos/oniguruma
 		// https://github.com/microsoft/vscode-oniguruma
-		const scanner = new vscodeOniguruma.OnigScanner([regex]);
+		const scanner = new vscodeOniguruma.OnigScanner([regex]) as OnigScanner;
 
-		const onigBinding = (<OnigScanner>scanner)._onigBinding;
+		const onigBinding = scanner._onigBinding;
 		const errorCode = onigBinding.UTF8ToString(onigBinding._getLastOnigError());
 
 		// const string = vscodeOniguruma.createOnigString(''); // blank. Maybe can test against a user provided string?
@@ -374,6 +374,8 @@ async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[],
 			};
 			diagnostics.push(diagnostic);
 		}
+
+		scanner.dispose();
 	}
 	// vscode.window.showInformationMessage(`Oniguruma ${(performance.now() - start).toFixed(3)}ms`);
 }
