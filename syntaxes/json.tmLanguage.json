@@ -772,10 +772,9 @@
 			"patterns": [
 				{ "include": "#escape-characters" },
 				{
-					"match": "(?>comment|string|regex|meta\\.embedded)\\b",
+					"match": "\\b(?>comment|string|regex|meta\\.embedded)\\b",
 					"name": "markup.italic"
 				},
-				{ "match": "\\w+" },
 				{
 					"comment": "An invalid capture group number does not convert, nor becomes null",
 					"match": "(\\$)(0*)([0-9]{3,1})(?![0-9])",
