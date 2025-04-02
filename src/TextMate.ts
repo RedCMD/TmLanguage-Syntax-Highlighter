@@ -302,14 +302,8 @@ export async function tokenizeFile(document: vscode.TextDocument, runTwice?: boo
 		// vscode.window.showInformationMessage(JSON.stringify(ruleStack, stringify));
 	}
 
-	try {
-		// vscode.window.showInformationMessage(JSON.stringify(registry, stringify));
-		vscode.window.showInformationMessage(JSON.stringify(grammar, stringify));
-		// vscode.window.showInformationMessage(JSON.stringify(tokenLineResults, stringify));
-	} catch (error) {
-		vscode.window.showInformationMessage(JSON.stringify(error));
-	}
-
+	// vscode.window.showInformationMessage(JSON.stringify(registry, stringify));
+	// vscode.window.showInformationMessage(JSON.stringify(tokenLineResults, stringify));
 	// return tokenLineResults;
 	return grammar;
 }

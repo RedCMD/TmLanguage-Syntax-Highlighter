@@ -397,23 +397,33 @@
 					"when": "view == TextMate && viewItem == document"
 				},
 				{
-					"command": "textmate.goto.file",
-					"group": "inline@2",
-					"when": "view == TextMate || view == TextMate-Call"
-				},
-				{
-					"command": "textmate.goto.grammar",
+					"command": "textmate.copytoclipboard.grammar",
 					"group": "inline@3",
-					"when": "view == TextMate || view == TextMate-Call"
+					"when": "view == TextMate && viewItem == root"
 				},
 				{
 					"command": "textmate.goto.file",
-					"group": "0_navigation@1",
+					"group": "inline@5",
 					"when": "view == TextMate || view == TextMate-Call"
 				},
 				{
 					"command": "textmate.goto.grammar",
-					"group": "0_navigation@2",
+					"group": "inline@7",
+					"when": "view == TextMate || view == TextMate-Call"
+				},
+				{
+					"command": "textmate.copytoclipboard.grammar",
+					"group": "0_navigation@3",
+					"when": "view == TextMate && viewItem == root"
+				},
+				{
+					"command": "textmate.goto.file",
+					"group": "0_navigation@5",
+					"when": "view == TextMate || view == TextMate-Call"
+				},
+				{
+					"command": "textmate.goto.grammar",
+					"group": "0_navigation@7",
 					"when": "view == TextMate || view == TextMate-Call"
 				}
 			]
@@ -437,6 +447,12 @@
 				"title": "Follow Cursor",
 				"category": "TextMate",
 				"icon": "assets/TextMate-file-icon.svg"
+			},
+			{
+				"command": "textmate.copytoclipboard.grammar",
+				"title": "Copy <grammar state> to clipboard (JSON)",
+				"category": "TextMate",
+				"icon": "$(copy)"
 			},
 			{
 				"command": "textmate.call.details",

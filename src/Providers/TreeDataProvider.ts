@@ -318,6 +318,7 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				item.tooltip = `Time: ${time}\nRuleCount: ${grammar.rules.length - grammar.lines.length}\nRegexCount: ${regexCount}`;
 				item.description = `${timeFixed}ms${time > 500 ? ' ⚠️' : ''}`;
 				item.id = grammar._rootScopeName;
+				item.contextValue = 'root';
 				return item;
 			}
 
@@ -853,14 +854,16 @@ export function initCallStackView(context: vscode.ExtensionContext): void {
 		vscode.commands.registerTextEditorCommand("textmate.callstack", CallStackView),
 		vscode.commands.registerCommand("textmate.refresh", refresh),
 		vscode.commands.registerCommand("textmate.find", find),
+		vscode.commands.registerCommand("textmate.copytoclipboard.grammar", copyToClipBoardGrammar),
 		vscode.commands.registerCommand("textmate.call.details", callDetails),
 		vscode.commands.registerCommand("textmate.goto.file", gotoFile),
 		vscode.commands.registerCommand("textmate.goto.grammar", gotoGrammar),
-		vscode.commands.registerCommand("textmate.tree-view", (element: element) => changeView('tree', element)),
-		vscode.commands.registerCommand("textmate.list-view", (element: element) => changeView('list', element)),
+		vscode.commands.registerCommand("textmate.tree-view", (element?: element) => changeView('tree', element)),
+		vscode.commands.registerCommand("textmate.list-view", (element?: element) => changeView('list', element)),
 		// vscode.window.onDidChangeActiveColorTheme(updateWorkbench_colorCustomizations),
 	);
 
+	// vscode.window.showInformationMessage(`vscode.commands.getCommands()\n${JSON.stringify(await vscode.commands.getCommands())}`);
 	// await updateWorkbench_colorCustomizations();
 
 	changeView(callView);
@@ -1034,6 +1037,15 @@ async function find(element?: element) {
 	vscode.commands.executeCommand('list.find');
 	// vscode.commands.executeCommand('list.toggleFindMode');
 	// vscode.commands.executeCommand('list.toggleFindMatchType');
+}
+
+async function copyToClipBoardGrammar(element?: element) {
+	try {
+		const grammarJSON = JSON.stringify(grammar, stringify);
+		await vscode.env.clipboard.writeText(grammarJSON);
+	} catch (error) {
+		console.warn("JSON TextMate: CallStack CopyToClipBoard: Error:\n", error);
+	}
 }
 
 async function callDetails(element: element) {
