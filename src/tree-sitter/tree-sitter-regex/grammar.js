@@ -546,6 +546,33 @@ module.exports = grammar({
 					),
 					$.name,
 				),
+				optional(
+					seq(
+						'[',
+						alias(
+							token(
+								seq(
+									/[A-Za-z_]/,
+									repeat(/\w/),
+								),
+							),
+							$.tag,
+						),
+						']',
+					),
+				),
+				optional(
+					seq(
+						'{',
+						alias(
+							token(
+								repeat(/[^}]/),
+							),
+							$.args,
+						),
+						'}',
+					),
+				),
 				')',
 			),
 			seq(

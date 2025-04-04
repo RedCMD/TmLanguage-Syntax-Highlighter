@@ -847,38 +847,77 @@
 					}
 				},
 				{
-					"comment": "(*name[tag]{args...})",
-					"match": "\\G(\\()(\\*)([A-Za-z_]\\w*+)([^\\[{)]*+)(?>(\\[)([^]]*+)(]))?+([^{)]*+)(?>({)([^}]*+)(}))?+([^)]*+)(\\))([+*?]|{(?>[0-9]++,?+[0-9]*+|,[0-9]++)})?+",
-					"captures": {
+					"comment": "(*NAME[Tag]{,,args,,,})",
+					"begin": "\\G(\\()(\\*)",
+					"end": "(\\))([+*?]|{(?>,[0-9]+|[0-9]+,?[0-9]*)})?|(?=\")",
+					"beginCaptures": {
 						"1": { "name": "constant.character.set.regexp.tm markup.italic" },
-						"2": { "name": "support.function.tm" },
-						"3": { "name": "markup.bold" },
-						"4": { "name": "invalid.illegal.tm markup.underline regex" },
-						"5": { "name": "support.function.tm" },
-						"6": {
+						"2": { "name": "support.function.tm" }
+					},
+					"endCaptures": {
+						"1": { "name": "constant.character.set.regexp.tm markup.italic" },
+						"2": { "name": "invalid.illegal.quantifier.tm regex" }
+					},
+					"name": "meta.group.callout.named.tm",
+					"patterns": [
+						{
+							"match": "\\G(?>FAIL|MISMATCH|SKIP|ERROR|MAX|COUNT|TOTAL_COUNT|CMP)",
+							"name": "markup.bold.name.$0.tm"
+						},
+						{
+							"begin": "\\b\\[",
+							"end": "]|(?=[{)\"])",
 							"patterns": [
 								{
-									"match": "\\W+|[0-9]+",
-									"name": "invalid.illegal.tm markup.underline regex"
+									"match": "[A-Za-z_][A-Za-z_0-9]*",
+									"name": "markup.bold.tag.tm"
 								},
 								{
-									"match": "\\w+",
-									"name": "markup.bold"
+									"match": ".[^]{)\"A-Za-z_]*",
+									"name": "invalid.illegal.tm regex"
 								}
 							]
 						},
-						"7": { "name": "support.function.tm" },
-						"8": { "name": "invalid.illegal.tm markup.underline regex" },
-						"9": { "name": "support.function.tm" },
-						"10": {
-							"name": "regex",
-							"patterns": [ { "include": "source.json.textmate#escape-characters" } ]
+						{
+							"begin": "(?<=[]A-Z]){",
+							"end": "}|(?=[)\"])",
+							"patterns": [
+								{ "include": "source.json.textmate#escape-characters" },
+								{
+									"match": "(?!X\\b)[A-Za-z_][A-Za-z_0-9]*",
+									"name": "markup.bold.tag.tm"
+								},
+								{
+									"match": "[+-]?[0-9]+\\b",
+									"name": "constant.numeric.tm"
+								},
+								{
+									"match": "\\G,+",
+									"name": "punctuation.definition.tag.tm"
+								},
+								{
+									"match": ",+(?=})",
+									"name": "punctuation.definition.tag.tm"
+								},
+								{
+									"match": "(?<=,),+",
+									"name": "punctuation.definition.tag.tm"
+								},
+								{
+									"match": ",",
+									"name": "support.function.tm"
+								},
+								{
+									"match": ".[^,})\"A-Za-z_0-9+-]*",
+									"name": "string.tm"
+								}
+							]
 						},
-						"11": { "name": "support.function.tm" },
-						"12": { "name": "invalid.illegal.tm markup.underline regex" },
-						"13": { "name": "constant.character.set.regexp.tm markup.italic" },
-						"14": { "name": "invalid.illegal.tm markup.underline regex" }
-					}
+						{
+							"match": ".[^\\[{)\"A-Za-z_]*",
+							"name": "invalid.illegal.tm regex"
+						}
+					]
 				}
 			]
 		},
