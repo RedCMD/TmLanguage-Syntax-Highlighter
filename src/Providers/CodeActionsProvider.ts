@@ -3,7 +3,15 @@ import { Node, Tree } from 'web-tree-sitter';
 import { getTrees, queryNode, toRange, trees } from "../TreeSitter";
 import { unicodeproperties, UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
 import { closeEnoughQuestionMark, stringify, wagnerFischer } from "../extension";
-import { debouncedDiagnostics } from '../DiagnosticCollection';
+import { debouncedDiagnostics } from "../DiagnosticCollection";
+
+// Can't import ECMAScript module
+// import { optimize } from 'oniguruma-parser/optimizer';
+let optimize: typeof import("oniguruma-parser/optimizer", { with: { 'resolution-mode': 'import' } }).optimize | undefined;
+importOnigurumaParserOptimizer();
+async function importOnigurumaParserOptimizer() {
+	optimize = (await import("oniguruma-parser/optimizer")).optimize;
+}
 
 export const metadata: vscode.CodeActionProviderMetadata = {
 	providedCodeActionKinds: [
@@ -221,24 +229,24 @@ async function optimizeRegex(edit: vscode.WorkspaceEdit, regexNode: Node, uri: v
 	const range = toRange(regexNode);
 
 	try {
-		const { optimize } = await import("oniguruma-parser/optimizer");
+		if (optimize) {
+			const text = JSON.parse(`"${regexNode.text}"`);
 
-		const text = JSON.parse(`"${regexNode.text}"`);
+			const optimized = optimize(text, {
+				rules: {
+					// Follow `vscode-oniguruma` which enables this Oniguruma option by default
+					captureGroup: true,
+					allowOrphanBackrefs: true,
+				},
+			}).pattern;
 
-		const optimized = optimize(text, {
-			rules: {
-				// Follow `vscode-oniguruma` which enables this Oniguruma option by default
-				captureGroup: true,
-				allowOrphanBackrefs: true,
-			},
-		}).pattern;
+			const replacedText = JSON.stringify(optimized).slice(1, -1); // remove surrounding "double quotes"
+			edit.replace(uri, range, replacedText);
 
-		const replacedText = JSON.stringify(optimized).slice(1, -1); // remove surrounding "double quotes"
-		edit.replace(uri, range, replacedText);
-
-		return;
+			return;
+		}
 	} catch (error) {
-		console.warn("JSON TextMate: oniguruma-parser/optimizer: range:", range, '\n', error);
+		console.warn("JSON TextMate: oniguruma-parser/optimizer: range: ", range, '\n', error);
 	}
 
 	// Fallback to basic minifier
