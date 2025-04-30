@@ -72,17 +72,19 @@ export const HoverProvider: vscode.HoverProvider = {
 				const options: ToRegExpOptions = {
 					accuracy: 'default',
 					avoidSubclass: true,
+					verbose: true,
 					rules: {
 						// Follow `vscode-oniguruma` which enables this Oniguruma option by default
 						captureGroup: true,
-						allowOrphanBackrefs: true,
+						allowOrphanBackrefs: hoverCapture.name == 'while' || hoverCapture.name == 'end',
 					},
 				};
 				const jsRegex = toRegExpDetails(text, options);
 
 				// markdownString.appendMarkdown('<details><summary>Click to show JS Translation</summary>  \n');
-				markdownString.appendMarkdown('Optimized literal [translation](https://github.com/slevithan/oniguruma-to-es) from Oniguruma to JavaScript:  \n');
-				markdownString.appendCodeblock(`/${jsRegex.pattern}/${jsRegex.flags}`, 'javascript');
+				markdownString.appendMarkdown('---\n');
+				markdownString.appendMarkdown('[Translation](https://github.com/slevithan/oniguruma-to-es) from [Oniguruma](https://github.com/kkos/oniguruma/blob/master/doc/RE) to JavaScript: ');
+				markdownString.appendCodeblock(`/${jsRegex.pattern.replaceAll(/\\([\\\/])|(\/)/g, '\\$1$2') || '(?:)'}/${jsRegex.flags}`, 'javascript');
 				// markdownString.appendMarkdown('</details>  \n');
 				// markdownString.supportHtml = true;
 			}
