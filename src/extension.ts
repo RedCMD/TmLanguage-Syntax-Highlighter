@@ -202,9 +202,10 @@ export async function getPackageJSON(baseUri: vscode.TextDocument | vscode.Uri, 
 	}
 
 	const uri = 'uri' in baseUri ? baseUri.uri : baseUri;
+	const newUri = uri.with({ query: '' }); // 'git file changes' document adds a query property. that then ruins readFile()
 
-	const packageUri1 = vscode.Uri.joinPath(uri, ...pathSegments, '..', '..', 'package.json');
-	const packageUri2 = vscode.Uri.joinPath(uri, ...pathSegments, '..', 'package.json'); // Maybe grammar file is at the same level as `package.json`
+	const packageUri1 = vscode.Uri.joinPath(newUri, ...pathSegments, '..', '..', 'package.json');
+	const packageUri2 = vscode.Uri.joinPath(newUri, ...pathSegments, '..', 'package.json'); // Maybe grammar file is at the same level as `package.json`
 
 	const file1 = await vscode.workspace.fs.readFile(packageUri1).then(null, () => { });
 	const file = file1 || await vscode.workspace.fs.readFile(packageUri2).then(null, () => { });
