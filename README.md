@@ -80,11 +80,14 @@ Highlights scope names with their own themed colour in realtime:
 * Finish ctrl+click definitions and references
 * Improve tree-sitter grammar
 * Improve TextMate [documentation](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/index.md)
-* Finish CallStack viewer
+* Finish [CallStack](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/issues/10) viewer
 * Redo TextMate scopeNames [Naming conventions](https://github.com/atom/flight-manual.atom.io/pull/564)
 * Move to LanguageServer
-* Add unit tests
+* Add unit tests [mocha](https://github.com/mochajs/mocha) [vscode-tmgrammar-test](https://github.com/PanAeon/vscode-tmgrammar-test)
 * Improve TreeSitter Query performance: [Node contains `&fieldName`](https://github.com/tree-sitter/tree-sitter/issues/3956), [Caching or Serializing a `TSQuery`](https://github.com/tree-sitter/tree-sitter/issues/1942)
 * Add [FlameGraph](https://www.brendangregg.com/flamegraphs.html) [schema](https://chromedevtools.github.io/devtools-protocol/tot/Profiler/#type-Profile)
 * Update [CHANGELOG.md](/CHANGELOG.md)
 * Fix TreeSitter minified empty repo name
+* Add warnings for invalid [Github Linguist](https://github.com/github-linguist/linguist) errors
+* Parse regexes with [oniguruma-parser](https://github.com/slevithan/oniguruma-parser)
+* Update YAML and Ascii Plist grammars
