@@ -32,6 +32,17 @@
 		"Programming Languages",
 		"Snippets"
 	],
+	"capabilities": {
+		"virtualWorkspaces": {
+			"supported": true,
+			"description": "DropEdit and oniguruma-parser doesn't work in VSCode web atm"
+		},
+		"untrustedWorkspaces": {
+			"supported": true,
+			"description": "Everything works as far as I know",
+			"restrictedConfigurations": []
+		}
+	},
 	"extensionDependencies": [
 		"vscode.json-language-features"
 	],
