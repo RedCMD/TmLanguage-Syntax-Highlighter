@@ -271,6 +271,15 @@
 				},
 				"editor.inlineSuggest.syntaxHighlightingEnabled": true,
 				"editor.inlineSuggest.enabled": true
+			},
+			"[yaml-textmate]": {
+				"editor.tabSize": 2,
+				"editor.insertSpaces": true,
+				"editor.quickSuggestions": {
+					"strings": "inline",
+					"other": "inline",
+					"comments": "off"
+				}
 			}
 		},
 		"configuration": [

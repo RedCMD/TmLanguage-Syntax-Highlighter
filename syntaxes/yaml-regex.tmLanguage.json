@@ -31,6 +31,10 @@
 	},
 	"patterns": [
 		{ "//include": "#test" },
+		{
+			"match": "{{[a-zA-Z]+}}",
+			"name": "variable.replacement"
+		},
 		{ "include": "#character-types" },
 		{ "include": "#character-types-2" },
 		{ "include": "#characters" },

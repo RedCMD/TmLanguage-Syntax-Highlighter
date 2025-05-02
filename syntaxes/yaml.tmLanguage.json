@@ -101,6 +101,7 @@
 			"patterns": [
 				{ "include": "#injections" },
 				{ "include": "#injectionSelector" },
+				{ "include": "#variables" },
 				{ "include": "#patterns" },
 				{ "include": "#repository" },
 				{ "include": "source.yaml.1.2#block-map-key-double" },
@@ -358,6 +359,279 @@
 					"name": "meta.map.value.yaml meta.injection.yaml.textmate",
 					"patterns": [
 						{ "include": "#pattern" },
+						{ "include": "source.yaml.1.2#block-node" }
+					]
+				}
+			]
+		},
+		"variables": {
+			"begin": "\\G(?<quote>[\"']?+)(variables)(\\k<quote>)([\t ]*+)(:)",
+			"while": "\\G(?![?:!\"'0-9A-Za-z$()+./;<=\\\\^_~\\[{\\x{85}\\x{A0}-\\x{D7FF}\\x{E000}-\\x{FFFD}\\x{010000}-\\x{10FFFF}&&[^\\x{FEFF}]]|-[^\r\n\t ])",
+			"beginCaptures": {
+				"1": { "name": "string.quoted.yaml.textmate punctuation.definition.string.begin.yaml.textmate" },
+				"2": { "name": "keyword.$2.yaml.textmate" },
+				"3": { "name": "string.quoted.yaml.textmate punctuation.definition.string.end.yaml.textmate" },
+				"4": { "name": "punctuation.whitespace.separator.yaml" },
+				"5": { "name": "punctuation.separator.map.value.yaml" }
+			},
+			"name": "meta.$2.yaml.textmate",
+			"patterns": [
+				{
+					"begin": "(?=((?<=[-?:]) )?+)(?<!(?<![\t ])[\t ]*+:|---)\\G( *+)(?>((?>[!&*][^\r\n\t ]*+[\t ]++)*+)(?=(?>(?>(?#Double Quote)\"(?>[^\\\\\"]++|\\\\.)*+\"|(?#Single Quote)'(?>[^']++|'')*+'|(?#Flow-Map){(?>[^}]++|}[ \t]*+(?!:[\r\n\t ]))++}|(?#Flow-Seq)\\[(?>[^]]++|][ \t]*+(?!:[\r\n\t ]))++]|(?#Plain)(?>[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@` \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE FFFF}]]|[?:-](?![\r\n\t ]))(?>[^:#]++|:(?![\r\n\t ])|(?<! |\t)#++)*+)[\t ]*+)?+(?#Map Value):[\r\n\t ])|(?#Explicit)(?=\\?[\r\n\t ]))",
+					"while": "\\G(?>(\\1\\2)((?>[!&*][^\r\n\t ]*+[\t ]++)*+)((?>\t[\t ]*+)?+[^\r\n\t ?:\\-#!&*\"'\\[\\]{}0-9A-Za-z$()+./;<=\\\\^_~\\x{85}\\x{A0}-\\x{D7FF}\\x{E000}-\\x{FFFD}\\x{010000}-\\x{10FFFF}])?+|( *+)([\t ]*+[^\r\n#])?+)",
+					"beginCaptures": {
+						"2": { "name": "punctuation.whitespace.indentation.yaml" },
+						"3": {
+							"comment": "May cause lag on long lines starting with a tag, anchor or alias",
+							"patterns": [
+								{ "include": "source.yaml.1.2#tag-property" },
+								{ "include": "source.yaml.1.2#anchor-property" },
+								{ "include": "source.yaml.1.2#alias" },
+								{ "include": "source.yaml.1.2#presentation-detail" }
+							]
+						}
+					},
+					"whileCaptures": {
+						"1": { "name": "punctuation.whitespace.indentation.yaml" },
+						"2": {
+							"comment": "May cause lag on long lines starting with a tag, anchor or alias",
+							"patterns": [
+								{ "include": "source.yaml.1.2#tag-property" },
+								{ "include": "source.yaml.1.2#anchor-property" },
+								{ "include": "source.yaml.1.2#alias" },
+								{ "include": "source.yaml.1.2#presentation-detail" }
+							]
+						},
+						"3": { "name": "invalid.illegal.expected-indentation.yaml" },
+						"4": { "name": "punctuation.whitespace.indentation.yaml" },
+						"5": { "name": "invalid.illegal.expected-indentation.yaml" }
+					},
+					"name": "meta.mapping.yaml",
+					"patterns": [
+						{ "include": "#variable" },
+						{ "include": "source.yaml.1.2#block-map-key-double" },
+						{ "include": "source.yaml#block-map-key-single" },
+						{ "include": "source.yaml.1.2#block-map-key-plain" },
+						{ "include": "source.yaml.1.2#block-map-key-explicit" },
+						{ "include": "source.yaml.1.2#block-map-value" },
+						{ "include": "source.yaml.1.2#flow-mapping" },
+						{ "include": "source.yaml.1.2#flow-sequence" },
+						{ "include": "source.yaml.1.2#presentation-detail" }
+					]
+				},
+				{ "include": "source.yaml.1.2#block-node" }
+			]
+		},
+		"variable": {
+			"patterns": [
+				{
+					"comment": "https://yaml.org/spec/1.2.2/#double-quoted-style (FLOW-OUT)",
+					"begin": "\\G\"",
+					"end": "\"",
+					"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.yaml" } },
+					"endCaptures": { "0": { "name": "punctuation.definition.string.end.yaml" } },
+					"name": "meta.map.key.yaml string.quoted.double.yaml entity.name.tag.yaml meta.variable.yaml.textmate",
+					"contentName": "variable.yaml.textmate",
+					"patterns": [
+						{
+							"match": "[^\r\n\t -\\x{10FFFF}]++",
+							"name": "invalid.illegal.character.yaml"
+						},
+						{ "include": "source.yaml.1.2#double-escape" }
+					]
+				},
+				{
+					"begin": "\\G'",
+					"end": "'(?!')",
+					"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.yaml" } },
+					"endCaptures": { "0": { "name": "punctuation.definition.string.end.yaml" } },
+					"name": "meta.map.key.yaml string.quoted.single.yaml entity.name.tag.yaml meta.variable.yaml.textmate",
+					"contentName": "variable.yaml.textmate",
+					"patterns": [
+						{
+							"match": ".[\t ]*+$",
+							"name": "invalid.illegal.multiline-key.yaml"
+						},
+						{
+							"match": "[^\t -\\x{10FFFF}]++",
+							"name": "invalid.illegal.character.yaml"
+						},
+						{
+							"match": "''",
+							"name": "constant.character.escape.single-quote.yaml"
+						}
+					]
+				},
+				{
+					"begin": "\\G(?=[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@` \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE FFFF}]]|[?:-](?![\r\n\t ]))",
+					"end": "(?=[\t ]*+:[\r\n\t ]|(?>[\t ]++|\\G)#)",
+					"name": "meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml meta.variable.yaml.textmate",
+					"contentName": "variable.yaml.textmate",
+					"patterns": [
+						{ "include": "source.yaml.1.2#tag-implicit-plain-out" },
+						{
+							"match": "\\G([\t ]++)(.)",
+							"captures": {
+								"1": { "name": "punctuation.whitespace.separator.yaml" },
+								"2": { "name": "invalid.illegal.multiline-key.yaml" }
+							}
+						},
+						{
+							"match": "[\t ]++$",
+							"name": "punctuation.whitespace.separator.yaml"
+						},
+						{
+							"match": "[^\r\n\t ](?=[\t ]*+$|[\t ]++#)",
+							"name": "invalid.illegal.expected-map-separator.yaml"
+						},
+						{
+							"match": "\\x{FEFF}",
+							"name": "invalid.illegal.bom.yaml"
+						},
+						{ "include": "source.yaml#non-printable" }
+					]
+				},
+				{
+					"begin": ":(?=[\r\n\t ])|(?<=}})(?=[\t ]++#|[\t ]*+$)",
+					"while": "\\G ?+(?![?:!\"'0-9A-Za-z$()+./;<=\\\\^_~\\[{\\x{85}\\x{A0}-\\x{D7FF}\\x{E000}-\\x{FFFD}\\x{010000}-\\x{10FFFF}&&[^\\x{FEFF}]]|-[^\r\n\t ])",
+					"beginCaptures": { "0": { "name": "punctuation.separator.map.value.yaml" } },
+					"whileCaptures": { "0": { "name": "punctuation.whitespace.indentation.yaml" } },
+					"name": "meta.map.value.yaml meta.variable.yaml.textmate",
+					"patterns": [
+						{
+							"begin": "(?=\"|')",
+							"while": "\\G",
+							"patterns": [
+								{
+									"begin": "(?!\\G)",
+									"while": "\\G",
+									"patterns": [ { "include": "source.yaml.1.2#presentation-detail" } ]
+								},
+								{
+									"begin": "\"",
+									"end": "\"",
+									"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.yaml" } },
+									"endCaptures": { "0": { "name": "punctuation.definition.string.end.yaml" } },
+									"name": "string.quoted.double.yaml",
+									"contentName": "meta.embedded.yaml.textmate.regexp",
+									"patterns": [
+										{ "include": "#double-inners" },
+										{ "include": "source.json.textmate.regexp" },
+										{ "include": "source.yaml.1.2#double-escape" }
+									]
+								},
+								{
+									"comment": "https://yaml.org/spec/1.2.2/#single-quoted-style",
+									"begin": "'",
+									"end": "'(?!')",
+									"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.yaml" } },
+									"endCaptures": { "0": { "name": "punctuation.definition.string.end.yaml" } },
+									"name": "string.quoted.single.yaml",
+									"contentName": "meta.embedded.yaml.textmate.regexp",
+									"patterns": [
+										{ "include": "#single-inners" },
+										{ "include": "source.yaml.textmate.regexp" }
+									]
+								}
+							]
+						},
+						{
+							"begin": "(?=[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@` \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE FFFF}]]|[?:-](?![\r\n\t ]))",
+							"while": "\\G",
+							"patterns": [
+								{
+									"begin": "\\G",
+									"end": "(?=(?>[\t ]++|\\G)#)",
+									"name": "string.unquoted.plain.out.yaml",
+									"contentName": "meta.embedded.yaml.textmate.regexp",
+									"patterns": [
+										{ "include": "#block-plain-out-inners" },
+										{ "include": "source.yaml.textmate.regexp" }
+									]
+								},
+								{
+									"begin": "(?!\\G)",
+									"while": "\\G",
+									"patterns": [ { "include": "source.yaml.1.2#presentation-detail" } ]
+								}
+							]
+						},
+						{
+							"//": "Soooooooo many edge cases",
+							"begin": "(?>(\\|)|(>))([+-]?+)",
+							"while": "\\G",
+							"beginCaptures": {
+								"1": { "name": "keyword.control.flow.block-scalar.literal.yaml" },
+								"2": { "name": "keyword.control.flow.block-scalar.folded.yaml" },
+								"3": { "name": "storage.modifier.chomping-indicator.yaml" }
+							},
+							"name": "meta.scalar.yaml",
+							"patterns": [
+								{
+									"comment": "https://yaml.org/spec/1.2.2/#rule-l-literal-content",
+									"begin": "$",
+									"while": "\\G",
+									"patterns": [
+										{
+											"comment": "https://yaml.org/spec/1.2.2/#rule-l-nb-literal-text",
+											"//": "Find the highest indented line",
+											"begin": "\\G( ++)$",
+											"while": "\\G(?>(\\1)$|(?!\\1)( *+)($|.))",
+											"captures": {
+												"1": { "name": "punctuation.whitespace.indentation.yaml" },
+												"2": { "name": "punctuation.whitespace.indentation.yaml" },
+												"3": { "name": "invalid.illegal.expected-indentation.yaml" }
+											},
+											"contentName": "string.unquoted.block.yaml meta.embedded.yaml.textmate.regexp",
+											"patterns": [
+												{ "include": "source.yaml.textmate.regexp" },
+												{ "include": "source.yaml#non-printable" }
+											]
+										},
+										{
+											"comment": "https://yaml.org/spec/1.2.2/#rule-b-nb-literal-next",
+											"//": [
+												"Funky wrapper function",
+												"The `end` pattern clears the parent `\\G` anchor",
+												"Affectively forcing this rule to only match at most once",
+												"https://github.com/microsoft/vscode-textmate/issues/114"
+											],
+											"begin": "\\G(?!$)(?=( *+))",
+											"end": "\\G(?!\\1)(?=[\t ]*+#)",
+											"patterns": [
+												{
+													"comment": "https://yaml.org/spec/1.2.2/#rule-l-nb-literal-text",
+													"begin": "\\G( *+)",
+													"while": "\\G(?>(\\1)|( *+)($|[^\t#]|[\t ]++[^#]))",
+													"captures": {
+														"1": { "name": "punctuation.whitespace.indentation.yaml" },
+														"2": { "name": "punctuation.whitespace.indentation.yaml" },
+														"3": { "name": "invalid.illegal.expected-indentation.yaml" }
+													},
+													"contentName": "string.unquoted.block.yaml meta.embedded.yaml.textmate.regexp",
+													"patterns": [
+														{ "include": "source.yaml.textmate.regexp" },
+														{ "include": "source.yaml#non-printable" }
+													]
+												}
+											]
+										},
+										{
+											"comment": "https://yaml.org/spec/1.2.2/#rule-l-chomped-empty",
+											"begin": "(?!\\G)(?=[\t ]*+#)",
+											"while": "\\G",
+											"patterns": [ { "include": "source.yaml.1.2#presentation-detail" } ]
+										}
+									]
+								},
+								{
+									"comment": "https://yaml.org/spec/1.2.2/#rule-c-b-block-header",
+									"begin": "\\G",
+									"end": "$",
+									"patterns": [ { "include": "source.yaml.1.2#presentation-detail" } ]
+								}
+							]
+						},
 						{ "include": "source.yaml.1.2#block-node" }
 					]
 				}
@@ -742,18 +1016,14 @@
 			]
 		},
 		"match": {
-			"begin": "\\G(?<quote>[\"']?+)(match|begin|while|end)(\\k<quote>)([\t ]*+)(:)(?>([\t ]++)([|>])(?<chomp>[+-])?+([1-9])?+(?(<chomp>)|\\g<chomp>)?+)?+",
+			"begin": "\\G(?<quote>[\"']?+)(match|begin|while|end)(\\k<quote>)([\t ]*+)(:)",
 			"while": "\\G(?![?:!\"'0-9A-Za-z$()+./;<=\\\\^_~\\[{\\x{85}\\x{A0}-\\x{D7FF}\\x{E000}-\\x{FFFD}\\x{010000}-\\x{10FFFF}&&[^\\x{FEFF}]]|-[^\r\n\t ])",
 			"beginCaptures": {
 				"1": { "name": "string.quoted.yaml.textmate punctuation.definition.string.begin.yaml.textmate" },
 				"2": { "name": "keyword.$2.yaml.textmate" },
 				"3": { "name": "string.quoted.yaml.textmate punctuation.definition.string.end.yaml.textmate" },
 				"4": { "name": "punctuation.whitespace.separator.yaml" },
-				"5": { "name": "punctuation.separator.map.value.yaml" },
-				"6": { "name": "punctuation.whitespace.separator.yaml" },
-				"7": { "name": "keyword.control.flow.block-scalar.yaml" },
-				"8": { "name": "storage.modifier.chomping-indicator.yaml" },
-				"9": { "name": "constant.numeric.indentation-indicator.yaml" }
+				"5": { "name": "punctuation.separator.map.value.yaml" }
 			},
 			"name": "meta.$2.yaml.textmate",
 			"patterns": [
@@ -797,7 +1067,6 @@
 				{
 					"begin": "(?=[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@` \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE FFFF}]]|[?:-](?![\r\n\t ]))",
 					"while": "\\G",
-					"name": "token.debug-token",
 					"patterns": [
 						{
 							"begin": "\\G",
@@ -812,6 +1081,82 @@
 						{
 							"begin": "(?!\\G)",
 							"while": "\\G",
+							"patterns": [ { "include": "source.yaml.1.2#presentation-detail" } ]
+						}
+					]
+				},
+				{
+					"//": "Soooooooo many edge cases",
+					"begin": "(?>(\\|)|(>))([+-]?+)",
+					"while": "\\G",
+					"beginCaptures": {
+						"1": { "name": "keyword.control.flow.block-scalar.literal.yaml" },
+						"2": { "name": "keyword.control.flow.block-scalar.folded.yaml" },
+						"3": { "name": "storage.modifier.chomping-indicator.yaml" }
+					},
+					"name": "meta.scalar.yaml",
+					"patterns": [
+						{
+							"comment": "https://yaml.org/spec/1.2.2/#rule-l-literal-content",
+							"begin": "$",
+							"while": "\\G",
+							"patterns": [
+								{
+									"comment": "https://yaml.org/spec/1.2.2/#rule-l-nb-literal-text",
+									"//": "Find the highest indented line",
+									"begin": "\\G( ++)$",
+									"while": "\\G(?>(\\1)$|(?!\\1)( *+)($|.))",
+									"captures": {
+										"1": { "name": "punctuation.whitespace.indentation.yaml" },
+										"2": { "name": "punctuation.whitespace.indentation.yaml" },
+										"3": { "name": "invalid.illegal.expected-indentation.yaml" }
+									},
+									"contentName": "string.unquoted.block.yaml meta.embedded.yaml.textmate.regexp",
+									"patterns": [
+										{ "include": "source.yaml.textmate.regexp" },
+										{ "include": "source.yaml#non-printable" }
+									]
+								},
+								{
+									"comment": "https://yaml.org/spec/1.2.2/#rule-b-nb-literal-next",
+									"//": [
+										"Funky wrapper function",
+										"The `end` pattern clears the parent `\\G` anchor",
+										"Affectively forcing this rule to only match at most once",
+										"https://github.com/microsoft/vscode-textmate/issues/114"
+									],
+									"begin": "\\G(?!$)(?=( *+))",
+									"end": "\\G(?!\\1)(?=[\t ]*+#)",
+									"patterns": [
+										{
+											"comment": "https://yaml.org/spec/1.2.2/#rule-l-nb-literal-text",
+											"begin": "\\G( *+)",
+											"while": "\\G(?>(\\1)|( *+)($|[^\t#]|[\t ]++[^#]))",
+											"captures": {
+												"1": { "name": "punctuation.whitespace.indentation.yaml" },
+												"2": { "name": "punctuation.whitespace.indentation.yaml" },
+												"3": { "name": "invalid.illegal.expected-indentation.yaml" }
+											},
+											"contentName": "string.unquoted.block.yaml meta.embedded.yaml.textmate.regexp",
+											"patterns": [
+												{ "include": "source.yaml.textmate.regexp" },
+												{ "include": "source.yaml#non-printable" }
+											]
+										}
+									]
+								},
+								{
+									"comment": "https://yaml.org/spec/1.2.2/#rule-l-chomped-empty",
+									"begin": "(?!\\G)(?=[\t ]*+#)",
+									"while": "\\G",
+									"patterns": [ { "include": "source.yaml.1.2#presentation-detail" } ]
+								}
+							]
+						},
+						{
+							"comment": "https://yaml.org/spec/1.2.2/#rule-c-b-block-header",
+							"begin": "\\G",
+							"end": "$",
 							"patterns": [ { "include": "source.yaml.1.2#presentation-detail" } ]
 						}
 					]

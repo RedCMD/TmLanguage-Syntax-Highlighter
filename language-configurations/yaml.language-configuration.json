@@ -29,6 +29,7 @@
 	],
 	// symbols that are colourized
 	"colorizedBracketPairs": [
+		["{{", "}}"],
 		["{", "}"],
 		["[", "]"]
 	],

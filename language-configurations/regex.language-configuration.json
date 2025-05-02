@@ -42,6 +42,7 @@
 	],
 	// symbols that can be coloured
 	"colorizedBracketPairs": [
+		["{{", "}}"],
 		["(", ")"],
 		["[", "]"]
 	],
