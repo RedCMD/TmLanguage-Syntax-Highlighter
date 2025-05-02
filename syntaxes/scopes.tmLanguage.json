@@ -1,9 +1,11 @@
 {
 	"version": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/syntaxes/scopes.tmLanguage.json",
 	"$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
-	"name": "VSCode TextMate scope-name highlighter",
+	"name": "VSCode JSON TextMate scope-name highlighter",
 	"scopeName": "source.textmate.scopes",
-	"patterns": [ { "include": "#scope-name" } ],
+	"patterns": [
+		{ "include": "#scope-name" }
+	],
 	"repository": {
 		"scope-name": {
 			"begin": "^(?=(.+))",
@@ -11,33 +13,7 @@
 			"name": "$1",
 			"patterns": [
 				{ "include": "source.json.textmate#escape-characters" },
-				{
-					"match": "\\b(?>comment|string|regex|meta\\.embedded)\\b",
-					"name": "markup.italic"
-				},
-				{
-					"comment": "Unresolvable capture group references do not convert, but instead just become plain text",
-					"match": "(\\$)(0*)(\\d{3,1})(?!\\d)",
-					"captures": {
-						"0": { "name": "replace.capture.tm" },
-						"1": { "name": "constant.character.escape.tm markup.italic.tm" },
-						"2": { "name": "punctuation.definition.tag.tm" },
-						"3": { "name": "constant.numeric.tm" }
-					}
-				},
-				{
-					"match": "(\\$)({)(0*)(\\d{3,1})(:/)(upcase|downcase)(})",
-					"captures": {
-						"0": { "name": "replace.capture.$6.tm" },
-						"1": { "name": "constant.character.escape.tm markup.italic.tm" },
-						"2": { "name": "constant.character.escape.tm" },
-						"3": { "name": "punctuation.definition.tag.tm" },
-						"4": { "name": "constant.numeric.tm" },
-						"5": { "name": "constant.character.escape.tm" },
-						"6": { "name": "markup.heading.tm" },
-						"7": { "name": "constant.character.escape.tm" }
-					}
-				}
+				{ "include": "source.json.textmate#name_scopes" }
 			]
 		}
 	}

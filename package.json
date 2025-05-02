@@ -280,6 +280,15 @@
 					"other": "inline",
 					"comments": "off"
 				}
+			},
+			"[textmate-scopes]": {
+				"editor.snippetSuggestions": "top",
+				"editor.suggest.insertMode": "replace",
+				"editor.quickSuggestions": {
+					"strings": "inline",
+					"other": "inline",
+					"comments": "inline"
+				}
 			}
 		},
 		"configuration": [
