@@ -13,6 +13,7 @@ images/**
 .gitignore
 .js.map
 
+moveOnigmo.js
 tsconfig.json
 scope-colours.tmLanguage.json
 scope-names.tmLanguage.json

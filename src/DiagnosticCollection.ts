@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import * as vscodeOniguruma from 'vscode-oniguruma';
+import * as textmateOnigmo from "./Onigmo/Onigmo";
 import { Node, QueryCapture } from 'web-tree-sitter';
 import { getLastNode, getTrees, queryNode, toRange, trees } from "./TreeSitter";
 import { closeEnoughQuestionMark, DocumentSelector, getPackageJSON, stringify, wagnerFischer } from "./extension";
@@ -7,9 +8,22 @@ import { unicodeproperties } from "./UNICODE_PROPERTIES";
 import { ignoreDiagnosticsUnusedRepos } from "./Providers/CodeActionsProvider";
 
 
+type Pointer = number;
 type IOnigBinding = {
+	HEAP8: Int8Array;
+	HEAP16: Int16Array;
+	HEAP32: Int32Array;
 	HEAPU8: Uint8Array;
+	HEAPU16: Uint16Array;
 	HEAPU32: Uint32Array;
+	HEAPF32: Float32Array;
+	HEAPF64: Float64Array;
+
+	calledRun: boolean;
+	ready: {};
+
+	print: vscodeOniguruma.ICommonOptions['print'];
+	instantiateWasm: vscodeOniguruma.IInstantiatorOptions['instantiator'];
 
 	_omalloc(count: number): Pointer;
 	_ofree(ptr: Pointer): void;
@@ -20,12 +34,83 @@ type IOnigBinding = {
 	_freeOnigScanner(ptr: Pointer): void;
 	_findNextOnigScannerMatch(scanner: Pointer, strCacheId: number, strData: Pointer, strLength: number, position: number, options: number): number;
 	_findNextOnigScannerMatchDbg(scanner: Pointer, strCacheId: number, strData: Pointer, strLength: number, position: number, options: number): number;
+
+	___wasm_call_ctors(...args: any[]): unknown;
+	___errno_location(...args: any[]): unknown;
+	stackSave(...args: any[]): unknown;
+	stackRestore(...args: any[]): unknown;
+	stackAlloc(...args: any[]): unknown;
+	dynCall_jiji(...args: any[]): unknown;
 };
-type Pointer = number;
 type OnigScanner = vscodeOniguruma.OnigScanner & {
 	readonly _onigBinding: IOnigBinding;
 	readonly _ptr: Pointer;
 	readonly _options: vscodeOniguruma.FindOption[];
+};
+
+type IOnigmoBinding = {
+	HEAP8: Int8Array;
+	HEAP16: Int16Array;
+	HEAP32: Int32Array;
+	HEAPU8: Uint8Array;
+	HEAPU16: Uint16Array;
+	HEAPU32: Uint32Array;
+	HEAPF32: Float32Array;
+	HEAPF64: Float64Array;
+
+	calledRun: boolean;
+	ready: {};
+
+	print: textmateOnigmo.ICommonOptions['print'];
+	instantiateWasm: textmateOnigmo.IInstantiatorOptions['instantiator'];
+
+	_omalloc(count: number): Pointer;
+	_ofree(ptr: Pointer): void;
+	UTF8ToString(ptr: Pointer): string;
+
+	_getLastOnigError(): Pointer;
+	_createOnigScanner(strPtrsPtr: Pointer, strLenPtr: Pointer, count: number, options: number, syntax: Pointer): Pointer;
+	_freeOnigScanner(ptr: Pointer): void;
+	_findNextOnigScannerMatch(scanner: Pointer, strCacheId: number, strData: Pointer, strLength: number, position: number, options: number): number;
+	_findNextOnigScannerMatchDbg(scanner: Pointer, strCacheId: number, strData: Pointer, strLength: number, position: number, options: number): number;
+
+	BindingError(...args: any[]): unknown;
+	InternalError(...args: any[]): unknown;
+	count_emval_handles(...args: any[]): unknown;
+	__embind_initialize_bindings(...args: any[]): unknown;
+	dynCall_jiji(...args: any[]): unknown;
+
+	ONIG_OPTION_DEFAULT: 0;
+	ONIG_OPTION_NONE: 0;
+	ONIG_OPTION_IGNORECASE: 1;
+	ONIG_OPTION_EXTEND: 2;
+	ONIG_OPTION_MULTILINE: 4;
+	ONIG_OPTION_SINGLELINE: 8;
+	ONIG_OPTION_FIND_LONGEST: 16;
+	ONIG_OPTION_FIND_NOT_EMPTY: 32;
+	ONIG_OPTION_NEGATE_SINGLELINE: 64;
+	ONIG_OPTION_DONT_CAPTURE_GROUP: 128;
+	ONIG_OPTION_CAPTURE_GROUP: 256;
+	ONIG_OPTION_NOTBOL: 512;
+	ONIG_OPTION_NOTEOL: 1024;
+	ONIG_OPTION_POSIX_REGION: 2048;
+	ONIG_OPTION_MAXBIT: 131072;
+	ONIG_SYNTAX_DEFAULT: 325520;
+	ONIG_SYNTAX_ASIS: 326008;
+	ONIG_SYNTAX_POSIX_BASIC: 326048;
+	ONIG_SYNTAX_POSIX_EXTENDED: 326088;
+	ONIG_SYNTAX_EMACS: 326128;
+	ONIG_SYNTAX_GREP: 326168;
+	ONIG_SYNTAX_GNU_REGEX: 326208;
+	ONIG_SYNTAX_JAVA: 326248;
+	ONIG_SYNTAX_PERL: 326288;
+	ONIG_SYNTAX_RUBY: 325520;
+	ONIG_SYNTAX_PYTHON: 326328;
+};
+type OnigmoScanner = textmateOnigmo.OnigScanner & {
+	readonly _onigBinding: IOnigmoBinding;
+	readonly _ptr: Pointer;
+	readonly _options: textmateOnigmo.FindOption[];
 };
 
 const activeDocuments: {
@@ -312,70 +397,135 @@ async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[],
 			continue;
 		}
 
-		let regex = text.replace(/\\[\\\/bfnrt"]|\\u[0-9a-fA-F]{4}/g, jsonEscapeReplacer);
-		if (key.text == 'end' || key.text == 'while') {
-			/* `\\3` could be valid; could be invalid. Who knows?
-			 * Need to check the `begin` regex first for the number of capture groups
-			 * VSCode TextMate escapes all special regex characters
-			 * and replaces the backreferences directly
-			 */
-			if (/\\[0-9]/.test(regex)) {
-				const beginNode = getLastNode(regexNode.parent!.parent!, 'begin')?.childForFieldName('regex');
+		let groupCaptures!: QueryCapture[];
+
+		const regex: string = JSON.parse(`"${text}"`);
+		const hasBackreferences = (key.text == 'end' || key.text == 'while') && /\\[0-9]/.test(regex);
+		const beginNode = hasBackreferences ? getLastNode(regexNode.parent!.parent!, 'begin')?.childForFieldName('regex') : null;
+		if (beginNode) {
+			const beginRegex = trees.regexTrees.get(beginNode.id)?.rootNode;
+			if (!beginRegex) {
+				continue;
+			}
+			const captureGroupQuery = `;scm
+					(regex) @regex
+					(capture_group) @group
+					(capture_group_extended) @group
+					(capture_group_name) @name
+					(capture_group_name_extended) @name
+				`;
+			groupCaptures = queryNode(beginRegex, captureGroupQuery);
+		}
+
+		let errorCodeOniguruma: string;
+		try {
+			let replacedRegex = regex;
+			if (hasBackreferences) {
+				// VSCode TextMate replaces the backreferences directly
 				if (beginNode) {
-					const beginRegex = trees.regexTrees.get(beginNode.id)?.rootNode;
-					if (!beginRegex) {
-						continue;
-					}
-					const captureGroupQuery = `;scm
-							(capture_group) @group
-							(capture_group_extended) @group
-							(capture_group_name) @name
-							(capture_group_name_extended) @name
-						`;
-					let index = 1;
-					const groupCaptures = queryNode(beginRegex, captureGroupQuery);
+					let index = 0;
 					for (const groupCapture of groupCaptures) {
 						const groupText = groupCapture.node.text.slice( // substring() doesn't work with -1
-							groupCapture.name == 'name' ? groupCapture.node.firstNamedChild!.text.length + 4 : 1, // remove `(?<name>`
-							-1, // remove `)`
-						).replace(/[\-\\\{\}\*\+\?\|\^\$\.\,\[\]\(\)\#\s]/g, '\\$&'); // TextMate 2.0 only escapes these characters \|([{}]).?*+^$
-						// https://github.com/textmate/textmate/blob/master/Frameworks/parse/src/parse.cc#L120
+							groupCapture.name == 'name' ? groupCapture.node.firstNamedChild!.text.length + 4 : // remove `(?<name>`
+								groupCapture.name == 'group' ? 1 : // remove `(`
+									0,
+							groupCapture.name == 'regex' ? undefined : -1, // remove `)`
+						).replace(/[\-\\\{\}\*\+\?\|\^\$\.\,\[\]\(\)\#\s]/g, '\\$&');
 						// https://github.com/microsoft/vscode-textmate/blob/main/src/utils.ts#L160
 						// https://github.com/microsoft/vscode-textmate/issues/239
-						regex = regex.replace(
-							new RegExp(`\\\\0*${index}(?![0-9])`, 'g'), // TextMate 2.0 only targets single digit backreferences `\\[0-9]` vs `\\[0-9]+`
+
+						replacedRegex = replacedRegex.replace(
+							// VSCode TextMate targets all backreferences /\\[0-9]+/
+							// and doesn't correctly account for escaped backslashes
+							new RegExp(`\\\\0*${index}(?![0-9])`, 'g'),
 							groupText,
 						);
 						index++;
 					}
 				}
-				regex = regex.replace(new RegExp(`\\\\[0-9]+`, 'g'), ''); // All non-existent backreferences are removed
+				replacedRegex = replacedRegex.replace(/\\[0-9]+/g, ''); // All non-existent backreferences are removed
 			}
+
+			const scanner = new vscodeOniguruma.OnigScanner([replacedRegex]) as OnigScanner;
+			const onigBinding = scanner._onigBinding;
+			errorCodeOniguruma = onigBinding.UTF8ToString(onigBinding._getLastOnigError());
+
+			scanner.dispose();
+		} catch (error: any) {
+			errorCodeOniguruma = error.toString();
 		}
 
-		// https://github.com/kkos/oniguruma
-		// https://github.com/microsoft/vscode-oniguruma
-		const scanner = new vscodeOniguruma.OnigScanner([regex]) as OnigScanner;
+		let errorCodeOnigmo: string;
+		try {
+			// TextMate 2.0
+			let replacedRegex = regex;
+			if (hasBackreferences) {
+				if (beginNode) {
+					let index = 0;
+					for (const groupCapture of groupCaptures) {
+						const groupText = groupCapture.node.text.slice( // substring() doesn't work with -1
+							groupCapture.name == 'name' ? groupCapture.node.firstNamedChild!.text.length + 4 : // remove `(?<name>`
+								groupCapture.name == 'group' ? 1 : // remove `(`
+									0,
+							groupCapture.name == 'regex' ? undefined : -1, // remove `)`
+						).replace(/[\\|([{}\]).?*+^$]/g, '\\$&');
+						// https://github.com/textmate/textmate/blob/master/Frameworks/parse/src/parse.cc#L120
 
-		const onigBinding = scanner._onigBinding;
-		const errorCode = onigBinding.UTF8ToString(onigBinding._getLastOnigError());
+						replacedRegex = replacedRegex.replace(
+							// TextMate 2.0 only targets single digit backreferences /\\[0-9]/
+							// https://github.com/textmate/textmate/blob/master/Frameworks/parse/src/parse.cc#L136-L148
+							new RegExp(`\\\\${index}|\\\\\\\\`, 'g'),
+							(match: string): string => match === '\\\\' ? '\\\\' : groupText,
+						);
+						index++;
+					}
+				}
+			}
+
+			// throws error if regex invalid
+			const scanner = new textmateOnigmo.OnigScanner([replacedRegex]) as OnigmoScanner;
+			const onigBinding = scanner._onigBinding;
+			errorCodeOnigmo = onigBinding.UTF8ToString(onigBinding._getLastOnigError());
+
+			scanner.dispose();
+		} catch (error: any) {
+			errorCodeOnigmo = error.toString();
+		}
+
 
 		// const string = vscodeOniguruma.createOnigString(''); // blank. Maybe can test against a user provided string?
 		// const match = scanner.findNextMatchSync(string, 0); // returns null if `regex` is invalid
 		// vscode.window.showInformationMessage(`Oniguruma ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(match, stringify)}`);
 
-		if (errorCode != 'undefined error code') {
-			const range = toRange(key);
-			const diagnostic: vscode.Diagnostic = {
+		const range = toRange(key);
+
+		if (errorCodeOnigmo.replace(/^Error: /, '') === errorCodeOniguruma) {
+			diagnostics.push({
 				range: range,
-				message: errorCode,
+				message: errorCodeOniguruma,
 				severity: vscode.DiagnosticSeverity.Error,
 				source: 'Oniguruma',
-			};
-			diagnostics.push(diagnostic);
+			});
+			continue;
 		}
 
-		scanner.dispose();
+		if (errorCodeOniguruma != 'undefined error code') {
+			diagnostics.push({
+				range: range,
+				message: `Regex incompatible with VSCode TextMate (Oniguruma v6.9.8)\n${errorCodeOniguruma}`,
+				severity: vscode.DiagnosticSeverity.Error,
+				source: 'Oniguruma',
+			});
+		}
+
+		if (errorCodeOnigmo) {
+			diagnostics.push({
+				range: range,
+				message: `Regex incompatible with TextMate 2.0 (Onigmo v5.13.5)\n${errorCodeOnigmo}`,
+				severity: vscode.DiagnosticSeverity.Warning,
+				source: 'Onigmo',
+			});
+		}
 	}
 	// vscode.window.showInformationMessage(`Oniguruma ${(performance.now() - start).toFixed(3)}ms`);
 }
@@ -730,24 +880,4 @@ async function diagnosticsMismatchingRootScopeName(diagnostics: vscode.Diagnosti
 		}
 	}
 	// vscode.window.showInformationMessage(`scopeName ${(performance.now() - start).toFixed(3)}ms`);
-}
-
-function jsonEscapeReplacer(substring: string): string {
-	const char = substring.charAt(1);
-	switch (char) {
-		case '\\': return '\\';
-		case '/': return '/';
-		case 'b': return '\b';
-		case 'f': return '\f';
-		case 'n': return '\n';
-		case 'r': return '\r';
-		case 't': return '\t';
-		case '"': return '"';
-		case 'u': // unicode \u0000
-			const hexStr = substring.substring(2, 6);
-			const hexCode = parseInt(hexStr, 16);
-			const char = String.fromCodePoint(hexCode);
-			return char;
-	}
-	return substring;
 }

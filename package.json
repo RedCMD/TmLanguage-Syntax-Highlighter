@@ -39,7 +39,7 @@
 	"main": "./out/extension.js",
 	"browser": "./out/web/extension.js",
 	"scripts": {
-		"build": "npm run compile && npm run compile-web && npm run generate-wasm",
+		"build": "npm run compile && npm run compile-web && npm run generate-wasm && node ./out/Onigmo/moveOnigmo",
 		"package": "vsce package",
 		"watch": "tsc -watch -p ./",
 		"watch-web": "webpack --watch",

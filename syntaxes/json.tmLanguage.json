@@ -27,6 +27,20 @@
 				{ "include": "source.json.textmate.regexp#capture-group-negative-lookbehind-invalid-extended" },
 				{ "include": "source.json.textmate.regexp#absent-invalid-extended" }
 			]
+		},
+		"L:source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp": {
+			"patterns": [
+				{
+					"comment": "VSCode TextMate replaces all escaped numbers, not just regex backreferences",
+					"match": "(\\\\{2})(\\\\{2})(0*[0-9]{1,2})([0-9]*)",
+					"captures": {
+						"1": { "name": "constant.character.escape.tm" },
+						"2": { "name": "string.regexp.tm" },
+						"3": { "name": "constant.numeric.tm" },
+						"4": { "name": "invalid.illegal.tm" }
+					}
+				}
+			]
 		}
 	},
 	"patterns": [
@@ -407,7 +421,7 @@
 					"name": "comment.injection.whitespace.tm"
 				},
 				{
-					"match": "(?<=(?>^|[^\\\\])\"|,)((?>\\\\[\\\\\"/bfnrt]|[^\\\\\"\\w.:|()-])*)([LR]:|[\\w.:]:(?![\\w.:-]))",
+					"match": "(?<=^\"|[^\\\\]\"|,)((?>\\\\[\\\\\"/bfnrt]|[^\\\\\"\\w.:|()-])*)([LR]:|[\\w.:]:(?![\\w.:-]))",
 					"captures": {
 						"1": { "name": "comment.injection.whitespace.tm" },
 						"2": { "name": "support.function.tm" }
@@ -777,7 +791,7 @@
 				},
 				{
 					"comment": "An invalid capture group number does not convert, nor becomes null",
-					"match": "(\\$)(0*)([0-9]{3,1})(?![0-9])",
+					"match": "(\\$)(0*)([0-9]{1,3})(?![0-9])",
 					"captures": {
 						"1": { "name": "meta.embedded constant.character.escape.json.tm markup.italic" },
 						"2": { "name": "punctuation.definition.tag.json.tm" },
@@ -785,7 +799,7 @@
 					}
 				},
 				{
-					"match": "(\\$)({)(0*)([0-9]{3,1})(:/)(upcase|downcase)(})",
+					"match": "(\\$)({)(0*)([0-9]{1,3})(:/)(upcase|downcase)(})",
 					"captures": {
 						"1": { "name": "meta.embedded constant.character.escape.json.tm markup.italic.tm" },
 						"2": { "name": "meta.embedded constant.character.escape.json.tm" },
@@ -807,6 +821,7 @@
 				"2": { "name": "keyword.property-name.string.$2.json.tm" },
 				"3": { "name": "punctuation.definition.string.end.json.tm" }
 			},
+			"name": "meta.$2.regexp",
 			"patterns": [
 				{
 					"begin": ":",
@@ -1235,7 +1250,7 @@
 					"name": "constant.character.escape.json.tm"
 				},
 				{
-					"match": "(\\\\u)(\\h{4,0})",
+					"match": "(\\\\u)(\\h{0,4})",
 					"captures": {
 						"1": { "name": "constant.character.escape.json.tm" },
 						"2": { "name": "constant.numeric.json.tm" },
