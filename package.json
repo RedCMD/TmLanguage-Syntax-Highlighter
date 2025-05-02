@@ -211,7 +211,8 @@
 					"other": "on"
 				},
 				"editor.inlineSuggest.syntaxHighlightingEnabled": true,
-				"editor.defaultFormatter": "RedCMD.tmlanguage-syntax-highlighter"
+				"editor.defaultFormatter": "RedCMD.tmlanguage-syntax-highlighter",
+				"editor.comments.insertSpace": false
 			},
 			"[json-textmate-regex]": {
 				"editor.snippetSuggestions": "top",
