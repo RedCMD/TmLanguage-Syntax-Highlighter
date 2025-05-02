@@ -8,6 +8,7 @@ import { initDiagnostics } from "./DiagnosticCollection";
 import { initCallStackView } from "./Providers/TreeDataProvider";
 import { initTokenColorCustomizations } from "./tokenColorCustomizations";
 import { initThemeScopes } from "./themeScopeColors";
+import { initFileConverter } from './fileConverter';
 
 import { HoverProvider } from "./Providers/HoverProvider";
 import { RenameProvider } from "./Providers/RenameProvider";
@@ -45,6 +46,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	initCallStackView(context);
 	initTokenColorCustomizations(context);
 	initThemeScopes(context);
+	initFileConverter(context);
 
 	context.subscriptions.push(
 		vscode.languages.registerHoverProvider(DocumentSelector, HoverProvider), // Mouse over Hovers

@@ -540,17 +540,45 @@
 				"title": "Developer: Inspect Editor Tokens and Scopes",
 				"category": "TextMate",
 				"icon": "$(inspect)"
+			},
+			{
+				"command": "extension.convertFileToJSON",
+				"title": "Convert file to JSON",
+				"category": "TextMate",
+				"icon": "assets/TextMate-file-icon.svg"
+			},
+			{
+				"command": "extension.convertFileToYAML",
+				"title": "Convert file to YAML",
+				"category": "TextMate",
+				"icon": "assets/TextMate-file-icon.svg"
+			},
+			{
+				"command": "extension.convertFileToXML",
+				"title": "Convert file to XML",
+				"category": "TextMate",
+				"icon": "assets/TextMate-file-icon.svg"
+			},
+			{
+				"command": "extension.convertFileToPLIST",
+				"title": "Convert file to PLIST (ascii)",
+				"category": "TextMate",
+				"icon": "assets/TextMate-file-icon.svg"
 			}
 		]
 	},
 	"dependencies": {
+		"date-and-time": "^3.6.0",
 		"oniguruma-parser": "^0.7.0",
 		"oniguruma-to-es": "^4.1.0",
+		"plist": "^3.1.0",
 		"vscode-oniguruma": "1.7.0",
-		"web-tree-sitter": "^0.25.3"
+		"web-tree-sitter": "^0.25.3",
+		"yaml": "^2.7.1"
 	},
 	"devDependencies": {
 		"@types/emscripten": "^1.40.0",
+		"@types/plist": "^3.0.5",
 		"@types/vscode": "^1.87.0",
 		"@vscode/test-web": "^0.0.67",
 		"@vscode/vsce": "^3.2.2",

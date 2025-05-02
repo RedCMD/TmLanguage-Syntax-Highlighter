@@ -15,6 +15,7 @@ Syntax Highlighting and Intellisense for VSCodes's JSON based TextMate grammars
 * CodeLens
 * CallStack Viewer
 * Deadcode dims
+* File converter from/to JSON, YAML, XML and Ascii Plist
 * Supported in [VSCode Web](https://insiders.vscode.dev/)
 
 Example code:  
