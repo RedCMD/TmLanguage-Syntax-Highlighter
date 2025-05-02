@@ -117,6 +117,23 @@
 				}
 			},
 			{
+				"id": "ascii-textmate",
+				"aliases": [
+					"ASCII PLIST TextMate"
+				],
+				"extensions": [
+					".tmLanguage",
+					".tmLanguage.plist",
+					".textmate"
+				],
+				"firstLine": "^\\s*{\\s*\\w+\\s*=",
+				"configuration": "./language-configurations/plist.language-configuration.json",
+				"icon": {
+					"dark": "assets/TextMate-file-icon.svg",
+					"light": "assets/TextMate-file-icon.svg"
+				}
+			},
+			{
 				"id": "textmate-scopes",
 				"aliases": [
 					"TextMate Scopes"
@@ -170,6 +187,22 @@
 			{
 				"scopeName": "source.yaml.textmate.regexp",
 				"path": "./syntaxes/yaml-regex.tmLanguage.json"
+			},
+			{
+				"language": "ascii-textmate",
+				"scopeName": "source.plist.ascii.textmate",
+				"path": "./syntaxes/plist-ascii.tmLanguage.json",
+				"embeddedLanguages": {
+					"meta.embedded.json.textmate.regexp": "json-textmate-regex"
+				}
+			},
+			{
+				"scopeName": "source.regexp.oniguruma",
+				"path": "./syntaxes/plist-ascii-regex.tmLanguage.json"
+			},
+			{
+				"scopeName": "source.plist.ascii.textmate.scopes",
+				"path": "./syntaxes/plist-ascii-scopes.tmLanguage.json"
 			},
 			{
 				"language": "textmate-scopes",

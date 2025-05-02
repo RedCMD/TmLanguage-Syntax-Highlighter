@@ -1,0 +1,291 @@
+{
+	"scopeName": "source.plist.ascii.textmate.scopes",
+	"patterns": [
+		{ "include": "#scope_language" },
+		{ "include": "#scope_root" },
+		{ "include": "#scope_attr" },
+		{ "include": "#scope_dyn" }
+	],
+	"repository": {
+		"scope": {
+			"patterns": [
+				{ "include": "#scope_language" },
+				{ "include": "#scope_root" },
+				{ "include": "#scope_attr" },
+				{ "include": "#scope_dyn" }
+			]
+		},
+		"scope_attr": {
+			"patterns": [
+				{
+					"name": "constant.other.scope.tm-scope",
+					"comment": "Attr",
+					"match": "\\Gattr(\\.(?:file|os-version|project|rev-path|scm|untitled)(?:(?:(?<=\\.file)\\.unknown-(?:type|encoding)|(?<!\\.file))(?:\\.[^.\\s,()\\&|\\[\\]:\"'{}<>*?=^;#]+)*)?)?(.*)$",
+					"captures": {
+						"1": {
+							"patterns": [
+								{
+									"match": "\\.",
+									"name": "punctuation.separator.tm-scope"
+								}
+							]
+						},
+						"2": { "name": "invalid.illegal.nonconforming-scope.tm-scope" }
+					}
+				}
+			]
+		},
+		"scope_dyn": {
+			"patterns": [
+				{
+					"name": "constant.other.scope.tm-scope",
+					"comment": "Dyn",
+					"match": "\\Gdyn(\\.(?:modifier|caret|misspelled|selection)(?:(?:(?<=\\.modifier)\\.(?:command|control|option|shift)|(?<!\\.modifier))(?:\\.[^.\\s,()\\&|\\[\\]:\"'{}<>*?=^;#]+)*)?)?(.*)$",
+					"captures": {
+						"1": {
+							"patterns": [
+								{
+									"match": "\\.",
+									"name": "punctuation.separator.tm-scope"
+								}
+							]
+						},
+						"2": { "name": "invalid.illegal.nonconforming-scope.tm-scope" }
+					}
+				}
+			]
+		},
+		"scope_language": {
+			"patterns": [
+				{
+					"name": "constant.other.scope.tm-scope",
+					"comment": "Comment",
+					"match": "\\Gcomment(\\.(?:line|block)(?:\\.[^.\\s,()\\&|\\[\\]:\"'{}<>*?=^;#]+)*)?(.*)$",
+					"captures": {
+						"1": {
+							"patterns": [
+								{
+									"match": "\\.",
+									"name": "punctuation.separator.tm-scope"
+								}
+							]
+						},
+						"2": { "name": "invalid.illegal.nonconforming-scope.tm-scope" }
+					}
+				},
+				{
+					"name": "constant.other.scope.tm-scope",
+					"comment": "Constant",
+					"match": "\\Gconstant(\\.(?:numeric|character|escape|language|other)(?:\\.[^.\\s,()\\&|\\[\\]:\"'{}<>*?=^;#]+)*)?(.*)$",
+					"captures": {
+						"1": {
+							"patterns": [
+								{
+									"match": "\\.",
+									"name": "punctuation.separator.tm-scope"
+								}
+							]
+						},
+						"2": { "name": "invalid.illegal.nonconforming-scope.tm-scope" }
+					}
+				},
+				{
+					"name": "constant.other.scope.tm-scope",
+					"comment": "Entity",
+					"match": "\\Gentity(\\.(?:name|other)(?:(?:(?<=\\.name)\\.(?:function|type|tag|section)|(?<=\\.other)\\.(?:inherited-class|attribute-name))(?:\\.[^.\\s,()\\&|\\[\\]:\"'{}<>*?=^;#]+)*)?)?(.*)$",
+					"captures": {
+						"1": {
+							"patterns": [
+								{
+									"match": "\\.",
+									"name": "punctuation.separator.tm-scope"
+								}
+							]
+						},
+						"2": { "name": "invalid.illegal.nonconforming-scope.tm-scope" }
+					}
+				},
+				{
+					"name": "constant.other.scope.tm-scope",
+					"comment": "Invalid",
+					"match": "\\Ginvalid(\\.(?:illegal|deprecated)(?:\\.[^.\\s,()\\&|\\[\\]:\"'{}<>*?=^;#]+)*)?(.*)$",
+					"captures": {
+						"1": {
+							"patterns": [
+								{
+									"match": "\\.",
+									"name": "punctuation.separator.tm-scope"
+								}
+							]
+						},
+						"2": { "name": "invalid.illegal.nonconforming-scope.tm-scope" }
+					}
+				},
+				{
+					"name": "constant.other.scope.tm-scope",
+					"comment": "Keyword",
+					"match": "\\Gkeyword(\\.(?:control|operator|other)(?:\\.[^.\\s,()\\&|\\[\\]:\"'{}<>*?=^;#]+)*)?(.*)$",
+					"captures": {
+						"1": {
+							"patterns": [
+								{
+									"match": "\\.",
+									"name": "punctuation.separator.tm-scope"
+								}
+							]
+						},
+						"2": { "name": "invalid.illegal.nonconforming-scope.tm-scope" }
+					}
+				},
+				{
+					"name": "constant.other.scope.tm-scope",
+					"comment": "Markup",
+					"match": "\\Gmarkup(\\.(?:underline|bold|heading|italic|list|quote|raw|other)(?:\\.[^.\\s,()\\&|\\[\\]:\"'{}<>*?=^;#]+)*)?(.*)$",
+					"captures": {
+						"1": {
+							"patterns": [
+								{
+									"match": "\\.",
+									"name": "punctuation.separator.tm-scope"
+								}
+							]
+						},
+						"2": { "name": "invalid.illegal.nonconforming-scope.tm-scope" }
+					}
+				},
+				{
+					"name": "constant.other.scope.tm-scope",
+					"comment": "Meta",
+					"match": "\\Gmeta((?:\\.[^.\\s,()\\&|\\[\\]:\"'{}<>*?=^;#]+)*)?(.*)$",
+					"captures": {
+						"1": {
+							"patterns": [
+								{
+									"match": "\\.",
+									"name": "punctuation.separator.tm-scope"
+								}
+							]
+						},
+						"2": { "name": "invalid.illegal.nonconforming-scope.tm-scope" }
+					}
+				},
+				{
+					"name": "constant.other.scope.tm-scope",
+					"comment": "Punctuation",
+					"match": "\\Gpunctuation(\\.(?:definition|section|separator|terminator|whitespace)(?:\\.[^.\\s,()\\&|\\[\\]:\"'{}<>*?=^;#]+)*)?(.*)$",
+					"captures": {
+						"1": {
+							"patterns": [
+								{
+									"match": "\\.",
+									"name": "punctuation.separator.tm-scope"
+								}
+							]
+						},
+						"2": { "name": "invalid.illegal.nonconforming-scope.tm-scope" }
+					}
+				},
+				{
+					"name": "constant.other.scope.tm-scope",
+					"comment": "Storage",
+					"match": "\\Gstorage(\\.(?:type|modifier)(?:\\.[^.\\s,()\\&|\\[\\]:\"'{}<>*?=^;#]+)*)?(.*)$",
+					"captures": {
+						"1": {
+							"patterns": [
+								{
+									"match": "\\.",
+									"name": "punctuation.separator.tm-scope"
+								}
+							]
+						},
+						"2": { "name": "invalid.illegal.nonconforming-scope.tm-scope" }
+					}
+				},
+				{
+					"name": "constant.other.scope.tm-scope",
+					"comment": "String",
+					"match": "\\Gstring(\\.(?:quoted|unquoted|interpolated|regexp|other)(?:(?:(?<=\\.quoted)\\.(?:single|double|triple|other)|(?<!\\.quoted))(?:\\.[^.\\s,()\\&|\\[\\]:\"'{}<>*?=^;#]+)*)?)?(.*)$",
+					"captures": {
+						"1": {
+							"patterns": [
+								{
+									"match": "\\.",
+									"name": "punctuation.separator.tm-scope"
+								}
+							]
+						},
+						"2": { "name": "invalid.illegal.nonconforming-scope.tm-scope" }
+					}
+				},
+				{
+					"name": "constant.other.scope.tm-scope",
+					"comment": "Support",
+					"match": "\\Gsupport(\\.(?:function|class|type|constant|variable|other)(?:\\.[^.\\s,()\\&|\\[\\]:\"'{}<>*?=^;#]+)*)?(.*)$",
+					"captures": {
+						"1": {
+							"patterns": [
+								{
+									"match": "\\.",
+									"name": "punctuation.separator.tm-scope"
+								}
+							]
+						},
+						"2": { "name": "invalid.illegal.nonconforming-scope.tm-scope" }
+					}
+				},
+				{
+					"name": "constant.other.scope.tm-scope",
+					"comment": "Variable",
+					"match": "\\Gvariable(\\.(?:parameter|language|other)(?:\\.[^.\\s,()\\&|\\[\\]:\"'{}<>*?=^;#]+)*)?(.*)$",
+					"captures": {
+						"1": {
+							"patterns": [
+								{
+									"match": "\\.",
+									"name": "punctuation.separator.tm-scope"
+								}
+							]
+						},
+						"2": { "name": "invalid.illegal.nonconforming-scope.tm-scope" }
+					}
+				}
+			]
+		},
+		"scope_root": {
+			"patterns": [
+				{
+					"name": "constant.other.scope.tm-scope",
+					"comment": "Source",
+					"match": "\\Gsource((?:\\.[^.\\s,()\\&|\\[\\]:\"'{}<>*?=^;#]+)*)?(.*)$",
+					"captures": {
+						"1": {
+							"patterns": [
+								{
+									"match": "\\.",
+									"name": "punctuation.separator.tm-scope"
+								}
+							]
+						},
+						"2": { "name": "invalid.illegal.nonconforming-scope.tm-scope" }
+					}
+				},
+				{
+					"name": "constant.other.scope.tm-scope",
+					"comment": "Text",
+					"match": "\\Gtext((?:\\.[^.\\s,()\\&|\\[\\]:\"'{}<>*?=^;#]+)*)?(.*)$",
+					"captures": {
+						"1": {
+							"patterns": [
+								{
+									"match": "\\.",
+									"name": "punctuation.separator.tm-scope"
+								}
+							]
+						},
+						"2": { "name": "invalid.illegal.nonconforming-scope.tm-scope" }
+					}
+				}
+			]
+		}
+	}
+}

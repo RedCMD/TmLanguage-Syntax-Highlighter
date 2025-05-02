@@ -1,0 +1,683 @@
+{
+	"version": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/syntaxes/json.tmLanguage.json",
+	"$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
+	"name": "JSON TextMate",
+	"scopeName": "source.plist.ascii.textmate",
+	"patterns": [
+		{
+			"begin": "(\\{)",
+			"end": "(\\})",
+			"beginCaptures": { "1": { "name": "punctuation.section.dictionary.begin.plist" } },
+			"endCaptures": { "1": { "name": "punctuation.section.dictionary.end.plist" } },
+			"patterns": [
+				{ "include": "#comment" },
+				{
+					"name": "meta.value-pair.scopename.plist",
+					"comment": "scopeName",
+					"begin": "\\b(scopeName)\\s*(=)",
+					"end": "(;)",
+					"beginCaptures": {
+						"1": { "name": "keyword.plist" },
+						"2": { "name": "punctuation.section.dictionary.plist" }
+					},
+					"endCaptures": { "1": { "name": "punctuation.section.dictionary.plist" } },
+					"patterns": [
+						{ "include": "#comment" },
+						{ "include": "#scope-root" },
+						{ "include": "#catch-all" }
+					]
+				},
+				{
+					"comment": "fileTypes",
+					"begin": "\\b(fileTypes)\\s*(=)",
+					"end": "(;)",
+					"beginCaptures": {
+						"1": { "name": "keyword.plist" },
+						"2": { "name": "punctuation.separator.key-value.plist" }
+					},
+					"endCaptures": { "1": { "name": "punctuation.terminator.dictionary.plist" } },
+					"patterns": [
+						{
+							"begin": "(\\()",
+							"end": "(\\))",
+							"beginCaptures": { "1": { "name": "punctuation.section.array.begin.plist" } },
+							"endCaptures": { "1": { "name": "punctuation.section.array.end.plist" } },
+							"patterns": [
+								{ "include": "#comment" },
+								{
+									"begin": "(?=[^\\s,])",
+									"end": "(,)|(?=\\))",
+									"endCaptures": { "1": { "name": "punctuation.separator.array.plist" } },
+									"patterns": [
+										{ "include": "#comment" },
+										{ "match": "\\s+(?=//|/\\*)" },
+										{
+											"begin": "[[^\\n]&&\\s](?!\\s*(,|\\)|$)).*",
+											"end": "^$not possible$^",
+											"name": "invalid.illegal.missing-comma.plist"
+										},
+										{ "include": "#string" }
+									]
+								},
+								{ "include": "#catch-all" }
+							]
+						}
+					]
+				},
+				{
+					"comment": "firstLineMatch, foldingStartMarker, foldingStopMarker",
+					"begin": "\\b(firstLineMatch|folding(Start|Stop)Marker)\\s*(=)",
+					"end": "(;)",
+					"beginCaptures": {
+						"1": { "name": "keyword.plist" },
+						"3": { "name": "punctuation.separator.key-value.plist" }
+					},
+					"endCaptures": { "1": { "name": "punctuation.terminator.dictionary.plist" } },
+					"patterns": [
+						{ "include": "#comment" },
+						{ "include": "#regexp" },
+						{ "include": "#catch-all" }
+					]
+				},
+				{ "include": "#patterns" },
+				{ "include": "#repository" },
+				{ "include": "#injections" },
+				{ "include": "#comment-keyword" },
+				{ "include": "#invalid-keyword" },
+				{ "include": "#string" },
+				{
+					"begin": "(=)",
+					"end": "(;)",
+					"beginCaptures": { "1": { "name": "punctuation.separator.key-value.plist" } },
+					"endCaptures": { "1": { "name": "punctuation.terminator.dictionary.plist" } },
+					"patterns": [ { "include": "#any" } ]
+				},
+				{
+					"match": ";",
+					"name": "punctuation.terminator.dictionary.plist"
+				},
+				{ "include": "#catch-all" }
+			]
+		}
+	],
+	"repository": {
+		"comment": {
+			"patterns": [
+				{
+					"begin": "/\\*",
+					"end": "\\*/",
+					"name": "comment.block.plist"
+				},
+				{
+					"match": "//.*$\\n?",
+					"name": "comment.line.double-slash.plist"
+				}
+			]
+		},
+		"injections": {
+			"name": "meta.dictionary.injections.plist",
+			"comment": "injections",
+			"begin": "\\b(injections)\\s*(=)",
+			"end": "(;)",
+			"beginCaptures": {
+				"1": { "name": "keyword.injections.plist" },
+				"2": { "name": "punctuation.separator.key-value.plist" }
+			},
+			"endCaptures": { "1": { "name": "punctuation.terminator.dictionary.plist" } },
+			"patterns": [
+				{
+					"begin": "(\\{)",
+					"end": "(\\})",
+					"beginCaptures": { "1": { "name": "punctuation.section.dictionary.begin.plist" } },
+					"endCaptures": { "1": { "name": "punctuation.section.dictionary.end.plist" } },
+					"patterns": [
+						{ "include": "#comment" },
+						{
+							"begin": "([\"']?)([^=]*)\\1\\s*(=)",
+							"end": "(;)",
+							"beginCaptures": {
+								"2": { "patterns": [ { "include": "#scope" } ] },
+								"3": { "name": "punctuation.separator.key-value.plist" }
+							},
+							"endCaptures": { "1": { "name": "punctuation.terminator.dictionary.plist" } },
+							"name": "meta.value-pair.repository-item.plist",
+							"patterns": [
+								{ "include": "#comment" },
+								{ "include": "#rule" },
+								{ "include": "#catch-all" }
+							]
+						},
+						{ "include": "#catch-all" }
+					]
+				}
+			]
+		},
+		"patterns": {
+			"begin": "\\b(patterns)\\s*(=)",
+			"end": "(;)",
+			"beginCaptures": {
+				"1": { "name": "keyword.plist" },
+				"2": { "name": "punctuation.separator.key-value.plist" }
+			},
+			"endCaptures": { "1": { "name": "punctuation.terminator.dictionary.plist" } },
+			"name": "meta.array.patterns.plist",
+			"patterns": [
+				{ "include": "#comment" },
+				{
+					"begin": "(\\()",
+					"end": "(\\))",
+					"beginCaptures": { "1": { "name": "punctuation.section.array.begin.plist" } },
+					"endCaptures": { "1": { "name": "punctuation.section.array.end.plist" } },
+					"patterns": [
+						{ "include": "#comment" },
+						{
+							"begin": "(?=[^\\s,])",
+							"end": "(,)|(?=\\))",
+							"endCaptures": { "1": { "name": "punctuation.separator.array.plist" } },
+							"patterns": [
+								{ "include": "#comment" },
+								{ "match": "\\s+(?=//|/\\*)" },
+								{
+									"begin": "[[^\\n]&&\\s](?!\\s*(,|\\)|$)).*",
+									"end": "^$not possible$^",
+									"name": "invalid.illegal.missing-comma.plist"
+								},
+								{ "include": "#rule" },
+								{ "include": "#catch-all" }
+							]
+						},
+						{ "include": "#catch-all" }
+					]
+				},
+				{ "include": "#catch-all" }
+			]
+		},
+		"repository": {
+			"name": "meta.dictionary.repository.plist",
+			"comment": "repository",
+			"begin": "\\b(repository)\\s*(=)",
+			"end": "(;)",
+			"beginCaptures": {
+				"1": { "name": "keyword.repository.plist" },
+				"2": { "name": "punctuation.separator.key-value.plist" }
+			},
+			"endCaptures": { "1": { "name": "punctuation.terminator.dictionary.plist" } },
+			"patterns": [
+				{
+					"begin": "(\\{)",
+					"end": "(\\})",
+					"beginCaptures": { "1": { "name": "punctuation.section.dictionary.begin.plist" } },
+					"endCaptures": { "1": { "name": "punctuation.section.dictionary.end.plist" } },
+					"patterns": [
+						{ "include": "#comment" },
+						{
+							"begin": "([\"']?)([-a-zA-Z0-9._]+)\\1\\s*(=)",
+							"end": "(;)",
+							"beginCaptures": {
+								"2": { "name": "entity.name.section.repository.plist" },
+								"3": { "name": "punctuation.separator.key-value.plist" }
+							},
+							"endCaptures": { "1": { "name": "punctuation.terminator.dictionary.plist" } },
+							"name": "meta.value-pair.repository-item.plist",
+							"patterns": [
+								{ "include": "#comment" },
+								{ "include": "#rule" },
+								{ "include": "#catch-all" }
+							]
+						},
+						{ "include": "#string" },
+						{
+							"begin": "(=)",
+							"end": "(;)",
+							"beginCaptures": { "1": { "name": "punctuation.separator.key-value.plist" } },
+							"endCaptures": { "1": { "name": "punctuation.terminator.dictionary.plist" } },
+							"patterns": [ { "include": "#any" } ]
+						},
+						{
+							"match": ";",
+							"name": "punctuation.terminator.dictionary.plist"
+						},
+						{ "include": "#catch-all" }
+					]
+				}
+			]
+		},
+		"any": {
+			"patterns": [
+				{ "include": "#comment" },
+				{ "include": "#string" },
+				{ "include": "#array" },
+				{ "include": "#dictionary" },
+				{ "include": "#catch-all" }
+			]
+		},
+		"array": {
+			"begin": "(\\()",
+			"end": "(\\))",
+			"beginCaptures": { "1": { "name": "punctuation.section.array.begin.plist" } },
+			"endCaptures": { "1": { "name": "punctuation.section.array.end.plist" } },
+			"patterns": [
+				{ "include": "#comment" },
+				{
+					"begin": "(?=[^\\s,])",
+					"end": "(,)|(?=\\))",
+					"endCaptures": { "1": { "name": "punctuation.separator.array.plist" } },
+					"patterns": [
+						{ "include": "#comment" },
+						{ "match": "\\s+(?=//|/\\*)" },
+						{
+							"begin": "[[^\\n]&&\\s](?!\\s*(,|\\)|$)).*",
+							"end": "^$not possible$^",
+							"name": "invalid.illegal.missing-comma.plist"
+						},
+						{ "include": "#any" }
+					]
+				},
+				{ "include": "#catch-all" }
+			]
+		},
+		"catch-all": {
+			"patterns": [
+				{ "match": "\\s+" },
+				{
+					"match": ".",
+					"name": "invalid.illegal.unrecognized-character.plist"
+				}
+			]
+		},
+		"comment-keyword": {
+			"begin": "\\b(comment)\\s*(=)",
+			"end": "(;)",
+			"beginCaptures": {
+				"1": { "name": "keyword.plist" },
+				"2": { "name": "punctuation.separator.key-value.plist" }
+			},
+			"endCaptures": { "1": { "name": "punctuation.terminator.dictionary.plist" } },
+			"patterns": [
+				{ "include": "#comment" },
+				{
+					"begin": "(')",
+					"end": "(')(?!')",
+					"beginCaptures": { "1": { "name": "punctuation.definition.string.begin.plist" } },
+					"endCaptures": { "1": { "name": "punctuation.definition.string.end.plist" } },
+					"name": "string.quoted.single.plist",
+					"contentName": "comment.block.string.plist",
+					"applyEndPatternLast": 1,
+					"patterns": [
+						{
+							"match": "''",
+							"name": "constant.character.escape.apostrophe.plist"
+						}
+					]
+				},
+				{
+					"begin": "(\")",
+					"end": "(\")",
+					"beginCaptures": { "1": { "name": "punctuation.definition.string.begin.plist" } },
+					"endCaptures": { "1": { "name": "punctuation.definition.string.end.plist" } },
+					"name": "string.quoted.double.plist",
+					"contentName": "comment.block.string.plist",
+					"patterns": [
+						{
+							"match": "\\\\[\\\\\"]",
+							"name": "constant.character.escape.plist"
+						}
+					]
+				},
+				{ "include": "#catch-all" }
+			]
+		},
+		"dictionary": {
+			"begin": "(\\{)",
+			"end": "(\\})",
+			"beginCaptures": { "1": { "name": "punctuation.section.dictionary.begin.plist" } },
+			"endCaptures": { "1": { "name": "punctuation.section.dictionary.end.plist" } },
+			"patterns": [
+				{ "include": "#comment" },
+				{ "include": "#string" },
+				{
+					"begin": "(=)",
+					"end": "(;)",
+					"beginCaptures": { "1": { "name": "punctuation.separator.key-value.plist" } },
+					"endCaptures": { "1": { "name": "punctuation.terminator.dictionary.plist" } },
+					"patterns": [ { "include": "#any" } ]
+				},
+				{
+					"match": ";",
+					"name": "punctuation.terminator.dictionary.plist"
+				},
+				{ "include": "#catch-all" }
+			]
+		},
+		"invalid-keyword": {
+			"patterns": [
+				{
+					"match": "\\b(fileTypes|foldingStartMarker|foldingStopMarker|patterns|match|begin|end|include|scopeName|captures|beginCaptures|endCaptures|firstLineMatch|comment|repository|disabled|contentName|applyEndPatternLast)\\b(?=\\s*=)",
+					"name": "invalid.illegal.constant.misplaced-keyword.plist"
+				},
+				{
+					"match": "\\b(swallow|mode)\\b(?=\\s*=)",
+					"name": "invalid.deprecated.constant.plist"
+				},
+				{
+					"match": "\\b(foregroundColor|backgroundColor|fontStyle|elementForegroundColor|elementBackgroundColor|elementFontStyle|highlightPairs|smartTypingPairs|increaseIndentPattern)\\b(?=\\s*=)",
+					"name": "invalid.illegal.constant.outdated.plist"
+				},
+				{
+					"match": "[-a-zA-Z_.]+(?=\\s*=)",
+					"name": "invalid.illegal.constant.unknown-keyword.plist"
+				}
+			]
+		},
+		"regexp": {
+			"patterns": [
+				{
+					"begin": "(')",
+					"end": "(')(?!')",
+					"beginCaptures": { "1": { "name": "punctuation.definition.string.begin.plist" } },
+					"endCaptures": { "1": { "name": "punctuation.definition.string.end.plist" } },
+					"name": "string.regexp.oniguruma.single.plist",
+					"contentName": "meta.embedded.json.textmate.regexp",
+					"patterns": [
+						{
+							"match": "''",
+							"name": "constant.character.escape.apostrophe.plist"
+						},
+						{ "include": "source.regexp.oniguruma" }
+					]
+				},
+				{
+					"begin": "(\")",
+					"end": "(\")",
+					"beginCaptures": { "1": { "name": "punctuation.definition.string.begin.plist" } },
+					"endCaptures": { "1": { "name": "punctuation.definition.string.end.plist" } },
+					"name": "string.regexp.oniguruma.double.plist",
+					"contentName": "meta.embedded.json.textmate.regexp",
+					"patterns": [ { "include": "source.json.textmate.regexp" } ]
+				}
+			]
+		},
+		"rule": {
+			"begin": "(\\{)",
+			"end": "(\\})",
+			"beginCaptures": { "1": { "name": "punctuation.section.dictionary.begin.plist" } },
+			"endCaptures": { "1": { "name": "punctuation.section.dictionary.end.plist" } },
+			"name": "meta.dictionary.rule.plist",
+			"patterns": [
+				{ "include": "#comment" },
+				{ "include": "#repository" },
+				{ "include": "#injections" },
+				{
+					"name": "meta.value-pair.plist",
+					"comment": "name, contentName",
+					"begin": "\\b((contentN|n)ame)\\s*(=)",
+					"end": "(;)",
+					"beginCaptures": {
+						"1": { "name": "keyword.plist" },
+						"3": { "name": "punctuation.separator.key-value.plist" }
+					},
+					"endCaptures": { "1": { "name": "punctuation.terminator.dictionary.plist" } },
+					"patterns": [
+						{ "include": "#comment" },
+						{ "include": "#scope" },
+						{ "include": "#catch-all" }
+					]
+				},
+				{
+					"comment": "begin, end, while, match",
+					"begin": "\\b(begin|end|while|match)\\s*(=)",
+					"end": "(;)",
+					"beginCaptures": {
+						"1": { "name": "keyword.plist" },
+						"2": { "name": "punctuation.separator.key-value.plist" }
+					},
+					"endCaptures": { "1": { "name": "punctuation.terminator.dictionary.plist" } },
+					"patterns": [
+						{ "include": "#comment" },
+						{ "include": "#regexp" },
+						{ "include": "#catch-all" }
+					]
+				},
+				{
+					"comment": "include",
+					"begin": "\\b(include)\\s*(=)",
+					"end": "(;)",
+					"beginCaptures": {
+						"1": { "name": "keyword.plist" },
+						"2": { "name": "punctuation.separator.key-value.plist" }
+					},
+					"endCaptures": { "1": { "name": "punctuation.terminator.dictionary.plist" } },
+					"patterns": [
+						{ "include": "#comment" },
+						{
+							"match": "(')(?:((#)[-a-zA-Z0-9._]+)|((\\$)(?:base|self)))?(')",
+							"captures": {
+								"1": { "name": "punctuation.definition.string.begin.plist" },
+								"2": { "name": "constant.other.reference.repository-item.plist" },
+								"3": { "name": "punctuation.definition.constant.plist" },
+								"4": { "name": "constant.other.reference.grammar.plist" },
+								"5": { "name": "punctuation.definition.constant.plist" },
+								"6": { "name": "punctuation.definition.string.end.plist" }
+							},
+							"name": "string.quoted.single.include.plist"
+						},
+						{
+							"match": "(')(?:((#)[-a-zA-Z0-9._]+)|((\\$)(?:base|self)))?(')",
+							"captures": {
+								"1": { "name": "punctuation.definition.string.begin.plist" },
+								"2": { "name": "constant.other.reference.repository-item.plist" },
+								"3": { "name": "punctuation.definition.constant.plist" },
+								"4": { "name": "constant.other.reference.grammar.plist" },
+								"5": { "name": "punctuation.definition.constant.plist" },
+								"6": { "name": "punctuation.definition.string.end.plist" }
+							},
+							"name": "string.quoted.double.include.plist"
+						},
+						{ "include": "#scope-root" },
+						{ "include": "#catch-all" }
+					]
+				},
+				{
+					"name": "meta.dictionary.captures.plist",
+					"comment": "captures",
+					"begin": "\\b((beginC|endC|whileC|c)aptures)\\s*(=)",
+					"end": "(;)",
+					"beginCaptures": {
+						"1": { "name": "keyword.plist" },
+						"3": { "name": "punctuation.separator.key-value.plist" }
+					},
+					"endCaptures": { "1": { "name": "punctuation.terminator.dictionary.plist" } },
+					"patterns": [
+						{
+							"begin": "(\\{)",
+							"end": "(\\})",
+							"beginCaptures": { "1": { "name": "punctuation.section.dictionary.begin.plist" } },
+							"endCaptures": { "1": { "name": "punctuation.section.dictionary.end.plist" } },
+							"patterns": [
+								{ "include": "#comment" },
+								{ "include": "#string" },
+								{
+									"begin": "(=)",
+									"end": "(;)",
+									"beginCaptures": { "1": { "name": "punctuation.separator.key-value.plist" } },
+									"endCaptures": { "1": { "name": "punctuation.terminator.dictionary.plist" } },
+									"patterns": [
+										{ "include": "#comment" },
+										{
+											"begin": "(\\{)",
+											"end": "(\\})",
+											"beginCaptures": { "1": { "name": "punctuation.section.dictionary.begin.plist" } },
+											"endCaptures": { "1": { "name": "punctuation.section.dictionary.end.plist" } },
+											"patterns": [
+												{ "include": "#comment" },
+												{ "include": "#comment-keyword" },
+												{
+													"name": "meta.value-pair.plist",
+													"comment": "name",
+													"begin": "\\b(name)\\s*(=)",
+													"end": "(;)",
+													"beginCaptures": {
+														"1": { "name": "keyword.plist" },
+														"2": { "name": "punctuation.separator.key-value.plist" }
+													},
+													"endCaptures": { "1": { "name": "punctuation.terminator.dictionary.plist" } },
+													"patterns": [
+														{ "include": "#comment" },
+														{ "include": "#scope" },
+														{ "include": "#catch-all" }
+													]
+												},
+												{ "include": "#patterns" }
+											]
+										},
+										{ "include": "#catch-all" }
+									]
+								},
+								{
+									"match": ";",
+									"name": "punctuation.terminator.dictionary.plist"
+								},
+								{ "include": "#catch-all" }
+							]
+						}
+					]
+				},
+				{
+					"comment": "disabled, applyEndPatternLast",
+					"match": "\\b(disabled|applyEndPatternLast)\\s*(=)\\s*(?:(0|1)|((\")(0|1)(\"))|((')(0|1)('))|(:true)|(:false))\\s*(;)",
+					"captures": {
+						"1": { "name": "keyword.plist" },
+						"2": { "name": "punctuation.separator.key-value.plist" },
+						"3": { "name": "constant.numeric.plist" },
+						"4": { "name": "string.quoted.double.plist" },
+						"5": { "name": "punctuation.definition.string.begin.plist" },
+						"6": { "name": "constant.numeric.plist" },
+						"7": { "name": "punctuation.definition.string.end.plist" },
+						"8": { "name": "string.quoted.single.plist" },
+						"9": { "name": "punctuation.definition.string.begin.plist" },
+						"10": { "name": "constant.numeric.plist" },
+						"11": { "name": "punctuation.definition.string.end.plist" },
+						"12": { "name": "constant.language.boolean.true.plist" },
+						"13": { "name": "constant.language.boolean.false.plist" },
+						"14": { "name": "punctuation.terminator.dictionary.plist" }
+					}
+				},
+				{ "include": "#patterns" },
+				{ "include": "#comment-keyword" },
+				{ "include": "#invalid-keyword" },
+				{ "include": "#string" },
+				{
+					"begin": "(=)",
+					"end": "(;)",
+					"beginCaptures": { "1": { "name": "punctuation.separator.key-value.plist" } },
+					"endCaptures": { "1": { "name": "punctuation.terminator.dictionary.plist" } },
+					"patterns": [ { "include": "#any" } ]
+				},
+				{
+					"match": ";",
+					"name": "punctuation.terminator.dictionary.plist"
+				},
+				{ "include": "#catch-all" }
+			]
+		},
+		"scope": {
+			"patterns": [
+				{
+					"match": "(')([^']*)(')",
+					"captures": {
+						"1": { "name": "punctuation.definition.string.begin.plist" },
+						"2": {
+							"name": "$2",
+							"patterns": [
+								{ "include": "source.plist.ascii.textmate.scopes#scope_language" },
+								{ "include": "source.plist.ascii.textmate.scopes#scope_root" }
+							]
+						},
+						"3": { "name": "punctuation.definition.string.end.plist" }
+					},
+					"name": "string.quoted.single.scope.plist"
+				},
+				{
+					"match": "(\")([^\"]*)(\")",
+					"captures": {
+						"1": { "name": "punctuation.definition.string.begin.plist" },
+						"2": {
+							"name": "$2",
+							"patterns": [
+								{ "include": "source.plist.ascii.textmate.scopes#scope_language" },
+								{ "include": "source.plist.ascii.textmate.scopes#scope_root" }
+							]
+						},
+						"3": { "name": "punctuation.definition.string.end.plist" }
+					},
+					"name": "string.quoted.double.scope.plist"
+				}
+			]
+		},
+		"scope-root": {
+			"patterns": [
+				{
+					"match": "(')(?:((?:source|text)\\.[^\\s,()&|\\[\\]:\"'{}<>*?=^;#]*)([^']*)|([^']*))(')",
+					"captures": {
+						"1": { "name": "punctuation.definition.string.begin.plist" },
+						"2": { "name": "constant.other.scope.plist" },
+						"3": { "name": "invalid.deprecated.scope_not_allowed.plist" },
+						"4": { "name": "invalid.deprecated.scope_not_allowed.plist" },
+						"5": { "name": "punctuation.definition.string.end.plist" }
+					},
+					"name": "string.quoted.single.scope.root.plist"
+				},
+				{
+					"match": "(\")(?:((?:source|text)\\.[^\\s,()&|\\[\\]:\"'{}<>*?=^;#]*)([^\"]*)|([^\"]*))(\")",
+					"captures": {
+						"1": { "name": "punctuation.definition.string.begin.plist" },
+						"2": { "name": "constant.other.scope.plist" },
+						"3": { "name": "invalid.deprecated.scope_not_allowed.plist" },
+						"4": { "name": "invalid.deprecated.scope_not_allowed.plist" },
+						"5": { "name": "punctuation.definition.string.end.plist" }
+					},
+					"name": "string.quoted.double.scope.root.plist"
+				}
+			]
+		},
+		"string": {
+			"patterns": [
+				{
+					"match": "\\b[0-9]+\\b",
+					"name": "constant.numeric.plist"
+				},
+				{
+					"match": "[a-zA-Z_][a-zA-Z0-9_.-]+",
+					"name": "string.unquoted.plist"
+				},
+				{
+					"begin": "'",
+					"end": "'(?!')",
+					"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.plist" } },
+					"endCaptures": { "0": { "name": "punctuation.definition.string.end.plist" } },
+					"name": "string.quoted.single.plist",
+					"applyEndPatternLast": 1,
+					"patterns": [
+						{
+							"match": "''",
+							"name": "constant.character.escape.apostrophe.plist"
+						}
+					]
+				},
+				{
+					"begin": "\"",
+					"end": "\"",
+					"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.plist" } },
+					"endCaptures": { "0": { "name": "punctuation.definition.string.end.plist" } },
+					"name": "string.quoted.double.plist",
+					"patterns": [
+						{
+							"match": "\\\\[\\\\\"]",
+							"name": "constant.character.escape.plist"
+						}
+					]
+				}
+			]
+		}
+	}
+}
