@@ -294,6 +294,7 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 
 		if (type == 'root') {
 			grammar = await tokenizeFile(element.document, false);
+			// vscode.window.showInformationMessage(`grammar\n${JSON.stringify(grammar, stringify)}`);
 
 			if (grammar) {
 				const time = grammar.lines[grammar.lines.length - 1].time;
@@ -309,7 +310,7 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 
 				let regexCount = 0;
 				for (const rule of grammar.rules) {
-					if (!rule) {
+					if (!rule?.parentId) {
 						continue;
 					}
 					regexCount += grammar._ruleId2desc[Math.abs(rule.parentId)]._cachedCompiledPatterns?._items.length ?? 0;
@@ -384,11 +385,11 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			// 	return item;
 			// }
 
-			const ruleId = element.ruleId!;
+			const ruleId = element.ruleId;
 			const line = element.line!;
 			const id = element.ruleIndex!;
 
-			const cachedRule = grammar._ruleId2desc[Math.abs(ruleId)];
+			const cachedRule = ruleId === undefined ? undefined : grammar._ruleId2desc[Math.abs(ruleId)];
 			const rule = grammar.rules[id]!;
 			let prevTime = grammar.startTime;
 			for (let index = id - 1; index >= 0; index--) {
@@ -413,7 +414,7 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 			};
 			const item = new vscode.TreeItem(
 				treeLabel,
-				cachedRule?._begin && ruleId >= 0 ? vscode.TreeItemCollapsibleState.Expanded : vscode.TreeItemCollapsibleState.None, // TODO: toggle option
+				cachedRule?._begin && ruleId !== undefined && ruleId >= 0 ? vscode.TreeItemCollapsibleState.Expanded : vscode.TreeItemCollapsibleState.None, // TODO: toggle option
 			);
 			item.id = `_${id}`;
 			if (!grammar.lines[line]) {
@@ -428,10 +429,10 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 				item.iconPath = new vscode.ThemeIcon('regex');
 				// item.iconPath = new vscode.ThemeIcon('symbol-event');
 			}
-			else if (cachedRule?._begin && ruleId < 0) {
+			else if (cachedRule?._begin && ruleId && ruleId < 0) {
 				item.iconPath = new vscode.ThemeIcon('chevron-up');
 			}
-			item.tooltip = `${stoppedEarly ? `Tokenization for line ${line + 1} was stopped early due to hitting time limit: 15sec\n` : ''}${cachedRule?._match ? `match: ${cachedRule._match.source}` : ''}${ruleId >= 0 ? (cachedRule?._begin ? `begin: ${cachedRule._begin.source}` : '') : (cachedRule?._end ? `end: ${cachedRule._end.source}` : '')}${cachedRule?._while ? `while: ${cachedRule._while.source}` : ''}${ruleId ? '' : '<EndOfLine>'}\nRuleId: ${ruleId}\nParentId: ${rule.parentId}`;
+			item.tooltip = `${stoppedEarly ? `Tokenization for line ${line + 1} was stopped early due to hitting time limit: 15sec\n` : ''}${cachedRule?._match ? `match: ${cachedRule._match.source}` : ''}${ruleId !== undefined && ruleId >= 0 ? (cachedRule?._begin ? `begin: ${cachedRule._begin.source}` : '') : (cachedRule?._end ? `end: ${cachedRule._end.source}` : '')}${cachedRule?._while ? `while: ${cachedRule._while.source}` : ''}${ruleId ? '' : '<EndOfLine>'}\nRuleId: ${ruleId}\nParentId: ${rule.parentId}`;
 			item.command = {
 				title: `Show Call Details`,
 				command: 'textmate.call.details',
@@ -1096,7 +1097,7 @@ async function gotoGrammar(element: element) {
 	// annoyingly the ids are assigned on a first-served basis
 	// including across included/embedded grammars
 
-	let ruleId: RuleId | undefined = undefined;
+	let ruleId: RuleId | undefined;
 	let capturesIndex = -1;
 
 	if (callView == 'tree') {

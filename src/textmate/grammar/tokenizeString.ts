@@ -427,6 +427,7 @@ function _checkWhileConditions(grammar: Grammar, lineText: OnigString, isFirstLi
 			// @ts-ignore
 			grammar.rules.push(
 				{
+					parentId: whileRule.rule.id,
 					captureIndices: r.captureIndices,
 					matchedRuleId: -whileRule.rule.id,
 					anchorPosition: anchorPosition,
