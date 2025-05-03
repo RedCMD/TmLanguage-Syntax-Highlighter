@@ -161,12 +161,12 @@ function getInjections(scopeName: ScopeName): ScopeName[] | undefined {
 }
 
 
-async function onigLibInterface() {
+async function onigLibInterface(): vscodeTextmate.RegistryOptions['onigLib'] {
 	return {
 		createOnigScanner(sources: string[]): vscodeOniguruma.OnigScanner {
 			return new vscodeOniguruma.OnigScanner(sources);
 		},
-		createOnigString(str: string) {
+		createOnigString(str: string): vscodeOniguruma.OnigString {
 			return new vscodeOniguruma.OnigString(str);
 		}
 	};

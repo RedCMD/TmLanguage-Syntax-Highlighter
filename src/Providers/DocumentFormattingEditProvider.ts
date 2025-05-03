@@ -10,11 +10,11 @@ type formattingStyle = {
 	wsBrackets: string;
 };
 
-function getFormattingStyle(options: vscode.FormattingOptions): formattingStyle {
+function getFormattingStyle(options?: vscode.FormattingOptions): formattingStyle {
 	const bracketStyle = <'tight' | 'default'>vscode.workspace.getConfiguration('json.textmate').get('formattingStyle');
 	const style: formattingStyle = {
-		tabType: options.insertSpaces ? ' ' : '\t',
-		tabSize: options.insertSpaces ? options.tabSize : 1,
+		tabType: options?.insertSpaces ? ' ' : '\t',
+		tabSize: options?.insertSpaces ? options?.tabSize : 1,
 		wsBrackets: bracketStyle == 'tight' ? '' : ' ',
 	};
 	return style;
@@ -75,7 +75,7 @@ export const DocumentRangeFormattingEditProvider: vscode.DocumentRangeFormatting
 
 export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider = {
 	async provideOnTypeFormattingEdits(document: vscode.TextDocument, position: vscode.Position, ch: string, options: vscode.FormattingOptions, token: vscode.CancellationToken): Promise<vscode.TextEdit[] | undefined> {
-		// vscode.window.showInformationMessage(JSON.stringify("FormatType"));
+		// vscode.window.showInformationMessage(`FormatType: ${JSON.stringify(ch)}`);
 		// const start = performance.now();
 
 		const trees = getTrees(document);

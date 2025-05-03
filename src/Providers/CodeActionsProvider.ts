@@ -230,7 +230,7 @@ async function optimizeRegex(edit: vscode.WorkspaceEdit, regexNode: Node, uri: v
 
 	try {
 		if (optimize) {
-			const text = JSON.parse(`"${regexNode.text}"`);
+			const text: string = JSON.parse(`"${regexNode.text}"`);
 
 			const optimized = optimize(text, {
 				rules: {

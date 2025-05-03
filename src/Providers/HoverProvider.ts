@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
-import { toRegExpDetails, ToRegExpOptions } from 'oniguruma-to-es';
 import { Point } from 'web-tree-sitter';
+import { toRegExpDetails, ToRegExpOptions } from 'oniguruma-to-es';
 import { getTrees, queryNode, toPoint, toRange, trees } from "../TreeSitter";
 
 export const HoverProvider: vscode.HoverProvider = {
