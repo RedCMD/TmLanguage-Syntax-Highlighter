@@ -41,8 +41,8 @@ async function convertFileTo(newLanguage: Language, document?: vscode.TextDocume
 					parsedDocument = parseAsciiPLIST(text);
 					break;
 			}
-		} catch (error) {
-			console.warn(`TextMate: Attempted file conversion from ${language}\n${error}`);
+		} catch (error: any) {
+			vscode.window.showWarningMessage(`TextMate: Error converting file from ${language}:\n${error.toString()}`);
 		}
 		// console.log(`parsedDocument: ${language}\n`, parsedDocument);
 		if (parsedDocument != null) {
@@ -66,24 +66,29 @@ async function convertFileTo(newLanguage: Language, document?: vscode.TextDocume
 	const indent = insertSpaces ? ''.padEnd(tabSize, ' ') : '\t';
 
 	let newText: string;
-	switch (newLanguage) {
-		case 'JSON':
-			newText = JSON.stringify(parsedDocument, null, indent);
-			break;
-		case 'YAML':
-			newText = YAML.stringify(parsedDocument, {
-				keepUndefined: true,
-				indent: tabSize,
-			});
-			break;
-		case 'XML':
-			newText = XML.build(parsedDocument, { indent: indent });
-			break;
-		case 'PLIST':
-			newText = stringifyAsciiPLIST(parsedDocument, indent);
-			break;
-		default:
-			return;
+	try {
+		switch (newLanguage) {
+			case 'JSON':
+				newText = JSON.stringify(parsedDocument, null, indent);
+				break;
+			case 'YAML':
+				newText = YAML.stringify(parsedDocument, {
+					keepUndefined: true,
+					indent: tabSize,
+				});
+				break;
+			case 'XML':
+				newText = XML.build(parsedDocument, { indent: indent });
+				break;
+			case 'PLIST':
+				newText = stringifyAsciiPLIST(parsedDocument, indent);
+				break;
+			default:
+				return;
+		}
+	} catch (error: any) {
+		vscode.window.showWarningMessage(`TextMate: Error converting file to ${newLanguage}:\n${error.toString()}`);
+		return;
 	}
 
 	const newDocument = await vscode.workspace.openTextDocument({ content: newText, language: documentLanguage });
@@ -94,7 +99,7 @@ async function convertFileTo(newLanguage: Language, document?: vscode.TextDocume
 	await vscode.window.showTextDocument(newDocument, options);
 }
 
-function rankLanguages(document: vscode.TextDocument) {
+function rankLanguages(document: vscode.TextDocument): Language[] {
 	const languages: { [key in Language]: number; } = {
 		JSON: 0,
 		YAML: 0,
@@ -116,7 +121,7 @@ function rankLanguages(document: vscode.TextDocument) {
 		languages.PLIST += 10;
 	}
 	if (/^plaintext$/i.test(documentLanguage)) {
-		languages.PLIST += 5;
+		languages.PLIST += 4;
 	}
 
 	const fileName = document.fileName;
@@ -133,6 +138,7 @@ function rankLanguages(document: vscode.TextDocument) {
 		languages.PLIST += 5;
 	}
 	if (/tmLanguage$/i.test(fileName)) {
+		languages.XML += 2;
 		languages.PLIST += 2;
 	}
 
@@ -141,7 +147,7 @@ function rankLanguages(document: vscode.TextDocument) {
 		languages.JSON += 2;
 	}
 	if (/^\s*#|^%|\w+:\s/i.test(text)) {
-		languages.YAML += 3;
+		languages.YAML += 4;
 	}
 	if (/^\s*{/i.test(text)) {
 		languages.YAML += 1;
