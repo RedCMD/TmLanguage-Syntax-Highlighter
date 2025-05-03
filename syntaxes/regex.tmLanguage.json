@@ -1165,7 +1165,7 @@
 			]
 		},
 		"character-class-posix": {
-			"comment": "oniguruma checks for ending bracket `:]` accounting for escapes",
+			"comment": "oniguruma checks for ending bracket `:]` accounting for escapes. https://github.com/kkos/oniguruma/blob/v6.9.8/src/regparse.c#L5393-L5416",
 			"begin": "\\G(?=\\[:(?>[^]:\\\\\"]++|:+(?!])|\\\\{1,3}.?)*+:])",
 			"end": "(?!\\G)",
 			"name": "meta.character-class.posix.tm",
@@ -1175,7 +1175,7 @@
 					"name": "meta.character-class.posix.tm invalid.illegal.posix-bracket-type.tm"
 				},
 				{
-					"comment": "[:...:] [^...] oniguruma also checks for ending bracket `:]` within 20 characters, NOT accounting for escapes",
+					"comment": "[:...:] [^...] oniguruma also checks for ending bracket `:]` within 20 characters, NOT accounting for escapes. https://github.com/kkos/oniguruma/blob/v6.9.8/src/regparse.c#L6616-L6629",
 					"begin": "\\G\\[:\\^?(?=(?>[^]:\\\\\"]|\\\\u\\h{4}|\\\\.?){,20}:])",
 					"end": ":]|(?=\")",
 					"captures": { "0": { "name": "support.function.tm" } },
@@ -1228,12 +1228,12 @@
 					]
 				},
 				{
-					"comment": "No ending bracket `:]`",
+					"comment": "No ending bracket `:]` https://github.com/kkos/oniguruma/blob/v6.9.8/src/regparse.c#L6603-L6604",
 					"match": "\\G\\[:\\^?(?>alnum|alpha|ascii|blank|cntrl|x?digit|graph|lower|print|punct|space|upper|word)",
 					"name": "invalid.illegal.posix-bracket-type.tm"
 				},
 				{
-					"comment": "oniguruma treats `[:^` as literal characters if there is no name and no ending bracket `:]` within 20 characters or before a colon `:` or square bracket `]`",
+					"comment": "oniguruma treats `[:^` as literal characters if there is no name and no ending bracket `:]` within 20 characters or before a colon `:` or square bracket `]` https://github.com/kkos/oniguruma/blob/v6.9.8/src/regparse.c#L6631",
 					"include": "#character-class-literal"
 				}
 			]
