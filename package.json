@@ -587,7 +587,7 @@
 	},
 	"dependencies": {
 		"date-and-time": "^3.6.0",
-		"oniguruma-parser": "^0.12.1",
+		"oniguruma-parser-cjs": "^0.0.1",
 		"oniguruma-to-es": "^4.3.3",
 		"plist": "^3.1.0",
 		"vscode-oniguruma": "1.7.0",
