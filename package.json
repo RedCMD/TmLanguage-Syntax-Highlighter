@@ -30,7 +30,8 @@
 	],
 	"categories": [
 		"Programming Languages",
-		"Snippets"
+		"Snippets",
+		"Formatters"
 	],
 	"capabilities": {
 		"virtualWorkspaces": {
