@@ -1033,11 +1033,15 @@
 						{
 							"match": "\\G\\\\[bfnrt]",
 							"name": "constant.character.escape.tm"
+						},
+						{
+							"match": "\\\\.?",
+							"name": "invalid.illegal.tm regex"
 						}
 					]
 				},
 				{
-					"match": "\\\\.?|[\"\\x00-\\x1F\\x7F]",
+					"match": "[\"\\x00-\\x1F\\x7F]",
 					"name": "invalid.illegal.tm regex"
 				}
 			]
@@ -1166,7 +1170,7 @@
 		},
 		"character-class-posix": {
 			"comment": "oniguruma checks for ending bracket `:]` accounting for escapes. https://github.com/kkos/oniguruma/blob/v6.9.8/src/regparse.c#L5393-L5416",
-			"begin": "\\G(?=\\[:(?>[^]:\\\\\"]++|:+(?!])|\\\\{1,3}.?)*+:])",
+			"begin": "\\G(?=\\[:(?>[^]:\\\\\"]++|:+(?!])|\\\\{1,2}.?)*+:])",
 			"end": "(?!\\G)",
 			"name": "meta.character-class.posix.tm",
 			"patterns": [
