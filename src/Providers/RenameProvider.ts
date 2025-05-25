@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { getTrees, queryNode, toPoint, toRange } from "../TreeSitter";
 
+
 const cursorQuery = `;scm
 	(include (value (scopeName) @scopeName))
 	(include (value (ruleName) @ruleName))

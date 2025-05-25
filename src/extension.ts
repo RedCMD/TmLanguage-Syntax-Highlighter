@@ -5,10 +5,10 @@ import { initTreeSitter } from "./TreeSitter";
 import { initOniguruma } from "./Oniguruma";
 import { initTextMate } from "./TextMate";
 import { initDiagnostics } from "./DiagnosticCollection";
-import { initCallStackView } from "./Providers/TreeDataProvider";
 import { initTokenColorCustomizations } from "./tokenColorCustomizations";
 import { initThemeScopes } from "./themeScopeColors";
-import { initFileConverter } from './fileConverter';
+import { initFileConverter } from "./fileConverter";
+import { initCallStackView } from "./Providers/TreeDataProvider";
 
 import { HoverProvider } from "./Providers/HoverProvider";
 import { RenameProvider } from "./Providers/RenameProvider";

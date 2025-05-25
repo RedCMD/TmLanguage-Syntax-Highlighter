@@ -1,11 +1,12 @@
 import * as vscode from 'vscode';
-import { QueryCapture } from 'web-tree-sitter';
+import * as webTreeSitter from 'web-tree-sitter';
+import { IRelaxedExtensionManifest } from "../extensions";
 import { getTrees, queryNode, toRange } from "../TreeSitter";
 import { grammarLanguages } from "../TextMate";
-import { IRelaxedExtensionManifest } from "../extensions";
+
 
 type CodeLens = vscode.CodeLens & {
-	capture: QueryCapture;
+	capture: webTreeSitter.QueryCapture;
 	document: vscode.TextDocument;
 };
 

@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as vscodeOniguruma from 'vscode-oniguruma';
 import * as textmateOnigmo from "./Onigmo/Onigmo";
 
+
 export async function initOniguruma(context: vscode.ExtensionContext): Promise<void> {
 	// https://github.com/microsoft/vscode
 	// https://github.com/microsoft/vscode-textmate/tree/v9.2.0

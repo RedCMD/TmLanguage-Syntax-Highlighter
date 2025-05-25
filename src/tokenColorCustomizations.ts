@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { IRelaxedExtensionManifest, ITokenColorCustomizations } from "./extensions";
 
+
 export function initTokenColorCustomizations(context: vscode.ExtensionContext) {
 	// vscode.window.showInformationMessage(JSON.stringify("tokenColorCustomizations"));
 

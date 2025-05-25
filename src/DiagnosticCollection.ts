@@ -1,11 +1,11 @@
 import * as vscode from 'vscode';
+import * as webTreeSitter from 'web-tree-sitter';
 import * as vscodeOniguruma from 'vscode-oniguruma';
 import * as textmateOnigmo from "./Onigmo/Onigmo";
-import { Node, QueryCapture } from 'web-tree-sitter';
-import { getLastNode, getTrees, queryNode, toRange, trees } from "./TreeSitter";
 import { closeEnoughQuestionMark, DocumentSelector, getPackageJSON, stringify, wagnerFischer } from "./extension";
-import { unicodeproperties } from "./UNICODE_PROPERTIES";
+import { getLastNode, getTrees, queryNode, toRange, trees } from "./TreeSitter";
 import { ignoreDiagnosticsUnusedRepos } from "./Providers/CodeActionsProvider";
+import { unicodeproperties } from "./UNICODE_PROPERTIES";
 
 
 type Pointer = number;
@@ -214,7 +214,7 @@ async function Diagnostics(document: vscode.TextDocument) {
 }
 
 
-async function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[], rootNode: Node) {
+async function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics JSON"));
 	// const start = performance.now();
 	const jsonQuery = `;scm
@@ -397,7 +397,7 @@ async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[],
 			continue;
 		}
 
-		let groupCaptures!: QueryCapture[];
+		let groupCaptures!: webTreeSitter.QueryCapture[];
 
 		const regex: string = JSON.parse(`"${text}"`);
 		const hasBackreferences = (key.text == 'end' || key.text == 'while') && /\\[0-9]/.test(regex);
@@ -530,7 +530,7 @@ async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[],
 	// vscode.window.showInformationMessage(`Oniguruma ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-async function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: Node) {
+async function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics #includes"))
 	// const start = performance.now();
 
@@ -540,7 +540,7 @@ async function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootN
 	const nestedRepoQuery = `;scm
 		(repo (repository (repo (key) @repo)))
 	`;
-	let nestedRepoCaptures: QueryCapture[] = [];
+	let nestedRepoCaptures: webTreeSitter.QueryCapture[] = [];
 
 	// TreeSitter compiling sibling nodes query very slow
 	// https://github.com/tree-sitter/tree-sitter/issues/3956
@@ -691,14 +691,14 @@ async function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootN
 	// vscode.window.showInformationMessage(`include ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-async function diagnosticsUnusedRepos(diagnostics: vscode.Diagnostic[], rootNode: Node) {
+async function diagnosticsUnusedRepos(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
 	if (ignoreDiagnosticsUnusedRepos) {
 		return;
 	}
 	// vscode.window.showInformationMessage(`diagnostics unusedRepos\n${JSON.stringify(rootNode)}`)
 	// const start = performance.now();
 
-	const includeCapturesCache: { [id: number]: QueryCapture[]; } = {};
+	const includeCapturesCache: { [id: number]: webTreeSitter.QueryCapture[]; } = {};
 
 	// should validate all #include first
 	// but TS too slow
@@ -746,7 +746,7 @@ async function diagnosticsUnusedRepos(diagnostics: vscode.Diagnostic[], rootNode
 	// vscode.window.showInformationMessage(`unusedRepos ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-async function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], rootNode: Node) {
+async function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics TextMate dead"));
 	// const start = performance.now();
 
@@ -837,7 +837,7 @@ async function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], roo
 	// vscode.window.showInformationMessage(`dead ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(diagnostics, stringify)}`);
 }
 
-async function diagnosticsMismatchingRootScopeName(diagnostics: vscode.Diagnostic[], rootNode: Node, document: vscode.TextDocument) {
+async function diagnosticsMismatchingRootScopeName(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node, document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics scopeName"));
 	// const start = performance.now();
 

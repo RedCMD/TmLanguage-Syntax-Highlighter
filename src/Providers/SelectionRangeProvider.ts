@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { getTrees, queryNode, toPoint, toRange } from "../TreeSitter";
 
+
 export const SelectionRangeProvider: vscode.SelectionRangeProvider = {
 	provideSelectionRanges(document: vscode.TextDocument, positions: vscode.Position[], token: vscode.CancellationToken): vscode.SelectionRange[] {
 		// vscode.window.showInformationMessage(JSON.stringify("SelectionRange"));

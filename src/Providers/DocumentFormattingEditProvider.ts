@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
-import * as TreeSitter from 'web-tree-sitter';
+import * as webTreeSitter from 'web-tree-sitter';
 import { getTrees, toRange, toPoint, queryNode } from "../TreeSitter";
-import { sleep } from "../extension";
 
 
 type formattingStyle = {
@@ -55,7 +54,7 @@ export const DocumentRangeFormattingEditProvider: vscode.DocumentRangeFormatting
 		const nestedCaptures = queryNode(jsonTree.rootNode, queryString, startPoint, endPoint);
 
 		let level = -1;
-		let node!: TreeSitter.Node;
+		let node!: webTreeSitter.Node;
 		for (const nestedCapture of nestedCaptures) {
 			const nestedNode = nestedCapture.node;
 			if (!toRange(nestedNode).contains(range)) {
@@ -92,7 +91,7 @@ export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider =
 			return;
 		}
 		const cursorNode = capture.node;
-		let node: TreeSitter.Node | null;
+		let node: webTreeSitter.Node | null;
 
 		switch (ch) {
 			case ',':
@@ -130,7 +129,7 @@ export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider =
 };
 
 
-function formatChildren(parentNode: TreeSitter.Node, textEdits: vscode.TextEdit[], indent: number, style: formattingStyle): boolean {
+function formatChildren(parentNode: webTreeSitter.Node, textEdits: vscode.TextEdit[], indent: number, style: formattingStyle): boolean {
 	let expand: boolean = false;
 
 	for (const node of parentNode.namedChildren) {

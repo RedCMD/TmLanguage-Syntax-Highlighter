@@ -1,7 +1,8 @@
 import * as vscode from 'vscode';
-import { Point, Node } from 'web-tree-sitter';
-import { getTrees, toRange, toPoint, queryNode, trees, getLastNode } from "../TreeSitter";
+import * as webTreeSitter from 'web-tree-sitter';
 import { DocumentSelector, stringify } from "../extension";
+import { getTrees, toRange, toPoint, queryNode, trees, getLastNode } from "../TreeSitter";
+
 
 let previous: {
 	position: vscode.Position;
@@ -376,7 +377,7 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 	}
 };
 
-function pushDefinitionLink(definitions: vscode.LocationLink[], node: Node | null | undefined, originSelectionRange: vscode.Range, uri: vscode.Uri) {
+function pushDefinitionLink(definitions: vscode.LocationLink[], node: webTreeSitter.Node | null | undefined, originSelectionRange: vscode.Range, uri: vscode.Uri) {
 	if (!node) {
 		return false;
 	}
@@ -391,7 +392,7 @@ function pushDefinitionLink(definitions: vscode.LocationLink[], node: Node | nul
 	return true;
 }
 
-function getCaptureRefs(trees: trees, node: Node, position: vscode.Position) {
+function getCaptureRefs(trees: trees, node: webTreeSitter.Node, position: vscode.Position) {
 	const regexTrees = trees.regexTrees;
 	const regexNode = regexTrees.get(node.id)?.rootNode;
 	if (!regexNode) {
@@ -430,9 +431,9 @@ function getCaptureRefs(trees: trees, node: Node, position: vscode.Position) {
 		(name) @name
 	`;
 	// const startPoint = toPoint(new vscode.Position(position.line, position.character - 1));
-	const startPoint: Point = { row: position.line, column: position.character - 1 };
+	const startPoint: webTreeSitter.Point = { row: position.line, column: position.character - 1 };
 	// const endPoint = toPoint(new vscode.Position(position.line, position.character + 1));
-	const endPoint: Point = { row: position.line, column: position.character + 1 };
+	const endPoint: webTreeSitter.Point = { row: position.line, column: position.character + 1 };
 	const groupSyntaxNode = queryNode(groupNode, groupSyntaxQuery, startPoint, endPoint).pop()?.node;
 
 	if (!groupSyntaxNode) {
@@ -451,7 +452,7 @@ function getCaptureRefs(trees: trees, node: Node, position: vscode.Position) {
 	return { range: toRange(groupNode), captures: targetCaptures };
 }
 
-function getRegexGroup(trees: trees, parentNode: Node, captureNode: Node, type: string): Node | undefined {
+function getRegexGroup(trees: trees, parentNode: webTreeSitter.Node, captureNode: webTreeSitter.Node, type: string): webTreeSitter.Node | undefined {
 	const node = getLastNode(parentNode, type);
 	if (!node) {
 		return;

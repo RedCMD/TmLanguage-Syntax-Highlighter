@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { Query } from 'web-tree-sitter';
+import * as webTreeSitter from 'web-tree-sitter';
 import { getTrees, toRange, toPoint, queryNode } from "../TreeSitter";
 
 
@@ -121,7 +121,7 @@ export const ReferenceProvider: vscode.ReferenceProvider = {
 		// vscode.window.showInformationMessage(queryString);
 		const language = tree.language;
 		// const query = language.query(queryString);
-		const query = new Query(language, queryString);
+		const query = new webTreeSitter.Query(language, queryString);
 
 		const queryCaptures = query.captures(tree.rootNode);
 		const locations: vscode.Location[] = [];

@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { DocumentSelector } from "../extension";
 import { getTrees, queryNode, toPoint, toPosition } from "../TreeSitter";
 
+
 export const DocumentDropEditProvider: vscode.DocumentDropEditProvider = {
 	async provideDocumentDropEdits(document: vscode.TextDocument, position: vscode.Position, dataTransfer: vscode.DataTransfer, token: vscode.CancellationToken): Promise<vscode.DocumentDropEdit | undefined> {
 		// vscode.window.showInformationMessage(JSON.stringify("DocumentDrop"));

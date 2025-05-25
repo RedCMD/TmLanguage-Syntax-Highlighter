@@ -1,7 +1,8 @@
 import * as vscode from 'vscode';
-import { Point } from 'web-tree-sitter';
-import { toRegExpDetails, ToRegExpOptions } from 'oniguruma-to-es';
+import * as webTreeSitter from 'web-tree-sitter';
+import * as onigurumaToES from 'oniguruma-to-es';
 import { getTrees, queryNode, toPoint, toRange, trees } from "../TreeSitter";
+
 
 export const HoverProvider: vscode.HoverProvider = {
 	provideHover(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.Hover | undefined {
@@ -70,7 +71,7 @@ export const HoverProvider: vscode.HoverProvider = {
 			const regexNode = hoverNode.parent?.childForFieldName('regex');
 			if (regexNode?.text) {
 				const text: string = JSON.parse(`"${regexNode.text}"`);
-				const options: ToRegExpOptions = {
+				const options: onigurumaToES.ToRegExpOptions = {
 					accuracy: 'default',
 					avoidSubclass: true,
 					verbose: true,
@@ -80,7 +81,7 @@ export const HoverProvider: vscode.HoverProvider = {
 						allowOrphanBackrefs: hoverCapture.name == 'while' || hoverCapture.name == 'end',
 					},
 				};
-				const jsRegex = toRegExpDetails(text, options);
+				const jsRegex = onigurumaToES.toRegExpDetails(text, options);
 
 				// markdownString.appendMarkdown('<details><summary>Click to show JS Translation</summary>  \n');
 				markdownString.appendMarkdown('---\n');
@@ -100,7 +101,7 @@ export const HoverProvider: vscode.HoverProvider = {
 	}
 };
 
-function debugTreeSitterHovers(trees: trees, point: Point): vscode.Hover | undefined {
+function debugTreeSitterHovers(trees: trees, point: webTreeSitter.Point): vscode.Hover | undefined {
 	const node = trees.jsonTree.rootNode.descendantForPosition(point);
 	// const node = jsonTree.rootNode.namedDescendantForPosition(point);
 

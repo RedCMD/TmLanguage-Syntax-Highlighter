@@ -1,10 +1,11 @@
 import * as vscode from 'vscode';
-import * as vscodeTextmate from "./textmate/main";
 // import * as vscodeTextmate from 'vscode-textmate';
+import * as vscodeTextmate from "./textmate/main";
 import * as vscodeOniguruma from 'vscode-oniguruma';
 import { IRelaxedExtension } from "./extensions";
 import { stringify } from "./extension";
 import { IGrammar, ScopeName } from "./ITextMate";
+
 
 // Development Extensions are higher than User Extensions, which are higher than BuiltIn Extensions
 enum priority {

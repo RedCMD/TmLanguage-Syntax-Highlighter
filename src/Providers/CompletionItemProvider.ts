@@ -1,11 +1,12 @@
 import * as vscode from 'vscode';
-import { Node, QueryCapture, Tree } from 'web-tree-sitter';
-import { getTrees, toRange, toPoint, queryNode, getLastNode, trees, toPosition } from "../TreeSitter";
+import * as webTreeSitter from 'web-tree-sitter';
+import { getPackageJSON } from '../extension';
 import { ITextMateThemingRule } from "../extensions";
+import { getTrees, toRange, toPoint, queryNode, getLastNode, trees, toPosition } from "../TreeSitter";
 import { getScopes } from "../themeScopeColors";
 import { UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
 import { unicode_property_data } from "../unicode_property_data";
-import { getPackageJSON, sleep } from '../extension';
+
 
 type CompletionItem = vscode.CompletionItem & { type?: string; };
 
@@ -52,7 +53,7 @@ const defaultThemeColors: { [baseTheme: string]: ITextMateThemingRule[]; } = {
 	]
 };
 
-function comma(cursorNode: Node, position: vscode.Position) {
+function comma(cursorNode: webTreeSitter.Node, position: vscode.Position) {
 	return toPosition(cursorNode.lastNamedChild!.endPosition).isBefore(position) ? '' : ',';
 }
 
@@ -671,7 +672,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 };
 
 
-function repoCompletionItems(completionItems: CompletionItem[], tree: Tree, cursorRange: vscode.Range, scopeName?: string): void {
+function repoCompletionItems(completionItems: CompletionItem[], tree: webTreeSitter.Tree, cursorRange: vscode.Range, scopeName?: string): void {
 	const rootNode = tree.rootNode;
 
 	const repoQuery =
@@ -733,7 +734,7 @@ function repoCompletionItems(completionItems: CompletionItem[], tree: Tree, curs
 	}
 }
 
-function locateRegex(trees: trees, nameNode: Node): QueryCapture[] {
+function locateRegex(trees: trees, nameNode: webTreeSitter.Node): webTreeSitter.QueryCapture[] {
 	const parent = nameNode.parent!;
 	if (nameNode.type == 'name' && parent.childForFieldName('match')) {
 		return getCaptureGroups(trees, parent, 'match');
@@ -756,7 +757,7 @@ function locateRegex(trees: trees, nameNode: Node): QueryCapture[] {
 		if (!tripleParent.childForFieldName('begin')) {
 			return [];
 		}
-		let beginCaptures: QueryCapture[] = [];
+		let beginCaptures: webTreeSitter.QueryCapture[] = [];
 		if (!getLastNode(tripleParent, 'beginCaptures')) {
 			beginCaptures = getCaptureGroups(trees, tripleParent, 'begin');
 		}
@@ -796,7 +797,7 @@ function locateRegex(trees: trees, nameNode: Node): QueryCapture[] {
 	return [];
 }
 
-function getCaptureGroups(trees: trees, parentNode: Node, type: string): QueryCapture[] {
+function getCaptureGroups(trees: trees, parentNode: webTreeSitter.Node, type: string): webTreeSitter.QueryCapture[] {
 	const node = getLastNode(parentNode, type);
 	if (!node) {
 		return [];

@@ -1,15 +1,15 @@
 import * as vscode from 'vscode';
-import { createOnigScanner, createOnigString, FindOption } from 'vscode-oniguruma';
-import * as vscodeTextmate from "../textmate/main";
+import * as vscodeOniguruma from 'vscode-oniguruma';
 // import * as vscodeTextmate from 'vscode-textmate';
-import { getScopeName, grammarLanguages, tokenizeFile } from "../TextMate";
-import { IGrammar, IMatchResult, IToken, RegExpSource, RuleId, endRuleId, whileRuleId } from "../ITextMate";
 import { stringify } from "../extension";
-import { IRawCaptures, IRawRule } from "../textmate/rawGrammar";
+import { getScopeName, grammarLanguages, tokenizeFile } from "../TextMate";
 import { getTrees, queryNode, toRange } from "../TreeSitter";
-import { getScopes, getSubScope } from "../themeScopeColors";
+import { IGrammar, IMatchResult, IToken, RegExpSource, RuleId, endRuleId, whileRuleId } from "../ITextMate";
+import { IRawGrammar } from "../textmate/main";
 import { ruleIdToNumber } from "../textmate/rule";
-// import { ITextEditorOptions, EditorOpenSource, TextEditorSelectionSource } from "../extensions";
+import { IRawCaptures, IRawRule } from "../textmate/rawGrammar";
+import { getScopes, getSubScope } from "../themeScopeColors";
+
 
 type element = {
 	type: 'file' | 'root' | 'line' | 'token' | 'scope' | 'rule' | 'regexes' | 'regex' | 'regexes-cached' | 'regex-cached';
@@ -673,7 +673,7 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 			// const timeFixed = time.toFixed(3);
 
 			const text = selectedElement.document.lineAt(line).text + '\n';
-			const onigLineText = createOnigString(text);
+			const onigLineText = vscodeOniguruma.createOnigString(text);
 
 			const allowAnchorA = line == 0;
 			const allowAnchorG = rule.anchorPosition == linePos;
@@ -700,13 +700,13 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 				// }
 				regexes.push(regexSource.source!);
 			}
-			const scanner = createOnigScanner(regexes);
+			const scanner = vscodeOniguruma.createOnigScanner(regexes);
 
-			const options: FindOption =
-				(allowAnchorA ? FindOption.None : FindOption.NotBeginString) |
-				(allowAnchorZ ? FindOption.None : FindOption.NotEndString) |
-				(allowAnchorG ? FindOption.None : FindOption.NotBeginPosition) |
-				(true ? FindOption.None : FindOption.DebugCall);
+			const options: vscodeOniguruma.FindOption =
+				(allowAnchorA ? vscodeOniguruma.FindOption.None : vscodeOniguruma.FindOption.NotBeginString) |
+				(allowAnchorZ ? vscodeOniguruma.FindOption.None : vscodeOniguruma.FindOption.NotEndString) |
+				(allowAnchorG ? vscodeOniguruma.FindOption.None : vscodeOniguruma.FindOption.NotBeginPosition) |
+				(true ? vscodeOniguruma.FindOption.None : vscodeOniguruma.FindOption.DebugCall);
 
 			let isCached = false;
 			if (type == 'regexes-cached') {
@@ -761,7 +761,7 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 
 			// const text = selectedElement.document.lineAt(line).text.substring(start, end);
 			const text = selectedElement.document.lineAt(line).text + '\n';
-			const onigLineText = createOnigString(text);
+			const onigLineText = vscodeOniguruma.createOnigString(text);
 
 			const allowAnchorA = line == 0;
 			const allowAnchorG = rule.anchorPosition == linePos;
@@ -783,13 +783,13 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 			// if (!allowAnchorZ) { // https://github.com/microsoft/vscode-textmate/blob/f03a6a8790af81372d0e81facae75554ec5e97ef/src/rule.ts#L603-L606
 			// 	regexSource.source.replaceAll('\\z', '$(?!\\n)(?<!\\n)');
 			// }
-			const scanner = createOnigScanner([regexSource!]);
+			const scanner = vscodeOniguruma.createOnigScanner([regexSource!]);
 
-			const options: FindOption =
-				(allowAnchorA ? FindOption.None : FindOption.NotBeginString) |
-				(allowAnchorZ ? FindOption.None : FindOption.NotEndString) |
-				(allowAnchorG ? FindOption.None : FindOption.NotBeginPosition) |
-				(true ? FindOption.None : FindOption.DebugCall);
+			const options: vscodeOniguruma.FindOption =
+				(allowAnchorA ? vscodeOniguruma.FindOption.None : vscodeOniguruma.FindOption.NotBeginString) |
+				(allowAnchorZ ? vscodeOniguruma.FindOption.None : vscodeOniguruma.FindOption.NotEndString) |
+				(allowAnchorG ? vscodeOniguruma.FindOption.None : vscodeOniguruma.FindOption.NotBeginPosition) |
+				(true ? vscodeOniguruma.FindOption.None : vscodeOniguruma.FindOption.DebugCall);
 
 			if (type == 'regex-cached') {
 				for (let index = ruleIndex - 1; index >= 0; index--) {
@@ -1373,7 +1373,7 @@ async function gotoFile(element: element) {
 	}
 }
 
-function findPath(rules: vscodeTextmate.IRawGrammar | IRawRule, ruleId: RuleId, captureIndex?: number): [{ 'repository'?: string, 'patterns'?: number, 'captures'?: string, id?: RuleId; }] | undefined {
+function findPath(rules: IRawGrammar | IRawRule, ruleId: RuleId, captureIndex?: number): [{ 'repository'?: string, 'patterns'?: number, 'captures'?: string, id?: RuleId; }] | undefined {
 	for (const key in rules) {
 		switch (key) {
 			case 'patterns':

@@ -3,6 +3,7 @@ import * as YAML from 'yaml';
 import * as XML from 'plist';
 import * as DATE from 'date-and-time';
 
+
 export function initFileConverter(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.commands.registerTextEditorCommand('extension.convertFileToJSON', async (editor: vscode.TextEditor) => await convertFileTo('JSON', editor.document)),

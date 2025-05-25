@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { getTrees, queryNode, toPoint, toRange } from "../TreeSitter";
 
+
 export const DocumentHighlightProvider: vscode.DocumentHighlightProvider = {
 	provideDocumentHighlights(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.DocumentHighlight[] | undefined {
 		// vscode.window.showInformationMessage(`DocumentHighlights ${JSON.stringify(position)}\n${JSON.stringify(document)}`);

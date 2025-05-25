@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { IRelaxedExtension, ISemanticTokenColorCustomizations, ITextMateThemingRule, ITokenColorizationSetting } from "./extensions";
 
+
 interface TokenColorizationDetails {
 	theme: string;
 	name?: string;

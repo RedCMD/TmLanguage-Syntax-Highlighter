@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
+
 copyFile('../../src/Onigmo/Onigmo.js', 'Onigmo.js');
 copyFile('../../src/Onigmo/Onigmo.wasm', 'Onigmo.wasm');
 

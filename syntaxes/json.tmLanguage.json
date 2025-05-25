@@ -2,7 +2,7 @@
 	"version": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/syntaxes/json.tmLanguage.json",
 	"$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
 	"name": "JSON TextMate",
-	"scopeName": "source.json.textmate",
+	"scopeName": "source.json.textmaate",
 	"injections": {
 		"L:capture-group-lookbehind -capture-group-modify-extended -character-class -comment": {
 			"patterns": [
@@ -31,7 +31,7 @@
 		"L:source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp": {
 			"patterns": [
 				{
-					"comment": "VSCode TextMate replaces all escaped numbers, not just regex backreferences",
+					"comment": "VSCode TextMate replaces all numbers following a backslash, not just regex backreferences",
 					"match": "(\\\\{2})(\\\\{2})(0*[0-9]{1,2})([0-9]*)",
 					"captures": {
 						"1": { "name": "constant.character.escape.tm" },

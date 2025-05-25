@@ -1,11 +1,11 @@
 import * as vscode from 'vscode';
-import { Node, Tree } from 'web-tree-sitter';
-import { getTrees, queryNode, toRange, trees } from "../TreeSitter";
-import { unicodeproperties, UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
+import * as webTreeSitter from 'web-tree-sitter';
+import * as optimizer from 'oniguruma-parser-cjs/optimizer';
 import { closeEnoughQuestionMark, stringify, wagnerFischer } from "../extension";
+import { getTrees, queryNode, toRange } from "../TreeSitter";
 import { debouncedDiagnostics } from "../DiagnosticCollection";
+import { unicodeproperties, UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
 
-import { optimize } from 'oniguruma-parser-cjs/optimizer';
 
 export const metadata: vscode.CodeActionProviderMetadata = {
 	providedCodeActionKinds: [
@@ -18,8 +18,8 @@ export const metadata: vscode.CodeActionProviderMetadata = {
 };
 
 type CodeAction = vscode.CodeAction & {
-	document: vscode.TextDocument,
-	node?: Node;
+	document: vscode.TextDocument;
+	node?: webTreeSitter.Node;
 };
 
 export let ignoreDiagnosticsUnusedRepos: boolean = false;
@@ -219,13 +219,13 @@ const minifyQuery = `;scm
 	(character_class (backslash) @backslash_class)
 `;
 
-async function optimizeRegex(edit: vscode.WorkspaceEdit, regexNode: Node, uri: vscode.Uri) {
+async function optimizeRegex(edit: vscode.WorkspaceEdit, regexNode: webTreeSitter.Node, uri: vscode.Uri) {
 	const range = toRange(regexNode);
 
 	try {
 		const text: string = JSON.parse(`"${regexNode.text}"`);
 
-		const optimized = optimize(text, {
+		const optimized = optimizer.optimize(text, {
 			rules: {
 				// Follow `vscode-oniguruma` which enables this Oniguruma option by default
 				captureGroup: true,
@@ -414,7 +414,7 @@ function replaceStringAt(string: string, replacement: string, startIndex: number
 	return string.substring(0, startIndex) + replacement + string.substring(endIndex ?? startIndex + replacement.length);
 }
 
-function sortJSON(edit: vscode.WorkspaceEdit, jsonTree: Tree, uri: vscode.Uri) {
+function sortJSON(edit: vscode.WorkspaceEdit, jsonTree: webTreeSitter.Tree, uri: vscode.Uri) {
 	const rootNode = jsonTree.rootNode;
 	let newRootText = rootNode.text;
 
@@ -460,7 +460,7 @@ function sortJSON(edit: vscode.WorkspaceEdit, jsonTree: Tree, uri: vscode.Uri) {
 		// vscode.window.showInformationMessage(`node\n${JSON.stringify(node.toString())}`);
 
 		const keys: {
-			keyNode: Node;
+			keyNode: webTreeSitter.Node;
 			nodeText: string;
 		}[] = [];
 		for (const child of node.namedChildren) {
