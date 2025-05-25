@@ -2,7 +2,7 @@
 	"version": "https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/syntaxes/json.tmLanguage.json",
 	"$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
 	"name": "JSON TextMate",
-	"scopeName": "source.json.textmaate",
+	"scopeName": "source.json.textmate",
 	"injections": {
 		"L:capture-group-lookbehind -capture-group-modify-extended -character-class -comment": {
 			"patterns": [
