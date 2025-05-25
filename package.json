@@ -123,16 +123,27 @@
 					"ASCII PLIST TextMate"
 				],
 				"extensions": [
+					".textmate",
 					".tmLanguage",
 					".tmLanguage.plist",
-					".textmate"
+					".tm-grammar.plist",
+					".property-list",
+					".plist"
 				],
-				"firstLine": "^\\s*{\\s*\\w+\\s*=",
+				"firstLine": "^\\s*{\\s*\\w+\\s*=\\s*.*$",
 				"configuration": "./language-configurations/plist.language-configuration.json",
 				"icon": {
 					"dark": "assets/TextMate-file-icon.svg",
 					"light": "assets/TextMate-file-icon.svg"
 				}
+			},
+			{
+				"id": "xml",
+				"extensions": [
+					".tmLanguage",
+					".tmGrammar",
+					".plist"
+				]
 			},
 			{
 				"id": "textmate-scopes",
