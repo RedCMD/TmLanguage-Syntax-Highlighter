@@ -25,7 +25,7 @@ Todo: Explain basics of the `Package.json` in relation to TextMate syntaxes.
 
 ## [Rules](rules.md)
 
-## [Injections](injection_order.md)
+## [Injections](injections.md)
 
 ## Regex
 VSCode TextMate uses the [oniguruma](https://github.com/kkos/oniguruma) dialect.  

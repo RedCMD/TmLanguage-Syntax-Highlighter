@@ -79,7 +79,7 @@ If multiple conflicting rules appear, VSCode will pick the highest one from the 
 
 ## injections
 `"injections": { ... }`  
-A dictionary of injections.  
+A dictionary of [injections](injections.md#injections).  
 They do NOT work when the grammar is embedded into another language in VSCode.  
 [injection-grammars](https://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#injection-grammars)  
 
@@ -87,7 +87,7 @@ They do NOT work when the grammar is embedded into another language in VSCode.
 `"injectionSelector": "..."`  
 Controls which scope-names to inject into and with what priority.  
 Default priority is `0`, left `L:` is `-1` (higher) and Right `R:` is `1` (Lower)  
-Used in conjunction with `"injectTo"` under `"grammars"` in your `package.json` file.  
+[injectionSelector](injections.md#injectionSelector) is used in conjunction with `"injectTo"` under `"grammars"` in your `package.json` file.  
 [injection-grammars](https://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#injection-grammars)  
 
 ## fileTypes

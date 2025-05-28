@@ -1156,7 +1156,7 @@
 				"array"
 			],
 			"items": {
-				"markdownDescription": "An array of `\"injectionSelector\"` is not officially supported by VSCode TextMate  \nBut still happens to work because JavaScript",
+				"markdownDescription": "An array of `\"injectionSelector\"` is not officially supported by VSCode TextMate  \nBut still happens to work because JavaScript joins strings together with commas `,`",
 				"$ref": "#/definitions/injectionSelector"
 			},
 			"default": "L:source.js -string -comment"
