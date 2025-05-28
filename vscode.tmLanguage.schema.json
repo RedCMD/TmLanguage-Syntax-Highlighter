@@ -842,7 +842,7 @@
 				"default": { }
 			},
 			"items": {
-				"markdownDescription": "An array of `\"captures\"` is not officially supported by VSCode TextMate  \nBut still happens to work because JavaScript",
+				"markdownDescription": "An array of `\"captures\"` is not officially supported by VSCode TextMate  \nBut still happens to work because JavaScript's for-in works with both object (keys) array (indexes)",
 				"$ref": "#/definitions/capture"
 			},
 			"defaultSnippets": [
