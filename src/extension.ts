@@ -42,7 +42,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	await initTreeSitter(context);
 	await initOniguruma(context);
 	initTextMate(context);
-	initDiagnostics(context);
+	await initDiagnostics(context);
 	initCallStackView(context);
 	initTokenColorCustomizations(context);
 	initThemeScopes(context);

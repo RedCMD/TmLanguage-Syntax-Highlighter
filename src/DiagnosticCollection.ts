@@ -200,6 +200,7 @@ async function Diagnostics(document: vscode.TextDocument) {
 		diagnosticsOnigurumaRegexErrors(diagnostics, trees),
 		diagnosticsBrokenIncludes(diagnostics, rootNode),
 		diagnosticsUnusedRepos(diagnostics, rootNode),
+		diagnosticsLinguistCaptures(diagnostics, rootNode),
 		diagnosticsDeadTextMateCode(diagnostics, rootNode),
 	]);
 
@@ -880,4 +881,43 @@ async function diagnosticsMismatchingRootScopeName(diagnostics: vscode.Diagnosti
 		}
 	}
 	// vscode.window.showInformationMessage(`scopeName ${(performance.now() - start).toFixed(3)}ms`);
+}
+
+async function diagnosticsLinguistCaptures(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
+	// vscode.window.showInformationMessage(JSON.stringify("diagnostics (captures)"))
+	// const start = performance.now();
+
+	const capturesQuery = `;scm
+		(captures		"{" (_ (key) @captures))
+		(beginCaptures	"{" (_ (key) @beginCaptures))
+		(endCaptures	"{" (_ (key) @endCaptures))
+		(whileCaptures	"{" (_ (key) @whileCaptures))
+		(captures		"{" (_ "{") @object)
+		(beginCaptures	"{" (_ "{") @object)
+		(endCaptures	"{" (_ "{") @object)
+		(whileCaptures	"{" (_ "{") @object)
+	`;
+	const capturesCaptures = queryNode(rootNode, capturesQuery);
+	// vscode.window.showInformationMessage(`(captures) ${JSON.stringify(capturesCaptures)} ${(performance.now() - start).toFixed(3)}ms`);
+	for (const captureCapture of capturesCaptures) {
+		const name = captureCapture.name;
+		if (name === 'object') {
+			diagnostics.pop();
+			continue;
+		}
+
+		const node = captureCapture.node;
+
+		const range = toRange(node);
+		const diagnostic: vscode.Diagnostic = {
+			range: range,
+			message: 'Incompatible with Github-Linguist. Only object values are supported within "captures"',
+			severity: vscode.DiagnosticSeverity.Warning,
+			source: 'TextMate',
+			code: 'captures',
+		};
+		diagnostics.push(diagnostic);
+	}
+
+	// vscode.window.showInformationMessage(`(captures) ${(performance.now() - start).toFixed(3)}ms`);
 }

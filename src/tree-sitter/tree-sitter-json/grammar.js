@@ -7,7 +7,7 @@ module.exports = grammar({
 	name: "jsontm",
 	// word: $ => $._string,
 	extras: $ => [
-		//$._whitespace,
+		// $._whitespace,
 	],
 	externals: $ => [
 		$._forceStringNode, // Forces a 0width empty node if it is before a double quote " . Useful when querying the resulting syntax tree
@@ -459,7 +459,10 @@ module.exports = grammar({
 					),
 				),
 				array($,
-					$._pattern,
+					alias(
+						$._pattern,
+						$.capture,
+					),
 				),
 			),
 		),
@@ -474,7 +477,10 @@ module.exports = grammar({
 					),
 				),
 				array($,
-					$._pattern,
+					alias(
+						$._pattern,
+						$.capture,
+					),
 				),
 			),
 		),
@@ -489,7 +495,10 @@ module.exports = grammar({
 					),
 				),
 				array($,
-					$._pattern,
+					alias(
+						$._pattern,
+						$.capture,
+					),
 				),
 			),
 		),
@@ -504,7 +513,10 @@ module.exports = grammar({
 					),
 				),
 				array($,
-					$._pattern,
+					alias(
+						$._pattern,
+						$.capture,
+					),
 				),
 			),
 		),

@@ -165,19 +165,23 @@ export const DocumentSymbolProvider: vscode.DocumentSymbolProvider = {
 
 function newDocumentSymbol(node: webTreeSitter.Node): vscode.DocumentSymbol {
 	let text = '';
+	let index = 0;
 	switch (node.type) {
-		case 'pattern':
+		case 'repo': // objects
+		case 'capture':
+			const firstChild = node.firstNamedChild;
+			if (firstChild?.type == 'key') {
+				text = firstChild.text;
+				break;
+			}
+			index = -1;
+		case 'pattern': // arrays
 		case 'injection':
-			let index = 0;
 			let sibling: webTreeSitter.Node | null = node;
 			while (sibling = sibling.previousNamedSibling) {
 				index++;
 			}
 			text = index.toString();
-			break;
-		case 'repo':
-		case 'capture':
-			text = node.firstNamedChild!.text;
 			break;
 		case 'name':
 			text = 'name';
