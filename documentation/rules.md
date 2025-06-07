@@ -18,14 +18,14 @@ Valid VSCode TextMate rules:
 * [patterns](#patterns)
 * [repository](#repository)
 
-Valid official TextMate rules: (ignored by VSCode TextMate)
+Valid TextMate 2.0 rules: (ignored by VSCode TextMate)
 * [name](#name_display)
 * [fileTypes](#filetypes)
 * [firstLineMatch](#firstlinematch)
 * [foldingStartMarker](#foldingstartmarker)
 * [foldingStopMarker](#foldingstopmarker)
 
-Other supported rules: (ignored by VSCode/official TextMate)
+Other rules: (ignored by VSCode/TextMate)
 * [information_for_contributors](#information_for_contributors)
 * [version](#version)
 * [$schema](#schema)
@@ -44,7 +44,7 @@ The [scopeName](https://github.com/microsoft/vscode-textmate/blob/main/src/rawGr
 It is the same value as `"scopeName"` under `"grammars"` in your `package.json` file.  
 It should be globally unique.  
 You should use the recommended format of `source.languageId` or `text.languageId`.  
-Or if you are extending another language via injections etc, use `source`/`text.theirLanguageId.yourScope`.  
+If you are extending another language, you should add your language on the end of their scopeName `source.theirLanguageId.yourLanguageId`.  
 For example [HTML (Derivative)](https://github.com/textmate/html.tmbundle/blob/master/Syntaxes/HTML.plist) `text.html.derivative` extending [HTML](https://github.com/textmate/html.tmbundle/blob/master/Syntaxes/HTML%20(Derivative).tmLanguage) `text.html.basic`  
 
 ## patterns
