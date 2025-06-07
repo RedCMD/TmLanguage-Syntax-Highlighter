@@ -34,6 +34,7 @@ The injection syntax is parsed into the following tokens
 
 * `L:` - `left` side priority selector `-1` to following the scopeName
 * `R:` - `right` side priority selector `1` to following the scopeName
+* `B:` - Both `left` and `right` side priority selectors (Github and [TextMate](https://github.com/textmate/textmate/blob/master/Frameworks/scope/src/types.h#L74) only. VSCode doesn't support it)
 * __*__`:` - any char followed by `:` colon. Defaults to priority `0` to following the scopeName
 * `(` - Open bracket group
 * `)` - Close bracket group
@@ -91,3 +92,50 @@ You will need put the injections inside the parent grammar.
 
 TextMate will inject the rules into the entire document.  
 Including recursively into the injected rules.  
+
+### Warning
+TextMate 2.0 and Github have a bug where a injected `include` won't be applied if the `include` is already present in the same instance.  
+Causing `L:` to effectively be ignored.  
+
+For example in this grammar:
+```json textmate
+{
+	"scopeName": "source.languageId",
+	"injections": {
+		"L:source.languageId": {
+			"patterns": [ { "include": "#any" } ]
+		}
+	},
+	"patterns": [
+		{ "include": "#abc" },
+		{ "include": "#any" }
+	],
+	"repository": {
+		"abc": {
+			"match": "abc",
+			"name": "string.abc"
+		},
+		"any": {
+			"match": ".",
+			"name": "comment.any"
+		},
+		"any2": {
+			"match": ".",
+			"name": "comment.any"
+		}
+	}
+}
+```
+It would be expected that this grammar matches the text `abc` with `comment.any`.  
+But instead it is matched with `string.abc`.  
+Even tho the injection has high priority `L:`.  
+TextMate and Github see that `#any` was already included from within the root level `patterns`.  
+Then proceeding to simply ignore it.  
+Forgetting that the order/priority of the `include` needs to be changed.  
+
+As you will see changing one of the `#any` to `#any2` fixes it.  
+Also removing `#any` from the root level `patterns` fixes it.  
+
+VSCode handles this correctly by not ignoring the duplicate injection `include`.  
+https://github.com/github-linguist/linguist/discussions/6756  
+https://github.com/lifeart/vsc-ember-syntax/pull/77  
