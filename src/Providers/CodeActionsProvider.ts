@@ -234,9 +234,10 @@ async function optimizeRegex(edit: vscode.WorkspaceEdit, regexNode: webTreeSitte
 		}).pattern;
 
 		const replacedText = JSON.stringify(optimized).slice(1, -1); // remove surrounding "double quotes"
-		edit.replace(uri, range, replacedText);
-
-		return;
+		if (text != optimized) {
+			edit.replace(uri, range, replacedText);
+			return;
+		}
 	} catch (error) {
 		console.warn("JSON TextMate: oniguruma-parser/optimizer: range: ", range, '\n', error);
 	}
