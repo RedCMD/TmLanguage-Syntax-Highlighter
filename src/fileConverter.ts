@@ -160,6 +160,12 @@ function rankLanguages(document: vscode.TextDocument): Language[] {
 		languages.PLIST += 2;
 	}
 
+	for (const language in languages as { [key in Language]: number; }) {
+		if (languages[language as Language] === 0) {
+			delete languages[language as Language];
+		}
+	}
+
 	const rankedLanguages = (Object.keys(languages) as Language[]).sort((a, b) => languages[b] - languages[a]);
 	console.log('rankedLanguages: ', rankedLanguages, ' ', languages);
 	return rankedLanguages;
