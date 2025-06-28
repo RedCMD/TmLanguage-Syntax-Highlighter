@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as YAML from 'yaml';
 import * as XML from 'plist';
+import * as CSON from 'cson-parser';
 import * as DATE from 'date-and-time';
 
 
@@ -10,10 +11,11 @@ export function initFileConverter(context: vscode.ExtensionContext) {
 		vscode.commands.registerTextEditorCommand('extension.convertFileToYAML', async (editor: vscode.TextEditor) => await convertFileTo('YAML', editor.document)),
 		vscode.commands.registerTextEditorCommand('extension.convertFileToXML', async (editor: vscode.TextEditor) => await convertFileTo('XML', editor.document)),
 		vscode.commands.registerTextEditorCommand('extension.convertFileToPLIST', async (editor: vscode.TextEditor) => await convertFileTo('PLIST', editor.document)),
+		vscode.commands.registerTextEditorCommand('extension.convertFileToCSON', async (editor: vscode.TextEditor) => await convertFileTo('CSON', editor.document)),
 	);
 }
 
-type Language = 'JSON' | 'YAML' | 'XML' | 'PLIST';
+type Language = 'JSON' | 'YAML' | 'XML' | 'PLIST' | 'CSON';
 async function convertFileTo(newLanguage: Language, document?: vscode.TextDocument) {
 	if (!document) {
 		const activeTextEditor = vscode.window.activeTextEditor;
@@ -41,6 +43,13 @@ async function convertFileTo(newLanguage: Language, document?: vscode.TextDocume
 				case 'PLIST':
 					parsedDocument = parseAsciiPLIST(text);
 					break;
+				case 'CSON':
+					if (!CSON.parse) {
+						vscode.window.showWarningMessage("TextMate: CSON conversion not available in VSCode Web atm");
+						break;
+					}
+					parsedDocument = CSON.parse(text);
+					break;
 			}
 		} catch (error: any) {
 			vscode.window.showWarningMessage(`TextMate: Error converting file from ${language}:\n${error.toString()}`);
@@ -60,6 +69,7 @@ async function convertFileTo(newLanguage: Language, document?: vscode.TextDocume
 		YAML: 'yaml-textmate',
 		XML: 'xml',
 		PLIST: 'ascii-textmate',
+		CSON: 'coffeescript',
 	}[newLanguage];
 	const editorConfig = vscode.workspace.getConfiguration('editor', { languageId: documentLanguage });
 	const tabSize = editorConfig.get<number>('tabSize') ?? 4;
@@ -84,6 +94,13 @@ async function convertFileTo(newLanguage: Language, document?: vscode.TextDocume
 			case 'PLIST':
 				newText = stringifyAsciiPLIST(parsedDocument, indent);
 				break;
+			case 'CSON':
+				if (!CSON.stringify) {
+					vscode.window.showWarningMessage("TextMate: CSON conversion not available in VSCode Web atm");
+					return;
+				}
+				newText = CSON.stringify(parsedDocument, undefined, indent);
+				break;
 			default:
 				return;
 		}
@@ -106,6 +123,7 @@ function rankLanguages(document: vscode.TextDocument): Language[] {
 		YAML: 0,
 		XML: 0,
 		PLIST: 0,
+		CSON: 0,
 	};
 
 	const documentLanguage = document.languageId;
@@ -123,6 +141,9 @@ function rankLanguages(document: vscode.TextDocument): Language[] {
 	}
 	if (/^plaintext$/i.test(documentLanguage)) {
 		languages.PLIST += 4;
+	}
+	if (/cson|coffeescript/i.test(documentLanguage)) {
+		languages.CSON += 10;
 	}
 
 	const fileName = document.fileName;
@@ -142,6 +163,9 @@ function rankLanguages(document: vscode.TextDocument): Language[] {
 		languages.XML += 2;
 		languages.PLIST += 2;
 	}
+	if (/cson$|coffeescript$/i.test(fileName)) {
+		languages.CSON += 6;
+	}
 
 	const text = document.getText();
 	if (/^\s*{\s*$|^\s*{\s*"/i.test(text)) {
@@ -158,6 +182,9 @@ function rankLanguages(document: vscode.TextDocument): Language[] {
 	}
 	if (/^\s*{/i.test(text)) {
 		languages.PLIST += 2;
+	}
+	if (/^\s*#|^\s*\w+:\s/i.test(text)) {
+		languages.CSON += 3;
 	}
 
 	for (const language in languages as { [key in Language]: number; }) {

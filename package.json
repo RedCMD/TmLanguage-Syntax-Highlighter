@@ -36,7 +36,7 @@
 	"capabilities": {
 		"virtualWorkspaces": {
 			"supported": true,
-			"description": "DropEdit and oniguruma-parser doesn't work in VSCode web atm"
+			"description": "DropEdit and CSON conversion does not work in VSCode Web atm"
 		},
 		"untrustedWorkspaces": {
 			"supported": true,
@@ -594,10 +594,18 @@
 				"title": "Convert file to PLIST (ascii)",
 				"category": "TextMate",
 				"icon": "assets/TextMate-file-icon.svg"
+			},
+			{
+				"command": "extension.convertFileToCSON",
+				"title": "Convert file to CSON",
+				"category": "TextMate",
+				"icon": "assets/TextMate-file-icon.svg",
+				"enablement": "!isWeb"
 			}
 		]
 	},
 	"dependencies": {
+		"cson-parser": "^4.0.9",
 		"date-and-time": "^3.6.0",
 		"oniguruma-parser-cjs": "^0.0.1",
 		"oniguruma-to-es": "^4.3.3",
