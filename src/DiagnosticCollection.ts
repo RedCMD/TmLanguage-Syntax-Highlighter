@@ -227,7 +227,7 @@ async function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[],
 	// const start = performance.now();
 	const jsonQuery = `;scm
 			(ERROR) @ERROR
-			(_ _ @missing (#eq? @missing ""))
+			(MISSING) @missing
 		`;
 	const jsonCaptures = queryNode(rootNode, jsonQuery);
 
@@ -288,7 +288,7 @@ async function diagnosticsTreeSitterRegexErrors(diagnostics: vscode.Diagnostic[]
 			(error) @error
 			(quantifier) @quantifier
 			(character_property_name) @property
-			(_ _ @missing (#eq? @missing ""))
+			(MISSING) @missing
 		`;
 		const queryCaptures = queryNode(tree.rootNode, queryString);
 
@@ -672,41 +672,26 @@ async function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootN
 	`;
 	let nestedRepoCaptures: webTreeSitter.QueryCapture[] = [];
 
-	// TreeSitter compiling sibling nodes query very slow
-	// https://github.com/tree-sitter/tree-sitter/issues/3956
 	const repoQuery = `;scm
 		(repo
-			; [(include) (patterns)] (repository
-			(repository
+			&include (repository
 				(repo
 					(key) @nestRepo))
 			!match !begin)
 		(repo
-			(repository
-				(repo
-					(key) @nestRepo)) ; [(include) (patterns)]
-			!match !begin)
-		(pattern
-			; (patterns) (repository
-			(repository
+			&patterns (repository
 				(repo
 					(key) @nestRepo))
 			!match !begin !include)
 		(pattern
-			(repository
-				(repo
-					(key) @nestRepo)) ; (patterns)
-			!match !begin !include)
-		(capture
-			; (patterns) (repository
-			(repository
+			&patterns (repository
 				(repo
 					(key) @nestRepo))
-			!match !begin)
+			!match !begin !include)
 		(capture
-			(repository
+			&patterns (repository
 				(repo
-					(key) @nestRepo)) ; (patterns)
+					(key) @nestRepo))
 			!match !begin)
 	`;
 
@@ -880,7 +865,6 @@ async function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], roo
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics TextMate dead"));
 	// const start = performance.now();
 
-	// Some queries are very performance heavy during startup +8000ms
 	const deadQuery = `;scm
 		(fileTypes) @fileTypes
 		(firstLineMatch) @firstLineMatch
@@ -892,28 +876,28 @@ async function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], roo
 		((while) (end) @end)
 
 		(repo (repository) @repository !patterns !include)
-		; (repo (repository) @repository [(match) (begin)])
-		; (repo [(match) (begin)] (repository) @repository)
-		; (repo (patterns) @patterns (match))
-		; (repo (match) (patterns) @patterns)
-		; (repo (include) @include [(match) (begin) (patterns)])
-		; (repo [(match) (begin) (patterns)] (include) @include)
-		; (repo [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @begin (match))
-		; (repo (match) [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @begin)
+		(repo (repository) @repository &match)
+		(repo (repository) @repository &begin !match)
+		(repo (patterns) @patterns &match)
+		(repo (include) @include &match)
+		(pattern (include) @include &match)
+		(repo (include) @include &begin !match)
+		(repo (include) @include &patterns !begin !match)
+		(repo [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @begin &match)
 		(repo [(captures) @captures (name) @name] !match !begin)
 		(repo [(while) @while (end) @end (beginCaptures) @beginCaptures (whileCaptures) @whileCaptures (endCaptures) @endCaptures (contentName) @contentName (applyEndPatternLast) @applyEndPatternLast] !begin)
 		(repo (whileCaptures) @whileCaptures !while)
 		(repo [(endCaptures) @endCaptures (applyEndPatternLast) @applyEndPatternLast] !end)
 
 		(pattern (repository) @repositoryPatterns !patterns)
-		; (pattern (repository) @repositoryPatterns [(match) (begin) (include)])
-		; (pattern [(match) (begin) (include)] (repository) @repositoryPatterns)
-		; (pattern (patterns) @patternsPatterns [(match) (include)])
-		; (pattern [(match) (include)] (patterns) @patternsPatterns)
-		; (pattern (match) @match (include))
-		; (pattern (include) (match) @match)
-		; (pattern [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @beginPatterns [(match) (include)])
-		; (pattern [(match) (include)] [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @beginPatterns)
+		(pattern (repository) @repositoryPatterns &match)
+		(pattern (repository) @repositoryPatterns &begin !match)
+		(pattern (repository) @repositoryPatterns &include !begin !match)
+		(pattern (patterns) @patternsPatterns &match)
+		(pattern (patterns) @patternsPatterns &include !match)
+		(pattern (match) @match &include)
+		(pattern [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @beginPatterns &match)
+		(pattern [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @beginPatterns &include !match)
 		(pattern [(captures) @captures (name) @name] !match !begin)
 		(pattern [(while) @while (end) @end (beginCaptures) @beginCaptures (whileCaptures) @whileCaptures (endCaptures) @endCaptures (contentName) @contentName (applyEndPatternLast) @applyEndPatternLast] !begin)
 		(pattern (whileCaptures) @whileCaptures !while)

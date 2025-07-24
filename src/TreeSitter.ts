@@ -194,22 +194,18 @@ export function toPosition(point: webTreeSitter.Point): vscode.Position {
 let jsonParser: webTreeSitter.Parser;
 let regexParser: webTreeSitter.Parser;
 
-declare var navigator: EmscriptenModule | undefined;
 export async function initTreeSitter(context: vscode.ExtensionContext) {
 	// vscode.window.showInformationMessage(JSON.stringify("TreeSitterInit"));
 
-	// We only need to provide these options when running in the web worker
-	// @ts-ignore
-	const moduleOptions: EmscriptenModule | undefined = typeof navigator === 'undefined'
+	// We only need to provide these options when running in the web worker or VSCode Web
+	const moduleOptions: Partial<EmscriptenModule> | undefined = typeof navigator === 'undefined'
 		? undefined
 		: {
 			locateFile(): string {
-				return vscode.Uri.joinPath(context.extensionUri, 'node_modules', 'web-tree-sitter', 'tree-sitter.wasm').toString(true);
+				return vscode.Uri.joinPath(context.extensionUri, 'node_modules', 'web-tree-sitter', 'web-tree-sitter.wasm').toString(true);
 			}
 		};
 	await webTreeSitter.Parser.init(moduleOptions); // Everything MUST wait until TreeSitter initializes
-
-	// vscode.window.showInformationMessage(JSON.stringify("Parser"));
 
 	jsonParser = new webTreeSitter.Parser();
 	const jsonWasmUri = vscode.Uri.joinPath(context.extensionUri, 'out', 'tree-sitter-jsontm.wasm');

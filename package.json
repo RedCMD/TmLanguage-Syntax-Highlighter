@@ -613,7 +613,7 @@
 		"plist": "^3.1.0",
 		"vscode-onigmo": "^2.0.1",
 		"vscode-oniguruma": "1.7.0",
-		"web-tree-sitter": "^0.25.4",
+		"web-tree-sitter": "file:node_modules_temp/web-tree-sitter",
 		"yaml": "^2.8.0"
 	},
 	"devDependencies": {
@@ -623,7 +623,7 @@
 		"@vscode/test-web": "^0.0.69",
 		"@vscode/vsce": "^3.4.2",
 		"path-browserify": "^1.0.1",
-		"tree-sitter-cli": "^0.25.4",
+		"tree-sitter-cli": "^0.25.8",
 		"ts-loader": "^9.5.2",
 		"typescript": "^5.8.3",
 		"webpack": "^5.99.9",
