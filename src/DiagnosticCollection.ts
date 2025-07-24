@@ -3,6 +3,7 @@ import * as webTreeSitter from 'web-tree-sitter';
 import * as vscodeOniguruma from 'vscode-oniguruma';
 import * as textmateOnigmo from "./Onigmo/Onigmo";
 import * as PCRE from '@syntropiq/libpcre-ts';
+import * as onigurumaToES from 'oniguruma-to-es';
 import { closeEnoughQuestionMark, DocumentSelector, getPackageJSON, stringify, wagnerFischer } from "./extension";
 import { getLastNode, getTrees, queryNode, toRange, trees } from "./TreeSitter";
 import { ignoreDiagnosticsUnusedRepos } from "./Providers/CodeActionsProvider";
@@ -563,6 +564,28 @@ async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[],
 		);
 
 
+		let errorCodeES: string | undefined;
+		try {
+			// https://shiki.style/ uses https://github.com/slevithan/oniguruma-to-es
+			// There is no escaping backreferences, but aimless backreferences are ignored
+
+
+			const options: onigurumaToES.ToRegExpOptions = {
+				accuracy: 'default',
+				verbose: true,
+				rules: {
+					// Follow `vscode-oniguruma` which enables this Oniguruma option by default
+					captureGroup: true,
+					allowOrphanBackrefs: hasBackreferences,
+
+				},
+			};
+			const jsRegex = onigurumaToES.toRegExpDetails(regex, options);
+		} catch (error: any) {
+			errorCodeES = error.toString();
+		}
+
+
 		// const string = vscodeOniguruma.createOnigString(''); // blank. Maybe can test against a user provided string?
 		// const match = scanner.findNextMatchSync(string, 0); // returns null if `regex` is invalid
 		// vscode.window.showInformationMessage(`Oniguruma ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(match, stringify)}`);
@@ -585,6 +608,16 @@ async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[],
 					source: 'PCRE',
 				});
 			}
+
+			if (errorCodeES) {
+				diagnostics.push({
+					range: range,
+					message: errorCodeES,
+					severity: vscode.DiagnosticSeverity.Warning,
+					source: 'Shiki',
+				});
+			}
+
 			continue;
 		}
 
@@ -612,6 +645,15 @@ async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[],
 				message: `Regex incompatible with Github-Linguist (PCRE v8.36)\n${errorCodePCRE}`,
 				severity: vscode.DiagnosticSeverity.Warning,
 				source: 'PCRE',
+			});
+		}
+
+		if (errorCodeES) {
+			diagnostics.push({
+				range: range,
+				message: `Regex incompatible with Shiki (oniguruma-to-es)\n${errorCodeES}`,
+				severity: vscode.DiagnosticSeverity.Warning,
+				source: 'Shiki',
 			});
 		}
 	}
