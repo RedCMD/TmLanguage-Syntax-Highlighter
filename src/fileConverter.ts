@@ -10,12 +10,12 @@ export function initFileConverter(context: vscode.ExtensionContext) {
 		vscode.commands.registerTextEditorCommand('extension.convertFileToJSON', async (editor: vscode.TextEditor) => await convertFileTo('JSON', editor.document)),
 		vscode.commands.registerTextEditorCommand('extension.convertFileToYAML', async (editor: vscode.TextEditor) => await convertFileTo('YAML', editor.document)),
 		vscode.commands.registerTextEditorCommand('extension.convertFileToXML', async (editor: vscode.TextEditor) => await convertFileTo('XML', editor.document)),
-		vscode.commands.registerTextEditorCommand('extension.convertFileToPLIST', async (editor: vscode.TextEditor) => await convertFileTo('PLIST', editor.document)),
+		vscode.commands.registerTextEditorCommand('extension.convertFileToPLIST', async (editor: vscode.TextEditor) => await convertFileTo('ASCII', editor.document)),
 		vscode.commands.registerTextEditorCommand('extension.convertFileToCSON', async (editor: vscode.TextEditor) => await convertFileTo('CSON', editor.document)),
 	);
 }
 
-type Language = 'JSON' | 'YAML' | 'XML' | 'PLIST' | 'CSON';
+type Language = 'JSON' | 'YAML' | 'XML' | 'ASCII' | 'CSON';
 async function convertFileTo(newLanguage: Language, document?: vscode.TextDocument) {
 	if (!document) {
 		const activeTextEditor = vscode.window.activeTextEditor;
@@ -40,7 +40,7 @@ async function convertFileTo(newLanguage: Language, document?: vscode.TextDocume
 				case 'XML':
 					parsedDocument = XML.parse(text);
 					break;
-				case 'PLIST':
+				case 'ASCII':
 					parsedDocument = parseAsciiPLIST(text);
 					break;
 				case 'CSON':
@@ -68,7 +68,7 @@ async function convertFileTo(newLanguage: Language, document?: vscode.TextDocume
 		JSON: 'json-textmate',
 		YAML: 'yaml-textmate',
 		XML: 'xml',
-		PLIST: 'ascii-textmate',
+		ASCII: 'ascii-textmate',
 		CSON: 'coffeescript',
 	}[newLanguage];
 	const editorConfig = vscode.workspace.getConfiguration('editor', { languageId: documentLanguage });
@@ -91,7 +91,7 @@ async function convertFileTo(newLanguage: Language, document?: vscode.TextDocume
 			case 'XML':
 				newText = XML.build(parsedDocument, { indent: indent });
 				break;
-			case 'PLIST':
+			case 'ASCII':
 				newText = stringifyAsciiPLIST(parsedDocument, indent);
 				break;
 			case 'CSON':
@@ -118,109 +118,124 @@ async function convertFileTo(newLanguage: Language, document?: vscode.TextDocume
 }
 
 function rankLanguages(document: vscode.TextDocument): Language[] {
-	const languages: { [key in Language]: number; } = {
+	const languageScores: { [key in Language]: number; } = {
 		JSON: 0,
 		YAML: 0,
 		XML: 0,
-		PLIST: 0,
+		ASCII: 0,
 		CSON: 0,
 	};
 
 	const documentLanguage = document.languageId;
 	if (/JSON/i.test(documentLanguage)) {
-		languages.JSON += 10;
+		languageScores.JSON += 10;
 	}
 	if (/YA?ML/i.test(documentLanguage)) {
-		languages.YAML += 10;
+		languageScores.YAML += 10;
 	}
 	if (/XML/i.test(documentLanguage)) {
-		languages.XML += 10;
+		languageScores.XML += 10;
 	}
-	if (/PLIST/i.test(documentLanguage)) {
-		languages.PLIST += 10;
-	}
-	if (/^plaintext$/i.test(documentLanguage)) {
-		languages.PLIST += 4;
+	if (/ASCII-TEXTMATE/i.test(documentLanguage)) {
+		languageScores.ASCII += 10;
 	}
 	if (/cson|coffeescript/i.test(documentLanguage)) {
-		languages.CSON += 10;
+		languageScores.CSON += 10;
 	}
 
 	const fileName = document.fileName;
-	if (/JSON/i.test(fileName)) {
-		languages.JSON += 5;
+	if (/JSON$/i.test(fileName)) {
+		languageScores.JSON += 6;
 	}
 	if (/YA?ML/i.test(fileName)) {
-		languages.YAML += 5;
+		languageScores.YAML += 5;
 	}
-	if (/XML/i.test(fileName)) {
-		languages.XML += 5;
+	if (/XML$/i.test(fileName)) {
+		languageScores.XML += 6;
 	}
-	if (/PLIST/i.test(fileName)) {
-		languages.PLIST += 5;
+	if (/PLIST$/i.test(fileName)) {
+		languageScores.ASCII += 5;
 	}
 	if (/tmLanguage$/i.test(fileName)) {
-		languages.XML += 2;
-		languages.PLIST += 2;
+		languageScores.XML += 2;
+		languageScores.ASCII += 2;
+	}
+	if (/textmate$/i.test(fileName)) {
+		languageScores.ASCII += 3;
 	}
 	if (/cson$|coffeescript$/i.test(fileName)) {
-		languages.CSON += 6;
+		languageScores.CSON += 6;
 	}
 
 	const text = document.getText();
 	if (/^\s*{\s*$|^\s*{\s*"/i.test(text)) {
-		languages.JSON += 2;
+		languageScores.JSON += 2;
 	}
-	if (/^\s*#|^%|\w+:\s/i.test(text)) {
-		languages.YAML += 4;
+	if (/^\s*#|^%|^\s*\w+:\s/i.test(text)) {
+		languageScores.YAML += 4;
 	}
 	if (/^\s*{/i.test(text)) {
-		languages.YAML += 1;
+		languageScores.YAML += 1;
+		languageScores.ASCII += 2;
 	}
 	if (/^\s*</i.test(text)) {
-		languages.XML += 5;
+		languageScores.XML += 5;
 	}
-	if (/^\s*{/i.test(text)) {
-		languages.PLIST += 2;
+	if (/^\s*{\s*['"]?\w+['"]?\s*=/i.test(text)) {
+		languageScores.ASCII += 3;
 	}
 	if (/^\s*#|^\s*\w+:\s/i.test(text)) {
-		languages.CSON += 3;
+		languageScores.CSON += 3;
 	}
 
-	for (const language in languages as { [key in Language]: number; }) {
-		if (languages[language as Language] === 0) {
-			delete languages[language as Language];
+	for (const language in languageScores) {
+		if (languageScores[language as Language] === 0) {
+			delete languageScores[language as Language];
 		}
 	}
 
-	const rankedLanguages = (Object.keys(languages) as Language[]).sort((a, b) => languages[b] - languages[a]);
-	console.log('rankedLanguages: ', rankedLanguages, ' ', languages);
+	const rankedLanguages = (Object.keys(languageScores) as Language[]).sort((a, b) => languageScores[b] - languageScores[a]);
+	console.log('TextMate: rankedLanguages: ', rankedLanguages, ' ', languageScores);
+	if (rankLanguages.length === 0) {
+		vscode.window.showWarningMessage("TextMate: FileConverter:\nCannot determine document's language");
+	}
 	return rankedLanguages;
 }
 
 
+
+/* == ASCI PLIST == */
+
 function stringifyAsciiPLIST(value: Value, space: string = '\t', indent: number = 0, parent?: Value): string {
+	// https://github.com/textmate/textmate/blob/master/Frameworks/plist/src/to_s.cc
 	if (value == null) {
 		return '';
 	}
 	switch (typeof value) {
 		case 'string':
 			// Number
-			if (/^[1-9]\d*$/.test(value)) {
+			// https://github.com/textmate/textmate/blob/master/Frameworks/plist/src/to_s.cc#L128-L129
+			// Leading 0's are lost after 2 successive formats: '001' => 001 => 1
+			// if (/^\d+$/.test(value)) {
+			if (/^0$|^[1-9]\d*$/.test(value)) {
 				return value;
 			}
 
 			// Unquoted string
-			if (indent === 0 && /^[A-Za-z_][A-Za-z0-9_.-]*$/.test(value)) {
+			// https://github.com/textmate/textmate/blob/master/Frameworks/plist/src/to_s.cc#L132L-141
+			// if (indent === 0 && /^[A-Za-z_][A-Za-z0-9_.-]*$/.test(value)) {
+			if (indent === 0 && /^[A-Za-z_][A-Za-z_.-]*$/.test(value)) {
 				return value;
 			}
 
 			// Single quotes
-			if (!/[\x00-\x1F\x7F]/.test(value) && (value.match(/'/g)?.length ?? 0) <= (value.match(/["\\]/g)?.length ?? 0)) {
+			// https://github.com/textmate/textmate/blob/master/Frameworks/plist/src/to_s.cc#L102
+			if (!/'/.test(value) || /\\/.test(value)) {
 				return `'${value.replaceAll("'", "''")}'`;
 			}
+
 			// Double quotes
-			return JSON.stringify(value);
+			return `"${value.replaceAll(/"|\\(?=\\|")/g, "\\$&")}"`;
 
 		case 'bigint':
 		case 'number':
@@ -231,20 +246,39 @@ function stringifyAsciiPLIST(value: Value, space: string = '\t', indent: number 
 			return value ? ':true' : ':false';
 
 		case 'object':
+			if (value instanceof Date) {
+				const dateFormatted = DATE.format(value, '@YYYY-MM-DD HH:mm:ss Z');
+				return value.getUTCFullYear() < 1900 ? `'${dateFormatted}'` : `${dateFormatted}`;
+			}
+
 			if (Array.isArray(value)) {
+				// https://github.com/textmate/textmate/blob/master/Frameworks/plist/src/to_s.cc#L204-L207
 				if (value.length === 0) {
 					return '( )';
+				}
+
+				if (value.length === 1) {
+					if (value[0] != null) {
+						const firstValue = value[0];
+						switch (typeof firstValue) {
+							case 'object':
+								if (!(firstValue instanceof Date)) {
+									break;
+								}
+							case 'string':
+							case 'bigint':
+							case 'number':
+							case 'boolean':
+								return `( ${stringifyAsciiPLIST(firstValue)} )`;
+						}
+					}
+
 				}
 				return `(${value
 					.map(element =>
 						`\n${space.repeat(indent + 1)}${stringifyAsciiPLIST(element, space, indent + 1, value)},`
 					).join('')
 					}\n${space.repeat(indent)})`;
-			}
-
-			if (value instanceof Date) {
-				const dateFormatted = DATE.format(value, '@YYYY-MM-DD HH:mm:ss Z');
-				return value.getUTCFullYear() < 1900 ? `'${dateFormatted}'` : `${dateFormatted}`;
 			}
 
 			if (Object.keys(value).length === 0) {
@@ -258,13 +292,14 @@ function stringifyAsciiPLIST(value: Value, space: string = '\t', indent: number 
 					`${stringifyAsciiPLIST(key)} = ${stringifyAsciiPLIST(value[key], space, indent + 1, value)};`
 				).join(`\n${space.repeat(indent + 1)}`)
 				}\n${space.repeat(indent)}}`;
+
 		default:
 			throw new Error(`Unsupported value type ${typeof value}`);
 	}
 };
 
 
-type Value = Dictionary | Value[] | string | number | boolean | Date | null | undefined;
+type Value = Dictionary | Value[] | string | number | bigint | boolean | Date | null | undefined;
 type Dictionary = {
 	[key: string]: Value;
 };
@@ -274,137 +309,141 @@ function backtrack(regex: RegExp, match: match): void {
 	regex.lastIndex = regex.lastIndex - (match?.value.length ?? 0); // ignoring whitespace and comments
 }
 function nextToken(regex: RegExp, string: string): match {
-	let match: tokens;
 	do {
-		match = regex.exec(string)?.groups as tokens;
+		var match = regex.exec(string)!.groups as tokens;
 		// console.log("match: ", regex.lastIndex, match);
 		// console.log("match-stringify: ", JSON.stringify(match, stringify));
 	} while (match.whitespace || match.comment);
-	const matchIndex = Object.values(match).findIndex(name => name);
-	if (matchIndex === -1) {
+	// const matchIndex = Object.values(match).findIndex(name => name);
+	// if (matchIndex === -1) {
+	// 	return null;
+	// }
+	// const matchKey = Object.keys(match)[matchIndex] as NonNullable<match>['key'];
+	// const matchValue = Object.values(match)[matchIndex]!;
+	// return { key: matchKey, value: matchValue };
+	const matchedGroup = Object.entries(match).find(group => group[1]) as [NonNullable<match>['key'], string];
+	if (matchedGroup === undefined) {
 		return null;
 	}
-	const matchKey = Object.keys(match)[matchIndex] as NonNullable<match>['key'];
-	const matchValue = Object.values(match)[matchIndex]!;
-	return { key: matchKey, value: matchValue };
+	return { key: matchedGroup[0], value: matchedGroup[1] };
 }
-function parseElement(regex: RegExp, string: string): Value {
-	let match: match;
-	if (match = nextToken(regex, string)) {
-		switch (match.key) {
-			// case 'whitespace':
-			// case 'comment':
-			// case 'forwardSlash':
-			// 	continue;
+function parseElement(regex: RegExp, string: string, match: match = nextToken(regex, string)): Value {
+	if (!match) {
+		return;
+	}
+	switch (match.key) {
+	// case 'whitespace':
+	// case 'comment':
+	// case 'forwardSlash':
+	// 	continue;
 
-			case 'curlyOpen':
-				const object: Dictionary = {};
-				while (match = nextToken(regex, string)) {
-					if (match.key === 'semiColon') {
-						continue;
-					}
-					if (match.key === 'curlyClose') {
-						break;
-					}
-					backtrack(regex, match);
+		case 'curlyOpen':
+			const object: Dictionary = {};
+			while (match = nextToken(regex, string)) {
+				if (match.key === 'semiColon') {
+					continue;
+				}
+				if (match.key === 'curlyClose') {
+					break;
+				}
+				// backtrack(regex, match);
 
-					const key = parseElement(regex, string);
-					if (key == undefined) {
-						break;
-					}
+				const key = parseElement(regex, string, match);
+				if (key == undefined) {
+					break;
+				}
+				match = nextToken(regex, string);
+				if (match?.key == 'assign') {
 					match = nextToken(regex, string);
-					if (match?.key !== 'assign') {
-						backtrack(regex, match);
-					}
-					const value = parseElement(regex, string);
-					object[key.toString()] = value;
-				};
-				return object;
-
-			case 'parenOpen':
-				const array: Value[] = [];
-				while (match = nextToken(regex, string)) {
-					if (match.key === 'parenClose') {
-						break;
-					}
-					if (match.key === 'comma') {
-						continue;
-					}
-					backtrack(regex, match);
-
-					const element = parseElement(regex, string);
-					if (element == undefined) {
-						break;
-					}
-					array.push(element);
-				};
-				return array;
-
-			case 'stringDouble':
-				return JSON.parse(match.value);
-			case 'stringSingle':
-				return match.value.slice(1, -1).replaceAll(/''/g, "'");
-			case 'stringUnquoted':
-				return match.value;
-
-			case 'float':
-				return parseFloat(match.value);
-
-			case 'integer':
-				if (/^[+-]?0x/.test(match.value)) {
-					return parseInt(match.value, 16);
+					// backtrack(regex, match);
 				}
-				if (/^[+-]?0\d/.test(match.value)) {
-					return parseInt(match.value, 8);
-				}
-				if (/^[+-]?\d/.test(match.value)) {
-					return parseInt(match.value, 10);
-				}
-				return;
+				const value = parseElement(regex, string, match);
+				object[key.toString()] = value;
+			};
+			return object;
 
-			case 'boolean':
-				switch (match.value) {
-					case ':true':
-						return true;
-					case ':false':
-						return false;
-					default:
-						return;
+		case 'parenOpen':
+			const array: Value[] = [];
+			while (match = nextToken(regex, string)) {
+				if (match.key === 'parenClose') {
+					break;
 				}
+				if (match.key === 'comma') {
+					continue;
+				}
+				// backtrack(regex, match);
 
-			case 'date':
-				// if (match.value.length !== 16) {
-				// 	return;
-				// }
-				// if (!/@\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} [+-]\d{4}/.test(match.value)) {
-				// 	return;
-				// }
-				// const groups = match.value.match(/^@(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2}) (?<hour>\d{2}):(?<minute>\d{2}):(?<second>\d{2}) [+-](?<offset>\d{4})$/)?.groups as {
-				// 	year: string;
-				// 	month: string;
-				// 	day: string;
-				// 	hour: string;
-				// 	minute: string;
-				// 	second: string;
-				// 	offset: string;
-				// } | undefined;
-				// if (!groups) {
-				// 	return;
-				// }
-				const date = DATE.parse(match.value, '@YYYY-MM-DD HH:mm:ss Z', true);
-				if (date.getUTCFullYear() < 1970) { }
-				return date;
+				const element = parseElement(regex, string, match);
+				if (element == undefined) {
+					break;
+				}
+				array.push(element);
+			};
+			return array;
 
-			case 'curlyClose':
-			case 'parenClose':
-			case 'assign':
-			case 'comma':
-			case 'semiColon':
-				backtrack(regex, match);
-			case 'invalid':
-			default:
-				return;
-		}
+		case 'stringDouble':
+			return match.value.slice(1, -1).replaceAll(/\\(\\|")/g, '$1');
+		case 'stringSingle':
+			return match.value.slice(1, -1).replaceAll(/''/g, "'");
+		case 'stringUnquoted':
+			return match.value;
+
+		case 'float':
+			return parseFloat(match.value);
+		case 'integer':
+			if (/^[+-]?0x/.test(match.value)) {
+				return parseInt(match.value, 16);
+			}
+			if (/^[+-]?0\d/.test(match.value)) {
+				return parseInt(match.value, 8);
+			}
+			if (/^[+-]?\d/.test(match.value)) {
+				return parseInt(match.value, 10);
+			}
+			return;
+
+		case 'boolean':
+			switch (match.value) {
+				case ':true':
+					return true;
+				case ':false':
+					return false;
+				default:
+					return;
+			}
+
+		case 'date':
+			// if (match.value.length !== 16) {
+			// 	return;
+			// }
+			// if (!/@\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} [+-]\d{4}/.test(match.value)) {
+			// 	return;
+			// }
+			// const groups = match.value.match(/^@(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2}) (?<hour>\d{2}):(?<minute>\d{2}):(?<second>\d{2}) [+-](?<offset>\d{4})$/)?.groups as {
+			// 	year: string;
+			// 	month: string;
+			// 	day: string;
+			// 	hour: string;
+			// 	minute: string;
+			// 	second: string;
+			// 	offset: string;
+			// } | undefined;
+			// if (!groups) {
+			// 	return;
+			// }
+			const date = DATE.parse(match.value, '@YYYY-MM-DD HH:mm:ss Z', true);
+			if (date.getUTCFullYear() < 1970) { }
+			return date;
+
+		case 'curlyClose':
+		case 'parenClose':
+		case 'assign':
+		case 'comma':
+		case 'semiColon':
+			backtrack(regex, match);
+		case 'invalid':
+		default:
+			return;
 	}
 }
 
@@ -452,11 +491,11 @@ function parseAsciiPLIST(string: string): Value {
 			/(?<curlyClose>})/,
 			/(?<parenOpen>\()/,
 			/(?<parenClose>\))/,
-			/(?<stringDouble>"(?:[^"\\]+|\\.)*")/,
-			/(?<stringSingle>'(?:[^']+|'')*')/,
+			/(?<stringDouble>"(?:\\.|[^"\\]+)*")/,
+			/(?<stringSingle>'(?:''|[^']+)*')/,
 			/(?<stringUnquoted>[A-Za-z_][A-Za-z0-9_.-]*)/,
 			/(?<float>[+-]?\d*\.\d+)/,
-			/(?<integer>[+-]?(0x[a-fA-F\d]+|0[0-7]+|\d+))/,
+			/(?<integer>[+-]?(?:0x[a-fA-F0-9]+|0[0-7]+|\d+))/,
 			/(?<boolean>:true|:false)/,
 			/(?<date>@\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} [+-]\d{4})/,
 			/(?<assign>=)/,
