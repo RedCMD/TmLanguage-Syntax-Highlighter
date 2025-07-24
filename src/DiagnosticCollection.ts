@@ -204,7 +204,7 @@ async function Diagnostics(document: vscode.TextDocument) {
 		diagnosticsMismatchingRootScopeName(diagnostics, rootNode, document),
 		diagnosticsTreeSitterJSONErrors(diagnostics, rootNode),
 		diagnosticsTreeSitterRegexErrors(diagnostics, trees),
-		diagnosticsOnigurumaRegexErrors(diagnostics, trees),
+		diagnosticsRegularExpressionErrors(diagnostics, trees),
 		diagnosticsBrokenIncludes(diagnostics, rootNode),
 		diagnosticsUnusedRepos(diagnostics, rootNode),
 		diagnosticsLinguistCaptures(diagnostics, rootNode),
@@ -393,7 +393,7 @@ async function diagnosticsTreeSitterRegexErrors(diagnostics: vscode.Diagnostic[]
 	// vscode.window.showInformationMessage(`Regex ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[], trees: trees) {
+async function diagnosticsRegularExpressionErrors(diagnostics: vscode.Diagnostic[], trees: trees) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics Regex Oniguruma"));
 	// const start = performance.now();
 	const regexNodes = trees.regexNodes;
@@ -425,33 +425,33 @@ async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[],
 			groupCaptures = queryNode(beginRegex, captureGroupQuery);
 		}
 
+
 		let errorCodeOniguruma: string;
 		try {
+			// VSCode TextMate uses oniguruma
 			let replacedRegex = regex;
 			if (hasBackreferences) {
 				// VSCode TextMate replaces the backreferences directly
 				if (beginNode) {
 					let index = 0;
 					for (const groupCapture of groupCaptures) {
-						const groupText = groupCapture.node.text.slice( // substring() doesn't work with -1
-							groupCapture.name == 'name' ? groupCapture.node.firstNamedChild!.text.length + 4 : // remove `(?<name>`
-								groupCapture.name == 'group' ? 1 : // remove `(`
-									0,
-							groupCapture.name == 'regex' ? undefined : -1, // remove `)`
-						).replace(/[\-\\\{\}\*\+\?\|\^\$\.\,\[\]\(\)\#\s]/g, '\\$&');
+						const groupText = extractCaptureGroupText(groupCapture).replaceAll(/[\-\\{}*+?|^$.,\[\]()#\s]/g, '\\$&');
 						// https://github.com/microsoft/vscode-textmate/blob/main/src/utils.ts#L160
 						// https://github.com/microsoft/vscode-textmate/issues/239
 
-						replacedRegex = replacedRegex.replace(
-							// VSCode TextMate targets all backreferences /\\[0-9]+/
-							// and doesn't correctly account for escaped backslashes
-							new RegExp(`\\\\0*${index}(?![0-9])`, 'g'),
+						replacedRegex = replacedRegex.replaceAll(
+							// VSCode TextMate targets all escaped numbers /\\[0-9]+/
+							// not correctly accounting for escaped backslashes
+							new RegExp(
+								/\\0*/.source + index + /(?![0-9])/.source,
+								'g',
+							),
 							groupText,
 						);
 						index++;
 					}
 				}
-				replacedRegex = replacedRegex.replace(/\\[0-9]+/g, ''); // All non-existent backreferences are removed
+				replacedRegex = replacedRegex.replaceAll(/\\[0-9]+/g, ''); // All non-existent backreferences are removed
 			}
 
 			const scanner = new vscodeOniguruma.OnigScanner([replacedRegex]) as OnigScanner;
@@ -460,29 +460,28 @@ async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[],
 
 			scanner.dispose();
 		} catch (error: any) {
-			errorCodeOniguruma = error.toString();
+			errorCodeOniguruma = error?.message || String(error);
 		}
+
 
 		let errorCodeOnigmo: string;
 		try {
-			// TextMate 2.0
+			// TextMate 2.0 uses Onigmo
 			let replacedRegex = regex;
 			if (hasBackreferences) {
 				if (beginNode) {
 					let index = 0;
 					for (const groupCapture of groupCaptures) {
-						const groupText = groupCapture.node.text.slice( // substring() doesn't work with -1
-							groupCapture.name == 'name' ? groupCapture.node.firstNamedChild!.text.length + 4 : // remove `(?<name>`
-								groupCapture.name == 'group' ? 1 : // remove `(`
-									0,
-							groupCapture.name == 'regex' ? undefined : -1, // remove `)`
-						).replace(/[\\|([{}\]).?*+^$]/g, '\\$&');
+						const groupText = extractCaptureGroupText(groupCapture).replaceAll(/[\\|([{}\]).?*+^$]/g, '\\$&');
 						// https://github.com/textmate/textmate/blob/master/Frameworks/parse/src/parse.cc#L120
 
-						replacedRegex = replacedRegex.replace(
+						replacedRegex = replacedRegex.replaceAll(
 							// TextMate 2.0 only targets single digit backreferences /\\[0-9]/
 							// https://github.com/textmate/textmate/blob/master/Frameworks/parse/src/parse.cc#L136-L148
-							new RegExp(`\\\\${index}|\\\\\\\\`, 'g'),
+							new RegExp(
+								/\\\\|\\/.source + index,
+								'g',
+							),
 							(match: string): string => match === '\\\\' ? '\\\\' : groupText,
 						);
 						index++;
@@ -497,8 +496,9 @@ async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[],
 
 			scanner.dispose();
 		} catch (error: any) {
-			errorCodeOnigmo = error.toString();
+			errorCodeOnigmo = error?.message || String(error);
 		}
+		errorCodeOnigmo = errorCodeOnigmo?.replace(/^Error: /, '');
 
 
 		let errorCodePCRE: string | undefined;
@@ -546,7 +546,7 @@ async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[],
 				);
 			}
 		} catch (error: any) {
-			errorCodePCRE = error.toString();
+			errorCodePCRE = error?.message || String(error);
 		}
 		errorCodePCRE = errorCodePCRE?.replace(/^PCRE compilation failed: /, '').replace(
 			/\b\d+$/,
@@ -582,7 +582,7 @@ async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[],
 			};
 			const jsRegex = onigurumaToES.toRegExpDetails(regex, options);
 		} catch (error: any) {
-			errorCodeES = error.toString();
+			errorCodeES = error?.message || String(error);
 		}
 
 
@@ -592,7 +592,7 @@ async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[],
 
 		const range = toRange(key);
 
-		if (errorCodeOnigmo.replace(/^Error: /, '') === errorCodeOniguruma) {
+		if (errorCodeOnigmo === errorCodeOniguruma) {
 			diagnostics.push({
 				range: range,
 				message: errorCodeOniguruma,
@@ -621,7 +621,7 @@ async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[],
 			continue;
 		}
 
-		if (errorCodeOniguruma != 'undefined error code') {
+		if (errorCodeOniguruma !== 'undefined error code') {
 			diagnostics.push({
 				range: range,
 				message: `Regex incompatible with VSCode TextMate (Oniguruma v6.9.8)\n${errorCodeOniguruma}`,
@@ -1033,4 +1033,23 @@ async function diagnosticsLinguistCaptures(diagnostics: vscode.Diagnostic[], roo
 	}
 
 	// vscode.window.showInformationMessage(`(captures) ${(performance.now() - start).toFixed(3)}ms`);
+}
+
+
+function extractCaptureGroupText(groupCapture: webTreeSitter.QueryCapture) {
+	const name = groupCapture.name;
+	const node = groupCapture.node;
+	const nodeText = node.text;
+	const groupText = nodeText.slice( // substring() doesn't work with -1
+		name === 'name' ?
+			node.firstNamedChild!.text.length + 4 : // remove `(?<name>`
+			name === 'group' ?
+				1 : // remove `(`
+				0, // start of regex
+
+		name === 'regex' ?
+			undefined : // end of regex
+			-1, // remove `)`
+	);
+	return JSONParseStringRelaxed(groupText);
 }
