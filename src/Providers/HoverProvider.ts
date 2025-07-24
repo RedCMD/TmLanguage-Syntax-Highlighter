@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as webTreeSitter from 'web-tree-sitter';
 import * as onigurumaToES from 'oniguruma-to-es';
+import { JSONParseStringRelaxed } from "../extension";
 import { getTrees, queryNode, toPoint, toRange, trees } from "../TreeSitter";
 
 
@@ -70,7 +71,7 @@ export const HoverProvider: vscode.HoverProvider = {
 		try {
 			const regexNode = hoverNode.parent?.childForFieldName('regex');
 			if (regexNode?.text) {
-				const text: string = JSON.parse(`"${regexNode.text}"`);
+				const text: string = JSONParseStringRelaxed(regexNode.text);
 				const options: onigurumaToES.ToRegExpOptions = {
 					accuracy: 'default',
 					avoidSubclass: true,

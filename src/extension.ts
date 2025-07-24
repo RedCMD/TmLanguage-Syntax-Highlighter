@@ -109,6 +109,27 @@ export function stringify(this: any, key: string, value: any): any {
 	return value;
 }
 
+export function JSONParseStringRelaxed(string: string) {
+	return string.replaceAll(
+		/\\u[0-9A-Fa-f]{1,4}|\\.?/g,
+		(escapeString) => {
+			const escapeChar = escapeString.charAt(1);
+			switch (escapeChar) {
+				case 'u': // unicode \u0000
+					const hexadecimalString = escapeString.substring(2, 6);
+					const hexadecimalCode = parseInt(hexadecimalString, 16);
+					return String.fromCodePoint(hexadecimalCode);
+				case 'b': return '\b'; // backspace
+				case 'f': return '\f'; // form feed
+				case 'n': return '\n'; // newline
+				case 'r': return '\r'; // carriage return
+				case 't': return '\t'; // tab
+				default:
+					return escapeChar;
+			}
+		}
+	);
+}
 
 export function closeEnoughQuestionMark(distance: number, text: string): boolean {
 	if (typeof distance != 'number') {

@@ -4,7 +4,7 @@ import * as vscodeOniguruma from 'vscode-oniguruma';
 import * as textmateOnigmo from "./Onigmo/Onigmo";
 import * as PCRE from '@syntropiq/libpcre-ts';
 import * as onigurumaToES from 'oniguruma-to-es';
-import { closeEnoughQuestionMark, DocumentSelector, getPackageJSON, stringify, wagnerFischer } from "./extension";
+import { closeEnoughQuestionMark, DocumentSelector, getPackageJSON, JSONParseStringRelaxed, stringify, wagnerFischer } from "./extension";
 import { getLastNode, getTrees, queryNode, toRange, trees } from "./TreeSitter";
 import { ignoreDiagnosticsUnusedRepos } from "./Providers/CodeActionsProvider";
 import { unicodeproperties } from "./UNICODE_PROPERTIES";
@@ -407,7 +407,7 @@ async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[],
 
 		let groupCaptures!: webTreeSitter.QueryCapture[];
 
-		const regex: string = JSON.parse(`"${text}"`);
+		const regex: string = JSONParseStringRelaxed(text);
 		const hasBackreferences = (key.text == 'end' || key.text == 'while') && /\\[0-9]/.test(regex);
 		const beginNode = hasBackreferences ? getLastNode(regexNode.parent!.parent!, 'begin')?.childForFieldName('regex') : null;
 		if (beginNode) {

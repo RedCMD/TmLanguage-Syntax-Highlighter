@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as webTreeSitter from 'web-tree-sitter';
 import * as optimizer from 'oniguruma-parser-cjs/optimizer';
-import { closeEnoughQuestionMark, stringify, wagnerFischer } from "../extension";
+import { closeEnoughQuestionMark, JSONParseStringRelaxed, stringify, wagnerFischer } from "../extension";
 import { getTrees, queryNode, toRange } from "../TreeSitter";
 import { debouncedDiagnostics } from "../DiagnosticCollection";
 import { unicodeproperties, UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
@@ -223,7 +223,7 @@ async function optimizeRegex(edit: vscode.WorkspaceEdit, regexNode: webTreeSitte
 	const range = toRange(regexNode);
 
 	try {
-		const text: string = JSON.parse(`"${regexNode.text}"`);
+		const text: string = JSONParseStringRelaxed(regexNode.text);
 
 		const optimized = optimizer.optimize(text, {
 			rules: {
