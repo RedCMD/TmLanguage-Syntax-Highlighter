@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as webTreeSitter from 'web-tree-sitter';
 import * as vscodeOniguruma from 'vscode-oniguruma';
 import * as textmateOnigmo from "./Onigmo/Onigmo";
+import * as PCRE from '@syntropiq/libpcre-ts';
 import { closeEnoughQuestionMark, DocumentSelector, getPackageJSON, stringify, wagnerFischer } from "./extension";
 import { getLastNode, getTrees, queryNode, toRange, trees } from "./TreeSitter";
 import { ignoreDiagnosticsUnusedRepos } from "./Providers/CodeActionsProvider";
@@ -113,6 +114,8 @@ type OnigmoScanner = textmateOnigmo.OnigScanner & {
 	readonly _options: textmateOnigmo.FindOption[];
 };
 
+const pcre = new PCRE.PCRE();
+
 const activeDocuments: {
 	[uriString: string]: {
 		document: vscode.TextDocument;
@@ -122,8 +125,11 @@ const activeDocuments: {
 } = {};
 
 const DiagnosticCollection = vscode.languages.createDiagnosticCollection("textmate");
-export function initDiagnostics(context: vscode.ExtensionContext) {
+export async function initDiagnostics(context: vscode.ExtensionContext) {
 	// vscode.window.showInformationMessage(JSON.stringify("initDiagnostics"));
+
+	await pcre.init();
+
 	context.subscriptions.push(DiagnosticCollection);
 
 	for (const editor of vscode.window.visibleTextEditors) {
@@ -494,6 +500,69 @@ async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[],
 		}
 
 
+		let errorCodePCRE: string | undefined;
+		try {
+			// Github/Linguist uses PCRE
+			// and correctly escapes backreferences
+			// https://github.com/github-linguist/linguist/discussions/7421
+
+			let replacedRegex = regex;
+			if (hasBackreferences) {
+				if (beginNode) {
+					let index = 0;
+					for (const groupCapture of groupCaptures) {
+						const groupText = groupCapture.node.text.slice( // substring() doesn't work with -1
+							groupCapture.name == 'name' ? groupCapture.node.firstNamedChild!.text.length + 4 : // remove `(?<name>`
+								groupCapture.name == 'group' ? 1 : // remove `(`
+									0,
+							groupCapture.name == 'regex' ? undefined : -1, // remove `)`
+						).replace(/[\\|([{}\]).?*+^$]/g, '\\$&');
+
+						replacedRegex = replacedRegex.replaceAll(
+							// https://github.com/github-linguist/linguist/blob/main/tools/grammars/compiler/pcre.go#L27
+							new RegExp(
+								/\\\\|\\/.source + index,
+								'g',
+							),
+							(match: string): string => match === '\\\\' ? '\\\\' : groupText,
+						);
+						index++;
+					}
+				}
+			}
+
+			if (replacedRegex.length > 32 * 1024) {
+				// https://github.com/github-linguist/linguist/blob/main/tools/grammars/compiler/pcre.go#L55-L59
+				errorCodePCRE = `'${replacedRegex.slice(0, 20)}${replacedRegex.length > 20 ? '…' : ''}': definition too long (${replacedRegex.length} bytes > 32768)`;
+			}
+			else if (pcre) {
+				const pcreConstants = pcre.constants;
+				// throws error if regex invalid
+				const PCRERegex = pcre.compile(
+					replacedRegex,
+					// https://github.com/github-linguist/linguist/blob/main/tools/grammars/pcre/pcre.go#L35
+					pcreConstants.DUPNAMES | pcreConstants.UTF8 | pcreConstants.NEWLINE_ANYCRLF,
+				);
+			}
+		} catch (error: any) {
+			errorCodePCRE = error.toString();
+		}
+		errorCodePCRE = errorCodePCRE?.replace(/^PCRE compilation failed: /, '').replace(
+			/\b\d+$/,
+			(substring) => {
+				// re-adjust error offset in accordance with JSON escaping
+				const newOffsetRegex = new RegExp(
+					/^(\\u[0-9A-Fa-f]{1,4}|\\.?|.)/.source + '{0,' + parseInt(substring) + '}',
+					'g',
+				);
+				const newOffset = text.match(newOffsetRegex)?.[0].length ?? 0;
+				// TODO: still need to re-adjust error offset in accordance with backreference replacements
+				// TODO: PCRE treats characters > 127bits as 2 bytes
+				return newOffset.toFixed();
+			},
+		);
+
+
 		// const string = vscodeOniguruma.createOnigString(''); // blank. Maybe can test against a user provided string?
 		// const match = scanner.findNextMatchSync(string, 0); // returns null if `regex` is invalid
 		// vscode.window.showInformationMessage(`Oniguruma ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(match, stringify)}`);
@@ -507,6 +576,15 @@ async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[],
 				severity: vscode.DiagnosticSeverity.Error,
 				source: 'Oniguruma',
 			});
+
+			if (errorCodePCRE) {
+				diagnostics.push({
+					range: range,
+					message: errorCodePCRE,
+					severity: vscode.DiagnosticSeverity.Warning,
+					source: 'PCRE',
+				});
+			}
 			continue;
 		}
 
@@ -525,6 +603,15 @@ async function diagnosticsOnigurumaRegexErrors(diagnostics: vscode.Diagnostic[],
 				message: `Regex incompatible with TextMate 2.0 (Onigmo v5.13.5)\n${errorCodeOnigmo}`,
 				severity: vscode.DiagnosticSeverity.Warning,
 				source: 'Onigmo',
+			});
+		}
+
+		if (errorCodePCRE) {
+			diagnostics.push({
+				range: range,
+				message: `Regex incompatible with Github-Linguist (PCRE v8.36)\n${errorCodePCRE}`,
+				severity: vscode.DiagnosticSeverity.Warning,
+				source: 'PCRE',
 			});
 		}
 	}
