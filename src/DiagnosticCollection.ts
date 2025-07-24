@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as webTreeSitter from 'web-tree-sitter';
 import * as vscodeOniguruma from 'vscode-oniguruma';
-import * as textmateOnigmo from "./Onigmo/Onigmo";
+import * as textmateOnigmo from 'vscode-onigmo';
 import * as PCRE from '@syntropiq/libpcre-ts';
 import * as onigurumaToES from 'oniguruma-to-es';
 import { closeEnoughQuestionMark, DocumentSelector, getPackageJSON, JSONParseStringRelaxed, stringify, wagnerFischer } from "./extension";

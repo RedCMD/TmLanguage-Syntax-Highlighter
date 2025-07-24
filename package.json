@@ -51,7 +51,7 @@
 	"main": "./out/extension.js",
 	"browser": "./out/web/extension.js",
 	"scripts": {
-		"build": "npm run compile && npm run compile-web && npm run generate-wasm && node ./out/Onigmo/moveOnigmo",
+		"build": "npm run compile && npm run compile-web && npm run generate-wasm",
 		"package": "vsce package",
 		"watch": "tsc -watch -p ./",
 		"watch-web": "webpack --watch",
@@ -611,6 +611,7 @@
 		"oniguruma-parser-cjs": "^0.0.1",
 		"oniguruma-to-es": "^4.3.3",
 		"plist": "^3.1.0",
+		"vscode-onigmo": "^2.0.1",
 		"vscode-oniguruma": "1.7.0",
 		"web-tree-sitter": "^0.25.4",
 		"yaml": "^2.8.0"

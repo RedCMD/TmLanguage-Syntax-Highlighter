@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as vscodeOniguruma from 'vscode-oniguruma';
-import * as textmateOnigmo from "./Onigmo/Onigmo";
+import * as textmateOnigmo from 'vscode-onigmo';
 
 
 export async function initOniguruma(context: vscode.ExtensionContext): Promise<void> {
@@ -23,9 +23,9 @@ export async function initOniguruma(context: vscode.ExtensionContext): Promise<v
 
 	// https://github.com/textmate/textmate
 	// https://github.com/textmate/Onigmo/tree/Onigmo-5.13.5
-	// fork of https://github.com/k-takata/Onigmo
-	// fork of https://github.com/kkos/oniguruma
-	const uriOnigmo = vscode.Uri.joinPath(context.extensionUri, 'out', 'Onigmo', 'Onigmo.wasm');
+	// fork of https://github.com/k-takata/Onigmo/tree/Onigmo-5.13.5
+	// fork of https://github.com/kkos/oniguruma/tree/65a9b1aa03c9bc2dc01b074295b9603232cb3b78
+	const uriOnigmo = vscode.Uri.joinPath(context.extensionUri, 'node_modules', 'vscode-onigmo', 'release', 'onigmo.wasm');
 	const wasmOnigmo = await vscode.workspace.fs.readFile(uriOnigmo);
 	const optionsOnigmo: textmateOnigmo.IOptions = {
 		data: wasmOnigmo,
