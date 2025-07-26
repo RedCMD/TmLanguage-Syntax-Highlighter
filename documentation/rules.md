@@ -10,20 +10,46 @@ https://github.com/microsoft/vscode-textmate/blob/main/src/rule.ts#L389
 ## Root
 `{ ... }`  
 The JSON object containing your grammar.  
-It is required along with [patterns](#patterns) and [scopeName](#scopename)  
-Valid VSCode TextMate rules:
+It is required along with [scopeName](#scopename)  
+
+Valid [VSCode-TextMate](https://github.com/microsoft/vscode-textmate) [rules](https://github.com/microsoft/vscode-textmate/blob/main/src/rawGrammar.ts#L8-L18):
 * [scopeName](#scopename)
 * [injections](#injections)
 * [injectionSelector](#injectionselector)
 * [patterns](#patterns)
 * [repository](#repository)
 
-Valid TextMate 2.0 rules: (ignored by VSCode TextMate)
+Valid [TextMate 2.0](https://github.com/textmate/textmate) rules:
 * [name](#name_display)
+* [scopeName](#scopename)
 * [fileTypes](#filetypes)
 * [firstLineMatch](#firstlinematch)
 * [foldingStartMarker](#foldingstartmarker)
 * [foldingStopMarker](#foldingstopmarker)
+* [injections](#injections)
+* [injectionSelector](#injectionselector)
+* [patterns](#patterns)
+* [repository](#repository)
+
+Valid [shiki](https://github.com/shikijs/shiki) [rules](https://github.com/shikijs/shiki/blob/main/packages/types/src/langs.ts#L12-L41):
+* [name](#name_display)
+* [scopeName](#scopeName)
+* [displayName](#name_display)
+* `aliases`
+* [embeddedLangs](README.md#embedded-languages)
+* [embeddedLangsLazy](README.md#embedded-languages)
+* [balancedBracketSelectors](README.md#embedded-languages)
+* [unbalancedBracketSelectors](README.md#embedded-languages)
+* [foldingStopMarker](#foldingstopmarker)
+* [foldingStartMarker](#foldingstartmarker)
+* [injectTo](injections.md#injectionselector)
+* [fileTypes](#filetypes)
+* [firstLineMatch](#firstlinematch)
+* [injections](#injections)
+* [injectionSelector](#injectionselector)
+* [patterns](#patterns)
+* [repository](#repository)
+
 
 Other rules: (ignored by VSCode/TextMate)
 * [information_for_contributors](#information_for_contributors)
@@ -51,7 +77,7 @@ For example [HTML (Derivative)](https://github.com/textmate/html.tmbundle/blob/m
 `"patterns": [ { ... } ]`  
 An array of object pattern's to include.  
 If everything inside `patterns` fails with an error, then any [begin](#begin) rules will fail also.  
-If multiple conflicting rules appear, VSCode will pick the highest one from the list:  
+If there are multiple conflicting rules, VSCode will pick the highest one from the list:  
 * [include](#include)
 * [match](#match)
 * [begin](#begin)/[while](#while)
@@ -65,9 +91,9 @@ If multiple conflicting rules appear, VSCode will pick the highest one from the 
 `"repository": { "...": { ... } }`  
 A list of rules that can be later referenced with [include](#include).  
 [contributing-a-basic-grammar](https://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#contributing-a-basic-grammar).  
-https://github.com/microsoft/vscode-textmate/issues/140  
+VSCode [Bug](https://github.com/microsoft/vscode-textmate/issues/140): If there is a [match](#match) or [begin](#begin), then the `repository` is ignored.  
 Although you can name repo-rules anything you like, you cannot reference a rule named `$self` or `$base`  
-If multiple conflicting rules appear, VSCode will pick the highest one from the list:  
+If there are multiple conflicting rules, VSCode will pick the highest one from the list:  
 * [match](#match)
 * [begin](#begin)/[while](#while)
 * [begin](#begin)/[end](#end)
@@ -93,13 +119,13 @@ Default priority is `0`, left `L:` is `-1` (higher) and Right `R:` is `1` (Lower
 ## fileTypes
 `"fileTypes": [ "..." ]`  
 An array of file extensions your language supports.  
-VSCode acknowledges `fileTypes`, but doesn't do anything with it.  
+VSCode TextMate acknowledges `fileTypes`, but doesn't do anything with it.  
 Use `"extensions"` under `"languages"` in your `package.json` file instead.  
 
 ## firstLineMatch
 `"firstLineMatch": "..."`  
 A regex to detect if an open file should get assigned to your language.  
-VSCode acknowledges `firstLineMatch`, but doesn't do anything with it.  
+VSCode TextMate acknowledges `firstLineMatch`, but doesn't do anything with it.  
 Use `"firstLine"` under `"languages"` in your `package.json` file instead.  
 
 
@@ -118,6 +144,13 @@ However it cannot reference a [repository](#repository) at the same level as it,
 `"name": "..."`  
 A list of space-separated scope-names to be assigned to the provided token.  
 VSCode will then colour that token using the scope names in the current theme.  
+
+TextMate 2.0 and Github do not separate scopes on spaces.  
+But instead attempt to match the entire text (including spaces) against the theme-scopes.  
+However they do separate theme scopes on spaces.  
+So `string.regexp meta.group` will only match on `string`.  
+Since `regexp meta` is not a valid scope-part.  
+
 [naming_conventions](https://macromates.com/manual/en/language_grammars#naming_conventions), [themes](https://code.visualstudio.com/docs/getstarted/themes), [theming](https://code.visualstudio.com/api/extension-capabilities/theming)  
 You should add your `languageId` as a suffix to all scope-names. example `keyword.control.goto.cpp`  
 `comment`, `string` and `regex` disables bracket matching while `meta.embedded` reenables it.  
@@ -134,6 +167,7 @@ Also applies to the captured text when paired with [patterns](#patterns) inside 
 
 ## match
 `"match": "..."`  
+TextMate 2.0: If [end](#end) or [while](#while) does not exist, `begin` will be treated as [match](#match).  
 [Regex](README.md#regex) used to tokenize and capture parts of a file.  
 [name](#name) is used to apply a scope-name to the whole text being matched.  
 [captures](#captures) is used to apply scope-names to specific capture groups and/or retokenize the capture groups.  
@@ -144,6 +178,7 @@ All other rules are effectively ignored. Including [repository](#repository).
 `"begin": "..."`  
 `begin` starts a region that can span multiple lines.  
 An invisible 0-width anchor is placed directly after `begin`. The anchor can then be matched against using `\\G`.  
+TextMate 2.0: If [end](#end) or [while](#while) exists, `match` will overwrite and be treated as [begin](#begin).  
 [Regex](README.md#regex) just like [match](#match).  
 [name](#name) is used to apply a scope-name to both the `begin` text and the entire region covered by `begin`/([end](#end)|[while](#while)).  
 [contentName](#contentname) is used to apply a scope-name to the **inner** region being covered (includes [while](#while)).  
@@ -174,10 +209,11 @@ If `end` is invalid it will either end immediately or carry on to the end of the
 ## while
 `"while": "..."`  
 [jeff-hykin textmate_while](https://github.com/jeff-hykin/better-cpp-syntax/blob/master/documentation/library/textmate_while.md)  
-`while` is checked once per line (starting on the line after the [begin](#begin)) capturing the matched text.
+`while` is checked once per line (starting on the line after the [begin](#begin)) capturing the matched text.  
 Items in the [patterns](#patterns) array are then checked after the captured `while` text.  
 `while` places an invisible 0-width anchor after it. It can then be matched using `\\G`.  
-`while` is a lot more concrete than [end](#end). It cannot be pushed out by items in the [patterns](#patterns) array.  
+VSCode TextMate Bug: `while` is a lot more concrete than [end](#end). It cannot be pushed out by items in the [patterns](#patterns) array.  
+TextMate 2.0 & Github: `while` is not concrete, and can be pushed out by items in the [patterns](#patterns) array just like [end](#end).  
 [Regex](README.md#regex) just like [match](#match).  
 [name](#name) is used to apply a scope-name to the entire line matched by `while`.  
 [contentName](#contentname) is used to apply a scope-name to the entire line matched by `while`.  
@@ -185,9 +221,10 @@ Items in the [patterns](#patterns) array are then checked after the captured `wh
 [whileCaptures](#begincaptures) is just like [captures](#captures), but specifically targets `while`. It is prioritized over [captures](#captures).  
 
 ## applyEndPatternLast
-`"applyEndPatternLast": true`  
+`"applyEndPatternLast": 1`  
 Controls if the [end](#end) rule should attempt to match before or after the [patterns](#patterns) array.  
-`0`, `false` and `null` will disable it. `true` and numbers != `0` will enable it.  
+VSCode TextMate: `true` and numbers != `0` will enable it. `0`, `false` and `null` will disable it.  
+TextMate 2.0: `true` (`:true`) and `1` will enable it. `false` (`:false`) and numbers != `1` will disable it.  
 [applyEndPatternLast check](https://github.com/microsoft/vscode-textmate/blob/main/src/rule.ts#L227)
 
 ## captures
@@ -284,8 +321,8 @@ In the format `[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA
 Not supported by TextMate.  
 
 ## disabled
-`"disabled:" true`  
-Disables the current rule for easy testing.  
+`"disabled:" 1`  
+TextMate 2.0: Disables the current rule for easy testing.  
 Not currently supported by VSCode.  
 
 ## information_for_contributors
