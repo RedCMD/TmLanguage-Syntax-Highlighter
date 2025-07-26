@@ -621,6 +621,7 @@
 									"endCaptures": { "0": { "name": "punctuation.definition.dictionary.end.json.tm" } },
 									"patterns": [
 										{ "include": "#name" },
+										{ "include": "#name_scopeName" },
 										{ "include": "#match" },
 										{ "include": "#include" },
 										{ "include": "#patterns" },
@@ -747,6 +748,52 @@
 								" \"...scopename "
 							],
 							"begin": "(?=(\"\\.(?>[^\\\\\"]++|\\\\.)*)\")\"|\"(?=((?>[^\\\\\"]++|\\\\.)*)\")",
+							"end": "\"",
+							"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.json.tm" } },
+							"endCaptures": { "0": { "name": "punctuation.definition.string.end.json.tm" } },
+							"name": "$1$2",
+							"patterns": [
+								{
+									"comment": "TextMate 2.0 does not split scopes on spaces in their grammar files. But does so in their theme files.",
+									"match": "\\G(?=(?>[^\\\\\" ]++|\\\\[^ ])+ )([^ ]+)(?=\\.)",
+									"captures": {
+										"1": {
+											"name": "$1",
+											"patterns": [
+												{ "include": "#escape-characters" },
+												{ "include": "#name_scopes" }
+											]
+										}
+									}
+								},
+								{ "include": "#escape-characters" },
+								{ "include": "#name_scopes" }
+							]
+						},
+						{ "include": "#json-value" }
+					]
+				},
+				{ "include": "#dictionary-separator" }
+			]
+		},
+		"name_scopeName": {
+			"comment": "\"scopeName\": \"...\"",
+			"begin": "(\")(scopeName)(\")",
+			"end": "(?<=\")(?!\\G)|(?=[},])",
+			"beginCaptures": {
+				"1": { "name": "punctuation.definition.string.begin.json.tm" },
+				"2": { "name": "keyword.property-name.string.$2.json.tm" },
+				"3": { "name": "punctuation.definition.string.end.json.tm" }
+			},
+			"patterns": [
+				{
+					"begin": ":",
+					"end": "(?<=\")|(?=[},])",
+					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
+					"patterns": [
+						{
+							"comment": "TextMate 2.0 does not split scopes on spaces in their grammar files. But does so in their theme files.",
+							"begin": "\"(?=(?=(?>[^\\\\\" ]++|\\\\[^ ])+ )([^ ]+)\\.|((?>[^\\\\\" ]++|\\\\[^ ])+)\")|\"",
 							"end": "\"",
 							"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.json.tm" } },
 							"endCaptures": { "0": { "name": "punctuation.definition.string.end.json.tm" } },
@@ -939,6 +986,7 @@
 									"patterns": [
 										{ "comment": "All normal \"patterns\" rules are allowed here. With the exception of \"include\". But only when they are paired with \"patterns\"" },
 										{ "include": "#name" },
+										{ "include": "#name_scopeName" },
 										{ "include": "#match" },
 										{ "include": "#patterns" },
 										{ "include": "#captures" },
@@ -979,6 +1027,7 @@
 							"patterns": [
 								{ "comment": "All normal \"patterns\" rules are allowed here. With the exception of \"include\". But only when they are paired with \"patterns\"" },
 								{ "include": "#name" },
+								{ "include": "#name_scopeName" },
 								{ "include": "#match" },
 								{ "include": "#patterns" },
 								{ "include": "#captures" },

@@ -112,6 +112,10 @@ module.exports = grammar({
 				$.name,
 				$.contentName,
 				field(
+					'name_scopeName',
+					$.name_scopeName,
+				),
+				field(
 					'match',
 					$.match,
 				),
@@ -278,12 +282,12 @@ module.exports = grammar({
 					choice(
 						$.replace_capture,
 						/\\[^\x00-\x1F ]/,
-						/[^\\\x00-\x1F $"]+/,
-						/\$/,
+						/[^\\\x00-\x1F "]/,
 					),
 				),
 			),
 		),
+		// https://github.com/microsoft/vscode-textmate/blob/main/src/utils.ts#L57-L91
 		replace_capture: $ => token(
 			choice(
 				seq(
@@ -296,7 +300,60 @@ module.exports = grammar({
 					':/',
 					choice(
 						'downcase',
-						'upcase'
+						'upcase',
+					),
+					'}',
+				),
+			),
+		),
+		name_scopeName: $ => pair($,
+			"scopeName",
+			$._scopes_scopeName,
+		),
+		_scopes_scopeName: $ => string($,
+			alias(
+				choice(
+					$._scope_scopeName,
+					$._forceStringNode,
+				),
+				$.value,
+			),
+		),
+		_scope_scopeName: $ => fieldAlias($,
+			"scope",
+			prec.right(
+				repeat1(
+					choice(
+						alias(
+							$.replace_capture_scopeName,
+							$.replace_capture,
+						),
+						/\\[^\x00-\x1F]/,
+						/[^\\\x00-\x1F"]/,
+					),
+				),
+			),
+		),
+		// https://github.com/textmate/textmate/blob/master/Frameworks/regexp/src/parser.cc#L129-L211 
+		replace_capture_scopeName: $ => token(
+			choice(
+				seq(
+					'$',
+					/\d+/,
+				),
+				seq(
+					'${',
+					/\d+/,
+					optional(
+						seq(
+							':',
+							repeat(
+								choice(
+									/\\[^\x00-\x1F }]/,
+									/[^\\\x00-\x1F }"]/,
+								),
+							),
+						),
 					),
 					'}',
 				),

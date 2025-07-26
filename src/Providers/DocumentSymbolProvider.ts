@@ -58,6 +58,7 @@ export const SymbolKind: { [key: string]: vscode.SymbolKind; } = {
 	'scopeName': vscode.SymbolKind.Variable,
 	'name': vscode.SymbolKind.String,
 	'name_display': vscode.SymbolKind.String,
+	'name_scopeName': vscode.SymbolKind.String,
 
 	'version': vscode.SymbolKind.String,
 	'schema': vscode.SymbolKind.String,
@@ -183,8 +184,11 @@ function newDocumentSymbol(node: webTreeSitter.Node): vscode.DocumentSymbol {
 			}
 			text = index.toString();
 			break;
-		case 'name':
+		case 'name_display':
 			text = 'name';
+			break;
+		case 'name_scopeName':
+			text = 'scopeName';
 			break;
 		case 'value':
 			text = node.text;

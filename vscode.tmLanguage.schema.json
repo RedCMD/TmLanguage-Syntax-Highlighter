@@ -343,6 +343,7 @@
 				"applyEndPatternLast": { "$ref": "#/definitions/applyEndPatternLast" },
 				"name": { "$ref": "#/definitions/name" },
 				"contentName": { "$ref": "#/definitions/contentName" },
+				"scopeName": { "$ref": "#/definitions/scopeName" },
 				"include": { "$ref": "#/definitions/include" },
 				"patterns": { "$ref": "#/definitions/patterns" },
 				"repository": { "$ref": "#/definitions/repository" },
@@ -1000,6 +1001,16 @@
 		"contentName": {
 			"markdownDescription": "Same as `\"name\"`, but only applies to inside a `\"begin\"` - `\"end\"`/`\"while\"` region",
 			"$ref": "#/definitions/name-content"
+		},
+		"scopeName": {
+			"markdownDescription": "A single scopeName to be assigned to the provided token. Overrides `\"name\"`.  \n_Not currently supported by VSCode_",
+			"anyOf": [
+				{
+					"type": "string",
+					"pattern": "^([\\w\\-.]|\\$\\d+|\\${\\d+(:[^}]*)?})*$"
+				},
+				{ "$ref": "#/definitions/name-content" }
+			]
 		},
 		"name-content": {
 			"type": "string",

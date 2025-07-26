@@ -80,8 +80,12 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 			(name (value (scope (replace_capture) @replace_capture)))
 			(name (value (scope) @scope))
 			(name (value) @scope_new)
+			(contentName (value (scope (replace_capture) @replace_capture)))
 			(contentName (value (scope) @scope))
 			(contentName (value) @scope_new)
+			(name_scopeName (value (scope (replace_capture) @replace_capture)))
+			(name_scopeName (value (scope) @scope))
+			(name_scopeName (value) @scope_new)
 			(regex) @regex
 		`;
 		const cursorCapture = queryNode(rootNode, cursorQuery, point);
