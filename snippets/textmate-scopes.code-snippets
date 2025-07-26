@@ -1,9 +1,9 @@
 {
-	"${}": {
+	"UPdowncase Replace": {
 		"prefix": [
 			"${}",
 		],
-		"body": "${${1:${TM_SELECTED_TEXT:0}}:/${2|upcase,downcase|}}$0",
+		"body": "${${1|0,1,2,3|}:/${2|upcase,downcase|}}",
 		"description": [
 			"Capture replace case format.",
 			"Converts all the captured alphabetic characters to UPPERCASE or lowercase.",
@@ -11,11 +11,11 @@
 			""
 		]
 	},
-	"${UPCASE}": {
+	"UPCASE REPLACE": {
 		"prefix": [
 			"upcase",
 		],
-		"body": "${${1:${TM_SELECTED_TEXT:1}}:/upcase}$0",
+		"body": "${${1|0,1,2,3|}:/${TM_SELECTED_TEXT:upcase}}",
 		"description": [
 			"Capture replace case format.",
 			"Converts all the captured alphabetic characters to UPPERCASE.",
@@ -23,14 +23,24 @@
 			""
 		]
 	},
-	"${downcase}": {
+	"downcase replace": {
 		"prefix": [
-			"downcase"
+			"downcase",
 		],
-		"body": "${${1:${TM_SELECTED_TEXT:2}}:/downcase}$0",
+		"body": "${${1|0,1,2,3|}:/${TM_SELECTED_TEXT:downcase}}",
 		"description": [
 			"Capture replace case format.",
 			"Converts all the captured alphabetic characters to lowercase.",
+			"All leading dots (.) are stripped.",
+			""
+		]
+	},
+	"Capture Replace": {
+		"prefix": "$",
+		"body": "$${1|0,1,2,3|}",
+		"description": [
+			"Capture replace format.",
+			"Replaced with the corresponding capture's captured text.",
 			"All leading dots (.) are stripped.",
 			""
 		]

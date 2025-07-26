@@ -11,7 +11,7 @@
 	"typescript.format.semicolons": "insert",
 	"files.trimFinalNewlines": true,
 	"C_Cpp.errorSquiggles": "enabled",
-	"[typescript][json][jsonc]": {
+	"[typescript][json][jsonc][snippets]": {
 		"files.insertFinalNewline": true, // because of Github
 	},
 }
