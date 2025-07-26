@@ -35,7 +35,7 @@ jobs:
 
       - name: Package Extension # `.vsix` file
         run: | # shell
-          npx vsce package ${{ github.event.inputs.version }}
+          npm run package --- ${{ github.event.inputs.version }}
           git push --follow-tags
           echo "VERSION=$(node -p "require('./package.json').version")" >> "$GITHUB_ENV"
 
@@ -47,6 +47,6 @@ jobs:
 
       - name: Publish Release # upload to Extension Marketplace
         run: | # shell
-          npx vsce publish --packagePath tmlanguage-syntax-highlighter-$VERSION.vsix
+          npm run publish --- --packagePath tmlanguage-syntax-highlighter-$VERSION.vsix
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}

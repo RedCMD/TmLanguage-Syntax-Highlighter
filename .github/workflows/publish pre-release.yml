@@ -33,7 +33,7 @@ jobs:
 
       - name: Publish Pre-release # upload to Extension Marketplace
         run: | # shell
-          npx vsce publish patch --pre-release
+          npm run publish --- patch --pre-release
           git push --follow-tags
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}

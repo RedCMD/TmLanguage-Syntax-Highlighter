@@ -52,7 +52,8 @@
 	"browser": "./out/web/extension.js",
 	"scripts": {
 		"build": "npm run compile && npm run compile-web && npm run generate-wasm",
-		"package": "vsce package",
+		"package": "vsce package --follow-symlinks",
+		"publish": "vsce publish --follow-symlinks",
 		"watch": "tsc -watch -p ./",
 		"watch-web": "webpack --watch",
 		"compile": "tsc -p ./",
@@ -605,7 +606,7 @@
 		]
 	},
 	"dependencies": {
-		"@syntropiq/libpcre-ts": "file:node_modules_temp/@syntropiq/libpcre-ts",
+		"@syntropiq/libpcre-ts": "file:node_modules_linked/@syntropiq/libpcre-ts",
 		"cson-parser": "^4.0.9",
 		"date-and-time": "^3.6.0",
 		"oniguruma-parser-cjs": "^0.0.1",
@@ -613,7 +614,7 @@
 		"plist": "^3.1.0",
 		"vscode-onigmo": "^2.0.1",
 		"vscode-oniguruma": "1.7.0",
-		"web-tree-sitter": "file:node_modules_temp/web-tree-sitter",
+		"web-tree-sitter": "file:node_modules_linked/web-tree-sitter",
 		"yaml": "^2.8.0"
 	},
 	"devDependencies": {
