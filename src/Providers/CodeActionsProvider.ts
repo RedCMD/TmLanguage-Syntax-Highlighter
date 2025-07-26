@@ -229,12 +229,13 @@ async function optimizeRegex(edit: vscode.WorkspaceEdit, regexNode: webTreeSitte
 			rules: {
 				// Follow `vscode-oniguruma` which enables this Oniguruma option by default
 				captureGroup: true,
+				// end/while rules might reference begin rules OR the rule simply isn't finished being written, so we allow orphan backreferences
 				allowOrphanBackrefs: true,
 			},
 		}).pattern;
 
 		const replacedText = JSON.stringify(optimized).slice(1, -1); // remove surrounding "double quotes"
-		if (text != optimized) {
+		if (regexNode.text != replacedText) {
 			edit.replace(uri, range, replacedText);
 			return;
 		}
@@ -419,6 +420,8 @@ function sortJSON(edit: vscode.WorkspaceEdit, jsonTree: webTreeSitter.Tree, uri:
 	const rootNode = jsonTree.rootNode;
 	let newRootText = rootNode.text;
 
+	// https://github.com/microsoft/vscode-textmate/blob/main/src/rawGrammar.ts
+	// https://github.com/textmate/textmate/blob/master/Frameworks/BundleEditor/src/BundleEditor.mm#L67
 	const sortOrder = vscode.workspace.getConfiguration('json.textmate').get('sortOrder', [
 		"version",
 		"$schema",
