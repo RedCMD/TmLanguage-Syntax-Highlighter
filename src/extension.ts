@@ -217,7 +217,13 @@ https://www.npmjs.com/package/json-asty
 https://www.npmjs.com/package/json-cst
 */
 
-export async function getPackageJSON(baseUri: vscode.TextDocument | vscode.Uri, ...pathSegments: string[]) {
+export async function getPackageJSON(baseUri: vscode.TextDocument | vscode.Uri, ...pathSegments: string[]): Promise<{
+	packageJSON: IRelaxedExtensionManifest;
+	packageUri: vscode.Uri;
+} | {
+	packageJSON?: undefined;
+	packageUri?: undefined;
+}> {
 	if ('isUntitled' in baseUri) {
 		if (baseUri.isUntitled) {
 			return {};
@@ -227,28 +233,48 @@ export async function getPackageJSON(baseUri: vscode.TextDocument | vscode.Uri, 
 	const uri = 'uri' in baseUri ? baseUri.uri : baseUri;
 	const newUri = uri.with({ query: '' }); // 'git file changes' document adds a query property. that then ruins readFile()
 
-	const packageUri1 = vscode.Uri.joinPath(newUri, ...pathSegments, '..', '..', 'package.json');
-	const packageUri2 = vscode.Uri.joinPath(newUri, ...pathSegments, '..', 'package.json'); // Maybe grammar file is at the same level as `package.json`
+	let packageUri = vscode.Uri.joinPath(newUri, ...pathSegments, '..', '..', 'package.json');
+	let file = await tryCatch(vscode.workspace.fs.readFile(packageUri));
 
-	const file1 = await vscode.workspace.fs.readFile(packageUri1).then(null, () => { });
-	const file = file1 || await vscode.workspace.fs.readFile(packageUri2).then(null, () => { });
 	if (!file) {
+		packageUri = vscode.Uri.joinPath(newUri, ...pathSegments, '..', 'package.json'); // Maybe `package.json` is at the same level as the grammar file
+		file = await tryCatch(vscode.workspace.fs.readFile(packageUri));
+
+		if (!file) {
+			return {};
+		}
+	}
+
+	const decoder = new TextDecoder(); // Works in VSCode web
+	const text = decoder.decode(file);
+	const packageJSON = await tryCatch(
+		JSON.parse(text) as IRelaxedExtensionManifest,
+		"Failed to parse package.json",
+	);
+
+	if (!packageJSON) {
 		return {};
 	}
 
-	const packageUri = file1 ? packageUri1 : packageUri2;
+	return {
+		packageJSON: packageJSON,
+		packageUri: packageUri,
+	};
+}
 
+
+// https://gist.github.com/t3dotgg/a486c4ae66d32bf17c09c73609dacc5b
+export async function tryCatch<T>(
+	promise: Promise<T> | Thenable<T> | T,
+	...consoleLogMessage: any[]
+): Promise<T | null> {
 	try {
-		const decoder = new TextDecoder(); // Works in VSCode web
-		const text = decoder.decode(file);
-
-		const packageJSON: IRelaxedExtensionManifest = JSON.parse(text);
-		if (packageJSON) {
-			return { packageJSON: packageJSON, packageUri: packageUri };
+		const data = await promise;
+		return data;
+	} catch (error: any) {
+		if (consoleLogMessage.length) {
+			console.warn('JSON TextMate Extension:', ...consoleLogMessage, '\n', error);
 		}
-	} catch (error) {
-		console.warn("TextMate: Failed to parse package.json\n", error);
+		return null;
 	}
-
-	return {};
 }

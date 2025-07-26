@@ -4,7 +4,7 @@ import * as vscodeOniguruma from 'vscode-oniguruma';
 import * as textmateOnigmo from 'vscode-onigmo';
 import * as PCRE from '@syntropiq/libpcre-ts';
 import * as onigurumaToES from 'oniguruma-to-es';
-import { closeEnoughQuestionMark, DocumentSelector, getPackageJSON, JSONParseStringRelaxed, stringify, wagnerFischer } from "./extension";
+import { closeEnoughQuestionMark, DocumentSelector, getPackageJSON, JSONParseStringRelaxed, stringify, tryCatch, wagnerFischer } from "./extension";
 import { getLastNode, getTrees, queryNode, toRange, trees } from "./TreeSitter";
 import { ignoreDiagnosticsUnusedRepos } from "./Providers/CodeActionsProvider";
 import { unicodeproperties } from "./UNICODE_PROPERTIES";
@@ -125,6 +125,7 @@ const activeDocuments: {
 	};
 } = {};
 
+
 const DiagnosticCollection = vscode.languages.createDiagnosticCollection("textmate");
 export async function initDiagnostics(context: vscode.ExtensionContext) {
 	// vscode.window.showInformationMessage(JSON.stringify("initDiagnostics"));
@@ -139,19 +140,20 @@ export async function initDiagnostics(context: vscode.ExtensionContext) {
 	}
 
 	context.subscriptions.push(
-		vscode.workspace.onDidOpenTextDocument((document: vscode.TextDocument) => {
-			// vscode.window.showInformationMessage(`open\n${JSON.stringify(document)}`);
-			debouncedDiagnostics(document);
-		}),
+		vscode.workspace.onDidOpenTextDocument(debouncedDiagnostics),
 		vscode.workspace.onDidChangeTextDocument((edits: vscode.TextDocumentChangeEvent) => {
-			// vscode.window.showInformationMessage(`edit\n${JSON.stringify(edits)}`);
 			debouncedDiagnostics(edits.document);
 		}),
 		vscode.workspace.onDidCloseTextDocument((document: vscode.TextDocument) => {
-			// vscode.window.showInformationMessage(`close\n${JSON.stringify(document)}`);
 			delete activeDocuments[document.uri.toString()];
 			DiagnosticCollection.delete(document.uri);
-		})
+		}),
+		vscode.window.onDidChangeActiveTextEditor((textEditor: vscode.TextEditor | undefined) => {
+			if (textEditor) {
+				const document = textEditor.document;
+				debouncedDiagnostics(document);
+			}
+		}),
 	);
 }
 
@@ -171,7 +173,7 @@ export function debouncedDiagnostics(document: vscode.TextDocument) {
 	activeDocument.countDown++; // waits longer the more edits there are
 
 	// Debounce recently repeated requests
-	if (activeDocument.timeout == undefined) {
+	if (activeDocument.timeout === undefined) {
 
 		// Wait 50ms and repeatedly execute CallBack
 		activeDocument.timeout = setInterval(
@@ -180,8 +182,8 @@ export function debouncedDiagnostics(document: vscode.TextDocument) {
 
 				if (activeDocument.countDown < 0) {
 					clearInterval(activeDocument.timeout); // timeout.refresh() doesn't work in VSCode web
-					await Diagnostics(activeDocument.document);
 					activeDocument.timeout = undefined;
+					await Diagnostics(activeDocument.document);
 				}
 
 				activeDocument.countDown -= 2;
@@ -200,29 +202,23 @@ async function Diagnostics(document: vscode.TextDocument) {
 
 	const diagnostics: vscode.Diagnostic[] = [];
 
-	const results = await Promise.allSettled([
-		diagnosticsMismatchingRootScopeName(diagnostics, rootNode, document),
-		diagnosticsTreeSitterJSONErrors(diagnostics, rootNode),
-		diagnosticsTreeSitterRegexErrors(diagnostics, trees),
-		diagnosticsRegularExpressionErrors(diagnostics, trees),
-		diagnosticsBrokenIncludes(diagnostics, rootNode),
-		diagnosticsUnusedRepos(diagnostics, rootNode),
-		diagnosticsLinguistCaptures(diagnostics, rootNode),
-		diagnosticsDeadTextMateCode(diagnostics, rootNode),
+	await Promise.allSettled([
+		tryCatch(diagnosticsMismatchingRootScopeName(diagnostics, rootNode, document), "Diagnostics error:", "MismatchingPackageJSONInfo"),
+		tryCatch(diagnosticsTreeSitterJSONErrors(diagnostics, rootNode), "Diagnostics error:", "TreeSitterJSONErrors"),
+		tryCatch(diagnosticsTreeSitterRegexErrors(diagnostics, trees), "Diagnostics error:", "TreeSitterRegexErrors"),
+		tryCatch(diagnosticsRegularExpressionErrors(diagnostics, trees), "Diagnostics error:", "OnigurumaRegexErrors"),
+		tryCatch(diagnosticsBrokenIncludes(diagnostics, rootNode), "Diagnostics error:", "BrokenIncludes"),
+		tryCatch(diagnosticsUnusedRepos(diagnostics, rootNode), "Diagnostics error:", "UnusedRepos"),
+		tryCatch(diagnosticsLinguistCaptures(diagnostics, rootNode), "Diagnostics error:", "LinguistCaptures"),
+		tryCatch(diagnosticsDeadTextMateCode(diagnostics, rootNode), "Diagnostics error:", "DeadTextMateCode"),
 	]);
-
-	for (const result of results) {
-		if (result.status == 'rejected') {
-			console.warn("JSON TextMate: Diagnostics error\n", result.reason);
-		}
-	}
 
 	DiagnosticCollection.set(document.uri, diagnostics);
 	// vscode.window.showInformationMessage(`Diagnostics ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(diagnostics)}`);
 }
 
 
-async function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
+function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics JSON"));
 	// const start = performance.now();
 	const jsonQuery = `;scm
@@ -270,7 +266,7 @@ async function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[],
 	// vscode.window.showInformationMessage(`JSON ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-async function diagnosticsTreeSitterRegexErrors(diagnostics: vscode.Diagnostic[], trees: trees) {
+function diagnosticsTreeSitterRegexErrors(diagnostics: vscode.Diagnostic[], trees: trees) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics Regex"));
 	// const start = performance.now();
 	const regexTrees = trees.regexTrees;
@@ -660,7 +656,7 @@ async function diagnosticsRegularExpressionErrors(diagnostics: vscode.Diagnostic
 	// vscode.window.showInformationMessage(`Oniguruma ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-async function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
+function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics #includes"))
 	// const start = performance.now();
 
