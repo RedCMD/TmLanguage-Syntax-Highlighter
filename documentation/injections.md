@@ -1,8 +1,8 @@
 ## TextMate Injections
 
 There are two different injection types:  
-`"injectionSelector"` which is used with `"injectTo"` in `package.json`.  
-`"injections"` which is only used within a (non-injected) grammar.  
+[`"injectionSelector"`](#injectionselector) which is used with `"injectTo"` in `package.json`.  
+[`"injections"`](#injections) which is only used within a (non-embedded/injected) grammar.  
 
 ```json textmate
 "injectionSelector": "L:text.html.markdown -meta.embedded.block.json.textmate"
@@ -29,20 +29,18 @@ A typical injection will look something like this:
 * `-string` not inject into `strings`
 * `,` separates multiple injection selectors
 
-https://github.com/microsoft/vscode-textmate/blob/main/src/matcher.ts  
-The injection syntax is parsed into the following tokens
-
-* `L:` - `left` side priority selector `-1` to following the scopeName
-* `R:` - `right` side priority selector `1` to following the scopeName
+The injection [parser](https://github.com/microsoft/vscode-textmate/blob/main/src/matcher.ts) parses the syntax into the following tokens:
+* `L:` - `left` side priority selector `-1` to the following scopeName
+* `R:` - `right` side priority selector `1` to the following scopeName
 * `B:` - Both `left` and `right` side priority selectors (Github and [TextMate](https://github.com/textmate/textmate/blob/master/Frameworks/scope/src/types.h#L74) only. VSCode doesn't support it)
-* __*__`:` - any char followed by `:` colon. Defaults to priority `0` to following the scopeName
+* __*__`:` - any char followed by `:` colon. Defaults to priority `0` to the following scopeName
 * `(` - Open bracket group
 * `)` - Close bracket group
-* `-` - Negate following scopeName or group (negates each scopeName individually if inside group)
+* `-` - Negates the following scopeName or group (negates each scopeName individually within the group )
 * `,` - Logical `OR`
-* `|` - Logical `OR` (only when inside group)
+* `|` - Logical `OR` (only when inside a group)
 * `/[\w.:][\w.:-]*/` - Regex for scopeNames (`identifier`)
-* __*__ - any other character left over (including whitespace ` ` and asterisk `*`) becomes whitespace
+* __*__ - any other character left over is treated as whitespace
 * `*` - Asterisk matches against any scope; TextMate 2.0 only. VSCode treats it as whitespace
 
 Any rogue closing bracket `)` or `|` (when at root level) will cause all text afterwards to be ignored.  
@@ -88,7 +86,7 @@ Including recursively into the injected grammar.
 `"injections"` injects rules into the grammar based on the scopeNames specified.  
 
 Sadly in VSCode injections do not work if the grammar is embedded inside another grammar.  
-You will need put the injections inside the parent grammar.  
+You will need to put the injections inside the parent grammar.  
 
 TextMate will inject the rules into the entire document.  
 Including recursively into the injected rules.  
