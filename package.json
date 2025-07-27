@@ -269,7 +269,8 @@
 				},
 				"editor.inlineSuggest.syntaxHighlightingEnabled": true,
 				"editor.defaultFormatter": "RedCMD.tmlanguage-syntax-highlighter",
-				"editor.comments.insertSpace": false
+				"editor.comments.insertSpace": false,
+				"editor.wrapOnEscapedLineFeeds": true
 			},
 			"[json-textmate-regex]": {
 				"editor.snippetSuggestions": "top",
@@ -283,7 +284,8 @@
 					"comments": "off"
 				},
 				"editor.inlineSuggest.syntaxHighlightingEnabled": true,
-				"editor.inlineSuggest.enabled": true
+				"editor.inlineSuggest.enabled": true,
+				"editor.wrapOnEscapedLineFeeds": true
 			},
 			"[yaml-textmate]": {
 				"editor.tabSize": 2,
