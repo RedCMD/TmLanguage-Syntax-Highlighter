@@ -1007,11 +1007,11 @@
 		},
 		"capture": {
 			"comment": "\"0\": { ... }",
-			"begin": "(\")([0-9]{1,3})(.*?(?<!\\\\)\\\\{2}*|.*)(\")",
+			"begin": "(\")([0-9]{1,3})((?>[^\\\\\"]++|\\\\.)*+)(\")",
 			"end": "(?<=})|(?=[},])",
 			"beginCaptures": {
 				"2": { "name": "constant.numeric.json.tm" },
-				"3Every char after the numeric is ignored. 0-9": { "name": "punctuation.definition.tag.json.tm regex" }
+				"3 VSCode ignores everything after the initial number.": { "name": "punctuation.definition.tag.json.tm regex" }
 			},
 			"patterns": [
 				{
