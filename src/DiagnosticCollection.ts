@@ -203,7 +203,7 @@ async function Diagnostics(document: vscode.TextDocument) {
 	const diagnostics: vscode.Diagnostic[] = [];
 
 	await Promise.allSettled([
-		tryCatch(diagnosticsMismatchingRootScopeName(diagnostics, rootNode, document), "Diagnostics error:", "MismatchingPackageJSONInfo"),
+		tryCatch(diagnosticsMismatchingPackageJSONInfo(diagnostics, rootNode, document), "Diagnostics error:", "MismatchingPackageJSONInfo"),
 		tryCatch(diagnosticsTreeSitterJSONErrors(diagnostics, rootNode), "Diagnostics error:", "TreeSitterJSONErrors"),
 		tryCatch(diagnosticsTreeSitterRegexErrors(diagnostics, trees), "Diagnostics error:", "TreeSitterRegexErrors"),
 		tryCatch(diagnosticsRegularExpressionErrors(diagnostics, trees), "Diagnostics error:", "OnigurumaRegexErrors"),
@@ -947,49 +947,99 @@ async function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], roo
 	// vscode.window.showInformationMessage(`dead ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(diagnostics, stringify)}`);
 }
 
-async function diagnosticsMismatchingRootScopeName(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node, document: vscode.TextDocument) {
-	// vscode.window.showInformationMessage(JSON.stringify("diagnostics scopeName"));
+async function diagnosticsMismatchingPackageJSONInfo(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node, document: vscode.TextDocument) {
 	// const start = performance.now();
-
-	const scopeNameQuery = `;scm
-		(scopeName (value) @scopeName)
-	`;
-	const scopeNameCapture = queryNode(rootNode, scopeNameQuery).pop();
-	if (!scopeNameCapture) {
-		return;
-	}
 
 	const { packageJSON, packageUri } = await getPackageJSON(document);
 	if (!packageJSON) {
 		return;
 	}
-	const grammars = packageJSON?.contributes?.grammars;
+	const grammars = packageJSON.contributes?.grammars;
 	if (!Array.isArray(grammars)) {
 		return;
 	}
 
-	const node = scopeNameCapture.node;
-	const scopeName = node.text;
+	const query = `;scm
+		(json (scopeName (value) @scopeName))
+		(json (injectionSelector) @injectionSelector)
+	`;
+	const queryCaptures = queryNode(rootNode, query);
 
+	let injectToPresent = false;
+	let injectionSelectorPresent = false;
 	for (const grammar of grammars) {
-		const uri = vscode.Uri.joinPath(packageUri, '..', grammar.path);
+		const path = grammar.path;
+		if (!path) {
+			continue;
+		}
+		const uri = vscode.Uri.joinPath(packageUri, '..', path);
 		if (document.uri.path == uri.path) {
-			if (grammar.scopeName == scopeName) {
-				continue;
+			for (const queryCapture of queryCaptures) {
+				switch (queryCapture.name) {
+					case 'injectionSelector':
+						injectionSelectorPresent = true;
+						break;
+					case 'scopeName':
+						const scopeName = queryCapture.node.text;
+						if (grammar.scopeName == scopeName) {
+							break;
+						}
+
+						const range = toRange(queryCapture);
+						const diagnostic: vscode.Diagnostic = {
+							range: range,
+							message: `scopeName '${scopeName}' does not match scopeName '${grammar.scopeName}' inside '${packageUri.path}'`,
+							severity: vscode.DiagnosticSeverity.Error,
+							source: 'TextMate',
+							code: 'scopeName',
+						};
+						diagnostics.push(diagnostic);
+						break;
+				}
 			}
 
-			const range = toRange(node);
-			const diagnostic: vscode.Diagnostic = {
-				range: range,
-				message: `scopeName '${scopeName}' does not match scopeName '${grammar.scopeName}' inside '${packageUri.path}'`,
-				severity: vscode.DiagnosticSeverity.Error,
-				source: 'TextMate',
-				code: 'scopeName',
-			};
-			diagnostics.push(diagnostic);
+			if (grammar.injectTo?.length) {
+				injectToPresent = true;
+				if (!injectionSelectorPresent) {
+					const rootObjectQuery = `;scm
+						(json . "{" @rootObject)
+					`;
+					const rootObjectCaptures = queryNode(rootNode, rootObjectQuery);
+					for (const rootObjectCapture of rootObjectCaptures) {
+						const range = toRange(rootObjectCapture);
+						const diagnostic: vscode.Diagnostic = {
+							range: range,
+							message: `Missing property "injectionSelector".`,
+							severity: vscode.DiagnosticSeverity.Warning,
+							source: 'TextMate',
+							code: 'injectionSelector',
+						};
+						diagnostics.push(diagnostic);
+					}
+				}
+			}
 		}
 	}
-	// vscode.window.showInformationMessage(`scopeName ${(performance.now() - start).toFixed(3)}ms`);
+
+	if (injectionSelectorPresent && !injectToPresent) {
+		for (const queryCapture of queryCaptures) {
+			switch (queryCapture.name) {
+				case 'injectionSelector':
+					const range = toRange(queryCapture);
+					const diagnostic: vscode.Diagnostic = {
+						range: range,
+						message: '"injectionSelector" requires "injectTo" to be present under "grammars" inside `package.json`.',
+						severity: vscode.DiagnosticSeverity.Hint,
+						source: 'TextMate',
+						code: 'dead',
+						tags: [vscode.DiagnosticTag.Unnecessary],
+					};
+					diagnostics.push(diagnostic);
+					break;
+			}
+		}
+	}
+	// vscode.window.showInformationMessage(`packageJSON ${(performance.now() - start).toFixed(3)}ms`);
 }
 
 async function diagnosticsLinguistCaptures(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {

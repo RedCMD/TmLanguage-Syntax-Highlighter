@@ -162,11 +162,15 @@ export function queryNode(node: webTreeSitter.Node, queryString: string, startPo
 }
 
 export function toRange(node: webTreeSitter.Node): vscode.Range;
-export function toRange(points: webTreeSitter.Point): vscode.Range;
+export function toRange(node: webTreeSitter.QueryCapture): vscode.Range;
+export function toRange(point: webTreeSitter.Point): vscode.Range;
 export function toRange(start: webTreeSitter.Point, end: webTreeSitter.Point): vscode.Range;
-export function toRange(nodePoint: webTreeSitter.Node | webTreeSitter.Point, end?: webTreeSitter.Point): vscode.Range {
+export function toRange(nodePoint: webTreeSitter.Node | webTreeSitter.QueryCapture | webTreeSitter.Point, endPoint?: webTreeSitter.Point): vscode.Range {
+	if ('node' in nodePoint) {
+		nodePoint = nodePoint.node;
+	}
 	const startPosition = (<webTreeSitter.Node>nodePoint)?.startPosition || nodePoint;
-	const endPosition = (<webTreeSitter.Node>nodePoint)?.endPosition || end || startPosition;
+	const endPosition = (<webTreeSitter.Node>nodePoint)?.endPosition || endPoint || startPosition;
 	const range = new vscode.Range(
 		startPosition.row,
 		startPosition.column,

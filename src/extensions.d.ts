@@ -314,7 +314,7 @@ export interface IExtensionContributions {
 	configuration?: IConfiguration | IConfiguration[];
 	configurationDefaults?: IConfigurationDefaults;
 	debuggers?: IDebugger[];
-	grammars?: IGrammar[];
+	grammars?: Partial<IGrammar>[];
 	jsonValidation?: IJSONValidation[];
 	keybindings?: IKeyBinding[];
 	languages?: ILanguage[];
@@ -381,7 +381,7 @@ export interface IRelaxedExtensionManifest {
 	extensionDependencies?: string[];
 	extensionPack?: string[];
 	extensionKind?: vscode.ExtensionKind | vscode.ExtensionKind[];
-	contributes?: IExtensionContributions;
+	contributes?: Partial<IExtensionContributions>;
 	repository?: { url: string; };
 	bugs?: { url: string; };
 	enabledApiProposals?: readonly string[];
