@@ -146,7 +146,7 @@
 									"name": "support.function.json.tm"
 								},
 								{
-									"match": "[\\w-]+",
+									"match": "[0-9A-Za-z_-]+",
 									"name": "string.json.tm"
 								},
 								{
@@ -409,85 +409,127 @@
 			]
 		},
 		"injection-string": {
-			"comment": "All non-functional characters are treated as whitespace.  This includes whitespace ` ` and asterisk `*`.  [^\\w.,:|()-]",
+			"comment": "https://github.com/microsoft/vscode-textmate/blob/main/src/matcher.ts",
 			"patterns": [
 				{
-					"match": "(?>\\\\[\\\\\"/bfnrt])+",
-					"name": "comment.injection.whitespace.tm"
+					"begin": "[LR]:|[0-9A-Za-z_.:]:(?![0-9A-Za-z_.:-])",
+					"end": "(?=,|\")|$",
+					"beginCaptures": { "0": { "name": "keyword.control.priority.tm" } },
+					"patterns": [ { "include": "#injection-string-inner" } ]
 				},
-				{ "include": "#escape-characters" },
-				{
-					"begin": "[)|]",
-					"end": "(?=\")",
-					"name": "comment.injection.whitespace.tm"
-				},
-				{
-					"match": "(?<=^\"|[^\\\\]\"|,)((?>\\\\[\\\\\"/bfnrt]|[^\\\\\"\\w.:|()-])*)([LR]:|[\\w.:]:(?![\\w.:-]))",
-					"captures": {
-						"1": { "name": "comment.injection.whitespace.tm" },
-						"2": { "name": "support.function.tm" }
-					}
-				},
-				{
-					"begin": "(?>text|source)(?=\\.[\\w.:])",
-					"end": "(?![\\w.:-])",
-					"beginCaptures": { "0": { "name": "support.function.tm" } },
-					"name": "string",
+				{ "include": "#injection-string-inner" }
+			],
+			"repository": {
+				"injection-string-inner": {
 					"patterns": [
+						{ "include": "#escape-characters" },
 						{
-							"match": "\\.",
-							"name": "support.function.tm"
-						}
-					]
-				},
-				{
-					"match": "[\\w.:][\\w.:-]*",
-					"name": "string $0"
-				},
-				{
-					"begin": "\\(",
-					"end": "\\)|(?=\")",
-					"captures": { "0": { "name": "constant.character.set.regexp.tm" } },
-					"patterns": [
+							"begin": "(?>text|source)(?=\\.[0-9A-Za-z_.:-])",
+							"end": "(?![0-9A-Za-z_.:-])",
+							"beginCaptures": { "0": { "name": "support.function.tm" } },
+							"name": "string.tm",
+							"patterns": [
+								{
+									"match": "\\.",
+									"name": "support.function.tm"
+								}
+							]
+						},
 						{
-							"match": "(?<=[,|])(?>\\\\[\\\\\"/bfnrt]|[^\\\\\\w.:()-])+",
+							"match": "[0-9A-Za-z_.:][0-9A-Za-z_.:-]*",
+							"captures": { "0": { "name": "$0" } },
+							"name": "string.tm"
+						},
+						{
+							"begin": "\\(",
+							"end": "\\)|(?=\")|$",
+							"captures": { "0": { "name": "constant.character.set.regexp.tm" } },
+							"patterns": [
+								{
+									"match": "\\|",
+									"name": "keyword.control.negate.tm"
+								},
+								{ "include": "#injection-string-inner" }
+							]
+						},
+						{
+							"match": ",",
+							"name": "keyword.control.tm"
+						},
+						{
+							"comment": "Negates the following negation `-`, group `()` or series of scopes `foo bar abc`",
+							"begin": "-",
+							"end": "(?=[\",|)-])|(?!\\G)(?=\\()|(?<=\\))|$",
+							"beginCaptures": { "0": { "name": "support.function.tm" } },
+							"patterns": [
+								{
+									"begin": "\\G(?![\",|0-9A-Za-z_.:-])",
+									"end": "(?=[\",|0-9A-Za-z_.:-])|(?<=\\))|$",
+									"patterns": [ { "include": "#injection-string-inner-negated" } ]
+								},
+								{ "include": "#injection-string-inner-negated" }
+							]
+						},
+						{
+							"begin": "[)|]",
+							"end": "(?=\")|$",
 							"name": "comment.injection.whitespace.tm"
 						},
 						{
-							"match": "\\|",
-							"name": "keyword.control.tm"
-						},
-						{ "include": "#injection-string" }
+							"comment": "All non-functional characters are treated as whitespace. This includes whitespace ` ` and asterisk `*`",
+							"match": "[^\\\\\"0-9A-Za-z_.:,|()-]+",
+							"name": "comment.injection.whitespace.tm"
+						}
 					]
 				},
-				{
-					"match": "(?>\\\\[\\\\\"/bfnrt]|[^\\\\\"\\w.:,|()-])+",
-					"name": "comment.injection.whitespace.tm"
-				},
-				{
-					"match": "(?<=,)(?>\\\\[\\\\\"/bfnrt]|[^\\\\\"\\w.:|()-])+",
-					"name": "comment.injection.whitespace.tm"
-				},
-				{
-					"match": ",",
-					"name": "keyword.control.tm"
-				},
-				{
-					"match": "-(?>\\\\[\\\\\"/bfnrt]|[^\\\\\"\\w.:|()-])*-",
-					"name": "comment.injection.whitespace.tm"
-				},
-				{
-					"begin": "-",
-					"end": "(?=[\"\t\n,|()-])",
-					"beginCaptures": { "0": { "name": "support.function.tm" } },
-					"name": "emphasis",
-					"patterns": [ { "include": "#injection-string" } ]
-				},
-				{
-					"match": "-",
-					"name": "support.function.tm"
+				"injection-string-inner-negated": {
+					"patterns": [
+						{
+							"begin": "(?>text|source)(?=\\.[0-9A-Za-z_.:-])",
+							"end": "(?![0-9A-Za-z_.:-])",
+							"beginCaptures": { "0": { "name": "support.function.tm" } },
+							"name": "string.tm emphasis.tm",
+							"patterns": [
+								{
+									"match": "\\.",
+									"name": "support.function.tm"
+								}
+							]
+						},
+						{
+							"match": "[0-9A-Za-z_.:][0-9A-Za-z_.:-]*",
+							"captures": { "0": { "name": "$0" } },
+							"name": "string.tm emphasis.tm"
+						},
+						{
+							"begin": "\\(",
+							"end": "\\)|(?=\")|$",
+							"captures": { "0": { "name": "constant.character.set.regexp.tm" } },
+							"patterns": [
+								{
+									"match": "\\|",
+									"name": "keyword.control.negate.tm"
+								},
+								{ "include": "#injection-string-inner-negated" }
+							]
+						},
+						{
+							"begin": "-",
+							"end": "(?=[\",|)-])|(?!\\G)(?=\\()|(?<=\\))|$",
+							"beginCaptures": { "0": { "name": "support.function.tm" } },
+							"patterns": [
+								{
+									"begin": "\\G(?![\",|0-9A-Za-z_.:-])",
+									"end": "(?=[\",|0-9A-Za-z_.:-])|(?<=\\))|$",
+									"patterns": [ { "include": "#injection-string-inner" } ]
+								},
+								{ "include": "#injection-string-inner" }
+							]
+						},
+						{ "include": "#injection-string-inner" }
+					]
 				}
-			]
+			}
 		},
 		"firstLineMatch": {
 			"comment": "\"firstLineMatch\": \"...\"",
@@ -899,7 +941,6 @@
 				{
 					"comment": "${0:/upcase} ${000999:/downcase}",
 					"match": "(\\${)(0*)([0-9]{1,3})(:/)(upcase|downcase)(})",
-					"name": "meta.embedded.replace.capture.json.tm",
 					"captures": {
 						"1": { "name": "constant.character.escape.json.tm" },
 						"2": { "name": "punctuation.definition.tag.json.tm" },
@@ -907,7 +948,8 @@
 						"4": { "name": "constant.character.escape.json.tm" },
 						"5": { "name": "markup.heading.json.tm" },
 						"6": { "name": "constant.character.escape.json.tm" }
-					}
+					},
+					"name": "meta.embedded.replace.capture.json.tm"
 				}
 			]
 		},
@@ -1117,7 +1159,7 @@
 		"applyEndPatternLast": {
 			"comment": "\"applyEndPatternLast\": true",
 			"begin": "(\")(applyEndPatternLast)(\")",
-			"end": "(?<=\\w)|(?=[},])",
+			"end": "(?<=[0-9A-Za-z_])|(?=[},])",
 			"beginCaptures": {
 				"1": { "name": "punctuation.definition.string.begin.json.tm" },
 				"2": { "name": "keyword.property-name.string.applyEndPatternLast.json.tm" },
@@ -1126,7 +1168,7 @@
 			"patterns": [
 				{
 					"begin": ":",
-					"end": "(?<=\\w)|(?=[},])",
+					"end": "(?<=[0-9A-Za-z_])|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [
 						{
@@ -1155,7 +1197,7 @@
 			"patterns": [
 				{
 					"begin": ":",
-					"end": "(?<=\\w)|(?=[},])",
+					"end": "(?<=[0-9A-Za-z_])|(?=[},])",
 					"beginCaptures": { "0": { "name": "punctuation.separator.dictionary.key-value.json.tm" } },
 					"patterns": [ { "include": "#json-value" } ]
 				},
@@ -1316,7 +1358,7 @@
 					"name": "support.function.json.tm"
 				},
 				{
-					"match": "[\\w:][\\w:-]*+",
+					"match": "[0-9A-Za-z_:][0-9A-Za-z_:-]*+",
 					"name": "string"
 				},
 				{

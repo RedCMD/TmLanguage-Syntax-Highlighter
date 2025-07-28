@@ -393,37 +393,31 @@ module.exports = grammar({
 		injection_string: $ => choice(
 			repeat1($._injection_scopes),
 			seq(
-				seq(
-					optional($._injection_whitespace),
-					choice(
-						alias(
-							token(
-								prec(1,
-									choice(
-										'L:',
-										'R:',
-									),
+				optional($._injection_whitespace),
+				choice(
+					alias(
+						token(
+							prec(1,
+								choice(
+									'L:',
+									'R:',
 								),
 							),
+						),
+						$.selector,
+					),
+					seq(
+						alias(
+							/[_a-zA-Z0-9:.]:/,
 							$.selector,
 						),
-						seq(
-							alias(
-								/[_a-zA-Z0-9:.]:/,
-								$.selector,
-							),
-							$._injection_whitespace,
-						),
+						$._injection_whitespace,
 					),
 				),
 				repeat($._injection_scopes),
 			),
 		),
 		_injection_scopes: $ => choice(
-			// fieldAlias($,
-			// 	"scope",
-			// 	/[_a-zA-Z0-9.:][_a-zA-Z0-9.:-]*/,
-			// ),
 			alias(
 				/[_a-zA-Z0-9.:][_a-zA-Z0-9.:-]*/,
 				$.scope,
@@ -441,7 +435,8 @@ module.exports = grammar({
 		_injection_whitespace: $ => token(
 			repeat1(
 				choice(
-					/\\[\\"/bfnrt]/,
+					/\\u[0-9a-fA-F]{4}/,
+					/\\./,
 					/[^\\"\w.:|()-]/,
 				),
 			),
