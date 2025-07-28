@@ -26,7 +26,7 @@ const triggerCharacterSets: { [key: string]: string[]; } = {
 };
 export const triggerCharacters = Object.values(triggerCharacterSets).flat();
 
-const defaultThemeColors: { [baseTheme: string]: ITextMateThemingRule[]; } = {
+const builtInThemeColors: { [baseTheme: string]: ITextMateThemingRule[]; } = {
 	'light': [
 		{ scope: 'token.info-token', settings: { foreground: '#316bcd' } },
 		{ scope: 'token.warn-token', settings: { foreground: '#cd9731' } },
@@ -53,7 +53,7 @@ const defaultThemeColors: { [baseTheme: string]: ITextMateThemingRule[]; } = {
 	]
 };
 
-function comma(cursorNode: webTreeSitter.Node, position: vscode.Position) {
+function insertComma(cursorNode: webTreeSitter.Node, position: vscode.Position) {
 	return toPosition(cursorNode.lastNamedChild!.endPosition).isBefore(position) ? '' : ',';
 }
 
@@ -111,7 +111,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 					range: cursorRange,
 					kind: vscode.CompletionItemKind.Reference,
 					documentation: "Schema for VSCode's JSON TextMate grammars",
-					insertText: cursorName == 'schema' ? schema : `"${schema}"${comma(cursorNode, position)}`,
+					insertText: cursorName == 'schema' ? schema : `"${schema}"${insertComma(cursorNode, position)}`,
 					sortText: ' ', // top
 				});
 				break;
@@ -142,17 +142,20 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 				if (Array.isArray(grammars)) {
 					const documentPath = document.uri.path;
 					for (const grammar of grammars) {
-						const grammarPath = vscode.Uri.joinPath(packageUri!, '..', grammar.path).path;
-						if (grammarPath == documentPath) {
-							completionItems.push({
-								label: {
-									label: grammar.scopeName || `source.${grammar.language}`,
-									description: grammar.language,
-								},
-								documentation: documentPath,
-								range: cursorRange,
-								kind: vscode.CompletionItemKind.Variable,
-							});
+						const relativePath = grammar.path;
+						if (typeof relativePath === 'string') {
+							const absolutePath = vscode.Uri.joinPath(packageUri!, '..', relativePath).path;
+							if (absolutePath == documentPath) {
+								completionItems.push({
+									label: {
+										label: grammar.scopeName || `source.${grammar.language}`,
+										description: grammar.language,
+									},
+									documentation: documentPath,
+									range: cursorRange,
+									kind: vscode.CompletionItemKind.Variable,
+								});
+							}
 						}
 					}
 				}
@@ -166,52 +169,55 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 				}
 				const documentPath = document.uri.path;
 				for (const grammar of grammars) {
-					const grammarPath = vscode.Uri.joinPath(packageUri!, '..', grammar.path).path;
-					if (grammarPath == documentPath) {
-						const languageId = grammar.language;
-						if (languageId) {
-							const languages = contributes!.languages;
-							if (Array.isArray(languages)) {
-								for (const language of languages) {
-									if (languageId == language.id) {
-										const aliases = language.aliases;
-										if (Array.isArray(aliases)) {
-											for (const alias of aliases) {
-												completionItems.push({
-													label: {
-														label: alias,
-														description: grammar.scopeName || languageId,
-													},
-													range: cursorRange,
-													kind: vscode.CompletionItemKind.Text,
-												});
+					const relativePath = grammar.path;
+					if (typeof relativePath === 'string') {
+						const absolutePath = vscode.Uri.joinPath(packageUri!, '..', relativePath).path;
+						if (absolutePath == documentPath) {
+							const languageId = grammar.language;
+							if (languageId) {
+								const languages = contributes!.languages;
+								if (Array.isArray(languages)) {
+									for (const language of languages) {
+										if (languageId == language.id) {
+											const aliases = language.aliases;
+											if (Array.isArray(aliases)) {
+												for (const alias of aliases) {
+													completionItems.push({
+														label: {
+															label: alias,
+															description: grammar.scopeName || languageId,
+														},
+														range: cursorRange,
+														kind: vscode.CompletionItemKind.Text,
+													});
+												}
 											}
 										}
 									}
 								}
 							}
-						}
-						const displayName = packageJSON!.displayName;
-						if (displayName) {
-							completionItems.push({
-								label: {
-									label: displayName,
-									description: packageJSON!.name || languageId || grammar.scopeName,
-								},
-								range: cursorRange,
-								kind: vscode.CompletionItemKind.Text,
-							});
-						}
-						const description = packageJSON!.description;
-						if (description) {
-							completionItems.push({
-								label: {
-									label: description,
-									description: displayName || packageJSON!.name || languageId || grammar.scopeName,
-								},
-								range: cursorRange,
-								kind: vscode.CompletionItemKind.Text,
-							});
+							const displayName = packageJSON!.displayName;
+							if (displayName) {
+								completionItems.push({
+									label: {
+										label: displayName,
+										description: packageJSON!.name || languageId || grammar.scopeName,
+									},
+									range: cursorRange,
+									kind: vscode.CompletionItemKind.Text,
+								});
+							}
+							const description = packageJSON!.description;
+							if (description) {
+								completionItems.push({
+									label: {
+										label: description,
+										description: displayName || packageJSON!.name || languageId || grammar.scopeName,
+									},
+									range: cursorRange,
+									kind: vscode.CompletionItemKind.Text,
+								});
+							}
 						}
 					}
 				}
@@ -259,7 +265,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 						range: cursorRange,
 						kind: vscode.CompletionItemKind.Property,
 						documentation: documentation,
-						insertText: cursorName == 'repo' ? text : new vscode.SnippetString(`"${text}": {$0}${comma(cursorNode, position)}`),
+						insertText: cursorName == 'repo' ? text : new vscode.SnippetString(`"${text}": {$0}${insertComma(cursorNode, position)}`),
 					});
 				}
 				const documentation = new vscode.MarkdownString();
@@ -275,7 +281,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 					insertText: cursorName == 'repo' ?
 						"repo-item" :
 						new vscode.SnippetString(
-							`"\${1:repo-item}": {$0}${comma(cursorNode, position)}`
+							`"\${1:repo-item}": {$0}${insertComma(cursorNode, position)}`
 						),
 					sortText: "~repo-item", // bottom
 				});
@@ -430,10 +436,10 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 					'hcDark',
 					'hcLight',
 				][vscode.window.activeColorTheme.kind];
-				const themeRules = defaultThemeColors[baseTheme];
-				for (const themeRule of themeRules) {
-					const scope = <string>themeRule.scope;
-					const settings = themeRule.settings;
+				const builtInThemeRules = builtInThemeColors[baseTheme];
+				for (const builtInThemeRule of builtInThemeRules) {
+					const scope = <string>builtInThemeRule.scope;
+					const settings = builtInThemeRule.settings;
 					const documentation = new vscode.MarkdownString();
 					documentation.appendMarkdown(
 						`Theme: \`${baseTheme}\`  \n` +

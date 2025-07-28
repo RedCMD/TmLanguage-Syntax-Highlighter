@@ -7,6 +7,8 @@ node_modules
 *.map
 *.vsix
 *.vsixmanifest
+*.textmate
+*.tmLanguage
 
 parser.c
 grammar.json
@@ -15,3 +17,4 @@ parser.exp
 parser.lib
 parser.obj
 scanner.obj
+copyFile.ts

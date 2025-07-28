@@ -80,7 +80,9 @@ export function getLastNode(rootNode: webTreeSitter.Node, type: string) {
 	}
 }
 
-const queryCache: { [query: string]: webTreeSitter.Query; } = {};
+const queryCache: Partial<{
+	[query: string]: webTreeSitter.Query;
+}> = {};
 
 export function queryNode(node: webTreeSitter.Node, queryString: string): webTreeSitter.QueryCapture[];
 export function queryNode(node: webTreeSitter.Node, queryString: string, point: webTreeSitter.Point): webTreeSitter.QueryCapture | null;
@@ -103,7 +105,9 @@ export function queryNode(node: webTreeSitter.Node, queryString: string, startPo
 			queryCache[queryString] = query;
 			// vscode.window.showInformationMessage(JSON.stringify(query, stringify));
 			// vscode.window.showInformationMessage(JSON.stringify(queryString));
-		} catch (error) { }
+		} catch (error) {
+			// console.warn(`JSON TextMate: TreeSitter Query:\n`, error);
+		}
 	}
 
 	// vscode.window.showInformationMessage(performance.now() - start + "ms");

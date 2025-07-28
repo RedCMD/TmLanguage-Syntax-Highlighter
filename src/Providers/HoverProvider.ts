@@ -33,6 +33,7 @@ export const HoverProvider: vscode.HoverProvider = {
 				markdownString.appendMarkdown('Regular Expression to match, (capture) and apply `scopeNames` to text  \n');
 				markdownString.appendMarkdown('[VSCode TextMate](https://github.com/microsoft/vscode-textmate) uses the [Oniguruma](https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE) regex dialect  \n');
 				markdownString.appendMarkdown('[TextMate 2.0](https://macromates.com/) uses the [Onigmo](https://github.com/textmate/Onigmo/blob/Onigmo-5.13.5/doc/RE) regex dialect  \n');
+				markdownString.appendMarkdown('[Github-Linguist](https://github.com/github-linguist/linguist) uses the [PCRE](https://github.com/vmg/libpcre) regex dialect  \n');
 				markdownString.appendCodeblock('Example: \\\\b(true|false)\\\\b', 'json-textmate-regex');
 				break;
 			case 'begin':
@@ -79,6 +80,7 @@ export const HoverProvider: vscode.HoverProvider = {
 					rules: {
 						// Follow `vscode-oniguruma` which enables this Oniguruma option by default
 						captureGroup: true,
+						// end/while rules might reference begin rules, so we allow orphan backreferences
 						allowOrphanBackrefs: hoverCapture.name == 'while' || hoverCapture.name == 'end',
 					},
 				};
@@ -86,13 +88,13 @@ export const HoverProvider: vscode.HoverProvider = {
 
 				// markdownString.appendMarkdown('<details><summary>Click to show JS Translation</summary>  \n');
 				markdownString.appendMarkdown('---\n');
-				markdownString.appendMarkdown('[Translation](https://github.com/slevithan/oniguruma-to-es) from [Oniguruma](https://github.com/kkos/oniguruma/blob/master/doc/RE) to JavaScript: ');
+				markdownString.appendMarkdown('[Translation](https://github.com/slevithan/oniguruma-to-es) from [Oniguruma](https://github.com/kkos/oniguruma/blob/master/doc/RE) to [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions): ');
 				markdownString.appendCodeblock(`/${jsRegex.pattern.replaceAll(/\\([\\\/])|(\/)/g, '\\$1$2') || '(?:)'}/${jsRegex.flags}`, 'javascript');
 				// markdownString.appendMarkdown('</details>  \n');
 				// markdownString.supportHtml = true;
 			}
 		} catch (error) {
-			console.warn("JSON TextMate: oniguruma-to-es:\n", error);
+			// console.warn("JSON TextMate: oniguruma-to-es:\n", error);
 		}
 
 		const range = toRange(hoverNode);
@@ -104,7 +106,7 @@ export const HoverProvider: vscode.HoverProvider = {
 
 function debugTreeSitterHovers(trees: trees, point: webTreeSitter.Point): vscode.Hover | undefined {
 	const node = trees.jsonTree.rootNode.descendantForPosition(point);
-	// const node = jsonTree.rootNode.namedDescendantForPosition(point);
+	// const node = trees.jsonTree.rootNode.namedDescendantForPosition(point);
 
 	if (!node) {
 		return;

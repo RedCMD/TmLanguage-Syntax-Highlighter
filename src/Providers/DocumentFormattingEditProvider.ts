@@ -39,7 +39,7 @@ export const DocumentFormattingEditProvider: vscode.DocumentFormattingEditProvid
 
 export const DocumentRangeFormattingEditProvider: vscode.DocumentRangeFormattingEditProvider = {
 	provideDocumentRangeFormattingEdits(document: vscode.TextDocument, range: vscode.Range, options: vscode.FormattingOptions, token: vscode.CancellationToken): vscode.TextEdit[] {
-		// vscode.window.showInformationMessage(JSON.stringify("FormatRange"));
+		// vscode.window.showInformationMessage(`FormatRange ${JSON.stringify(range)}`);
 		// const start = performance.now();
 		const trees = getTrees(document);
 		const jsonTree = trees.jsonTree;

@@ -389,8 +389,8 @@ function diagnosticsTreeSitterRegexErrors(diagnostics: vscode.Diagnostic[], tree
 	// vscode.window.showInformationMessage(`Regex ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-async function diagnosticsRegularExpressionErrors(diagnostics: vscode.Diagnostic[], trees: trees) {
-	// vscode.window.showInformationMessage(JSON.stringify("diagnostics Regex Oniguruma"));
+function diagnosticsRegularExpressionErrors(diagnostics: vscode.Diagnostic[], trees: trees) {
+	// vscode.window.showInformationMessage(JSON.stringify("diagnostics Regexes"));
 	// const start = performance.now();
 	const regexNodes = trees.regexNodes;
 
@@ -563,17 +563,16 @@ async function diagnosticsRegularExpressionErrors(diagnostics: vscode.Diagnostic
 		let errorCodeES: string | undefined;
 		try {
 			// https://shiki.style/ uses https://github.com/slevithan/oniguruma-to-es
-			// There is no escaping backreferences, but aimless backreferences are ignored
-
+			// There is no escaping backreferences, but orphan backreferences are ignored
 
 			const options: onigurumaToES.ToRegExpOptions = {
 				accuracy: 'default',
 				verbose: true,
+				lazyCompileLength: 0,
 				rules: {
 					// Follow `vscode-oniguruma` which enables this Oniguruma option by default
 					captureGroup: true,
 					allowOrphanBackrefs: hasBackreferences,
-
 				},
 			};
 			const jsRegex = onigurumaToES.toRegExpDetails(regex, options);
@@ -653,7 +652,7 @@ async function diagnosticsRegularExpressionErrors(diagnostics: vscode.Diagnostic
 			});
 		}
 	}
-	// vscode.window.showInformationMessage(`Oniguruma ${(performance.now() - start).toFixed(3)}ms`);
+	// vscode.window.showInformationMessage(`Regexes ${(performance.now() - start).toFixed(3)}ms`);
 }
 
 function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
@@ -802,7 +801,7 @@ function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: w
 	// vscode.window.showInformationMessage(`include ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-async function diagnosticsUnusedRepos(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
+function diagnosticsUnusedRepos(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
 	if (ignoreDiagnosticsUnusedRepos) {
 		return;
 	}
@@ -857,7 +856,7 @@ async function diagnosticsUnusedRepos(diagnostics: vscode.Diagnostic[], rootNode
 	// vscode.window.showInformationMessage(`unusedRepos ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-async function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
+function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics TextMate dead"));
 	// const start = performance.now();
 
@@ -876,7 +875,6 @@ async function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], roo
 		(repo (repository) @repository &begin !match)
 		(repo (patterns) @patterns &match)
 		(repo (include) @include &match)
-		(pattern (include) @include &match)
 		(repo (include) @include &begin !match)
 		(repo (include) @include &patterns !begin !match)
 		(repo [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @begin &match)
@@ -1042,7 +1040,7 @@ async function diagnosticsMismatchingPackageJSONInfo(diagnostics: vscode.Diagnos
 	// vscode.window.showInformationMessage(`packageJSON ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-async function diagnosticsLinguistCaptures(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
+function diagnosticsLinguistCaptures(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics (captures)"))
 	// const start = performance.now();
 

@@ -855,7 +855,7 @@ export function initCallStackView(context: vscode.ExtensionContext): void {
 		vscode.commands.registerTextEditorCommand("textmate.callstack", CallStackView),
 		vscode.commands.registerCommand("textmate.refresh", refresh),
 		vscode.commands.registerCommand("textmate.find", find),
-		vscode.commands.registerCommand("textmate.copytoclipboard.grammar", copyToClipBoardGrammar),
+		vscode.commands.registerCommand("textmate.copytoclipboard.grammar", copyGrammarToClipBoard),
 		vscode.commands.registerCommand("textmate.call.details", callDetails),
 		vscode.commands.registerCommand("textmate.goto.file", gotoFile),
 		vscode.commands.registerCommand("textmate.goto.grammar", gotoGrammar),
@@ -1040,7 +1040,7 @@ async function find(element?: element) {
 	// vscode.commands.executeCommand('list.toggleFindMatchType');
 }
 
-async function copyToClipBoardGrammar(element?: element) {
+async function copyGrammarToClipBoard(element?: element) {
 	try {
 		const grammarJSON = JSON.stringify(grammar, stringify);
 		await vscode.env.clipboard.writeText(grammarJSON);
@@ -1265,6 +1265,7 @@ async function gotoGrammar(element: element) {
 	vscode.commands.executeCommand('editor.action.goToLocations', uri, range.start, locations);
 }
 
+// https://github.com/microsoft/vscode-discussions/discussions/2758
 async function gotoFile(element: element) {
 	// vscode.window.showInformationMessage(`gotoFile\n${JSON.stringify(element)}`);
 

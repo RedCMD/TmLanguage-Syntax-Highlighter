@@ -44,7 +44,7 @@ function parseExtensions() {
 		const dev = extension.packageJSON.isUnderDevelopment; // Higher priority
 		const priority = dev ? -1 : builtIn ? 1 : 0;
 		const grammars = extension.packageJSON.contributes?.grammars;
-		if (grammars) {
+		if (Array.isArray(grammars)) {
 			for (const grammar of grammars) {
 				const scopeName = grammar.scopeName;
 				if (scopeName) {
@@ -64,7 +64,7 @@ function parseExtensions() {
 						};
 
 						const injectTo = grammar.injectTo;
-						if (injectTo) {
+						if (Array.isArray(injectTo)) {
 							for (const injectToScopeName of injectTo) {
 								if (!grammarLanguages.scopeName[injectToScopeName]) {
 									grammarLanguages.scopeName[injectToScopeName] = {
@@ -81,7 +81,7 @@ function parseExtensions() {
 						}
 
 						const language = grammar.language;
-						if (language) {
+						if (typeof language === 'string') {
 							if (!grammarLanguages.languageId[language] ||
 								grammarLanguages.languageId[language].priority >= priority) { // VSCode picks the last extension
 								grammarLanguages.languageId[language] = {
