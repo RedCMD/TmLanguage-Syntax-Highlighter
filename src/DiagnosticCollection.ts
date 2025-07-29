@@ -422,6 +422,7 @@ function diagnosticsRegularExpressionErrors(diagnostics: vscode.Diagnostic[], tr
 		}
 
 
+		const startTimeOniguruma = performance.now();
 		let errorCodeOniguruma: string;
 		try {
 			// VSCode TextMate uses oniguruma
@@ -458,8 +459,13 @@ function diagnosticsRegularExpressionErrors(diagnostics: vscode.Diagnostic[], tr
 		} catch (error: any) {
 			errorCodeOniguruma = error?.message || String(error);
 		}
+		errorCodeOniguruma = errorCodeOniguruma?.replace(/^undefined error code$/, '');
+		const timeOniguruma = performance.now() - startTimeOniguruma;
+		const timeMessageOniguruma = ` (${timeOniguruma.toFixed()}ms)`;
+		// vscode.window.showInformationMessage(`timeOniguruma ${timeOniguruma.toFixed(3)}ms`);
 
 
+		const startTimeOnigmo = performance.now();
 		let errorCodeOnigmo: string;
 		try {
 			// TextMate 2.0 uses Onigmo
@@ -495,8 +501,12 @@ function diagnosticsRegularExpressionErrors(diagnostics: vscode.Diagnostic[], tr
 			errorCodeOnigmo = error?.message || String(error);
 		}
 		errorCodeOnigmo = errorCodeOnigmo?.replace(/^Error: /, '');
+		const timeOnigmo = performance.now() - startTimeOnigmo;
+		const timeMessageOnigmo = ` (${timeOnigmo.toFixed()}ms)`;
+		// vscode.window.showInformationMessage(`timeOnigmo ${timeOnigmo.toFixed(3)}ms`);
 
 
+		const startTimePCRE = performance.now();
 		let errorCodePCRE: string | undefined;
 		try {
 			// Github/Linguist uses PCRE
@@ -558,8 +568,12 @@ function diagnosticsRegularExpressionErrors(diagnostics: vscode.Diagnostic[], tr
 				return newOffset.toFixed();
 			},
 		);
+		const timePCRE = performance.now() - startTimePCRE;
+		const timeMessagePCRE = ` (${timePCRE.toFixed()}ms)`;
+		// vscode.window.showInformationMessage(`timePCRE ${timePCRE.toFixed(3)}ms`);
 
 
+		const startTimeES = performance.now();
 		let errorCodeES: string | undefined;
 		try {
 			// https://shiki.style/ uses https://github.com/slevithan/oniguruma-to-es
@@ -579,47 +593,47 @@ function diagnosticsRegularExpressionErrors(diagnostics: vscode.Diagnostic[], tr
 		} catch (error: any) {
 			errorCodeES = error?.message || String(error);
 		}
-
-
-		// const string = vscodeOniguruma.createOnigString(''); // blank. Maybe can test against a user provided string?
-		// const match = scanner.findNextMatchSync(string, 0); // returns null if `regex` is invalid
-		// vscode.window.showInformationMessage(`Oniguruma ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(match, stringify)}`);
+		const timeES = performance.now() - startTimeES;
+		const timeMessageES = ` (${timeES.toFixed()}ms)`;
+		// vscode.window.showInformationMessage(`timeES ${timeES.toFixed(3)}ms`);
 
 		const range = toRange(key);
 
-		if (errorCodeOnigmo === errorCodeOniguruma) {
+		if (errorCodeOniguruma && errorCodeOnigmo && errorCodePCRE && errorCodeES) {
 			diagnostics.push({
 				range: range,
-				message: errorCodeOniguruma,
+				message: errorCodeOniguruma + (timeOniguruma >= 1 ? timeMessageOniguruma : ''),
 				severity: vscode.DiagnosticSeverity.Error,
 				source: 'Oniguruma',
 			});
-
-			if (errorCodePCRE) {
+			if (errorCodeOnigmo !== errorCodeOniguruma || Math.abs(timeOniguruma - timeOnigmo) > 10) {
 				diagnostics.push({
 					range: range,
-					message: errorCodePCRE,
-					severity: vscode.DiagnosticSeverity.Warning,
-					source: 'PCRE',
+					message: errorCodeOnigmo + (timeOnigmo >= 1 ? timeMessageOnigmo : ''),
+					severity: vscode.DiagnosticSeverity.Error,
+					source: 'Onigmo',
 				});
 			}
-
-			if (errorCodeES) {
-				diagnostics.push({
-					range: range,
-					message: errorCodeES,
-					severity: vscode.DiagnosticSeverity.Warning,
-					source: 'Shiki',
-				});
-			}
+			diagnostics.push({
+				range: range,
+				message: errorCodePCRE + (timePCRE >= 1 ? timeMessagePCRE : ''),
+				severity: vscode.DiagnosticSeverity.Error,
+				source: 'PCRE',
+			});
+			diagnostics.push({
+				range: range,
+				message: errorCodeES + (timeES >= 1 ? timeMessageES : ''),
+				severity: vscode.DiagnosticSeverity.Error,
+				source: 'ES',
+			});
 
 			continue;
 		}
 
-		if (errorCodeOniguruma !== 'undefined error code') {
+		if (errorCodeOniguruma) {
 			diagnostics.push({
 				range: range,
-				message: `Regex incompatible with VSCode TextMate (Oniguruma v6.9.8)\n${errorCodeOniguruma}`,
+				message: `Regex incompatible with VSCode TextMate${timeOniguruma >= 1 ? timeMessageOniguruma : ''} (Oniguruma v6.9.8)\n${errorCodeOniguruma}`,
 				severity: vscode.DiagnosticSeverity.Error,
 				source: 'Oniguruma',
 			});
@@ -628,7 +642,7 @@ function diagnosticsRegularExpressionErrors(diagnostics: vscode.Diagnostic[], tr
 		if (errorCodeOnigmo) {
 			diagnostics.push({
 				range: range,
-				message: `Regex incompatible with TextMate 2.0 (Onigmo v5.13.5)\n${errorCodeOnigmo}`,
+				message: `Regex incompatible with TextMate 2.0${timeOnigmo >= 1 ? timeMessageOnigmo : ''} (Onigmo v5.13.5)\n${errorCodeOnigmo}`,
 				severity: vscode.DiagnosticSeverity.Warning,
 				source: 'Onigmo',
 			});
@@ -637,7 +651,7 @@ function diagnosticsRegularExpressionErrors(diagnostics: vscode.Diagnostic[], tr
 		if (errorCodePCRE) {
 			diagnostics.push({
 				range: range,
-				message: `Regex incompatible with Github-Linguist (PCRE v8.36)\n${errorCodePCRE}`,
+				message: `Regex incompatible with Github-Linguist${timePCRE >= 1 ? timeMessagePCRE : ''} (PCRE v8.36)\n${errorCodePCRE}`,
 				severity: vscode.DiagnosticSeverity.Warning,
 				source: 'PCRE',
 			});
@@ -646,9 +660,9 @@ function diagnosticsRegularExpressionErrors(diagnostics: vscode.Diagnostic[], tr
 		if (errorCodeES) {
 			diagnostics.push({
 				range: range,
-				message: `Regex incompatible with Shiki (oniguruma-to-es)\n${errorCodeES}`,
+				message: `Regex incompatible with Shiki${timeES >= 1 ? timeMessageES : ''} (oniguruma-to-es)\n${errorCodeES}`,
 				severity: vscode.DiagnosticSeverity.Warning,
-				source: 'Shiki',
+				source: 'ES',
 			});
 		}
 	}
