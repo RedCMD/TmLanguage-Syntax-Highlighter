@@ -7,11 +7,35 @@ const cursorQuery = `;scm
 	(include (value (ruleName) @ruleName))
 	;(json (scopeName (value) @root_scopeName))
 	(repo (key) @repo)
-	(name (value (scope) @scope))
-	(contentName (value (scope) @scope))
+	(scope) @scope
 `;
 
 export const RenameProvider: vscode.RenameProvider = {
+	prepareRename(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.ProviderResult<{ range: vscode.Range; placeholder: string; }> {
+		// vscode.window.showInformationMessage(JSON.stringify("Rename"));
+		const trees = getTrees(document);
+		const jsonTree = trees.jsonTree;
+		const point = toPoint(position);
+
+		const cursorCapture = queryNode(jsonTree.rootNode, cursorQuery, point);
+		if (!cursorCapture) {
+			return Promise.reject('Item not renamable');
+		}
+
+		// const cursorName = cursorCapture.name;
+		const cursorNode = cursorCapture.node;
+		const cursorText = cursorNode.text;
+		const cursorRange = toRange(cursorNode);
+
+		// if (cursorName == 'root_scopeName') {
+		// 	const uriPackage = vscode.Uri.joinPath(document.uri, '../../package.json');
+		// 	vscode.workspace.openTextDocument(uriPackage);
+		// }
+
+		const rename = { range: cursorRange, placeholder: cursorText };
+		// vscode.window.showInformationMessage(JSON.stringify(rename));
+		return rename;
+	},
 	/* async */ provideRenameEdits(document: vscode.TextDocument, position: vscode.Position, newName: string, token: vscode.CancellationToken): /* Promise< */vscode.WorkspaceEdit | undefined/* > */ {
 		// vscode.window.showInformationMessage(JSON.stringify("RenameEdit"));
 		const trees = getTrees(document);
@@ -80,8 +104,9 @@ export const RenameProvider: vscode.RenameProvider = {
 				edits.push(edit);
 				break;
 			case 'scope':
-				query += `(name (value (scope) @scope (#eq? @scope "${cursorText}")))`;
-				query += `(contentName (value (scope) @scope (#eq? @scope "${cursorText}")))`;
+				query += `;scm
+					((scope) @scope (#eq? @scope "${cursorText}"))
+				`;
 				break;
 			default:
 				return;
@@ -101,30 +126,5 @@ export const RenameProvider: vscode.RenameProvider = {
 		workspaceEdits.set(uri, edits);
 		// vscode.window.showInformationMessage(`rename: ${query}\n${JSON.stringify(workspaceEdits)}`);
 		return workspaceEdits;
-	},
-	prepareRename(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.ProviderResult<{ range: vscode.Range; placeholder: string; }> {
-		// vscode.window.showInformationMessage(JSON.stringify("Rename"));
-		const trees = getTrees(document);
-		const jsonTree = trees.jsonTree;
-		const point = toPoint(position);
-
-		const cursorCapture = queryNode(jsonTree.rootNode, cursorQuery, point);
-		if (!cursorCapture) {
-			return Promise.reject('Item not renamable');
-		}
-
-		// const cursorName = cursorCapture.name;
-		const cursorNode = cursorCapture.node;
-		const cursorText = cursorNode.text;
-		const cursorRange = toRange(cursorNode);
-
-		// if (cursorName == 'root_scopeName') {
-		// 	const uriPackage = vscode.Uri.joinPath(document.uri, '../../package.json');
-		// 	vscode.workspace.openTextDocument(uriPackage);
-		// }
-
-		const rename = { range: cursorRange, placeholder: cursorText };
-		// vscode.window.showInformationMessage(JSON.stringify(rename));
-		return rename;
 	},
 };
