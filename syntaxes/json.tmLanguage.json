@@ -815,6 +815,7 @@
 							"endCaptures": { "0": { "name": "punctuation.definition.dictionary.end.json.tm" } },
 							"patterns": [
 								{ "include": "#name" },
+								{ "include": "#name_scopeName" },
 								{ "include": "#match" },
 								{ "include": "#captures" },
 								{ "include": "#patterns" },

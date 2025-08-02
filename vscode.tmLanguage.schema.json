@@ -1004,11 +1004,9 @@
 		},
 		"scopeName": {
 			"markdownDescription": "A single scopeName to be assigned to the provided token. Overrides `\"name\"`.  \n_Not currently supported by VSCode_",
+			"type": "string",
 			"anyOf": [
-				{
-					"type": "string",
-					"pattern": "^([\\w\\-.]|\\$\\d+|\\${\\d+(:[^}]*)?})*$"
-				},
+				{ "pattern": "^([\\w\\-.]|\\$\\d+|\\${\\d+(:[^}]*)?})*$" },
 				{ "$ref": "#/definitions/name-content" }
 			]
 		},

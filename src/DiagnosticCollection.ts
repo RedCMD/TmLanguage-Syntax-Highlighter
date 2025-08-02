@@ -1107,6 +1107,9 @@ function diagnosticsHints(diagnostics: Diagnostic[], rootNode: webTreeSitter.Nod
 	const query = `;scm
 		(repo (key) . (patterns (key) @patterns . (_) .) .)
 		(pattern (key) . (patterns (key) @patterns . (_) .) .)
+		(repo (name (value) @name (#match? @name " ")) !name_scopeName)
+		(pattern (name (value) @name (#match? @name " ")) !name_scopeName)
+		(contentName (value) @contentName (#match? @contentName " "))
 	`;
 	const captures = queryNode(rootNode, query);
 	for (const capture of captures) {
@@ -1115,6 +1118,27 @@ function diagnosticsHints(diagnostics: Diagnostic[], rootNode: webTreeSitter.Nod
 
 		const name = capture.name;
 		switch (name) {
+			case 'name':
+			case 'contentName':
+				const text = node.text;
+				const scopes = text.split(' ');
+				const firstSubScopes = text.match(/^[^ ]+(?=\.[^ ]* )/)?.[0];
+				diagnostics.push({
+					range: range,
+					message: `TextMate 2.0 and Github-Linguist handle space separated scopes differently to VSCode TextMate.
+								VSCode will split the scopes on spaces.
+								  \`${text}\` will apply ${scopes.length} different scopes; \`${scopes.join('`, `')}\`.
+								TextMate and Github will not split the scopes.
+								  They instead will try to match against the literal singular scopeName \`${text}\`.
+								  However their theme parser will split scopes on spaces.
+								  So effectively only the first sub-scope(s) \`${firstSubScopes ?? ''}\` can ever be matched against.
+								${name == 'name' ? 'TextMate 2.0 allows you to use "scopeName" to override "name".' : ''}`.replaceAll('\t', ''),
+					severity: firstSubScopes ? vscode.DiagnosticSeverity.Hint : vscode.DiagnosticSeverity.Warning,
+					source: 'TextMate',
+					code: 'spaceScopes',
+					node: node,
+				});
+				break;
 			case 'patterns':
 				diagnostics.push({
 					range: range,
