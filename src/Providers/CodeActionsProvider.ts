@@ -2,8 +2,8 @@ import * as vscode from 'vscode';
 import * as webTreeSitter from 'web-tree-sitter';
 import * as optimizer from 'oniguruma-parser-cjs/optimizer';
 import { closeEnoughQuestionMark, JSONParseStringRelaxed, stringify, wagnerFischer } from "../extension";
-import { getTrees, queryNode, toRange } from "../TreeSitter";
-import { debouncedDiagnostics } from "../DiagnosticCollection";
+import { getTrees, queryNode, toPosition, toRange } from "../TreeSitter";
+import { debouncedDiagnostics, Diagnostic } from "../DiagnosticCollection";
 import { unicodeproperties, UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
 
 
@@ -17,10 +17,10 @@ export const metadata: vscode.CodeActionProviderMetadata = {
 	documentation: undefined,
 };
 
-type CodeAction = vscode.CodeAction & {
+type CodeAction = vscode.CodeAction & Partial<{
 	document: vscode.TextDocument;
-	node?: webTreeSitter.Node;
-};
+	node: webTreeSitter.Node;
+}>;
 
 export let ignoreDiagnosticsUnusedRepos: boolean = false;
 
@@ -29,9 +29,9 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 		// vscode.window.showInformationMessage(`provideCodeActions\n${JSON.stringify(context, stringify)}`);
 		// const start = performance.now();
 
-		const codeActions: (CodeAction | vscode.CodeAction)[] = [];
+		const codeActions: CodeAction[] = [];
 
-		const diagnostics = context.diagnostics;
+		const diagnostics = context.diagnostics as Diagnostic[];
 		for (const diagnostic of diagnostics) {
 			if (!range.intersection(diagnostic.range)) {
 				continue;
@@ -39,6 +39,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 
 			const edit = new vscode.WorkspaceEdit;
 			const message = diagnostic.message;
+			const node = diagnostic.node;
 			const code = diagnostic.code;
 			switch (code) {
 				case 'ERROR':
@@ -116,7 +117,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 					});
 					break;
 				}
-				case 'repo': {
+				case 'repo':
 					codeActions.push({
 						title: `Ignore no reference warnings`,
 						kind: vscode.CodeActionKind.QuickFix.append('ignore'),
@@ -124,9 +125,25 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 						document: document,
 					});
 					break;
-				}
-				default:
-					continue;
+				case 'singlePattern':
+					codeActions.push(
+						// {
+						// 	title: `Extract single rule from "patterns"`,
+						// 	kind: vscode.CodeActionKind.RefactorExtract.append('singlePattern'),
+						// 	diagnostics: [diagnostic],
+						// 	document: document,
+						// 	node: node,
+						// 	isPreferred: true,
+						// },
+						{
+							title: `Extract single rule from "patterns"`,
+							kind: vscode.CodeActionKind.QuickFix.append('singlePattern'),
+							diagnostics: [diagnostic],
+							document: document,
+							node: node,
+						}
+					);
+					break;
 			}
 		}
 
@@ -169,17 +186,17 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 	async resolveCodeAction(codeAction: CodeAction, token: vscode.CancellationToken): Promise<vscode.CodeAction> {
 		// vscode.window.showInformationMessage(`resolveCodeAction\n${JSON.stringify(codeAction)}`);
 		// const start = performance.now();
-		const document = codeAction.document;
+		const document = codeAction.document!;
 		const uri = document.uri;
 
 		const trees = getTrees(document);
 
 		const edit = new vscode.WorkspaceEdit;
+		const node = codeAction.node!;
 		const kind = codeAction.kind?.value;
 
 		switch (kind) {
 			case 'refactor.rewrite.minify':
-				const node = codeAction.node;
 				const regexTrees = trees.regexTrees;
 				if (node) {
 					const rootNode = regexTrees.get(node.id)!.rootNode;
@@ -194,6 +211,31 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 			case 'refactor.rewrite.sort':
 				const jsonTree = trees.jsonTree;
 				sortJSON(edit, jsonTree, uri);
+				break;
+			case 'refactor.extract.singlePattern':
+			case 'quickfix.singlePattern':
+				const patternNode = node.namedChild(1)!;
+				// remove `"patterns": [\n\t{\n\t\t`
+				edit.delete(uri, toRange(node.startPosition, patternNode.firstNamedChild!.startPosition));
+
+				const children = patternNode.namedChildren;
+				children.shift(); // First child already handled above
+				for (const childNode of children) {
+					const startPosition = toPosition(childNode.startPosition);
+					const newStartPosition = startPosition.translate(0, -2);
+					const prevSiblingPosition = toPosition(childNode.previousSibling!.endPosition);
+					if (prevSiblingPosition.isBeforeOrEqual(newStartPosition)) {
+						// remove 2 whitespace indents
+						edit.delete(uri, new vscode.Range(newStartPosition, startPosition));
+					}
+					else if (!prevSiblingPosition.isEqual(startPosition)) {
+						// remove only 1 available whitespace indent
+						edit.delete(uri, new vscode.Range(prevSiblingPosition, startPosition));
+					}
+				}
+
+				// remove `\n\t}\n]`
+				edit.delete(uri, toRange(patternNode.lastNamedChild!.endPosition, node.endPosition));
 				break;
 			case 'quickfix.ignore':
 				ignoreDiagnosticsUnusedRepos = true;

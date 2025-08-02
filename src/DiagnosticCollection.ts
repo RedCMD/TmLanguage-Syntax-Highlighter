@@ -115,6 +115,10 @@ type OnigmoScanner = textmateOnigmo.OnigScanner & {
 	readonly _options: textmateOnigmo.FindOption[];
 };
 
+export type Diagnostic = vscode.Diagnostic & Partial<{
+	node: webTreeSitter.Node;
+}>;
+
 const pcre = new PCRE.PCRE();
 
 const activeDocuments: {
@@ -210,6 +214,7 @@ async function Diagnostics(document: vscode.TextDocument) {
 		tryCatch(diagnosticsBrokenIncludes(diagnostics, rootNode), "Diagnostics error:", "BrokenIncludes"),
 		tryCatch(diagnosticsUnusedRepos(diagnostics, rootNode), "Diagnostics error:", "UnusedRepos"),
 		tryCatch(diagnosticsLinguistCaptures(diagnostics, rootNode), "Diagnostics error:", "LinguistCaptures"),
+		tryCatch(diagnosticsHints(diagnostics, rootNode), "Diagnostics error:", "Hints"),
 		tryCatch(diagnosticsDeadTextMateCode(diagnostics, rootNode), "Diagnostics error:", "DeadTextMateCode"),
 	]);
 
@@ -896,6 +901,7 @@ function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], rootNode:
 		(repo [(while) @while (end) @end (beginCaptures) @beginCaptures (whileCaptures) @whileCaptures (endCaptures) @endCaptures (contentName) @contentName (applyEndPatternLast) @applyEndPatternLast] !begin)
 		(repo (whileCaptures) @whileCaptures !while)
 		(repo [(endCaptures) @endCaptures (applyEndPatternLast) @applyEndPatternLast] !end)
+		(repo (patterns !match !begin !include !patterns) @patternsEmpty !include)
 
 		(pattern (repository) @repositoryPatterns !patterns)
 		(pattern (repository) @repositoryPatterns &match)
@@ -910,6 +916,7 @@ function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], rootNode:
 		(pattern [(while) @while (end) @end (beginCaptures) @beginCaptures (whileCaptures) @whileCaptures (endCaptures) @endCaptures (contentName) @contentName (applyEndPatternLast) @applyEndPatternLast] !begin)
 		(pattern (whileCaptures) @whileCaptures !while)
 		(pattern [(endCaptures) @endCaptures (applyEndPatternLast) @applyEndPatternLast] !end)
+		(pattern (patterns !match !begin !include !patterns) @patternsEmpty !include)
 
 		(capture (include) @includeCapture)
 		(capture [(repository) (match) (begin) (while) (end) (contentName) (captures) (beginCaptures) (whileCaptures) (endCaptures) (applyEndPatternLast) (disabled)] @capture !patterns)
@@ -926,6 +933,7 @@ function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], rootNode:
 			repositoryPatterns: `"repository" requires "patterns" to be present and "match", "begin" & "include" to be absent.`,
 			patterns: `"patterns" requires "match" to be absent.`,
 			patternsPatterns: `"patterns" requires "match" and "include" to be absent.`,
+			patternsEmpty: `Empty "patterns".`,
 			include: `"include" requires "match", "begin" and "patterns" to be absent.`,
 			includeCapture: `"include" requires "patterns" to be present and "patterns" to be absent. Rendering it useless.`,
 			match: `"match" requires "include" to be absent.`,
@@ -1091,6 +1099,36 @@ function diagnosticsLinguistCaptures(diagnostics: vscode.Diagnostic[], rootNode:
 	}
 
 	// vscode.window.showInformationMessage(`(captures) ${(performance.now() - start).toFixed(3)}ms`);
+}
+
+function diagnosticsHints(diagnostics: Diagnostic[], rootNode: webTreeSitter.Node) {
+	// const start = performance.now();
+
+	const query = `;scm
+		(repo (key) . (patterns (key) @patterns . (_) .) .)
+		(pattern (key) . (patterns (key) @patterns . (_) .) .)
+	`;
+	const captures = queryNode(rootNode, query);
+	for (const capture of captures) {
+		const node = capture.node;
+		const range = toRange(node);
+
+		const name = capture.name;
+		switch (name) {
+			case 'patterns':
+				diagnostics.push({
+					range: range,
+					message: 'Patterns array not required for a single rule.',
+					severity: vscode.DiagnosticSeverity.Hint,
+					source: 'TextMate',
+					code: 'singlePattern',
+					node: node.parent!,
+				});
+				break;
+		}
+	}
+
+	// vscode.window.showInformationMessage(`Hints ${(performance.now() - start).toFixed(3)}ms`);
 }
 
 
