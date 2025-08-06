@@ -100,6 +100,10 @@ export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider =
 			case '}':
 			case ']':
 			case ':':
+				// don't format if there are errors. eg user typing a { "object": "pair" } from scratch
+				if (cursorNode.parent!.parent?.hasError) {
+					return;
+				}
 				node = cursorNode.parent;
 				break;
 			default:
@@ -130,19 +134,16 @@ export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider =
 
 
 function formatChildren(parentNode: webTreeSitter.Node, textEdits: vscode.TextEdit[], indent: number, style: formattingStyle): boolean {
-	let expand: boolean = false;
+	let expand = false;
 
 	for (const node of parentNode.namedChildren) {
-		if (!node) {
-			continue;
-		}
 		if (node.isError) {
 			continue;
 		}
 		expand = formatChildren(node, textEdits, indent + style.tabSize, style) || expand;
 	}
 
-	if (expand == false) {
+	if (expand === false) {
 		const namedChildCount = parentNode.namedChildCount;
 		if (namedChildCount > 1) {
 			switch (parentNode.type) {
@@ -181,9 +182,6 @@ function formatChildren(parentNode: webTreeSitter.Node, textEdits: vscode.TextEd
 
 
 	for (const node of parentNode.children) {
-		if (!node) {
-			continue;
-		}
 		if (node.isError) {
 			continue;
 		}
