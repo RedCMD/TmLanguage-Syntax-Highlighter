@@ -144,7 +144,7 @@ function rankLanguages(document: vscode.TextDocument): Language[] {
 	}
 
 	const fileName = document.fileName;
-	if (/JSON$/i.test(fileName)) {
+	if (/JSON[CL]?$/i.test(fileName)) {
 		languageScores.JSON += 6;
 	}
 	if (/YA?ML/i.test(fileName)) {
@@ -171,7 +171,7 @@ function rankLanguages(document: vscode.TextDocument): Language[] {
 	if (/^\s*{\s*$|^\s*{\s*"/i.test(text)) {
 		languageScores.JSON += 2;
 	}
-	if (/^\s*#|^%|^\s*\w+:\s/i.test(text)) {
+	if (/^\s*#|^%|^\s*\w+:\s|^---/i.test(text)) {
 		languageScores.YAML += 4;
 	}
 	if (/^\s*{/i.test(text)) {
