@@ -96,11 +96,20 @@ Todo:
   - [VSCode Markdown Fenced Code Block Grammar Injection Example](https://github.com/mjbvz/vscode-fenced-code-block-grammar-injection-example)
   - [language-sampleGrammar.cson](https://gist.github.com/DamnedScholar/622926bcd222eb1ddc483d12103fd315)
   - [Regular Expressions Quick Reference](https://www.regular-expressions.info/refquick.html)
-  - [Test your textmate grammars in TextMate](https://github.com/github-linguist/linguist/discussions/6756)
+  - [Test your textmate grammars in TextMate](https://github.com/github-linguist/linguist/discussions/6756#discussioncomment-13423446)
   - [Github List: VSCode TextMate Grammar Tools](https://github.com/stars/RedCMD/lists/vscode-textmate-grammar-tools)
   - [VSCode TmLanguage-Syntax-Highlighter Extension](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter)
   - [VSCode Extensions repo](https://github.com/microsoft/vscode/tree/main/extensions)
   - [VSCode JSON Grammar](https://github.com/microsoft/vscode/blob/main/extensions/json/syntaxes/JSON.tmLanguage.json)
+* Playgrounds
+  - [NovaLightshow](https://github.com/aziz/tmTheme-Editor) Nixinova
+  - [textmate-grammars-themes](https://textmate-grammars-themes.netlify.app/) Shiki
+  - [oniguruma-to-es](https://slevithan.github.io/oniguruma-to-es/demo/) Slevithan
+  - [oniguruma-parser](https://slevithan.github.io/oniguruma-parser/demo/) Slevithan
+  - [textmate-grammar-playground](https://youngspe.dev/textmate-grammar-playground/) Youngspe
+  - [tmLanguage-Playground](https://kermanx.com/tmLanguage-Playground/) Kermanx
+  - [Linguist-Demo](https://github.com/DecimalTurn/Linguist-Demo) DecimalTurn
+  - [tmTheme-Editor](https://github.com/aziz/tmTheme-Editor) Aziz
 * Bugs
   - [Scopes on Recursive Regex Cause Problems](https://github.com/microsoft/vscode-textmate/issues/208)
   - [Textmate engine bug for \k<> backreferences](https://github.com/microsoft/vscode-textmate/issues/193)
