@@ -4,8 +4,9 @@
 _test/
 documentation/
 src/
-images/
 node_modules_temp/
+
+assets/images/
 
 */**/README*
 */**/readme*

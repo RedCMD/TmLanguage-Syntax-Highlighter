@@ -19,10 +19,10 @@ Syntax Highlighting and Intellisense for VSCodes's JSON based TextMate grammars
 * Supported in [VSCode Web](https://insiders.vscode.dev/)
 
 Example code:  
-![example-code](https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/images/Example%20Code%20V2.5.png)
+![example-code](https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/assets/images/Example_Code_V2.5.png)
 
 Highlights scope names with their own themed colour in realtime:  
-![list-of-VSCode-Dark+-scopenames-and-their-colours](https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/images/VSCode%20Dark+%20theme%20coloured%20scope-names.png)
+![list-of-VSCode-Dark+-scopenames-and-their-colours](https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/assets/images/VSCode_Dark+_theme_coloured_scope-names.png)
 
 ```json textmate
 {
