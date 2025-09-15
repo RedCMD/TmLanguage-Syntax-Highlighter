@@ -201,21 +201,18 @@ async function Diagnostics(document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage(`Diagnostics${JSON.stringify(document)}`);
 	// const start = performance.now();
 
-	const trees = getTrees(document);
-	const rootNode = trees.jsonTree.rootNode;
-
 	const diagnostics: vscode.Diagnostic[] = [];
 
 	await Promise.allSettled([
-		tryCatch(diagnosticsMismatchingPackageJSONInfo(diagnostics, rootNode, document), "Diagnostics error:", "MismatchingPackageJSONInfo"),
-		tryCatch(diagnosticsTreeSitterJSONErrors(diagnostics, rootNode), "Diagnostics error:", "TreeSitterJSONErrors"),
-		tryCatch(diagnosticsTreeSitterRegexErrors(diagnostics, trees), "Diagnostics error:", "TreeSitterRegexErrors"),
-		tryCatch(diagnosticsRegularExpressionErrors(diagnostics, trees), "Diagnostics error:", "OnigurumaRegexErrors"),
-		tryCatch(diagnosticsBrokenIncludes(diagnostics, rootNode), "Diagnostics error:", "BrokenIncludes"),
-		tryCatch(diagnosticsUnusedRepos(diagnostics, rootNode), "Diagnostics error:", "UnusedRepos"),
-		tryCatch(diagnosticsLinguistCaptures(diagnostics, rootNode), "Diagnostics error:", "LinguistCaptures"),
-		tryCatch(diagnosticsHints(diagnostics, rootNode), "Diagnostics error:", "Hints"),
-		tryCatch(diagnosticsDeadTextMateCode(diagnostics, rootNode), "Diagnostics error:", "DeadTextMateCode"),
+		tryCatch(diagnosticsMismatchingPackageJSONInfo(diagnostics, document), "Diagnostics error:", "MismatchingPackageJSONInfo"),
+		tryCatch(diagnosticsTreeSitterJSONErrors(diagnostics, document), "Diagnostics error:", "TreeSitterJSONErrors"),
+		tryCatch(diagnosticsTreeSitterRegexErrors(diagnostics, document), "Diagnostics error:", "TreeSitterRegexErrors"),
+		tryCatch(diagnosticsRegularExpressionErrors(diagnostics, document), "Diagnostics error:", "OnigurumaRegexErrors"),
+		tryCatch(diagnosticsBrokenIncludes(diagnostics, document), "Diagnostics error:", "BrokenIncludes"),
+		tryCatch(diagnosticsUnusedRepos(diagnostics, document), "Diagnostics error:", "UnusedRepos"),
+		tryCatch(diagnosticsLinguistCaptures(diagnostics, document), "Diagnostics error:", "LinguistCaptures"),
+		tryCatch(diagnosticsHints(diagnostics, document), "Diagnostics error:", "Hints"),
+		tryCatch(diagnosticsDeadTextMateCode(diagnostics, document), "Diagnostics error:", "DeadTextMateCode"),
 	]);
 
 	DiagnosticCollection.set(document.uri, diagnostics);
@@ -223,9 +220,10 @@ async function Diagnostics(document: vscode.TextDocument) {
 }
 
 
-function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
+function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[], document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics JSON"));
 	// const start = performance.now();
+	const rootNode = getTrees(document).jsonTree.rootNode;
 	const jsonQuery = `;scm
 			(ERROR) @ERROR
 			(MISSING) @missing
@@ -271,10 +269,10 @@ function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[], rootN
 	// vscode.window.showInformationMessage(`JSON ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsTreeSitterRegexErrors(diagnostics: vscode.Diagnostic[], trees: trees) {
+function diagnosticsTreeSitterRegexErrors(diagnostics: vscode.Diagnostic[], document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics Regex"));
 	// const start = performance.now();
-	const regexTrees = trees.regexTrees;
+	const regexTrees = getTrees(document).regexTrees;
 	for (const tree of regexTrees.values()) {
 		// diagnostics.push({
 		// 	range: toRange(tree.rootNode),
@@ -394,9 +392,10 @@ function diagnosticsTreeSitterRegexErrors(diagnostics: vscode.Diagnostic[], tree
 	// vscode.window.showInformationMessage(`Regex ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsRegularExpressionErrors(diagnostics: vscode.Diagnostic[], trees: trees) {
+function diagnosticsRegularExpressionErrors(diagnostics: vscode.Diagnostic[], document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics Regexes"));
 	// const start = performance.now();
+	const trees = getTrees(document);
 	const regexNodes = trees.regexNodes;
 
 	for (const regexNode of regexNodes.values()) {
@@ -674,9 +673,10 @@ function diagnosticsRegularExpressionErrors(diagnostics: vscode.Diagnostic[], tr
 	// vscode.window.showInformationMessage(`Regexes ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
+function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics #includes"))
 	// const start = performance.now();
+	const rootNode = getTrees(document).jsonTree.rootNode;
 
 	let prevPatternsArrayId!: number;
 	let errorCount!: number;
@@ -820,12 +820,13 @@ function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], rootNode: w
 	// vscode.window.showInformationMessage(`include ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsUnusedRepos(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
+function diagnosticsUnusedRepos(diagnostics: vscode.Diagnostic[], document: vscode.TextDocument) {
 	if (ignoreDiagnosticsUnusedRepos) {
 		return;
 	}
 	// vscode.window.showInformationMessage(`diagnostics unusedRepos\n${JSON.stringify(rootNode)}`)
 	// const start = performance.now();
+	const rootNode = getTrees(document).jsonTree.rootNode;
 
 	const includeCapturesCache: { [id: number]: webTreeSitter.QueryCapture[]; } = {};
 
@@ -875,9 +876,10 @@ function diagnosticsUnusedRepos(diagnostics: vscode.Diagnostic[], rootNode: webT
 	// vscode.window.showInformationMessage(`unusedRepos ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
+function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics TextMate dead"));
 	// const start = performance.now();
+	const rootNode = getTrees(document).jsonTree.rootNode;
 
 	const deadQuery = `;scm
 		(fileTypes) @fileTypes
@@ -971,7 +973,7 @@ function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], rootNode:
 	// vscode.window.showInformationMessage(`dead ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(diagnostics, stringify)}`);
 }
 
-async function diagnosticsMismatchingPackageJSONInfo(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node, document: vscode.TextDocument) {
+async function diagnosticsMismatchingPackageJSONInfo(diagnostics: vscode.Diagnostic[], document: vscode.TextDocument) {
 	// const start = performance.now();
 
 	const { packageJSON, packageUri } = await getPackageJSON(document);
@@ -983,6 +985,7 @@ async function diagnosticsMismatchingPackageJSONInfo(diagnostics: vscode.Diagnos
 		return;
 	}
 
+	const rootNode = getTrees(document).jsonTree.rootNode;
 	const query = `;scm
 		(json (scopeName (value) @scopeName))
 		(json (injectionSelector) @injectionSelector)
@@ -1066,9 +1069,10 @@ async function diagnosticsMismatchingPackageJSONInfo(diagnostics: vscode.Diagnos
 	// vscode.window.showInformationMessage(`packageJSON ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsLinguistCaptures(diagnostics: vscode.Diagnostic[], rootNode: webTreeSitter.Node) {
+function diagnosticsLinguistCaptures(diagnostics: vscode.Diagnostic[], document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics (captures)"))
 	// const start = performance.now();
+	const rootNode = getTrees(document).jsonTree.rootNode;
 
 	const capturesQuery = `;scm
 		(captures		"{" (_ (key) @captures))
@@ -1105,8 +1109,9 @@ function diagnosticsLinguistCaptures(diagnostics: vscode.Diagnostic[], rootNode:
 	// vscode.window.showInformationMessage(`(captures) ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsHints(diagnostics: Diagnostic[], rootNode: webTreeSitter.Node) {
+function diagnosticsHints(diagnostics: Diagnostic[], document: vscode.TextDocument) {
 	// const start = performance.now();
+	const rootNode = getTrees(document).jsonTree.rootNode;
 
 	const query = `;scm
 		(repo . (key) . (patterns (key) @patterns . (_) .) .)
