@@ -34,6 +34,7 @@ export const HoverProvider: vscode.HoverProvider = {
 				markdownString.appendMarkdown('[VSCode TextMate](https://github.com/microsoft/vscode-textmate) uses the [Oniguruma](https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE) regex dialect  \n');
 				markdownString.appendMarkdown('[TextMate 2.0](https://macromates.com/) uses the [Onigmo](https://github.com/textmate/Onigmo/blob/Onigmo-5.13.5/doc/RE) regex dialect  \n');
 				markdownString.appendMarkdown('[Github-Linguist](https://github.com/github-linguist/linguist) uses the [PCRE](https://github.com/vmg/libpcre) regex dialect  \n');
+				markdownString.appendMarkdown('[Shikijs](https://github.com/shikijs/shiki) uses the [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions) regex dialect  \n');
 				markdownString.appendCodeblock('Example: \\\\b(true|false)\\\\b', 'json-textmate-regex');
 				break;
 			case 'begin':
@@ -61,8 +62,8 @@ export const HoverProvider: vscode.HoverProvider = {
 				markdownString.appendMarkdown('Rules can be nested inside the block with the `"patterns"` key  \n');
 				markdownString.appendMarkdown('VSCode: `"while"` is always tested first, before any inner `"patterns"`  \n');
 				markdownString.appendMarkdown('VSCode: When `"while"` doesn\'t match, all unfinished/unclosed patterns are terminated and the `"begin"`/`"while"` block is then finished/closed  \n');
-				markdownString.appendMarkdown('Apple: `"begin"`&`"end"` rules \'push\' the `"while"` rule to the next line  \n');
-				markdownString.appendMarkdown('An anchor is placed after the `"begin"` rule; that you can then match with `\\\\G`  \n');
+				markdownString.appendMarkdown('Apple: `"begin"`&`"end"` rules can \'push\' the `"while"` rule to the next line  \n');
+				markdownString.appendMarkdown('An anchor is placed after each `"while"` rule; that you can then match with `\\\\G`  \n');
 				markdownString.appendMarkdown('Apple: A `\\\G` anchor is also placed at the beginning of the _next_ line  \n');
 				markdownString.appendMarkdown('(Captures) inside the `"begin"` key can be referenced here with regex back-references `\\\\1`  \n');
 				markdownString.appendCodeblock('Example: ^\\\\1(?!\\\\s*\\")', 'json-textmate-regex');
