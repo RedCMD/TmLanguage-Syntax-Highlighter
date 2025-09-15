@@ -13,10 +13,10 @@ const trees: {
 	[uri: string]: trees;
 } = {};
 
-export function getTrees(uri: vscode.Uri): trees;
-export function getTrees(document: vscode.TextDocument): trees;
 export function getTrees(source: vscode.TextDocument | vscode.Uri): trees {
-	const uriString = 'uri' in source ? source.uri.toString() : source.toString();
+	const uriString = 'uri' in source ?
+		source.uri.toString() :
+		source.toString();
 	const docTrees = trees[uriString];
 	if (docTrees) {
 		return docTrees;
@@ -145,10 +145,11 @@ export function queryNode(node: webTreeSitter.Node, queryString: string, startPo
 			startPoint.column,
 		);
 		// const queryCaptures = query.captures(node, queryOptions);
-		while (queryMatches.length) { // TreeSitter doesn't actually check if the captured node intersects the startPoint :/
+		// vscode.window.showInformationMessage(JSON.stringify(queryMatches));
+		while (queryMatches.length) {
 			const queryMatch = queryMatches.pop(); // the last/inner most node
 			const captures = queryMatch?.captures;
-			while (captures?.length) { // TreeSitter doesn't actually check if the captured node intersects the startPoint :/
+			while (captures?.length) {
 				const queryCapture = captures.pop()!; // the last/inner most node
 				if (toRange(queryCapture.node).contains(position)) {
 					return queryCapture;
@@ -233,27 +234,17 @@ export async function initTreeSitter(context: vscode.ExtensionContext) {
 	}
 
 	context.subscriptions.push(
-		vscode.workspace.onDidOpenTextDocument(document => {
-			// vscode.window.showInformationMessage(`open\n${JSON.stringify(document)}`);
-			parseTextDocument(document);
-		}),
-
-		vscode.workspace.onDidChangeTextDocument(edits => {
-			// vscode.window.showInformationMessage(`edit\n${JSON.stringify(edits)}`);
-			const document = edits.document;
-			if (!vscode.languages.match(DocumentSelector, document)) {
-				return;
-			}
-
-			reparseTextDocument(edits);
-		}),
-
+		vscode.workspace.onDidOpenTextDocument(parseTextDocument),
+		vscode.workspace.onDidChangeTextDocument(reparseTextDocument),
 		vscode.workspace.onDidCloseTextDocument(document => {
-			// vscode.window.showInformationMessage(`close\n${JSON.stringify(document)}`);
 			const uriString = document.uri.toString();
 			if (trees[uriString]) {
 				trees[uriString].jsonTree.delete();
+				for (const regexTree of trees[uriString].regexTrees.values()) {
+					regexTree.delete();
+				}
 				trees[uriString].regexTrees.clear();
+				trees[uriString].regexNodes.clear();
 				delete trees[uriString];
 			}
 		}),
@@ -315,14 +306,19 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 	// vscode.window.showInformationMessage(`ReparseTextDocument\n${JSON.stringify(edits)}`);
 	// const start = performance.now();
 
-	if (edits.contentChanges.length == 0) {
+	const contentChanges = edits.contentChanges;
+	if (contentChanges.length == 0) {
 		return;
 	}
 
 	const document = edits.document;
+	if (!vscode.languages.match(DocumentSelector, document)) {
+		return;
+	}
+
 	const uriString = document.uri.toString();
 	if (!(uriString in trees)) {
-		vscode.window.showInformationMessage(JSON.stringify(document));
+		// vscode.window.showInformationMessage(JSON.stringify(document));
 		parseTextDocument(document);
 		return;
 	}
@@ -335,7 +331,7 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 
 	const deltas: webTreeSitter.Edit[] = [];
 
-	for (const edit of edits.contentChanges) {
+	for (const edit of contentChanges) {
 		const startIndex = edit.rangeOffset;
 		const oldEndIndex = edit.rangeOffset + edit.rangeLength;
 		const newEndIndex = edit.rangeOffset + edit.text.length;
@@ -382,11 +378,11 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 	let oldRegexTree: webTreeSitter.Tree | undefined;
 	// let oldRegexTreeCopy: Parser.Tree;
 
-	const queryCaptures = queryNode(jsonTree.rootNode, `(regex) @regex`);
+	const regexCaptures = queryNode(jsonTree.rootNode, `(regex) @regex`);
 	// vscode.window.showInformationMessage(`Old: ${(performance.now() - start).toFixed(3)}ms ${JSON.stringify(oldRegexTrees.size)}`);
 	// vscode.window.showInformationMessage(`New: ${(performance.now() - start).toFixed(3)}ms ${JSON.stringify(queryCaptures.length)}`);
-	for (const queryCapture of queryCaptures) {
-		const queryNode = queryCapture.node;
+	for (const regexCapture of regexCaptures) {
+		const regexNode = regexCapture.node;
 
 		do {
 			if (skip == false) {
@@ -395,10 +391,10 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 				if (!oldRegexTree) {
 					// New regex node. Parse it
 					const range: webTreeSitter.Range = {
-						startIndex: queryNode.startIndex,
-						endIndex: queryNode.endIndex,
-						startPosition: queryNode.startPosition,
-						endPosition: queryNode.endPosition,
+						startIndex: regexNode.startIndex,
+						endIndex: regexNode.endIndex,
+						startPosition: regexNode.startPosition,
+						endPosition: regexNode.endPosition,
 					};
 					const options: webTreeSitter.ParseOptions = { includedRanges: [range] };
 					const newRegexTree = regexParser.parse(text, undefined, options);
@@ -407,8 +403,8 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 					}
 					// vscode.window.showInformationMessage(`New: ${(performance.now() - start).toFixed(3)}ms\n${newRegexTree.rootNode.text}\n${JSON.stringify(toRange(newRegexTree.rootNode))}\n${JSON.stringify(newRegexTree.getIncludedRanges())}`);
 
-					regexTrees.set(queryNode.id, newRegexTree);
-					regexNodes.set(newRegexTree.rootNode.id, queryNode);
+					regexTrees.set(regexNode.id, newRegexTree);
+					regexNodes.set(newRegexTree.rootNode.id, regexNode);
 
 					break;
 				}
@@ -421,7 +417,7 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 			skip = false;
 
 			const oldRange = toRange(oldRegexTree!.rootNode);
-			const newRange = toRange(queryNode);
+			const newRange = toRange(regexNode);
 
 			// if (oldRange.isEqual(newRange)) {
 			// TreeSitter doesn't expand the node when characters are added at the beginning or when the replace range ends outside the node
@@ -432,10 +428,10 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 
 				// if (oldRegexTree.rootNode.hasChanges) {
 				const range: webTreeSitter.Range = {
-					startIndex: queryNode.startIndex,
-					endIndex: queryNode.endIndex,
-					startPosition: queryNode.startPosition,
-					endPosition: queryNode.endPosition,
+					startIndex: regexNode.startIndex,
+					endIndex: regexNode.endIndex,
+					startPosition: regexNode.startPosition,
+					endPosition: regexNode.endPosition,
 				};
 				const options: webTreeSitter.ParseOptions = { includedRanges: [range] };
 				const newRegexTree = regexParser.parse(text, oldRegexTree, options);
@@ -443,8 +439,8 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 					break;
 				}
 
-				regexTrees.set(queryNode.id, newRegexTree);
-				regexNodes.set(newRegexTree.rootNode.id, queryNode);
+				regexTrees.set(regexNode.id, newRegexTree);
+				regexNodes.set(newRegexTree.rootNode.id, regexNode);
 				// }
 				// else {
 				// 	regexTrees.set(queryNode.id, oldRegexTree);
@@ -466,10 +462,10 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 				// vscode.window.showInformationMessage(`After: ${(performance.now() - start).toFixed(3)}ms\n${oldRegexTree.rootNode.text}\n${JSON.stringify(oldRegexTreeCopy.rootNode.text)}\n${JSON.stringify(oldRange)}\n${JSON.stringify(toRange(oldRegexTreeCopy.rootNode))}\n${JSON.stringify(newRange)}\n${JSON.stringify(oldRegexTree.getIncludedRanges())}`);
 
 				const range: webTreeSitter.Range = {
-					startIndex: queryNode.startIndex,
-					endIndex: queryNode.endIndex,
-					startPosition: queryNode.startPosition,
-					endPosition: queryNode.endPosition,
+					startIndex: regexNode.startIndex,
+					endIndex: regexNode.endIndex,
+					startPosition: regexNode.startPosition,
+					endPosition: regexNode.endPosition,
 				};
 				const options: webTreeSitter.ParseOptions = { includedRanges: [range] };
 				const newRegexTree = regexParser.parse(text, undefined, options);
@@ -477,8 +473,8 @@ function reparseTextDocument(edits: vscode.TextDocumentChangeEvent) {
 					break;
 				}
 
-				regexTrees.set(queryNode.id, newRegexTree);
-				regexNodes.set(newRegexTree.rootNode.id, queryNode);
+				regexTrees.set(regexNode.id, newRegexTree);
+				regexNodes.set(newRegexTree.rootNode.id, regexNode);
 
 				skip = true;
 				break;
