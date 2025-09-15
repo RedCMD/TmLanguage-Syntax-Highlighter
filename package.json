@@ -610,26 +610,26 @@
 	"dependencies": {
 		"@syntropiq/libpcre-ts": "file:node_modules_linked/@syntropiq/libpcre-ts",
 		"cson-parser": "^4.0.9",
-		"date-and-time": "^3.6.0",
+		"date-and-time": "3.6.0",
 		"oniguruma-parser-cjs": "^0.0.1",
 		"oniguruma-to-es": "^4.3.3",
 		"plist": "^3.1.0",
 		"vscode-onigmo": "^2.0.1",
 		"vscode-oniguruma": "1.7.0",
 		"web-tree-sitter": "file:node_modules_linked/web-tree-sitter",
-		"yaml": "^2.8.0"
+		"yaml": "^2.8.1"
 	},
 	"devDependencies": {
-		"@types/emscripten": "^1.40.1",
+		"@types/emscripten": "^1.41.2",
 		"@types/plist": "^3.0.5",
 		"@types/vscode": "^1.87.0",
-		"@vscode/test-web": "^0.0.71",
+		"@vscode/test-web": "^0.0.73",
 		"@vscode/vsce": "^3.6.0",
 		"path-browserify": "^1.0.1",
-		"tree-sitter-cli": "^0.25.8",
-		"ts-loader": "^9.5.2",
-		"typescript": "^5.8.3",
-		"webpack": "^5.100.2",
+		"tree-sitter-cli": "^0.25.9",
+		"ts-loader": "^9.5.4",
+		"typescript": "^5.9.2",
+		"webpack": "^5.101.3",
 		"webpack-cli": "^6.0.1"
 	},
 	"__metadata": {

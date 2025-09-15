@@ -11,7 +11,8 @@ export async function initOniguruma(context: vscode.ExtensionContext): Promise<v
 	const uri = vscode.Uri.joinPath(context.extensionUri, 'node_modules', 'vscode-oniguruma', 'release', 'onig.wasm');
 	const wasm = await vscode.workspace.fs.readFile(uri);
 	const options: vscodeOniguruma.IOptions = {
-		data: wasm,
+		// `wasm.buffer as ArrayBuffer` breaks TreeSitter in VSCode web
+		data: wasm as unknown as ArrayBuffer,
 		// instantiator: (imports) => WebAssembly.instantiate(wasm, imports),
 		print(string: string) {
 			console.log("JSON TextMate: vscodeOniguruma: ", string);

@@ -117,7 +117,7 @@ export function queryNode(node: webTreeSitter.Node, queryString: string, startPo
 		// startIndex: 0,
 		// endIndex: 10000000,
 		matchLimit: 10000,
-		timeoutMicros: 1000 * 1000 * 10, // 10 seconds
+		// timeoutMicros: 1000 * 1000 * 10, // 10 seconds
 	};
 
 	// const queryCaptures = query.captures(node, queryOptions);
