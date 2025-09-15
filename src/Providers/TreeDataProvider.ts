@@ -745,7 +745,7 @@ const TreeDataProviderCall: vscode.TreeDataProvider<element> = {
 			);
 
 			item.id = type;
-			item.description = `${timeFixed}ms${time >= 1 ? ' ⚠️' : ''}${type == 'regexes-cached' ? isCached ? ' (Cached)' : ' (Uncached)' : ''}`;
+			item.description = `${timeFixed}ms${time >= 1 ? ' ⚠️' : ''}${isCached ? ' (Cached)' : ' (Uncached)'}`;
 			item.tooltip = `${type == 'regexes-cached' ? 'VSCode TextMate caches the Oniguruma regexes from the previous position\n' : ''}RuleId: ${selectedElement.ruleId}\nRegexes: ${cachedRule._cachedCompiledPatterns!._items.length}`;
 			item.iconPath = new vscode.ThemeIcon('regex');
 			return item;
