@@ -32,7 +32,7 @@
 			"patterns": [
 				{
 					"comment": "VSCode TextMate replaces all numbers following a backslash, not just regex backreferences",
-					"match": "(\\\\{2})(\\\\{2})(0*[0-9]{1,2})([0-9]*)",
+					"match": "(\\\\{2})?(\\\\{2})(0*[0-9]{1,2})([0-9]*)",
 					"captures": {
 						"1": { "name": "constant.character.escape.tm" },
 						"2": { "name": "string.regexp.tm" },

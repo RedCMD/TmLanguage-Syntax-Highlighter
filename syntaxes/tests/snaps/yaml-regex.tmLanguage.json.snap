@@ -6186,9 +6186,9 @@
 #                                     ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
 #                                      ^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp comment.tm
-#                                                                                  ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp comment.tm constant.character.escape.json.tm
-#                                                                                   ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp comment.tm
-#                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp comment.tm
+#                                                                                  ^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp comment.tm string.regexp.tm
+#                                                                                    ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp comment.tm constant.numeric.tm
+#                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp comment.tm
 #                                                                                                                                     ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
 #                                                                                                                                      ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp keyword.control.tm
 #                                                                                                                                       ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
@@ -6648,9 +6648,9 @@
 #                                                    ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
 #                                                     ^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp comment.tm
-#                                                                                                 ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp comment.tm constant.character.escape.json.tm
-#                                                                                                  ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp comment.tm
-#                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp comment.tm
+#                                                                                                 ^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp comment.tm string.regexp.tm
+#                                                                                                   ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp comment.tm constant.numeric.tm
+#                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp comment.tm
 #                                                                                                                                                    ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
 #                                                                                                                                                     ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp keyword.control.tm
 #                                                                                                                                                      ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic

@@ -399,7 +399,7 @@
 #                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate quoted.double.json.tm comment.json.tm
 #                                                                                                          ^ source.json.textmate quoted.double.json.tm comment.json.tm punctuation.definition.string.end.json.tm
 #                                                                                                           ^ source.json.textmate punctuation.separator.dictionary.json.tm
->					"match": "(\\\\{2})(\\\\{2})(0*[0-9]{1,2})([0-9]*)",
+>					"match": "(\\\\{2})?(\\\\{2})(0*[0-9]{1,2})([0-9]*)",
 #^^^^^ source.json.textmate
 #     ^ source.json.textmate meta.match.regexp punctuation.definition.string.begin.json.tm
 #      ^^^^^ source.json.textmate meta.match.regexp keyword.property-name.string.match.json.tm
@@ -414,37 +414,38 @@
 #                     ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.numeric.tm
 #                      ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
 #                       ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
-#                        ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
-#                         ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.escape.tm
-#                            ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong
-#                             ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
-#                              ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.numeric.tm
-#                               ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
-#                                ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
+#                        ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
+#                         ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
+#                          ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.escape.tm
+#                             ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong
+#                              ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
+#                               ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.numeric.tm
+#                                ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
 #                                 ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
-#                                  ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
-#                                   ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
-#                                    ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.class.tm
-#                                     ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm constant.numeric.tm
-#                                      ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm constant.numeric.tm strong
-#                                       ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm constant.numeric.tm
-#                                        ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.class.tm
-#                                         ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
-#                                          ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.numeric.tm
-#                                           ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.function.tm
-#                                            ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.numeric.tm
-#                                             ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
-#                                              ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
+#                                  ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
+#                                   ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
+#                                    ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
+#                                     ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.class.tm
+#                                      ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm constant.numeric.tm
+#                                       ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm constant.numeric.tm strong
+#                                        ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm constant.numeric.tm
+#                                         ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.class.tm
+#                                          ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
+#                                           ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.numeric.tm
+#                                            ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.function.tm
+#                                             ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.numeric.tm
+#                                              ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
 #                                               ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
-#                                                ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.class.tm
-#                                                 ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm constant.numeric.tm
-#                                                  ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm constant.numeric.tm strong
-#                                                   ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm constant.numeric.tm
-#                                                    ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.class.tm
-#                                                     ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
-#                                                      ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
-#                                                       ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
-#                                                        ^ source.json.textmate punctuation.separator.dictionary.json.tm
+#                                                ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
+#                                                 ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.class.tm
+#                                                  ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm constant.numeric.tm
+#                                                   ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm constant.numeric.tm strong
+#                                                    ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm constant.numeric.tm
+#                                                     ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.class.tm
+#                                                      ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
+#                                                       ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
+#                                                        ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
+#                                                         ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >					"captures": {
 #^^^^^ source.json.textmate
 #     ^ source.json.textmate punctuation.definition.string.begin.json.tm
