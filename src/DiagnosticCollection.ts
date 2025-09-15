@@ -901,7 +901,8 @@ function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], rootNode:
 		(repo [(while) @while (end) @end (beginCaptures) @beginCaptures (whileCaptures) @whileCaptures (endCaptures) @endCaptures (contentName) @contentName (applyEndPatternLast) @applyEndPatternLast] !begin)
 		(repo (whileCaptures) @whileCaptures !while)
 		(repo [(endCaptures) @endCaptures (applyEndPatternLast) @applyEndPatternLast] !end)
-		(repo (patterns !match !begin !include !patterns) @patternsEmpty !include)
+		(repo (patterns . (key) . ) @patternsEmpty !match !include)
+		(repo (key) @repoEmpty !match !begin !include !patterns)
 
 		(pattern (repository) @repositoryPatterns !patterns)
 		(pattern (repository) @repositoryPatterns &match)
@@ -916,7 +917,8 @@ function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], rootNode:
 		(pattern [(while) @while (end) @end (beginCaptures) @beginCaptures (whileCaptures) @whileCaptures (endCaptures) @endCaptures (contentName) @contentName (applyEndPatternLast) @applyEndPatternLast] !begin)
 		(pattern (whileCaptures) @whileCaptures !while)
 		(pattern [(endCaptures) @endCaptures (applyEndPatternLast) @applyEndPatternLast] !end)
-		(pattern (patterns !match !begin !include !patterns) @patternsEmpty !include)
+		(pattern (patterns . (key) .) @patternsEmpty !match !include)
+		(pattern !match !begin !include !patterns) @patternEmpty
 
 		(capture (include) @includeCapture)
 		(capture [(repository) (match) (begin) (while) (end) (contentName) (captures) (beginCaptures) (whileCaptures) (endCaptures) (applyEndPatternLast) (disabled)] @capture !patterns)
@@ -931,9 +933,11 @@ function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], rootNode:
 		const message = {
 			repository: `"repository" requires either "patterns" or "include" to be present and "match"/"begin" to be absent.`,
 			repositoryPatterns: `"repository" requires "patterns" to be present and "match", "begin" & "include" to be absent.`,
+			repoEmpty: `Empty "repo".`,
 			patterns: `"patterns" requires "match" to be absent.`,
 			patternsPatterns: `"patterns" requires "match" and "include" to be absent.`,
 			patternsEmpty: `Empty "patterns".`,
+			patternEmpty: `Empty "pattern".`,
 			include: `"include" requires "match", "begin" and "patterns" to be absent.`,
 			includeCapture: `"include" requires "patterns" to be present and "patterns" to be absent. Rendering it useless.`,
 			match: `"match" requires "include" to be absent.`,
@@ -1105,8 +1109,8 @@ function diagnosticsHints(diagnostics: Diagnostic[], rootNode: webTreeSitter.Nod
 	// const start = performance.now();
 
 	const query = `;scm
-		(repo (key) . (patterns (key) @patterns . (_) .) .)
-		(pattern (key) . (patterns (key) @patterns . (_) .) .)
+		(repo . (key) . (patterns (key) @patterns . (_) .) .)
+		(pattern . (patterns (key) @patterns . (_) .) .)
 		(repo (name (value) @name (#match? @name " ")) !name_scopeName)
 		(pattern (name (value) @name (#match? @name " ")) !name_scopeName)
 		(contentName (value) @contentName (#match? @contentName " "))

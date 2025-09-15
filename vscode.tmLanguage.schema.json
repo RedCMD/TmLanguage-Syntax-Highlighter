@@ -546,7 +546,8 @@
 								}
 							},
 							{ "required": [ "end" ] },
-							{ "required": [ "while" ] }
+							{ "required": [ "while" ] },
+							{ "required": [ "match" ] }
 						]
 					},
 					"else": {

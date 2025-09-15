@@ -218,21 +218,12 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 				// remove `"patterns": [\n\t{\n\t\t`
 				edit.delete(uri, toRange(node.startPosition, patternNode.firstNamedChild!.startPosition));
 
+				const column = node.startPosition.column;
+
 				const children = patternNode.namedChildren;
-				children.shift(); // First child already handled above
-				for (const childNode of children) {
-					const startPosition = toPosition(childNode.startPosition);
-					const newStartPosition = startPosition.translate(0, -2);
-					const prevSiblingPosition = toPosition(childNode.previousSibling!.endPosition);
-					if (prevSiblingPosition.isBeforeOrEqual(newStartPosition)) {
-						// remove 2 whitespace indents
-						edit.delete(uri, new vscode.Range(newStartPosition, startPosition));
-					}
-					else if (!prevSiblingPosition.isEqual(startPosition)) {
-						// remove only 1 available whitespace indent
-						edit.delete(uri, new vscode.Range(prevSiblingPosition, startPosition));
-					}
-				}
+				let prevRow = children.shift()!.startPosition.row; // First child already handled above
+
+				dedentPatterns(edit, uri, children, prevRow, column);
 
 				// remove `\n\t}\n]`
 				edit.delete(uri, toRange(patternNode.lastNamedChild!.endPosition, node.endPosition));
@@ -559,4 +550,45 @@ function sortJSON(edit: vscode.WorkspaceEdit, jsonTree: webTreeSitter.Tree, uri:
 
 	const range = toRange(rootNode);
 	edit.replace(uri, range, newRootText);
+}
+
+function dedentPatterns(edit: vscode.WorkspaceEdit, uri: vscode.Uri, children: webTreeSitter.Node[], prevRow: number, column: number) {
+	for (const childNode of children) {
+		if (childNode.namedChildCount) {
+			const namedChildren = childNode.children;
+			namedChildren.shift();
+			dedentPatterns(edit, uri, namedChildren, prevRow, column);
+			// prevRow = childNode.lastNamedChild!.startPosition.row;
+			// continue;
+		}
+
+		const childRow = childNode.startPosition.row;
+		if (childRow <= prevRow) {
+			// don't remove whitespace indent if node is on the same line as the previous
+			continue;
+		}
+		prevRow = childRow;
+
+		const startPosition = toPosition(childNode.startPosition);
+		if (startPosition.character <= column) {
+			// don't remove whitespace indent if node has less indent than the initial "patterns"
+			continue;
+		}
+
+		const prevSiblingPosition = toPosition(childNode.previousSibling!.endPosition);
+		if (prevSiblingPosition.isEqual(startPosition)) {
+			// no available whitespace to remove
+			continue;
+		}
+
+		const newStartPosition = startPosition.translate(0, Math.max(-2, column - startPosition.character));
+		if (prevSiblingPosition.isBeforeOrEqual(newStartPosition)) {
+			// remove 2 whitespace indents
+			edit.delete(uri, new vscode.Range(newStartPosition, startPosition));
+			continue;
+		}
+
+		// remove only 1 available whitespace indent
+		edit.delete(uri, new vscode.Range(prevSiblingPosition, startPosition));
+	}
 }
