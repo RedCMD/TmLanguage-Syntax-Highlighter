@@ -4,9 +4,11 @@
 _test/
 documentation/
 src/
-node_modules_temp/
+node_modules_linked/
 
 assets/images/
+
+*/**/esm/
 
 */**/README*
 */**/readme*
@@ -23,12 +25,15 @@ assets/images/
 **/*.textmate
 **/*.tmLanguage
 **/*.zip
+**/*.snap
+**/*.coffee
+**/*.html
+**/*.md
+**/*.list
+**/.*rc
+**/Makefile
 
 .vsixmanifest
 .editorconfig
 .gitignore
-moveOnigmo.js
 tsconfig.json
-scope-colours.tmLanguage.json
-scope-names.tmLanguage.json
-unicode-category.regex.json
