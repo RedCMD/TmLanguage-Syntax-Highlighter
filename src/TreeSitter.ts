@@ -97,7 +97,12 @@ export function queryNode(node: webTreeSitter.Node, queryString: string, startPo
 		const language = node.tree.language;
 		// const start = performance.now();
 		try {
-			query = new webTreeSitter.Query(language, queryString);
+			try {
+				query = new webTreeSitter.Query(language, queryString);
+			} catch (error: any) {
+				// &field is not an official TreeSitter feature. Attempt to disable if not using custom TreeSitter version
+				query = new webTreeSitter.Query(language, queryString.replaceAll(/^\s*\(.*?&\w+\b.*?\s*$/gm, ''));
+			}
 			// if (performance.now() - start > 100) {
 			// 	vscode.window.showInformationMessage(`queryString ${(performance.now() - start).toFixed(3)}ms: ${queryString}\n${JSON.stringify(query)}`);
 			// }
@@ -105,7 +110,8 @@ export function queryNode(node: webTreeSitter.Node, queryString: string, startPo
 			queryCache[queryString] = query;
 			// vscode.window.showInformationMessage(JSON.stringify(query, stringify));
 			// vscode.window.showInformationMessage(JSON.stringify(queryString));
-		} catch (error) {
+		} catch (error: any) {
+			vscode.window.showWarningMessage(`JSON TextMate: TreeSitter Query:\n${error?.message || error.toString()}`);
 			// console.warn(`JSON TextMate: TreeSitter Query:\n`, error);
 		}
 	}
