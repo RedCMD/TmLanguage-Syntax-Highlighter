@@ -26,7 +26,7 @@
 		"text mate",
 		"syntax highlight",
 		"syntax highlighter",
-		"syntax highlighting"
+		"tmgrammar-test"
 	],
 	"categories": [
 		"Programming Languages",
@@ -59,6 +59,8 @@
 		"compile": "tsc -p ./",
 		"compile-web": "webpack --no-devtool --no-watch --mode production",
 		"generate-wasm": "cd ./src/tree-sitter/tree-sitter-json/ && tree-sitter generate && tree-sitter build --wasm --output ../../../out/tree-sitter-jsontm.wasm && cd ./../tree-sitter-regex/ && tree-sitter generate && tree-sitter build --wasm --output ../../../out/tree-sitter-regextm.wasm",
+		"test": "vscode-tmgrammar-snap ./syntaxes/**/*.* --outdir ./syntaxes/tests/snaps/ --grammar ./syntaxes/tests/yaml-*.tmLanguage.json",
+		"update-test": "npm run test -- --updateSnapshot",
 		"open-in-browser": "vscode-test-web --extensionDevelopmentPath=. ."
 	},
 	"contributes": {
@@ -162,6 +164,21 @@
 					"dark": "assets/TextMate-file-icon.svg",
 					"light": "assets/TextMate-file-icon.svg"
 				}
+			},
+			{
+				"id": "tmgrammar-test",
+				"aliases": [
+					"TextMate Snap Grammar-Test"
+				],
+				"extensions": [
+					".snap",
+					".baseline.txt"
+				],
+				"configuration": "./language-configurations/snap.language-configuration.json",
+				"icon": {
+					"dark": "assets/TextMate-file-icon.svg",
+					"light": "assets/TextMate-file-icon.svg"
+				}
 			}
 		],
 		"grammars": [
@@ -224,6 +241,11 @@
 				"balancedBracketScopes": [
 					"replace.capture"
 				]
+			},
+			{
+				"language": "tmgrammar-test",
+				"scopeName": "source.textmate.tmgrammar",
+				"path": "./syntaxes/tmgrammar-test.tmLanguage.json"
 			},
 			{
 				"scopeName": "markdown.json.textmate.codeblock",
@@ -304,6 +326,9 @@
 					"other": "inline",
 					"comments": "inline"
 				}
+			},
+			"[tmgrammar-test]": {
+				"editor.tabSize": 1
 			}
 		},
 		"configuration": [
@@ -629,6 +654,7 @@
 		"tree-sitter-cli": "^0.25.9",
 		"ts-loader": "^9.5.4",
 		"typescript": "^5.9.2",
+		"vscode-tmgrammar-test": "file:node_modules_linked/vscode-tmgrammar-test",
 		"webpack": "^5.101.3",
 		"webpack-cli": "^6.0.1"
 	},

@@ -1,0 +1,58 @@
+{	patterns = (
+		{	begin = "^([a-zA-Z0-9][a-zA-Z0-9_+\\-]*)\\s*(=)\\s*";
+			end = "$";
+			captures = {
+				1 = { name = "support.constant.tm-properties"; };
+				2 = { name = "punctuation.separator.key-value.tm-properties"; };
+			};
+			patterns = ( { include = "#string"; } );
+		},
+		{	name = "meta.section.tm-properties";
+			begin = "^\\[";
+			end = "\\]";
+			beginCaptures = { 0 = { name = "punctuation.definition.section.begin.tm-properties"; }; };
+			endCaptures = { 0 = { name = "punctuation.definition.section.end.tm-properties"; }; };
+			patterns = ( { include = "#string"; } );
+		},
+		{	include = '#comment'; },
+	);
+	repository = {
+		comment = {
+			begin = "(^[ \\t]+)?(?=#)";
+			end = "(?!\\G)";
+			captures = { 1 = { name = "punctuation.definition.comment.tm-properties"; }; };
+			beginCaptures = { 1 = { name = "punctuation.whitespace.comment.leading.tm-properties"; }; };
+			patterns = (
+				{	name = "comment.line.number-sign.tm-properties";
+					begin = "#";
+					end = "\\n";
+					beginCaptures = { 0 = { name = "punctuation.definition.comment.tm-properties"; }; };
+				},
+			);
+		};
+		string = {
+			patterns = (
+				{	name = "string.unquoted.tm-properties";
+					match = "[a-zA-Z0-9][a-zA-Z0-9_+\\-]*";
+				},
+				{	name = "string.quoted.double.tm-properties";
+					begin = "\"";
+					end = "\"";
+					beginCaptures = { 0 = { name = "punctuation.definition.string.begin.tm-properties"; }; };
+					endCaptures = { 0 = { name = "punctuation.definition.string.end.tm-properties"; }; };
+					patterns = (
+						{	name = "constant.character.escape.tm-properties";
+							match = "\\\\.";
+						},
+					);
+				},
+				{	name = "string.quoted.single.tm-properties";
+					begin = "'";
+					end = "'";
+					beginCaptures = { 0 = { name = "punctuation.definition.string.begin.tm-properties"; }; };
+					endCaptures = { 0 = { name = "punctuation.definition.string.end.tm-properties"; }; };
+				},
+			);
+		};
+	};
+}

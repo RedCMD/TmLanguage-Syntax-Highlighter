@@ -1,0 +1,105 @@
+{
+	"$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
+	"comment": "https://github.com/PanAeon/vscode-tmgrammar-test",
+	"name": "vscode-tmgrammar-test",
+	"scopeName": "source.textmate.tmgrammar",
+	"fileTypes": [ "snap" ],
+	"patterns": [
+		{ "include": "#SYNTAX_TEST" },
+		{ "include": "#original_file" },
+		{ "include": "#line" },
+		{ "include": "#scopes" },
+		{
+			"comment": "https://github.com/microsoft/vscode-textmate/issues/242",
+			"include": "source.json.textmate#_pre-load_"
+		}
+	],
+	"repository": {
+		"SYNTAX_TEST": {
+			"match": "\\A(\\S+)\\s+(SYNTAX\\s+TEST)(?>\\s+(\"[^\"]+\")(?>\\s+(\"[^\"]+\"))?)?\\s*(.*)$",
+			"captures": {
+				"1": { "name": "comment.line.character.tmgrammar" },
+				"2": { "name": "keyword.tmgrammar" },
+				"3": {
+					"name": "string.tmgrammar",
+					"patterns": [
+						{
+							"match": "(?<=\")(?>source|text)\\.",
+							"name": "support.function.tmgrammar"
+						},
+						{
+							"match": "\\.",
+							"name": "support.function.tmgrammar"
+						},
+						{
+							"match": "\\b(?>comment|string|regex|meta\\.embedded)\\b",
+							"name": "markup.italic"
+						}
+					]
+				},
+				"4": { "name": "string.tmgrammar" },
+				"5": { "name": "invalid.tmgrammar" }
+			},
+			"name": "comment.line.tmgrammar"
+		},
+		"original_file": {
+			"begin": "\\Aoriginal\\s+file(?=\\s*$)",
+			"while": "^(-----------------------------------)\\s*$|^(Grammar:)\\s*(.+)|^(?!>)",
+			"beginCaptures": { "0": { "name": "keyword.control.tmgrammar" } },
+			"whileCaptures": {
+				"1": { "name": "markup.heading.original-file.tmgrammar" },
+				"2": { "name": "support.type.property-name.tmgrammar" },
+				"3": { "name": "string.other.tmgrammar" }
+			}
+		},
+		"line": {
+			"begin": "^>",
+			"end": "$",
+			"beginCaptures": { "0": { "name": "keyword.control.marker.tmgrammar" } },
+			"contentName": "string.tmgrammar"
+		},
+		"scopes": {
+			"begin": "^\\S[^^<\\s]*|\\s+",
+			"end": "$",
+			"beginCaptures": { "0": { "name": "comment.line.character.tmgrammar" } },
+			"patterns": [
+				{
+					"match": "\\^+",
+					"name": "keyword.control.marker.tmgrammar"
+				},
+				{
+					"match": "<~*-+",
+					"name": "keyword.control.marker.tmgrammar"
+				},
+				{
+					"match": "-",
+					"name": "keyword.control.marker.tmgrammar"
+				},
+				{
+					"match": "[-$./:{}\\w]+",
+					"captures": {
+						"0": {
+							"name": "$0",
+							"patterns": [
+								{
+									"begin": "\\b(?>source|text)\\.",
+									"end": "(?![-$./:{}\\w])",
+									"beginCaptures": { "0": { "name": "support.function.tmgrammar" } },
+									"name": "string.tmgrammar",
+									"patterns": [
+										{
+											"match": "\\.",
+											"name": "support.function.tmgrammar"
+										},
+										{ "include": "source.json.textmate#name_scopes" }
+									]
+								},
+								{ "include": "source.json.textmate#name_scopes" }
+							]
+						}
+					}
+				}
+			]
+		}
+	}
+}

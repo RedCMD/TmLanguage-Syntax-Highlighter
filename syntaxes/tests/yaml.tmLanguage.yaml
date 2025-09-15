@@ -1,0 +1,1506 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json
+version: https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/syntaxes/yaml.tmLanguage.json
+$schema: https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json
+name: YAML TextMate
+scopeName: source.yaml.textmate
+patterns:
+      - include: "#stream"
+repository:
+      stream:
+            patterns:
+                  - comment: allows me to just use `\G` instead of the performance heavy `(^|\G)`
+                    begin: ^(?!\G)
+                    while: ^
+                    name: meta.stream.yaml
+                    patterns:
+                          - include: source.yaml.1.2#byte-order-mark
+                          - include: source.yaml.1.2#directives
+                          - include: "#document"
+                          - include: source.yaml.1.2#presentation-detail
+                  - comment: For when YAML is embedded inside a Markdown code-block
+                    begin: \G(?!$)
+                    while: \G
+                    name: meta.stream.yaml
+                    patterns:
+                          - include: source.yaml.1.2#byte-order-mark
+                          - include: source.yaml.1.2#directives
+                          - include: "#document"
+                          - include: source.yaml.1.2#presentation-detail
+      document:
+            comment: https://yaml.org/spec/1.2.2/#91-documents
+            patterns:
+                  - begin: "---(?=[\r\n\t ])"
+                    while: "\\G(?!(?>\\.{3}|---)[\r\n\t ])"
+                    beginCaptures:
+                          "0":
+                                name: entity.other.document.begin.yaml
+                    name: meta.document.yaml
+                    patterns:
+                          - include: "#root"
+                  - begin: "(?=\\.{3}[\r\n\t ])"
+                    while: \G(?=[	 \x{FEFF}]*+(?>#|$))
+                    patterns:
+                          - begin: \G\.{3}
+                            end: $
+                            beginCaptures:
+                                  "0":
+                                        name: entity.other.document.end.yaml
+                            patterns:
+                                  - include: source.yaml.1.2#presentation-detail
+                          - include: source.yaml.1.2#byte-order-mark
+                          - include: source.yaml.1.2#presentation-detail
+                  - begin: \G(?!%|[	 \x{FEFF}]*+(?>#|$))
+                    while: "\\G(?!(?>\\.{3}|---)[\r\n\t ])"
+                    name: meta.document.yaml
+                    patterns:
+                          - include: "#root"
+      root:
+            begin: "(?=((?<=[-?:]) )?+)(?<!(?<![\t ])[\t ]*+:|---)\\G( *+)(?>((?>[!&*][^\r
+
+                  \t ]*+[\t ]++)*+)(?=(?>(?>(?#Double
+                  Quote)\"(?>[^\\\\\"]++|\\\\.)*+\"|(?#Single
+                  Quote)'(?>[^']++|'')*+'|(?#Flow-Map){(?>[^}]++|}[ \t]*+(?!:[\r
+
+                  \t ]))++}|(?#Flow-Seq)\\[(?>[^]]++|][
+                  \t]*+(?!:[\r
+
+                  \t
+                  ]))++]|(?#Plain)(?>[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@`
+                  \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE FFFF}]]|[?:-](?![\r
+
+                  \t ]))(?>[^:#]++|:(?![\r
+
+                  \t ])|(?<! |\t)#++)*+)[\t ]*+)?+(?#Map
+                  Value):[\r
+
+                  \t ])|(?#Explicit)(?=\\?[\r
+
+                  \t ]))"
+            while: "\\G(?>(\\1\\2)((?>[!&*][^\r
+
+                  \t ]*+[\t ]++)*+)((?>\t[\t ]*+)?+[^\r
+
+                  \t
+                  ?:\\-#!&*\"'\\[\\]{}0-9A-Za-z$()+./;<=\\\\^_~\\x{85}\\x{A0}-\
+                  \\x{D7FF}\\x{E000}-\\x{FFFD}\\x{010000}-\\x{10FFFF}])?+|(
+                  *+)([\t ]*+[^\r
+
+                  #])?+)"
+            beginCaptures:
+                  "2":
+                        name: punctuation.whitespace.indentation.yaml
+                  "3":
+                        comment: May cause lag on long lines starting with a tag, anchor or alias
+                        patterns:
+                              - include: source.yaml.1.2#tag-property
+                              - include: source.yaml.1.2#anchor-property
+                              - include: source.yaml.1.2#alias
+                              - include: source.yaml.1.2#presentation-detail
+            whileCaptures:
+                  "1":
+                        name: punctuation.whitespace.indentation.yaml
+                  "2":
+                        comment: May cause lag on long lines starting with a tag, anchor or alias
+                        patterns:
+                              - include: source.yaml.1.2#tag-property
+                              - include: source.yaml.1.2#anchor-property
+                              - include: source.yaml.1.2#alias
+                              - include: source.yaml.1.2#presentation-detail
+                  "3":
+                        name: invalid.illegal.expected-indentation.yaml
+                  "4":
+                        name: punctuation.whitespace.indentation.yaml
+                  "5":
+                        name: invalid.illegal.expected-indentation.yaml
+            name: meta.mapping.yaml
+            patterns:
+                  - include: "#injections"
+                  - include: "#injectionSelector"
+                  - include: "#patterns"
+                  - include: "#repository"
+                  - include: source.yaml.1.2#block-map-key-double
+                  - include: source.yaml#block-map-key-single
+                  - include: source.yaml.1.2#block-map-key-plain
+                  - include: source.yaml.1.2#block-map-key-explicit
+                  - include: source.yaml.1.2#block-map-value
+                  - include: source.yaml.1.2#flow-mapping
+                  - include: source.yaml.1.2#flow-sequence
+                  - include: source.yaml.1.2#presentation-detail
+      injectionSelector:
+            begin: \G(?<quote>["']?+)(injectionSelector)(\k<quote>)([	 ]*+)(:)
+            while: "\\G(?![?:!\"'0-9A-Za-z$()+./;<=\\\\^_~\\[{\\x{85}\\x{A0}-\\x{D7FF}\\x{E\
+                  000}-\\x{FFFD}\\x{010000}-\\x{10FFFF}&&[^\\x{FEFF}]]|-[^\r
+
+                  \t ])"
+            beginCaptures:
+                  "1":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.begin.yaml.textmate
+                  "2":
+                        name: keyword.$2.yaml.textmate
+                  "3":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.end.yaml.textmate
+                  "4":
+                        name: punctuation.whitespace.separator.yaml
+                  "5":
+                        name: punctuation.separator.map.value.yaml
+            name: meta.$2.yaml.textmate
+            patterns:
+                  - begin: (?="|')
+                    while: \G
+                    patterns:
+                          - begin: (?!\G)
+                            while: \G
+                            patterns:
+                                  - include: source.yaml.1.2#presentation-detail
+                          - begin: \G"
+                            end: '"'
+                            beginCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.begin.yaml
+                            endCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.end.yaml
+                            name: string.quoted.double.yaml
+                            patterns:
+                                  - include: "#double-inners"
+                                  - include: source.json.textmate#injection-string
+                                  - include: source.json.textmate#scope-string
+                                  - include: source.yaml.1.2#double-escape
+                          - comment: https://yaml.org/spec/1.2.2/#single-quoted-style
+                            begin: \G'
+                            end: "'(?!')"
+                            beginCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.begin.yaml
+                            endCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.end.yaml
+                            name: string.quoted.single.yaml
+                            patterns:
+                                  - include: "#single-inners"
+                                  - match: \G([^\w.:|()-]*+)([LR]:|[\w.:]:(?![\w.:-]))
+                                    captures:
+                                          "1":
+                                                name: comment.injection.whitespace.tm
+                                          "2":
+                                                name: support.function.tm
+                                  - begin: "-"
+                                    end: |-
+                                          (?=['	
+                                          ,|()-])
+                                    beginCaptures:
+                                          "0":
+                                                name: support.function.tm
+                                    name: emphasis
+                                    patterns:
+                                          - include: source.json.textmate#injection-string
+                                  - include: source.json.textmate#injection-string
+                  - begin: "(?=[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@` \\p{Cntrl}\\p{Surrogate}\\x{FEFF
+                          FFFE FFFF}]]|[?:-](?![\r
+
+                          \t ]))"
+                    while: \G
+                    patterns:
+                          - begin: \G
+                            end: (?=(?>[	 ]++|\G)#)
+                            name: string.unquoted.plain.out.yaml
+                            patterns:
+                                  - include: "#block-plain-out-inners"
+                                  - match: \G([^\w.:|()-]*+)([LR]:|[\w.:]:(?![\w.:-]))
+                                    captures:
+                                          "1":
+                                                name: comment.injection.whitespace.tm
+                                          "2":
+                                                name: support.function.tm
+                                  - include: source.json.textmate#injection-string
+                          - begin: (?!\G)
+                            while: \G
+                            patterns:
+                                  - include: source.yaml.1.2#presentation-detail
+                  - include: source.yaml.1.2#block-node
+      injections:
+            begin: \G(?<quote>["']?+)(injections)(\k<quote>)([	 ]*+)(:)
+            while: "\\G(?![?:!\"'0-9A-Za-z$()+./;<=\\\\^_~\\[{\\x{85}\\x{A0}-\\x{D7FF}\\x{E\
+                  000}-\\x{FFFD}\\x{010000}-\\x{10FFFF}&&[^\\x{FEFF}]]|-[^\r
+
+                  \t ])"
+            beginCaptures:
+                  "1":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.begin.yaml.textmate
+                  "2":
+                        name: keyword.$2.yaml.textmate
+                  "3":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.end.yaml.textmate
+                  "4":
+                        name: punctuation.whitespace.separator.yaml
+                  "5":
+                        name: punctuation.separator.map.value.yaml
+            name: meta.$2.yaml.textmate
+            patterns:
+                  - begin: "(?=((?<=[-?:]) )?+)(?<!(?<![\t ])[\t ]*+:|---)\\G( *+)(?>((?>[!&*][^\r
+
+                          \t ]*+[\t
+                          ]++)*+)(?=(?>(?>(?#Double
+                          Quote)\"(?>[^\\\\\"]++|\\\\.)*+\"|(?#Single
+                          Quote)'(?>[^']++|'')*+'|(?#Flow-Map){(?>[^}]++|}[
+                          \t]*+(?!:[\r
+
+                          \t
+                          ]))++}|(?#Flow-Seq)\\[(?>[^]]++|][ \t]*+(?!:[\r
+
+                          \t
+                          ]))++]|(?#Plain)(?>[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@`
+                          \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE
+                          FFFF}]]|[?:-](?![\r
+
+                          \t ]))(?>[^:#]++|:(?![\r
+
+                          \t ])|(?<! |\t)#++)*+)[\t
+                          ]*+)?+(?#Map Value):[\r
+
+                          \t ])|(?#Explicit)(?=\\?[\r
+
+                          \t ]))"
+                    while: "\\G(?>(\\1\\2)((?>[!&*][^\r
+
+                          \t ]*+[\t ]++)*+)((?>\t[\t
+                          ]*+)?+[^\r
+
+                          \t
+                          ?:\\-#!&*\"'\\[\\]{}0-9A-Za-z$()+./;<=\\\\^_~\\x{85}\
+                          \\x{A0}-\\x{D7FF}\\x{E000}-\\x{FFFD}\\x{010000}-\\x{1\
+                          0FFFF}])?+|( *+)([\t ]*+[^\r
+
+                          #])?+)"
+                    beginCaptures:
+                          "2":
+                                name: punctuation.whitespace.indentation.yaml
+                          "3":
+                                comment: May cause lag on long lines starting with a tag, anchor or alias
+                                patterns:
+                                      - include: source.yaml.1.2#tag-property
+                                      - include: source.yaml.1.2#anchor-property
+                                      - include: source.yaml.1.2#alias
+                                      - include: source.yaml.1.2#presentation-detail
+                    whileCaptures:
+                          "1":
+                                name: punctuation.whitespace.indentation.yaml
+                          "2":
+                                comment: May cause lag on long lines starting with a tag, anchor or alias
+                                patterns:
+                                      - include: source.yaml.1.2#tag-property
+                                      - include: source.yaml.1.2#anchor-property
+                                      - include: source.yaml.1.2#alias
+                                      - include: source.yaml.1.2#presentation-detail
+                          "3":
+                                name: invalid.illegal.expected-indentation.yaml
+                          "4":
+                                name: punctuation.whitespace.indentation.yaml
+                          "5":
+                                name: invalid.illegal.expected-indentation.yaml
+                    name: meta.mapping.yaml
+                    patterns:
+                          - include: "#injection"
+                          - include: source.yaml.1.2#block-map-key-double
+                          - include: source.yaml#block-map-key-single
+                          - include: source.yaml.1.2#block-map-key-plain
+                          - include: source.yaml.1.2#block-map-key-explicit
+                          - include: source.yaml.1.2#block-map-value
+                          - include: source.yaml.1.2#flow-mapping
+                          - include: source.yaml.1.2#flow-sequence
+                          - include: source.yaml.1.2#presentation-detail
+                  - include: source.yaml.1.2#block-node
+      injection:
+            patterns:
+                  - begin: \G"
+                    end: '"'
+                    beginCaptures:
+                          "0":
+                                name: punctuation.definition.string.begin.yaml
+                    endCaptures:
+                          "0":
+                                name: punctuation.definition.string.end.yaml
+                    name: meta.map.key.yaml string.quoted.double.yaml entity.name.tag.yaml
+                    patterns:
+                          - match: "[^\r\n\t -\\x{10FFFF}]++"
+                            name: invalid.illegal.character.yaml
+                          - include: source.json.textmate#injection-string
+                          - include: source.yaml.1.2#double-escape
+                  - begin: \G'
+                    end: "'(?!')"
+                    beginCaptures:
+                          "0":
+                                name: punctuation.definition.string.begin.yaml
+                    endCaptures:
+                          "0":
+                                name: punctuation.definition.string.end.yaml
+                    name: meta.map.key.yaml string.quoted.single.yaml entity.name.tag.yaml
+                    patterns:
+                          - match: .[	 ]*+$
+                            name: invalid.illegal.multiline-key.yaml
+                          - match: "[^\t -\\x{10FFFF}]++"
+                            name: invalid.illegal.character.yaml
+                          - match: "''"
+                            name: constant.character.escape.single-quote.yaml
+                          - match: \G([^\w.:|()-]*+)([LR]:|[\w.:]:(?![\w.:-]))
+                            captures:
+                                  "1":
+                                        name: comment.injection.whitespace.tm
+                                  "2":
+                                        name: support.function.tm
+                          - begin: "-"
+                            end: |-
+                                  (?=['	
+                                  ,|()-])
+                            beginCaptures:
+                                  "0":
+                                        name: support.function.tm
+                            name: emphasis
+                            patterns:
+                                  - include: source.json.textmate#injection-string
+                          - include: source.json.textmate#injection-string
+                  - match: "\\G(?=[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@`
+                          \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE
+                          FFFF}]]|[?:-](?![\r
+
+                          \t
+                          ]))([^\\w.:|()-]*+)([LR]:|[\\w.:]:(?![\\w.:-]))((?~[\t
+                          ]*+:[\r
+
+                          \t ]|(?>[\t ]++|\\G)#))"
+                    captures:
+                          "1":
+                                name: comment.injection.whitespace.tm
+                          "2":
+                                name: support.function.tm
+                          "3":
+                                patterns:
+                                      - include: source.yaml.1.2#tag-implicit-plain-out
+                                      - match: \G([	 ]++)(.)
+                                        captures:
+                                              "1":
+                                                    name: punctuation.whitespace.separator.yaml
+                                              "2":
+                                                    name: invalid.illegal.multiline-key.yaml
+                                      - match: "[\t ]++$"
+                                        name: punctuation.whitespace.separator.yaml
+                                      - match: "[^\r\n\t ](?=[\t ]*+$|[\t ]++#)"
+                                        name: invalid.illegal.expected-map-separator.yaml
+                                      - match: \x{FEFF}
+                                        name: invalid.illegal.bom.yaml
+                                      - include: source.json.textmate#injection-string
+                                      - include: source.yaml#non-printable
+                    name: meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml
+                  - begin: ":(?=[\r
+
+                          \t ])|(?<=}})(?=[\t ]++#|[\t
+                          ]*+$)"
+                    while: "\\G
+                          ?+(?![?:!\"'0-9A-Za-z$()+./;<=\\\\^_~\\[{\\x{85}\\x{A0}-\\x{D7FF}\\x\
+                          {E000}-\\x{FFFD}\\x{010000}-\\x{10FFFF}&&[^\\x{FEFF}]\
+                          ]|-[^\r
+
+                          \t ])"
+                    beginCaptures:
+                          "0":
+                                name: punctuation.separator.map.value.yaml
+                    whileCaptures:
+                          "0":
+                                name: punctuation.whitespace.indentation.yaml
+                    name: meta.map.value.yaml meta.injection.yaml.textmate
+                    patterns:
+                          - include: "#pattern"
+                          - include: source.yaml.1.2#block-node
+      repository:
+            begin: \G(?<quote>["']?+)(repository)(\k<quote>)([	 ]*+)(:)
+            while: "\\G(?![?:!\"'0-9A-Za-z$()+./;<=\\\\^_~\\[{\\x{85}\\x{A0}-\\x{D7FF}\\x{E\
+                  000}-\\x{FFFD}\\x{010000}-\\x{10FFFF}&&[^\\x{FEFF}]]|-[^\r
+
+                  \t ])"
+            beginCaptures:
+                  "1":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.begin.yaml.textmate
+                  "2":
+                        name: keyword.$2.yaml.textmate
+                  "3":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.end.yaml.textmate
+                  "4":
+                        name: punctuation.whitespace.separator.yaml
+                  "5":
+                        name: punctuation.separator.map.value.yaml
+            name: meta.$2.yaml.textmate
+            patterns:
+                  - begin: "(?=((?<=[-?:]) )?+)(?<!(?<![\t ])[\t ]*+:|---)\\G( *+)(?>((?>[!&*][^\r
+
+                          \t ]*+[\t
+                          ]++)*+)(?=(?>(?>(?#Double
+                          Quote)\"(?>[^\\\\\"]++|\\\\.)*+\"|(?#Single
+                          Quote)'(?>[^']++|'')*+'|(?#Flow-Map){(?>[^}]++|}[
+                          \t]*+(?!:[\r
+
+                          \t
+                          ]))++}|(?#Flow-Seq)\\[(?>[^]]++|][ \t]*+(?!:[\r
+
+                          \t
+                          ]))++]|(?#Plain)(?>[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@`
+                          \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE
+                          FFFF}]]|[?:-](?![\r
+
+                          \t ]))(?>[^:#]++|:(?![\r
+
+                          \t ])|(?<! |\t)#++)*+)[\t
+                          ]*+)?+(?#Map Value):[\r
+
+                          \t ])|(?#Explicit)(?=\\?[\r
+
+                          \t ]))"
+                    while: "\\G(?>(\\1\\2)((?>[!&*][^\r
+
+                          \t ]*+[\t ]++)*+)((?>\t[\t
+                          ]*+)?+[^\r
+
+                          \t
+                          ?:\\-#!&*\"'\\[\\]{}0-9A-Za-z$()+./;<=\\\\^_~\\x{85}\
+                          \\x{A0}-\\x{D7FF}\\x{E000}-\\x{FFFD}\\x{010000}-\\x{1\
+                          0FFFF}])?+|( *+)([\t ]*+[^\r
+
+                          #])?+)"
+                    beginCaptures:
+                          "2":
+                                name: punctuation.whitespace.indentation.yaml
+                          "3":
+                                comment: May cause lag on long lines starting with a tag, anchor or alias
+                                patterns:
+                                      - include: source.yaml.1.2#tag-property
+                                      - include: source.yaml.1.2#anchor-property
+                                      - include: source.yaml.1.2#alias
+                                      - include: source.yaml.1.2#presentation-detail
+                    whileCaptures:
+                          "1":
+                                name: punctuation.whitespace.indentation.yaml
+                          "2":
+                                comment: May cause lag on long lines starting with a tag, anchor or alias
+                                patterns:
+                                      - include: source.yaml.1.2#tag-property
+                                      - include: source.yaml.1.2#anchor-property
+                                      - include: source.yaml.1.2#alias
+                                      - include: source.yaml.1.2#presentation-detail
+                          "3":
+                                name: invalid.illegal.expected-indentation.yaml
+                          "4":
+                                name: punctuation.whitespace.indentation.yaml
+                          "5":
+                                name: invalid.illegal.expected-indentation.yaml
+                    name: meta.mapping.yaml
+                    patterns:
+                          - include: "#repo"
+                          - include: source.yaml.1.2#block-map-key-double
+                          - include: source.yaml#block-map-key-single
+                          - include: source.yaml.1.2#block-map-key-plain
+                          - include: source.yaml.1.2#block-map-key-explicit
+                          - include: source.yaml.1.2#block-map-value
+                          - include: source.yaml.1.2#flow-mapping
+                          - include: source.yaml.1.2#flow-sequence
+                          - include: source.yaml.1.2#presentation-detail
+                  - include: source.yaml.1.2#block-node
+      repo:
+            patterns:
+                  - comment: https://yaml.org/spec/1.2.2/#double-quoted-style (FLOW-OUT)
+                    begin: \G"
+                    end: '"'
+                    beginCaptures:
+                          "0":
+                                name: punctuation.definition.string.begin.yaml
+                    endCaptures:
+                          "0":
+                                name: punctuation.definition.string.end.yaml
+                    name: meta.map.key.yaml string.quoted.double.yaml entity.name.tag.yaml
+                          meta.repo.yaml.textmate
+                    contentName: variable.yaml.textmate
+                    patterns:
+                          - match: "[^\r\n\t -\\x{10FFFF}]++"
+                            name: invalid.illegal.character.yaml
+                          - include: source.yaml.1.2#double-escape
+                  - begin: \G'
+                    end: "'(?!')"
+                    beginCaptures:
+                          "0":
+                                name: punctuation.definition.string.begin.yaml
+                    endCaptures:
+                          "0":
+                                name: punctuation.definition.string.end.yaml
+                    name: meta.map.key.yaml string.quoted.single.yaml entity.name.tag.yaml
+                          meta.repo.yaml.textmate
+                    contentName: variable.yaml.textmate
+                    patterns:
+                          - match: .[	 ]*+$
+                            name: invalid.illegal.multiline-key.yaml
+                          - match: "[^\t -\\x{10FFFF}]++"
+                            name: invalid.illegal.character.yaml
+                          - match: "''"
+                            name: constant.character.escape.single-quote.yaml
+                  - begin: "\\G(?=[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@`
+                          \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE
+                          FFFF}]]|[?:-](?![\r
+
+                          \t ]))"
+                    end: "(?=[\t ]*+:[\r
+
+                          \t ]|(?>[\t ]++|\\G)#)"
+                    name: meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml
+                          meta.repo.yaml.textmate
+                    contentName: variable.yaml.textmate
+                    patterns:
+                          - include: source.yaml.1.2#tag-implicit-plain-out
+                          - match: \G([	 ]++)(.)
+                            captures:
+                                  "1":
+                                        name: punctuation.whitespace.separator.yaml
+                                  "2":
+                                        name: invalid.illegal.multiline-key.yaml
+                          - match: "[\t ]++$"
+                            name: punctuation.whitespace.separator.yaml
+                          - match: "[^\r\n\t ](?=[\t ]*+$|[\t ]++#)"
+                            name: invalid.illegal.expected-map-separator.yaml
+                          - match: \x{FEFF}
+                            name: invalid.illegal.bom.yaml
+                          - include: source.yaml#non-printable
+                  - begin: ":(?=[\r
+
+                          \t ])|(?<=}})(?=[\t ]++#|[\t
+                          ]*+$)"
+                    while: "\\G
+                          ?+(?![?:!\"'0-9A-Za-z$()+./;<=\\\\^_~\\[{\\x{85}\\x{A0}-\\x{D7FF}\\x\
+                          {E000}-\\x{FFFD}\\x{010000}-\\x{10FFFF}&&[^\\x{FEFF}]\
+                          ]|-[^\r
+
+                          \t ])"
+                    beginCaptures:
+                          "0":
+                                name: punctuation.separator.map.value.yaml
+                    whileCaptures:
+                          "0":
+                                name: punctuation.whitespace.indentation.yaml
+                    name: meta.map.value.yaml meta.repo.yaml.textmate
+                    patterns:
+                          - include: "#pattern"
+                          - include: source.yaml.1.2#block-node
+      patterns:
+            begin: \G(?<quote>["']?+)(patterns)(\k<quote>)([	 ]*+)(:)
+            while: "\\G(?![?:!\"'0-9A-Za-z$()+./;<=\\\\^_~\\[{\\x{85}\\x{A0}-\\x{D7FF}\\x{E\
+                  000}-\\x{FFFD}\\x{010000}-\\x{10FFFF}&&[^\\x{FEFF}]]|-[^\r
+
+                  \t ])"
+            beginCaptures:
+                  "1":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.begin.yaml.textmate
+                  "2":
+                        name: keyword.$2.yaml.textmate
+                  "3":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.end.yaml.textmate
+                  "4":
+                        name: punctuation.whitespace.separator.yaml
+                  "5":
+                        name: punctuation.separator.map.value.yaml
+            name: meta.$2.yaml.textmate
+            patterns:
+                  - begin: "(?=((?<=[-?:]) )?+)(?<![^\t ][\t ]*+:|---)\\G( *+)(-)(?=[\r
+
+                          \t ])"
+                    while: "\\G(?>(\\1\\2)(?!-[\r
+
+                          \t ])((?>\t[\t ]*+)?+[^\r
+
+                          \t #\\]}])?+|(?!\\1\\2)(
+                          *+)([\t ]*+[^\r
+
+                          #])?+)"
+                    beginCaptures:
+                          "2":
+                                name: punctuation.whitespace.indentation.yaml
+                          "3":
+                                name: punctuation.definition.block.sequence.item.yaml
+                    whileCaptures:
+                          "1":
+                                name: punctuation.whitespace.indentation.yaml
+                          "2":
+                                name: invalid.illegal.expected-indentation.yaml
+                          "3":
+                                name: punctuation.whitespace.indentation.yaml
+                          "4":
+                                name: invalid.illegal.expected-indentation.yaml
+                    name: meta.block.sequence.yaml
+                    patterns:
+                          - include: "#pattern"
+                          - include: source.yaml.1.2#block-node
+                  - include: source.yaml.1.2#block-node
+      pattern:
+            patterns:
+                  - begin: "(?=((?<=[-?:]) )?+)(?<!(?<![\t ])[\t ]*+:|---)\\G( *+)(?>((?>[!&*][^\r
+
+                          \t ]*+[\t
+                          ]++)*+)(?=(?>(?>(?#Double
+                          Quote)\"(?>[^\\\\\"]++|\\\\.)*+\"|(?#Single
+                          Quote)'(?>[^']++|'')*+'|(?#Flow-Map){(?>[^}]++|}[
+                          \t]*+(?!:[\r
+
+                          \t
+                          ]))++}|(?#Flow-Seq)\\[(?>[^]]++|][ \t]*+(?!:[\r
+
+                          \t
+                          ]))++]|(?#Plain)(?>[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@`
+                          \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE
+                          FFFF}]]|[?:-](?![\r
+
+                          \t ]))(?>[^:#]++|:(?![\r
+
+                          \t ])|(?<! |\t)#++)*+)[\t
+                          ]*+)?+(?#Map Value):[\r
+
+                          \t ])|(?#Explicit)(?=\\?[\r
+
+                          \t ]))"
+                    while: "\\G(?>(\\1\\2)((?>[!&*][^\r
+
+                          \t ]*+[\t ]++)*+)((?>\t[\t
+                          ]*+)?+[^\r
+
+                          \t
+                          ?:\\-#!&*\"'\\[\\]{}0-9A-Za-z$()+./;<=\\\\^_~\\x{85}\
+                          \\x{A0}-\\x{D7FF}\\x{E000}-\\x{FFFD}\\x{010000}-\\x{1\
+                          0FFFF}])?+|( *+)([\t ]*+[^\r
+
+                          #])?+)"
+                    beginCaptures:
+                          "2":
+                                name: punctuation.whitespace.indentation.yaml
+                          "3":
+                                comment: May cause lag on long lines starting with a tag, anchor or alias
+                                patterns:
+                                      - include: source.yaml.1.2#tag-property
+                                      - include: source.yaml.1.2#anchor-property
+                                      - include: source.yaml.1.2#alias
+                                      - include: source.yaml.1.2#presentation-detail
+                    whileCaptures:
+                          "1":
+                                name: punctuation.whitespace.indentation.yaml
+                          "2":
+                                comment: May cause lag on long lines starting with a tag, anchor or alias
+                                patterns:
+                                      - include: source.yaml.1.2#tag-property
+                                      - include: source.yaml.1.2#anchor-property
+                                      - include: source.yaml.1.2#alias
+                                      - include: source.yaml.1.2#presentation-detail
+                          "3":
+                                name: invalid.illegal.expected-indentation.yaml
+                          "4":
+                                name: punctuation.whitespace.indentation.yaml
+                          "5":
+                                name: invalid.illegal.expected-indentation.yaml
+                    name: meta.mapping.yaml
+                    patterns:
+                          - include: "#repository"
+                          - include: "#patterns"
+                          - include: "#captures"
+                          - include: "#include"
+                          - include: "#match"
+                          - include: "#name_scopes"
+                          - include: "#comment"
+                          - include: source.yaml.1.2#block-map-key-double
+                          - include: source.yaml#block-map-key-single
+                          - include: source.yaml.1.2#block-map-key-plain
+                          - include: source.yaml.1.2#block-map-key-explicit
+                          - include: source.yaml.1.2#block-map-value
+                          - include: source.yaml.1.2#flow-mapping
+                          - include: source.yaml.1.2#flow-sequence
+                          - include: source.yaml.1.2#presentation-detail
+                  - begin: "{"
+                    end: "}"
+                    beginCaptures:
+                          "0":
+                                name: punctuation.definition.mapping.begin.yaml
+                    endCaptures:
+                          "0":
+                                name: punctuation.definition.mapping.end.yaml
+                    name: meta.flow.mapping.yaml
+                    patterns:
+                          - comment: https://yaml.org/spec/1.2.2/#rule-ns-s-flow-map-entries
+                            begin: "(?<={)\\G(?=[\r\n\t ,#])|,"
+                            end: "(?=[^\r\n\t ,#])"
+                            beginCaptures:
+                                  "0":
+                                        name: punctuation.separator.mapping.yaml
+                            patterns:
+                                  - match: ",++"
+                                    name: invalid.illegal.separator.sequence.yaml
+                                  - include: source.yaml.1.2#presentation-detail
+                          - include: "#name_scopes-flow"
+                          - include: source.yaml.1.2#flow-mapping-map-key
+                          - include: source.yaml.1.2#flow-map-value-yaml
+                          - include: source.yaml.1.2#flow-map-value-json
+                          - include: source.yaml.1.2#flow-node
+      captures:
+            begin: \G(?<quote>["']?+)((?>beginC|whileC|endC|c)aptures)(\k<quote>)([	 ]*+)(:)
+            while: "\\G(?![?:!\"'0-9A-Za-z$()+./;<=\\\\^_~\\[{\\x{85}\\x{A0}-\\x{D7FF}\\x{E\
+                  000}-\\x{FFFD}\\x{010000}-\\x{10FFFF}&&[^\\x{FEFF}]]|-[^\r
+
+                  \t ])"
+            beginCaptures:
+                  "1":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.begin.yaml.textmate
+                  "2":
+                        name: keyword.$2.yaml.textmate
+                  "3":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.end.yaml.textmate
+                  "4":
+                        name: punctuation.whitespace.separator.yaml
+                  "5":
+                        name: punctuation.separator.map.value.yaml
+            name: meta.$2.yaml.textmate
+            patterns:
+                  - begin: "(?=((?<=[-?:]) )?+)(?<!(?<![\t ])[\t ]*+:|---)\\G( *+)(?>((?>[!&*][^\r
+
+                          \t ]*+[\t
+                          ]++)*+)(?=(?>(?>(?#Double
+                          Quote)\"(?>[^\\\\\"]++|\\\\.)*+\"|(?#Single
+                          Quote)'(?>[^']++|'')*+'|(?#Flow-Map){(?>[^}]++|}[
+                          \t]*+(?!:[\r
+
+                          \t
+                          ]))++}|(?#Flow-Seq)\\[(?>[^]]++|][ \t]*+(?!:[\r
+
+                          \t
+                          ]))++]|(?#Plain)(?>[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@`
+                          \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE
+                          FFFF}]]|[?:-](?![\r
+
+                          \t ]))(?>[^:#]++|:(?![\r
+
+                          \t ])|(?<! |\t)#++)*+)[\t
+                          ]*+)?+(?#Map Value):[\r
+
+                          \t ])|(?#Explicit)(?=\\?[\r
+
+                          \t ]))"
+                    while: "\\G(?>(\\1\\2)((?>[!&*][^\r
+
+                          \t ]*+[\t ]++)*+)((?>\t[\t
+                          ]*+)?+[^\r
+
+                          \t
+                          ?:\\-#!&*\"'\\[\\]{}0-9A-Za-z$()+./;<=\\\\^_~\\x{85}\
+                          \\x{A0}-\\x{D7FF}\\x{E000}-\\x{FFFD}\\x{010000}-\\x{1\
+                          0FFFF}])?+|( *+)([\t ]*+[^\r
+
+                          #])?+)"
+                    beginCaptures:
+                          "2":
+                                name: punctuation.whitespace.indentation.yaml
+                          "3":
+                                comment: May cause lag on long lines starting with a tag, anchor or alias
+                                patterns:
+                                      - include: source.yaml.1.2#tag-property
+                                      - include: source.yaml.1.2#anchor-property
+                                      - include: source.yaml.1.2#alias
+                                      - include: source.yaml.1.2#presentation-detail
+                    whileCaptures:
+                          "1":
+                                name: punctuation.whitespace.indentation.yaml
+                          "2":
+                                comment: May cause lag on long lines starting with a tag, anchor or alias
+                                patterns:
+                                      - include: source.yaml.1.2#tag-property
+                                      - include: source.yaml.1.2#anchor-property
+                                      - include: source.yaml.1.2#alias
+                                      - include: source.yaml.1.2#presentation-detail
+                          "3":
+                                name: invalid.illegal.expected-indentation.yaml
+                          "4":
+                                name: punctuation.whitespace.indentation.yaml
+                          "5":
+                                name: invalid.illegal.expected-indentation.yaml
+                    name: meta.mapping.yaml
+                    patterns:
+                          - include: "#capture"
+                          - include: source.yaml.1.2#block-map-key-double
+                          - include: source.yaml#block-map-key-single
+                          - include: source.yaml.1.2#block-map-key-plain
+                          - include: source.yaml.1.2#block-map-key-explicit
+                          - include: source.yaml.1.2#block-map-value
+                          - include: source.yaml.1.2#flow-mapping
+                          - include: source.yaml.1.2#flow-sequence
+                          - include: source.yaml.1.2#presentation-detail
+                  - include: source.yaml.1.2#block-node
+      capture:
+            begin: \G(?<quote>["']?+)([0-9]++)(\k<quote>)([	 ]*+)(:)
+            while: "\\G(?![?:!\"'0-9A-Za-z$()+./;<=\\\\^_~\\[{\\x{85}\\x{A0}-\\x{D7FF}\\x{E\
+                  000}-\\x{FFFD}\\x{010000}-\\x{10FFFF}&&[^\\x{FEFF}]]|-[^\r
+
+                  \t ])"
+            beginCaptures:
+                  "1":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.begin.yaml.textmate
+                  "2":
+                        name: constant.numeric.$2.yaml.textmate
+                  "3":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.end.yaml.textmate
+                  "4":
+                        name: punctuation.whitespace.separator.yaml
+                  "5":
+                        name: punctuation.separator.map.value.yaml
+            name: meta.$2.yaml.textmate
+            patterns:
+                  - begin: "(?=((?<=[-?:]) )?+)(?<!(?<![\t ])[\t ]*+:|---)\\G( *+)(?>((?>[!&*][^\r
+
+                          \t ]*+[\t
+                          ]++)*+)(?=(?>(?>(?#Double
+                          Quote)\"(?>[^\\\\\"]++|\\\\.)*+\"|(?#Single
+                          Quote)'(?>[^']++|'')*+'|(?#Flow-Map){(?>[^}]++|}[
+                          \t]*+(?!:[\r
+
+                          \t
+                          ]))++}|(?#Flow-Seq)\\[(?>[^]]++|][ \t]*+(?!:[\r
+
+                          \t
+                          ]))++]|(?#Plain)(?>[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@`
+                          \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE
+                          FFFF}]]|[?:-](?![\r
+
+                          \t ]))(?>[^:#]++|:(?![\r
+
+                          \t ])|(?<! |\t)#++)*+)[\t
+                          ]*+)?+(?#Map Value):[\r
+
+                          \t ])|(?#Explicit)(?=\\?[\r
+
+                          \t ]))"
+                    while: "\\G(?>(\\1\\2)((?>[!&*][^\r
+
+                          \t ]*+[\t ]++)*+)((?>\t[\t
+                          ]*+)?+[^\r
+
+                          \t
+                          ?:\\-#!&*\"'\\[\\]{}0-9A-Za-z$()+./;<=\\\\^_~\\x{85}\
+                          \\x{A0}-\\x{D7FF}\\x{E000}-\\x{FFFD}\\x{010000}-\\x{1\
+                          0FFFF}])?+|( *+)([\t ]*+[^\r
+
+                          #])?+)"
+                    beginCaptures:
+                          "2":
+                                name: punctuation.whitespace.indentation.yaml
+                          "3":
+                                comment: May cause lag on long lines starting with a tag, anchor or alias
+                                patterns:
+                                      - include: source.yaml.1.2#tag-property
+                                      - include: source.yaml.1.2#anchor-property
+                                      - include: source.yaml.1.2#alias
+                                      - include: source.yaml.1.2#presentation-detail
+                    whileCaptures:
+                          "1":
+                                name: punctuation.whitespace.indentation.yaml
+                          "2":
+                                comment: May cause lag on long lines starting with a tag, anchor or alias
+                                patterns:
+                                      - include: source.yaml.1.2#tag-property
+                                      - include: source.yaml.1.2#anchor-property
+                                      - include: source.yaml.1.2#alias
+                                      - include: source.yaml.1.2#presentation-detail
+                          "3":
+                                name: invalid.illegal.expected-indentation.yaml
+                          "4":
+                                name: punctuation.whitespace.indentation.yaml
+                          "5":
+                                name: invalid.illegal.expected-indentation.yaml
+                    name: meta.mapping.yaml
+                    patterns:
+                          - include: "#pattern"
+                          - include: source.yaml.1.2#block-map-key-double
+                          - include: source.yaml#block-map-key-single
+                          - include: source.yaml.1.2#block-map-key-plain
+                          - include: source.yaml.1.2#block-map-key-explicit
+                          - include: source.yaml.1.2#block-map-value
+                          - include: source.yaml.1.2#flow-mapping
+                          - include: source.yaml.1.2#flow-sequence
+                          - include: source.yaml.1.2#presentation-detail
+                  - begin: (?={)
+                    end: $
+                    patterns:
+                          - include: "#pattern"
+                          - include: source.yaml.1.2#presentation-detail
+                  - include: source.yaml.1.2#block-node
+      match:
+            begin: \G(?<quote>["']?+)(match|begin|while|end)(\k<quote>)([	 ]*+)(:)(?>([	 ]++)([|>])(?<chomp>[+-])?+([1-9])?+(?(<chomp>)|\g<chomp>)?+)?+
+            while: "\\G(?![?:!\"'0-9A-Za-z$()+./;<=\\\\^_~\\[{\\x{85}\\x{A0}-\\x{D7FF}\\x{E\
+                  000}-\\x{FFFD}\\x{010000}-\\x{10FFFF}&&[^\\x{FEFF}]]|-[^\r
+
+                  \t ])"
+            beginCaptures:
+                  "1":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.begin.yaml.textmate
+                  "2":
+                        name: keyword.$2.yaml.textmate
+                  "3":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.end.yaml.textmate
+                  "4":
+                        name: punctuation.whitespace.separator.yaml
+                  "5":
+                        name: punctuation.separator.map.value.yaml
+                  "6":
+                        name: punctuation.whitespace.separator.yaml
+                  "7":
+                        name: keyword.control.flow.block-scalar.yaml
+                  "8":
+                        name: storage.modifier.chomping-indicator.yaml
+                  "9":
+                        name: constant.numeric.indentation-indicator.yaml
+            name: meta.$2.yaml.textmate
+            patterns:
+                  - begin: (?="|')
+                    while: \G
+                    patterns:
+                          - begin: (?!\G)
+                            while: \G
+                            patterns:
+                                  - include: source.yaml.1.2#presentation-detail
+                          - begin: '"'
+                            end: '"'
+                            beginCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.begin.yaml
+                            endCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.end.yaml
+                            name: string.quoted.double.yaml
+                            contentName: meta.embedded.yaml.textmate.regexp
+                            patterns:
+                                  - include: "#double-inners"
+                                  - include: source.json.textmate.regexp
+                                  - include: source.yaml.1.2#double-escape
+                          - comment: https://yaml.org/spec/1.2.2/#single-quoted-style
+                            begin: "'"
+                            end: "'(?!')"
+                            beginCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.begin.yaml
+                            endCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.end.yaml
+                            name: string.quoted.single.yaml
+                            contentName: meta.embedded.yaml.textmate.regexp
+                            patterns:
+                                  - include: "#single-inners"
+                                  - include: source.yaml.textmate.regexp
+                  - begin: "(?=[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@` \\p{Cntrl}\\p{Surrogate}\\x{FEFF
+                          FFFE FFFF}]]|[?:-](?![\r
+
+                          \t ]))"
+                    while: \G
+                    name: token.debug-token
+                    patterns:
+                          - begin: \G
+                            end: (?=(?>[	 ]++|\G)#)
+                            name: string.unquoted.plain.out.yaml
+                            contentName: meta.embedded.yaml.textmate.regexp
+                            patterns:
+                                  - include: "#block-plain-out-inners"
+                                  - include: source.yaml.textmate.regexp
+                          - begin: (?!\G)
+                            while: \G
+                            patterns:
+                                  - include: source.yaml.1.2#presentation-detail
+                  - include: source.yaml.1.2#block-node
+      include:
+            begin: \G(?<quote>["']?+)(include)(\k<quote>)([	 ]*+)(:)
+            while: "\\G(?![?:!\"'0-9A-Za-z$()+./;<=\\\\^_~\\[{\\x{85}\\x{A0}-\\x{D7FF}\\x{E\
+                  000}-\\x{FFFD}\\x{010000}-\\x{10FFFF}&&[^\\x{FEFF}]]|-[^\r
+
+                  \t ])"
+            beginCaptures:
+                  "1":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.begin.yaml.textmate
+                  "2":
+                        name: keyword.$2.yaml.textmate
+                  "3":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.end.yaml.textmate
+                  "4":
+                        name: punctuation.whitespace.separator.yaml
+                  "5":
+                        name: punctuation.separator.map.value.yaml
+            name: meta.$2.yaml.textmate
+            patterns:
+                  - begin: (?="|')
+                    while: \G
+                    patterns:
+                          - begin: (?!\G)
+                            while: \G
+                            patterns:
+                                  - include: source.yaml.1.2#presentation-detail
+                          - begin: \G"
+                            end: '"'
+                            beginCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.begin.yaml
+                            endCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.end.yaml
+                            name: string.quoted.double.yaml
+                            patterns:
+                                  - include: "#double-inners"
+                                  - begin: \G(?=(?>(?>[^\\"#]++|\\[\\"]?)*+#|#?)\$base")
+                                    end: ((#)?\$)(base)
+                                    endCaptures:
+                                          "1":
+                                                name: keyword.json.tm
+                                          "2":
+                                                name: markup.strikethrough.json.tm
+                                          "3":
+                                                name: support.function.json.tm
+                                    contentName: markup.strikethrough.json.tm
+                                    patterns:
+                                          - include: source.json.textmate#scope-string
+                                  - match: \G((#)?\$)(self)(?=")
+                                    captures:
+                                          "1":
+                                                name: keyword.json.tm
+                                          "2":
+                                                name: markup.strikethrough.json.tm
+                                          "3":
+                                                name: support.function.json.tm
+                                  - match: (#\$)(self)(?=")
+                                    captures:
+                                          "0":
+                                                name: markup.strikethrough.json.tm
+                                          "1":
+                                                name: keyword.json.tm
+                                          "2":
+                                                name: support.function.json.tm
+                                  - match: (?!\G)#(?=")
+                                    name: keyword.json.tm markup.strikethrough.json.tm
+                                  - begin: "#"
+                                    end: (?=")
+                                    beginCaptures:
+                                          "0":
+                                                name: keyword.json.tm
+                                    contentName: variable.json.tm
+                                    patterns:
+                                          - include: source.json.textmate#escape-characters
+                                  - include: source.json.textmate#scope-string
+                                  - include: source.yaml.1.2#double-escape
+                          - comment: https://yaml.org/spec/1.2.2/#single-quoted-style
+                            begin: \G'
+                            end: "'(?!')"
+                            beginCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.begin.yaml
+                            endCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.end.yaml
+                            name: string.quoted.single.yaml
+                            patterns:
+                                  - include: "#single-inners"
+                                  - begin: \G(?=(?>(?>[^'#]++|'')*+#|#?)\$base')
+                                    end: ((#)?\$)(base)
+                                    endCaptures:
+                                          "1":
+                                                name: keyword.json.tm
+                                          "2":
+                                                name: markup.strikethrough.json.tm
+                                          "3":
+                                                name: support.function.json.tm
+                                    contentName: markup.strikethrough.json.tm
+                                    patterns:
+                                          - include: source.json.textmate#scope-string
+                                  - match: \G((#)?\$)(self)(?=')
+                                    captures:
+                                          "1":
+                                                name: keyword.json.tm
+                                          "2":
+                                                name: markup.strikethrough.json.tm
+                                          "3":
+                                                name: support.function.json.tm
+                                  - match: (#\$)(self)(?=')
+                                    captures:
+                                          "0":
+                                                name: markup.strikethrough.json.tm
+                                          "1":
+                                                name: keyword.json.tm
+                                          "2":
+                                                name: support.function.json.tm
+                                  - match: (?!\G)#(?=')
+                                    name: keyword.json.tm markup.strikethrough.json.tm
+                                  - begin: "#"
+                                    end: (?=')
+                                    beginCaptures:
+                                          "0":
+                                                name: keyword.json.tm
+                                    contentName: variable.json.tm
+                                    patterns:
+                                          - include: "#single-inners"
+                                  - match: (?<= |')(?>source|text)\.(?![ '#])
+                                    name: support.function.json.tm
+                                  - match: (?<![\s'.])\.(?![\s'#])
+                                    name: support.function.json.tm
+                                  - match: "[\\w:][\\w:-]*+"
+                                    name: string
+                  - begin: "(?=[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@` \\p{Cntrl}\\p{Surrogate}\\x{FEFF
+                          FFFE FFFF}]]|[?:-](?![\r
+
+                          \t ]))"
+                    while: \G
+                    patterns:
+                          - begin: \G
+                            end: (?=(?>[	 ]++|\G)#)
+                            name: string.unquoted.plain.out.yaml
+                            patterns:
+                                  - include: "#block-plain-out-inners"
+                                  - begin: \G(?=(?>[^#]*+#)?\$base')
+                                    end: ((#)?\$)(base)
+                                    endCaptures:
+                                          "1":
+                                                name: keyword.json.tm
+                                          "2":
+                                                name: markup.strikethrough.json.tm
+                                          "3":
+                                                name: support.function.json.tm
+                                    contentName: markup.strikethrough.json.tm
+                                    patterns:
+                                          - match: "(?<= |\\G)(?>source|text)\\.(?![ #])"
+                                            name: support.function.json.tm
+                                          - match: (?<![\s.])\.(?![\s#])
+                                            name: support.function.json.tm
+                                          - match: "[\\w:][\\w:-]*+"
+                                            name: string
+                                  - match: "\\G((#)?\\$)(self)(?=[\t ]*+[\r
+
+                                          \
+                                          \t ]|[\t ]++#)"
+                                    captures:
+                                          "1":
+                                                name: keyword.json.tm
+                                          "2":
+                                                name: markup.strikethrough.json.tm
+                                          "3":
+                                                name: support.function.json.tm
+                                  - match: "(#\\$)(self)(?=[\t ]*+[\r
+
+                                          \
+                                          \t ]|[\t ]++#)"
+                                    captures:
+                                          "0":
+                                                name: markup.strikethrough.json.tm
+                                          "1":
+                                                name: keyword.json.tm
+                                          "2":
+                                                name: support.function.json.tm
+                                  - match: "(?!\\G)#(?=[\t ]*+[\r\n\t ]|[\t ]++#)"
+                                    name: keyword.json.tm markup.strikethrough.json.tm
+                                  - begin: "#"
+                                    end: "(?=[\t ]*+[\r\n\t ]|[\t ]++#)"
+                                    beginCaptures:
+                                          "0":
+                                                name: keyword.json.tm
+                                    contentName: variable.json.tm
+                                    patterns:
+                                          - include: "#block-plain-out-inners"
+                                  - match: "(?<= |\\G)(?>source|text)\\.(?![ #])"
+                                    name: support.function.json.tm
+                                  - match: (?<![\s.])\.(?![\s#])
+                                    name: support.function.json.tm
+                                  - match: "[\\w:][\\w:-]*+"
+                                    name: string
+                          - begin: (?!\G)
+                            while: \G
+                            patterns:
+                                  - include: source.yaml.1.2#presentation-detail
+                  - include: source.yaml.1.2#block-node
+      name_scopes:
+            begin: \G(?<quote>["']?+)(name|contentName)(\k<quote>)([	 ]*+)(:)
+            while: "\\G(?![?:!\"'0-9A-Za-z$()+./;<=\\\\^_~\\[{\\x{85}\\x{A0}-\\x{D7FF}\\x{E\
+                  000}-\\x{FFFD}\\x{010000}-\\x{10FFFF}&&[^\\x{FEFF}]]|-[^\r
+
+                  \t ])"
+            beginCaptures:
+                  "1":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.begin.yaml.textmate
+                  "2":
+                        name: keyword.$2.yaml.textmate
+                  "3":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.end.yaml.textmate
+                  "4":
+                        name: punctuation.whitespace.separator.yaml
+                  "5":
+                        name: punctuation.separator.map.value.yaml
+            name: meta.$2.yaml.textmate
+            patterns:
+                  - begin: (?="|')
+                    while: \G
+                    patterns:
+                          - begin: (?!\G)
+                            while: \G
+                            patterns:
+                                  - include: source.yaml.1.2#presentation-detail
+                          - begin: \G(?=("\.(?>[^\\"]++|\\.)*+)"?+)"|"(?=((?>[^\\"]++|\\.)*+)"?+)
+                            end: '"'
+                            beginCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.begin.yaml
+                            endCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.end.yaml
+                            name: $1$2
+                            patterns:
+                                  - include: "#double-inners"
+                                  - include: "#name_scopes_scopes"
+                                  - include: source.yaml.1.2#double-escape
+                          - comment: https://yaml.org/spec/1.2.2/#single-quoted-style
+                            begin: \G(?=('\.(?>[^']++|'')*+)')'|'(?=((?>[^']++|'')*+)')
+                            end: "'(?!')"
+                            beginCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.begin.yaml
+                            endCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.end.yaml
+                            name: $1$2
+                            patterns:
+                                  - include: "#single-inners"
+                                  - include: "#name_scopes_scopes"
+                  - begin: "(?=[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@` \\p{Cntrl}\\p{Surrogate}\\x{FEFF
+                          FFFE FFFF}]]|[?:-](?![\r
+
+                          \t ]))"
+                    while: \G
+                    patterns:
+                          - begin: "\\G(?=((?>[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@`
+                                  \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE
+                                  FFFF}]]|[?:-](?![\r
+
+                                  \t
+                                  ]))(?>[^:#]++|:(?![\r
+
+                                  \t ])|(?<!
+                                  |\t)#++)*+))"
+                            end: (?=(?>[	 ]++|\G)#)
+                            name: $1
+                            patterns:
+                                  - include: "#block-plain-out-inners"
+                                  - include: "#name_scopes_scopes"
+                          - begin: (?!\G)
+                            while: \G
+                            patterns:
+                                  - include: source.yaml.1.2#presentation-detail
+                  - include: source.yaml.1.2#block-node
+      name_scopes-flow:
+            begin: "(?<quote>[\"']?+)(name)(\\k<quote>)(?=[\t ]*+[\r
+
+                  :]|[\t ]++#)"
+            end: (?=[,\[\]{}])
+            beginCaptures:
+                  "1":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.begin.yaml.textmate
+                  "2":
+                        name: keyword.$2.yaml.textmate
+                  "3":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.end.yaml.textmate
+            name: meta.flow.map.implicit.yaml meta.$2.yaml.textmate
+            patterns:
+                  - begin: ":"
+                    end: (?=[,\]}])
+                    beginCaptures:
+                          "0":
+                                name: punctuation.separator.map.value.yaml
+                    name: meta.flow.pair.value.yaml
+                    patterns:
+                          - begin: (?=("\.(?>[^\\"]++|\\.)*+)"?+)"|"(?=((?>[^\\"]++|\\.)*+)"?+)
+                            end: '"'
+                            beginCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.begin.yaml
+                            endCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.end.yaml
+                            name: $1$2
+                            patterns:
+                                  - include: "#double-inners"
+                                  - include: "#name_scopes_scopes"
+                                  - include: source.yaml.1.2#double-escape
+                          - comment: https://yaml.org/spec/1.2.2/#single-quoted-style
+                            begin: (?=('\.(?>[^']++|'')*+)')'|'(?=((?>[^']++|'')*+)')
+                            end: "'(?!')"
+                            beginCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.begin.yaml
+                            endCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.end.yaml
+                            name: $1$2
+                            patterns:
+                                  - include: "#single-inners"
+                                  - include: "#name_scopes_scopes"
+                          - begin: "(?=((?>[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@`
+                                  \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE
+                                  FFFF}]]|[?:-](?![\r
+
+                                  \t
+                                  ]))(?>[^:#]++|:(?![\r
+
+                                  \t ])|(?<!
+                                  |\t)#++)*+))"
+                            end: (?=(?>[	 ]++|\G)#|[	 ]*+[,\[\]{}])
+                            name: $1
+                            patterns:
+                                  - include: "#block-plain-out-inners"
+                                  - include: "#name_scopes_scopes"
+                          - include: source.yaml.1.2#flow-node
+                  - include: source.yaml.1.2#presentation-detail
+      name_scopes_scopes:
+            patterns:
+                  - match: (?>comment|string|regex|meta\.embedded)\b
+                    name: markup.italic
+                  - match: \w+
+                  - comment: An invalid capture group number does not convert, nor becomes null
+                    match: (\$)(0*)([0-9]{3,1})(?![0-9])
+                    captures:
+                          "1":
+                                name: meta.embedded constant.character.escape.json.tm markup.italic
+                          "2":
+                                name: punctuation.definition.tag.json.tm
+                          "3":
+                                name: constant.numeric.json.tm
+                  - match: (\$)({)(0*)([0-9]{3,1})(:/)(upcase|downcase)(})
+                    captures:
+                          "1":
+                                name: meta.embedded constant.character.escape.json.tm markup.italic.tm
+                          "2":
+                                name: meta.embedded constant.character.escape.json.tm
+                          "3":
+                                name: punctuation.definition.tag.json.tm
+                          "4":
+                                name: constant.numeric.json.tm
+                          "5":
+                                name: constant.character.escape.json.tm
+                          "6":
+                                name: markup.heading.json.tm
+                          "7":
+                                name: meta.embedded constant.character.escape.json.tm
+      comment:
+            begin: \G(?<quote>["']?+)(comment)(\k<quote>)([	 ]*+)(:)
+            while: "\\G(?![?:!\"'0-9A-Za-z$()+./;<=\\\\^_~\\[{\\x{85}\\x{A0}-\\x{D7FF}\\x{E\
+                  000}-\\x{FFFD}\\x{010000}-\\x{10FFFF}&&[^\\x{FEFF}]]|-[^\r
+
+                  \t ])"
+            beginCaptures:
+                  "1":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.begin.yaml.textmate
+                  "2":
+                        name: keyword.$2.yaml.textmate
+                  "3":
+                        name: string.quoted.yaml.textmate
+                              punctuation.definition.string.end.yaml.textmate
+                  "4":
+                        name: punctuation.whitespace.separator.yaml
+                  "5":
+                        name: punctuation.separator.map.value.yaml
+            name: meta.$2.yaml.textmate
+            patterns:
+                  - begin: (?="|')
+                    while: \G
+                    patterns:
+                          - begin: (?!\G)
+                            while: \G
+                            patterns:
+                                  - include: source.yaml.1.2#presentation-detail
+                          - begin: '"'
+                            end: '"'
+                            beginCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.begin.yaml
+                            endCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.end.yaml
+                            name: string.quoted.double.yaml
+                            contentName: comment.yaml.textmate
+                            patterns:
+                                  - include: "#double-inners"
+                                  - include: source.yaml.1.2#double-escape
+                          - comment: https://yaml.org/spec/1.2.2/#single-quoted-style
+                            begin: "'"
+                            end: "'(?!')"
+                            beginCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.begin.yaml
+                            endCaptures:
+                                  "0":
+                                        name: punctuation.definition.string.end.yaml
+                            name: string.quoted.single.yaml
+                            contentName: comment.yaml.textmate
+                            patterns:
+                                  - include: "#single-inners"
+                  - begin: "(?=[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@` \\p{Cntrl}\\p{Surrogate}\\x{FEFF
+                          FFFE FFFF}]]|[?:-](?![\r
+
+                          \t ]))"
+                    while: \G
+                    patterns:
+                          - begin: \G
+                            end: (?=(?>[	 ]++|\G)#)
+                            name: string.unquoted.plain.out.yaml
+                            contentName: comment.yaml.textmate
+                            patterns:
+                                  - include: "#block-plain-out-inners"
+                          - begin: (?!\G)
+                            while: \G
+                            patterns:
+                                  - include: source.yaml.1.2#presentation-detail
+                  - include: source.yaml.1.2#block-node
+      double-inners:
+            patterns:
+                  - match: (?<!")\G[	 ]++
+                    name: punctuation.whitespace.separator.yaml
+                  - match: "[\t ]++$"
+                    name: punctuation.whitespace.separator.yaml
+                  - match: "[^\r\n\t -\\x{10FFFF}]++"
+                    name: invalid.illegal.character.yaml
+      single-inners:
+            patterns:
+                  - match: (?<!')\G[	 ]++
+                    name: punctuation.whitespace.separator.yaml
+                  - match: "[\t ]++$"
+                    name: punctuation.whitespace.separator.yaml
+                  - match: "[^\r\n\t -\\x{10FFFF}]++"
+                    name: invalid.illegal.character.yaml
+                  - match: "''"
+                    name: constant.character.escape.single-quote.yaml
+      block-plain-out-inners:
+            patterns:
+                  - include: source.yaml.1.2#tag-implicit-plain-out
+                  - match: ":(?=[\r\n\t ])"
+                    name: invalid.illegal.multiline-key.yaml
+                  - match: \G[	 ]++
+                    name: punctuation.whitespace.separator.yaml
+                  - match: "[\t ]++$"
+                    name: punctuation.whitespace.separator.yaml
+                  - match: \x{FEFF}
+                    name: invalid.illegal.bom.yaml
+                  - include: source.yaml#non-printable
