@@ -46,13 +46,13 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 		if (cursorCapture == null) {
 			return;
 		}
-		const node = cursorCapture.node;
+		const cursorNode = cursorCapture.node;
 		// vscode.window.showInformationMessage(JSON.stringify(node));
-		const originSelectionRange = toRange(node);
+		const originSelectionRange = toRange(cursorNode);
 		if (!originSelectionRange.contains(position)) {
 			return;
 		}
-		const text = node.text;
+		const cursorText = cursorNode.text;
 		let queryString: string;
 		// vscode.window.showInformationMessage(JSON.stringify(node.text));
 
@@ -65,7 +65,7 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 					const grammars = extension.packageJSON?.contributes?.grammars;
 					if (grammars) {
 						for (const grammar of grammars) {
-							if (grammar.scopeName == text) {
+							if (grammar.scopeName == cursorText) {
 								const uri = vscode.Uri.joinPath(extension.extensionUri, 'package.json');
 								await vscode.workspace.openTextDocument(uri);
 							}
@@ -87,7 +87,7 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 						const grammars = packageJSON?.contributes?.grammars;
 						if (grammars) {
 							for (const grammar of grammars) {
-								if (grammar.scopeName == text) {
+								if (grammar.scopeName == cursorText) {
 									const definitionLink: vscode.DefinitionLink = {
 										originSelectionRange: originSelectionRange, // Underlined text
 										targetUri: textDocument.uri,
@@ -105,13 +105,13 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 				}
 				break;
 			case 'repo':
-				if (text == '$self' || text == '$base') {
+				if (cursorText == '$self' || cursorText == '$base') {
 					return;
 				}
 				// Call ReferenceProvider() (see at bottom)
 				break;
 			case 'include':
-				if (node.childForFieldName('base')) { // $base
+				if (cursorNode.childForFieldName('base')) { // $base
 					// Call ReferenceProvider() (see at bottom)
 					break;
 				}
@@ -120,10 +120,10 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 				const rootScopeNameNode = queryNode(tree.rootNode, queryString).pop()?.node ?? null;
 				const rootScopeNameText = rootScopeNameNode?.text ?? '';
 
-				const scopeName = node.childForFieldName('scopeName')?.text ?? '';
-				const ruleName = node.childForFieldName('ruleName')?.text ?? '';
+				const scopeName = cursorNode.childForFieldName('scopeName')?.text ?? '';
+				const ruleName = cursorNode.childForFieldName('ruleName')?.text ?? '';
 				queryString = `(json (patterns) @patterns)`;
-				if ((node.childForFieldName('self') && !scopeName) || (scopeName == rootScopeNameText && !ruleName)) { // $self
+				if ((cursorNode.childForFieldName('self') && !scopeName) || (scopeName == rootScopeNameText && !ruleName)) { // $self
 					const rootPatternsNode = queryNode(tree.rootNode, queryString).pop()?.node;
 					if (!rootPatternsNode) {
 						break;
@@ -143,7 +143,7 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 					break;
 				}
 				if (!scopeName || scopeName == rootScopeNameText) { // #include
-					if (!node.childForFieldName('sharp')) {
+					if (!cursorNode.childForFieldName('sharp')) {
 						break;
 					}
 					const nestedRepoQuery = `;scm
@@ -234,9 +234,9 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 				}
 				break;
 			case 'replace': {
-				const nameNode = node.parent!.parent!.parent!;
+				const nameNode = cursorNode.parent!.parent!.parent!;
 				const quadParent = nameNode.parent!;
-				const replaceGroup = (nameNode.type == 'name' ? getRegexGroup(trees, quadParent, node, 'match') : null) ?? getRegexGroup(trees, quadParent, node, 'begin');
+				const replaceGroup = (nameNode.type == 'name' ? getRegexGroup(trees, quadParent, cursorNode, 'match') : null) ?? getRegexGroup(trees, quadParent, cursorNode, 'begin');
 				if (pushDefinitionLink(definitions, replaceGroup, originSelectionRange, uri)) {
 					break;
 				}
@@ -245,7 +245,7 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 				const sextParent = quintParent.parent!;
 
 				if (quintParent.type == 'captures') {
-					const matchReplaceGroup = getRegexGroup(trees, sextParent, node, 'match');
+					const matchReplaceGroup = getRegexGroup(trees, sextParent, cursorNode, 'match');
 					if (pushDefinitionLink(definitions, matchReplaceGroup, originSelectionRange, uri)) {
 						break;
 					}
@@ -254,13 +254,13 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 						break;
 					}
 					if (!getLastNode(sextParent, 'beginCaptures')) {
-						const beginReplaceGroup = getRegexGroup(trees, sextParent, node, 'begin');
+						const beginReplaceGroup = getRegexGroup(trees, sextParent, cursorNode, 'begin');
 						pushDefinitionLink(definitions, beginReplaceGroup, originSelectionRange, uri);
 					}
 
 					if (sextParent.childForFieldName('while')) {
 						if (!sextParent.childForFieldName('whileCaptures')) {
-							const whileReplaceGroup = getRegexGroup(trees, sextParent, node, 'while');
+							const whileReplaceGroup = getRegexGroup(trees, sextParent, cursorNode, 'while');
 							pushDefinitionLink(definitions, whileReplaceGroup, originSelectionRange, uri);
 						}
 						break;
@@ -268,7 +268,7 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 
 					if (sextParent.childForFieldName('end')) {
 						if (!sextParent.childForFieldName('endCaptures')) {
-							const endReplaceGroup = getRegexGroup(trees, sextParent, node, 'end');
+							const endReplaceGroup = getRegexGroup(trees, sextParent, cursorNode, 'end');
 							pushDefinitionLink(definitions, endReplaceGroup, originSelectionRange, uri);
 						}
 					}
@@ -276,21 +276,21 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 				}
 
 				if (quintParent.type == 'beginCaptures') {
-					const beginReplaceGroup = getRegexGroup(trees, sextParent, node, 'begin');
+					const beginReplaceGroup = getRegexGroup(trees, sextParent, cursorNode, 'begin');
 					if (pushDefinitionLink(definitions, beginReplaceGroup, originSelectionRange, uri)) {
 						break;
 					}
 				}
 
 				if (quintParent.type == 'endCaptures') {
-					const endReplaceGroup = getRegexGroup(trees, sextParent, node, 'end');
+					const endReplaceGroup = getRegexGroup(trees, sextParent, cursorNode, 'end');
 					if (pushDefinitionLink(definitions, endReplaceGroup, originSelectionRange, uri)) {
 						break;
 					}
 				}
 
 				if (quintParent.type == 'whileCaptures') {
-					const whileReplaceGroup = getRegexGroup(trees, sextParent, node, 'while');
+					const whileReplaceGroup = getRegexGroup(trees, sextParent, cursorNode, 'while');
 					if (pushDefinitionLink(definitions, whileReplaceGroup, originSelectionRange, uri)) {
 						break;
 					}
@@ -299,10 +299,10 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 				break;
 			}
 			case 'capture': {
-				const tripleParent = node.parent!.parent!.parent!;
+				const tripleParent = cursorNode.parent!.parent!.parent!;
 
 				if (tripleParent.childForFieldName('match')) {
-					const matchNode = getRegexGroup(trees, tripleParent, node, 'match');
+					const matchNode = getRegexGroup(trees, tripleParent, cursorNode, 'match');
 					pushDefinitionLink(definitions, matchNode, originSelectionRange, uri);
 					break;
 				}
@@ -311,38 +311,38 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 					break;
 				}
 				if (!getLastNode(tripleParent, 'beginCaptures')) {
-					const beginNode = getRegexGroup(trees, tripleParent, node, 'begin');
+					const beginNode = getRegexGroup(trees, tripleParent, cursorNode, 'begin');
 					pushDefinitionLink(definitions, beginNode, originSelectionRange, uri);
 				}
 
 				if (tripleParent.childForFieldName('while')) {
 					if (!tripleParent.childForFieldName('whileCaptures')) {
-						const whileNode = getRegexGroup(trees, tripleParent, node, 'while');
+						const whileNode = getRegexGroup(trees, tripleParent, cursorNode, 'while');
 						pushDefinitionLink(definitions, whileNode, originSelectionRange, uri);
 					}
 					break;
 				}
 
 				if (!tripleParent.childForFieldName('endCaptures')) {
-					const endNode = getRegexGroup(trees, tripleParent, node, 'end');
+					const endNode = getRegexGroup(trees, tripleParent, cursorNode, 'end');
 					pushDefinitionLink(definitions, endNode, originSelectionRange, uri);
 				}
 				break;
 			}
 			case 'beginCapture':
-				const beginNode = getRegexGroup(trees, node.parent!.parent!.parent!, node, 'begin');
+				const beginNode = getRegexGroup(trees, cursorNode.parent!.parent!.parent!, cursorNode, 'begin');
 				pushDefinitionLink(definitions, beginNode, originSelectionRange, uri);
 				break;
 			case 'endCapture':
-				const endNode = getRegexGroup(trees, node.parent!.parent!.parent!, node, 'end');
+				const endNode = getRegexGroup(trees, cursorNode.parent!.parent!.parent!, cursorNode, 'end');
 				pushDefinitionLink(definitions, endNode, originSelectionRange, uri);
 				break;
 			case 'whileCapture':
-				const whileNode = getRegexGroup(trees, node.parent!.parent!.parent!, node, 'while');
+				const whileNode = getRegexGroup(trees, cursorNode.parent!.parent!.parent!, cursorNode, 'while');
 				pushDefinitionLink(definitions, whileNode, originSelectionRange, uri);
 				break;
 			case 'regex':
-				const regexGroupRefs = getCaptureRefs(trees, node, position);
+				const regexGroupRefs = getCaptureRefs(trees, cursorNode, position);
 				if (!regexGroupRefs) {
 					return;
 				}
@@ -364,7 +364,7 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 
 		if (definitions.length == 0) {
 			// vscode will automatically run the ReferenceProvider() if the only location overlaps with the input
-			pushDefinitionLink(definitions, node.parent!, originSelectionRange, uri);
+			pushDefinitionLink(definitions, cursorNode.parent, originSelectionRange, uri);
 		}
 
 		previous = {
