@@ -1,0 +1,524 @@
+>// SYNTAX TEST "source.swift.gyb" "Character struct"
+#^^ source.textmate.tmgrammar comment.line.tmgrammar comment.line.character.tmgrammar
+#  ^ source.textmate.tmgrammar comment.line.tmgrammar
+#   ^^^^^^^^^^^ source.textmate.tmgrammar comment.line.tmgrammar keyword.tmgrammar
+#              ^ source.textmate.tmgrammar comment.line.tmgrammar
+#               ^ source.textmate.tmgrammar string.quoted.double.scopeName.tmgrammar
+#                ^^^^^^^ source.textmate.tmgrammar string.quoted.double.scopeName.tmgrammar support.function.tmgrammar
+#                       ^^^^^ source.textmate.tmgrammar string.quoted.double.scopeName.tmgrammar
+#                            ^ source.textmate.tmgrammar string.quoted.double.scopeName.tmgrammar support.function.tmgrammar
+#                             ^^^^ source.textmate.tmgrammar string.quoted.double.scopeName.tmgrammar
+#                                 ^ source.textmate.tmgrammar comment.line.tmgrammar
+#                                  ^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar comment.line.tmgrammar string.quoted.name.tmgrammar
+>
+>//===----------------------------------------------------------------------===//
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>//
+#^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>// This source file is part of the SwiftCrypto open source project
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>//
+#^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>// Copyright (c) 2024 Apple Inc. and the SwiftCrypto project authors
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>// Licensed under Apache License v2.0
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>//
+#^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>// See LICENSE.txt for license information
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>// See CONTRIBUTORS.txt for the list of SwiftCrypto project authors
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>//
+#^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>// SPDX-License-Identifier: Apache-2.0
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>//
+#^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>//===----------------------------------------------------------------------===//
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>
+>%{
+#^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>// <- keyword.control.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^ source.textmate.tmgrammar
+#   ^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#     ^ source.textmate.tmgrammar
+#      ^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.gyb
+>// <~- punctuation.section.block.begin.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^ source.textmate.tmgrammar
+#   ^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#      ^ source.textmate.tmgrammar
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.section.block.begin.gyb
+>    abilities = ['strength', 'perception', 'endurance', 'charisma', 'intelligence', 'agility', 'luck']
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>//            ^ keyword.operator.assignment.python
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^ source.textmate.tmgrammar
+#              ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#               ^ source.textmate.tmgrammar
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.operator.assignment.python
+>//              ^ punctuation.definition.list.begin.python
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                 ^ source.textmate.tmgrammar
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.list.begin.python
+>//               ^ punctuation.definition.string.begin.python
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                 ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                  ^ source.textmate.tmgrammar
+#                   ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.python
+#                                          ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.python markup.italic
+#                                                ^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.python
+>//                ^^^^^^^^ string.quoted.single.python
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                  ^^^^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                          ^ source.textmate.tmgrammar
+#                           ^^^^^^ source.textmate.tmgrammar string.quoted.single.python markup.italic
+#                                 ^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.quoted.single.python
+>//                        ^ punctuation.definition.string.end.python
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                          ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                           ^ source.textmate.tmgrammar
+#                            ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.python
+#                                                   ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.python markup.italic
+#                                                         ^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.python
+>//                         ^ punctuation.separator.element.python
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                           ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                            ^ source.textmate.tmgrammar
+#                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.separator.element.python
+>}%
+#^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>// <- punctuation.section.block.end.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^ source.textmate.tmgrammar
+#   ^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#     ^ source.textmate.tmgrammar
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.section.block.end.gyb
+>// <~- keyword.control.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^ source.textmate.tmgrammar
+#   ^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#      ^ source.textmate.tmgrammar
+#       ^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.gyb
+>
+>enum Hello {}
+#^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>
+>% for ability in abilities:
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>// <- keyword.control.flow.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^ source.textmate.tmgrammar
+#   ^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#     ^ source.textmate.tmgrammar
+#      ^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.flow.gyb
+>// <~~--- keyword.control.flow.python
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^ source.textmate.tmgrammar
+#   ^^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#         ^ source.textmate.tmgrammar
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.flow.python
+>//            ^^ keyword.control.flow.python
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^ source.textmate.tmgrammar
+#              ^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                ^ source.textmate.tmgrammar
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.flow.python
+>//                        ^ punctuation.separator.colon.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                          ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                           ^ source.textmate.tmgrammar
+#                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.separator.colon.gyb
+>print("${ability}")
+#^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>// <----- support.function.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^ source.textmate.tmgrammar
+#   ^^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#         ^ source.textmate.tmgrammar
+#          ^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar support.function.swift
+>//   ^ punctuation.definition.arguments.begin.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^ source.textmate.tmgrammar
+#     ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#      ^ source.textmate.tmgrammar
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.arguments.begin.swift
+>//    ^ punctuation.definition.string.begin.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^ source.textmate.tmgrammar
+#      ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#       ^ source.textmate.tmgrammar
+#        ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.swift
+#                               ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.swift markup.italic
+#                                     ^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.swift
+>//     ^ variable.other.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^ source.textmate.tmgrammar
+#       ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#        ^ source.textmate.tmgrammar
+#         ^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar variable.other.gyb
+>//      ^ punctuation.section.expression.begin.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^ source.textmate.tmgrammar
+#        ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#         ^ source.textmate.tmgrammar
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.section.expression.begin.gyb
+>//              ^ punctuation.section.expression.end.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                 ^ source.textmate.tmgrammar
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.section.expression.end.gyb
+>//               ^ punctuation.definition.string.end.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                 ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                  ^ source.textmate.tmgrammar
+#                   ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.swift
+#                                          ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.swift markup.italic
+#                                                ^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.swift
+>//                ^ punctuation.definition.arguments.end.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                  ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                   ^ source.textmate.tmgrammar
+#                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.arguments.end.swift
+>% end
+#^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>// <----- meta.embedded.control.end.gyb keyword.control.flow.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^ source.textmate.tmgrammar
+#   ^^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#         ^ source.textmate.tmgrammar
+#          ^^^^^^^^^^^^^ source.textmate.tmgrammar meta.embedded.control.end.gyb markup.italic
+#                       ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.embedded.control.end.gyb
+#                                       ^ source.textmate.tmgrammar
+#                                        ^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.flow.gyb
+>
+>struct Character {
+#^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>// <------ storage.type.struct.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^ source.textmate.tmgrammar
+#   ^^^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#          ^ source.textmate.tmgrammar
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar storage.type.struct.swift
+>//     ^^^^^^^^^ entity.name.type.struct.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^ source.textmate.tmgrammar
+#       ^^^^^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                ^ source.textmate.tmgrammar
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar entity.name.type.struct.swift
+>//               ^ punctuation.definition.type.begin.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                 ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                  ^ source.textmate.tmgrammar
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.type.begin.swift
+>    let name: String
+#^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>//  ^^^ keyword.other.declaration-specifier.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^ source.textmate.tmgrammar
+#    ^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#       ^ source.textmate.tmgrammar
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.other.declaration-specifier.swift
+>//      ^^^^ meta.definition.type.body.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^ source.textmate.tmgrammar
+#        ^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#            ^ source.textmate.tmgrammar
+#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.definition.type.body.swift
+>//            ^^^^^^ support.type.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^ source.textmate.tmgrammar
+#              ^^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                    ^ source.textmate.tmgrammar
+#                     ^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar support.type.swift
+>
+>    % for ability in abilities:
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>//  ^ keyword.control.flow.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^ source.textmate.tmgrammar
+#    ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#     ^ source.textmate.tmgrammar
+#      ^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.flow.gyb
+>//    ^^^ keyword.control.flow.python
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^ source.textmate.tmgrammar
+#      ^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#         ^ source.textmate.tmgrammar
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.flow.python
+>//                ^^ keyword.control.flow.python
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                  ^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                    ^ source.textmate.tmgrammar
+#                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.flow.python
+>//                            ^ punctuation.separator.colon.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                              ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                               ^ source.textmate.tmgrammar
+#                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.separator.colon.gyb
+>    let ${ability}: Int
+#^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>//  ^^^ keyword.other.declaration-specifier.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^ source.textmate.tmgrammar
+#    ^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#       ^ source.textmate.tmgrammar
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.other.declaration-specifier.swift
+>//      ^ variable.other.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^ source.textmate.tmgrammar
+#        ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#         ^ source.textmate.tmgrammar
+#          ^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar variable.other.gyb
+>//      ^^ punctuation.section.expression.begin.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^ source.textmate.tmgrammar
+#        ^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#          ^ source.textmate.tmgrammar
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.section.expression.begin.gyb
+>//               ^ punctuation.section.expression.end.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                 ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                  ^ source.textmate.tmgrammar
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.section.expression.end.gyb
+>    % end
+#^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>//  ^^^^^ meta.embedded.control.end.gyb keyword.control.flow.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^ source.textmate.tmgrammar
+#    ^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#         ^ source.textmate.tmgrammar
+#          ^^^^^^^^^^^^^ source.textmate.tmgrammar meta.embedded.control.end.gyb markup.italic
+#                       ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.embedded.control.end.gyb
+#                                       ^ source.textmate.tmgrammar
+#                                        ^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.flow.gyb
+>
+>    %{
+#^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>//  ^ keyword.control.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^ source.textmate.tmgrammar
+#    ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#     ^ source.textmate.tmgrammar
+#      ^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.gyb
+>//   ^ punctuation.section.block.begin.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^ source.textmate.tmgrammar
+#     ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#      ^ source.textmate.tmgrammar
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.section.block.begin.gyb
+>        for i in range(10):
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>//               ^^^^^ support.function.builtin.python
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                 ^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                      ^ source.textmate.tmgrammar
+#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar support.function.builtin.python
+>            print(i)
+#^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>    }%
+#^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>//  ^ punctuation.section.block.end.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^ source.textmate.tmgrammar
+#    ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#     ^ source.textmate.tmgrammar
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.section.block.end.gyb
+>//   ^ keyword.control.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^ source.textmate.tmgrammar
+#     ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#      ^ source.textmate.tmgrammar
+#       ^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.gyb
+>
+>    enum Error {
+#^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>        case notFound
+#^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>
+>        % for ability in abilities:
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>        case ${ability}
+#^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>        % end
+#^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>    }
+#^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>}
+#^ source.textmate.tmgrammar string.other.code.tmgrammar
+>// <- punctuation.definition.type.end.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^ source.textmate.tmgrammar
+#   ^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#     ^ source.textmate.tmgrammar
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.type.end.swift
+>
+>enum World {}
+#^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>
+>% for ability in abilities:
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>// <- keyword.control.flow.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^ source.textmate.tmgrammar
+#   ^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#     ^ source.textmate.tmgrammar
+#      ^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.flow.gyb
+>// <~~--- keyword.control.flow.python
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^ source.textmate.tmgrammar
+#   ^^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#         ^ source.textmate.tmgrammar
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.flow.python
+>//            ^^ keyword.control.flow.python
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^ source.textmate.tmgrammar
+#              ^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                ^ source.textmate.tmgrammar
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.flow.python
+>//                        ^ punctuation.separator.colon.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                          ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                           ^ source.textmate.tmgrammar
+#                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.separator.colon.gyb
+>print("${ability}")
+#^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>// <----- support.function.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^ source.textmate.tmgrammar
+#   ^^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#         ^ source.textmate.tmgrammar
+#          ^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar support.function.swift
+>//   ^ punctuation.definition.arguments.begin.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^ source.textmate.tmgrammar
+#     ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#      ^ source.textmate.tmgrammar
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.arguments.begin.swift
+>//    ^ punctuation.definition.string.begin.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^ source.textmate.tmgrammar
+#      ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#       ^ source.textmate.tmgrammar
+#        ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.swift
+#                               ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.swift markup.italic
+#                                     ^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.swift
+>//     ^ variable.other.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^ source.textmate.tmgrammar
+#       ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#        ^ source.textmate.tmgrammar
+#         ^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar variable.other.gyb
+>//      ^ punctuation.section.expression.begin.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^ source.textmate.tmgrammar
+#        ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#         ^ source.textmate.tmgrammar
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.section.expression.begin.gyb
+>//              ^ punctuation.section.expression.end.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                 ^ source.textmate.tmgrammar
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.section.expression.end.gyb
+>//               ^ punctuation.definition.string.end.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                 ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                  ^ source.textmate.tmgrammar
+#                   ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.swift
+#                                          ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.swift markup.italic
+#                                                ^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.swift
+>//                ^ punctuation.definition.arguments.end.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                  ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                   ^ source.textmate.tmgrammar
+#                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.arguments.end.swift
+>% end
+#^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>// <----- meta.embedded.control.end.gyb keyword.control.flow.gyb
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^ source.textmate.tmgrammar
+#   ^^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#         ^ source.textmate.tmgrammar
+#          ^^^^^^^^^^^^^ source.textmate.tmgrammar meta.embedded.control.end.gyb markup.italic
+#                       ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.embedded.control.end.gyb
+#                                       ^ source.textmate.tmgrammar
+#                                        ^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.flow.gyb
+>
+>struct SimpleCharacter {
+#^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>// <------ storage.type.struct.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^ source.textmate.tmgrammar
+#   ^^^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#          ^ source.textmate.tmgrammar
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar storage.type.struct.swift
+>//     ^^^^^^^^^^^^^^^ entity.name.type.struct.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^ source.textmate.tmgrammar
+#       ^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                      ^ source.textmate.tmgrammar
+#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar entity.name.type.struct.swift
+>//                     ^ punctuation.definition.type.begin.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                       ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                        ^ source.textmate.tmgrammar
+#                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.type.begin.swift
+>    let name: String
+#^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>//  ^^^ keyword.other.declaration-specifier.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^ source.textmate.tmgrammar
+#    ^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#       ^ source.textmate.tmgrammar
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.other.declaration-specifier.swift
+>//      ^^^^ meta.definition.type.body.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^ source.textmate.tmgrammar
+#        ^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#            ^ source.textmate.tmgrammar
+#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.definition.type.body.swift
+>//            ^^^^^^ support.type.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^^^^^^^^^^^^ source.textmate.tmgrammar
+#              ^^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#                    ^ source.textmate.tmgrammar
+#                     ^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar support.type.swift
+>
+>    % for ability in abilities:
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>    let ${ability}: Int
+#^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>    % end
+#^^^^^^^^^ source.textmate.tmgrammar string.other.code.tmgrammar
+>}
+#^ source.textmate.tmgrammar string.other.code.tmgrammar
+>// <- punctuation.definition.type.end.swift
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^ source.textmate.tmgrammar
+#   ^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#     ^ source.textmate.tmgrammar
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.type.end.swift
+>

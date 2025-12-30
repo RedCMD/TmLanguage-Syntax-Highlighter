@@ -1,0 +1,49 @@
+{
+	"$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
+	"comment": "https://github.com/PanAeon/vscode-tmgrammar-test",
+	"name": "vscode-tmgrammar-test injection",
+	"scopeName": "source.textmate.tmgrammar.injection",
+	"injectionSelector": "R:comment.line -meta.embedded.tmgrammar",
+	"patterns": [
+		{ "include": "#SYNTAX_TEST" },
+		{ "include": "#scope-line" }
+	],
+	"repository": {
+		"SYNTAX_TEST": {
+			"match": "(?<=^[^^\\w\\s]{1,5})\\G\\s+(SYNTAX\\s+TEST)(?>\\s+(\"[^\"]+\")(?>\\s+(\"[^\"]+\"))?)?[\\t ]*$",
+			"captures": {
+				"1": { "name": "keyword.tmgrammar" },
+				"2": {
+					"name": "string.quoted.double.scopeName.tmgrammar",
+					"patterns": [
+						{
+							"match": "(?<=\")(?>source|text)\\.",
+							"name": "support.function.tmgrammar"
+						},
+						{
+							"match": "\\.",
+							"name": "support.function.tmgrammar"
+						},
+						{
+							"match": "\\b(?>comment|string|regex|meta\\.embedded)\\b",
+							"name": "markup.italic"
+						}
+					]
+				},
+				"3": { "name": "string.quoted.name.tmgrammar" }
+			},
+			"name": "comment.line.tmgrammar"
+		},
+		"scope-line": {
+			"begin": "(?<=^[^^\\w\\s]{1,5})\\G\\s*(\\^+(?:\\s*\\^+)*|<~*-+)\\s*(?=[-\\w])",
+			"end": "(?!\\G)",
+			"beginCaptures": { "1": { "name": "keyword.control.marker.tmgrammar" } },
+			"name": "meta.embedded.tmgrammar",
+			"applyEndPatternLast": 1,
+			"patterns": [
+				{ "match": "[\\t ]+" },
+				{ "include": "source.textmate.tmgrammar#scopes" }
+			]
+		}
+	}
+}

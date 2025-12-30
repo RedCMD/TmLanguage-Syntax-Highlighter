@@ -1,0 +1,27 @@
+{
+	"$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
+	"comment": "https://github.com/PanAeon/vscode-tmgrammar-test",
+	"name": "vscode-tmgrammar-test comment-block/multiline-strings/meta.embedded languages injections",
+	"scopeName": "source.textmate.tmgrammar.blocks.injection",
+	"injectionSelector": "R:(comment.block | string | meta.embedded) -meta.embedded.tmgrammar",
+	"patterns": [
+		{ "include": "#scope-line" }
+	],
+	"repository": {
+		"scope-line": {
+			"comment": "(*ERROR) helps with performance on very long lines. Due to ^ seemingly not having an optimization",
+			"begin": "^([^^\\w\\s]{1,5})\\s*(\\^+(?:\\s*\\^+)*|<~*-+)\\s*(?=[-\\w])|(*ERROR)",
+			"end": "(?!\\G)",
+			"beginCaptures": {
+				"1": { "name": "comment.line.character.tmgrammar" },
+				"2": { "name": "keyword.control.marker.tmgrammar" }
+			},
+			"name": "meta.embedded.tmgrammar",
+			"applyEndPatternLast": 1,
+			"patterns": [
+				{ "match": "[\\t ]+" },
+				{ "include": "source.textmate.tmgrammar#scopes" }
+			]
+		}
+	}
+}

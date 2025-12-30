@@ -1,0 +1,34 @@
+original file
+-----------------------------------
+let regex = /**/ /foo/;
+-----------------------------------
+
+Grammar: TypeScript.tmLanguage
+-----------------------------------
+>let regex = /**/ /foo/;
+ ^^^
+ source.ts meta.var.expr.ts storage.type.ts
+    ^
+    source.ts meta.var.expr.ts
+     ^^^^^
+     source.ts meta.var.expr.ts meta.var-single-variable.expr.ts meta.definition.variable.ts variable.other.readwrite.ts
+          ^
+          source.ts meta.var.expr.ts meta.var-single-variable.expr.ts
+           ^
+           source.ts meta.var.expr.ts keyword.operator.assignment.ts
+            ^
+            source.ts meta.var.expr.ts
+             ^^
+             source.ts meta.var.expr.ts comment.block.ts punctuation.definition.comment.ts
+               ^^
+               source.ts meta.var.expr.ts comment.block.ts punctuation.definition.comment.ts
+                 ^
+                 source.ts meta.var.expr.ts string.regexp.ts
+                  ^
+                  source.ts meta.var.expr.ts string.regexp.ts punctuation.definition.string.begin.ts
+                   ^^^
+                   source.ts meta.var.expr.ts string.regexp.ts
+                      ^
+                      source.ts meta.var.expr.ts string.regexp.ts punctuation.definition.string.end.ts
+                       ^
+                       source.ts punctuation.terminator.statement.ts

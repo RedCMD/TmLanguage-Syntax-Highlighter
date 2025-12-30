@@ -1,0 +1,181 @@
+>original file
+#^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.tmgrammar
+>-----------------------------------
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar markup.heading.original-file.tmgrammar
+>let regex = /**/ /foo/;
+#^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.embedded.typescript
+>-----------------------------------
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar markup.heading.original-file.tmgrammar
+>
+>Grammar: TypeScript.tmLanguage
+#^^^^^^^^ source.textmate.tmgrammar support.type.property-name.tmgrammar
+#        ^ source.textmate.tmgrammar
+#         ^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.grammar-filename.tmgrammar
+>-----------------------------------
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar markup.heading.original-file.tmgrammar
+>>let regex = /**/ /foo/;
+#^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+# ^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.embedded.typescript
+> ^^^
+#^ source.textmate.tmgrammar
+# ^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+> source.ts meta.var.expr.ts storage.type.ts
+#^ source.textmate.tmgrammar
+# ^^^^^^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar support.function.tmgrammar
+#        ^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar
+#          ^ source.textmate.tmgrammar
+#           ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var.expr.ts
+#                           ^ source.textmate.tmgrammar
+#                            ^^^^^^^^^^^^^^^ source.textmate.tmgrammar storage.type.ts
+>    ^
+#^^^^ source.textmate.tmgrammar
+#    ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+>    source.ts meta.var.expr.ts
+#^^^^ source.textmate.tmgrammar
+#    ^^^^^^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar support.function.tmgrammar
+#           ^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar
+#             ^ source.textmate.tmgrammar
+#              ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var.expr.ts
+>     ^^^^^
+#^^^^^ source.textmate.tmgrammar
+#     ^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+>     source.ts meta.var.expr.ts meta.var-single-variable.expr.ts meta.definition.variable.ts variable.other.readwrite.ts
+#^^^^^ source.textmate.tmgrammar
+#     ^^^^^^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar support.function.tmgrammar
+#            ^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar
+#              ^ source.textmate.tmgrammar
+#               ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var.expr.ts
+#                               ^ source.textmate.tmgrammar
+#                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var-single-variable.expr.ts
+#                                                                ^ source.textmate.tmgrammar
+#                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.definition.variable.ts
+#                                                                                            ^ source.textmate.tmgrammar
+#                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar variable.other.readwrite.ts
+>          ^
+#^^^^^^^^^^ source.textmate.tmgrammar
+#          ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+>          source.ts meta.var.expr.ts meta.var-single-variable.expr.ts
+#^^^^^^^^^^ source.textmate.tmgrammar
+#          ^^^^^^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar support.function.tmgrammar
+#                 ^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar
+#                   ^ source.textmate.tmgrammar
+#                    ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var.expr.ts
+#                                    ^ source.textmate.tmgrammar
+#                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var-single-variable.expr.ts
+>           ^
+#^^^^^^^^^^^ source.textmate.tmgrammar
+#           ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+>           source.ts meta.var.expr.ts keyword.operator.assignment.ts
+#^^^^^^^^^^^ source.textmate.tmgrammar
+#           ^^^^^^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar support.function.tmgrammar
+#                  ^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar
+#                    ^ source.textmate.tmgrammar
+#                     ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var.expr.ts
+#                                     ^ source.textmate.tmgrammar
+#                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.operator.assignment.ts
+>            ^
+#^^^^^^^^^^^^ source.textmate.tmgrammar
+#            ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+>            source.ts meta.var.expr.ts
+#^^^^^^^^^^^^ source.textmate.tmgrammar
+#            ^^^^^^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar support.function.tmgrammar
+#                   ^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar
+#                     ^ source.textmate.tmgrammar
+#                      ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var.expr.ts
+>             ^^
+#^^^^^^^^^^^^^ source.textmate.tmgrammar
+#             ^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+>             source.ts meta.var.expr.ts comment.block.ts punctuation.definition.comment.ts
+#^^^^^^^^^^^^^ source.textmate.tmgrammar
+#             ^^^^^^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar support.function.tmgrammar
+#                    ^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar
+#                      ^ source.textmate.tmgrammar
+#                       ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var.expr.ts
+#                                       ^ source.textmate.tmgrammar
+#                                        ^^^^^^^ source.textmate.tmgrammar comment.block.ts markup.italic
+#                                               ^^^^^^^^^ source.textmate.tmgrammar comment.block.ts
+#                                                        ^ source.textmate.tmgrammar
+#                                                         ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.comment.ts
+#                                                                                ^^^^^^^ source.textmate.tmgrammar punctuation.definition.comment.ts markup.italic
+#                                                                                       ^^^ source.textmate.tmgrammar punctuation.definition.comment.ts
+>               ^^
+#^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#               ^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+>               source.ts meta.var.expr.ts comment.block.ts punctuation.definition.comment.ts
+#^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#               ^^^^^^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar support.function.tmgrammar
+#                      ^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar
+#                        ^ source.textmate.tmgrammar
+#                         ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var.expr.ts
+#                                         ^ source.textmate.tmgrammar
+#                                          ^^^^^^^ source.textmate.tmgrammar comment.block.ts markup.italic
+#                                                 ^^^^^^^^^ source.textmate.tmgrammar comment.block.ts
+#                                                          ^ source.textmate.tmgrammar
+#                                                           ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.comment.ts
+#                                                                                  ^^^^^^^ source.textmate.tmgrammar punctuation.definition.comment.ts markup.italic
+#                                                                                         ^^^ source.textmate.tmgrammar punctuation.definition.comment.ts
+>                 ^
+#^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                 ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+>                 source.ts meta.var.expr.ts string.regexp.ts
+#^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                 ^^^^^^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar support.function.tmgrammar
+#                        ^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar
+#                          ^ source.textmate.tmgrammar
+#                           ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var.expr.ts
+#                                           ^ source.textmate.tmgrammar
+#                                            ^^^^^^ source.textmate.tmgrammar string.regexp.ts markup.italic
+#                                                  ^^^^^^^^^^ source.textmate.tmgrammar string.regexp.ts
+>                  ^
+#^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                  ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+>                  source.ts meta.var.expr.ts string.regexp.ts punctuation.definition.string.begin.ts
+#^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                  ^^^^^^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar support.function.tmgrammar
+#                         ^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar
+#                           ^ source.textmate.tmgrammar
+#                            ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var.expr.ts
+#                                            ^ source.textmate.tmgrammar
+#                                             ^^^^^^ source.textmate.tmgrammar string.regexp.ts markup.italic
+#                                                   ^^^^^^^^^^ source.textmate.tmgrammar string.regexp.ts
+#                                                             ^ source.textmate.tmgrammar
+#                                                              ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.ts
+#                                                                                     ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.ts markup.italic
+#                                                                                           ^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.ts
+>                   ^^^
+#^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                   ^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+>                   source.ts meta.var.expr.ts string.regexp.ts
+#^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                   ^^^^^^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar support.function.tmgrammar
+#                          ^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar
+#                            ^ source.textmate.tmgrammar
+#                             ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var.expr.ts
+#                                             ^ source.textmate.tmgrammar
+#                                              ^^^^^^ source.textmate.tmgrammar string.regexp.ts markup.italic
+#                                                    ^^^^^^^^^^ source.textmate.tmgrammar string.regexp.ts
+>                      ^
+#^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                      ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+>                      source.ts meta.var.expr.ts string.regexp.ts punctuation.definition.string.end.ts
+#^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                      ^^^^^^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar support.function.tmgrammar
+#                             ^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar
+#                               ^ source.textmate.tmgrammar
+#                                ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var.expr.ts
+#                                                ^ source.textmate.tmgrammar
+#                                                 ^^^^^^ source.textmate.tmgrammar string.regexp.ts markup.italic
+#                                                       ^^^^^^^^^^ source.textmate.tmgrammar string.regexp.ts
+#                                                                 ^ source.textmate.tmgrammar
+#                                                                  ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.ts
+#                                                                                         ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.ts markup.italic
+#                                                                                               ^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.ts
+>                       ^
+#^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                       ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+>                       source.ts punctuation.terminator.statement.ts
+#^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
+#                       ^^^^^^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar support.function.tmgrammar
+#                              ^^ source.textmate.tmgrammar source.ts string.scopeName.tmgrammar
+#                                ^ source.textmate.tmgrammar
+#                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.terminator.statement.ts

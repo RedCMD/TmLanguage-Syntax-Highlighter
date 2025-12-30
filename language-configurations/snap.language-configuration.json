@@ -23,5 +23,5 @@
 	],
 	// symbols that can be coloured
 	"colorizedBracketPairs": [ ],
-	"wordPattern": "[\\w$.-]+",
+	"wordPattern": "\\w[\\w$.-]*",
 }

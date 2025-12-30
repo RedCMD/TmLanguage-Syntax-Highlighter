@@ -172,8 +172,14 @@
 				],
 				"extensions": [
 					".snap",
-					".baseline.txt"
+					".baseline.txt",
+					".hitt"
 				],
+				"filenamePatterns": [
+					"**/tests/baselines/**/*.txt",
+					"**/syntaxes/fixtures/baselines/*.txt"
+				],
+				"firstLine": "^\\S+\\s+SYNTAX\\s+TEST\\s+\"[^\"]+\"(\\s+\"[^\"]+\")?\\s*$|^original file$",
 				"configuration": "./language-configurations/snap.language-configuration.json",
 				"icon": {
 					"dark": "assets/TextMate-file-icon.svg",
@@ -245,7 +251,36 @@
 			{
 				"language": "tmgrammar-test",
 				"scopeName": "source.textmate.tmgrammar",
-				"path": "./syntaxes/tmgrammar-test.tmLanguage.json"
+				"path": "./syntaxes/tmgrammar-test.tmLanguage.json",
+				"embeddedLanguages": {
+					"meta.embedded.typescript": "typescript",
+					"meta.embedded.block.json.textmate": "json-textmate",
+					"meta.embedded.block.json.textmate.regexp": "json-textmate-regex"
+				}
+			},
+			{
+				"scopeName": "source.textmate.tmgrammar.injection",
+				"path": "./syntaxes/tmgrammar-injection.tmLanguage.json",
+				"embeddedLanguages": {
+					"meta.embedded.tmgrammar": "tmgrammar-test"
+				},
+				"injectTo": [
+					"source",
+					"text",
+					"markdown"
+				]
+			},
+			{
+				"scopeName": "source.textmate.tmgrammar.blocks.injection",
+				"path": "./syntaxes/tmgrammar-blocks-injection.tmLanguage.json",
+				"embeddedLanguages": {
+					"meta.embedded.tmgrammar": "tmgrammar-test"
+				},
+				"injectTo": [
+					"source",
+					"text",
+					"markdown"
+				]
 			},
 			{
 				"scopeName": "markdown.json.textmate.codeblock",
