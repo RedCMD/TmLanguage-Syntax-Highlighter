@@ -28,7 +28,7 @@
 				{ "include": "source.json.textmate.regexp#absent-invalid-extended" }
 			]
 		},
-		"L:source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp": {
+		"L:source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp, L:source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp": {
 			"patterns": [
 				{
 					"comment": "VSCode TextMate replaces all numbers following a backslash, not just regex backreferences",

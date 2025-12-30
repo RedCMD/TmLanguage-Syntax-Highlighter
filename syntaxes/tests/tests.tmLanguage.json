@@ -212,6 +212,11 @@
 		{ "patterns": [ ] }
 	],
 	"repository": {
+		"while-end_character-class_escaped_backreference": {
+			"begin": "\\A(sep=)(.)$",
+			"while": "([^\\2]*\\2?)…",
+			"end": "{\\1}"
+		},
 		"repo-item1": {
 			"patterns": [
 				{
