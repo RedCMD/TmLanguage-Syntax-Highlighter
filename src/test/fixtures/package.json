@@ -1,0 +1,16 @@
+{
+	"contributes": {
+		"grammars": [
+			{
+				"language": "diagnostics",
+				"scopeName": "source.diagnostics",
+				"path": "./DiagnosticCollection.tmLanguage.json",
+				"injectTo": []
+			},
+			{
+				"scopeName": "source.diagnostic",
+				"path": "./DiagnosticCollection.tmLanguage.json"
+			}
+		]
+	}
+}

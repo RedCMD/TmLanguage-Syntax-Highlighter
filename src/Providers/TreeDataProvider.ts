@@ -861,6 +861,7 @@ export function initCallStackView(context: vscode.ExtensionContext): void {
 		vscode.commands.registerCommand("textmate.goto.grammar", gotoGrammar),
 		vscode.commands.registerCommand("textmate.tree-view", (element?: element) => changeView('tree', element)),
 		vscode.commands.registerCommand("textmate.list-view", (element?: element) => changeView('list', element)),
+		vscode.commands.registerCommand("textmate.follow.cursor", (element?: element) => vscode.window.showInformationMessage("TextMate: Follow Cursor not yet implemented")),
 		// vscode.window.onDidChangeActiveColorTheme(updateWorkbench_colorCustomizations),
 	);
 

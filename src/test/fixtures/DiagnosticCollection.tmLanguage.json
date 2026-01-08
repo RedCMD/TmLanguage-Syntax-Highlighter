@@ -1,0 +1,113 @@
+{
+	"comment": " diagnosticsMismatchingPackageJSONInfo ",
+	"scopeName": "source.diagnostics",
+	"injectionSelector": "L:source.js -string -comment",
+	"patterns": [
+		{
+			"comment": " diagnosticsTreeSitterJSONErrors "
+			"missing" "punctuation"
+		},
+		{
+			"comment": " diagnosticsTreeSitterRegexErrors ",
+			"match": "missing ending char (",
+			"//": "TODO: TreeSitter should be `'capture_group' is missing ending char ')'`",
+			"match": "(bad",
+			"begin": "(?)Invalid Group syntax",
+			"end": "?Invalid Quantifier target",
+			"//while": "\\p{InvalidCharacterPropertyName}(?#Error code randomly changes/breaks with Onigmo. Always broken in oniguruma)"
+		},
+		{
+			"comment": " diagnosticsBrokenIncludes ",
+			"include": "#Cannot_find_repo_name"
+		},
+		{
+			"patterns": [
+				{ },
+				{ "include": "#Did-you-mean" }
+			],
+			"repository": {
+				"Did_you_mean": { }
+			}
+		},
+		{
+			"patterns": [
+				{ "include": "#The entire parent rule is nullified because all #includes failed" },
+				{ "include": "#Nested repository inaccessible" }
+			],
+			"repository": {
+				"nested-item": {
+					"repository": {
+						"Nested repository inaccessible": { }
+					}
+				}
+			}
+		},
+		{
+			"comment": " diagnosticsUnusedRepos ",
+			"patterns": [ ],
+			"repository": {
+				"No_include_references_found_to": { }
+			}
+		},
+		{
+			"comment": " diagnosticsDeadTextMateCode ",
+			"/end": "\"",
+			"/while": "^\\s*",
+			"name": "",
+			"contentName": "",
+			"captures": { "0": { "include": "" } },
+			"endCaptures": {
+				"0": {
+					"repository": ""
+				}
+			},
+			"whileCaptures": { "0": { "match": "" } },
+			"beginCaptures": { "0": { "contentName": "" } },
+			"scopeName": ""
+		},
+		{
+			"comment": " diagnosticsLinguistCaptures ",
+			"captures": { "comment": " Incompatible with Github-Linguist " },
+			"beginCaptures": { "//": [ "Only object values are supported" ] },
+			"whileCaptures": { "abc": "within \"captures\"" },
+			"endCaptures": { "": null }
+		},
+		{
+			"comment": " diagnosticsHints ",
+			"name": "string.scope.one comment.scope.two",
+			"contentName": "bigger warning with no period in the first scope",
+			"match": "TextMate 2.0 and Github-Linguist handle space separated scopes differently to VSCode TextMate"
+		},
+		{
+			"patterns": [
+				{
+					"match": "Patterns array not required for a single rule",
+					"scopeName": "TextMate 2.0 only. maybe GitHub. scopeName removes warning",
+					"name": "string.scope.one comment.scope.two",
+					"contentName": "scopeName doesn't affect contentName"
+				}
+			]
+		},
+		{
+			"comment": " diagnosticsRegularExpressionErrors ",
+			"match": "(*FAIL) Regex incompatible with TextMate 2.0 target of repeat operator is not specified",
+			"begin": "(:)",
+			"end": "\\2 Regex incompatible with TextMate 2.0\n invalid backref number/nameOnigmo\n Regex incompatible with Github-Linguist \nreference to non-existent subpattern at offset 3PCRE",
+			"while": "(?\\1)Invalid or unsupported group option",
+			"match": "[A-Za-z\\x80-\\x{10FFFF}&&[^∙∘×★⊗⊘⊙⊛⊠⊡∩∧⊓±⊕⊖⊞⊟∪∨⊔]]Character Class Intersection && is not supported",
+			"match": "(?#unmatched parentheses at offset 45 PCRE\\))",
+			"//": [
+				"Certain <name> based error codes often break when getting to the <name> part",
+				"Seems to always affect oniguruma",
+				"But Onigmo is randomized",
+				"Probably a buffer overflow",
+				"https://github.com/textmate/Onigmo/blob/Onigmo-5.13.5/regerror.c",
+				"https://github.com/kkos/oniguruma/blob/08d36110c5670c815ad6d6f969e578049d209080/src/regerror.c#L304-L338",
+				"https://github.com/kkos/oniguruma/blob/08d36110c5670c815ad6d6f969e578049d209080/src/regerror.c#L38"
+			]
+		}
+	],
+	"repository": {
+		"repo-item": { }
+	}
+}

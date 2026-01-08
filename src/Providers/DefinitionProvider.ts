@@ -75,7 +75,8 @@ export const DefinitionProvider: vscode.DefinitionProvider = {
 
 				const uriPackage = vscode.Uri.joinPath(uri, '../../package.json');
 				if (uriPackage) {
-					await vscode.workspace.openTextDocument(uriPackage);
+					// TODO: tryCatch
+					// await vscode.workspace.openTextDocument(uriPackage);
 				}
 
 				for (const textDocument of vscode.workspace.textDocuments) {

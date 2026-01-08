@@ -1,6 +1,9 @@
 .github/
 .git/
 .vscode/
+.vscode-test-web/
+.test-extensions/
+.test-resources/
 _test/
 documentation/
 src/
@@ -11,10 +14,12 @@ syntaxes/tests/
 node_modules/vscode-tmgrammar-test/
 
 */**/esm/
+*/**/test/
 
 */**/README*
 */**/readme*
 */**/CHANGELOG*
+*/**/*test*
 
 **/*.yml
 **/*.yaml

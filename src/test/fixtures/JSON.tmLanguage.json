@@ -1,0 +1,47 @@
+{
+	"$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
+	"name": "languageId",
+	"scopeName": "source.languageId",
+	"patterns": [
+		{
+			"include": "#repo-item"
+		},
+		{
+			"include": "#string"
+		},
+		{
+			"include": "#boolean"
+		}
+	],
+	"repository": {
+		"repo-item": {},
+		"boolean": {
+			"comment": "`\\b` is a 0-width word boundary. `$1` references capture group 1",
+			"match": "\\b(true|false)\\b",
+			"name": "constant.language.$1.languageId"
+		},
+		"string": {
+			"comment": "\"begin\" & \"end\" can create a multi-line region",
+			"begin": "\"",
+			"end": "\"",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.begin.languageId"
+				}
+			},
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.end.languageId"
+				}
+			},
+			"name": "string.quoted.double.languageId",
+			"patterns": [
+				{
+					"comment": "Quad backslash required to match one literal backslash",
+					"match": "\\\\.",
+					"name": "constant.character.escape.languageId"
+				}
+			]
+		}
+	}
+}

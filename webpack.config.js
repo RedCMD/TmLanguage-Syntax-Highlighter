@@ -17,7 +17,8 @@ const webExtensionConfig = {
 	mode: 'none', // this leaves the source code as close as possible to the original (when packaging we set this to 'production')
 	target: 'webworker', // extensions run in a webworker context
 	entry: {
-		'extension': './src/extension.ts'
+		extension: './src/extension.ts',
+		test: './src/test/suite/index.ts'
 	},
 	output: {
 		filename: '[name].js',
@@ -39,6 +40,7 @@ const webExtensionConfig = {
 			// for the list of Node.js core module polyfills.
 			// 'assert': require.resolve('assert'),
 			path: require.resolve('path-browserify'),
+			stream: require.resolve('stream-browserify'),
 			fs: false,
 		}
 	},
@@ -51,9 +53,16 @@ const webExtensionConfig = {
 			}]
 		}]
 	},
-	plugins: [],
+	plugins: [
+		new webpack.optimize.LimitChunkCountPlugin({
+			maxChunks: 1 // disable chunks by default since web extensions must be a single bundle
+		}),
+		new webpack.ProvidePlugin({
+			process: 'process/browser', // provide a shim for the global `process` variable
+		}),
+	],
 	externals: {
-		'vscode': 'commonjs vscode', // ignored because it doesn't exist
+		vscode: 'commonjs vscode', // ignored because it doesn't exist
 	},
 	performance: {
 		hints: false

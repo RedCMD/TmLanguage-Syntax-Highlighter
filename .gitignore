@@ -2,7 +2,10 @@
 out
 _test
 node_modules
+.vscode-test
 .vscode-test-web
+.test-extensions
+.test-resources
 
 *.map
 *.vsix
@@ -16,3 +19,4 @@ parser.lib
 parser.obj
 scanner.obj
 copyFile.ts
+commands.jsonc

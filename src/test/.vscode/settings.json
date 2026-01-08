@@ -1,0 +1,16 @@
+{
+	"[typescript][json][jsonc][snippets]": {
+		"files.insertFinalNewline": true
+	},
+	"chat.disableAIFeatures": true, // poisons diagnositics
+	"editor.detectIndentation": false, // breaks `editor.update('tabSize', 3);` in VSCode Web
+	"editor.insertSpaces": false,
+	"editor.minimap.size": "fill",
+	"editor.renderWhitespace": "boundary",
+	"editor.tabSize": 4,
+	"files.autoSave": "off", // don't modify the fixtures files during tests
+	"files.eol": "\r\n",
+	"files.trimFinalNewlines": true,
+	"workbench.colorTheme": "Default Dark Modern",
+	"workbench.editor.wrapTabs": true,
+}

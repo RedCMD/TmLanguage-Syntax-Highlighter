@@ -115,9 +115,11 @@ type OnigmoScanner = textmateOnigmo.OnigScanner & {
 	readonly _options: textmateOnigmo.FindOption[];
 };
 
-export type Diagnostic = vscode.Diagnostic & Partial<{
-	node: webTreeSitter.Node;
-}>;
+export type Diagnostic = vscode.Diagnostic & {
+	node?: webTreeSitter.Node;
+	source: vscode.Diagnostic['source'];
+	// code: vscode.Diagnostic['code'];
+};
 
 const pcre = new PCRE.PCRE();
 
@@ -201,7 +203,7 @@ async function Diagnostics(document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage(`Diagnostics${JSON.stringify(document)}`);
 	// const start = performance.now();
 
-	const diagnostics: vscode.Diagnostic[] = [];
+	const diagnostics: Diagnostic[] = [];
 
 	await Promise.allSettled([
 		tryCatch(diagnosticsMismatchingPackageJSONInfo(diagnostics, document), "Diagnostics error:", "MismatchingPackageJSONInfo"),
@@ -220,7 +222,7 @@ async function Diagnostics(document: vscode.TextDocument) {
 }
 
 
-function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[], document: vscode.TextDocument) {
+function diagnosticsTreeSitterJSONErrors(diagnostics: Diagnostic[], document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics JSON"));
 	// const start = performance.now();
 	const rootNode = getTrees(document).jsonTree.rootNode;
@@ -238,7 +240,7 @@ function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[], docum
 		const parent = node.parent;
 		const parentType = parent?.type;
 
-		let diagnostic!: vscode.Diagnostic;
+		let diagnostic!: Diagnostic;
 		const name = queryCapture.name;
 		switch (name) {
 			case 'ERROR':
@@ -269,7 +271,7 @@ function diagnosticsTreeSitterJSONErrors(diagnostics: vscode.Diagnostic[], docum
 	// vscode.window.showInformationMessage(`JSON ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsTreeSitterRegexErrors(diagnostics: vscode.Diagnostic[], document: vscode.TextDocument) {
+function diagnosticsTreeSitterRegexErrors(diagnostics: Diagnostic[], document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics Regex"));
 	// const start = performance.now();
 	const regexTrees = getTrees(document).regexTrees;
@@ -299,7 +301,7 @@ function diagnosticsTreeSitterRegexErrors(diagnostics: vscode.Diagnostic[], docu
 			const parent = node.parent;
 			const parentType = parent?.type;
 
-			let diagnostic: vscode.Diagnostic;
+			let diagnostic: Diagnostic;
 			const name = queryCapture.name;
 			switch (name) {
 				case 'ERROR':
@@ -392,7 +394,7 @@ function diagnosticsTreeSitterRegexErrors(diagnostics: vscode.Diagnostic[], docu
 	// vscode.window.showInformationMessage(`Regex ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsRegularExpressionErrors(diagnostics: vscode.Diagnostic[], document: vscode.TextDocument) {
+function diagnosticsRegularExpressionErrors(diagnostics: Diagnostic[], document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics Regexes"));
 	// const start = performance.now();
 	const trees = getTrees(document);
@@ -673,7 +675,7 @@ function diagnosticsRegularExpressionErrors(diagnostics: vscode.Diagnostic[], do
 	// vscode.window.showInformationMessage(`Regexes ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], document: vscode.TextDocument) {
+function diagnosticsBrokenIncludes(diagnostics: Diagnostic[], document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics #includes"))
 	// const start = performance.now();
 	const rootNode = getTrees(document).jsonTree.rootNode;
@@ -770,7 +772,7 @@ function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], document: v
 		}
 
 		const range = toRange(node);
-		const diagnostic: vscode.Diagnostic = {
+		const diagnostic: Diagnostic = {
 			range: range,
 			message: message,
 			severity: vscode.DiagnosticSeverity.Warning,
@@ -804,7 +806,7 @@ function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], document: v
 
 			if (!parentRule.childForFieldName('match') && !(parentRule.type == 'pattern' && parentRule.childForFieldName('include')) && parentRule.type != 'json') {
 				const range = toRange(parentRule);
-				const diagnostic: vscode.Diagnostic = {
+				const diagnostic: Diagnostic = {
 					range: range,
 					message: 'The entire parent rule is nullified because all "#includes" failed.',
 					severity: vscode.DiagnosticSeverity.Hint,
@@ -820,7 +822,7 @@ function diagnosticsBrokenIncludes(diagnostics: vscode.Diagnostic[], document: v
 	// vscode.window.showInformationMessage(`include ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsUnusedRepos(diagnostics: vscode.Diagnostic[], document: vscode.TextDocument) {
+function diagnosticsUnusedRepos(diagnostics: Diagnostic[], document: vscode.TextDocument) {
 	if (ignoreDiagnosticsUnusedRepos) {
 		return;
 	}
@@ -876,7 +878,7 @@ function diagnosticsUnusedRepos(diagnostics: vscode.Diagnostic[], document: vsco
 	// vscode.window.showInformationMessage(`unusedRepos ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], document: vscode.TextDocument) {
+function diagnosticsDeadTextMateCode(diagnostics: Diagnostic[], document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics TextMate dead"));
 	// const start = performance.now();
 	const rootNode = getTrees(document).jsonTree.rootNode;
@@ -959,7 +961,7 @@ function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], document:
 			?? `"${name}" has no affect under VSCode TextMate.`;
 
 		const range = toRange(node);
-		const diagnostic: vscode.Diagnostic = {
+		const diagnostic: Diagnostic = {
 			range: range,
 			message: message,
 			severity: vscode.DiagnosticSeverity.Hint,
@@ -973,7 +975,7 @@ function diagnosticsDeadTextMateCode(diagnostics: vscode.Diagnostic[], document:
 	// vscode.window.showInformationMessage(`dead ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(diagnostics, stringify)}`);
 }
 
-async function diagnosticsMismatchingPackageJSONInfo(diagnostics: vscode.Diagnostic[], document: vscode.TextDocument) {
+async function diagnosticsMismatchingPackageJSONInfo(diagnostics: Diagnostic[], document: vscode.TextDocument) {
 	// const start = performance.now();
 
 	const { packageJSON, packageUri } = await getPackageJSON(document);
@@ -1013,9 +1015,9 @@ async function diagnosticsMismatchingPackageJSONInfo(diagnostics: vscode.Diagnos
 						}
 
 						const range = toRange(queryCapture);
-						const diagnostic: vscode.Diagnostic = {
+						const diagnostic: Diagnostic = {
 							range: range,
-							message: `scopeName '${scopeName}' does not match scopeName '${grammar.scopeName}' inside '${packageUri.path}'`,
+							message: `scopeName '${scopeName}' does not match scopeName '${grammar.scopeName}' inside './${vscode.workspace.asRelativePath(packageUri, false)}'`,
 							severity: vscode.DiagnosticSeverity.Error,
 							source: 'TextMate',
 							code: 'scopeName',
@@ -1034,7 +1036,7 @@ async function diagnosticsMismatchingPackageJSONInfo(diagnostics: vscode.Diagnos
 					const rootObjectCaptures = queryNode(rootNode, rootObjectQuery);
 					for (const rootObjectCapture of rootObjectCaptures) {
 						const range = toRange(rootObjectCapture);
-						const diagnostic: vscode.Diagnostic = {
+						const diagnostic: Diagnostic = {
 							range: range,
 							message: `Missing property "injectionSelector".`,
 							severity: vscode.DiagnosticSeverity.Warning,
@@ -1053,7 +1055,7 @@ async function diagnosticsMismatchingPackageJSONInfo(diagnostics: vscode.Diagnos
 			switch (queryCapture.name) {
 				case 'injectionSelector':
 					const range = toRange(queryCapture);
-					const diagnostic: vscode.Diagnostic = {
+					const diagnostic: Diagnostic = {
 						range: range,
 						message: '"injectionSelector" requires "injectTo" to be present under "grammars" inside `package.json`.',
 						severity: vscode.DiagnosticSeverity.Hint,
@@ -1069,7 +1071,7 @@ async function diagnosticsMismatchingPackageJSONInfo(diagnostics: vscode.Diagnos
 	// vscode.window.showInformationMessage(`packageJSON ${(performance.now() - start).toFixed(3)}ms`);
 }
 
-function diagnosticsLinguistCaptures(diagnostics: vscode.Diagnostic[], document: vscode.TextDocument) {
+function diagnosticsLinguistCaptures(diagnostics: Diagnostic[], document: vscode.TextDocument) {
 	// vscode.window.showInformationMessage(JSON.stringify("diagnostics (captures)"))
 	// const start = performance.now();
 	const rootNode = getTrees(document).jsonTree.rootNode;
@@ -1096,7 +1098,7 @@ function diagnosticsLinguistCaptures(diagnostics: vscode.Diagnostic[], document:
 		const node = captureCapture.node;
 
 		const range = toRange(node);
-		const diagnostic: vscode.Diagnostic = {
+		const diagnostic: Diagnostic = {
 			range: range,
 			message: 'Incompatible with Github-Linguist. Only object values are supported within "captures"',
 			severity: vscode.DiagnosticSeverity.Warning,

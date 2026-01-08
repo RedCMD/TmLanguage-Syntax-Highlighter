@@ -7,11 +7,12 @@ import * as DATE from 'date-and-time';
 
 export function initFileConverter(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
-		vscode.commands.registerTextEditorCommand('extension.convertFileToJSON', async (editor: vscode.TextEditor) => await convertFileTo('JSON', editor.document)),
-		vscode.commands.registerTextEditorCommand('extension.convertFileToYAML', async (editor: vscode.TextEditor) => await convertFileTo('YAML', editor.document)),
-		vscode.commands.registerTextEditorCommand('extension.convertFileToXML', async (editor: vscode.TextEditor) => await convertFileTo('XML', editor.document)),
-		vscode.commands.registerTextEditorCommand('extension.convertFileToPLIST', async (editor: vscode.TextEditor) => await convertFileTo('ASCII', editor.document)),
-		vscode.commands.registerTextEditorCommand('extension.convertFileToCSON', async (editor: vscode.TextEditor) => await convertFileTo('CSON', editor.document)),
+		// TODO: use registerTextEditorCommand instead. https://github.com/microsoft/vscode/issues/153164
+		vscode.commands.registerCommand('extension.convertFileToJSON', async (document: vscode.TextDocument) => await convertFileTo('JSON', document)),
+		vscode.commands.registerCommand('extension.convertFileToYAML', async (document: vscode.TextDocument) => await convertFileTo('YAML', document)),
+		vscode.commands.registerCommand('extension.convertFileToXML', async (document: vscode.TextDocument) => await convertFileTo('XML', document)),
+		vscode.commands.registerCommand('extension.convertFileToPLIST', async (document: vscode.TextDocument) => await convertFileTo('ASCII', document)),
+		vscode.commands.registerCommand('extension.convertFileToCSON', async (document: vscode.TextDocument) => await convertFileTo('CSON', document)),
 	);
 }
 
@@ -114,7 +115,7 @@ async function convertFileTo(newLanguage: Language, document?: vscode.TextDocume
 		preview: true,
 		preserveFocus: true,
 	};
-	await vscode.window.showTextDocument(newDocument, options);
+	return await vscode.window.showTextDocument(newDocument, options);
 }
 
 function rankLanguages(document: vscode.TextDocument): Language[] {
