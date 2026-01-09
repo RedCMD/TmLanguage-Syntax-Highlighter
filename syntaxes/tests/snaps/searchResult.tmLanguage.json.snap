@@ -118,7 +118,7 @@
 #         ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #          ^ source.json.textmate
 #           ^ source.json.textmate meta.resultBlock.search meta.embedded.json.textmate punctuation.definition.string.begin.json.tm
-#            ^^^^^^^^^^^^^^^^ source.json.textmate meta.resultBlock.search meta.embedded.json.textmate meta.resultBlock
+#            ^^^^^^^^^^^^^^^^ source.json.textmate meta.resultBlock
 #                            ^^^^^^^^ source.json.textmate meta.resultBlock.search meta.embedded.json.textmate
 #                                    ^^^^^^^^^^^^^ source.json.textmate meta.resultBlock.search meta.embedded.json.textmate markup.italic
 #                                                 ^^^^^^^^^^^^^^ source.json.textmate meta.resultBlock.search meta.embedded.json.textmate
@@ -291,7 +291,7 @@
 #           ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #            ^ source.json.textmate
 #             ^ source.json.textmate meta.resultLine.search meta.resultLine.multiLine.search punctuation.definition.string.begin.json.tm
-#              ^^^^^^^^^^^^^^^ source.json.textmate meta.resultLine.search meta.resultLine.multiLine.search meta.resultLine
+#              ^^^^^^^^^^^^^^^ source.json.textmate meta.resultLine
 #                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.resultLine.search meta.resultLine.multiLine.search
 #                                                                     ^ source.json.textmate meta.resultLine.search meta.resultLine.multiLine.search punctuation.definition.string.end.json.tm
 #                                                                      ^ source.json.textmate punctuation.separator.dictionary.json.tm
@@ -381,7 +381,7 @@
 #                   ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                    ^ source.json.textmate
 #                     ^ source.json.textmate constant.numeric.integer meta.resultLinePrefix.search punctuation.definition.string.begin.json.tm
-#                      ^^^^^^^^^^^^^^^^ source.json.textmate constant.numeric.integer meta.resultLinePrefix.search constant.numeric
+#                      ^^^^^^^^^^^^^^^^ source.json.textmate constant.numeric
 #                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate constant.numeric.integer meta.resultLinePrefix.search
 #                                                                           ^ source.json.textmate constant.numeric.integer meta.resultLinePrefix.search punctuation.definition.string.end.json.tm
 #                                                                            ^ source.json.textmate
@@ -453,7 +453,7 @@
 #                   ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                    ^ source.json.textmate
 #                     ^ source.json.textmate constant.numeric.integer meta.resultLinePrefix.search punctuation.definition.string.begin.json.tm
-#                      ^^^^^^^^^^^^^^^^ source.json.textmate constant.numeric.integer meta.resultLinePrefix.search constant.numeric
+#                      ^^^^^^^^^^^^^^^^ source.json.textmate constant.numeric
 #                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate constant.numeric.integer meta.resultLinePrefix.search
 #                                                                           ^ source.json.textmate constant.numeric.integer meta.resultLinePrefix.search punctuation.definition.string.end.json.tm
 #                                                                            ^ source.json.textmate
@@ -645,7 +645,7 @@
 #           ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #            ^ source.json.textmate
 #             ^ source.json.textmate meta.resultLine.search meta.resultLine.singleLine.search punctuation.definition.string.begin.json.tm
-#              ^^^^^^^^^^^^^^^ source.json.textmate meta.resultLine.search meta.resultLine.singleLine.search meta.resultLine
+#              ^^^^^^^^^^^^^^^ source.json.textmate meta.resultLine
 #                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.resultLine.search meta.resultLine.singleLine.search
 #                                                                      ^ source.json.textmate meta.resultLine.search meta.resultLine.singleLine.search punctuation.definition.string.end.json.tm
 #                                                                       ^ source.json.textmate punctuation.separator.dictionary.json.tm
@@ -672,7 +672,7 @@
 #                   ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                    ^ source.json.textmate
 #                     ^ source.json.textmate constant.numeric.integer meta.resultLinePrefix.search punctuation.definition.string.begin.json.tm
-#                      ^^^^^^^^^^^^^^^^ source.json.textmate constant.numeric.integer meta.resultLinePrefix.search constant.numeric
+#                      ^^^^^^^^^^^^^^^^ source.json.textmate constant.numeric
 #                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate constant.numeric.integer meta.resultLinePrefix.search
 #                                                                           ^ source.json.textmate constant.numeric.integer meta.resultLinePrefix.search punctuation.definition.string.end.json.tm
 #                                                                            ^ source.json.textmate

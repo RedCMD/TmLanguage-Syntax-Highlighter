@@ -4958,7 +4958,7 @@
 #         ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #          ^ source.json.textmate
 #           ^ source.json.textmate meta.map.key.yaml string.quoted.double.yaml entity.name.tag.yaml punctuation.definition.string.begin.json.tm
-#            ^^^^^^^^^^^^ source.json.textmate meta.map.key.yaml string.quoted.double.yaml entity.name.tag.yaml meta.map.key
+#            ^^^^^^^^^^^^ source.json.textmate meta.map.key
 #                        ^^^^^^ source.json.textmate meta.map.key.yaml string.quoted.double.yaml entity.name.tag.yaml
 #                              ^^^^^^ source.json.textmate meta.map.key.yaml string.quoted.double.yaml entity.name.tag.yaml markup.italic
 #                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.map.key.yaml string.quoted.double.yaml entity.name.tag.yaml
@@ -5192,7 +5192,7 @@
 #         ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #          ^ source.json.textmate
 #           ^ source.json.textmate meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml punctuation.definition.string.begin.json.tm
-#            ^^^^^^^^^^^^ source.json.textmate meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml meta.map.key
+#            ^^^^^^^^^^^^ source.json.textmate meta.map.key
 #                        ^^^^^^ source.json.textmate meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml
 #                              ^^^^^^ source.json.textmate meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml markup.italic
 #                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml
@@ -10302,7 +10302,7 @@
 #         ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #          ^ source.json.textmate
 #           ^ source.json.textmate meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml punctuation.definition.string.begin.json.tm
-#            ^^^^^^^^^^^^ source.json.textmate meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml meta.map.key
+#            ^^^^^^^^^^^^ source.json.textmate meta.map.key
 #                        ^^^^^^ source.json.textmate meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml
 #                              ^^^^^^ source.json.textmate meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml markup.italic
 #                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml
@@ -10552,7 +10552,7 @@
 #         ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #          ^ source.json.textmate
 #           ^ source.json.textmate meta.flow.map.key.yaml string.unquoted.plain.in.yaml entity.name.tag.yaml punctuation.definition.string.begin.json.tm
-#            ^^^^^^^^^^^^^^^^^ source.json.textmate meta.flow.map.key.yaml string.unquoted.plain.in.yaml entity.name.tag.yaml meta.flow.map.key
+#            ^^^^^^^^^^^^^^^^^ source.json.textmate meta.flow.map.key
 #                             ^^^^^^ source.json.textmate meta.flow.map.key.yaml string.unquoted.plain.in.yaml entity.name.tag.yaml
 #                                   ^^^^^^ source.json.textmate meta.flow.map.key.yaml string.unquoted.plain.in.yaml entity.name.tag.yaml markup.italic
 #                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.flow.map.key.yaml string.unquoted.plain.in.yaml entity.name.tag.yaml
@@ -10747,7 +10747,7 @@
 #         ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #          ^ source.json.textmate
 #           ^ source.json.textmate meta.map.key.yaml string.quoted.double.yaml entity.name.tag.yaml punctuation.definition.string.begin.json.tm
-#            ^^^^^^^^^^^^ source.json.textmate meta.map.key.yaml string.quoted.double.yaml entity.name.tag.yaml meta.map.key
+#            ^^^^^^^^^^^^ source.json.textmate meta.map.key
 #                        ^^^^^^ source.json.textmate meta.map.key.yaml string.quoted.double.yaml entity.name.tag.yaml
 #                              ^^^^^^ source.json.textmate meta.map.key.yaml string.quoted.double.yaml entity.name.tag.yaml markup.italic
 #                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.map.key.yaml string.quoted.double.yaml entity.name.tag.yaml
@@ -13101,7 +13101,7 @@
 #           ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #            ^ source.json.textmate
 #             ^ source.json.textmate storage.type.tag.non-specific.yaml punctuation.definition.tag.non-specific.yaml punctuation.definition.string.begin.json.tm
-#              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate storage.type.tag.non-specific.yaml punctuation.definition.tag.non-specific.yaml storage.type.tag.non-specific
+#              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate storage.type.tag.non-specific
 #                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate storage.type.tag.non-specific.yaml punctuation.definition.tag.non-specific.yaml
 #                                                                                             ^ source.json.textmate storage.type.tag.non-specific.yaml punctuation.definition.tag.non-specific.yaml punctuation.definition.string.end.json.tm
 >				},

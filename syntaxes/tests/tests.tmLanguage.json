@@ -220,6 +220,29 @@
 			"while": "([^\\2]*\\2?)…",
 			"end": "{\\1}"
 		},
+		"backticked_string": {
+			"begin": "`",
+			"beginCaptures": { "0": { "name": "punctuation.support.type.backticked_string.astn" } },
+			"end": "`",
+			"endCaptures": { "0": { "name": "punctuation.support.type.backticked_string.astn" } },
+			"name": "string.astn support.type.backticked_string.astn",
+			"patterns": [
+				{
+					"match": "[^`\\\\]+",
+					"name": "string.unescaped.content support.type.backticked_string.astn"
+				},
+				{
+					"match": "\\\\.",
+					"captures": { "0": { "name": "constant.character.escape support.type.backticked_string.astn" } }
+				},
+				{
+					"comment": "will be scope `comment` in TextMate 2.0",
+					"match": "\\n",
+					"scopeName": "comment",
+					"name": "invalid.illegal newline_in_backticked_string.astn"
+				}
+			]
+		},
 		"repo-item1": {
 			"patterns": [
 				{

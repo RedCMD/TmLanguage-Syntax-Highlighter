@@ -849,6 +849,25 @@
 					"patterns": [
 						{
 							"comment": "\"...\"",
+							"//": "TextMate 2.0 does not split scopes on spaces in their grammar files. But does so in their theme files.",
+							"begin": "(\")(?=(?>[^\\\\\" ]++|\\\\[^ ])+ )(?=((?>[^\\\\\"]++|\\\\.)*)\")([^ ]+)(?=\\.)",
+							"end": "(?<=\")",
+							"beginCaptures": {
+								"1": { "name": "$2 punctuation.definition.string.begin.json.tm" },
+								"3": { "name": "$3" }
+							},
+							"contentName": "$2",
+							"patterns": [
+								{
+									"match": "\"",
+									"name": "punctuation.definition.string.end.json.tm"
+								},
+								{ "include": "#escape-characters" },
+								{ "include": "#name_scopes" }
+							]
+						},
+						{
+							"comment": "\"...\"",
 							"//": [
 								"replaceCaptures `$1` removes all leading dots `.`",
 								"Causing us to deviate from VSCode TextMate",
@@ -867,19 +886,6 @@
 							"endCaptures": { "0": { "name": "punctuation.definition.string.end.json.tm" } },
 							"name": "$1$2",
 							"patterns": [
-								{
-									"comment": "TextMate 2.0 does not split scopes on spaces in their grammar files. But does so in their theme files.",
-									"match": "\\G(?=(?>[^\\\\\" ]++|\\\\[^ ])+ )([^ ]+)(?=\\.)",
-									"captures": {
-										"1": {
-											"name": "$1",
-											"patterns": [
-												{ "include": "#escape-characters" },
-												{ "include": "#name_scopes" }
-											]
-										}
-									}
-								},
 								{ "include": "#escape-characters" },
 								{ "include": "#name_scopes" }
 							]

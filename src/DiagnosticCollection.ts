@@ -1131,6 +1131,7 @@ function diagnosticsHints(diagnostics: Diagnostic[], document: vscode.TextDocume
 		(pattern . (patterns (key) @patterns . (_) .) .)
 		(repo (name (value) @name (#match? @name " ")) !name_scopeName)
 		(pattern (name (value) @name (#match? @name " ")) !name_scopeName)
+		(capture (name (value) @name (#match? @name " ")) !name_scopeName)
 		(contentName (value) @contentName (#match? @contentName " "))
 	`;
 	const captures = queryNode(rootNode, query);

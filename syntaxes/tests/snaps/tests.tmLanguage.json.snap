@@ -3733,6 +3733,255 @@
 #^^ source.json.textmate
 #  ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
 #   ^ source.json.textmate punctuation.separator.dictionary.json.tm
+>		"backticked_string": {
+#^^ source.json.textmate
+#  ^ source.json.textmate punctuation.definition.string.begin.json.tm
+#   ^^^^^^^^^^^^^^^^^ source.json.textmate variable.json.tm regex
+#                    ^ source.json.textmate punctuation.definition.string.end.json.tm
+#                     ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
+#                      ^ source.json.textmate
+#                       ^ source.json.textmate punctuation.definition.dictionary.begin.json.tm
+>			"begin": "`",
+#^^^ source.json.textmate
+#   ^ source.json.textmate meta.begin.regexp punctuation.definition.string.begin.json.tm
+#    ^^^^^ source.json.textmate meta.begin.regexp keyword.property-name.string.begin.json.tm
+#         ^ source.json.textmate meta.begin.regexp punctuation.definition.string.end.json.tm
+#          ^ source.json.textmate meta.begin.regexp punctuation.separator.dictionary.key-value.json.tm
+#           ^ source.json.textmate meta.begin.regexp
+#            ^ source.json.textmate meta.begin.regexp punctuation.definition.string.begin.json.tm
+#             ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
+#              ^ source.json.textmate meta.begin.regexp punctuation.definition.string.end.json.tm
+#               ^ source.json.textmate punctuation.separator.dictionary.json.tm
+>			"beginCaptures": { "0": { "name": "punctuation.support.type.backticked_string.astn" } },
+#^^^ source.json.textmate
+#   ^ source.json.textmate punctuation.definition.string.begin.json.tm
+#    ^^^^^^^^^^^^^ source.json.textmate keyword.property-name.string.beginCaptures.json.tm
+#                 ^ source.json.textmate punctuation.definition.string.end.json.tm
+#                  ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
+#                   ^ source.json.textmate
+#                    ^ source.json.textmate punctuation.definition.dictionary.begin.json.tm
+#                     ^ source.json.textmate
+#                      ^ source.json.textmate
+#                       ^ source.json.textmate constant.numeric.json.tm
+#                        ^ source.json.textmate
+#                         ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
+#                          ^ source.json.textmate
+#                           ^ source.json.textmate punctuation.definition.dictionary.begin.json.tm
+#                            ^ source.json.textmate
+#                             ^ source.json.textmate punctuation.definition.string.begin.json.tm
+#                              ^^^^ source.json.textmate keyword.property-name.string.name.json.tm
+#                                  ^ source.json.textmate punctuation.definition.string.end.json.tm
+#                                   ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
+#                                    ^ source.json.textmate
+#                                     ^ source.json.textmate punctuation.support.type.backticked_string.astn punctuation.definition.string.begin.json.tm
+#                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.support.type.backticked_string.astn
+#                                                                                     ^ source.json.textmate punctuation.support.type.backticked_string.astn punctuation.definition.string.end.json.tm
+#                                                                                      ^ source.json.textmate
+#                                                                                       ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
+#                                                                                        ^ source.json.textmate
+#                                                                                         ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
+#                                                                                          ^ source.json.textmate punctuation.separator.dictionary.json.tm
+>			"end": "`",
+#^^^ source.json.textmate
+#   ^ source.json.textmate meta.end.regexp punctuation.definition.string.begin.json.tm
+#    ^^^ source.json.textmate meta.end.regexp keyword.property-name.string.end.json.tm
+#       ^ source.json.textmate meta.end.regexp punctuation.definition.string.end.json.tm
+#        ^ source.json.textmate meta.end.regexp punctuation.separator.dictionary.key-value.json.tm
+#         ^ source.json.textmate meta.end.regexp
+#          ^ source.json.textmate meta.end.regexp punctuation.definition.string.begin.json.tm
+#           ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
+#            ^ source.json.textmate meta.end.regexp punctuation.definition.string.end.json.tm
+#             ^ source.json.textmate punctuation.separator.dictionary.json.tm
+>			"endCaptures": { "0": { "name": "punctuation.support.type.backticked_string.astn" } },
+#^^^ source.json.textmate
+#   ^ source.json.textmate punctuation.definition.string.begin.json.tm
+#    ^^^^^^^^^^^ source.json.textmate keyword.property-name.string.endCaptures.json.tm
+#               ^ source.json.textmate punctuation.definition.string.end.json.tm
+#                ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
+#                 ^ source.json.textmate
+#                  ^ source.json.textmate punctuation.definition.dictionary.begin.json.tm
+#                   ^ source.json.textmate
+#                    ^ source.json.textmate
+#                     ^ source.json.textmate constant.numeric.json.tm
+#                      ^ source.json.textmate
+#                       ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
+#                        ^ source.json.textmate
+#                         ^ source.json.textmate punctuation.definition.dictionary.begin.json.tm
+#                          ^ source.json.textmate
+#                           ^ source.json.textmate punctuation.definition.string.begin.json.tm
+#                            ^^^^ source.json.textmate keyword.property-name.string.name.json.tm
+#                                ^ source.json.textmate punctuation.definition.string.end.json.tm
+#                                 ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
+#                                  ^ source.json.textmate
+#                                   ^ source.json.textmate punctuation.support.type.backticked_string.astn punctuation.definition.string.begin.json.tm
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.support.type.backticked_string.astn
+#                                                                                   ^ source.json.textmate punctuation.support.type.backticked_string.astn punctuation.definition.string.end.json.tm
+#                                                                                    ^ source.json.textmate
+#                                                                                     ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
+#                                                                                      ^ source.json.textmate
+#                                                                                       ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
+#                                                                                        ^ source.json.textmate punctuation.separator.dictionary.json.tm
+>			"name": "string.astn support.type.backticked_string.astn",
+#^^^ source.json.textmate
+#   ^ source.json.textmate punctuation.definition.string.begin.json.tm
+#    ^^^^ source.json.textmate keyword.property-name.string.name.json.tm
+#        ^ source.json.textmate punctuation.definition.string.end.json.tm
+#         ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
+#          ^ source.json.textmate
+#           ^ source.json.textmate string.astn support.type.backticked_string.astn punctuation.definition.string.begin.json.tm
+#            ^^^^^^ source.json.textmate string
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate string.astn support.type.backticked_string.astn
+#                                                           ^ source.json.textmate string.astn support.type.backticked_string.astn punctuation.definition.string.end.json.tm
+#                                                            ^ source.json.textmate punctuation.separator.dictionary.json.tm
+>			"patterns": [
+#^^^ source.json.textmate
+#   ^ source.json.textmate punctuation.definition.string.begin.json.tm
+#    ^^^^^^^^ source.json.textmate keyword.property-name.string.patterns.json.tm
+#            ^ source.json.textmate punctuation.definition.string.end.json.tm
+#             ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
+#              ^ source.json.textmate
+#               ^ source.json.textmate punctuation.definition.array.begin.json.tm
+>				{
+#^^^^ source.json.textmate
+#    ^ source.json.textmate punctuation.definition.dictionary.begin.json.tm
+>					"match": "[^`\\\\]+",
+#^^^^^ source.json.textmate
+#     ^ source.json.textmate meta.match.regexp punctuation.definition.string.begin.json.tm
+#      ^^^^^ source.json.textmate meta.match.regexp keyword.property-name.string.match.json.tm
+#           ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
+#            ^ source.json.textmate meta.match.regexp punctuation.separator.dictionary.key-value.json.tm
+#             ^ source.json.textmate meta.match.regexp
+#              ^ source.json.textmate meta.match.regexp punctuation.definition.string.begin.json.tm
+#               ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.class.tm
+#                ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.function.tm strong
+#                 ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class literal.tm regex
+#                  ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class constant.character.escape.tm
+#                     ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class literal.tm
+#                      ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.class.tm
+#                       ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
+#                        ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
+#                         ^ source.json.textmate punctuation.separator.dictionary.json.tm
+>					"name": "string.unescaped.content support.type.backticked_string.astn"
+#^^^^^ source.json.textmate
+#     ^ source.json.textmate punctuation.definition.string.begin.json.tm
+#      ^^^^ source.json.textmate keyword.property-name.string.name.json.tm
+#          ^ source.json.textmate punctuation.definition.string.end.json.tm
+#           ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
+#            ^ source.json.textmate
+#             ^ source.json.textmate string.unescaped.content support.type.backticked_string.astn punctuation.definition.string.begin.json.tm
+#              ^^^^^^^^^^^^^^^^ source.json.textmate string.unescaped
+#                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate string.unescaped.content support.type.backticked_string.astn
+#                                                                          ^ source.json.textmate string.unescaped.content support.type.backticked_string.astn punctuation.definition.string.end.json.tm
+>				},
+#^^^^ source.json.textmate
+#    ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
+#     ^ source.json.textmate punctuation.separator.array.json.tm
+>				{
+#^^^^ source.json.textmate
+#    ^ source.json.textmate punctuation.definition.dictionary.begin.json.tm
+>					"match": "\\\\.",
+#^^^^^ source.json.textmate
+#     ^ source.json.textmate meta.match.regexp punctuation.definition.string.begin.json.tm
+#      ^^^^^ source.json.textmate meta.match.regexp keyword.property-name.string.match.json.tm
+#           ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
+#            ^ source.json.textmate meta.match.regexp punctuation.separator.dictionary.key-value.json.tm
+#             ^ source.json.textmate meta.match.regexp
+#              ^ source.json.textmate meta.match.regexp punctuation.definition.string.begin.json.tm
+#               ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.escape.tm
+#                  ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong
+#                   ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
+#                    ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
+#                     ^ source.json.textmate punctuation.separator.dictionary.json.tm
+>					"captures": { "0": { "name": "constant.character.escape support.type.backticked_string.astn" } }
+#^^^^^ source.json.textmate
+#     ^ source.json.textmate punctuation.definition.string.begin.json.tm
+#      ^^^^^^^^ source.json.textmate keyword.property-name.string.captures.json.tm
+#              ^ source.json.textmate punctuation.definition.string.end.json.tm
+#               ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
+#                ^ source.json.textmate
+#                 ^ source.json.textmate punctuation.definition.dictionary.begin.json.tm
+#                  ^ source.json.textmate
+#                   ^ source.json.textmate
+#                    ^ source.json.textmate constant.numeric.json.tm
+#                     ^ source.json.textmate
+#                      ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
+#                       ^ source.json.textmate
+#                        ^ source.json.textmate punctuation.definition.dictionary.begin.json.tm
+#                         ^ source.json.textmate
+#                          ^ source.json.textmate punctuation.definition.string.begin.json.tm
+#                           ^^^^ source.json.textmate keyword.property-name.string.name.json.tm
+#                               ^ source.json.textmate punctuation.definition.string.end.json.tm
+#                                ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
+#                                 ^ source.json.textmate
+#                                  ^ source.json.textmate constant.character.escape support.type.backticked_string.astn punctuation.definition.string.begin.json.tm
+#                                   ^^^^^^^^^^^^^^^^^^ source.json.textmate constant.character
+#                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate constant.character.escape support.type.backticked_string.astn
+#                                                                                                ^ source.json.textmate constant.character.escape support.type.backticked_string.astn punctuation.definition.string.end.json.tm
+#                                                                                                 ^ source.json.textmate
+#                                                                                                  ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
+#                                                                                                   ^ source.json.textmate
+#                                                                                                    ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
+>				},
+#^^^^ source.json.textmate
+#    ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
+#     ^ source.json.textmate punctuation.separator.array.json.tm
+>				{
+#^^^^ source.json.textmate
+#    ^ source.json.textmate punctuation.definition.dictionary.begin.json.tm
+>					"comment": "will be scope `comment` in TextMate 2.0",
+#^^^^^ source.json.textmate
+#     ^ source.json.textmate punctuation.definition.string.begin.json.tm
+#      ^^^^^^^ source.json.textmate keyword.property-name.string.comment.json.tm
+#             ^ source.json.textmate punctuation.definition.string.end.json.tm
+#              ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
+#               ^ source.json.textmate
+#                ^ source.json.textmate quoted.double.json.tm comment.json.tm punctuation.definition.string.begin.json.tm
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate quoted.double.json.tm comment.json.tm
+#                                                        ^ source.json.textmate quoted.double.json.tm comment.json.tm punctuation.definition.string.end.json.tm
+#                                                         ^ source.json.textmate punctuation.separator.dictionary.json.tm
+>					"match": "\\n",
+#^^^^^ source.json.textmate
+#     ^ source.json.textmate meta.match.regexp punctuation.definition.string.begin.json.tm
+#      ^^^^^ source.json.textmate meta.match.regexp keyword.property-name.string.match.json.tm
+#           ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
+#            ^ source.json.textmate meta.match.regexp punctuation.separator.dictionary.key-value.json.tm
+#             ^ source.json.textmate meta.match.regexp
+#              ^ source.json.textmate meta.match.regexp punctuation.definition.string.begin.json.tm
+#               ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.list.begin.markdown
+#                  ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
+#                   ^ source.json.textmate punctuation.separator.dictionary.json.tm
+>					"scopeName": "comment",
+#^^^^^ source.json.textmate
+#     ^ source.json.textmate punctuation.definition.string.begin.json.tm
+#      ^^^^^^^^^ source.json.textmate keyword.property-name.string.scopeName.json.tm
+#               ^ source.json.textmate punctuation.definition.string.end.json.tm
+#                ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
+#                 ^ source.json.textmate
+#                  ^ source.json.textmate comment punctuation.definition.string.begin.json.tm
+#                   ^^^^^^^ source.json.textmate comment markup.italic
+#                          ^ source.json.textmate comment punctuation.definition.string.end.json.tm
+#                           ^ source.json.textmate punctuation.separator.dictionary.json.tm
+>					"name": "invalid.illegal newline_in_backticked_string.astn"
+#^^^^^ source.json.textmate
+#     ^ source.json.textmate punctuation.definition.string.begin.json.tm
+#      ^^^^ source.json.textmate keyword.property-name.string.name.json.tm
+#          ^ source.json.textmate punctuation.definition.string.end.json.tm
+#           ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
+#            ^ source.json.textmate
+#             ^ source.json.textmate invalid.illegal newline_in_backticked_string.astn punctuation.definition.string.begin.json.tm
+#              ^^^^^^^ source.json.textmate invalid
+#                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate invalid.illegal newline_in_backticked_string.astn
+#                                                               ^ source.json.textmate invalid.illegal newline_in_backticked_string.astn punctuation.definition.string.end.json.tm
+>				}
+#^^^^ source.json.textmate
+#    ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
+>			]
+#^^^ source.json.textmate
+#   ^ source.json.textmate punctuation.definition.array.end.json.tm
+>		},
+#^^ source.json.textmate
+#  ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
+#   ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >		"repo-item1": {
 #^^ source.json.textmate
 #  ^ source.json.textmate punctuation.definition.string.begin.json.tm
@@ -4093,7 +4342,7 @@
 #                ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                 ^ source.json.textmate
 #                  ^ source.json.textmate keyword.control.scl ${1:/upcase} punctuation.definition.string.begin.json.tm
-#                   ^^^^^^^^^^^^^^^ source.json.textmate keyword.control.scl ${1:/upcase} keyword.control
+#                   ^^^^^^^^^^^^^^^ source.json.textmate keyword.control
 #                                  ^^^^^ source.json.textmate keyword.control.scl ${1:/upcase}
 #                                       ^^ source.json.textmate keyword.control.scl ${1:/upcase} meta.embedded.replace.capture.json.tm constant.character.escape.json.tm
 #                                         ^ source.json.textmate keyword.control.scl ${1:/upcase} meta.embedded.replace.capture.json.tm constant.numeric.json.tm
