@@ -84,9 +84,11 @@
 					"tmLanguage.json"
 				],
 				"filenamePatterns": [
-					"**/syntaxes/*.tmLanguage.json",
-					"**/syntaxes/*.tmLanguage copy{, [0-9]*}.json",
-					"**/syntaxes/*.tmLanguage{, copy} - Copy{, ([0-9]*)}{, - Copy*}.json"
+					"**/{syntaxes,grammars}/*inject*.json",
+					"**/{syntaxes,grammars}/*code{,?}block*.json",
+					"**/{syntaxes,grammars}/*.tmLanguage.json",
+					"**/{syntaxes,grammars}/*.tmLanguage copy{, [0-9]*}.json",
+					"**/{syntaxes,grammars}/*.tmLanguage{, copy} - Copy{, ([0-9]*)}{, - Copy*}.json"
 				],
 				"firstLine": "{(\"scopeName\"|\"(information_for_contributors|fileTypes)\":\\[)",
 				"configuration": "./language-configuration.json",

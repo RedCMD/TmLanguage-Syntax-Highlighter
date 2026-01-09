@@ -143,6 +143,40 @@ suite('Extension Tests', async () => {
 		);
 	});
 
+	test('FileTypes', async () => {
+		const files = await vscode.workspace.fs.readDirectory(fixturesUri);
+		const languageIds: { [languageId: string]: string[]; } = {};
+
+		for (const file of files) {
+			const path = file[0];
+
+			if (path == 'fileTypes/ascii.tm-grammar.plist') {
+				// TODO: `fileTypes/ascii.tm-grammar.plist` should be `ascii-textmate`
+				// Works correctly in vscode-web
+				// Broken in VSCode desktop nodejs
+				continue;
+			}
+
+			if (file[1] === 2) {
+				const nestedFiles = await vscode.workspace.fs.readDirectory(vscode.Uri.joinPath(fixturesUri, path));
+				nestedFiles.forEach(file => file[0] = `${path}/${file[0]}`);
+				files.push(...nestedFiles);
+				continue;
+			}
+
+			const editor = await vscode.window.showTextDocument(
+				vscode.Uri.joinPath(fixturesUri, path),
+				showTextDocumentOptions,
+			);
+
+			const languageId = editor.document.languageId;
+			languageIds[languageId] ??= [];
+			languageIds[languageId].push(path);
+		}
+
+		await assertBaseline([languageIds], "FileTypes.json");
+	});
+
 	test('FileConverter', async () => {
 		async function testFileConversion(fixturesUri: vscode.Uri, fromFile: string, command: string, toFile: string) {
 			// const start = performance.now();
