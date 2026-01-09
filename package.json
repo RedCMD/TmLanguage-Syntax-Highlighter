@@ -36,7 +36,7 @@
 	"capabilities": {
 		"virtualWorkspaces": {
 			"supported": true,
-			"description": "DropEdit and CSON conversion does not work in VSCode Web atm"
+			"description": "DropEdit and file conversion to CSON/XML do not work in VSCode Web"
 		},
 		"untrustedWorkspaces": {
 			"supported": true,
@@ -642,31 +642,32 @@
 				"icon": "$(inspect)"
 			},
 			{
-				"command": "extension.convertFileToJSON",
+				"command": "textmate.convertFileToJSON",
 				"title": "Convert file to JSON",
 				"category": "TextMate",
 				"icon": "assets/TextMate-file-icon.svg"
 			},
 			{
-				"command": "extension.convertFileToYAML",
+				"command": "textmate.convertFileToYAML",
 				"title": "Convert file to YAML",
 				"category": "TextMate",
 				"icon": "assets/TextMate-file-icon.svg"
 			},
 			{
-				"command": "extension.convertFileToXML",
+				"command": "textmate.convertFileToXML",
 				"title": "Convert file to XML",
 				"category": "TextMate",
-				"icon": "assets/TextMate-file-icon.svg"
+				"icon": "assets/TextMate-file-icon.svg",
+				"enablement": "!isWeb"
 			},
 			{
-				"command": "extension.convertFileToPLIST",
-				"title": "Convert file to PLIST (ascii)",
+				"command": "textmate.convertFileToASCII",
+				"title": "Convert file to ASCII (plist)",
 				"category": "TextMate",
 				"icon": "assets/TextMate-file-icon.svg"
 			},
 			{
-				"command": "extension.convertFileToCSON",
+				"command": "textmate.convertFileToCSON",
 				"title": "Convert file to CSON",
 				"category": "TextMate",
 				"icon": "assets/TextMate-file-icon.svg",
@@ -677,6 +678,7 @@
 	"dependencies": {
 		"@syntropiq/libpcre-ts": "file:node_modules_linked/@syntropiq/libpcre-ts",
 		"cson-parser": "^4.0.9",
+		"cson2json": "1.0.0",
 		"date-and-time": "3.6.0",
 		"oniguruma-parser-cjs": "^0.0.1",
 		"oniguruma-to-es": "^4.3.3",

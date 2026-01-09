@@ -178,8 +178,9 @@ suite('Extension Tests', async () => {
 	});
 
 	test('FileConverter', async () => {
-		async function testFileConversion(fixturesUri: vscode.Uri, fromFile: string, command: string, toFile: string) {
+		async function testFileConversion(fromFile: string, command: string, toFile?: string) {
 			// const start = performance.now();
+			toFile ??= fromFile;
 
 			// const document = vscode.workspace.openTextDocument(); is slightly faster, but not as flashy ;)
 			const fromEditor = await vscode.window.showTextDocument(vscode.Uri.joinPath(fixturesUri, fromFile), showTextDocumentOptions);
@@ -199,21 +200,22 @@ suite('Extension Tests', async () => {
 			// console.log((performance.now() - start).toFixed(), 'ms', fromFile, command, toFile);
 		}
 
-		await testFileConversion(fixturesUri, 'JSON.tmLanguage.json', 'extension.convertFileToJSON', 'JSON.tmLanguage.json');
-		await testFileConversion(fixturesUri, 'YAML.tmLanguage.yaml', 'extension.convertFileToYAML', 'YAML.tmLanguage.yaml');
-		await testFileConversion(fixturesUri, 'ASCII.textmate', 'extension.convertFileToPLIST', 'ASCII.textmate');
+		await testFileConversion('JSON.tmLanguage.json', 'textmate.convertFileToJSON');
+		await testFileConversion('YAML.tmLanguage.yaml', 'textmate.convertFileToYAML');
+		await testFileConversion('ASCII.textmate', 'textmate.convertFileToASCII');
 
-		// TODO: Conversion to XML and CSON doesn't work in VSCode Web
-		if (typeof navigator === 'undefined') {
-			await testFileConversion(fixturesUri, 'CSON.tmLanguage.cson', 'extension.convertFileToCSON', 'CSON.tmLanguage.cson');
-			await testFileConversion(fixturesUri, 'XML.tmLanguage', 'extension.convertFileToXML', 'XML.tmLanguage');
-		}
-		else {
+		// TODO: Conversion to XML/CSON doesn't work in VSCode Web atm
+		if (typeof navigator === 'object') {
 			// TODO: Conversion from CSON is buggy. skipping test
 			// https://github.com/fabiospampinato/cson2json/issues/1
-			// await testFileConversion(fixturesUri, 'CSON.tmLanguage.cson', 'extension.convertFileToJSON', 'JSON.tmLanguage.json');
-			await testFileConversion(fixturesUri, 'XML.tmLanguage', 'extension.convertFileToJSON', 'JSON.tmLanguage.json');
+			// await testFileConversion('CSON.tmLanguage.cson', 'textmate.convertFileToJSON', 'JSON.tmLanguage.json');
+			await testFileConversion('XML.tmLanguage', 'textmate.convertFileToJSON', 'JSON.tmLanguage.json');
+
+			return;
 		}
+
+		await testFileConversion('CSON.tmLanguage.cson', 'textmate.convertFileToCSON');
+		await testFileConversion('XML.tmLanguage', 'textmate.convertFileToXML');
 	});
 
 	test('FormatDocumentProvider', async () => {
