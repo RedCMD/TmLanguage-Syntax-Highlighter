@@ -207,14 +207,14 @@ async function Diagnostics(document: vscode.TextDocument) {
 
 	await Promise.allSettled([
 		tryCatch(diagnosticsMismatchingPackageJSONInfo(diagnostics, document), "Diagnostics error:", "MismatchingPackageJSONInfo"),
-		tryCatch(diagnosticsTreeSitterJSONErrors(diagnostics, document), "Diagnostics error:", "TreeSitterJSONErrors"),
-		tryCatch(diagnosticsTreeSitterRegexErrors(diagnostics, document), "Diagnostics error:", "TreeSitterRegexErrors"),
-		tryCatch(diagnosticsRegularExpressionErrors(diagnostics, document), "Diagnostics error:", "OnigurumaRegexErrors"),
-		tryCatch(diagnosticsBrokenIncludes(diagnostics, document), "Diagnostics error:", "BrokenIncludes"),
-		tryCatch(diagnosticsUnusedRepos(diagnostics, document), "Diagnostics error:", "UnusedRepos"),
-		tryCatch(diagnosticsLinguistCaptures(diagnostics, document), "Diagnostics error:", "LinguistCaptures"),
-		tryCatch(diagnosticsHints(diagnostics, document), "Diagnostics error:", "Hints"),
-		tryCatch(diagnosticsDeadTextMateCode(diagnostics, document), "Diagnostics error:", "DeadTextMateCode"),
+		tryCatch(() => diagnosticsTreeSitterJSONErrors(diagnostics, document), "Diagnostics error:", "TreeSitterJSONErrors"),
+		tryCatch(() => diagnosticsTreeSitterRegexErrors(diagnostics, document), "Diagnostics error:", "TreeSitterRegexErrors"),
+		tryCatch(() => diagnosticsRegularExpressionErrors(diagnostics, document), "Diagnostics error:", "OnigurumaRegexErrors"),
+		tryCatch(() => diagnosticsBrokenIncludes(diagnostics, document), "Diagnostics error:", "BrokenIncludes"),
+		tryCatch(() => diagnosticsUnusedRepos(diagnostics, document), "Diagnostics error:", "UnusedRepos"),
+		tryCatch(() => diagnosticsLinguistCaptures(diagnostics, document), "Diagnostics error:", "LinguistCaptures"),
+		tryCatch(() => diagnosticsHints(diagnostics, document), "Diagnostics error:", "Hints"),
+		tryCatch(() => diagnosticsDeadTextMateCode(diagnostics, document), "Diagnostics error:", "DeadTextMateCode"),
 	]);
 
 	DiagnosticCollection.set(document.uri, diagnostics);

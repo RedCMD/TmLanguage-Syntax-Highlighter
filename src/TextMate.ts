@@ -3,7 +3,7 @@ import * as vscode from 'vscode';
 import * as vscodeTextmate from "./textmate/main";
 import * as vscodeOniguruma from 'vscode-oniguruma';
 import { IRelaxedExtension } from "./extensions";
-import { stringify } from "./extension";
+import { stringify, tryCatch } from "./extension";
 import { IGrammar, ScopeName } from "./ITextMate";
 
 
@@ -117,22 +117,29 @@ async function loadGrammar(scopeName: ScopeName): Promise<vscodeTextmate.IRawGra
 
 	const uri = grammarLanguages.scopeName[scopeName]?.uri;
 	if (!uri) {
-		// vscode.window.showInformationMessage(`TextMate: Unknown scopeName: ${scopeName}`);
-		console.log(`TextMate: Unknown scopeName: ${scopeName}`);
+		console.warn("TextMate: Unknown scopeName: ", scopeName);
 		return;
 	}
 
 	// vscode.workspace.openTextDocument() is extremely slow for some reason
-	const file = await vscode.workspace.fs.readFile(uri).then(null, () => { });
+	const file = await tryCatch(
+		vscode.workspace.fs.readFile(uri),
+		"Unable to load grammar for scope", scopeName, "from", uri.path,
+	);
 	if (!file) {
-		vscode.window.showInformationMessage(`TextMate: Unable to load grammar:\n${uri.path}`);
-		console.log(`TextMate: Unable to load grammar:\n${JSON.stringify(uri)}`);
 		return;
 	}
+
 	const decoder = new TextDecoder(); // Works in VSCode web
 	const text = decoder.decode(file);
+	const rawGrammar = await tryCatch(
+		() => vscodeTextmate.parseRawGrammar(text, uri.path),
+		"Unable to parse grammar for scope", scopeName, "from", uri.path,
+	);
+	if (!rawGrammar) {
+		return;
+	}
 
-	const rawGrammar = vscodeTextmate.parseRawGrammar(text, uri.path);
 	return rawGrammar;
 }
 
@@ -179,6 +186,7 @@ export function initTextMate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(vscode.extensions.onDidChange(parseExtensions));
 
+	// https://vscode.dev/github/microsoft/vscode/blob/main/src/vs/workbench/services/textMate/common/TMGrammarFactory.ts#L27
 	const options: vscodeTextmate.RegistryOptions = {
 		onigLib: onigLibInterface(),
 		// theme: theme,
@@ -274,33 +282,38 @@ export async function tokenizeFile(document: vscode.TextDocument, runTwice?: boo
 	ruleStack = vscodeTextmate.INITIAL;
 	const startTime = performance.now();
 	grammar.startTime = startTime;
-	for (let i = 0; i < document.lineCount; i++) {
-		// vscode.window.showInformationMessage(JSON.stringify(grammar, stringify));
-		const line = document.lineAt(i).text;
 
-		const lineTokens = grammar.tokenizeLine(line, ruleStack, 15000);
-		// grammar.rules.pop();
-		grammar.rules.push(undefined);
-		ruleStack = lineTokens.ruleStack;
-		grammar.lines.push(
-			{
-				tokens: lineTokens.tokens,
-				stoppedEarly: lineTokens.stoppedEarly,
-				time: performance.now() - startTime,
-				// @ts-ignore
-				lastRule: ruleStack.ruleId || 1,
-				rulesLength: rulesLength,
-			}
-		);
-		rulesLength = grammar.rules.length;
-		// tokenLineResults.push(
-		// 	{
-		// 		tokens: lineTokens.tokens,
-		// 		ruleStack: structuredClone(lineTokens.ruleStack),
-		// 		stoppedEarly: lineTokens.stoppedEarly,
-		// 	}
-		// );
-		// vscode.window.showInformationMessage(JSON.stringify(ruleStack, stringify));
+	try {
+		for (let i = 0; i < document.lineCount; i++) {
+			// vscode.window.showInformationMessage(JSON.stringify(grammar, stringify));
+			const line = document.lineAt(i).text;
+
+			const lineTokens = grammar.tokenizeLine(line, ruleStack, 15000);
+			// grammar.rules.pop();
+			grammar.rules.push(undefined);
+			ruleStack = lineTokens.ruleStack;
+			grammar.lines.push(
+				{
+					tokens: lineTokens.tokens,
+					stoppedEarly: lineTokens.stoppedEarly,
+					time: performance.now() - startTime,
+					// @ts-expect-error
+					lastRule: ruleStack.ruleId || 1,
+					rulesLength: rulesLength,
+				}
+			);
+			rulesLength = grammar.rules.length;
+			// tokenLineResults.push(
+			// 	{
+			// 		tokens: lineTokens.tokens,
+			// 		ruleStack: structuredClone(lineTokens.ruleStack),
+			// 		stoppedEarly: lineTokens.stoppedEarly,
+			// 	}
+			// );
+			// vscode.window.showInformationMessage(JSON.stringify(ruleStack, stringify));
+		}
+	} catch (error) {
+		vscode.window.showWarningMessage(`TextMate: CallStack: ${error?.toString() || String(error)}`);
 	}
 
 	// vscode.window.showInformationMessage(JSON.stringify(registry, stringify));

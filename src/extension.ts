@@ -248,7 +248,7 @@ export async function getPackageJSON(baseUri: vscode.TextDocument | vscode.Uri, 
 	const decoder = new TextDecoder(); // Works in VSCode web
 	const text = decoder.decode(file);
 	const packageJSON = await tryCatch(
-		JSON.parse(text) as IRelaxedExtensionManifest,
+		() => JSON.parse(text) as IRelaxedExtensionManifest,
 		"Failed to parse package.json",
 	);
 
@@ -265,15 +265,19 @@ export async function getPackageJSON(baseUri: vscode.TextDocument | vscode.Uri, 
 
 // https://gist.github.com/t3dotgg/a486c4ae66d32bf17c09c73609dacc5b
 export async function tryCatch<T>(
-	promise: Promise<T> | Thenable<T> | T,
-	...consoleLogMessage: any[]
+	promiseOrFunction: Promise<T> | Thenable<T> | (() => T),
+	...consoleLogMessages: any[]
 ): Promise<T | null> {
 	try {
-		const data = await promise;
+		if (typeof promiseOrFunction === 'function') {
+			const data = promiseOrFunction();
+			return data;
+		}
+		const data = await promiseOrFunction;
 		return data;
 	} catch (error: any) {
-		if (consoleLogMessage.length) {
-			console.warn('JSON TextMate Extension:', ...consoleLogMessage, '\n', error);
+		if (consoleLogMessages.length) {
+			console.warn('JSON TextMate Extension:', ...consoleLogMessages, '\n', error?.toString() || String(error));
 		}
 		return null;
 	}
