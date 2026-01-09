@@ -112,19 +112,16 @@ suite('Extension Tests', async () => {
 	});
 
 	test('Pre-load test Files', async () => {
-		const fixtures = await vscode.workspace.fs.readDirectory(fixturesUri);
-		const baselines = await vscode.workspace.fs.readDirectory(baselinesUri);
+		const files = await vscode.workspace.findFiles(
+			new vscode.RelativePattern(
+				workspaceFolder.uri,
+				'{fixtures,baselines}/**/*'
+			)
+		);
 		/* await */ Promise.allSettled(
-			[
-				fixtures.map((file) => vscode.window.showTextDocument(
-					vscode.Uri.joinPath(fixturesUri, file[0]),
-					showTextDocumentOptions
-				)),
-				baselines.map((file) => vscode.window.showTextDocument(
-					vscode.Uri.joinPath(baselinesUri, file[0]),
-					showTextDocumentOptions
-				)),
-			].flat(1)
+			files.map(
+				uri => vscode.window.showTextDocument(uri, showTextDocumentOptions)
+			)
 		);
 
 		// Diagnostics can be slow
@@ -144,32 +141,24 @@ suite('Extension Tests', async () => {
 	});
 
 	test('FileTypes', async () => {
-		const files = await vscode.workspace.fs.readDirectory(fixturesUri);
-		const languageIds: { [languageId: string]: string[]; } = {};
+		const files = await vscode.workspace.findFiles(new vscode.RelativePattern(fixturesUri, '**/*'));
+		files.sort(); // Must be predictable
+		const documents = await Promise.all(files.map(uri => vscode.workspace.openTextDocument(uri)));
 
-		for (const file of files) {
-			const path = file[0];
+		const languageIds: {
+			[languageId: string]: string[];
+		} = {};
 
-			if (path == 'fileTypes/ascii.tm-grammar.plist') {
-				// TODO: `fileTypes/ascii.tm-grammar.plist` should be `ascii-textmate`
+		for (const document of documents) {
+			const path = vscode.workspace.asRelativePath(document.uri, false);
+			if (path == 'fixtures/fileTypes/ascii.tm-grammar.plist') {
+				// TODO: `fixtures/fileTypes/ascii.tm-grammar.plist` should be `ascii-textmate`
 				// Works correctly in vscode-web
 				// Broken in VSCode desktop nodejs
 				continue;
 			}
 
-			if (file[1] === 2) {
-				const nestedFiles = await vscode.workspace.fs.readDirectory(vscode.Uri.joinPath(fixturesUri, path));
-				nestedFiles.forEach(file => file[0] = `${path}/${file[0]}`);
-				files.push(...nestedFiles);
-				continue;
-			}
-
-			const editor = await vscode.window.showTextDocument(
-				vscode.Uri.joinPath(fixturesUri, path),
-				showTextDocumentOptions,
-			);
-
-			const languageId = editor.document.languageId;
+			const languageId = document.languageId;
 			languageIds[languageId] ??= [];
 			languageIds[languageId].push(path);
 		}
