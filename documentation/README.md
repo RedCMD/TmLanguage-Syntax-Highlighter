@@ -8,14 +8,14 @@ TextMate has a lot of incomplete and fragmented [documentation](https://macromat
 Hopefully this can be a comprehensive guide for VSCode's JSON TextMate.  
 
 Supported formats:
-* VSCode
+* [VSCode](https://code.visualstudio.com/)
   * [JSON](https://www.json.org/json-en.html) `.tmLanguage.json`
   * [XML](https://en.wikipedia.org/wiki/XML) `.tmLanguage`
-* [TextMate](https://macromates.com/manual/en/appendix#property-list-format)
-  * [Ascii Plist](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/PropertyLists/OldStylePlists/OldStylePLists.html) `.tmLanguage` Old-style property list format [parser](https://github.com/textmate/textmate/blob/master/Frameworks/plist/src/ascii.rl)
-* Sublime
+* [TextMate](https://macromates.com/)
+  * [Ascii Plist](https://macromates.com/manual/en/appendix#property-list-format) `.tmLanguage` ([Old-style Property Lists](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/PropertyLists/OldStylePlists/OldStylePLists.html) format [parser](https://github.com/textmate/textmate/blob/master/Frameworks/plist/src/ascii.rl))
+* [Sublime](https://www.sublimetext.com/)
   * [YAML](https://yaml.org/) `.yaml`
-* Atom
+* [Atom](https://atom-editor.cc/)
   * [CSON](https://github.com/lifthrasiir/cson) `.cson`
 * [Github-Linguist](https://github.com/github-linguist/linguist)
   * JSON `.json`
@@ -29,16 +29,16 @@ Meaning you can't match past/over new lines `\n`.
 
 ## Package.json
 VSCode's TextMate grammar files use the file extension `.tmLanguage.json` & `.tmLanguage` and are located in `./extensions/publisher.extension_name.version/syntaxes/*`.  
-Todo: Explain basics of the `Package.json` in relation to TextMate syntaxes.  
+TODO: Explain basics of the `Package.json` in relation to TextMate syntaxes.  
 
 ## [Rules](rules.md)
 
 ## [Injections](injections.md)
 
 ## Regex
-List of TextMate engines and their regex engines:
+List of TextMate engines and their Regex engines:
 * [VSCode](https://github.com/microsoft/vscode)
-  * [vscode-textmate](https://github.com/microsoft/vscode-textmate/tree/v9.2.0) v9.2.0
+  * [vscode-textmate](https://github.com/microsoft/vscode-textmate/tree/v9.3.0) v9.3.0
     * [vscode-oniguruma](https://github.com/microsoft/vscode-oniguruma/tree/v1.7.0) v1.7.0
       * [oniguruma](https://github.com/kkos/oniguruma/tree/v6.9.8) v6.9.8
 * [TextMate](https://github.com/textmate/textmate) v2.0
@@ -46,8 +46,8 @@ List of TextMate engines and their regex engines:
     * [k-takata/Onigmo](https://github.com/k-takata/Onigmo/tree/Onigmo-5.13.5) v5.13.5
       * [oniguruma](https://github.com/kkos/oniguruma/tree/65a9b1aa03c9bc2dc01b074295b9603232cb3b78) v5.9.2
 * [GitHub](https://github.com/)
-  * [Linguist](https://github.com/github-linguist)
-  * PrettyLights
+  * [Linguist](https://github.com/github-linguist/linguist)
+  * [Lightshow/PrettyLights](https://github.com/github-linguist/linguist/issues/5844)
     * [PCRE](https://github.com/vmg/libpcre) v8.36
   * Pygments
 * [NovaLightshow](https://github.com/Nixinova/NovaLightshow)
@@ -83,12 +83,13 @@ Todo:
   - [TextMate 2.0 manual](https://macromates.com/textmate/manual/)
   - [Writing a TextMate Grammar: Some Lessons Learned](https://www.apeth.com/nonblog/stories/textmatebundle.html)
   - [How to create syntax highlighting for VSCode](https://techblog.kayac.com/vscode-extension-syntax-highlight)
+  - [Building a syntax highlighting extension for VS Code](https://dev.to/borama/building-a-syntax-highlighting-extension-for-vs-code-594)
   - [A guide to writing a language grammar (TextMate) in Atom](https://gist.github.com/Aerijo/b8c82d647db783187804e86fa0a604a1)
   - [TextMate grammar guide](https://markdown-all-in-one.github.io/docs/contributing/textmate-language-grammar.html)
   - [Scope Naming](https://www.sublimetext.com/docs/3/scope_naming.html)
   - [Syntax Naming Conventions](https://github.com/chbk/flight-manual.atom.io/blob/scopes/content/hacking-atom/sections/syntax-naming-conventions.md)
   - [Naming conventions for syntax scopes](https://github.com/atom/flight-manual.atom.io/pull/564)
-  - [Github theme scope-previews](https://github.com/Alhadis/language-etc/blob/master/samples/lists/scope-previews.nanorc)
+  - [Introducing Iro](https://medium.com/@model_train/creating-universal-syntax-highlighters-with-iro-549501698fd2)
 * Resources
   - [VSCode TextMate Oniguruma regex syntax](https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE)
   - [TextMate Language Grammars](https://github.com/dunstontc/textmate/blob/master/readme.md)
@@ -101,18 +102,31 @@ Todo:
   - [VSCode TmLanguage-Syntax-Highlighter Extension](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter)
   - [VSCode Extensions repo](https://github.com/microsoft/vscode/tree/main/extensions)
   - [VSCode JSON Grammar](https://github.com/microsoft/vscode/blob/main/extensions/json/syntaxes/JSON.tmLanguage.json)
+  - [Github theme scope-previews](https://github.com/Alhadis/language-etc/blob/master/samples/lists/scope-previews.nanorc)
 * Playgrounds
-  - [NovaLightshow](https://github.com/aziz/tmTheme-Editor) Nixinova
+  - [NovaLightshow](https://novalightshow.netlify.app/) Nixinova
   - [textmate-grammars-themes](https://textmate-grammars-themes.netlify.app/) Shiki
+  - [phikiphp](https://phiki.dev) Phiki
   - [oniguruma-to-es](https://slevithan.github.io/oniguruma-to-es/demo/) Slevithan
   - [oniguruma-parser](https://slevithan.github.io/oniguruma-parser/demo/) Slevithan
   - [textmate-grammar-playground](https://youngspe.dev/textmate-grammar-playground/) Youngspe
   - [tmLanguage-Playground](https://kermanx.com/tmLanguage-Playground/) Kermanx
   - [Linguist-Demo](https://github.com/DecimalTurn/Linguist-Demo) DecimalTurn
   - [tmTheme-Editor](https://github.com/aziz/tmTheme-Editor) Aziz
+  - [textmate-syntax-playground](https://thetarnav.github.io/tmjs/) TheTarnav
+  - [Iro](https://eeyo.io/iro/) Consoli
 * Bugs
+  - [Empty end matches \uFFFF](https://github.com/microsoft/vscode-textmate/issues/251)
+  - [include grammars don't load within captures](https://github.com/microsoft/vscode-textmate/issues/242)
+  - [Behaviour of begin/end and while patterns do not match TextMate](https://github.com/microsoft/vscode-textmate/issues/241)
+  - [Wrong backreference escaping](https://github.com/microsoft/vscode-textmate/issues/239)
+  - [\\G matches unicode character 0xFFFF �](https://github.com/microsoft/vscode-textmate/issues/232)
+  - [JSON key "id" breaks the tokenizer](https://github.com/microsoft/vscode-textmate/issues/229)
+  - [JSON grammar without filePath parsed incorrectly as PList](https://github.com/microsoft/vscode-textmate/issues/214)
   - [Scopes on Recursive Regex Cause Problems](https://github.com/microsoft/vscode-textmate/issues/208)
   - [Textmate engine bug for \k<> backreferences](https://github.com/microsoft/vscode-textmate/issues/193)
+  - [Scoping Issues For Relative Rule References](https://github.com/microsoft/vscode-textmate/issues/174)
+  - [Absolute rule reference use local scope](https://github.com/microsoft/vscode-textmate/issues/173)
   - [Capturing and applying a pattern causes performance loss](https://github.com/microsoft/vscode-textmate/issues/167)
   - [Repository works only when it defined at top level of grammar file](https://github.com/microsoft/vscode-textmate/issues/140)
   - [multiply applied capture groups seems to ignore some captures](https://github.com/microsoft/vscode-textmate/issues/127)
