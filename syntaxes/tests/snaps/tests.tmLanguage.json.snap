@@ -216,6 +216,40 @@
 >		{
 #^^ source.json.textmate
 #  ^ source.json.textmate punctuation.definition.dictionary.begin.json.tm
+>			"match": "[A-Za-z\\x80-\\x{10FFFF}&&[^∙∘×★⊗⊘⊙⊛⊠⊡∩∧⊓±⊕⊖⊞⊟∪∨⊔]]"
+#^^^ source.json.textmate
+#   ^ source.json.textmate meta.match.regexp punctuation.definition.string.begin.json.tm
+#    ^^^^^ source.json.textmate meta.match.regexp keyword.property-name.string.match.json.tm
+#         ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
+#          ^ source.json.textmate meta.match.regexp punctuation.separator.dictionary.key-value.json.tm
+#           ^ source.json.textmate meta.match.regexp
+#            ^ source.json.textmate meta.match.regexp punctuation.definition.string.begin.json.tm
+#             ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.class.tm
+#              ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm variable.other.enummember.tm
+#               ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm variable.other.enummember.tm strong
+#                ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm variable.other.enummember.tm
+#                 ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm variable.other.enummember.tm
+#                  ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm variable.other.enummember.tm strong
+#                   ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm variable.other.enummember.tm
+#                    ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm punctuation.definition.list.begin.markdown.tm
+#                       ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm constant.numeric.tm
+#                         ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm support.class.tm strong
+#                          ^^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm punctuation.definition.list.begin.markdown.tm
+#                              ^^^^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm constant.numeric.tm
+#                                    ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class-range.tm punctuation.definition.list.begin.markdown.tm
+#                                     ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class keyword.control.tm
+#                                       ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class support.class.tm
+#                                        ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class support.function.tm strong
+#                                         ^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class literal.tm regex
+#                                                              ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class support.class.tm
+#                                                               ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.class.tm
+#                                                                ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
+>		}
+#^^ source.json.textmate
+#  ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
+>		{
+#^^ source.json.textmate
+#  ^ source.json.textmate punctuation.definition.dictionary.begin.json.tm
 >			
 >			"name": "abc def $1 ${2:/upcase}",
 #^^^ source.json.textmate

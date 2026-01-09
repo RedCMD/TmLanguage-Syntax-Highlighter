@@ -19,6 +19,9 @@
 	
 	"patterns": [
 		{
+			"match": "[A-Za-z\\x80-\\x{10FFFF}&&[^∙∘×★⊗⊘⊙⊛⊠⊡∩∧⊓±⊕⊖⊞⊟∪∨⊔]]"
+		}
+		{
 			
 			"name": "abc def $1 ${2:/upcase}",
 			"scopeName": "comment ",

@@ -556,6 +556,17 @@ function diagnosticsRegularExpressionErrors(diagnostics: Diagnostic[], document:
 					// https://github.com/github-linguist/linguist/blob/main/tools/grammars/pcre/pcre.go#L35
 					pcreConstants.DUPNAMES | pcreConstants.UTF8 | pcreConstants.NEWLINE_ANYCRLF,
 				);
+
+				const regexTree = trees.regexTrees.get(regexNode.id);
+				if (regexTree) {
+					const intersectionQuery = `;scm
+						(character_class (literal) @literal (#match? @literal "&&"))
+					`;
+					const intersectionCaptures = queryNode(regexTree.rootNode, intersectionQuery);
+					if (intersectionCaptures.length) {
+						errorCodePCRE = 'Character Class Intersection "&&" is not supported';
+					}
+				}
 			}
 		} catch (error: any) {
 			errorCodePCRE = error?.message || String(error);
