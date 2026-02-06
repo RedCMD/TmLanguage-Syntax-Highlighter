@@ -1,6 +1,5 @@
 .github/
 .git/
-.vscode/
 .vscode-test-web/
 .test-extensions/
 .test-resources/
@@ -8,18 +7,16 @@ _test/
 documentation/
 src/
 node_modules_linked/
-
 assets/images/
-syntaxes/tests/
-node_modules/vscode-tmgrammar-test/
 
-*/**/esm/
-*/**/test/
+**/.vscode/
+**/esm/
+**/test/
+**/bin/
 
 */**/README*
 */**/readme*
 */**/CHANGELOG*
-*/**/*test*
 
 **/*.yml
 **/*.yaml
@@ -38,9 +35,11 @@ node_modules/vscode-tmgrammar-test/
 **/*.md
 **/*.list
 **/.*rc
-**/Makefile
 
-.vsixmanifest
-.editorconfig
-.gitignore
-tsconfig.json
+**/Makefile
+**/test.js
+**/cson.pegjs
+**/.editorconfig
+**/.vsixmanifest
+**/.gitignore
+**/tsconfig.json
