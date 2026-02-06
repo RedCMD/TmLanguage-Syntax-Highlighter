@@ -31,7 +31,7 @@
 		["{", "}"],
 		["[", "]"]
 	],
-	// "wordPattern" doesn't support `atomic` groups or `possessive quantifiers`, leading to catastrophic backtracking. Workaround is to use a lookahead and backreference /(?=(?<name>)...)\\k<name>/
+	// "wordPattern" doesn't support `atomic` groups or `possessive quantifiers`, leading to catastrophic backtracking. Workaround is to use a lookahead, named-group and backreference /(?=(?<name>)...)\\k<name>/
 	// "wordPattern" is used in reference for intellisense suggestion triggering, word highlighting and ctrl+hover definitions
-	"wordPattern": "(?<=(^|(?<!\\\\)[\\[\\]{}:,\\t])\\s*)(?=(?<json>[\\w/$]+))\\k<json>(?=\\s*($|[\\[\\]{}:,\"\\t](?!\\\\)))|(?<=(?<!\\\\)[\"\\s]|\\b[LR]:)(?=(?<string>[a-zA-Z$/][\\w./$-]*\\w))\\k<string>(?=[\"\\s])|(?<=(?<!\\\\)\")(?!\")(?=(?<include>[\\w.$-]*#?[\\w.#$-]*))\\k<include>(?=\")"
+	"wordPattern": "(?<=(^|(?<!\\\\)[\\[\\]{}:,\t])\\s*)(?=(?<json>[\\w/$]+))\\k<json>(?=\\s*($|[\\[\\]{}:,\"\t](?!\\\\)))|(?<=(?<!\\\\)(?:[\" (]|\\\\.)-?|\\b[LR]:)(?=(?<string>[a-zA-Z./$][\\w./$-]*[\\w.]))\\k<string>(?=[\\\\\" )])|(?<=(?<!\\\\)\")(?=(?<include>[\\w.#$-]+))\\k<include>(?=\")"
 }
