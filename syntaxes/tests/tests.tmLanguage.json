@@ -19,6 +19,9 @@
 	
 	"patterns": [
 		{
+			"match": " (?<ñame-@foo>) \\g<ñame-@foo> \\k<ñame-@foo> (?(<ñame-@foo>)) "
+		},
+		{
 			"match": "[A-Za-z\\x80-\\x{10FFFF}&&[^∙∘×★⊗⊘⊙⊛⊠⊡∩∧⊓±⊕⊖⊞⊟∪∨⊔]]"
 		}
 		{

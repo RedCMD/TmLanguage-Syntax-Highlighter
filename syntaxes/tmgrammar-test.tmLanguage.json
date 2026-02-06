@@ -16,19 +16,17 @@
 	],
 	"repository": {
 		"SYNTAX_TEST": {
-			"begin": "\\A(?!>\\S+)(\\S+)\\s+(SYNTAX\\s+TEST)(?>\\s+(\"[^\"]+\")(?>\\s+(\"[^\"]+\"))?)?\\s*(.*)$",
+			"begin": "\\A(?!>\\S+)(\\S+)\\s+(SYNTAX\\s+TEST)(?>\\s+(\"(source\\.|text\\.)?([^\"]*)\")(?>\\s+(\"[^\"]*\"))?)?\\s*(.*)$",
 			"while": "^(\\1)\\s*(\\^+(?:\\s*\\^+)*|<~*-+)|^(.*)$",
 			"beginCaptures": {
 				"0": { "name": "comment.line.tmgrammar" },
 				"1": { "name": "comment.line.character.tmgrammar" },
 				"2": { "name": "keyword.tmgrammar" },
-				"3": {
+				"3": { "name": "string.quoted.double.scopeName.tmgrammar" },
+				"4": { "name": "support.function.tmgrammar" },
+				"5": {
 					"name": "string.quoted.double.scopeName.tmgrammar",
 					"patterns": [
-						{
-							"match": "(?<=\")(?>source|text)\\.",
-							"name": "support.function.tmgrammar"
-						},
 						{
 							"match": "\\.",
 							"name": "support.function.tmgrammar"
@@ -39,8 +37,8 @@
 						}
 					]
 				},
-				"4": { "name": "string.quoted.name.tmgrammar" },
-				"5": { "name": "invalid.tmgrammar" }
+				"6": { "name": "string.quoted.name.tmgrammar" },
+				"7": { "name": "invalid.tmgrammar" }
 			},
 			"whileCaptures": {
 				"1": { "name": "comment.line.character.tmgrammar" },
@@ -50,6 +48,7 @@
 			"patterns": [ { "include": "#scopes" } ]
 		},
 		"original_file": {
+			"comment": "Used in https://github.com/microsoft/TypeScript-TmLanguage",
 			"begin": "\\Aoriginal\\s+file(?=\\s*$)",
 			"while": "^",
 			"beginCaptures": { "0": { "name": "keyword.control.tmgrammar" } },
@@ -101,7 +100,7 @@
 			"contentName": "string.other.code.tmgrammar"
 		},
 		"scope-line": {
-			"begin": "^(#)?\\s*(\\^+(?:\\s*\\^+)*|<~*-+)|^\\s+(?=[-\\w])",
+			"begin": "^(#)?\\s*(\\^+(?:\\s+\\^+)*|<~*-+)|^\\s+(?=[-\\w])",
 			"end": "$",
 			"beginCaptures": {
 				"1": { "name": "comment.line.character.tmgrammar" },
@@ -113,6 +112,10 @@
 			"patterns": [
 				{
 					"match": "-",
+					"name": "keyword.control.negate.tmgrammar"
+				},
+				{
+					"match": "(?<=\\s)!(?=\\s)",
 					"name": "keyword.control.negate.tmgrammar"
 				},
 				{
