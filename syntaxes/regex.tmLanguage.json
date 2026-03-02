@@ -477,7 +477,7 @@
 					"patterns": [
 						{
 							"begin": "(?<=\\?)\\G",
-							"end": "(:)|(\\))",
+							"end": "(:)|(\\))|(?=\")",
 							"endCaptures": {
 								"1": { "name": "support.function.tm" },
 								"2": { "name": "constant.character.set.regexp.tm emphasis.tm" }
@@ -485,7 +485,7 @@
 							"patterns": [ { "include": "#capture-group-modify-options" } ]
 						},
 						{
-							"begin": "(?<=[:)])(?![)\"])",
+							"begin": "(?![)\"])",
 							"end": "(?=[)\"])",
 							"patterns": [ { "include": "$self" } ]
 						}
@@ -513,7 +513,7 @@
 					"patterns": [
 						{
 							"begin": "(?<=\\?)\\G",
-							"end": "(:)|(\\))",
+							"end": "(:)|(\\))|(?=\")",
 							"endCaptures": {
 								"1": { "name": "support.function.tm" },
 								"2": { "name": "constant.character.set.regexp.tm emphasis.tm" }
@@ -521,7 +521,7 @@
 							"patterns": [ { "include": "#capture-group-modify-options" } ]
 						},
 						{
-							"begin": "(?<=[:)])(?![)\"])",
+							"begin": "(?![)\"])",
 							"end": "(?=[)\"])",
 							"patterns": [ { "include": "#$self-extended" } ]
 						}

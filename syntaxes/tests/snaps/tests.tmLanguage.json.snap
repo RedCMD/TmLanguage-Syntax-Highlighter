@@ -3743,6 +3743,136 @@
 #^^ source.json.textmate
 #  ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
 #   ^ source.json.textmate punctuation.separator.dictionary.json.tm
+>		"while-end_extended_backreference": {
+#^^ source.json.textmate
+#  ^ source.json.textmate punctuation.definition.string.begin.json.tm
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate variable.json.tm regex
+#                                   ^ source.json.textmate punctuation.definition.string.end.json.tm
+#                                    ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
+#                                     ^ source.json.textmate
+#                                      ^ source.json.textmate punctuation.definition.dictionary.begin.json.tm
+>			"begin": "(?I)\\1$(?i)\\1(?x)\\1\n(?-x)\\1+(a)",
+#^^^ source.json.textmate
+#   ^ source.json.textmate meta.begin.regexp punctuation.definition.string.begin.json.tm
+#    ^^^^^ source.json.textmate meta.begin.regexp keyword.property-name.string.begin.json.tm
+#         ^ source.json.textmate meta.begin.regexp punctuation.definition.string.end.json.tm
+#          ^ source.json.textmate meta.begin.regexp punctuation.separator.dictionary.key-value.json.tm
+#           ^ source.json.textmate meta.begin.regexp
+#            ^ source.json.textmate meta.begin.regexp punctuation.definition.string.begin.json.tm
+#             ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole constant.character.set.regexp.tm emphasis.tm
+#              ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole support.function.tm
+#               ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole support.function.tm
+#                ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole constant.character.set.regexp.tm emphasis.tm
+#                 ^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole string.regexp.tm
+#                   ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole constant.numeric.tm
+#                    ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole variable.tm
+#                     ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify constant.character.set.regexp.tm emphasis.tm
+#                      ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify support.function.tm
+#                       ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify support.function.tm
+#                        ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify constant.character.set.regexp.tm emphasis.tm
+#                         ^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify string.regexp.tm
+#                           ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify constant.numeric.tm
+#                            ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended constant.character.set.regexp.tm emphasis.tm
+#                             ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended support.function.tm
+#                              ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended support.function.tm
+#                               ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended constant.character.set.regexp.tm emphasis.tm
+#                                ^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended string.regexp.tm
+#                                  ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended constant.numeric.tm
+#                                   ^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended constant.character.escape.tm
+#                                     ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify constant.character.set.regexp.tm emphasis.tm
+#                                      ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify support.function.tm
+#                                       ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify support.function.tm
+#                                        ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify support.function.tm
+#                                         ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify constant.character.set.regexp.tm emphasis.tm
+#                                          ^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify string.regexp.tm
+#                                            ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify constant.numeric.tm
+#                                             ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify keyword.tm
+#                                              ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify constant.character.set.regexp.tm strong
+#                                               ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify entity.name.label.tm strong regex
+#                                                ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify constant.character.set.regexp.tm strong
+#                                                 ^ source.json.textmate meta.begin.regexp punctuation.definition.string.end.json.tm
+#                                                  ^ source.json.textmate punctuation.separator.dictionary.json.tm
+>			"while": "(?I)\\1$(?i)\\1(?x)\\1\n(?-x)\\1+(b)",
+#^^^ source.json.textmate
+#   ^ source.json.textmate meta.while.regexp punctuation.definition.string.begin.json.tm
+#    ^^^^^ source.json.textmate meta.while.regexp keyword.property-name.string.while.json.tm
+#         ^ source.json.textmate meta.while.regexp punctuation.definition.string.end.json.tm
+#          ^ source.json.textmate meta.while.regexp punctuation.separator.dictionary.key-value.json.tm
+#           ^ source.json.textmate meta.while.regexp
+#            ^ source.json.textmate meta.while.regexp punctuation.definition.string.begin.json.tm
+#             ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole constant.character.set.regexp.tm emphasis.tm
+#              ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole support.function.tm
+#               ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole support.function.tm
+#                ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole constant.character.set.regexp.tm emphasis.tm
+#                 ^^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole string.regexp.tm
+#                   ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole constant.numeric.tm
+#                    ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole variable.tm
+#                     ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify constant.character.set.regexp.tm emphasis.tm
+#                      ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify support.function.tm
+#                       ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify support.function.tm
+#                        ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify constant.character.set.regexp.tm emphasis.tm
+#                         ^^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify string.regexp.tm
+#                           ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify constant.numeric.tm
+#                            ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended constant.character.set.regexp.tm emphasis.tm
+#                             ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended support.function.tm
+#                              ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended support.function.tm
+#                               ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended constant.character.set.regexp.tm emphasis.tm
+#                                ^^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended string.regexp.tm
+#                                  ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended constant.numeric.tm
+#                                   ^^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended constant.character.escape.tm
+#                                     ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify constant.character.set.regexp.tm emphasis.tm
+#                                      ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify support.function.tm
+#                                       ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify support.function.tm
+#                                        ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify support.function.tm
+#                                         ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify constant.character.set.regexp.tm emphasis.tm
+#                                          ^^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify string.regexp.tm
+#                                            ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify constant.numeric.tm
+#                                             ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify invalid.illegal.tm
+#                                              ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify constant.character.set.regexp.tm strong
+#                                               ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify entity.name.label.tm strong regex
+#                                                ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp capture-group-modify-whole capture-group-modify capture-group-modify-extended capture-group-modify constant.character.set.regexp.tm strong
+#                                                 ^ source.json.textmate meta.while.regexp punctuation.definition.string.end.json.tm
+#                                                  ^ source.json.textmate punctuation.separator.dictionary.json.tm
+>			"end": "(?i:\\1+)\\1+(?i)\\1+(?#\\1+might not be invalid, but can't detect with TextMate)\\1+"
+#^^^ source.json.textmate
+#   ^ source.json.textmate meta.end.regexp punctuation.definition.string.begin.json.tm
+#    ^^^ source.json.textmate meta.end.regexp keyword.property-name.string.end.json.tm
+#       ^ source.json.textmate meta.end.regexp punctuation.definition.string.end.json.tm
+#        ^ source.json.textmate meta.end.regexp punctuation.separator.dictionary.key-value.json.tm
+#         ^ source.json.textmate meta.end.regexp
+#          ^ source.json.textmate meta.end.regexp punctuation.definition.string.begin.json.tm
+#           ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify constant.character.set.regexp.tm
+#            ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify support.function.tm
+#             ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify support.function.tm
+#              ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify support.function.tm
+#               ^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify string.regexp.tm
+#                 ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify constant.numeric.tm
+#                  ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify invalid.illegal.tm
+#                   ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify constant.character.set.regexp.tm
+#                    ^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp string.regexp.tm
+#                      ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.numeric.tm
+#                       ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp keyword.tm
+#                        ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify constant.character.set.regexp.tm emphasis.tm
+#                         ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify support.function.tm
+#                          ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify support.function.tm
+#                           ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify constant.character.set.regexp.tm emphasis.tm
+#                            ^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify string.regexp.tm
+#                              ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify constant.numeric.tm
+#                               ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify invalid.illegal.tm
+#                                ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify constant.character.set.regexp.tm emphasis.tm
+#                                 ^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify support.function.tm
+#                                   ^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify comment.tm string.regexp.tm
+#                                     ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify comment.tm constant.numeric.tm
+#                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify comment.tm
+#                                                                                           ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify constant.character.set.regexp.tm emphasis.tm
+#                                                                                            ^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify string.regexp.tm
+#                                                                                              ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify constant.numeric.tm
+#                                                                                               ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp capture-group-modify keyword.tm
+#                                                                                                ^ source.json.textmate meta.end.regexp punctuation.definition.string.end.json.tm
+>		},
+#^^ source.json.textmate
+#  ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
+#   ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >		"while-end_character-class_escaped_backreference": {
 #^^ source.json.textmate
 #  ^ source.json.textmate punctuation.definition.string.begin.json.tm

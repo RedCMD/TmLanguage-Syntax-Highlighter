@@ -221,6 +221,11 @@
 		"scopes": {
 			"name": ".comment.dot.scope."
 		},
+		"while-end_extended_backreference": {
+			"begin": "(?I)\\1$(?i)\\1(?x)\\1\n(?-x)\\1+(a)",
+			"while": "(?I)\\1$(?i)\\1(?x)\\1\n(?-x)\\1+(b)",
+			"end": "(?i:\\1+)\\1+(?i)\\1+(?#\\1+might not be invalid, but can't detect with TextMate)\\1+"
+		},
 		"while-end_character-class_escaped_backreference": {
 			"begin": "\\A(sep=)(.)$",
 			"while": "([^\\2]*\\2?)…",
