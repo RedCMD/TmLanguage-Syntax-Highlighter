@@ -37,11 +37,11 @@ TODO: Explain basics of the `Package.json` in relation to TextMate syntaxes.
 
 ## Regex
 List of TextMate engines and their Regex engines:
-* [VSCode](https://github.com/microsoft/vscode)
+* [VSCode](https://github.com/microsoft/vscode) - TypeScript
   * [vscode-textmate](https://github.com/microsoft/vscode-textmate/tree/v9.3.0) v9.3.0
     * [vscode-oniguruma](https://github.com/microsoft/vscode-oniguruma/tree/v1.7.0) v1.7.0
       * [oniguruma](https://github.com/kkos/oniguruma/tree/v6.9.8) v6.9.8
-* [TextMate](https://github.com/textmate/textmate) v2.0
+* [TextMate](https://github.com/textmate/textmate) v2.0 - C++
   * [textmate/Onigmo](https://github.com/textmate/Onigmo/tree/Onigmo-5.13.5) v5.13.5
     * [k-takata/Onigmo](https://github.com/k-takata/Onigmo/tree/Onigmo-5.13.5) v5.13.5
       * [oniguruma](https://github.com/kkos/oniguruma/tree/65a9b1aa03c9bc2dc01b074295b9603232cb3b78) v5.9.2
@@ -50,12 +50,12 @@ List of TextMate engines and their Regex engines:
   * [Lightshow/PrettyLights](https://github.com/github-linguist/linguist/issues/5844)
     * [PCRE](https://github.com/vmg/libpcre) v8.36
   * Pygments
-* [NovaLightshow](https://github.com/Nixinova/NovaLightshow)
+* [NovaLightshow](https://github.com/Nixinova/NovaLightshow) - JavaScript
   * [starry-night](https://github.com/wooorm/starry-night)
     * [vscode-textmate](https://github.com/microsoft/vscode-textmate)
       * [vscode-oniguruma](https://github.com/microsoft/vscode-oniguruma)
         * [oniguruma](https://github.com/kkos/oniguruma/tree/v6.9.8) v6.9.8
-* [ShikiJS](https://github.com/shikijs/shiki)
+* [ShikiJS](https://github.com/shikijs/shiki) - TypeScript
   * [@shikijs/vscode-textmate](https://github.com/shikijs/vscode-textmate)
     * [@shikijs/engine-oniguruma](https://github.com/shikijs/shiki/tree/main/packages/engine-oniguruma)
       * [vscode-oniguruma](https://github.com/microsoft/vscode-oniguruma)
@@ -63,6 +63,22 @@ List of TextMate engines and their Regex engines:
   * [@shikijs/engine-javascript](https://github.com/shikijs/shiki/tree/main/packages/engine-javascript)
     * [oniguruma-to-es](https://github.com/slevithan/oniguruma-to-es)
       * [oniguruma-parser](https://github.com/slevithan/oniguruma-parser) v0.12.1
+* [Eclipse TM4E](https://github.com/eclipse-tm4e/tm4e) - Java
+  * [joni](https://github.com/jruby/joni)
+* [KotlinTextMate](https://github.com/ivan-magda/kotlin-textmate) - Kotlin
+  * [joni](https://github.com/jruby/joni)
+* [codroid-textmate](https://github.com/haodong404/codroid-textmate) - Kotlin
+  * [kotlin-stdlib](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.text/-regex/)
+* [Atom](https://github.com/atom/atom) - JavaScript
+  * [First Mate](https://github.com/atom/first-mate) v7.4.3
+    * [node-oniguruma](https://github.com/atom/node-oniguruma) v7.2.3
+      * [oniguruma](https://github.com/kkos/oniguruma/tree/v5.9.6) v5.9.6
+* [Arust-textmate](https://github.com/si14/rust-textmate) - Rust
+  * [Rust Onig](https://github.com/rust-onig/rust-onig)
+* [Ferroni](https://github.com/sebastian-software/ferroni) - Rust
+* [tmengine](https://github.com/AaravMalani/tmengine) - Python
+* [textmate-highlight](https://github.com/asottile-archive/textmate-highlight) - Python
+* [textfriend](https://github.com/mountainstorm/textfriend) - Python
 
 [regex.tmLanguage.json](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/syntaxes/regex.tmLanguage.json).  
 `\\K` [Keep](https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE#L183) effectively moves the start position of the captured text.  
@@ -90,6 +106,7 @@ Todo:
   - [Syntax Naming Conventions](https://github.com/chbk/flight-manual.atom.io/blob/scopes/content/hacking-atom/sections/syntax-naming-conventions.md)
   - [Naming conventions for syntax scopes](https://github.com/atom/flight-manual.atom.io/pull/564)
   - [Introducing Iro](https://medium.com/@model_train/creating-universal-syntax-highlighters-with-iro-549501698fd2)
+  - [Iro documentation](https://eeyo.io/iro/documentation/)
 * Resources
   - [VSCode TextMate Oniguruma regex syntax](https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE)
   - [TextMate Language Grammars](https://github.com/dunstontc/textmate/blob/master/readme.md)
@@ -103,6 +120,10 @@ Todo:
   - [VSCode Extensions repo](https://github.com/microsoft/vscode/tree/main/extensions)
   - [VSCode JSON Grammar](https://github.com/microsoft/vscode/blob/main/extensions/json/syntaxes/JSON.tmLanguage.json)
   - [Github theme scope-previews](https://github.com/Alhadis/language-etc/blob/master/samples/lists/scope-previews.nanorc)
+* Testers
+  - [vscode-syntax-highlighting-tester](https://github.com/Steffeeen/vscode-syntax-highlighting-tester) Steffeeen
+  - [textmate-grammar-test](https://github.com/serkonda7/textmate-grammar-test) serkonda7
+  - [vscode-tmgrammar-test](https://github.com/PanAeon/vscode-tmgrammar-test) PanAeon
 * Playgrounds
   - [NovaLightshow](https://novalightshow.netlify.app/) Nixinova
   - [textmate-grammars-themes](https://textmate-grammars-themes.netlify.app/) Shiki
