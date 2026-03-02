@@ -36,6 +36,9 @@ export const grammarLanguages: {
 };
 
 function parseExtensions() {
+	grammarLanguages.languageId = {};
+	grammarLanguages.scopeName = {};
+
 	for (const extension of vscode.extensions.all as IRelaxedExtension[]) {
 		// if (extension?.isActive === false) {
 		// 	continue;
@@ -181,10 +184,10 @@ async function onigLibInterface(): vscodeTextmate.RegistryOptions['onigLib'] {
 }
 
 let registry: vscodeTextmate.Registry;
-export function initTextMate(context: vscode.ExtensionContext) {
+export function initTextMate(context?: vscode.ExtensionContext) {
 	parseExtensions();
 
-	context.subscriptions.push(vscode.extensions.onDidChange(parseExtensions));
+	context?.subscriptions.push(vscode.extensions.onDidChange(parseExtensions));
 
 	// https://vscode.dev/github/microsoft/vscode/blob/main/src/vs/workbench/services/textMate/common/TMGrammarFactory.ts#L27
 	const options: vscodeTextmate.RegistryOptions = {

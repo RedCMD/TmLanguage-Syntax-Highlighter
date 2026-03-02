@@ -501,6 +501,11 @@
 					"when": "view == TextMate"
 				},
 				{
+					"command": "textmate.reload.grammars",
+					"group": "navigation@1",
+					"when": "view == TextMate"
+				},
+				{
 					"command": "textmate.tree-view",
 					"group": "navigation@2",
 					"when": "view == TextMate && textmate.call.view == 'list'"
@@ -587,6 +592,12 @@
 				"title": "Refresh",
 				"category": "TextMate",
 				"icon": "$(refresh)"
+			},
+			{
+				"command": "textmate.reload.grammars",
+				"title": "Reload Grammars from Disk",
+				"category": "TextMate",
+				"icon": "$(sync)"
 			},
 			{
 				"command": "textmate.follow.cursor",

@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as vscodeOniguruma from 'vscode-oniguruma';
 // import * as vscodeTextmate from 'vscode-textmate';
 import { stringify } from "../extension";
-import { getScopeName, grammarLanguages, tokenizeFile } from "../TextMate";
+import { getScopeName, grammarLanguages, initTextMate, tokenizeFile } from "../TextMate";
 import { getTrees, queryNode, toRange } from "../TreeSitter";
 import { IGrammar, IMatchResult, IToken, RegExpSource, RuleId, endRuleId, whileRuleId } from "../ITextMate";
 import { IRawGrammar } from "../textmate/main";
@@ -854,6 +854,7 @@ export function initCallStackView(context: vscode.ExtensionContext): void {
 	context.subscriptions.push(
 		vscode.commands.registerTextEditorCommand("textmate.callstack", CallStackView),
 		vscode.commands.registerCommand("textmate.refresh", refresh),
+		vscode.commands.registerCommand("textmate.reload.grammars", reloadGrammars),
 		vscode.commands.registerCommand("textmate.find", find),
 		vscode.commands.registerCommand("textmate.copytoclipboard.grammar", copyGrammarToClipBoard),
 		vscode.commands.registerCommand("textmate.call.details", callDetails),
@@ -1031,6 +1032,14 @@ async function refresh(element?: element) {
 		return;
 	}
 	onDidChangeTreeDataCall.fire(undefined);
+}
+
+async function reloadGrammars(element?: element) {
+	// vscode.window.showInformationMessage(`reloadGrammars\n${JSON.stringify(element)}`);
+
+	initTextMate();
+
+	onDidChangeTreeData.fire(undefined);
 }
 
 async function find(element?: element) {
