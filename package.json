@@ -180,7 +180,8 @@
 				"extensions": [
 					".snap",
 					".baseline.txt",
-					".hitt"
+					".hitt",
+					".golden"
 				],
 				"filenamePatterns": [
 					"**/tests/baselines/**/*.txt",
