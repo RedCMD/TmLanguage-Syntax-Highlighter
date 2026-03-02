@@ -94,11 +94,11 @@
 #                      ^ source.textmate.tmgrammar
 #                       ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var.expr.ts
 #                                       ^ source.textmate.tmgrammar
-#                                        ^^^^^^^ source.textmate.tmgrammar comment.block.ts markup.italic
+#                                        ^^^^^^^ source.textmate.tmgrammar comment.block.ts emphasis.tm
 #                                               ^^^^^^^^^ source.textmate.tmgrammar comment.block.ts
 #                                                        ^ source.textmate.tmgrammar
 #                                                         ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.comment.ts
-#                                                                                ^^^^^^^ source.textmate.tmgrammar punctuation.definition.comment.ts markup.italic
+#                                                                                ^^^^^^^ source.textmate.tmgrammar punctuation.definition.comment.ts emphasis.tm
 #                                                                                       ^^^ source.textmate.tmgrammar punctuation.definition.comment.ts
 >               ^^
 #^^^^^^^^^^^^^^^ source.textmate.tmgrammar
@@ -110,11 +110,11 @@
 #                        ^ source.textmate.tmgrammar
 #                         ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var.expr.ts
 #                                         ^ source.textmate.tmgrammar
-#                                          ^^^^^^^ source.textmate.tmgrammar comment.block.ts markup.italic
+#                                          ^^^^^^^ source.textmate.tmgrammar comment.block.ts emphasis.tm
 #                                                 ^^^^^^^^^ source.textmate.tmgrammar comment.block.ts
 #                                                          ^ source.textmate.tmgrammar
 #                                                           ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.comment.ts
-#                                                                                  ^^^^^^^ source.textmate.tmgrammar punctuation.definition.comment.ts markup.italic
+#                                                                                  ^^^^^^^ source.textmate.tmgrammar punctuation.definition.comment.ts emphasis.tm
 #                                                                                         ^^^ source.textmate.tmgrammar punctuation.definition.comment.ts
 >                 ^
 #^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
@@ -126,7 +126,7 @@
 #                          ^ source.textmate.tmgrammar
 #                           ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var.expr.ts
 #                                           ^ source.textmate.tmgrammar
-#                                            ^^^^^^ source.textmate.tmgrammar string.regexp.ts markup.italic
+#                                            ^^^^^^ source.textmate.tmgrammar string.regexp.ts emphasis.tm
 #                                                  ^^^^^^^^^^ source.textmate.tmgrammar string.regexp.ts
 >                  ^
 #^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
@@ -138,11 +138,11 @@
 #                           ^ source.textmate.tmgrammar
 #                            ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var.expr.ts
 #                                            ^ source.textmate.tmgrammar
-#                                             ^^^^^^ source.textmate.tmgrammar string.regexp.ts markup.italic
+#                                             ^^^^^^ source.textmate.tmgrammar string.regexp.ts emphasis.tm
 #                                                   ^^^^^^^^^^ source.textmate.tmgrammar string.regexp.ts
 #                                                             ^ source.textmate.tmgrammar
 #                                                              ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.ts
-#                                                                                     ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.ts markup.italic
+#                                                                                     ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.ts emphasis.tm
 #                                                                                           ^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.ts
 >                   ^^^
 #^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
@@ -154,7 +154,7 @@
 #                            ^ source.textmate.tmgrammar
 #                             ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var.expr.ts
 #                                             ^ source.textmate.tmgrammar
-#                                              ^^^^^^ source.textmate.tmgrammar string.regexp.ts markup.italic
+#                                              ^^^^^^ source.textmate.tmgrammar string.regexp.ts emphasis.tm
 #                                                    ^^^^^^^^^^ source.textmate.tmgrammar string.regexp.ts
 >                      ^
 #^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
@@ -166,11 +166,11 @@
 #                               ^ source.textmate.tmgrammar
 #                                ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.var.expr.ts
 #                                                ^ source.textmate.tmgrammar
-#                                                 ^^^^^^ source.textmate.tmgrammar string.regexp.ts markup.italic
+#                                                 ^^^^^^ source.textmate.tmgrammar string.regexp.ts emphasis.tm
 #                                                       ^^^^^^^^^^ source.textmate.tmgrammar string.regexp.ts
 #                                                                 ^ source.textmate.tmgrammar
 #                                                                  ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.ts
-#                                                                                         ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.ts markup.italic
+#                                                                                         ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.ts emphasis.tm
 #                                                                                               ^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.ts
 >                       ^
 #^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar

@@ -33,7 +33,7 @@
 						},
 						{
 							"match": "\\b(?>comment|string|regex|meta\\.embedded)\\b",
-							"name": "markup.italic"
+							"name": "emphasis.tmgrammar"
 						}
 					]
 				},

@@ -629,14 +629,14 @@
 #                ^ source.json.textmate meta.begin.regexp punctuation.separator.dictionary.key-value.json.tm
 #                 ^ source.json.textmate meta.begin.regexp
 #                  ^ source.json.textmate meta.begin.regexp punctuation.definition.string.begin.json.tm
-#                   ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                   ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                    ^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                      ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp support.class.tm
 #                       ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp support.function.tm strong
 #                        ^^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp character-class variable.other.enummember.tm
 #                           ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp character-class literal.tm regex
 #                            ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp support.class.tm
-#                             ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                             ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                              ^ source.json.textmate meta.begin.regexp punctuation.definition.string.end.json.tm
 #                               ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >									"end": "(,)|(?=\\))",
@@ -651,11 +651,11 @@
 #                  ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                   ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
 #                    ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp keyword.control.tm
-#                     ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                     ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                      ^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                        ^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.escape.tm
 #                          ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
-#                           ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                           ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                            ^ source.json.textmate meta.end.regexp punctuation.definition.string.end.json.tm
 #                             ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >									"endCaptures": { "1": { "name": "punctuation.separator.array.plist" } },
@@ -723,14 +723,14 @@
 #                     ^ source.json.textmate meta.match.regexp punctuation.definition.string.begin.json.tm
 #                      ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
 #                         ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
-#                          ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                          ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                           ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                             ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                               ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.control.tm
 #                                ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                                 ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.escape.tm
 #                                   ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
-#                                    ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                                    ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                                     ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
 #                                      ^ source.json.textmate
 #                                       ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
@@ -754,7 +754,7 @@
 #                            ^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp character-class keyword.control.tm
 #                              ^^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp character-class variable.other.enummember.tm
 #                                 ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp support.class.tm
-#                                  ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                                  ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                                   ^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                                     ^^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
 #                                        ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp keyword.tm
@@ -766,7 +766,7 @@
 #                                               ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp keyword.control.tm
 #                                                ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp variable.tm
 #                                                 ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
-#                                                  ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                                                  ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                                                   ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
 #                                                    ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp keyword.tm
 #                                                     ^ source.json.textmate meta.begin.regexp punctuation.definition.string.end.json.tm
@@ -1372,7 +1372,7 @@
 #           ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #            ^ source.json.textmate
 #             ^ source.json.textmate comment.block.plist punctuation.definition.string.begin.json.tm
-#              ^^^^^^^ source.json.textmate comment.block.plist markup.italic
+#              ^^^^^^^ source.json.textmate comment.block.plist emphasis.tm
 #                     ^^^^^^^^^^^^ source.json.textmate comment.block.plist
 #                                 ^ source.json.textmate comment.block.plist punctuation.definition.string.end.json.tm
 >				},
@@ -1406,7 +1406,7 @@
 #           ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #            ^ source.json.textmate
 #             ^ source.json.textmate comment.line.double-slash.plist punctuation.definition.string.begin.json.tm
-#              ^^^^^^^ source.json.textmate comment.line.double-slash.plist markup.italic
+#              ^^^^^^^ source.json.textmate comment.line.double-slash.plist emphasis.tm
 #                     ^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate comment.line.double-slash.plist
 #                                             ^ source.json.textmate comment.line.double-slash.plist punctuation.definition.string.end.json.tm
 >				}
@@ -2203,14 +2203,14 @@
 #              ^ source.json.textmate meta.begin.regexp punctuation.separator.dictionary.key-value.json.tm
 #               ^ source.json.textmate meta.begin.regexp
 #                ^ source.json.textmate meta.begin.regexp punctuation.definition.string.begin.json.tm
-#                 ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                 ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                  ^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                    ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp support.class.tm
 #                     ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp support.function.tm strong
 #                      ^^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp character-class variable.other.enummember.tm
 #                         ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp character-class literal.tm regex
 #                          ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp support.class.tm
-#                           ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                           ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                            ^ source.json.textmate meta.begin.regexp punctuation.definition.string.end.json.tm
 #                             ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >							"end": "(,)|(?=\\))",
@@ -2225,11 +2225,11 @@
 #                ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                 ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
 #                  ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp keyword.control.tm
-#                   ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                   ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                    ^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                      ^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.escape.tm
 #                        ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
-#                         ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                         ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                          ^ source.json.textmate meta.end.regexp punctuation.definition.string.end.json.tm
 #                           ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >							"endCaptures": { "1": { "name": "punctuation.separator.array.plist" } },
@@ -2297,14 +2297,14 @@
 #                   ^ source.json.textmate meta.match.regexp punctuation.definition.string.begin.json.tm
 #                    ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
 #                       ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
-#                        ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                        ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                         ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                           ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                             ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.control.tm
 #                              ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                               ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.escape.tm
 #                                 ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
-#                                  ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                                  ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                                   ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
 #                                    ^ source.json.textmate
 #                                     ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
@@ -2328,7 +2328,7 @@
 #                          ^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp character-class keyword.control.tm
 #                            ^^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp character-class variable.other.enummember.tm
 #                               ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp support.class.tm
-#                                ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                                ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                                 ^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                                   ^^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
 #                                      ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp keyword.tm
@@ -2340,7 +2340,7 @@
 #                                             ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp keyword.control.tm
 #                                              ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp variable.tm
 #                                               ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
-#                                                ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                                                ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                                                 ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
 #                                                  ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp keyword.tm
 #                                                   ^ source.json.textmate meta.begin.regexp punctuation.definition.string.end.json.tm
@@ -3347,14 +3347,14 @@
 #            ^ source.json.textmate meta.begin.regexp punctuation.separator.dictionary.key-value.json.tm
 #             ^ source.json.textmate meta.begin.regexp
 #              ^ source.json.textmate meta.begin.regexp punctuation.definition.string.begin.json.tm
-#               ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#               ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                ^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                  ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp support.class.tm
 #                   ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp support.function.tm strong
 #                    ^^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp character-class variable.other.enummember.tm
 #                       ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp character-class literal.tm regex
 #                        ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp support.class.tm
-#                         ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                         ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                          ^ source.json.textmate meta.begin.regexp punctuation.definition.string.end.json.tm
 #                           ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >					"end": "(,)|(?=\\))",
@@ -3369,11 +3369,11 @@
 #              ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #               ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
 #                ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp keyword.control.tm
-#                 ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                 ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                  ^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                    ^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.escape.tm
 #                      ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
-#                       ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                       ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                        ^ source.json.textmate meta.end.regexp punctuation.definition.string.end.json.tm
 #                         ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >					"endCaptures": { "1": { "name": "punctuation.separator.array.plist" } },
@@ -3441,14 +3441,14 @@
 #                 ^ source.json.textmate meta.match.regexp punctuation.definition.string.begin.json.tm
 #                  ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
 #                     ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
-#                      ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                      ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                       ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                         ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                           ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.control.tm
 #                            ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                             ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.escape.tm
 #                               ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
-#                                ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                                ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                                 ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
 #                                  ^ source.json.textmate
 #                                   ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
@@ -3472,7 +3472,7 @@
 #                        ^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp character-class keyword.control.tm
 #                          ^^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp character-class variable.other.enummember.tm
 #                             ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp support.class.tm
-#                              ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                              ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                               ^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                                 ^^^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
 #                                    ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp keyword.tm
@@ -3484,7 +3484,7 @@
 #                                           ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp keyword.control.tm
 #                                            ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp variable.tm
 #                                             ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
-#                                              ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                                              ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                                               ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
 #                                                ^ source.json.textmate meta.begin.regexp meta.embedded.json.textmate.regexp keyword.tm
 #                                                 ^ source.json.textmate meta.begin.regexp punctuation.definition.string.end.json.tm
@@ -3800,10 +3800,10 @@
 #             ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
 #              ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #               ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
-#                ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                 ^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                   ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
-#                    ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                    ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                     ^ source.json.textmate meta.end.regexp punctuation.definition.string.end.json.tm
 #                      ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >					"beginCaptures": { "1": { "name": "punctuation.definition.string.begin.plist" } },
@@ -3829,7 +3829,7 @@
 #                                      ^ source.json.textmate
 #                                       ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.begin.json.tm
 #                                        ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
-#                                                               ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist markup.italic
+#                                                               ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist emphasis.tm
 #                                                                     ^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
 #                                                                                 ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.end.json.tm
 #                                                                                  ^ source.json.textmate
@@ -3860,7 +3860,7 @@
 #                                    ^ source.json.textmate
 #                                     ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.begin.json.tm
 #                                      ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
-#                                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist markup.italic
+#                                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist emphasis.tm
 #                                                                   ^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
 #                                                                             ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.end.json.tm
 #                                                                              ^ source.json.textmate
@@ -3876,7 +3876,7 @@
 #           ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #            ^ source.json.textmate
 #             ^ source.json.textmate string.quoted.single.plist punctuation.definition.string.begin.json.tm
-#              ^^^^^^ source.json.textmate string.quoted.single.plist markup.italic
+#              ^^^^^^ source.json.textmate string.quoted.single.plist emphasis.tm
 #                    ^^^^^^^^^^^^^^^^^^^^ source.json.textmate string.quoted.single.plist
 #                                        ^ source.json.textmate string.quoted.single.plist punctuation.definition.string.end.json.tm
 #                                         ^ source.json.textmate punctuation.separator.dictionary.json.tm
@@ -3888,9 +3888,9 @@
 #                  ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                   ^ source.json.textmate
 #                    ^ source.json.textmate comment.block.string.plist punctuation.definition.string.begin.json.tm
-#                     ^^^^^^^ source.json.textmate comment.block.string.plist markup.italic
+#                     ^^^^^^^ source.json.textmate comment.block.string.plist emphasis.tm
 #                            ^^^^^^^ source.json.textmate comment.block.string.plist
-#                                   ^^^^^^ source.json.textmate comment.block.string.plist markup.italic
+#                                   ^^^^^^ source.json.textmate comment.block.string.plist emphasis.tm
 #                                         ^^^^^^ source.json.textmate comment.block.string.plist
 #                                               ^ source.json.textmate comment.block.string.plist punctuation.definition.string.end.json.tm
 #                                                ^ source.json.textmate punctuation.separator.dictionary.json.tm
@@ -3997,7 +3997,7 @@
 #                                      ^ source.json.textmate
 #                                       ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.begin.json.tm
 #                                        ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
-#                                                               ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist markup.italic
+#                                                               ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist emphasis.tm
 #                                                                     ^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
 #                                                                                 ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.end.json.tm
 #                                                                                  ^ source.json.textmate
@@ -4028,7 +4028,7 @@
 #                                    ^ source.json.textmate
 #                                     ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.begin.json.tm
 #                                      ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
-#                                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist markup.italic
+#                                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist emphasis.tm
 #                                                                   ^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
 #                                                                             ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.end.json.tm
 #                                                                              ^ source.json.textmate
@@ -4044,7 +4044,7 @@
 #           ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #            ^ source.json.textmate
 #             ^ source.json.textmate string.quoted.double.plist punctuation.definition.string.begin.json.tm
-#              ^^^^^^ source.json.textmate string.quoted.double.plist markup.italic
+#              ^^^^^^ source.json.textmate string.quoted.double.plist emphasis.tm
 #                    ^^^^^^^^^^^^^^^^^^^^ source.json.textmate string.quoted.double.plist
 #                                        ^ source.json.textmate string.quoted.double.plist punctuation.definition.string.end.json.tm
 #                                         ^ source.json.textmate punctuation.separator.dictionary.json.tm
@@ -4056,9 +4056,9 @@
 #                  ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                   ^ source.json.textmate
 #                    ^ source.json.textmate comment.block.string.plist punctuation.definition.string.begin.json.tm
-#                     ^^^^^^^ source.json.textmate comment.block.string.plist markup.italic
+#                     ^^^^^^^ source.json.textmate comment.block.string.plist emphasis.tm
 #                            ^^^^^^^ source.json.textmate comment.block.string.plist
-#                                   ^^^^^^ source.json.textmate comment.block.string.plist markup.italic
+#                                   ^^^^^^ source.json.textmate comment.block.string.plist emphasis.tm
 #                                         ^^^^^^ source.json.textmate comment.block.string.plist
 #                                               ^ source.json.textmate comment.block.string.plist punctuation.definition.string.end.json.tm
 #                                                ^ source.json.textmate punctuation.separator.dictionary.json.tm
@@ -4497,12 +4497,12 @@
 #                                                                                                                                                                                                       ^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                                                                                                                                                                                                                          ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
 #                                                                                                                                                                                                                           ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp variable.tm
-#                                                                                                                                                                                                                              ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                                                                                                                                                                                                                              ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                                                                                                                                                                                                                               ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                                                                                                                                                                                                                                 ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
 #                                                                                                                                                                                                                                    ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
 #                                                                                                                                                                                                                                     ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
-#                                                                                                                                                                                                                                      ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                                                                                                                                                                                                                                      ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                                                                                                                                                                                                                                       ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
 #                                                                                                                                                                                                                                        ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >					"name": "invalid.illegal.constant.misplaced-keyword.plist"
@@ -4537,12 +4537,12 @@
 #                           ^^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                               ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
 #                                ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp variable.tm
-#                                   ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                                   ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                                    ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                                      ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
 #                                         ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
 #                                          ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
-#                                           ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                                           ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                                            ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
 #                                             ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >					"name": "invalid.deprecated.constant.plist"
@@ -4591,12 +4591,12 @@
 #                                                                                                                                                            ^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                                                                                                                                                                                 ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
 #                                                                                                                                                                                  ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp variable.tm
-#                                                                                                                                                                                     ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                                                                                                                                                                                     ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                                                                                                                                                                                      ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                                                                                                                                                                                        ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
 #                                                                                                                                                                                           ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
 #                                                                                                                                                                                            ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
-#                                                                                                                                                                                             ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                                                                                                                                                                                             ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                                                                                                                                                                                              ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
 #                                                                                                                                                                                               ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >					"name": "invalid.illegal.constant.outdated.plist"
@@ -4635,12 +4635,12 @@
 #                       ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class literal.tm regex
 #                         ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.class.tm
 #                          ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
-#                           ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                           ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                            ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                              ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
 #                                 ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
 #                                  ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
-#                                   ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                                   ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                                    ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
 #                                     ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >					"name": "invalid.illegal.constant.unknown-keyword.plist"
@@ -4706,10 +4706,10 @@
 #             ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
 #              ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #               ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
-#                ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                 ^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                   ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
-#                    ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                    ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                     ^ source.json.textmate meta.end.regexp punctuation.definition.string.end.json.tm
 #                      ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >					"beginCaptures": { "1": { "name": "punctuation.definition.string.begin.plist" } },
@@ -4735,7 +4735,7 @@
 #                                      ^ source.json.textmate
 #                                       ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.begin.json.tm
 #                                        ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
-#                                                               ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist markup.italic
+#                                                               ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist emphasis.tm
 #                                                                     ^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
 #                                                                                 ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.end.json.tm
 #                                                                                  ^ source.json.textmate
@@ -4766,7 +4766,7 @@
 #                                    ^ source.json.textmate
 #                                     ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.begin.json.tm
 #                                      ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
-#                                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist markup.italic
+#                                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist emphasis.tm
 #                                                                   ^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
 #                                                                             ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.end.json.tm
 #                                                                              ^ source.json.textmate
@@ -4782,7 +4782,7 @@
 #           ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #            ^ source.json.textmate
 #             ^ source.json.textmate string.regexp.oniguruma.single.plist punctuation.definition.string.begin.json.tm
-#              ^^^^^^ source.json.textmate string.regexp.oniguruma.single.plist markup.italic
+#              ^^^^^^ source.json.textmate string.regexp.oniguruma.single.plist emphasis.tm
 #                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate string.regexp.oniguruma.single.plist
 #                                                  ^ source.json.textmate string.regexp.oniguruma.single.plist punctuation.definition.string.end.json.tm
 #                                                   ^ source.json.textmate punctuation.separator.dictionary.json.tm
@@ -4794,7 +4794,7 @@
 #                  ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                   ^ source.json.textmate
 #                    ^ source.json.textmate meta.embedded.json.textmate.regexp punctuation.definition.string.begin.json.tm
-#                     ^^^^^^^^^^^^^ source.json.textmate meta.embedded.json.textmate.regexp markup.italic
+#                     ^^^^^^^^^^^^^ source.json.textmate meta.embedded.json.textmate.regexp emphasis.tm
 #                                  ^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.json.textmate.regexp
 #                                                       ^ source.json.textmate meta.embedded.json.textmate.regexp punctuation.definition.string.end.json.tm
 #                                                        ^ source.json.textmate punctuation.separator.dictionary.json.tm
@@ -4910,7 +4910,7 @@
 #                                      ^ source.json.textmate
 #                                       ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.begin.json.tm
 #                                        ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
-#                                                               ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist markup.italic
+#                                                               ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist emphasis.tm
 #                                                                     ^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
 #                                                                                 ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.end.json.tm
 #                                                                                  ^ source.json.textmate
@@ -4941,7 +4941,7 @@
 #                                    ^ source.json.textmate
 #                                     ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.begin.json.tm
 #                                      ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
-#                                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist markup.italic
+#                                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist emphasis.tm
 #                                                                   ^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
 #                                                                             ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.end.json.tm
 #                                                                              ^ source.json.textmate
@@ -4957,7 +4957,7 @@
 #           ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #            ^ source.json.textmate
 #             ^ source.json.textmate string.regexp.oniguruma.double.plist punctuation.definition.string.begin.json.tm
-#              ^^^^^^ source.json.textmate string.regexp.oniguruma.double.plist markup.italic
+#              ^^^^^^ source.json.textmate string.regexp.oniguruma.double.plist emphasis.tm
 #                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate string.regexp.oniguruma.double.plist
 #                                                  ^ source.json.textmate string.regexp.oniguruma.double.plist punctuation.definition.string.end.json.tm
 #                                                   ^ source.json.textmate punctuation.separator.dictionary.json.tm
@@ -4969,7 +4969,7 @@
 #                  ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                   ^ source.json.textmate
 #                    ^ source.json.textmate meta.embedded.json.textmate.regexp punctuation.definition.string.begin.json.tm
-#                     ^^^^^^^^^^^^^ source.json.textmate meta.embedded.json.textmate.regexp markup.italic
+#                     ^^^^^^^^^^^^^ source.json.textmate meta.embedded.json.textmate.regexp emphasis.tm
 #                                  ^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.json.textmate.regexp
 #                                                       ^ source.json.textmate meta.embedded.json.textmate.regexp punctuation.definition.string.end.json.tm
 #                                                        ^ source.json.textmate punctuation.separator.dictionary.json.tm
@@ -5799,7 +5799,7 @@
 #                      ^ source.json.textmate
 #                       ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.begin.json.tm
 #                        ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
-#                                               ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist markup.italic
+#                                               ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist emphasis.tm
 #                                                     ^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
 #                                                                 ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.end.json.tm
 #                                                                  ^ source.json.textmate
@@ -5901,7 +5901,7 @@
 #                      ^ source.json.textmate
 #                       ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.begin.json.tm
 #                        ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
-#                                               ^^^^^^ source.json.textmate punctuation.definition.string.end.plist markup.italic
+#                                               ^^^^^^ source.json.textmate punctuation.definition.string.end.plist emphasis.tm
 #                                                     ^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
 #                                                               ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.end.json.tm
 #                                                                ^ source.json.textmate
@@ -5918,7 +5918,7 @@
 #             ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #              ^ source.json.textmate
 #               ^ source.json.textmate string.quoted.single.include.plist punctuation.definition.string.begin.json.tm
-#                ^^^^^^ source.json.textmate string.quoted.single.include.plist markup.italic
+#                ^^^^^^ source.json.textmate string.quoted.single.include.plist emphasis.tm
 #                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate string.quoted.single.include.plist
 #                                                  ^ source.json.textmate string.quoted.single.include.plist punctuation.definition.string.end.json.tm
 >						},
@@ -6004,7 +6004,7 @@
 #                      ^ source.json.textmate
 #                       ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.begin.json.tm
 #                        ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
-#                                               ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist markup.italic
+#                                               ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist emphasis.tm
 #                                                     ^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
 #                                                                 ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.end.json.tm
 #                                                                  ^ source.json.textmate
@@ -6106,7 +6106,7 @@
 #                      ^ source.json.textmate
 #                       ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.begin.json.tm
 #                        ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
-#                                               ^^^^^^ source.json.textmate punctuation.definition.string.end.plist markup.italic
+#                                               ^^^^^^ source.json.textmate punctuation.definition.string.end.plist emphasis.tm
 #                                                     ^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
 #                                                               ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.end.json.tm
 #                                                                ^ source.json.textmate
@@ -6123,7 +6123,7 @@
 #             ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #              ^ source.json.textmate
 #               ^ source.json.textmate string.quoted.double.include.plist punctuation.definition.string.begin.json.tm
-#                ^^^^^^ source.json.textmate string.quoted.double.include.plist markup.italic
+#                ^^^^^^ source.json.textmate string.quoted.double.include.plist emphasis.tm
 #                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate string.quoted.double.include.plist
 #                                                  ^ source.json.textmate string.quoted.double.include.plist punctuation.definition.string.end.json.tm
 >						},
@@ -7159,7 +7159,7 @@
 #                   ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                    ^ source.json.textmate
 #                     ^ source.json.textmate string.quoted.double.plist punctuation.definition.string.begin.json.tm
-#                      ^^^^^^ source.json.textmate string.quoted.double.plist markup.italic
+#                      ^^^^^^ source.json.textmate string.quoted.double.plist emphasis.tm
 #                            ^^^^^^^^^^^^^^^^^^^^ source.json.textmate string.quoted.double.plist
 #                                                ^ source.json.textmate string.quoted.double.plist punctuation.definition.string.end.json.tm
 #                                                 ^ source.json.textmate
@@ -7181,7 +7181,7 @@
 #                    ^ source.json.textmate
 #                     ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.begin.json.tm
 #                      ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
-#                                             ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist markup.italic
+#                                             ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist emphasis.tm
 #                                                   ^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
 #                                                               ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.end.json.tm
 #                                                                ^ source.json.textmate
@@ -7223,7 +7223,7 @@
 #                    ^ source.json.textmate
 #                     ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.begin.json.tm
 #                      ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
-#                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist markup.italic
+#                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist emphasis.tm
 #                                                   ^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
 #                                                             ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.end.json.tm
 #                                                              ^ source.json.textmate
@@ -7244,7 +7244,7 @@
 #                   ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                    ^ source.json.textmate
 #                     ^ source.json.textmate string.quoted.single.plist punctuation.definition.string.begin.json.tm
-#                      ^^^^^^ source.json.textmate string.quoted.single.plist markup.italic
+#                      ^^^^^^ source.json.textmate string.quoted.single.plist emphasis.tm
 #                            ^^^^^^^^^^^^^^^^^^^^ source.json.textmate string.quoted.single.plist
 #                                                ^ source.json.textmate string.quoted.single.plist punctuation.definition.string.end.json.tm
 #                                                 ^ source.json.textmate
@@ -7266,7 +7266,7 @@
 #                    ^ source.json.textmate
 #                     ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.begin.json.tm
 #                      ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
-#                                             ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist markup.italic
+#                                             ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist emphasis.tm
 #                                                   ^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
 #                                                               ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.end.json.tm
 #                                                                ^ source.json.textmate
@@ -7308,7 +7308,7 @@
 #                     ^ source.json.textmate
 #                      ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.begin.json.tm
 #                       ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
-#                                              ^^^^^^ source.json.textmate punctuation.definition.string.end.plist markup.italic
+#                                              ^^^^^^ source.json.textmate punctuation.definition.string.end.plist emphasis.tm
 #                                                    ^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
 #                                                              ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.end.json.tm
 #                                                               ^ source.json.textmate
@@ -7675,7 +7675,7 @@
 #                    ^ source.json.textmate
 #                     ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.begin.json.tm
 #                      ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
-#                                             ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist markup.italic
+#                                             ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist emphasis.tm
 #                                                   ^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
 #                                                               ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.end.json.tm
 #                                                                ^ source.json.textmate
@@ -7779,7 +7779,7 @@
 #                    ^ source.json.textmate
 #                     ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.begin.json.tm
 #                      ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
-#                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist markup.italic
+#                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist emphasis.tm
 #                                                   ^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
 #                                                             ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.end.json.tm
 #                                                              ^ source.json.textmate
@@ -7796,7 +7796,7 @@
 #           ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #            ^ source.json.textmate
 #             ^ source.json.textmate string.quoted.single.scope.plist punctuation.definition.string.begin.json.tm
-#              ^^^^^^ source.json.textmate string.quoted.single.scope.plist markup.italic
+#              ^^^^^^ source.json.textmate string.quoted.single.scope.plist emphasis.tm
 #                    ^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate string.quoted.single.scope.plist
 #                                              ^ source.json.textmate string.quoted.single.scope.plist punctuation.definition.string.end.json.tm
 >				},
@@ -7853,7 +7853,7 @@
 #                    ^ source.json.textmate
 #                     ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.begin.json.tm
 #                      ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
-#                                             ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist markup.italic
+#                                             ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist emphasis.tm
 #                                                   ^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
 #                                                               ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.end.json.tm
 #                                                                ^ source.json.textmate
@@ -7957,7 +7957,7 @@
 #                    ^ source.json.textmate
 #                     ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.begin.json.tm
 #                      ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
-#                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist markup.italic
+#                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist emphasis.tm
 #                                                   ^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
 #                                                             ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.end.json.tm
 #                                                              ^ source.json.textmate
@@ -7974,7 +7974,7 @@
 #           ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #            ^ source.json.textmate
 #             ^ source.json.textmate string.quoted.double.scope.plist punctuation.definition.string.begin.json.tm
-#              ^^^^^^ source.json.textmate string.quoted.double.scope.plist markup.italic
+#              ^^^^^^ source.json.textmate string.quoted.double.scope.plist emphasis.tm
 #                    ^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate string.quoted.double.scope.plist
 #                                              ^ source.json.textmate string.quoted.double.scope.plist punctuation.definition.string.end.json.tm
 >				}
@@ -8088,7 +8088,7 @@
 #                    ^ source.json.textmate
 #                     ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.begin.json.tm
 #                      ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
-#                                             ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist markup.italic
+#                                             ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist emphasis.tm
 #                                                   ^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
 #                                                               ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.end.json.tm
 #                                                                ^ source.json.textmate
@@ -8170,7 +8170,7 @@
 #                    ^ source.json.textmate
 #                     ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.begin.json.tm
 #                      ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
-#                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist markup.italic
+#                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist emphasis.tm
 #                                                   ^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
 #                                                             ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.end.json.tm
 #                                                              ^ source.json.textmate
@@ -8187,7 +8187,7 @@
 #           ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #            ^ source.json.textmate
 #             ^ source.json.textmate string.quoted.single.scope.root.plist punctuation.definition.string.begin.json.tm
-#              ^^^^^^ source.json.textmate string.quoted.single.scope.root.plist markup.italic
+#              ^^^^^^ source.json.textmate string.quoted.single.scope.root.plist emphasis.tm
 #                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate string.quoted.single.scope.root.plist
 #                                                   ^ source.json.textmate string.quoted.single.scope.root.plist punctuation.definition.string.end.json.tm
 >				},
@@ -8279,7 +8279,7 @@
 #                    ^ source.json.textmate
 #                     ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.begin.json.tm
 #                      ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
-#                                             ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist markup.italic
+#                                             ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist emphasis.tm
 #                                                   ^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
 #                                                               ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.end.json.tm
 #                                                                ^ source.json.textmate
@@ -8361,7 +8361,7 @@
 #                    ^ source.json.textmate
 #                     ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.begin.json.tm
 #                      ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
-#                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist markup.italic
+#                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist emphasis.tm
 #                                                   ^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
 #                                                             ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.end.json.tm
 #                                                              ^ source.json.textmate
@@ -8378,7 +8378,7 @@
 #           ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #            ^ source.json.textmate
 #             ^ source.json.textmate string.quoted.double.scope.root.plist punctuation.definition.string.begin.json.tm
-#              ^^^^^^ source.json.textmate string.quoted.double.scope.root.plist markup.italic
+#              ^^^^^^ source.json.textmate string.quoted.double.scope.root.plist emphasis.tm
 #                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate string.quoted.double.scope.root.plist
 #                                                   ^ source.json.textmate string.quoted.double.scope.root.plist punctuation.definition.string.end.json.tm
 >				}
@@ -8487,7 +8487,7 @@
 #           ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #            ^ source.json.textmate
 #             ^ source.json.textmate string.unquoted.plist punctuation.definition.string.begin.json.tm
-#              ^^^^^^ source.json.textmate string.unquoted.plist markup.italic
+#              ^^^^^^ source.json.textmate string.unquoted.plist emphasis.tm
 #                    ^^^^^^^^^^^^^^^ source.json.textmate string.unquoted.plist
 #                                   ^ source.json.textmate string.unquoted.plist punctuation.definition.string.end.json.tm
 >				},
@@ -8517,10 +8517,10 @@
 #           ^ source.json.textmate meta.end.regexp
 #            ^ source.json.textmate meta.end.regexp punctuation.definition.string.begin.json.tm
 #             ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
-#              ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#              ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #               ^^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                 ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
-#                  ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                  ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                   ^ source.json.textmate meta.end.regexp punctuation.definition.string.end.json.tm
 #                    ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >					"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.plist" } },
@@ -8546,7 +8546,7 @@
 #                                      ^ source.json.textmate
 #                                       ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.begin.json.tm
 #                                        ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
-#                                                               ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist markup.italic
+#                                                               ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist emphasis.tm
 #                                                                     ^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
 #                                                                                 ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.end.json.tm
 #                                                                                  ^ source.json.textmate
@@ -8577,7 +8577,7 @@
 #                                    ^ source.json.textmate
 #                                     ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.begin.json.tm
 #                                      ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
-#                                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist markup.italic
+#                                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist emphasis.tm
 #                                                                   ^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
 #                                                                             ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.end.json.tm
 #                                                                              ^ source.json.textmate
@@ -8593,7 +8593,7 @@
 #           ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #            ^ source.json.textmate
 #             ^ source.json.textmate string.quoted.single.plist punctuation.definition.string.begin.json.tm
-#              ^^^^^^ source.json.textmate string.quoted.single.plist markup.italic
+#              ^^^^^^ source.json.textmate string.quoted.single.plist emphasis.tm
 #                    ^^^^^^^^^^^^^^^^^^^^ source.json.textmate string.quoted.single.plist
 #                                        ^ source.json.textmate string.quoted.single.plist punctuation.definition.string.end.json.tm
 #                                         ^ source.json.textmate punctuation.separator.dictionary.json.tm
@@ -8696,7 +8696,7 @@
 #                                      ^ source.json.textmate
 #                                       ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.begin.json.tm
 #                                        ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
-#                                                               ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist markup.italic
+#                                                               ^^^^^^ source.json.textmate punctuation.definition.string.begin.plist emphasis.tm
 #                                                                     ^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.begin.plist
 #                                                                                 ^ source.json.textmate punctuation.definition.string.begin.plist punctuation.definition.string.end.json.tm
 #                                                                                  ^ source.json.textmate
@@ -8727,7 +8727,7 @@
 #                                    ^ source.json.textmate
 #                                     ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.begin.json.tm
 #                                      ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
-#                                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist markup.italic
+#                                                             ^^^^^^ source.json.textmate punctuation.definition.string.end.plist emphasis.tm
 #                                                                   ^^^^^^^^^^ source.json.textmate punctuation.definition.string.end.plist
 #                                                                             ^ source.json.textmate punctuation.definition.string.end.plist punctuation.definition.string.end.json.tm
 #                                                                              ^ source.json.textmate
@@ -8743,7 +8743,7 @@
 #           ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #            ^ source.json.textmate
 #             ^ source.json.textmate string.quoted.double.plist punctuation.definition.string.begin.json.tm
-#              ^^^^^^ source.json.textmate string.quoted.double.plist markup.italic
+#              ^^^^^^ source.json.textmate string.quoted.double.plist emphasis.tm
 #                    ^^^^^^^^^^^^^^^^^^^^ source.json.textmate string.quoted.double.plist
 #                                        ^ source.json.textmate string.quoted.double.plist punctuation.definition.string.end.json.tm
 #                                         ^ source.json.textmate punctuation.separator.dictionary.json.tm

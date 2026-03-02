@@ -1512,14 +1512,14 @@
 			"patterns": [
 				{
 					"match": "(?>comment|string|regex|meta\\.embedded)\\b",
-					"name": "markup.italic"
+					"name": "emphasis.tm"
 				},
 				{ "match": "\\w+" },
 				{
 					"comment": "An invalid capture group number does not convert, nor becomes null",
 					"match": "(\\$)(0*)([0-9]{3,1})(?![0-9])",
 					"captures": {
-						"1": { "name": "meta.embedded constant.character.escape.json.tm markup.italic" },
+						"1": { "name": "meta.embedded constant.character.escape.json.tm emphasis.tm" },
 						"2": { "name": "punctuation.definition.tag.json.tm" },
 						"3": { "name": "constant.numeric.json.tm" }
 					}
@@ -1527,7 +1527,7 @@
 				{
 					"match": "(\\$)({)(0*)([0-9]{3,1})(:/)(upcase|downcase)(})",
 					"captures": {
-						"1": { "name": "meta.embedded constant.character.escape.json.tm markup.italic.tm" },
+						"1": { "name": "meta.embedded constant.character.escape.json.tm emphasis.tm" },
 						"2": { "name": "meta.embedded constant.character.escape.json.tm" },
 						"3": { "name": "punctuation.definition.tag.json.tm" },
 						"4": { "name": "constant.numeric.json.tm" },

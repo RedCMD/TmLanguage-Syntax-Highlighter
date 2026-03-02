@@ -76,14 +76,14 @@
 #                 ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
 #                  ^ source.textmate.tmgrammar
 #                   ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.python
-#                                          ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.python markup.italic
+#                                          ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.python emphasis.tm
 #                                                ^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.python
 >//                ^^^^^^^^ string.quoted.single.python
 #^^ source.textmate.tmgrammar comment.line.character.tmgrammar
 #  ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar
 #                  ^^^^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
 #                          ^ source.textmate.tmgrammar
-#                           ^^^^^^ source.textmate.tmgrammar string.quoted.single.python markup.italic
+#                           ^^^^^^ source.textmate.tmgrammar string.quoted.single.python emphasis.tm
 #                                 ^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar string.quoted.single.python
 >//                        ^ punctuation.definition.string.end.python
 #^^ source.textmate.tmgrammar comment.line.character.tmgrammar
@@ -91,7 +91,7 @@
 #                          ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
 #                           ^ source.textmate.tmgrammar
 #                            ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.python
-#                                                   ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.python markup.italic
+#                                                   ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.python emphasis.tm
 #                                                         ^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.python
 >//                         ^ punctuation.separator.element.python
 #^^ source.textmate.tmgrammar comment.line.character.tmgrammar
@@ -165,7 +165,7 @@
 #      ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
 #       ^ source.textmate.tmgrammar
 #        ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.swift
-#                               ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.swift markup.italic
+#                               ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.swift emphasis.tm
 #                                     ^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.swift
 >//     ^ variable.other.gyb
 #^^ source.textmate.tmgrammar comment.line.character.tmgrammar
@@ -191,7 +191,7 @@
 #                 ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
 #                  ^ source.textmate.tmgrammar
 #                   ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.swift
-#                                          ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.swift markup.italic
+#                                          ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.swift emphasis.tm
 #                                                ^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.swift
 >//                ^ punctuation.definition.arguments.end.swift
 #^^ source.textmate.tmgrammar comment.line.character.tmgrammar
@@ -206,7 +206,7 @@
 #  ^ source.textmate.tmgrammar
 #   ^^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
 #         ^ source.textmate.tmgrammar
-#          ^^^^^^^^^^^^^ source.textmate.tmgrammar meta.embedded.control.end.gyb markup.italic
+#          ^^^^^^^^^^^^^ source.textmate.tmgrammar meta.embedded.control.end.gyb emphasis.tm
 #                       ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.embedded.control.end.gyb
 #                                       ^ source.textmate.tmgrammar
 #                                        ^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.flow.gyb
@@ -313,7 +313,7 @@
 #  ^^ source.textmate.tmgrammar
 #    ^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
 #         ^ source.textmate.tmgrammar
-#          ^^^^^^^^^^^^^ source.textmate.tmgrammar meta.embedded.control.end.gyb markup.italic
+#          ^^^^^^^^^^^^^ source.textmate.tmgrammar meta.embedded.control.end.gyb emphasis.tm
 #                       ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.embedded.control.end.gyb
 #                                       ^ source.textmate.tmgrammar
 #                                        ^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.flow.gyb
@@ -433,7 +433,7 @@
 #      ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
 #       ^ source.textmate.tmgrammar
 #        ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.swift
-#                               ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.swift markup.italic
+#                               ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.swift emphasis.tm
 #                                     ^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.begin.swift
 >//     ^ variable.other.gyb
 #^^ source.textmate.tmgrammar comment.line.character.tmgrammar
@@ -459,7 +459,7 @@
 #                 ^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
 #                  ^ source.textmate.tmgrammar
 #                   ^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.swift
-#                                          ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.swift markup.italic
+#                                          ^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.swift emphasis.tm
 #                                                ^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.string.end.swift
 >//                ^ punctuation.definition.arguments.end.swift
 #^^ source.textmate.tmgrammar comment.line.character.tmgrammar
@@ -474,7 +474,7 @@
 #  ^ source.textmate.tmgrammar
 #   ^^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
 #         ^ source.textmate.tmgrammar
-#          ^^^^^^^^^^^^^ source.textmate.tmgrammar meta.embedded.control.end.gyb markup.italic
+#          ^^^^^^^^^^^^^ source.textmate.tmgrammar meta.embedded.control.end.gyb emphasis.tm
 #                       ^^^^^^^^^^^^^^^^ source.textmate.tmgrammar meta.embedded.control.end.gyb
 #                                       ^ source.textmate.tmgrammar
 #                                        ^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar keyword.control.flow.gyb

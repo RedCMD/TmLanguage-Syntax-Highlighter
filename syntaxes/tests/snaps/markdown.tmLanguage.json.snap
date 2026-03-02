@@ -384,7 +384,7 @@
 #                 ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp keyword.control.tm
 #                  ^^^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp variable.tm
 #                     ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm strong
-#                      ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                      ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                       ^^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp support.function.tm
 #                         ^^^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
 #                            ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp keyword.tm
@@ -400,7 +400,7 @@
 #                                       ^^^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
 #                                          ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp keyword.tm
 #                                           ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp variable.tm
-#                                            ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm markup.italic
+#                                            ^ source.json.textmate meta.while.regexp meta.embedded.json.textmate.regexp constant.character.set.regexp.tm emphasis.tm
 #                                             ^ source.json.textmate meta.while.regexp punctuation.definition.string.end.json.tm
 #                                              ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >					"contentName": "meta.embedded.block.json.textmate",
@@ -411,7 +411,7 @@
 #                  ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                   ^ source.json.textmate
 #                    ^ source.json.textmate meta.embedded.block.json.textmate punctuation.definition.string.begin.json.tm
-#                     ^^^^^^^^^^^^^ source.json.textmate meta.embedded.block.json.textmate markup.italic
+#                     ^^^^^^^^^^^^^ source.json.textmate meta.embedded.block.json.textmate emphasis.tm
 #                                  ^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.block.json.textmate
 #                                                      ^ source.json.textmate meta.embedded.block.json.textmate punctuation.definition.string.end.json.tm
 #                                                       ^ source.json.textmate punctuation.separator.dictionary.json.tm

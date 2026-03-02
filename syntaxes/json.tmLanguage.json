@@ -934,7 +934,7 @@
 				{
 					"comment": "Special scopes that change the standard token type. eg. disables bracket matching",
 					"match": "\\b(?>comment|string|regex|meta\\.embedded)\\b",
-					"name": "markup.italic"
+					"name": "emphasis.tm"
 				},
 				{
 					"comment": "An invalid capture group number does not convert, instead it stays as plaintext",

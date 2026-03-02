@@ -187,11 +187,11 @@
 			"begin": "(\\()(\\?[!=])",
 			"end": "(\\))([+*?]|{(?>[0-9]+,?[0-9]*|,[0-9]+)})?|(?='[\t ]*+[\r\n}])",
 			"beginCaptures": {
-				"1": { "name": "constant.character.set.regexp.tm markup.italic" },
+				"1": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 				"2": { "name": "support.function.tm" }
 			},
 			"endCaptures": {
-				"1": { "name": "constant.character.set.regexp.tm markup.italic" },
+				"1": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 				"2": { "name": "invalid.illegal.tm markup.underline" }
 			},
 			"patterns": [ { "include": "$self" } ]
@@ -201,11 +201,11 @@
 			"begin": "(\\()(\\?[!=])",
 			"end": "(\\))([+*?]|{(?>[0-9]+,?[0-9]*|,[0-9]+)})?|(?='[\t ]*+[\r\n}])",
 			"beginCaptures": {
-				"1": { "name": "constant.character.set.regexp.tm markup.italic" },
+				"1": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 				"2": { "name": "support.function.tm" }
 			},
 			"endCaptures": {
-				"1": { "name": "constant.character.set.regexp.tm markup.italic" },
+				"1": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 				"2": { "name": "invalid.illegal.tm markup.underline" }
 			},
 			"patterns": [ { "include": "#$self-extended" } ]
@@ -215,11 +215,11 @@
 			"begin": "(\\()(\\?<=)",
 			"end": "(\\))([+*?]|{(?>[0-9]+,?[0-9]*|,[0-9]+)})?|(?='[\t ]*+[\r\n}])",
 			"beginCaptures": {
-				"1": { "name": "constant.character.set.regexp.tm markup.italic" },
+				"1": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 				"2": { "name": "support.function.tm regex" }
 			},
 			"endCaptures": {
-				"1": { "name": "constant.character.set.regexp.tm markup.italic" },
+				"1": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 				"2": { "name": "invalid.illegal.tm markup.underline" }
 			},
 			"contentName": "capture-group-lookbehind",
@@ -234,11 +234,11 @@
 			"begin": "(\\()(\\?<=)",
 			"end": "(\\))([+*?]|{(?>[0-9]+,?[0-9]*|,[0-9]+)})?|(?='[\t ]*+[\r\n}])",
 			"beginCaptures": {
-				"1": { "name": "constant.character.set.regexp.tm markup.italic" },
+				"1": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 				"2": { "name": "support.function.tm regex" }
 			},
 			"endCaptures": {
-				"1": { "name": "constant.character.set.regexp.tm markup.italic" },
+				"1": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 				"2": { "name": "invalid.illegal.tm markup.underline" }
 			},
 			"contentName": "capture-group-lookbehind-extended",
@@ -281,11 +281,11 @@
 			"begin": "(\\()(\\?<!)",
 			"end": "(\\))([+*?]|{(?>[0-9]+,?[0-9]*|,[0-9]+)})?|(?='[\t ]*+[\r\n}])",
 			"beginCaptures": {
-				"1": { "name": "constant.character.set.regexp.tm markup.italic" },
+				"1": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 				"2": { "name": "support.function.tm regex" }
 			},
 			"endCaptures": {
-				"1": { "name": "constant.character.set.regexp.tm markup.italic" },
+				"1": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 				"2": { "name": "invalid.illegal.tm markup.underline" }
 			},
 			"contentName": "capture-group-negative-lookbehind",
@@ -300,11 +300,11 @@
 			"begin": "(\\()(\\?<!)",
 			"end": "(\\))([+*?]|{(?>[0-9]+,?[0-9]*|,[0-9]+)})?|(?='[\t ]*+[\r\n}])",
 			"beginCaptures": {
-				"1": { "name": "constant.character.set.regexp.tm markup.italic" },
+				"1": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 				"2": { "name": "support.function.tm regex" }
 			},
 			"endCaptures": {
-				"1": { "name": "constant.character.set.regexp.tm markup.italic" },
+				"1": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 				"2": { "name": "invalid.illegal.tm markup.underline" }
 			},
 			"contentName": "capture-group-negative-lookbehind-extended",
@@ -374,7 +374,7 @@
 					"end": "(?='[\t ]*+[\r\n}])",
 					"beginCaptures": {
 						"1": { "name": "constant.character.set.regexp.tm" },
-						"2": { "name": "constant.character.set.regexp.tm markup.italic" },
+						"2": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 						"3": { "name": "support.function.tm" }
 					},
 					"name": "capture-group-modify-whole",
@@ -417,7 +417,7 @@
 						{
 							"begin": "\\)",
 							"end": "(?='[\t ]*+[\r\n}])",
-							"beginCaptures": { "0": { "name": "constant.character.set.regexp.tm markup.italic" } },
+							"beginCaptures": { "0": { "name": "constant.character.set.regexp.tm emphasis.tm" } },
 							"patterns": [ { "include": "$self" } ]
 						}
 					]
@@ -428,7 +428,7 @@
 					"end": "(?((?!\\1))\\)|(?=[')]))(?#Condition is true only when Backreference \\1 from capture group 1 in 'begin' is *not* empty.)|(?='[\t ]*+[\r\n}])",
 					"beginCaptures": {
 						"1": { "name": "constant.character.set.regexp.tm" },
-						"2": { "name": "constant.character.set.regexp.tm markup.italic" },
+						"2": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 						"3": { "name": "support.function.tm" }
 					},
 					"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
@@ -439,7 +439,7 @@
 							"end": "(:)|(\\))",
 							"endCaptures": {
 								"1": { "name": "support.function.tm" },
-								"2": { "name": "constant.character.set.regexp.tm markup.italic" }
+								"2": { "name": "constant.character.set.regexp.tm emphasis.tm" }
 							},
 							"patterns": [ { "include": "#capture-group-modify-options" } ]
 						},
@@ -460,7 +460,7 @@
 					"end": "(?((?!\\1))\\)|(?=\\)|'[\t ]*+[\r\n}]))(?#Condition is true only when Backreference \\1 from capture group 1 in 'begin' is *not* empty.)|(?='[\t ]*+[\r\n}])",
 					"beginCaptures": {
 						"1": { "name": "constant.character.set.regexp.tm" },
-						"2": { "name": "constant.character.set.regexp.tm markup.italic" },
+						"2": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 						"3": { "name": "support.function.tm" }
 					},
 					"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
@@ -471,7 +471,7 @@
 							"end": "(:)|(\\))|(?='[\t ]*+[\r\n}])",
 							"endCaptures": {
 								"1": { "name": "support.function.tm" },
-								"2": { "name": "constant.character.set.regexp.tm markup.italic" }
+								"2": { "name": "constant.character.set.regexp.tm emphasis.tm" }
 							},
 							"patterns": [ { "include": "#capture-group-modify-options" } ]
 						},
@@ -522,7 +522,7 @@
 					"beginCaptures": {
 						"1": { "name": "constant.character.set.regexp.tm" },
 						"2": { "name": "support.function.tm" },
-						"3": { "name": "constant.character.set.regexp.tm markup.italic" },
+						"3": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 						"4": { "name": "support.function.tm" },
 						"6": { "name": "constant.numeric.tm" },
 						"7": { "name": "punctuation.definition.tag.tm" },
@@ -535,7 +535,7 @@
 						"15": { "name": "invalid.illegal.tm regex" },
 						"16": { "name": "support.function.tm" },
 						"17": { "name": "invalid.illegal.tm regex" },
-						"18": { "name": "constant.character.set.regexp.tm markup.italic" },
+						"18": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 						"19": { "name": "constant.character.set.regexp.tm" }
 					},
 					"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
@@ -567,7 +567,7 @@
 					"beginCaptures": {
 						"1": { "name": "constant.character.set.regexp.tm" },
 						"2": { "name": "support.function.tm" },
-						"3": { "name": "constant.character.set.regexp.tm markup.italic" },
+						"3": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 						"4": { "name": "support.function.tm" },
 						"6": { "name": "constant.numeric.tm" },
 						"7": { "name": "punctuation.definition.tag.tm" },
@@ -580,7 +580,7 @@
 						"15": { "name": "invalid.illegal.tm regex" },
 						"16": { "name": "support.function.tm" },
 						"17": { "name": "invalid.illegal.tm regex" },
-						"18": { "name": "constant.character.set.regexp.tm markup.italic" },
+						"18": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 						"19": { "name": "constant.character.set.regexp.tm" }
 					},
 					"endCaptures": { "0": { "name": "constant.character.set.regexp.tm" } },
@@ -655,10 +655,10 @@
 			"begin": "(\\()(\\?#)(?#comment)",
 			"end": "\\)|(?='[\t ]*+[\r\n}])",
 			"beginCaptures": {
-				"1": { "name": "constant.character.set.regexp.tm markup.italic" },
+				"1": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 				"2": { "name": "support.function.tm" }
 			},
-			"endCaptures": { "0": { "name": "constant.character.set.regexp.tm markup.italic" } },
+			"endCaptures": { "0": { "name": "constant.character.set.regexp.tm emphasis.tm" } },
 			"contentName": "comment.tm",
 			"patterns": [
 				{
@@ -756,7 +756,7 @@
 					"comment": "(?{{{...contents...}}}[tag]D)",
 					"match": "(\\()(\\?)({(?:\\g<-1>|({)?(.*?[^}])?(})?)})([^\\[)]*)(?>(\\[)([^]]*)(]))?([^X<>)]*)([X<>])?([^)]*)(\\))",
 					"captures": {
-						"1": { "name": "constant.character.set.regexp.tm markup.italic" },
+						"1": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 						"2": { "name": "support.function.tm" },
 						"3": { "name": "support.function.tm" },
 						"4": { "name": "invalid.illegal.tm markup.underline regex" },
@@ -783,14 +783,14 @@
 						"11": { "name": "invalid.illegal.tm markup.underline regex" },
 						"12": { "name": "markup.bold" },
 						"13": { "name": "invalid.illegal.tm markup.underline regex" },
-						"14": { "name": "constant.character.set.regexp.tm markup.italic" }
+						"14": { "name": "constant.character.set.regexp.tm emphasis.tm" }
 					}
 				},
 				{
 					"comment": "(*name[tag]{args...})",
 					"match": "(\\()(\\*)([A-Za-z_]\\w*+)([^\\[{)]*+)(?>(\\[)([^]]*+)(]))?+([^{)]*+)(?>({)([^}]*+)(}))?+([^)]*+)(\\))([+*?]|{(?>[0-9]++,?+[0-9]*+|,[0-9]++)})?+",
 					"captures": {
-						"1": { "name": "constant.character.set.regexp.tm markup.italic" },
+						"1": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 						"2": { "name": "support.function.tm" },
 						"3": { "name": "markup.bold" },
 						"4": { "name": "invalid.illegal.tm markup.underline regex" },
@@ -816,7 +816,7 @@
 						},
 						"11": { "name": "support.function.tm" },
 						"12": { "name": "invalid.illegal.tm markup.underline regex" },
-						"13": { "name": "constant.character.set.regexp.tm markup.italic" },
+						"13": { "name": "constant.character.set.regexp.tm emphasis.tm" },
 						"14": { "name": "invalid.illegal.tm markup.underline regex" }
 					}
 				}
@@ -1088,21 +1088,21 @@
 					"comment": "[:...[:...\\]...:...[:...:]",
 					"begin": "\\[:(?=(?~(?<!\\\\)(?>\\\\*+'|\\\\{2}*+]))(?>$|(?<!\\\\)\\\\{2}*:]))",
 					"end": ":(?=])|(?<=:)(?=])|(?<=:])",
-					"captures": { "0": { "name": "support.function.tm markup.italic regex" } },
+					"captures": { "0": { "name": "support.function.tm emphasis.tm regex" } },
 					"patterns": [
 						{
 							"match": "\\G(?>alnum|alpha|ascii|blank|cntrl|x?digit|graph|lower|print|punct|space|upper|word)",
-							"name": "invalid.illegal.tm markup.italic"
+							"name": "invalid.illegal.tm emphasis.tm"
 						},
 						{
 							"match": ":",
-							"name": "support.function.tm markup.italic"
+							"name": "support.function.tm emphasis.tm"
 						},
 						{
 							"match": "(\\\\)(])",
 							"captures": {
 								"1": { "name": "constant.character.escape.tm" },
-								"2": { "name": "support.function.tm markup.italic regex" }
+								"2": { "name": "support.function.tm emphasis.tm regex" }
 							}
 						},
 						{ "include": "#character-class-range" },
