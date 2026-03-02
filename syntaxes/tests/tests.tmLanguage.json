@@ -218,6 +218,9 @@
 		{ "patterns": [ ] }
 	],
 	"repository": {
+		"scopes": {
+			"name": ".comment.dot.scope."
+		},
 		"while-end_character-class_escaped_backreference": {
 			"begin": "\\A(sep=)(.)$",
 			"while": "([^\\2]*\\2?)…",

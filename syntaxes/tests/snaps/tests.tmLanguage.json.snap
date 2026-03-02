@@ -3719,6 +3719,30 @@
 #             ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #              ^ source.json.textmate
 #               ^ source.json.textmate punctuation.definition.dictionary.begin.json.tm
+>		"scopes": {
+#^^ source.json.textmate
+#  ^ source.json.textmate punctuation.definition.string.begin.json.tm
+#   ^^^^^^ source.json.textmate variable.json.tm regex
+#         ^ source.json.textmate punctuation.definition.string.end.json.tm
+#          ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
+#           ^ source.json.textmate
+#            ^ source.json.textmate punctuation.definition.dictionary.begin.json.tm
+>			"name": ".comment.dot.scope."
+#^^^ source.json.textmate
+#   ^ source.json.textmate punctuation.definition.string.begin.json.tm
+#    ^^^^ source.json.textmate keyword.property-name.string.name.json.tm
+#        ^ source.json.textmate punctuation.definition.string.end.json.tm
+#         ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
+#          ^ source.json.textmate
+#           ^ source.json.textmate .comment.dot.scope. punctuation.definition.string.begin.json.tm
+#            ^ source.json.textmate .comment.dot.scope.
+#             ^^^^^^^ source.json.textmate .comment.dot.scope. emphasis.tm
+#                    ^^^^^^^^^^^ source.json.textmate .comment.dot.scope.
+#                               ^ source.json.textmate .comment.dot.scope. punctuation.definition.string.end.json.tm
+>		},
+#^^ source.json.textmate
+#  ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
+#   ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >		"while-end_character-class_escaped_backreference": {
 #^^ source.json.textmate
 #  ^ source.json.textmate punctuation.definition.string.begin.json.tm
