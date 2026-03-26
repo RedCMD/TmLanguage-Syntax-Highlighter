@@ -437,11 +437,11 @@
 						},
 						{
 							"match": "\\.[0-9A-Za-z_.:-]*",
-							"name": ".string.tm .$0"
+							"name": ".$0"
 						},
 						{
 							"match": "[0-9A-Za-z_.:][0-9A-Za-z_.:-]*",
-							"name": "string.tm $0"
+							"name": "$0"
 						},
 						{
 							"begin": "\\(",
@@ -450,20 +450,20 @@
 							"patterns": [
 								{
 									"match": "\\|",
-									"name": "keyword.control.negate.tm"
+									"name": "keyword.control.or.tm"
 								},
 								{ "include": "#injection-string-inner" }
 							]
 						},
 						{
 							"match": ",",
-							"name": "keyword.control.tm"
+							"name": "punctuation.separator.delimiter.tm"
 						},
 						{
-							"comment": "Negates the following negation `-`, group `()` or series of scopes `foo bar abc`",
+							"comment": "Negates the following: negation `-`, group `()` or series of scopes `foo bar abc`",
 							"begin": "-",
 							"end": "(?=[\",|)-])|(?!\\G)(?=\\()|(?<=\\))|$",
-							"beginCaptures": { "0": { "name": "support.function.tm" } },
+							"beginCaptures": { "0": { "name": "keyword.operator.negate.tm" } },
 							"patterns": [
 								{
 									"begin": "\\G(?![\",|0-9A-Za-z_.:-])",
@@ -501,11 +501,11 @@
 						},
 						{
 							"match": "\\.[0-9A-Za-z_.:-]*",
-							"name": ".string.tm emphasis.tm .$0"
+							"name": "emphasis.tm .$0"
 						},
 						{
 							"match": "[0-9A-Za-z_.:][0-9A-Za-z_.:-]*",
-							"name": "string.tm emphasis.tm $0"
+							"name": "emphasis.tm $0"
 						},
 						{
 							"begin": "\\(",
@@ -514,7 +514,7 @@
 							"patterns": [
 								{
 									"match": "\\|",
-									"name": "keyword.control.negate.tm"
+									"name": "keyword.control.or.tm"
 								},
 								{ "include": "#injection-string-inner-negated" }
 							]
@@ -522,7 +522,7 @@
 						{
 							"begin": "-",
 							"end": "(?=[\",|)-])|(?!\\G)(?=\\()|(?<=\\))|$",
-							"beginCaptures": { "0": { "name": "support.function.tm" } },
+							"beginCaptures": { "0": { "name": "keyword.operator.negate.tm" } },
 							"patterns": [
 								{
 									"begin": "\\G(?![\",|0-9A-Za-z_.:-])",

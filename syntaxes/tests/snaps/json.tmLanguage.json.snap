@@ -61,16 +61,16 @@
 #^^ source.json.textmate
 #  ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #   ^^ source.json.textmate meta.embedded.injection.tm keyword.control.priority.tm
-#     ^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm capture-group-lookbehind
+#     ^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm capture-group-lookbehind
 #                             ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                              ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm capture-group-modify-extended
+#                              ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm capture-group-modify-extended
 #                                                            ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                             ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                                              ^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm character-class
+#                                                             ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                                              ^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm character-class
 #                                                                             ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                                              ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                                                               ^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm comment
+#                                                                              ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                                                               ^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm comment
 #                                                                                      ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #                                                                                       ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                                                                                        ^ source.json.textmate
@@ -137,16 +137,16 @@
 #^^ source.json.textmate
 #  ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #   ^^ source.json.textmate meta.embedded.injection.tm keyword.control.priority.tm
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm capture-group-lookbehind-extended
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm capture-group-lookbehind-extended
 #                                      ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                       ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                        ^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm capture-group-modify
+#                                       ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                        ^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm capture-group-modify
 #                                                            ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                             ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                                              ^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm character-class
+#                                                             ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                                              ^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm character-class
 #                                                                             ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                                              ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                                                               ^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm comment
+#                                                                              ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                                                               ^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm comment
 #                                                                                      ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #                                                                                       ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                                                                                        ^ source.json.textmate
@@ -213,16 +213,16 @@
 #^^ source.json.textmate
 #  ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #   ^^ source.json.textmate meta.embedded.injection.tm keyword.control.priority.tm
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm capture-group-negative-lookbehind
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm capture-group-negative-lookbehind
 #                                      ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                       ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm capture-group-modify-extended
+#                                       ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm capture-group-modify-extended
 #                                                                     ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                                      ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                                                       ^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm character-class
+#                                                                      ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                                                       ^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm character-class
 #                                                                                      ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                                                       ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                                                                        ^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm comment
+#                                                                                       ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                                                                        ^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm comment
 #                                                                                               ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #                                                                                                ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                                                                                                 ^ source.json.textmate
@@ -289,16 +289,16 @@
 #^^ source.json.textmate
 #  ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #   ^^ source.json.textmate meta.embedded.injection.tm keyword.control.priority.tm
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm capture-group-negative-lookbehind-extended
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm capture-group-negative-lookbehind-extended
 #                                               ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                                 ^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm capture-group-modify
+#                                                ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                                 ^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm capture-group-modify
 #                                                                     ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                                      ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                                                       ^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm character-class
+#                                                                      ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                                                       ^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm character-class
 #                                                                                      ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                                                       ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                                                                        ^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm comment
+#                                                                                       ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                                                                        ^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm comment
 #                                                                                               ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #                                                                                                ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                                                                                                 ^ source.json.textmate
@@ -371,10 +371,10 @@
 #                ^ source.json.textmate meta.embedded.injection.tm string.tm support.function.tm
 #                 ^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm
 #                         ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                          ^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm meta.end.regexp
+#                          ^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm meta.end.regexp
 #                                         ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm meta.embedded.json.textmate.regexp
-#                                                                            ^ source.json.textmate meta.embedded.injection.tm keyword.control.tm
+#                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm meta.embedded.json.textmate.regexp
+#                                                                            ^ source.json.textmate meta.embedded.injection.tm punctuation.separator.delimiter.tm
 #                                                                             ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
 #                                                                              ^^ source.json.textmate meta.embedded.injection.tm keyword.control.priority.tm
 #                                                                                ^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm support.function.tm
@@ -383,9 +383,9 @@
 #                                                                                           ^ source.json.textmate meta.embedded.injection.tm string.tm support.function.tm
 #                                                                                            ^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm
 #                                                                                                    ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                                                                     ^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm meta.while.regexp
+#                                                                                                     ^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm meta.while.regexp
 #                                                                                                                      ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm meta.embedded.json.textmate.regexp
+#                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm meta.embedded.json.textmate.regexp
 #                                                                                                                                                         ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #                                                                                                                                                          ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                                                                                                                                                           ^ source.json.textmate
@@ -5648,19 +5648,18 @@
 #                                   ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
 #                                    ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
 #                                     ^ source.json.textmate punctuation.separator.dictionary.json.tm
->							"name": ".string.tm .$0"
+>							"name": ".$0"
 #^^^^^^^ source.json.textmate
 #       ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #        ^^^^ source.json.textmate keyword.property-name.string.name.json.tm
 #            ^ source.json.textmate punctuation.definition.string.end.json.tm
 #             ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #              ^ source.json.textmate
-#               ^ source.json.textmate string.tm .$0 punctuation.definition.string.begin.json.tm
-#                ^^^^^^^ source.json.textmate .string
-#                       ^^^^^ source.json.textmate string.tm .$0
-#                            ^ source.json.textmate string.tm .$0 constant.character.escape.json.tm
-#                             ^ source.json.textmate string.tm .$0 constant.numeric.json.tm
-#                              ^ source.json.textmate string.tm .$0 punctuation.definition.string.end.json.tm
+#               ^ source.json.textmate .$0 punctuation.definition.string.begin.json.tm
+#                ^ source.json.textmate .$0
+#                 ^ source.json.textmate .$0 constant.character.escape.json.tm
+#                  ^ source.json.textmate .$0 constant.numeric.json.tm
+#                   ^ source.json.textmate .$0 punctuation.definition.string.end.json.tm
 >						},
 #^^^^^^ source.json.textmate
 #      ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
@@ -5705,19 +5704,17 @@
 #                                              ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
 #                                               ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
 #                                                ^ source.json.textmate punctuation.separator.dictionary.json.tm
->							"name": "string.tm $0"
+>							"name": "$0"
 #^^^^^^^ source.json.textmate
 #       ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #        ^^^^ source.json.textmate keyword.property-name.string.name.json.tm
 #            ^ source.json.textmate punctuation.definition.string.end.json.tm
 #             ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #              ^ source.json.textmate
-#               ^ source.json.textmate string.tm $0 punctuation.definition.string.begin.json.tm
-#                ^^^^^^ source.json.textmate string
-#                      ^^^^ source.json.textmate string.tm $0
-#                          ^ source.json.textmate string.tm $0 constant.character.escape.json.tm
-#                           ^ source.json.textmate string.tm $0 constant.numeric.json.tm
-#                            ^ source.json.textmate string.tm $0 punctuation.definition.string.end.json.tm
+#               ^ source.json.textmate $0 punctuation.definition.string.begin.json.tm
+#                ^ source.json.textmate $0 constant.character.escape.json.tm
+#                 ^ source.json.textmate $0 constant.numeric.json.tm
+#                  ^ source.json.textmate $0 punctuation.definition.string.end.json.tm
 >						},
 #^^^^^^ source.json.textmate
 #      ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
@@ -5808,16 +5805,16 @@
 #                     ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                      ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
 #                       ^ source.json.textmate punctuation.separator.dictionary.json.tm
->									"name": "keyword.control.negate.tm"
+>									"name": "keyword.control.or.tm"
 #^^^^^^^^^ source.json.textmate
 #         ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #          ^^^^ source.json.textmate keyword.property-name.string.name.json.tm
 #              ^ source.json.textmate punctuation.definition.string.end.json.tm
 #               ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                ^ source.json.textmate
-#                 ^ source.json.textmate keyword.control.negate.tm punctuation.definition.string.begin.json.tm
-#                  ^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate keyword.control.negate.tm
-#                                           ^ source.json.textmate keyword.control.negate.tm punctuation.definition.string.end.json.tm
+#                 ^ source.json.textmate keyword.control.or.tm punctuation.definition.string.begin.json.tm
+#                  ^^^^^^^^^^^^^^^^^^^^^ source.json.textmate keyword.control.or.tm
+#                                       ^ source.json.textmate keyword.control.or.tm punctuation.definition.string.end.json.tm
 >								},
 #^^^^^^^^ source.json.textmate
 #        ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
@@ -5858,16 +5855,16 @@
 #                 ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                  ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
 #                   ^ source.json.textmate punctuation.separator.dictionary.json.tm
->							"name": "keyword.control.tm"
+>							"name": "punctuation.separator.delimiter.tm"
 #^^^^^^^ source.json.textmate
 #       ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #        ^^^^ source.json.textmate keyword.property-name.string.name.json.tm
 #            ^ source.json.textmate punctuation.definition.string.end.json.tm
 #             ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #              ^ source.json.textmate
-#               ^ source.json.textmate keyword.control.tm punctuation.definition.string.begin.json.tm
-#                ^^^^^^^^^^^^^^^^^^ source.json.textmate keyword.control.tm
-#                                  ^ source.json.textmate keyword.control.tm punctuation.definition.string.end.json.tm
+#               ^ source.json.textmate punctuation.separator.delimiter.tm punctuation.definition.string.begin.json.tm
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.separator.delimiter.tm
+#                                                  ^ source.json.textmate punctuation.separator.delimiter.tm punctuation.definition.string.end.json.tm
 >						},
 #^^^^^^ source.json.textmate
 #      ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
@@ -5875,7 +5872,7 @@
 >						{
 #^^^^^^ source.json.textmate
 #      ^ source.json.textmate punctuation.definition.dictionary.begin.json.tm
->							"comment": "Negates the following negation `-`, group `()` or series of scopes `foo bar abc`",
+>							"comment": "Negates the following: negation `-`, group `()` or series of scopes `foo bar abc`",
 #^^^^^^^ source.json.textmate
 #       ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #        ^^^^^^^ source.json.textmate keyword.property-name.string.comment.json.tm
@@ -5883,9 +5880,9 @@
 #                ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                 ^ source.json.textmate
 #                  ^ source.json.textmate quoted.double.json.tm comment.json.tm punctuation.definition.string.begin.json.tm
-#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate quoted.double.json.tm comment.json.tm
-#                                                                                                   ^ source.json.textmate quoted.double.json.tm comment.json.tm punctuation.definition.string.end.json.tm
-#                                                                                                    ^ source.json.textmate punctuation.separator.dictionary.json.tm
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate quoted.double.json.tm comment.json.tm
+#                                                                                                    ^ source.json.textmate quoted.double.json.tm comment.json.tm punctuation.definition.string.end.json.tm
+#                                                                                                     ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >							"begin": "-",
 #^^^^^^^ source.json.textmate
 #       ^ source.json.textmate meta.begin.regexp punctuation.definition.string.begin.json.tm
@@ -5934,7 +5931,7 @@
 #                                                    ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp variable.tm
 #                                                     ^ source.json.textmate meta.end.regexp punctuation.definition.string.end.json.tm
 #                                                      ^ source.json.textmate punctuation.separator.dictionary.json.tm
->							"beginCaptures": { "0": { "name": "support.function.tm" } },
+>							"beginCaptures": { "0": { "name": "keyword.operator.negate.tm" } },
 #^^^^^^^ source.json.textmate
 #       ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #        ^^^^^^^^^^^^^ source.json.textmate keyword.property-name.string.beginCaptures.json.tm
@@ -5955,14 +5952,14 @@
 #                                      ^ source.json.textmate punctuation.definition.string.end.json.tm
 #                                       ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                                        ^ source.json.textmate
-#                                         ^ source.json.textmate support.function.tm punctuation.definition.string.begin.json.tm
-#                                          ^^^^^^^^^^^^^^^^^^^ source.json.textmate support.function.tm
-#                                                             ^ source.json.textmate support.function.tm punctuation.definition.string.end.json.tm
-#                                                              ^ source.json.textmate
-#                                                               ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
-#                                                                ^ source.json.textmate
-#                                                                 ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
-#                                                                  ^ source.json.textmate punctuation.separator.dictionary.json.tm
+#                                         ^ source.json.textmate keyword.operator.negate.tm punctuation.definition.string.begin.json.tm
+#                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate keyword.operator.negate.tm
+#                                                                    ^ source.json.textmate keyword.operator.negate.tm punctuation.definition.string.end.json.tm
+#                                                                     ^ source.json.textmate
+#                                                                      ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
+#                                                                       ^ source.json.textmate
+#                                                                        ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
+#                                                                         ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >							"patterns": [
 #^^^^^^^ source.json.textmate
 #       ^ source.json.textmate punctuation.definition.string.begin.json.tm
@@ -6397,19 +6394,19 @@
 #                                   ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
 #                                    ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
 #                                     ^ source.json.textmate punctuation.separator.dictionary.json.tm
->							"name": ".string.tm emphasis.tm .$0"
+>							"name": "emphasis.tm .$0"
 #^^^^^^^ source.json.textmate
 #       ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #        ^^^^ source.json.textmate keyword.property-name.string.name.json.tm
 #            ^ source.json.textmate punctuation.definition.string.end.json.tm
 #             ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #              ^ source.json.textmate
-#               ^ source.json.textmate string.tm emphasis.tm .$0 punctuation.definition.string.begin.json.tm
-#                ^^^^^^^ source.json.textmate .string
-#                       ^^^^^^^^^^^^^^^^^ source.json.textmate string.tm emphasis.tm .$0
-#                                        ^ source.json.textmate string.tm emphasis.tm .$0 constant.character.escape.json.tm
-#                                         ^ source.json.textmate string.tm emphasis.tm .$0 constant.numeric.json.tm
-#                                          ^ source.json.textmate string.tm emphasis.tm .$0 punctuation.definition.string.end.json.tm
+#               ^ source.json.textmate emphasis.tm .$0 punctuation.definition.string.begin.json.tm
+#                ^^^^^^^^ source.json.textmate emphasis
+#                        ^^^^^ source.json.textmate emphasis.tm .$0
+#                             ^ source.json.textmate emphasis.tm .$0 constant.character.escape.json.tm
+#                              ^ source.json.textmate emphasis.tm .$0 constant.numeric.json.tm
+#                               ^ source.json.textmate emphasis.tm .$0 punctuation.definition.string.end.json.tm
 >						},
 #^^^^^^ source.json.textmate
 #      ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
@@ -6454,19 +6451,19 @@
 #                                              ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm
 #                                               ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
 #                                                ^ source.json.textmate punctuation.separator.dictionary.json.tm
->							"name": "string.tm emphasis.tm $0"
+>							"name": "emphasis.tm $0"
 #^^^^^^^ source.json.textmate
 #       ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #        ^^^^ source.json.textmate keyword.property-name.string.name.json.tm
 #            ^ source.json.textmate punctuation.definition.string.end.json.tm
 #             ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #              ^ source.json.textmate
-#               ^ source.json.textmate string.tm emphasis.tm $0 punctuation.definition.string.begin.json.tm
-#                ^^^^^^ source.json.textmate string
-#                      ^^^^^^^^^^^^^^^^ source.json.textmate string.tm emphasis.tm $0
-#                                      ^ source.json.textmate string.tm emphasis.tm $0 constant.character.escape.json.tm
-#                                       ^ source.json.textmate string.tm emphasis.tm $0 constant.numeric.json.tm
-#                                        ^ source.json.textmate string.tm emphasis.tm $0 punctuation.definition.string.end.json.tm
+#               ^ source.json.textmate emphasis.tm $0 punctuation.definition.string.begin.json.tm
+#                ^^^^^^^^ source.json.textmate emphasis
+#                        ^^^^ source.json.textmate emphasis.tm $0
+#                            ^ source.json.textmate emphasis.tm $0 constant.character.escape.json.tm
+#                             ^ source.json.textmate emphasis.tm $0 constant.numeric.json.tm
+#                              ^ source.json.textmate emphasis.tm $0 punctuation.definition.string.end.json.tm
 >						},
 #^^^^^^ source.json.textmate
 #      ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
@@ -6557,16 +6554,16 @@
 #                     ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                      ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
 #                       ^ source.json.textmate punctuation.separator.dictionary.json.tm
->									"name": "keyword.control.negate.tm"
+>									"name": "keyword.control.or.tm"
 #^^^^^^^^^ source.json.textmate
 #         ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #          ^^^^ source.json.textmate keyword.property-name.string.name.json.tm
 #              ^ source.json.textmate punctuation.definition.string.end.json.tm
 #               ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                ^ source.json.textmate
-#                 ^ source.json.textmate keyword.control.negate.tm punctuation.definition.string.begin.json.tm
-#                  ^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate keyword.control.negate.tm
-#                                           ^ source.json.textmate keyword.control.negate.tm punctuation.definition.string.end.json.tm
+#                 ^ source.json.textmate keyword.control.or.tm punctuation.definition.string.begin.json.tm
+#                  ^^^^^^^^^^^^^^^^^^^^^ source.json.textmate keyword.control.or.tm
+#                                       ^ source.json.textmate keyword.control.or.tm punctuation.definition.string.end.json.tm
 >								},
 #^^^^^^^^ source.json.textmate
 #        ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
@@ -6644,7 +6641,7 @@
 #                                                    ^ source.json.textmate meta.end.regexp meta.embedded.json.textmate.regexp variable.tm
 #                                                     ^ source.json.textmate meta.end.regexp punctuation.definition.string.end.json.tm
 #                                                      ^ source.json.textmate punctuation.separator.dictionary.json.tm
->							"beginCaptures": { "0": { "name": "support.function.tm" } },
+>							"beginCaptures": { "0": { "name": "keyword.operator.negate.tm" } },
 #^^^^^^^ source.json.textmate
 #       ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #        ^^^^^^^^^^^^^ source.json.textmate keyword.property-name.string.beginCaptures.json.tm
@@ -6665,14 +6662,14 @@
 #                                      ^ source.json.textmate punctuation.definition.string.end.json.tm
 #                                       ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                                        ^ source.json.textmate
-#                                         ^ source.json.textmate support.function.tm punctuation.definition.string.begin.json.tm
-#                                          ^^^^^^^^^^^^^^^^^^^ source.json.textmate support.function.tm
-#                                                             ^ source.json.textmate support.function.tm punctuation.definition.string.end.json.tm
-#                                                              ^ source.json.textmate
-#                                                               ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
-#                                                                ^ source.json.textmate
-#                                                                 ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
-#                                                                  ^ source.json.textmate punctuation.separator.dictionary.json.tm
+#                                         ^ source.json.textmate keyword.operator.negate.tm punctuation.definition.string.begin.json.tm
+#                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate keyword.operator.negate.tm
+#                                                                    ^ source.json.textmate keyword.operator.negate.tm punctuation.definition.string.end.json.tm
+#                                                                     ^ source.json.textmate
+#                                                                      ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
+#                                                                       ^ source.json.textmate
+#                                                                        ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
+#                                                                         ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >							"patterns": [
 #^^^^^^^ source.json.textmate
 #       ^ source.json.textmate punctuation.definition.string.begin.json.tm

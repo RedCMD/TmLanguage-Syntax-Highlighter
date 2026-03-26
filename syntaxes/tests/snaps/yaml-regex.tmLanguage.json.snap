@@ -63,16 +63,16 @@
 #^^ source.json.textmate
 #  ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #   ^^ source.json.textmate meta.embedded.injection.tm keyword.control.priority.tm
-#     ^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm capture-group-lookbehind
+#     ^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm capture-group-lookbehind
 #                             ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                              ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm capture-group-modify-extended
+#                              ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm capture-group-modify-extended
 #                                                            ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                             ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                                              ^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm character-class
+#                                                             ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                                              ^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm character-class
 #                                                                             ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                                              ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                                                               ^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm comment
+#                                                                              ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                                                               ^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm comment
 #                                                                                      ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #                                                                                       ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                                                                                        ^ source.json.textmate
@@ -127,16 +127,16 @@
 #^^ source.json.textmate
 #  ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #   ^^ source.json.textmate meta.embedded.injection.tm keyword.control.priority.tm
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm capture-group-lookbehind-extended
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm capture-group-lookbehind-extended
 #                                      ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                       ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                        ^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm capture-group-modify
+#                                       ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                        ^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm capture-group-modify
 #                                                            ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                             ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                                              ^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm character-class
+#                                                             ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                                              ^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm character-class
 #                                                                             ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                                              ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                                                               ^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm comment
+#                                                                              ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                                                               ^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm comment
 #                                                                                      ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #                                                                                       ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                                                                                        ^ source.json.textmate
@@ -191,16 +191,16 @@
 #^^ source.json.textmate
 #  ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #   ^^ source.json.textmate meta.embedded.injection.tm keyword.control.priority.tm
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm capture-group-negative-lookbehind
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm capture-group-negative-lookbehind
 #                                      ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                       ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm capture-group-modify-extended
+#                                       ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm capture-group-modify-extended
 #                                                                     ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                                      ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                                                       ^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm character-class
+#                                                                      ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                                                       ^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm character-class
 #                                                                                      ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                                                       ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                                                                        ^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm comment
+#                                                                                       ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                                                                        ^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm comment
 #                                                                                               ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #                                                                                                ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                                                                                                 ^ source.json.textmate
@@ -255,16 +255,16 @@
 #^^ source.json.textmate
 #  ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #   ^^ source.json.textmate meta.embedded.injection.tm keyword.control.priority.tm
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm capture-group-negative-lookbehind-extended
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm capture-group-negative-lookbehind-extended
 #                                               ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                                 ^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm capture-group-modify
+#                                                ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                                 ^^^^^^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm capture-group-modify
 #                                                                     ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                                      ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                                                       ^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm character-class
+#                                                                      ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                                                       ^^^^^^^^^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm character-class
 #                                                                                      ^ source.json.textmate meta.embedded.injection.tm comment.injection.whitespace.tm
-#                                                                                       ^ source.json.textmate meta.embedded.injection.tm support.function.tm
-#                                                                                        ^^^^^^^ source.json.textmate meta.embedded.injection.tm string.tm emphasis.tm comment
+#                                                                                       ^ source.json.textmate meta.embedded.injection.tm keyword.operator.negate.tm
+#                                                                                        ^^^^^^^ source.json.textmate meta.embedded.injection.tm emphasis.tm comment
 #                                                                                               ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #                                                                                                ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                                                                                                 ^ source.json.textmate

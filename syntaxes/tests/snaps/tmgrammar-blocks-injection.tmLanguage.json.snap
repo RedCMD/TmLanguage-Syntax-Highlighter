@@ -63,19 +63,19 @@
 #                      ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #                       ^^ source.json.textmate keyword.control.priority.tm
 #                         ^ source.json.textmate constant.character.set.regexp.tm
-#                          ^^^^^^^^^^^^^ source.json.textmate string.tm comment.block
+#                          ^^^^^^^^^^^^^ source.json.textmate comment.block
 #                                       ^ source.json.textmate comment.injection.whitespace.tm
-#                                        ^ source.json.textmate keyword.control.negate.tm
+#                                        ^ source.json.textmate keyword.control.or.tm
 #                                         ^ source.json.textmate comment.injection.whitespace.tm
-#                                          ^^^^^^ source.json.textmate string.tm string
+#                                          ^^^^^^ source.json.textmate string
 #                                                ^ source.json.textmate comment.injection.whitespace.tm
-#                                                 ^ source.json.textmate keyword.control.negate.tm
+#                                                 ^ source.json.textmate keyword.control.or.tm
 #                                                  ^ source.json.textmate comment.injection.whitespace.tm
-#                                                   ^^^^^^^^^^^^^ source.json.textmate string.tm meta.embedded
+#                                                   ^^^^^^^^^^^^^ source.json.textmate meta.embedded
 #                                                                ^ source.json.textmate constant.character.set.regexp.tm
 #                                                                 ^ source.json.textmate comment.injection.whitespace.tm
-#                                                                  ^ source.json.textmate support.function.tm
-#                                                                   ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate string.tm emphasis.tm meta.embedded.tmgrammar
+#                                                                  ^ source.json.textmate keyword.operator.negate.tm
+#                                                                   ^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate emphasis.tm meta.embedded.tmgrammar
 #                                                                                          ^ source.json.textmate punctuation.definition.string.end.json.tm
 #                                                                                           ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >	"patterns": [
