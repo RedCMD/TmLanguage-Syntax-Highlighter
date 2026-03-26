@@ -287,37 +287,42 @@ export async function tokenizeFile(document: vscode.TextDocument, runTwice?: boo
 	const startTime = performance.now();
 	grammar.startTime = startTime;
 
-	try {
-		for (let i = 0; i < document.lineCount; i++) {
-			// vscode.window.showInformationMessage(JSON.stringify(grammar, stringify));
-			const line = document.lineAt(i).text;
+	for (let i = 0; i < document.lineCount; i++) {
+		// vscode.window.showInformationMessage(JSON.stringify(grammar, stringify));
+		const line = document.lineAt(i).text;
 
-			const lineTokens = grammar.tokenizeLine(line, ruleStack, 15000);
-			// grammar.rules.pop();
-			grammar.rules.push(undefined);
-			ruleStack = lineTokens.ruleStack;
-			grammar.lines.push(
-				{
-					tokens: lineTokens.tokens,
-					stoppedEarly: lineTokens.stoppedEarly,
-					time: performance.now() - startTime,
-					// @ts-expect-error
-					lastRule: ruleStack.ruleId || 1,
-					rulesLength: rulesLength,
-				}
-			);
-			rulesLength = grammar.rules.length;
-			// tokenLineResults.push(
-			// 	{
-			// 		tokens: lineTokens.tokens,
-			// 		ruleStack: structuredClone(lineTokens.ruleStack),
-			// 		stoppedEarly: lineTokens.stoppedEarly,
-			// 	}
-			// );
-			// vscode.window.showInformationMessage(JSON.stringify(ruleStack, stringify));
+
+		const lineTokens = tryCatchSync(
+			() => grammar.tokenizeLine(line, ruleStack.clone(), 15000),
+			`tokenizeFile: Error parsing line ${i + 1}:`
+		);
+		// grammar.rules.pop();
+		grammar.rules.push(undefined);
+
+		if (!lineTokens) {
+			continue;
 		}
-	} catch (error) {
-		vscode.window.showWarningMessage(`TextMate: CallStack: ${error?.toString() || String(error)}`);
+
+		ruleStack = lineTokens.ruleStack;
+		grammar.lines.push(
+			{
+				tokens: lineTokens.tokens,
+				stoppedEarly: lineTokens.stoppedEarly,
+				time: performance.now() - startTime,
+				// @ts-expect-error
+				lastRule: ruleStack.ruleId || 1,
+				rulesLength: rulesLength,
+			}
+		);
+		rulesLength = grammar.rules.length;
+		// tokenLineResults.push(
+		// 	{
+		// 		tokens: lineTokens.tokens,
+		// 		ruleStack: structuredClone(lineTokens.ruleStack),
+		// 		stoppedEarly: lineTokens.stoppedEarly,
+		// 	}
+		// );
+		// vscode.window.showInformationMessage(JSON.stringify(ruleStack, stringify));
 	}
 
 	// vscode.window.showInformationMessage(JSON.stringify(registry, stringify));

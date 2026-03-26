@@ -382,13 +382,7 @@ module.exports = grammar({
 		),
 		injection: $ => pair($,
 			$.injection_string,
-			object($,
-				choice(
-					$.patterns,
-					$._comments,
-					$.item,
-				),
-			),
+			$._pattern,
 		),
 		injection_string: $ => choice(
 			repeat1($._injection_scopes),

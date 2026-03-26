@@ -715,6 +715,11 @@ function diagnosticsBrokenIncludes(diagnostics: Diagnostic[], document: vscode.T
 				(repo
 					(key) @nestRepo))
 			!match !begin !include)
+		(injection
+			&patterns (repository
+				(repo
+					(key) @nestRepo))
+			!match !begin)
 		(capture
 			&patterns (repository
 				(repo
@@ -913,11 +918,30 @@ function diagnosticsDeadTextMateCode(diagnostics: Diagnostic[], document: vscode
 		(repo (include) @include &patterns !begin !match)
 		(repo [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @begin &match)
 		(repo [(captures) @captures (name) @name (name_scopeName) @name] !match !begin)
+		(repo (captures) @captures !match &begin &while &beginCaptures &whileCaptures)
+		(repo (captures) @captures !match !while &begin &end &beginCaptures &endCaptures)
+		(repo (endCaptures) @beginPatterns &while !match !include)
 		(repo [(while) @while (end) @end (beginCaptures) @beginCaptures (whileCaptures) @whileCaptures (endCaptures) @endCaptures (contentName) @contentName (applyEndPatternLast) @applyEndPatternLast] !begin)
 		(repo (whileCaptures) @whileCaptures !while)
 		(repo [(endCaptures) @endCaptures (applyEndPatternLast) @applyEndPatternLast] !end)
 		(repo (patterns . (key) . ) @patternsEmpty !match !include)
 		(repo (key) @repoEmpty !match !begin !include !patterns)
+
+		(injection (repository) @repository !patterns !include)
+		(injection (repository) @repository &match)
+		(injection (repository) @repository &begin !match)
+		(injection (patterns) @patterns &match)
+		(injection (include) @include &match)
+		(injection (include) @include &begin !match)
+		(injection (include) @include &patterns !begin !match)
+		(injection [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @begin &match)
+		(injection [(captures) @captures (name) @name (name_scopeName) @name] !match !begin)
+		(injection [(while) @while (end) @end (beginCaptures) @beginCaptures (whileCaptures) @whileCaptures (endCaptures) @endCaptures (contentName) @contentName (applyEndPatternLast) @applyEndPatternLast] !begin)
+		(injection (whileCaptures) @whileCaptures !while)
+		(injection [(endCaptures) @endCaptures (applyEndPatternLast) @applyEndPatternLast] !end)
+		(injection [(begin) (while) (end) (captures) (beginCaptures) (whileCaptures) (endCaptures) (name) (name_scopeName) (contentName) (applyEndPatternLast)] @whileInjection &begin &while !match)
+		(injection (patterns . (key) . ) @patternsEmpty !match !include)
+		(injection (key) @repoEmpty !match !begin !include !patterns)
 
 		(pattern (repository) @repositoryPatterns !patterns)
 		(pattern (repository) @repositoryPatterns &match)
@@ -929,6 +953,9 @@ function diagnosticsDeadTextMateCode(diagnostics: Diagnostic[], document: vscode
 		(pattern [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @beginPatterns &match)
 		(pattern [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @beginPatterns &include !match)
 		(pattern [(captures) @captures (name) @name (name_scopeName) @name] !match !begin)
+		(pattern (captures) @captures !match &begin &while &beginCaptures &whileCaptures)
+		(pattern (captures) @captures !match !while &begin &end &beginCaptures &endCaptures)
+		(pattern (endCaptures) @beginPatterns &while !match !include)
 		(pattern [(while) @while (end) @end (beginCaptures) @beginCaptures (whileCaptures) @whileCaptures (endCaptures) @endCaptures (contentName) @contentName (applyEndPatternLast) @applyEndPatternLast] !begin)
 		(pattern (whileCaptures) @whileCaptures !while)
 		(pattern [(endCaptures) @endCaptures (applyEndPatternLast) @applyEndPatternLast] !end)
@@ -959,6 +986,7 @@ function diagnosticsDeadTextMateCode(diagnostics: Diagnostic[], document: vscode
 			begin: `"begin" requires "match" to be absent.`,
 			beginPatterns: `"begin" requires "match" and "include" to be absent.`,
 			while: `"while" requires "begin" to be present.`,
+			whileInjection: `"while" is required to be absent.`,
 			end: `"end" requires "begin" to be present and "while" to be absent.`,
 			name: `"name" requires either "match" or "begin" to be present.`,
 			contentName: `"contentName" requires "begin" to be present.`,
@@ -1132,6 +1160,7 @@ function diagnosticsHints(diagnostics: Diagnostic[], document: vscode.TextDocume
 		(repo (name (value) @name (#match? @name " ")) !name_scopeName)
 		(pattern (name (value) @name (#match? @name " ")) !name_scopeName)
 		(capture (name (value) @name (#match? @name " ")) !name_scopeName)
+		(injection (name (value) @name (#match? @name " ")) !name_scopeName)
 		(contentName (value) @contentName (#match? @contentName " "))
 	`;
 	const captures = queryNode(rootNode, query);

@@ -53,16 +53,49 @@
 					"type": "object",
 					"additionalProperties": {
 						"description": "An injection selector. https://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#injection-grammars",
-						"type": "object",
-						"properties": {
-							"patterns": {
-								"$ref": "#/definitions/patterns",
-								"suggestSortText": "@patterns"
+						"allOf": [
+							{
+								"properties": {
+									"begin": {
+										"$ref": "#/definitions/begin",
+										"suggestSortText": "~begin"
+									},
+									"end": {
+										"$ref": "#/definitions/end",
+										"suggestSortText": "~end"
+									},
+									"while": {
+										"$ref": "#/definitions/while",
+										"suggestSortText": "~while"
+									},
+									"beginCaptures": {
+										"$ref": "#/definitions/beginCaptures",
+										"suggestSortText": "~beginCaptures"
+									},
+									"endCaptures": {
+										"$ref": "#/definitions/endCaptures",
+										"suggestSortText": "~endCaptures"
+									},
+									"whileCaptures": {
+										"$ref": "#/definitions/whileCaptures",
+										"suggestSortText": "~whileCaptures"
+									},
+									"applyEndPatternLast": {
+										"$ref": "#/definitions/applyEndPatternLast",
+										"suggestSortText": "~applyEndPatternLast"
+									}
+								}
 							},
-							"comment": { "$ref": "#/definitions/comment" },
-							"//": { "$ref": "#/definitions/commentSlash" }
-						},
-						"additionalProperties": { "description": "Unknown key" }
+							{
+								"$comment": "VSCode ignores \"suggestSortText\" if \"deprecationMessage\" is present",
+								"properties": {
+									"begin": { "deprecationMessage": "Broken in VSCode TextMate. It is never run. Nest inside \"patterns\" instead" },
+									"end": { "deprecationMessage": "Broken in VSCode TextMate. It ends the parent rule. Nest inside \"patterns\" instead" },
+									"while": { "deprecationMessage": "Not supported by VSCode TextMate. Nest inside \"patterns\" instead" }
+								}
+							},
+							{ "$ref": "#/definitions/pattern" }
+						]
 					},
 					"default": { "L:source.scopeName -comment -string, R:source.scopeName.another": { } }
 				},
@@ -856,44 +889,44 @@
 			]
 		},
 		"capture": {
-			"$comment": "Who knew all this could go inside a (capture)?",
+			"$comment": "Who knew all this could go inside a (capture)? TextMate 2.0 only supports \"patterns\" and \"repository\"",
 			"description": "Target specific capture group",
 			"type": "object",
 			"properties": {
 				"match": {
-					"deprecationMessage": "Buggy. Nest inside \"patterns\" instead",
+					"deprecationMessage": "Not supported by TextMate 2.0. Nest inside \"patterns\" instead",
 					"$ref": "#/definitions/match"
 				},
 				"begin": {
-					"deprecationMessage": "Buggy. Nest inside \"patterns\" instead",
+					"deprecationMessage": "Not supported. Broken in VSCode TextMate. It is never run. Nest inside \"patterns\" instead",
 					"$ref": "#/definitions/begin"
 				},
 				"end": {
-					"deprecationMessage": "Buggy. Nest inside \"patterns\" instead",
+					"deprecationMessage": "Not supported by TextMate 2.0. Broken in VSCode TextMate. It ends the parent rule. Nest inside \"patterns\" instead",
 					"$ref": "#/definitions/end"
 				},
 				"while": {
-					"deprecationMessage": "Buggy. Nest inside \"patterns\" instead",
+					"deprecationMessage": "Not supported. Nest inside \"patterns\" instead",
 					"$ref": "#/definitions/while"
 				},
 				"captures": {
-					"deprecationMessage": "Buggy. Nest inside \"patterns\" instead",
+					"deprecationMessage": "Not supported. Nest inside \"patterns\" instead",
 					"$ref": "#/definitions/captures"
 				},
 				"beginCaptures": {
-					"deprecationMessage": "Buggy. Nest inside \"patterns\" instead",
+					"deprecationMessage": "Not supported. Nest inside \"patterns\" instead",
 					"$ref": "#/definitions/beginCaptures"
 				},
 				"endCaptures": {
-					"deprecationMessage": "Buggy. Nest inside \"patterns\" instead",
+					"deprecationMessage": "Not supported by TextMate 2.0. Nest inside \"patterns\" instead",
 					"$ref": "#/definitions/endCaptures"
 				},
 				"whileCaptures": {
-					"deprecationMessage": "Buggy. Nest inside \"patterns\" instead",
+					"deprecationMessage": "Not supported. Nest inside \"patterns\" instead",
 					"$ref": "#/definitions/whileCaptures"
 				},
 				"applyEndPatternLast": {
-					"deprecationMessage": "Buggy. Nest inside \"patterns\" instead",
+					"deprecationMessage": "Not supported by TextMate 2.0. Nest inside \"patterns\" instead",
 					"$ref": "#/definitions/applyEndPatternLast"
 				},
 				"name": {
@@ -901,19 +934,18 @@
 					"suggestSortText": "@name"
 				},
 				"contentName": {
-					"deprecationMessage": "Buggy. Use \"name\" instead",
+					"deprecationMessage": "Not supported by TextMate 2.0. Broken in VSCode TextMate. It is applied regardless of \"begin\" not being present. Use \"name\" instead",
 					"$ref": "#/definitions/contentName"
 				},
 				"include": {
-					"deprecationMessage": "\"patterns\" is required to be present here for \"include\" to work. But...\nConflict: \"patterns\" has higher priority than \"include\"",
-					"default": "",
-					"doNotSuggest": true
+					"deprecationMessage": "Not supported. Nest inside \"patterns\" instead",
+					"$ref": "#/definitions/include"
 				},
 				"patterns": {
 					"$comment": "Change `false` to `true` to show a warning on \"patterns\" inside a (capture)",
 					"if": false,
-					"then": { "deprecationMessage": "A \"patterns\" array inside a (capture) causes a performance hit when at the end of a long line." },
-					"else": { "description": "A \"patterns\" array inside a (capture) causes a performance hit when at the end of a long line." },
+					"then": { "deprecationMessage": "An array of pattern's to include\nA \"patterns\" array inside a (capture) causes a performance hit when at the end of a long line." },
+					"else": { "description": "An array of pattern's to include\nA \"patterns\" array inside a (capture) causes a performance hit when at the end of a long line." },
 					"$ref": "#/definitions/patterns",
 					"suggestSortText": "@patterns"
 				},
@@ -921,10 +953,7 @@
 					"$ref": "#/definitions/repository",
 					"suggestSortText": "@repository"
 				},
-				"disabled": {
-					"$ref": "#/definitions/disabled",
-					"doNotSuggest": true
-				},
+				"disabled": { "$ref": "#/definitions/disabled" },
 				"id": { "$ref": "#/definitions/id" },
 				"comment": {
 					"$ref": "#/definitions/comment",

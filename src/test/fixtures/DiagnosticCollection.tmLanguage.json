@@ -2,6 +2,15 @@
 	"comment": " diagnosticsMismatchingPackageJSONInfo ",
 	"scopeName": "source.diagnostics",
 	"injectionSelector": "L:source.js -string -comment",
+	"injections": {
+		"L:source.diagnostics": {
+			"begin": "\"",
+			"while": "^\\s*",
+			"captures": { "0": { "name": "" } },
+			"beginCaptures": { "0": { "name": "" } },
+			"whileCaptures": { "0": { "name": "" } }
+		}
+	},
 	"patterns": [
 		{
 			"comment": " diagnosticsTreeSitterJSONErrors "

@@ -4,6 +4,30 @@
 	"injectionSelector": ["L:meta.embedded.block.js,\nL:meta.embedded.block.css,\nL:meta.embedded.block.html,\nL:meta.tag.structure,\nL:string.quoted\nstring"],
 	"injections": {
 		"L:source.scopeName -comment string, R:source.scopeName.another -string string ": {
+			"match": "\\b(true|false)\\b",
+			"begin": "abc",
+			"end": "\"",
+			"while": "\\b(true|false)\\b",
+			"captures": { "0": { "name": "token.debug-token" } },
+			"beginCaptures": { "0": { "name": "token.error-token" } },
+			"endCaptures": { "0": { "name": "token.info-token" } },
+			"whileCaptures": { "0": { "name": "token.warn-token" } },
+			"applyEndPatternLast": 0,
+			"name": "key word",
+			"include": "#abc",
+			"patterns": [
+				{ "include": "#abc" },
+				{
+					"match": "d",
+					"name": "comment"
+				}
+			],
+			"repository": {
+				"abc": {
+					"match": ".+",
+					"name": "string"
+				}
+			}
 		},
 		"text.html.statamic - (meta.embedded | meta.tag | comment.block.html | comment.block.statamic), L:(text.html.statamic meta.tag - (comment.block.statamic | meta.embedded.statamic | comment.block.html))": {
 			"patterns": [
