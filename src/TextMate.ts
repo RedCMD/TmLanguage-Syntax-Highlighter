@@ -3,7 +3,7 @@ import * as vscode from 'vscode';
 import * as vscodeTextmate from "./textmate/main";
 import * as vscodeOniguruma from 'vscode-oniguruma';
 import { IRelaxedExtension } from "./extensions";
-import { stringify, tryCatch } from "./extension";
+import { stringify, tryCatchAsync, tryCatchSync } from "./extension";
 import { IGrammar, ScopeName } from "./ITextMate";
 
 
@@ -125,7 +125,7 @@ async function loadGrammar(scopeName: ScopeName): Promise<vscodeTextmate.IRawGra
 	}
 
 	// vscode.workspace.openTextDocument() is extremely slow for some reason
-	const file = await tryCatch(
+	const file = await tryCatchAsync(
 		vscode.workspace.fs.readFile(uri),
 		"Unable to load grammar for scope", scopeName, "from", uri.path,
 	);
@@ -135,7 +135,7 @@ async function loadGrammar(scopeName: ScopeName): Promise<vscodeTextmate.IRawGra
 
 	const decoder = new TextDecoder(); // Works in VSCode web
 	const text = decoder.decode(file);
-	const rawGrammar = await tryCatch(
+	const rawGrammar = tryCatchSync(
 		() => vscodeTextmate.parseRawGrammar(text, uri.path),
 		"Unable to parse grammar for scope", scopeName, "from", uri.path,
 	);
@@ -250,20 +250,21 @@ export async function tokenizeLine(document: vscode.TextDocument, lineNumber: nu
 }
 
 let activeScopeName: ScopeName | null;
-export async function tokenizeFile(document: vscode.TextDocument, runTwice?: boolean): Promise<IGrammar> {
+export async function tokenizeFile(document: vscode.TextDocument, runTwice?: boolean): Promise<IGrammar | null> {
 	const lang = document.languageId;
 	const scopeName = getScopeName(lang);
 	// const grammar = await registry.loadGrammar(scopeName);
 
 	// const start = performance.now();
 	activeScopeName = scopeName;
-	const grammar = <IGrammar>await registry.loadGrammar(scopeName ?? '').catch(error =>
-		console.log("JSON TextMate: Invalid grammar for scopeName:", scopeName, '\n', error)
+	const grammar = await tryCatchAsync(
+		registry.loadGrammar(scopeName ?? '') as Promise<IGrammar>,
+		"tokenizeFile: Invalid grammar for scopeName:", scopeName,
 	);
 	activeScopeName = null;
 	if (!grammar) {
 		vscode.window.showInformationMessage(`registered_languages:\n${JSON.stringify(grammarLanguages)}`);
-		return grammar; // yes `grammar` is `never` at this point
+		return null;
 	}
 	// vscode.window.showInformationMessage(`grammar ${performance.now() - start}ms`);
 

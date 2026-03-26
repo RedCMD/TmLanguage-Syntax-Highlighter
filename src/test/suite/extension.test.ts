@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import assert from 'assert';
 // import Mocha from 'mocha'; // TODO: Can't get it to work in both VSCode NodeJS and VSCode Web
-import { sleep, stringify, tryCatch } from '../../extension';
+import { sleep, stringify, tryCatchAsync } from '../../extension';
 import { IRelaxedExtensionManifest } from '../../extensions';
 import { Diagnostic } from '../../DiagnosticCollection';
 import { triggerCharacters } from '../../Providers/CompletionItemProvider';
@@ -427,7 +427,7 @@ suite('Extension Tests', async () => {
 		async function assertRename(position: vscode.Position): Promise<void>;
 		async function assertRename(positionOrLine: vscode.Position | number, character?: number, newName?: string) {
 			const position = typeof positionOrLine == 'number' ? new vscode.Position(positionOrLine, character!) : positionOrLine;
-			const renamePrepare = await tryCatch(vscode.commands.executeCommand('_executePrepareRename', uri, position)) as RenamePrepare | undefined;
+			const renamePrepare = await tryCatchAsync(vscode.commands.executeCommand('_executePrepareRename', uri, position)) as RenamePrepare | undefined;
 			if (typeof character == 'number') {
 				assert.ok(renamePrepare);
 			}

@@ -293,7 +293,7 @@ const TreeDataProvider: vscode.TreeDataProvider<element> = {
 		}
 
 		if (type == 'root') {
-			grammar = await tokenizeFile(element.document, false);
+			grammar = await tokenizeFile(element.document, false) as IGrammar;
 			// vscode.window.showInformationMessage(`grammar\n${JSON.stringify(grammar, stringify)}`);
 
 			if (grammar) {

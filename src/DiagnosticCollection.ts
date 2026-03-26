@@ -4,7 +4,7 @@ import * as vscodeOniguruma from 'vscode-oniguruma';
 import * as textmateOnigmo from 'vscode-onigmo';
 import * as PCRE from '@syntropiq/libpcre-ts';
 import * as onigurumaToES from 'oniguruma-to-es';
-import { closeEnoughQuestionMark, DocumentSelector, getPackageJSON, JSONParseStringRelaxed, stringify, tryCatch, wagnerFischer } from "./extension";
+import { closeEnoughQuestionMark, DocumentSelector, getPackageJSON, JSONParseStringRelaxed, stringify, tryCatchAsync, wagnerFischer } from "./extension";
 import { getLastNode, getTrees, queryNode, toRange, trees } from "./TreeSitter";
 import { ignoreDiagnosticsUnusedRepos } from "./Providers/CodeActionsProvider";
 import { unicodeproperties } from "./UNICODE_PROPERTIES";
@@ -206,15 +206,15 @@ async function Diagnostics(document: vscode.TextDocument) {
 	const diagnostics: Diagnostic[] = [];
 
 	await Promise.allSettled([
-		tryCatch(diagnosticsMismatchingPackageJSONInfo(diagnostics, document), "Diagnostics error:", "MismatchingPackageJSONInfo"),
-		tryCatch(() => diagnosticsTreeSitterJSONErrors(diagnostics, document), "Diagnostics error:", "TreeSitterJSONErrors"),
-		tryCatch(() => diagnosticsTreeSitterRegexErrors(diagnostics, document), "Diagnostics error:", "TreeSitterRegexErrors"),
-		tryCatch(() => diagnosticsRegularExpressionErrors(diagnostics, document), "Diagnostics error:", "OnigurumaRegexErrors"),
-		tryCatch(() => diagnosticsBrokenIncludes(diagnostics, document), "Diagnostics error:", "BrokenIncludes"),
-		tryCatch(() => diagnosticsUnusedRepos(diagnostics, document), "Diagnostics error:", "UnusedRepos"),
-		tryCatch(() => diagnosticsLinguistCaptures(diagnostics, document), "Diagnostics error:", "LinguistCaptures"),
-		tryCatch(() => diagnosticsHints(diagnostics, document), "Diagnostics error:", "Hints"),
-		tryCatch(() => diagnosticsDeadTextMateCode(diagnostics, document), "Diagnostics error:", "DeadTextMateCode"),
+		tryCatchAsync(diagnosticsMismatchingPackageJSONInfo(diagnostics, document), "Diagnostics error:", "MismatchingPackageJSONInfo"),
+		tryCatchAsync(() => diagnosticsTreeSitterJSONErrors(diagnostics, document), "Diagnostics error:", "TreeSitterJSONErrors"),
+		tryCatchAsync(() => diagnosticsTreeSitterRegexErrors(diagnostics, document), "Diagnostics error:", "TreeSitterRegexErrors"),
+		tryCatchAsync(() => diagnosticsRegularExpressionErrors(diagnostics, document), "Diagnostics error:", "OnigurumaRegexErrors"),
+		tryCatchAsync(() => diagnosticsBrokenIncludes(diagnostics, document), "Diagnostics error:", "BrokenIncludes"),
+		tryCatchAsync(() => diagnosticsUnusedRepos(diagnostics, document), "Diagnostics error:", "UnusedRepos"),
+		tryCatchAsync(() => diagnosticsLinguistCaptures(diagnostics, document), "Diagnostics error:", "LinguistCaptures"),
+		tryCatchAsync(() => diagnosticsHints(diagnostics, document), "Diagnostics error:", "Hints"),
+		tryCatchAsync(() => diagnosticsDeadTextMateCode(diagnostics, document), "Diagnostics error:", "DeadTextMateCode"),
 	]);
 
 	DiagnosticCollection.set(document.uri, diagnostics);

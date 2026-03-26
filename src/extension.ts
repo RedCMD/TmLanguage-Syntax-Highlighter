@@ -234,11 +234,11 @@ export async function getPackageJSON(baseUri: vscode.TextDocument | vscode.Uri, 
 	const newUri = uri.with({ query: '' }); // 'git file changes' document adds a query property. that then ruins readFile()
 
 	let packageUri = vscode.Uri.joinPath(newUri, ...pathSegments, '..', '..', 'package.json');
-	let file = await tryCatch(vscode.workspace.fs.readFile(packageUri));
+	let file = await tryCatchAsync(vscode.workspace.fs.readFile(packageUri));
 
 	if (!file) {
 		packageUri = vscode.Uri.joinPath(newUri, ...pathSegments, '..', 'package.json'); // Maybe `package.json` is at the same level as the grammar file
-		file = await tryCatch(vscode.workspace.fs.readFile(packageUri));
+		file = await tryCatchAsync(vscode.workspace.fs.readFile(packageUri));
 
 		if (!file) {
 			return {};
@@ -247,7 +247,7 @@ export async function getPackageJSON(baseUri: vscode.TextDocument | vscode.Uri, 
 
 	const decoder = new TextDecoder(); // Works in VSCode web
 	const text = decoder.decode(file);
-	const packageJSON = await tryCatch(
+	const packageJSON = tryCatchSync(
 		() => JSON.parse(text) as IRelaxedExtensionManifest,
 		"Failed to parse package.json",
 	);
@@ -264,7 +264,7 @@ export async function getPackageJSON(baseUri: vscode.TextDocument | vscode.Uri, 
 
 
 // https://gist.github.com/t3dotgg/a486c4ae66d32bf17c09c73609dacc5b
-export async function tryCatch<T>(
+export async function tryCatchAsync<T>(
 	promiseOrFunction: Promise<T> | Thenable<T> | (() => T),
 	...consoleLogMessages: any[]
 ): Promise<T | null> {
@@ -274,6 +274,21 @@ export async function tryCatch<T>(
 			return data;
 		}
 		const data = await promiseOrFunction;
+		return data;
+	} catch (error: any) {
+		if (consoleLogMessages.length) {
+			console.warn('JSON TextMate Extension:', ...consoleLogMessages, '\n', error?.toString() || String(error));
+		}
+		return null;
+	}
+}
+
+export function tryCatchSync<T>(
+	Function: () => T,
+	...consoleLogMessages: any[]
+): T | null {
+	try {
+		const data = Function();
 		return data;
 	} catch (error: any) {
 		if (consoleLogMessages.length) {
