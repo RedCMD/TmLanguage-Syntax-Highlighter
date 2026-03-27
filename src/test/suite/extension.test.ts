@@ -38,7 +38,7 @@ suite('Extension Tests', async () => {
 	async function assertBaseline(actual: any[], filename: string) {
 		assert.ok(Array.isArray(actual), `Expected array. Got ${typeof actual}`);
 		assert.ok(actual.length > 0, "Actual array was empty");
-		const actualStringified = JSON.stringify(actual, null, /* '\t' */) /* + '\r\n' */;
+		const actualStringified = JSON.stringify(actual, null, '\t').replaceAll(/\r?\n/g, '\r\n') + '\r\n';
 
 		const file = vscode.Uri.joinPath(baselinesUri, filename);
 
@@ -58,7 +58,7 @@ suite('Extension Tests', async () => {
 			// VSCode's IRange is presented differently compared to how its actually stored
 			assert.equal(
 				actualStringified,
-				JSON.stringify(expected, null, /* '\t' */) /* + '\r\n' */,
+				JSON.stringify(expected, null, '\t').replaceAll(/\r?\n/g, '\r\n') + '\r\n',
 			);
 			assert.deepEqual(
 				JSON.parse(actualStringified),
