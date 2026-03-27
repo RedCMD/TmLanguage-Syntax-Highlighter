@@ -8,6 +8,7 @@
 	"editor.minimap.size": "fill",
 	"editor.renderWhitespace": "boundary",
 	"editor.tabSize": 4,
+	"editor.wordBasedSuggestions": "off", // reduce noise in completions
 	"files.autoSave": "off", // don't modify the fixtures files during tests
 	"files.eol": "\r\n",
 	"files.trimFinalNewlines": true,
