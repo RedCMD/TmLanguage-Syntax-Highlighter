@@ -6,7 +6,7 @@
 				"character": 15
 			},
 			{
-				"line": 2,
+				"line": 0,
 				"character": 33
 			}
 		],
@@ -18,11 +18,11 @@
 	{
 		"range": [
 			{
-				"line": 3,
+				"line": 1,
 				"character": 1
 			},
 			{
-				"line": 3,
+				"line": 0,
 				"character": 52
 			}
 		],
@@ -37,11 +37,11 @@
 	{
 		"range": [
 			{
-				"line": 6,
+				"line": 3,
 				"character": 3
 			},
 			{
-				"line": 6,
+				"line": 0,
 				"character": 16
 			}
 		],
@@ -58,11 +58,11 @@
 		"message": "Broken in VSCode TextMate. It is never run. Nest inside \"patterns\" instead",
 		"range": [
 			{
-				"line": 6,
+				"line": 0,
 				"character": 3
 			},
 			{
-				"line": 6,
+				"line": 0,
 				"character": 16
 			}
 		],
@@ -71,11 +71,11 @@
 	{
 		"range": [
 			{
-				"line": 7,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 7,
+				"line": 0,
 				"character": 19
 			}
 		],
@@ -92,11 +92,11 @@
 		"message": "Not supported by VSCode TextMate. Nest inside \"patterns\" instead",
 		"range": [
 			{
-				"line": 7,
+				"line": 0,
 				"character": 3
 			},
 			{
-				"line": 7,
+				"line": 0,
 				"character": 19
 			}
 		],
@@ -105,11 +105,11 @@
 	{
 		"range": [
 			{
-				"line": 8,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 8,
+				"line": 0,
 				"character": 38
 			}
 		],
@@ -124,11 +124,11 @@
 	{
 		"range": [
 			{
-				"line": 9,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 9,
+				"line": 0,
 				"character": 43
 			}
 		],
@@ -143,11 +143,11 @@
 	{
 		"range": [
 			{
-				"line": 10,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 10,
+				"line": 0,
 				"character": 43
 			}
 		],
@@ -162,11 +162,11 @@
 	{
 		"range": [
 			{
-				"line": 14,
+				"line": 4,
 				"character": 2
 			},
 			{
-				"line": 17,
+				"line": 3,
 				"character": 3
 			}
 		],
@@ -181,11 +181,11 @@
 	{
 		"range": [
 			{
-				"line": 15,
+				"line": -2,
 				"character": 49
 			},
 			{
-				"line": 15,
+				"line": 0,
 				"character": 49
 			}
 		],
@@ -199,11 +199,11 @@
 		"message": "Expected comma",
 		"range": [
 			{
-				"line": 16,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 16,
+				"line": 0,
 				"character": 12
 			}
 		],
@@ -213,11 +213,11 @@
 	{
 		"range": [
 			{
-				"line": 16,
+				"line": 0,
 				"character": 12
 			},
 			{
-				"line": 16,
+				"line": 0,
 				"character": 12
 			}
 		],
@@ -231,11 +231,11 @@
 		"message": "Colon expected",
 		"range": [
 			{
-				"line": 16,
+				"line": 0,
 				"character": 13
 			},
 			{
-				"line": 16,
+				"line": 0,
 				"character": 26
 			}
 		],
@@ -247,11 +247,11 @@
 		"message": "Duplicate object key",
 		"range": [
 			{
-				"line": 20,
+				"line": 4,
 				"character": 3
 			},
 			{
-				"line": 20,
+				"line": 0,
 				"character": 10
 			}
 		],
@@ -261,11 +261,11 @@
 	{
 		"range": [
 			{
-				"line": 20,
+				"line": 0,
 				"character": 4
 			},
 			{
-				"line": 20,
+				"line": 0,
 				"character": 9
 			}
 		],
@@ -276,11 +276,11 @@
 	{
 		"range": [
 			{
-				"line": 20,
+				"line": 0,
 				"character": 4
 			},
 			{
-				"line": 20,
+				"line": 0,
 				"character": 9
 			}
 		],
@@ -291,11 +291,11 @@
 	{
 		"range": [
 			{
-				"line": 20,
+				"line": 0,
 				"character": 4
 			},
 			{
-				"line": 20,
+				"line": 0,
 				"character": 9
 			}
 		],
@@ -306,11 +306,11 @@
 	{
 		"range": [
 			{
-				"line": 20,
+				"line": 0,
 				"character": 33
 			},
 			{
-				"line": 20,
+				"line": 0,
 				"character": 34
 			}
 		],
@@ -324,11 +324,11 @@
 		"message": "Duplicate object key",
 		"range": [
 			{
-				"line": 22,
+				"line": 2,
 				"character": 3
 			},
 			{
-				"line": 22,
+				"line": 0,
 				"character": 10
 			}
 		],
@@ -338,11 +338,11 @@
 	{
 		"range": [
 			{
-				"line": 22,
+				"line": 0,
 				"character": 4
 			},
 			{
-				"line": 22,
+				"line": 0,
 				"character": 9
 			}
 		],
@@ -353,11 +353,11 @@
 	{
 		"range": [
 			{
-				"line": 22,
+				"line": 0,
 				"character": 4
 			},
 			{
-				"line": 22,
+				"line": 0,
 				"character": 9
 			}
 		],
@@ -368,11 +368,11 @@
 	{
 		"range": [
 			{
-				"line": 22,
+				"line": 0,
 				"character": 4
 			},
 			{
-				"line": 22,
+				"line": 0,
 				"character": 9
 			}
 		],
@@ -383,11 +383,11 @@
 	{
 		"range": [
 			{
-				"line": 22,
+				"line": 0,
 				"character": 13
 			},
 			{
-				"line": 22,
+				"line": 0,
 				"character": 17
 			}
 		],
@@ -399,11 +399,11 @@
 	{
 		"range": [
 			{
-				"line": 23,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 23,
+				"line": 0,
 				"character": 37
 			}
 		],
@@ -418,11 +418,11 @@
 	{
 		"range": [
 			{
-				"line": 23,
+				"line": 0,
 				"character": 4
 			},
 			{
-				"line": 23,
+				"line": 0,
 				"character": 9
 			}
 		],
@@ -433,11 +433,11 @@
 	{
 		"range": [
 			{
-				"line": 23,
+				"line": 0,
 				"character": 4
 			},
 			{
-				"line": 23,
+				"line": 0,
 				"character": 9
 			}
 		],
@@ -448,11 +448,11 @@
 	{
 		"range": [
 			{
-				"line": 23,
+				"line": 0,
 				"character": 4
 			},
 			{
-				"line": 23,
+				"line": 0,
 				"character": 9
 			}
 		],
@@ -463,11 +463,11 @@
 	{
 		"range": [
 			{
-				"line": 23,
+				"line": 0,
 				"character": 14
 			},
 			{
-				"line": 23,
+				"line": 0,
 				"character": 15
 			}
 		],
@@ -479,11 +479,11 @@
 	{
 		"range": [
 			{
-				"line": 24,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 24,
+				"line": 0,
 				"character": 38
 			}
 		],
@@ -498,11 +498,11 @@
 	{
 		"range": [
 			{
-				"line": 24,
+				"line": 0,
 				"character": 4
 			},
 			{
-				"line": 24,
+				"line": 0,
 				"character": 7
 			}
 		],
@@ -513,11 +513,11 @@
 	{
 		"range": [
 			{
-				"line": 24,
+				"line": 0,
 				"character": 4
 			},
 			{
-				"line": 24,
+				"line": 0,
 				"character": 7
 			}
 		],
@@ -528,11 +528,11 @@
 	{
 		"range": [
 			{
-				"line": 24,
+				"line": 0,
 				"character": 4
 			},
 			{
-				"line": 24,
+				"line": 0,
 				"character": 7
 			}
 		],
@@ -543,11 +543,11 @@
 	{
 		"range": [
 			{
-				"line": 24,
+				"line": 0,
 				"character": 11
 			},
 			{
-				"line": 24,
+				"line": 0,
 				"character": 12
 			}
 		],
@@ -559,11 +559,11 @@
 	{
 		"range": [
 			{
-				"line": 29,
+				"line": 5,
 				"character": 16
 			},
 			{
-				"line": 29,
+				"line": 0,
 				"character": 37
 			}
 		],
@@ -575,11 +575,11 @@
 	{
 		"range": [
 			{
-				"line": 33,
+				"line": 4,
 				"character": 4
 			},
 			{
-				"line": 33,
+				"line": 0,
 				"character": 7
 			}
 		],
@@ -594,11 +594,11 @@
 	{
 		"range": [
 			{
-				"line": 34,
+				"line": 1,
 				"character": 19
 			},
 			{
-				"line": 34,
+				"line": 0,
 				"character": 31
 			}
 		],
@@ -610,11 +610,11 @@
 	{
 		"range": [
 			{
-				"line": 37,
+				"line": 3,
 				"character": 5
 			},
 			{
-				"line": 37,
+				"line": 0,
 				"character": 17
 			}
 		],
@@ -629,11 +629,11 @@
 	{
 		"range": [
 			{
-				"line": 37,
+				"line": 0,
 				"character": 5
 			},
 			{
-				"line": 37,
+				"line": 0,
 				"character": 17
 			}
 		],
@@ -645,11 +645,11 @@
 	{
 		"range": [
 			{
-				"line": 40,
+				"line": 3,
 				"character": 2
 			},
 			{
-				"line": 52,
+				"line": 12,
 				"character": 3
 			}
 		],
@@ -666,11 +666,11 @@
 		"message": "String does not match the pattern of \"^[\\w.#$-]*$\".",
 		"range": [
 			{
-				"line": 42,
+				"line": -10,
 				"character": 17
 			},
 			{
-				"line": 42,
+				"line": 0,
 				"character": 84
 			}
 		]
@@ -678,11 +678,11 @@
 	{
 		"range": [
 			{
-				"line": 42,
+				"line": 0,
 				"character": 19
 			},
 			{
-				"line": 42,
+				"line": 0,
 				"character": 83
 			}
 		],
@@ -696,11 +696,11 @@
 		"message": "String does not match the pattern of \"^[\\w.#$-]*$\".",
 		"range": [
 			{
-				"line": 43,
+				"line": 1,
 				"character": 17
 			},
 			{
-				"line": 43,
+				"line": 0,
 				"character": 50
 			}
 		]
@@ -708,11 +708,11 @@
 	{
 		"range": [
 			{
-				"line": 43,
+				"line": 0,
 				"character": 19
 			},
 			{
-				"line": 43,
+				"line": 0,
 				"character": 49
 			}
 		],
@@ -726,11 +726,11 @@
 		"message": "Missing property \"patterns\".",
 		"range": [
 			{
-				"line": 46,
+				"line": 3,
 				"character": 4
 			},
 			{
-				"line": 46,
+				"line": 0,
 				"character": 17
 			}
 		]
@@ -738,11 +738,11 @@
 	{
 		"range": [
 			{
-				"line": 46,
+				"line": 0,
 				"character": 5
 			},
 			{
-				"line": 46,
+				"line": 0,
 				"character": 16
 			}
 		],
@@ -757,11 +757,11 @@
 	{
 		"range": [
 			{
-				"line": 46,
+				"line": 0,
 				"character": 5
 			},
 			{
-				"line": 46,
+				"line": 0,
 				"character": 16
 			}
 		],
@@ -773,11 +773,11 @@
 	{
 		"range": [
 			{
-				"line": 47,
+				"line": 1,
 				"character": 5
 			},
 			{
-				"line": 49,
+				"line": 2,
 				"character": 6
 			}
 		],
@@ -792,11 +792,11 @@
 	{
 		"range": [
 			{
-				"line": 48,
+				"line": -1,
 				"character": 7
 			},
 			{
-				"line": 48,
+				"line": 0,
 				"character": 37
 			}
 		],
@@ -811,11 +811,11 @@
 	{
 		"range": [
 			{
-				"line": 48,
+				"line": 0,
 				"character": 7
 			},
 			{
-				"line": 48,
+				"line": 0,
 				"character": 37
 			}
 		],
@@ -827,11 +827,11 @@
 	{
 		"range": [
 			{
-				"line": 55,
+				"line": 7,
 				"character": 3
 			},
 			{
-				"line": 55,
+				"line": 0,
 				"character": 18
 			}
 		],
@@ -846,11 +846,11 @@
 	{
 		"range": [
 			{
-				"line": 57,
+				"line": 2,
 				"character": 5
 			},
 			{
-				"line": 57,
+				"line": 0,
 				"character": 35
 			}
 		],
@@ -865,11 +865,11 @@
 	{
 		"range": [
 			{
-				"line": 57,
+				"line": 0,
 				"character": 5
 			},
 			{
-				"line": 57,
+				"line": 0,
 				"character": 35
 			}
 		],
@@ -883,11 +883,11 @@
 		"message": "Missing property \"begin\".",
 		"range": [
 			{
-				"line": 60,
+				"line": 3,
 				"character": 2
 			},
 			{
-				"line": 60,
+				"line": 0,
 				"character": 3
 			}
 		]
@@ -897,11 +897,11 @@
 		"message": "Missing property \"end\".",
 		"range": [
 			{
-				"line": 60,
+				"line": 0,
 				"character": 2
 			},
 			{
-				"line": 60,
+				"line": 0,
 				"character": 3
 			}
 		]
@@ -911,11 +911,11 @@
 		"message": "Missing property \"while\".",
 		"range": [
 			{
-				"line": 60,
+				"line": 0,
 				"character": 2
 			},
 			{
-				"line": 60,
+				"line": 0,
 				"character": 3
 			}
 		]
@@ -923,11 +923,11 @@
 	{
 		"range": [
 			{
-				"line": 60,
+				"line": 0,
 				"character": 2
 			},
 			{
-				"line": 75,
+				"line": 15,
 				"character": 3
 			}
 		],
@@ -942,11 +942,11 @@
 	{
 		"range": [
 			{
-				"line": 64,
+				"line": -11,
 				"character": 3
 			},
 			{
-				"line": 64,
+				"line": 0,
 				"character": 13
 			}
 		],
@@ -961,11 +961,11 @@
 	{
 		"range": [
 			{
-				"line": 65,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 65,
+				"line": 0,
 				"character": 20
 			}
 		],
@@ -980,11 +980,11 @@
 	{
 		"range": [
 			{
-				"line": 66,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 66,
+				"line": 0,
 				"character": 41
 			}
 		],
@@ -999,11 +999,11 @@
 	{
 		"range": [
 			{
-				"line": 66,
+				"line": 0,
 				"character": 24
 			},
 			{
-				"line": 66,
+				"line": 0,
 				"character": 37
 			}
 		],
@@ -1020,11 +1020,11 @@
 		"message": "Not supported. Nest inside \"patterns\" instead",
 		"range": [
 			{
-				"line": 66,
+				"line": 0,
 				"character": 24
 			},
 			{
-				"line": 66,
+				"line": 0,
 				"character": 37
 			}
 		],
@@ -1033,11 +1033,11 @@
 	{
 		"range": [
 			{
-				"line": 67,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 71,
+				"line": 4,
 				"character": 4
 			}
 		],
@@ -1052,11 +1052,11 @@
 	{
 		"range": [
 			{
-				"line": 67,
+				"line": -4,
 				"character": 3
 			},
 			{
-				"line": 71,
+				"line": 4,
 				"character": 4
 			}
 		],
@@ -1073,11 +1073,11 @@
 		"message": "Missing property \"patterns\".",
 		"range": [
 			{
-				"line": 68,
+				"line": -3,
 				"character": 4
 			},
 			{
-				"line": 68,
+				"line": 0,
 				"character": 7
 			}
 		]
@@ -1085,11 +1085,11 @@
 	{
 		"range": [
 			{
-				"line": 69,
+				"line": 1,
 				"character": 5
 			},
 			{
-				"line": 69,
+				"line": 0,
 				"character": 21
 			}
 		],
@@ -1106,11 +1106,11 @@
 		"message": "Incorrect type. Expected \"object\".",
 		"range": [
 			{
-				"line": 69,
+				"line": 0,
 				"character": 19
 			},
 			{
-				"line": 69,
+				"line": 0,
 				"character": 21
 			}
 		]
@@ -1118,11 +1118,11 @@
 	{
 		"range": [
 			{
-				"line": 72,
+				"line": 3,
 				"character": 3
 			},
 			{
-				"line": 72,
+				"line": 0,
 				"character": 44
 			}
 		],
@@ -1137,11 +1137,11 @@
 	{
 		"range": [
 			{
-				"line": 72,
+				"line": 0,
 				"character": 3
 			},
 			{
-				"line": 72,
+				"line": 0,
 				"character": 44
 			}
 		],
@@ -1158,11 +1158,11 @@
 		"message": "Missing property \"patterns\".",
 		"range": [
 			{
-				"line": 72,
+				"line": 0,
 				"character": 22
 			},
 			{
-				"line": 72,
+				"line": 0,
 				"character": 25
 			}
 		]
@@ -1170,11 +1170,11 @@
 	{
 		"range": [
 			{
-				"line": 72,
+				"line": 0,
 				"character": 29
 			},
 			{
-				"line": 72,
+				"line": 0,
 				"character": 40
 			}
 		],
@@ -1191,11 +1191,11 @@
 		"message": "Not supported by TextMate 2.0. Nest inside \"patterns\" instead",
 		"range": [
 			{
-				"line": 72,
+				"line": 0,
 				"character": 29
 			},
 			{
-				"line": 72,
+				"line": 0,
 				"character": 40
 			}
 		],
@@ -1204,11 +1204,11 @@
 	{
 		"range": [
 			{
-				"line": 73,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 73,
+				"line": 0,
 				"character": 50
 			}
 		],
@@ -1225,11 +1225,11 @@
 		"message": "Missing property \"patterns\".",
 		"range": [
 			{
-				"line": 73,
+				"line": 0,
 				"character": 22
 			},
 			{
-				"line": 73,
+				"line": 0,
 				"character": 25
 			}
 		]
@@ -1237,11 +1237,11 @@
 	{
 		"range": [
 			{
-				"line": 73,
+				"line": 0,
 				"character": 29
 			},
 			{
-				"line": 73,
+				"line": 0,
 				"character": 46
 			}
 		],
@@ -1258,11 +1258,11 @@
 		"message": "Not supported by TextMate 2.0. Broken in VSCode TextMate. It is applied regardless of \"begin\" not being present. Use \"name\" instead",
 		"range": [
 			{
-				"line": 73,
+				"line": 0,
 				"character": 29
 			},
 			{
-				"line": 73,
+				"line": 0,
 				"character": 46
 			}
 		],
@@ -1271,11 +1271,11 @@
 	{
 		"range": [
 			{
-				"line": 74,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 74,
+				"line": 0,
 				"character": 18
 			}
 		],
@@ -1292,11 +1292,11 @@
 		"message": "Missing property \"begin\".",
 		"range": [
 			{
-				"line": 76,
+				"line": 2,
 				"character": 2
 			},
 			{
-				"line": 76,
+				"line": 0,
 				"character": 3
 			}
 		]
@@ -1306,11 +1306,11 @@
 		"message": "Missing property \"end\".",
 		"range": [
 			{
-				"line": 76,
+				"line": 0,
 				"character": 2
 			},
 			{
-				"line": 76,
+				"line": 0,
 				"character": 3
 			}
 		]
@@ -1320,11 +1320,11 @@
 		"message": "Missing property \"while\".",
 		"range": [
 			{
-				"line": 76,
+				"line": 0,
 				"character": 2
 			},
 			{
-				"line": 76,
+				"line": 0,
 				"character": 3
 			}
 		]
@@ -1332,11 +1332,11 @@
 	{
 		"range": [
 			{
-				"line": 76,
+				"line": 0,
 				"character": 2
 			},
 			{
-				"line": 82,
+				"line": 6,
 				"character": 3
 			}
 		],
@@ -1351,11 +1351,11 @@
 	{
 		"range": [
 			{
-				"line": 78,
+				"line": -4,
 				"character": 3
 			},
 			{
-				"line": 78,
+				"line": 0,
 				"character": 67
 			}
 		],
@@ -1370,11 +1370,11 @@
 	{
 		"range": [
 			{
-				"line": 78,
+				"line": 0,
 				"character": 18
 			},
 			{
-				"line": 78,
+				"line": 0,
 				"character": 25
 			}
 		],
@@ -1386,11 +1386,11 @@
 	{
 		"range": [
 			{
-				"line": 79,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 79,
+				"line": 0,
 				"character": 68
 			}
 		],
@@ -1405,11 +1405,11 @@
 	{
 		"range": [
 			{
-				"line": 79,
+				"line": 0,
 				"character": 23
 			},
 			{
-				"line": 79,
+				"line": 0,
 				"character": 25
 			}
 		],
@@ -1421,11 +1421,11 @@
 	{
 		"range": [
 			{
-				"line": 80,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 80,
+				"line": 0,
 				"character": 52
 			}
 		],
@@ -1440,11 +1440,11 @@
 	{
 		"range": [
 			{
-				"line": 80,
+				"line": 0,
 				"character": 3
 			},
 			{
-				"line": 80,
+				"line": 0,
 				"character": 52
 			}
 		],
@@ -1459,11 +1459,11 @@
 	{
 		"range": [
 			{
-				"line": 80,
+				"line": 0,
 				"character": 23
 			},
 			{
-				"line": 80,
+				"line": 0,
 				"character": 26
 			}
 		],
@@ -1475,11 +1475,11 @@
 	{
 		"range": [
 			{
-				"line": 81,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 81,
+				"line": 0,
 				"character": 30
 			}
 		],
@@ -1494,11 +1494,11 @@
 	{
 		"range": [
 			{
-				"line": 81,
+				"line": 0,
 				"character": 3
 			},
 			{
-				"line": 81,
+				"line": 0,
 				"character": 30
 			}
 		],
@@ -1513,11 +1513,11 @@
 	{
 		"range": [
 			{
-				"line": 81,
+				"line": 0,
 				"character": 21
 			},
 			{
-				"line": 81,
+				"line": 0,
 				"character": 21
 			}
 		],
@@ -1531,11 +1531,11 @@
 		"message": "Missing property \"begin\".",
 		"range": [
 			{
-				"line": 83,
+				"line": 2,
 				"character": 2
 			},
 			{
-				"line": 83,
+				"line": 0,
 				"character": 3
 			}
 		]
@@ -1543,11 +1543,11 @@
 	{
 		"range": [
 			{
-				"line": 85,
+				"line": 2,
 				"character": 12
 			},
 			{
-				"line": 85,
+				"line": 0,
 				"character": 46
 			}
 		],
@@ -1559,11 +1559,11 @@
 	{
 		"range": [
 			{
-				"line": 86,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 86,
+				"line": 0,
 				"character": 68
 			}
 		],
@@ -1578,11 +1578,11 @@
 	{
 		"range": [
 			{
-				"line": 86,
+				"line": 0,
 				"character": 3
 			},
 			{
-				"line": 86,
+				"line": 0,
 				"character": 68
 			}
 		],
@@ -1597,11 +1597,11 @@
 	{
 		"range": [
 			{
-				"line": 86,
+				"line": 0,
 				"character": 19
 			},
 			{
-				"line": 86,
+				"line": 0,
 				"character": 67
 			}
 		],
@@ -1613,11 +1613,11 @@
 	{
 		"range": [
 			{
-				"line": 90,
+				"line": 4,
 				"character": 4
 			},
 			{
-				"line": 90,
+				"line": 0,
 				"character": 12
 			}
 		],
@@ -1631,11 +1631,11 @@
 		"message": "Missing property \"begin\".",
 		"range": [
 			{
-				"line": 91,
+				"line": 1,
 				"character": 4
 			},
 			{
-				"line": 91,
+				"line": 0,
 				"character": 5
 			}
 		]
@@ -1643,11 +1643,11 @@
 	{
 		"range": [
 			{
-				"line": 95,
+				"line": 4,
 				"character": 5
 			},
 			{
-				"line": 95,
+				"line": 0,
 				"character": 58
 			}
 		],
@@ -1662,11 +1662,11 @@
 	{
 		"range": [
 			{
-				"line": 95,
+				"line": 0,
 				"character": 5
 			},
 			{
-				"line": 95,
+				"line": 0,
 				"character": 58
 			}
 		],
@@ -1683,11 +1683,11 @@
 		"message": "String does not match the pattern of \"^([\\w\\-. ]|\\$0*\\d{1,3}(?!\\d)|\\${0*\\d{1,3}:/(upcase|downcase)})*$\".",
 		"range": [
 			{
-				"line": 95,
+				"line": 0,
 				"character": 20
 			},
 			{
-				"line": 95,
+				"line": 0,
 				"character": 58
 			}
 		]
@@ -1695,11 +1695,11 @@
 	{
 		"range": [
 			{
-				"line": 95,
+				"line": 0,
 				"character": 21
 			},
 			{
-				"line": 95,
+				"line": 0,
 				"character": 57
 			}
 		],
@@ -1713,11 +1713,11 @@
 		"message": "Matches multiple schemas when only one must validate.",
 		"range": [
 			{
-				"line": 99,
+				"line": 4,
 				"character": 2
 			},
 			{
-				"line": 99,
+				"line": 0,
 				"character": 3
 			}
 		]
@@ -1727,11 +1727,11 @@
 		"message": "Duplicate object key",
 		"range": [
 			{
-				"line": 101,
+				"line": 2,
 				"character": 3
 			},
 			{
-				"line": 101,
+				"line": 0,
 				"character": 10
 			}
 		],
@@ -1741,11 +1741,11 @@
 	{
 		"range": [
 			{
-				"line": 101,
+				"line": 0,
 				"character": 4
 			},
 			{
-				"line": 101,
+				"line": 0,
 				"character": 9
 			}
 		],
@@ -1756,11 +1756,11 @@
 	{
 		"range": [
 			{
-				"line": 102,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 102,
+				"line": 0,
 				"character": 17
 			}
 		],
@@ -1775,11 +1775,11 @@
 	{
 		"range": [
 			{
-				"line": 103,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 103,
+				"line": 0,
 				"character": 185
 			}
 		],
@@ -1794,11 +1794,11 @@
 	{
 		"range": [
 			{
-				"line": 103,
+				"line": 0,
 				"character": 3
 			},
 			{
-				"line": 103,
+				"line": 0,
 				"character": 185
 			}
 		],
@@ -1813,11 +1813,11 @@
 	{
 		"range": [
 			{
-				"line": 103,
+				"line": 0,
 				"character": 4
 			},
 			{
-				"line": 103,
+				"line": 0,
 				"character": 7
 			}
 		],
@@ -1828,11 +1828,11 @@
 	{
 		"range": [
 			{
-				"line": 103,
+				"line": 0,
 				"character": 4
 			},
 			{
-				"line": 103,
+				"line": 0,
 				"character": 7
 			}
 		],
@@ -1843,11 +1843,11 @@
 	{
 		"range": [
 			{
-				"line": 104,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 104,
+				"line": 0,
 				"character": 55
 			}
 		],
@@ -1862,11 +1862,11 @@
 	{
 		"range": [
 			{
-				"line": 104,
+				"line": 0,
 				"character": 4
 			},
 			{
-				"line": 104,
+				"line": 0,
 				"character": 9
 			}
 		],
@@ -1877,11 +1877,11 @@
 	{
 		"range": [
 			{
-				"line": 104,
+				"line": 0,
 				"character": 14
 			},
 			{
-				"line": 104,
+				"line": 0,
 				"character": 15
 			}
 		],
@@ -1895,11 +1895,11 @@
 		"message": "Duplicate object key",
 		"range": [
 			{
-				"line": 105,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 105,
+				"line": 0,
 				"character": 10
 			}
 		],
@@ -1909,11 +1909,11 @@
 	{
 		"range": [
 			{
-				"line": 105,
+				"line": 0,
 				"character": 4
 			},
 			{
-				"line": 105,
+				"line": 0,
 				"character": 9
 			}
 		],
@@ -1924,11 +1924,11 @@
 	{
 		"range": [
 			{
-				"line": 105,
+				"line": 0,
 				"character": 4
 			},
 			{
-				"line": 105,
+				"line": 0,
 				"character": 9
 			}
 		],
@@ -1941,11 +1941,11 @@
 		"message": "Duplicate object key",
 		"range": [
 			{
-				"line": 106,
+				"line": 1,
 				"character": 3
 			},
 			{
-				"line": 106,
+				"line": 0,
 				"character": 10
 			}
 		],
@@ -1955,11 +1955,11 @@
 	{
 		"range": [
 			{
-				"line": 106,
+				"line": 0,
 				"character": 4
 			},
 			{
-				"line": 106,
+				"line": 0,
 				"character": 9
 			}
 		],
@@ -1970,11 +1970,11 @@
 	{
 		"range": [
 			{
-				"line": 119,
+				"line": 13,
 				"character": 3
 			},
 			{
-				"line": 119,
+				"line": 0,
 				"character": 12
 			}
 		],
@@ -1989,11 +1989,11 @@
 	{
 		"range": [
 			{
-				"line": 119,
+				"line": 0,
 				"character": 3
 			},
 			{
-				"line": 119,
+				"line": 0,
 				"character": 12
 			}
 		],

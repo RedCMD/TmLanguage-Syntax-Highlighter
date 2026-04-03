@@ -1,4 +1,7 @@
 {
+	"displayName": "displayName",
+	"name": "name-name",
+	"description": "description",
 	"contributes": {
 		"grammars": [
 			{
@@ -10,6 +13,10 @@
 			{
 				"scopeName": "source.diagnostic",
 				"path": "./DiagnosticCollection.tmLanguage.json"
+			},
+			{
+				"scopeName": "source.languageId",
+				"path": "./JSON.tmLanguage.json"
 			}
 		]
 	}

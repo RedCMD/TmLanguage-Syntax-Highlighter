@@ -1,15 +1,11 @@
 [
 	{
-		"cacheId": [
-			1,
-			4
-		],
 		"title": "Change spelling to 'Did_you_mean'",
 		"diagnostics": [
 			{
-				"startLineNumber": 26,
+				"startLineNumber": 35,
 				"startColumn": 20,
-				"endLineNumber": 26,
+				"endLineNumber": 0,
 				"endColumn": 32,
 				"message": "Cannot find repo name 'Did-you-mean'. Did you mean 'Did_you_mean'?",
 				"source": "TextMate",
@@ -23,9 +19,9 @@
 					"textEdit": {
 						"text": "Did_you_mean",
 						"range": {
-							"startLineNumber": 26,
+							"startLineNumber": 0,
 							"startColumn": 20,
-							"endLineNumber": 26,
+							"endLineNumber": 0,
 							"endColumn": 32
 						}
 					},
@@ -38,16 +34,12 @@
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			11
-		],
 		"title": "Change spelling to 'source.diagnostic'",
 		"diagnostics": [
 			{
-				"startLineNumber": 3,
+				"startLineNumber": -32,
 				"startColumn": 16,
-				"endLineNumber": 3,
+				"endLineNumber": 0,
 				"endColumn": 34,
 				"message": "scopeName 'source.diagnostics' does not match scopeName 'source.diagnostic' inside './fixtures/package.json'",
 				"source": "TextMate",
@@ -61,9 +53,9 @@
 					"textEdit": {
 						"text": "source.diagnostic",
 						"range": {
-							"startLineNumber": 3,
+							"startLineNumber": 0,
 							"startColumn": 16,
-							"endLineNumber": 3,
+							"endLineNumber": 0,
 							"endColumn": 34
 						}
 					},
@@ -76,16 +68,12 @@
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			0
-		],
 		"title": "Add missing ','",
 		"diagnostics": [
 			{
-				"startLineNumber": 7,
+				"startLineNumber": 13,
 				"startColumn": 50,
-				"endLineNumber": 7,
+				"endLineNumber": 0,
 				"endColumn": 50,
 				"message": "'pattern' is missing character ','",
 				"source": "TreeSitter",
@@ -99,9 +87,9 @@
 					"textEdit": {
 						"text": ",",
 						"range": {
-							"startLineNumber": 7,
+							"startLineNumber": 0,
 							"startColumn": 50,
-							"endLineNumber": 7,
+							"endLineNumber": 0,
 							"endColumn": 50
 						}
 					},
@@ -113,16 +101,12 @@
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			1
-		],
 		"title": "Add missing ':'",
 		"diagnostics": [
 			{
-				"startLineNumber": 8,
+				"startLineNumber": 1,
 				"startColumn": 13,
-				"endLineNumber": 8,
+				"endLineNumber": 0,
 				"endColumn": 13,
 				"message": "'item' is missing character ':'",
 				"source": "TreeSitter",
@@ -136,9 +120,9 @@
 					"textEdit": {
 						"text": ":",
 						"range": {
-							"startLineNumber": 8,
+							"startLineNumber": 0,
 							"startColumn": 13,
-							"endLineNumber": 8,
+							"endLineNumber": 0,
 							"endColumn": 13
 						}
 					},
@@ -150,16 +134,12 @@
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			2
-		],
 		"title": "Add missing ')'",
 		"diagnostics": [
 			{
-				"startLineNumber": 12,
+				"startLineNumber": 4,
 				"startColumn": 34,
-				"endLineNumber": 12,
+				"endLineNumber": 0,
 				"endColumn": 35,
 				"message": "'capture_group' is missing ending char ')'",
 				"source": "TreeSitter",
@@ -173,9 +153,9 @@
 					"textEdit": {
 						"text": ")",
 						"range": {
-							"startLineNumber": 12,
+							"startLineNumber": 0,
 							"startColumn": 35,
-							"endLineNumber": 12,
+							"endLineNumber": 0,
 							"endColumn": 35
 						}
 					},
@@ -187,16 +167,12 @@
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			3
-		],
 		"title": "Remove error '(bad'",
 		"diagnostics": [
 			{
-				"startLineNumber": 14,
+				"startLineNumber": 2,
 				"startColumn": 14,
-				"endLineNumber": 14,
+				"endLineNumber": 0,
 				"endColumn": 18,
 				"message": "'(bad' is not valid at this position inside 'regex'",
 				"source": "JSON TextMate Oniguruma",
@@ -210,9 +186,9 @@
 					"textEdit": {
 						"text": "",
 						"range": {
-							"startLineNumber": 14,
+							"startLineNumber": 0,
 							"startColumn": 14,
-							"endLineNumber": 14,
+							"endLineNumber": 0,
 							"endColumn": 18
 						}
 					},
@@ -224,16 +200,12 @@
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			5
-		],
 		"title": "Ignore no reference warnings",
 		"diagnostics": [
 			{
-				"startLineNumber": 29,
+				"startLineNumber": 15,
 				"startColumn": 6,
-				"endLineNumber": 29,
+				"endLineNumber": 0,
 				"endColumn": 18,
 				"message": "No \"#include\" references found to 'Did_you_mean'",
 				"source": "TextMate",
@@ -245,16 +217,12 @@
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			6
-		],
 		"title": "Ignore no reference warnings",
 		"diagnostics": [
 			{
-				"startLineNumber": 38,
+				"startLineNumber": 9,
 				"startColumn": 6,
-				"endLineNumber": 38,
+				"endLineNumber": 0,
 				"endColumn": 17,
 				"message": "No \"#include\" references found to 'nested-item'",
 				"source": "TextMate",
@@ -266,16 +234,12 @@
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			7
-		],
 		"title": "Ignore no reference warnings",
 		"diagnostics": [
 			{
-				"startLineNumber": 40,
+				"startLineNumber": 2,
 				"startColumn": 8,
-				"endLineNumber": 40,
+				"endLineNumber": 0,
 				"endColumn": 38,
 				"message": "No \"#include\" references found to 'Nested repository inaccessible'",
 				"source": "TextMate",
@@ -287,16 +251,12 @@
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			8
-		],
 		"title": "Ignore no reference warnings",
 		"diagnostics": [
 			{
-				"startLineNumber": 49,
+				"startLineNumber": 9,
 				"startColumn": 6,
-				"endLineNumber": 49,
+				"endLineNumber": 0,
 				"endColumn": 36,
 				"message": "No \"#include\" references found to 'No_include_references_found_to'",
 				"source": "TextMate",
@@ -308,16 +268,12 @@
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			9
-		],
 		"title": "Ignore no reference warnings",
 		"diagnostics": [
 			{
-				"startLineNumber": 111,
+				"startLineNumber": 62,
 				"startColumn": 4,
-				"endLineNumber": 111,
+				"endLineNumber": 0,
 				"endColumn": 13,
 				"message": "No \"#include\" references found to 'repo-item'",
 				"source": "TextMate",
@@ -329,16 +285,12 @@
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			10
-		],
 		"title": "Extract single rule from \"patterns\"",
 		"diagnostics": [
 			{
-				"startLineNumber": 82,
+				"startLineNumber": -29,
 				"startColumn": 5,
-				"endLineNumber": 82,
+				"endLineNumber": 0,
 				"endColumn": 13,
 				"message": "Patterns array not required for a single rule.",
 				"source": "TextMate",
@@ -350,151 +302,97 @@
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			12
-		],
 		"title": "Optimize Regex",
 		"kind": "refactor.rewrite.minify",
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			13
-		],
 		"title": "Optimize Regex",
 		"kind": "refactor.rewrite.minify",
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			14
-		],
 		"title": "Optimize Regex",
 		"kind": "refactor.rewrite.minify",
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			15
-		],
 		"title": "Optimize Regex",
 		"kind": "refactor.rewrite.minify",
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			16
-		],
 		"title": "Optimize Regex",
 		"kind": "refactor.rewrite.minify",
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			17
-		],
 		"title": "Optimize Regex",
 		"kind": "refactor.rewrite.minify",
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			18
-		],
 		"title": "Optimize Regex",
 		"kind": "refactor.rewrite.minify",
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			19
-		],
 		"title": "Optimize Regex",
 		"kind": "refactor.rewrite.minify",
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			20
-		],
 		"title": "Optimize Regex",
 		"kind": "refactor.rewrite.minify",
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			21
-		],
 		"title": "Optimize Regex",
 		"kind": "refactor.rewrite.minify",
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			22
-		],
 		"title": "Optimize Regex",
 		"kind": "refactor.rewrite.minify",
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			23
-		],
 		"title": "Optimize Regex",
 		"kind": "refactor.rewrite.minify",
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			24
-		],
 		"title": "Optimize Regex",
 		"kind": "refactor.rewrite.minify",
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			25
-		],
+		"title": "Optimize Regex",
+		"kind": "refactor.rewrite.minify",
+		"isAI": false
+	},
+	{
+		"title": "Optimize Regex",
+		"kind": "refactor.rewrite.minify",
+		"isAI": false
+	},
+	{
 		"title": "Optimize all Regexes",
 		"kind": "refactor.rewrite.minify",
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			26
-		],
 		"title": "Sort JSON Keys",
 		"kind": "refactor.rewrite.sort",
 		"isAI": false
 	},
 	{
-		"cacheId": [
-			1,
-			0
-		],
 		"title": "Sort JSON",
 		"command": {
 			"id": "json.sort",
 			"title": "Sort JSON"
 		},
 		"kind": "source.sort.json",
-		"isAI": false
+		"ranges": []
 	}
 ]

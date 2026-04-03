@@ -9,22 +9,22 @@
 			"originSelectionRange": {
 				"startLineNumber": 4,
 				"startColumn": 16,
-				"endLineNumber": 4,
+				"endLineNumber": 0,
 				"endColumn": 33
 			},
 			"range": {
-				"startLineNumber": 4,
-				"startColumn": 2,
-				"endLineNumber": 4,
-				"endColumn": 34
+				"startLineNumber": -3,
+				"startColumn": 1,
+				"endLineNumber": 24,
+				"endColumn": 1001
 			},
 			"targetSelectionRange": {
-				"startLineNumber": 4,
-				"startColumn": 2,
-				"endLineNumber": 4,
-				"endColumn": 34
+				"startLineNumber": 0,
+				"startColumn": 1,
+				"endLineNumber": 25,
+				"endColumn": 1
 			},
-			"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"
+			"filename": "fixtures/package.json"
 		}
 	],
 	[],
@@ -32,45 +32,21 @@
 	[
 		{
 			"originSelectionRange": {
-				"startLineNumber": 6,
+				"startLineNumber": 5,
 				"startColumn": 17,
-				"endLineNumber": 6,
+				"endLineNumber": 0,
 				"endColumn": 27
 			},
 			"range": {
-				"startLineNumber": 13,
-				"startColumn": 3,
-				"endLineNumber": 13,
-				"endColumn": 19
-			},
-			"targetSelectionRange": {
-				"startLineNumber": 13,
-				"startColumn": 4,
-				"endLineNumber": 13,
-				"endColumn": 13
-			},
-			"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"
-		}
-	],
-	[],
-	[
-		{
-			"originSelectionRange": {
 				"startLineNumber": 7,
-				"startColumn": 17,
-				"endLineNumber": 7,
-				"endColumn": 27
-			},
-			"range": {
-				"startLineNumber": 13,
 				"startColumn": 3,
-				"endLineNumber": 13,
+				"endLineNumber": 0,
 				"endColumn": 19
 			},
 			"targetSelectionRange": {
-				"startLineNumber": 13,
+				"startLineNumber": 0,
 				"startColumn": 4,
-				"endLineNumber": 13,
+				"endLineNumber": 0,
 				"endColumn": 13
 			},
 			"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"
@@ -80,21 +56,45 @@
 	[
 		{
 			"originSelectionRange": {
-				"startLineNumber": 8,
+				"startLineNumber": -6,
 				"startColumn": 17,
-				"endLineNumber": 8,
+				"endLineNumber": 0,
+				"endColumn": 27
+			},
+			"range": {
+				"startLineNumber": 6,
+				"startColumn": 3,
+				"endLineNumber": 0,
+				"endColumn": 19
+			},
+			"targetSelectionRange": {
+				"startLineNumber": 0,
+				"startColumn": 4,
+				"endLineNumber": 0,
+				"endColumn": 13
+			},
+			"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"
+		}
+	],
+	[],
+	[
+		{
+			"originSelectionRange": {
+				"startLineNumber": -5,
+				"startColumn": 17,
+				"endLineNumber": 0,
 				"endColumn": 24
 			},
 			"range": {
-				"startLineNumber": 25,
+				"startLineNumber": 17,
 				"startColumn": 3,
-				"endLineNumber": 39,
+				"endLineNumber": 14,
 				"endColumn": 4
 			},
 			"targetSelectionRange": {
-				"startLineNumber": 25,
+				"startLineNumber": 0,
 				"startColumn": 4,
-				"endLineNumber": 25,
+				"endLineNumber": 0,
 				"endColumn": 10
 			},
 			"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"
@@ -104,21 +104,21 @@
 	[
 		{
 			"originSelectionRange": {
-				"startLineNumber": 9,
+				"startLineNumber": -16,
 				"startColumn": 17,
-				"endLineNumber": 9,
+				"endLineNumber": 0,
 				"endColumn": 25
 			},
 			"range": {
-				"startLineNumber": 20,
+				"startLineNumber": 11,
 				"startColumn": 3,
-				"endLineNumber": 24,
+				"endLineNumber": 4,
 				"endColumn": 4
 			},
 			"targetSelectionRange": {
-				"startLineNumber": 20,
+				"startLineNumber": 0,
 				"startColumn": 4,
-				"endLineNumber": 20,
+				"endLineNumber": 0,
 				"endColumn": 11
 			},
 			"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"
@@ -128,21 +128,21 @@
 	[
 		{
 			"originSelectionRange": {
-				"startLineNumber": 12,
+				"startLineNumber": -8,
 				"startColumn": 4,
-				"endLineNumber": 12,
+				"endLineNumber": 0,
 				"endColumn": 13
 			},
 			"range": {
-				"startLineNumber": 12,
+				"startLineNumber": 0,
 				"startColumn": 3,
-				"endLineNumber": 12,
+				"endLineNumber": 0,
 				"endColumn": 19
 			},
 			"targetSelectionRange": {
-				"startLineNumber": 12,
+				"startLineNumber": 0,
 				"startColumn": 3,
-				"endLineNumber": 12,
+				"endLineNumber": 0,
 				"endColumn": 19
 			},
 			"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"
@@ -151,21 +151,21 @@
 	[
 		{
 			"originSelectionRange": {
-				"startLineNumber": 13,
+				"startLineNumber": 1,
 				"startColumn": 4,
-				"endLineNumber": 13,
+				"endLineNumber": 0,
 				"endColumn": 13
 			},
 			"range": {
-				"startLineNumber": 13,
+				"startLineNumber": 0,
 				"startColumn": 3,
-				"endLineNumber": 13,
+				"endLineNumber": 0,
 				"endColumn": 19
 			},
 			"targetSelectionRange": {
-				"startLineNumber": 13,
+				"startLineNumber": 0,
 				"startColumn": 3,
-				"endLineNumber": 13,
+				"endLineNumber": 0,
 				"endColumn": 19
 			},
 			"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"
@@ -174,21 +174,21 @@
 	[
 		{
 			"originSelectionRange": {
-				"startLineNumber": 14,
+				"startLineNumber": 1,
 				"startColumn": 4,
-				"endLineNumber": 14,
+				"endLineNumber": 0,
 				"endColumn": 8
 			},
 			"range": {
-				"startLineNumber": 14,
+				"startLineNumber": 0,
 				"startColumn": 3,
-				"endLineNumber": 19,
+				"endLineNumber": 5,
 				"endColumn": 4
 			},
 			"targetSelectionRange": {
-				"startLineNumber": 14,
+				"startLineNumber": 0,
 				"startColumn": 3,
-				"endLineNumber": 19,
+				"endLineNumber": 5,
 				"endColumn": 4
 			},
 			"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"
@@ -198,21 +198,21 @@
 	[
 		{
 			"originSelectionRange": {
-				"startLineNumber": 17,
+				"startLineNumber": 3,
 				"startColumn": 6,
-				"endLineNumber": 17,
+				"endLineNumber": 0,
 				"endColumn": 10
 			},
 			"range": {
-				"startLineNumber": 17,
+				"startLineNumber": 0,
 				"startColumn": 5,
-				"endLineNumber": 17,
+				"endLineNumber": 0,
 				"endColumn": 16
 			},
 			"targetSelectionRange": {
-				"startLineNumber": 17,
+				"startLineNumber": 0,
 				"startColumn": 5,
-				"endLineNumber": 17,
+				"endLineNumber": 0,
 				"endColumn": 16
 			},
 			"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"
@@ -222,21 +222,21 @@
 	[
 		{
 			"originSelectionRange": {
-				"startLineNumber": 17,
+				"startLineNumber": 0,
 				"startColumn": 6,
-				"endLineNumber": 17,
+				"endLineNumber": 0,
 				"endColumn": 10
 			},
 			"range": {
-				"startLineNumber": 17,
+				"startLineNumber": 0,
 				"startColumn": 5,
-				"endLineNumber": 17,
+				"endLineNumber": 0,
 				"endColumn": 16
 			},
 			"targetSelectionRange": {
-				"startLineNumber": 17,
+				"startLineNumber": 0,
 				"startColumn": 5,
-				"endLineNumber": 17,
+				"endLineNumber": 0,
 				"endColumn": 16
 			},
 			"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"
@@ -245,21 +245,21 @@
 	[
 		{
 			"originSelectionRange": {
-				"startLineNumber": 20,
+				"startLineNumber": 3,
 				"startColumn": 4,
-				"endLineNumber": 20,
+				"endLineNumber": 0,
 				"endColumn": 11
 			},
 			"range": {
-				"startLineNumber": 20,
+				"startLineNumber": 0,
 				"startColumn": 3,
-				"endLineNumber": 24,
+				"endLineNumber": 4,
 				"endColumn": 4
 			},
 			"targetSelectionRange": {
-				"startLineNumber": 20,
+				"startLineNumber": 0,
 				"startColumn": 3,
-				"endLineNumber": 24,
+				"endLineNumber": 4,
 				"endColumn": 4
 			},
 			"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"
@@ -274,21 +274,21 @@
 	[
 		{
 			"originSelectionRange": {
-				"startLineNumber": 25,
+				"startLineNumber": 5,
 				"startColumn": 4,
-				"endLineNumber": 25,
+				"endLineNumber": 0,
 				"endColumn": 10
 			},
 			"range": {
-				"startLineNumber": 25,
+				"startLineNumber": 0,
 				"startColumn": 3,
-				"endLineNumber": 39,
+				"endLineNumber": 14,
 				"endColumn": 4
 			},
 			"targetSelectionRange": {
-				"startLineNumber": 25,
+				"startLineNumber": 0,
 				"startColumn": 3,
-				"endLineNumber": 39,
+				"endLineNumber": 14,
 				"endColumn": 4
 			},
 			"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"
@@ -304,21 +304,21 @@
 	[
 		{
 			"originSelectionRange": {
-				"startLineNumber": 29,
+				"startLineNumber": 4,
 				"startColumn": 24,
-				"endLineNumber": 29,
+				"endLineNumber": 0,
 				"endColumn": 25
 			},
 			"range": {
-				"startLineNumber": 27,
+				"startLineNumber": -2,
 				"startColumn": 14,
-				"endLineNumber": 27,
+				"endLineNumber": 0,
 				"endColumn": 16
 			},
 			"targetSelectionRange": {
-				"startLineNumber": 27,
+				"startLineNumber": 0,
 				"startColumn": 14,
-				"endLineNumber": 27,
+				"endLineNumber": 0,
 				"endColumn": 16
 			},
 			"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"
@@ -330,21 +330,21 @@
 	[
 		{
 			"originSelectionRange": {
-				"startLineNumber": 30,
+				"startLineNumber": 3,
 				"startColumn": 22,
-				"endLineNumber": 30,
+				"endLineNumber": 0,
 				"endColumn": 23
 			},
 			"range": {
-				"startLineNumber": 28,
+				"startLineNumber": -2,
 				"startColumn": 12,
-				"endLineNumber": 28,
+				"endLineNumber": 0,
 				"endColumn": 14
 			},
 			"targetSelectionRange": {
-				"startLineNumber": 28,
+				"startLineNumber": 0,
 				"startColumn": 12,
-				"endLineNumber": 28,
+				"endLineNumber": 0,
 				"endColumn": 14
 			},
 			"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"
@@ -364,21 +364,21 @@
 	[
 		{
 			"originSelectionRange": {
-				"startLineNumber": 23,
+				"startLineNumber": -5,
 				"startColumn": 31,
-				"endLineNumber": 23,
+				"endLineNumber": 0,
 				"endColumn": 33
 			},
 			"range": {
-				"startLineNumber": 22,
+				"startLineNumber": -1,
 				"startColumn": 17,
-				"endLineNumber": 22,
+				"endLineNumber": 0,
 				"endColumn": 29
 			},
 			"targetSelectionRange": {
-				"startLineNumber": 22,
+				"startLineNumber": 0,
 				"startColumn": 17,
-				"endLineNumber": 22,
+				"endLineNumber": 0,
 				"endColumn": 29
 			},
 			"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"

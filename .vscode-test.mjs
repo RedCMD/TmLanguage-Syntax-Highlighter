@@ -2,9 +2,17 @@
 
 import { defineConfig } from '@vscode/test-cli';
 
+/**
+ * @satisfies {Parameters<typeof import('@vscode/test-cli').defineConfig>[0]}
+ */
 export const config = {
 	files: 'out/test/**/*.test.js',
 	workspaceFolder: './src/test/',
+	mocha: {
+		reporterOptions: {
+			maxDiffSize: 100000
+		}
+	}
 };
 
 export default defineConfig(

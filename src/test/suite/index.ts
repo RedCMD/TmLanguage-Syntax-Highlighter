@@ -1,6 +1,9 @@
 // Imports mocha for the browser, defining the `mocha` global.
 require('mocha/mocha');
 
+// reporterOptions crashes vscode-test-web cause wtf
+(Mocha.reporters.Base as typeof Mocha.reporters.Base & { maxDiffSize: number; }).maxDiffSize = 100000;
+
 export function run(): Promise<void> {
 	return new Promise((c, e) => {
 		mocha.setup({
@@ -10,6 +13,10 @@ export function run(): Promise<void> {
 			color: true,
 			inlineDiffs: true,
 			slow: 1000,
+			// Crashes vscode-test-web cause wtf
+			// reporterOptions: {
+			// 	maxDiffSize: 100000
+			// },
 		});
 
 		// Bundles all files in the current directory matching `*.test`

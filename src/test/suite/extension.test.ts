@@ -38,7 +38,53 @@ suite('Extension Tests', async () => {
 	async function assertBaseline(actual: any[], filename: string) {
 		assert.ok(Array.isArray(actual), `Expected array. Got ${typeof actual}`);
 		assert.ok(actual.length > 0, "Actual array was empty");
-		const actualStringified = JSON.stringify(actual, null, '\t').replaceAll(/\r?\n/g, '\r\n') + '\r\n';
+
+		const UseRelativeLineNumbers = true;
+		let prevLineNumber = 0;
+		const actualStringified = JSON.stringify(
+			actual,
+			(key, value) => {
+				switch (key) {
+					case 'uri':
+					case 'resource':
+					case 'node':
+					case 'cacheId':
+						// Causes too much noise in diffs
+						// Remove them
+						return undefined;
+
+					case 'message':
+						return value.replace(/\s+\(\d+ms\)/, '');
+
+					case 'id':
+						if (typeof value == 'number') {
+							return undefined;
+
+						}
+						return value;
+
+					case 'line':
+					case 'start':
+					case 'startLineNumber':
+						if (UseRelativeLineNumbers) {
+							const relativeLineNumber = value - prevLineNumber;
+							prevLineNumber = value as number;
+							return relativeLineNumber;
+						}
+						return value;
+					case 'end':
+					case 'endLineNumber':
+						if (UseRelativeLineNumbers) {
+							return value - prevLineNumber;
+						}
+						return value;
+
+					default:
+						return value;
+				}
+			},
+			'\t'
+		).replaceAll(/\r?\n/g, '\r\n') + '\r\n';
 
 		const file = vscode.Uri.joinPath(baselinesUri, filename);
 
@@ -80,7 +126,7 @@ suite('Extension Tests', async () => {
 		let match: RegExpExecArray | null;
 		while (match = regex.exec(text)) {
 			const position = document.positionAt(match.index);
-			const middlePosition = position.translate(0, match[0].length / 2);
+			const middlePosition = position.translate(0, Math.trunc(match[0].length / 2));
 			await assertFunction(middlePosition);
 		}
 	}
@@ -167,44 +213,52 @@ suite('Extension Tests', async () => {
 	});
 
 	test('FileConverter', async () => {
-		async function testFileConversion(fromFile: string, command: string, toFile?: string) {
+		async function assertFileConversion(actualFile: string, command: string, expectedFile?: string) {
 			// const start = performance.now();
-			toFile ??= fromFile;
+			expectedFile ??= actualFile;
 
 			// const document = vscode.workspace.openTextDocument(); is slightly faster, but not as flashy ;)
-			const fromEditor = await vscode.window.showTextDocument(vscode.Uri.joinPath(fixturesUri, fromFile), showTextDocumentOptions);
-			const toEditor = await vscode.window.showTextDocument(vscode.Uri.joinPath(fixturesUri, toFile), showTextDocumentOptions);
+			const editor = await vscode.window.showTextDocument(vscode.Uri.joinPath(fixturesUri, actualFile), showTextDocumentOptions);
+			const expectedEditor = await vscode.window.showTextDocument(vscode.Uri.joinPath(fixturesUri, expectedFile), showTextDocumentOptions);
 
-			const convertedEditor = await vscode.commands.executeCommand(command, fromEditor.document) as vscode.TextEditor | undefined;
-			assert.ok(convertedEditor, `Failure executing file conversion command: ${command}`);
-			assert.ok(await convertedEditor.edit((editBuilder) => editBuilder.setEndOfLine(toEditor.document.eol)));
+			const actualEditor = await vscode.commands.executeCommand(command, editor.document) as vscode.TextEditor | undefined;
+			assert.ok(actualEditor, `Failure executing file conversion command: ${command}`);
+			assert.ok(await actualEditor.edit(editBuilder => editBuilder.setEndOfLine(expectedEditor.document.eol)));
 
-			// console.log('\n---\n');
-			// console.log(`fromEditor: ${fromFile}: ${JSON.stringify(fromEditor.document.getText())}\n`);
-			// console.log(`toEditor: ${toFile}: ${JSON.stringify(toEditor.document.getText())}\n`);
-			// console.log(`convertedEditor: ${command}: ${JSON.stringify(convertedEditor.document.getText())}\n`);
+			const actualStringified = actualEditor.document.getText().replace(/\r?\n?$/, '\r\n');
+			const expectedStringified = expectedEditor.document.getText().replace(/\r?\n?$/, '\r\n');
 
-			assert.equal(convertedEditor.document.getText().replace(/\r?\n$/, ''), toEditor.document.getText().replace(/\r?\n$/, ''), `Conversion from ${fromFile} via ${command} to ${toFile}`);
+			if (runTests) {
+				assert.equal(
+					actualStringified,
+					expectedStringified,
+					`Conversion from ${actualFile} via ${command} to ${expectedFile}`,
+				);
+			}
+			else {
+				const uint8Array = new TextEncoder().encode(actualStringified);
+				await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(fixturesUri, expectedFile), uint8Array);
+			}
 
 			// console.log((performance.now() - start).toFixed(), 'ms', fromFile, command, toFile);
 		}
 
-		await testFileConversion('JSON.tmLanguage.json', 'textmate.convertFileToJSON');
-		await testFileConversion('YAML.tmLanguage.yaml', 'textmate.convertFileToYAML');
-		await testFileConversion('ASCII.textmate', 'textmate.convertFileToASCII');
+		await assertFileConversion('JSON.tmLanguage.json', 'textmate.convertFileToJSON');
+		await assertFileConversion('YAML.tmLanguage.yaml', 'textmate.convertFileToYAML');
+		await assertFileConversion('ASCII.textmate', 'textmate.convertFileToASCII');
 
 		// TODO: Conversion to XML/CSON doesn't work in VSCode Web atm
 		if (typeof navigator === 'object') {
 			// TODO: Conversion from CSON is buggy. skipping test
 			// https://github.com/fabiospampinato/cson2json/issues/1
 			// await testFileConversion('CSON.tmLanguage.cson', 'textmate.convertFileToJSON', 'JSON.tmLanguage.json');
-			await testFileConversion('XML.tmLanguage', 'textmate.convertFileToJSON', 'JSON.tmLanguage.json');
+			await assertFileConversion('XML.tmLanguage', 'textmate.convertFileToJSON', 'JSON.tmLanguage.json');
 
 			return;
 		}
 
-		await testFileConversion('CSON.tmLanguage.cson', 'textmate.convertFileToCSON');
-		await testFileConversion('XML.tmLanguage', 'textmate.convertFileToXML');
+		await assertFileConversion('CSON.tmLanguage.cson', 'textmate.convertFileToCSON');
+		await assertFileConversion('XML.tmLanguage', 'textmate.convertFileToXML');
 	});
 
 	test('FormatDocumentProvider', async () => {
@@ -294,13 +348,7 @@ suite('Extension Tests', async () => {
 		const diagnosticsActual: (Diagnostic | vscode.Diagnostic)[] = vscode.languages.getDiagnostics(uri);
 		assert.ok(Array.isArray(diagnosticsActual));
 
-		// Attempt to normalise the output
-		diagnosticsActual.forEach(diagnostic => {
-			if ('node' in diagnostic) {
-				delete diagnostic.node;
-			}
-			diagnostic.message = diagnostic.message.replace(/\s+\(\d+ms\)/, '');
-		});
+		// Attempt to normalise the output order
 		diagnosticsActual.sort((diagnosticA, diagnosticB) => {
 			if (diagnosticA.range.start.isAfter(diagnosticB.range.start)) {
 				return 1;
@@ -335,7 +383,7 @@ suite('Extension Tests', async () => {
 			isAI: boolean;
 			edit?: vscode.WorkspaceEdit & {
 				edits: {
-					resource?: vscode.Uri;
+					resource: vscode.Uri;
 					textEdit: vscode.TextEdit;
 					filename?: string;
 				}[];
@@ -348,10 +396,8 @@ suite('Extension Tests', async () => {
 		) as CodeAction[];
 
 		codeActionsActual.forEach(codeAction => {
-			codeAction.edit?.edits.forEach((edit) => {
-				// edit.filename = edit.resource!.path.match(/[^/\\]+$/)![0];
-				edit.filename = vscode.workspace.asRelativePath(edit.resource!, false);
-				delete edit.resource;
+			codeAction.edit?.edits.forEach(edit => {
+				edit.filename = vscode.workspace.asRelativePath(edit.resource, false);
 			});
 		});
 
@@ -393,7 +439,7 @@ suite('Extension Tests', async () => {
 			edits: Array<IWorkspaceTextEdit /* | IWorkspaceFileEdit | ICustomEdit */>;
 		}
 		interface IWorkspaceTextEdit {
-			resource?: vscode.Uri;
+			resource: vscode.Uri;
 			textEdit: TextEdit & { insertAsSnippet?: boolean; keepWhitespace?: boolean; };
 			versionId?: number | undefined;
 			metadata?: vscode.WorkspaceEditMetadata;
@@ -444,10 +490,8 @@ suite('Extension Tests', async () => {
 			const workspaceEdit = await vscode.commands.executeCommand('_executeDocumentRenameProvider', uri, position, newName) as WorkspaceEdit;
 			const workspaceEdits = workspaceEdit.edits;
 
-			workspaceEdits.forEach((edit) => {
-				// edit.filename = edit.resource!.path.match(/[^/\\]+$/)![0];
-				edit.filename = vscode.workspace.asRelativePath(edit.resource!, false);
-				delete edit.resource;
+			workspaceEdits.forEach(edit => {
+				edit.filename = vscode.workspace.asRelativePath(edit.resource, false);
 			});
 
 			renamesActual.push({ renamePrepare, workspaceEdits });
@@ -480,7 +524,7 @@ suite('Extension Tests', async () => {
 
 		type DefinitionReferenceLink = {
 			originSelectionRange: vscode.DefinitionLink['originSelectionRange'];
-			uri?: vscode.DefinitionLink['targetUri'];
+			uri: vscode.DefinitionLink['targetUri'];
 			range: vscode.DefinitionLink['targetRange'];
 			targetSelectionRange: vscode.DefinitionLink['targetSelectionRange'];
 			filename?: string;
@@ -498,10 +542,8 @@ suite('Extension Tests', async () => {
 				assert.ok(definitions.length > 0, "Actual array was empty");
 			}
 
-			definitions.forEach((location) => {
-				// location.filename = location.uri!.path.match(/[^/\\]+$/)![0];
-				location.filename = vscode.workspace.asRelativePath(location.uri!, false);
-				delete location.uri;
+			definitions.forEach(location => {
+				location.filename = vscode.workspace.asRelativePath(location.uri, false);
 			});
 
 			definitionsActual.push(definitions);

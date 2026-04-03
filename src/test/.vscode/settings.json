@@ -12,6 +12,10 @@
 	"files.autoSave": "off", // don't modify the fixtures files during tests
 	"files.eol": "\r\n",
 	"files.trimFinalNewlines": true,
-	"workbench.colorTheme": "Default Dark Modern",
+	"json.schemaDownload.trustedDomains": {
+		"https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json": true,
+	},
+	"workbench.colorTheme": "Dark Modern",
 	"workbench.editor.wrapTabs": true,
+	"workbench.secondarySideBar.defaultVisibility": "hidden",
 }

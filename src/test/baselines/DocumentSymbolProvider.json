@@ -5,13 +5,13 @@
 		"range": {
 			"startLineNumber": 1,
 			"startColumn": 1,
-			"endLineNumber": 48,
+			"endLineNumber": 47,
 			"endColumn": 1
 		},
 		"selectionRange": {
-			"startLineNumber": 1,
+			"startLineNumber": 0,
 			"startColumn": 1,
-			"endLineNumber": 48,
+			"endLineNumber": 47,
 			"endColumn": 1
 		},
 		"kind": 0,
@@ -21,15 +21,15 @@
 				"name": "schema",
 				"detail": "\"$schema\": \"https://raw.githubusercontent.com/RedC",
 				"range": {
-					"startLineNumber": 2,
+					"startLineNumber": 1,
 					"startColumn": 2,
-					"endLineNumber": 2,
+					"endLineNumber": 0,
 					"endColumn": 120
 				},
 				"selectionRange": {
-					"startLineNumber": 2,
+					"startLineNumber": 0,
 					"startColumn": 2,
-					"endLineNumber": 2,
+					"endLineNumber": 0,
 					"endColumn": 120
 				},
 				"kind": 14,
@@ -39,15 +39,15 @@
 						"name": "key",
 						"detail": "$schema",
 						"range": {
-							"startLineNumber": 2,
+							"startLineNumber": 0,
 							"startColumn": 3,
-							"endLineNumber": 2,
+							"endLineNumber": 0,
 							"endColumn": 10
 						},
 						"selectionRange": {
-							"startLineNumber": 2,
+							"startLineNumber": 0,
 							"startColumn": 3,
-							"endLineNumber": 2,
+							"endLineNumber": 0,
 							"endColumn": 10
 						},
 						"kind": 6,
@@ -58,15 +58,15 @@
 						"name": "https://raw.githubusercontent.com/RedCMD/TmLanguag",
 						"detail": "https://raw.githubusercontent.com/RedCMD/TmLanguag",
 						"range": {
-							"startLineNumber": 2,
+							"startLineNumber": 0,
 							"startColumn": 14,
-							"endLineNumber": 2,
+							"endLineNumber": 0,
 							"endColumn": 119
 						},
 						"selectionRange": {
-							"startLineNumber": 2,
+							"startLineNumber": 0,
 							"startColumn": 14,
-							"endLineNumber": 2,
+							"endLineNumber": 0,
 							"endColumn": 119
 						},
 						"kind": 19,
@@ -79,15 +79,15 @@
 				"name": "name",
 				"detail": "\"name\": \"languageId\"",
 				"range": {
-					"startLineNumber": 3,
+					"startLineNumber": 1,
 					"startColumn": 2,
-					"endLineNumber": 3,
+					"endLineNumber": 0,
 					"endColumn": 22
 				},
 				"selectionRange": {
-					"startLineNumber": 3,
+					"startLineNumber": 0,
 					"startColumn": 2,
-					"endLineNumber": 3,
+					"endLineNumber": 0,
 					"endColumn": 22
 				},
 				"kind": 14,
@@ -97,15 +97,15 @@
 						"name": "key",
 						"detail": "name",
 						"range": {
-							"startLineNumber": 3,
+							"startLineNumber": 0,
 							"startColumn": 3,
-							"endLineNumber": 3,
+							"endLineNumber": 0,
 							"endColumn": 7
 						},
 						"selectionRange": {
-							"startLineNumber": 3,
+							"startLineNumber": 0,
 							"startColumn": 3,
-							"endLineNumber": 3,
+							"endLineNumber": 0,
 							"endColumn": 7
 						},
 						"kind": 6,
@@ -116,15 +116,15 @@
 						"name": "languageId",
 						"detail": "languageId",
 						"range": {
-							"startLineNumber": 3,
+							"startLineNumber": 0,
 							"startColumn": 11,
-							"endLineNumber": 3,
+							"endLineNumber": 0,
 							"endColumn": 21
 						},
 						"selectionRange": {
-							"startLineNumber": 3,
+							"startLineNumber": 0,
 							"startColumn": 11,
-							"endLineNumber": 3,
+							"endLineNumber": 0,
 							"endColumn": 21
 						},
 						"kind": 19,
@@ -137,15 +137,15 @@
 				"name": "scopeName",
 				"detail": "\"scopeName\": \"source.languageId\"",
 				"range": {
-					"startLineNumber": 4,
+					"startLineNumber": 1,
 					"startColumn": 2,
-					"endLineNumber": 4,
+					"endLineNumber": 0,
 					"endColumn": 34
 				},
 				"selectionRange": {
-					"startLineNumber": 4,
+					"startLineNumber": 0,
 					"startColumn": 2,
-					"endLineNumber": 4,
+					"endLineNumber": 0,
 					"endColumn": 34
 				},
 				"kind": 12,
@@ -155,15 +155,15 @@
 						"name": "key",
 						"detail": "scopeName",
 						"range": {
-							"startLineNumber": 4,
+							"startLineNumber": 0,
 							"startColumn": 3,
-							"endLineNumber": 4,
+							"endLineNumber": 0,
 							"endColumn": 12
 						},
 						"selectionRange": {
-							"startLineNumber": 4,
+							"startLineNumber": 0,
 							"startColumn": 3,
-							"endLineNumber": 4,
+							"endLineNumber": 0,
 							"endColumn": 12
 						},
 						"kind": 6,
@@ -174,15 +174,15 @@
 						"name": "source.languageId",
 						"detail": "source.languageId",
 						"range": {
-							"startLineNumber": 4,
+							"startLineNumber": 0,
 							"startColumn": 16,
-							"endLineNumber": 4,
+							"endLineNumber": 0,
 							"endColumn": 33
 						},
 						"selectionRange": {
-							"startLineNumber": 4,
+							"startLineNumber": 0,
 							"startColumn": 16,
-							"endLineNumber": 4,
+							"endLineNumber": 0,
 							"endColumn": 33
 						},
 						"kind": 19,
@@ -195,15 +195,15 @@
 				"name": "patterns",
 				"detail": "\"patterns\": [\r\n\t\t{\r\n\t\t\t\"include\": \"#repo-item\"\r\n\t\t",
 				"range": {
-					"startLineNumber": 5,
+					"startLineNumber": 1,
 					"startColumn": 2,
-					"endLineNumber": 15,
+					"endLineNumber": 10,
 					"endColumn": 3
 				},
 				"selectionRange": {
-					"startLineNumber": 5,
+					"startLineNumber": 0,
 					"startColumn": 2,
-					"endLineNumber": 15,
+					"endLineNumber": 10,
 					"endColumn": 3
 				},
 				"kind": 17,
@@ -213,15 +213,15 @@
 						"name": "key",
 						"detail": "patterns",
 						"range": {
-							"startLineNumber": 5,
+							"startLineNumber": 0,
 							"startColumn": 3,
-							"endLineNumber": 5,
+							"endLineNumber": 0,
 							"endColumn": 11
 						},
 						"selectionRange": {
-							"startLineNumber": 5,
+							"startLineNumber": 0,
 							"startColumn": 3,
-							"endLineNumber": 5,
+							"endLineNumber": 0,
 							"endColumn": 11
 						},
 						"kind": 6,
@@ -232,15 +232,15 @@
 						"name": "1",
 						"detail": "{\r\n\t\t\t\"include\": \"#repo-item\"\r\n\t\t}",
 						"range": {
-							"startLineNumber": 6,
+							"startLineNumber": 1,
 							"startColumn": 3,
-							"endLineNumber": 8,
+							"endLineNumber": 2,
 							"endColumn": 4
 						},
 						"selectionRange": {
-							"startLineNumber": 6,
+							"startLineNumber": 0,
 							"startColumn": 3,
-							"endLineNumber": 8,
+							"endLineNumber": 2,
 							"endColumn": 4
 						},
 						"kind": 15,
@@ -250,15 +250,15 @@
 								"name": "include",
 								"detail": "\"include\": \"#repo-item\"",
 								"range": {
-									"startLineNumber": 7,
+									"startLineNumber": 1,
 									"startColumn": 4,
-									"endLineNumber": 7,
+									"endLineNumber": 0,
 									"endColumn": 27
 								},
 								"selectionRange": {
-									"startLineNumber": 7,
+									"startLineNumber": 0,
 									"startColumn": 4,
-									"endLineNumber": 7,
+									"endLineNumber": 0,
 									"endColumn": 27
 								},
 								"kind": 12,
@@ -268,15 +268,15 @@
 										"name": "key",
 										"detail": "include",
 										"range": {
-											"startLineNumber": 7,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 7,
+											"endLineNumber": 0,
 											"endColumn": 12
 										},
 										"selectionRange": {
-											"startLineNumber": 7,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 7,
+											"endLineNumber": 0,
 											"endColumn": 12
 										},
 										"kind": 6,
@@ -287,15 +287,15 @@
 										"name": "#repo-item",
 										"detail": "#repo-item",
 										"range": {
-											"startLineNumber": 7,
+											"startLineNumber": 0,
 											"startColumn": 16,
-											"endLineNumber": 7,
+											"endLineNumber": 0,
 											"endColumn": 26
 										},
 										"selectionRange": {
-											"startLineNumber": 7,
+											"startLineNumber": 0,
 											"startColumn": 16,
-											"endLineNumber": 7,
+											"endLineNumber": 0,
 											"endColumn": 26
 										},
 										"kind": 19,
@@ -305,15 +305,15 @@
 												"name": "ruleName",
 												"detail": "repo-item",
 												"range": {
-													"startLineNumber": 7,
+													"startLineNumber": 0,
 													"startColumn": 17,
-													"endLineNumber": 7,
+													"endLineNumber": 0,
 													"endColumn": 26
 												},
 												"selectionRange": {
-													"startLineNumber": 7,
+													"startLineNumber": 0,
 													"startColumn": 17,
-													"endLineNumber": 7,
+													"endLineNumber": 0,
 													"endColumn": 26
 												},
 												"kind": 5,
@@ -330,15 +330,15 @@
 						"name": "2",
 						"detail": "{\r\n\t\t\t\"include\": \"#string\"\r\n\t\t}",
 						"range": {
-							"startLineNumber": 9,
+							"startLineNumber": 2,
 							"startColumn": 3,
-							"endLineNumber": 11,
+							"endLineNumber": 2,
 							"endColumn": 4
 						},
 						"selectionRange": {
-							"startLineNumber": 9,
+							"startLineNumber": 0,
 							"startColumn": 3,
-							"endLineNumber": 11,
+							"endLineNumber": 2,
 							"endColumn": 4
 						},
 						"kind": 15,
@@ -348,15 +348,15 @@
 								"name": "include",
 								"detail": "\"include\": \"#string\"",
 								"range": {
-									"startLineNumber": 10,
+									"startLineNumber": 1,
 									"startColumn": 4,
-									"endLineNumber": 10,
+									"endLineNumber": 0,
 									"endColumn": 24
 								},
 								"selectionRange": {
-									"startLineNumber": 10,
+									"startLineNumber": 0,
 									"startColumn": 4,
-									"endLineNumber": 10,
+									"endLineNumber": 0,
 									"endColumn": 24
 								},
 								"kind": 12,
@@ -366,15 +366,15 @@
 										"name": "key",
 										"detail": "include",
 										"range": {
-											"startLineNumber": 10,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 10,
+											"endLineNumber": 0,
 											"endColumn": 12
 										},
 										"selectionRange": {
-											"startLineNumber": 10,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 10,
+											"endLineNumber": 0,
 											"endColumn": 12
 										},
 										"kind": 6,
@@ -385,15 +385,15 @@
 										"name": "#string",
 										"detail": "#string",
 										"range": {
-											"startLineNumber": 10,
+											"startLineNumber": 0,
 											"startColumn": 16,
-											"endLineNumber": 10,
+											"endLineNumber": 0,
 											"endColumn": 23
 										},
 										"selectionRange": {
-											"startLineNumber": 10,
+											"startLineNumber": 0,
 											"startColumn": 16,
-											"endLineNumber": 10,
+											"endLineNumber": 0,
 											"endColumn": 23
 										},
 										"kind": 19,
@@ -403,15 +403,15 @@
 												"name": "ruleName",
 												"detail": "string",
 												"range": {
-													"startLineNumber": 10,
+													"startLineNumber": 0,
 													"startColumn": 17,
-													"endLineNumber": 10,
+													"endLineNumber": 0,
 													"endColumn": 23
 												},
 												"selectionRange": {
-													"startLineNumber": 10,
+													"startLineNumber": 0,
 													"startColumn": 17,
-													"endLineNumber": 10,
+													"endLineNumber": 0,
 													"endColumn": 23
 												},
 												"kind": 5,
@@ -428,15 +428,15 @@
 						"name": "3",
 						"detail": "{\r\n\t\t\t\"include\": \"#boolean\"\r\n\t\t}",
 						"range": {
-							"startLineNumber": 12,
+							"startLineNumber": 2,
 							"startColumn": 3,
-							"endLineNumber": 14,
+							"endLineNumber": 2,
 							"endColumn": 4
 						},
 						"selectionRange": {
-							"startLineNumber": 12,
+							"startLineNumber": 0,
 							"startColumn": 3,
-							"endLineNumber": 14,
+							"endLineNumber": 2,
 							"endColumn": 4
 						},
 						"kind": 15,
@@ -446,15 +446,15 @@
 								"name": "include",
 								"detail": "\"include\": \"#boolean\"",
 								"range": {
-									"startLineNumber": 13,
+									"startLineNumber": 1,
 									"startColumn": 4,
-									"endLineNumber": 13,
+									"endLineNumber": 0,
 									"endColumn": 25
 								},
 								"selectionRange": {
-									"startLineNumber": 13,
+									"startLineNumber": 0,
 									"startColumn": 4,
-									"endLineNumber": 13,
+									"endLineNumber": 0,
 									"endColumn": 25
 								},
 								"kind": 12,
@@ -464,15 +464,15 @@
 										"name": "key",
 										"detail": "include",
 										"range": {
-											"startLineNumber": 13,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 13,
+											"endLineNumber": 0,
 											"endColumn": 12
 										},
 										"selectionRange": {
-											"startLineNumber": 13,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 13,
+											"endLineNumber": 0,
 											"endColumn": 12
 										},
 										"kind": 6,
@@ -483,15 +483,15 @@
 										"name": "#boolean",
 										"detail": "#boolean",
 										"range": {
-											"startLineNumber": 13,
+											"startLineNumber": 0,
 											"startColumn": 16,
-											"endLineNumber": 13,
+											"endLineNumber": 0,
 											"endColumn": 24
 										},
 										"selectionRange": {
-											"startLineNumber": 13,
+											"startLineNumber": 0,
 											"startColumn": 16,
-											"endLineNumber": 13,
+											"endLineNumber": 0,
 											"endColumn": 24
 										},
 										"kind": 19,
@@ -501,15 +501,15 @@
 												"name": "ruleName",
 												"detail": "boolean",
 												"range": {
-													"startLineNumber": 13,
+													"startLineNumber": 0,
 													"startColumn": 17,
-													"endLineNumber": 13,
+													"endLineNumber": 0,
 													"endColumn": 24
 												},
 												"selectionRange": {
-													"startLineNumber": 13,
+													"startLineNumber": 0,
 													"startColumn": 17,
-													"endLineNumber": 13,
+													"endLineNumber": 0,
 													"endColumn": 24
 												},
 												"kind": 5,
@@ -528,15 +528,15 @@
 				"name": "repository",
 				"detail": "\"repository\": {\r\n\t\t\"repo-item\": {},\r\n\t\t\"boolean\": ",
 				"range": {
-					"startLineNumber": 16,
+					"startLineNumber": 3,
 					"startColumn": 2,
-					"endLineNumber": 46,
+					"endLineNumber": 30,
 					"endColumn": 3
 				},
 				"selectionRange": {
-					"startLineNumber": 16,
+					"startLineNumber": 0,
 					"startColumn": 2,
-					"endLineNumber": 46,
+					"endLineNumber": 30,
 					"endColumn": 3
 				},
 				"kind": 18,
@@ -546,15 +546,15 @@
 						"name": "key",
 						"detail": "repository",
 						"range": {
-							"startLineNumber": 16,
+							"startLineNumber": 0,
 							"startColumn": 3,
-							"endLineNumber": 16,
+							"endLineNumber": 0,
 							"endColumn": 13
 						},
 						"selectionRange": {
-							"startLineNumber": 16,
+							"startLineNumber": 0,
 							"startColumn": 3,
-							"endLineNumber": 16,
+							"endLineNumber": 0,
 							"endColumn": 13
 						},
 						"kind": 6,
@@ -565,15 +565,15 @@
 						"name": "repo-item",
 						"detail": "\"repo-item\": {}",
 						"range": {
-							"startLineNumber": 17,
+							"startLineNumber": 1,
 							"startColumn": 3,
-							"endLineNumber": 17,
+							"endLineNumber": 0,
 							"endColumn": 18
 						},
 						"selectionRange": {
-							"startLineNumber": 17,
+							"startLineNumber": 0,
 							"startColumn": 3,
-							"endLineNumber": 17,
+							"endLineNumber": 0,
 							"endColumn": 18
 						},
 						"kind": 11,
@@ -583,15 +583,15 @@
 								"name": "key",
 								"detail": "repo-item",
 								"range": {
-									"startLineNumber": 17,
+									"startLineNumber": 0,
 									"startColumn": 4,
-									"endLineNumber": 17,
+									"endLineNumber": 0,
 									"endColumn": 13
 								},
 								"selectionRange": {
-									"startLineNumber": 17,
+									"startLineNumber": 0,
 									"startColumn": 4,
-									"endLineNumber": 17,
+									"endLineNumber": 0,
 									"endColumn": 13
 								},
 								"kind": 6,
@@ -604,15 +604,15 @@
 						"name": "boolean",
 						"detail": "\"boolean\": {\r\n\t\t\t\"comment\": \"`\\\\b` is a 0-width wo",
 						"range": {
-							"startLineNumber": 18,
+							"startLineNumber": 1,
 							"startColumn": 3,
-							"endLineNumber": 22,
+							"endLineNumber": 4,
 							"endColumn": 4
 						},
 						"selectionRange": {
-							"startLineNumber": 18,
+							"startLineNumber": 0,
 							"startColumn": 3,
-							"endLineNumber": 22,
+							"endLineNumber": 4,
 							"endColumn": 4
 						},
 						"kind": 11,
@@ -622,15 +622,15 @@
 								"name": "key",
 								"detail": "boolean",
 								"range": {
-									"startLineNumber": 18,
+									"startLineNumber": 0,
 									"startColumn": 4,
-									"endLineNumber": 18,
+									"endLineNumber": 0,
 									"endColumn": 11
 								},
 								"selectionRange": {
-									"startLineNumber": 18,
+									"startLineNumber": 0,
 									"startColumn": 4,
-									"endLineNumber": 18,
+									"endLineNumber": 0,
 									"endColumn": 11
 								},
 								"kind": 6,
@@ -641,15 +641,15 @@
 								"name": "comment",
 								"detail": "\"comment\": \"`\\\\b` is a 0-width word boundary. `$1`",
 								"range": {
-									"startLineNumber": 19,
+									"startLineNumber": 1,
 									"startColumn": 4,
-									"endLineNumber": 19,
+									"endLineNumber": 0,
 									"endColumn": 82
 								},
 								"selectionRange": {
-									"startLineNumber": 19,
+									"startLineNumber": 0,
 									"startColumn": 4,
-									"endLineNumber": 19,
+									"endLineNumber": 0,
 									"endColumn": 82
 								},
 								"kind": 14,
@@ -659,15 +659,15 @@
 										"name": "key",
 										"detail": "comment",
 										"range": {
-											"startLineNumber": 19,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 19,
+											"endLineNumber": 0,
 											"endColumn": 12
 										},
 										"selectionRange": {
-											"startLineNumber": 19,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 19,
+											"endLineNumber": 0,
 											"endColumn": 12
 										},
 										"kind": 6,
@@ -678,15 +678,15 @@
 										"name": "`\\\\b` is a 0-width word boundary. `$1` references ",
 										"detail": "`\\\\b` is a 0-width word boundary. `$1` references ",
 										"range": {
-											"startLineNumber": 19,
+											"startLineNumber": 0,
 											"startColumn": 16,
-											"endLineNumber": 19,
+											"endLineNumber": 0,
 											"endColumn": 81
 										},
 										"selectionRange": {
-											"startLineNumber": 19,
+											"startLineNumber": 0,
 											"startColumn": 16,
-											"endLineNumber": 19,
+											"endLineNumber": 0,
 											"endColumn": 81
 										},
 										"kind": 19,
@@ -699,15 +699,15 @@
 								"name": "match",
 								"detail": "\"match\": \"\\\\b(true|false)\\\\b\"",
 								"range": {
-									"startLineNumber": 20,
+									"startLineNumber": 1,
 									"startColumn": 4,
-									"endLineNumber": 20,
+									"endLineNumber": 0,
 									"endColumn": 33
 								},
 								"selectionRange": {
-									"startLineNumber": 20,
+									"startLineNumber": 0,
 									"startColumn": 4,
-									"endLineNumber": 20,
+									"endLineNumber": 0,
 									"endColumn": 33
 								},
 								"kind": 14,
@@ -717,15 +717,15 @@
 										"name": "key",
 										"detail": "match",
 										"range": {
-											"startLineNumber": 20,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 20,
+											"endLineNumber": 0,
 											"endColumn": 10
 										},
 										"selectionRange": {
-											"startLineNumber": 20,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 20,
+											"endLineNumber": 0,
 											"endColumn": 10
 										},
 										"kind": 6,
@@ -736,15 +736,15 @@
 										"name": "regex",
 										"detail": "\\\\b(true|false)\\\\b",
 										"range": {
-											"startLineNumber": 20,
+											"startLineNumber": 0,
 											"startColumn": 14,
-											"endLineNumber": 20,
+											"endLineNumber": 0,
 											"endColumn": 32
 										},
 										"selectionRange": {
-											"startLineNumber": 20,
+											"startLineNumber": 0,
 											"startColumn": 14,
-											"endLineNumber": 20,
+											"endLineNumber": 0,
 											"endColumn": 32
 										},
 										"kind": 23,
@@ -754,15 +754,15 @@
 												"name": "backslash",
 												"detail": "\\\\b",
 												"range": {
-													"startLineNumber": 20,
+													"startLineNumber": 0,
 													"startColumn": 14,
-													"endLineNumber": 20,
+													"endLineNumber": 0,
 													"endColumn": 17
 												},
 												"selectionRange": {
-													"startLineNumber": 20,
+													"startLineNumber": 0,
 													"startColumn": 14,
-													"endLineNumber": 20,
+													"endLineNumber": 0,
 													"endColumn": 17
 												},
 												"kind": 6,
@@ -773,15 +773,15 @@
 												"name": "capture_group",
 												"detail": "(true|false)",
 												"range": {
-													"startLineNumber": 20,
+													"startLineNumber": 0,
 													"startColumn": 17,
-													"endLineNumber": 20,
+													"endLineNumber": 0,
 													"endColumn": 29
 												},
 												"selectionRange": {
-													"startLineNumber": 20,
+													"startLineNumber": 0,
 													"startColumn": 17,
-													"endLineNumber": 20,
+													"endLineNumber": 0,
 													"endColumn": 29
 												},
 												"kind": 5,
@@ -791,15 +791,15 @@
 														"name": "literal",
 														"detail": "true",
 														"range": {
-															"startLineNumber": 20,
+															"startLineNumber": 0,
 															"startColumn": 18,
-															"endLineNumber": 20,
+															"endLineNumber": 0,
 															"endColumn": 22
 														},
 														"selectionRange": {
-															"startLineNumber": 20,
+															"startLineNumber": 0,
 															"startColumn": 18,
-															"endLineNumber": 20,
+															"endLineNumber": 0,
 															"endColumn": 22
 														},
 														"kind": 14,
@@ -810,15 +810,15 @@
 														"name": "alteration",
 														"detail": "|",
 														"range": {
-															"startLineNumber": 20,
+															"startLineNumber": 0,
 															"startColumn": 22,
-															"endLineNumber": 20,
+															"endLineNumber": 0,
 															"endColumn": 23
 														},
 														"selectionRange": {
-															"startLineNumber": 20,
+															"startLineNumber": 0,
 															"startColumn": 22,
-															"endLineNumber": 20,
+															"endLineNumber": 0,
 															"endColumn": 23
 														},
 														"kind": 5,
@@ -829,15 +829,15 @@
 														"name": "literal",
 														"detail": "false",
 														"range": {
-															"startLineNumber": 20,
+															"startLineNumber": 0,
 															"startColumn": 23,
-															"endLineNumber": 20,
+															"endLineNumber": 0,
 															"endColumn": 28
 														},
 														"selectionRange": {
-															"startLineNumber": 20,
+															"startLineNumber": 0,
 															"startColumn": 23,
-															"endLineNumber": 20,
+															"endLineNumber": 0,
 															"endColumn": 28
 														},
 														"kind": 14,
@@ -850,15 +850,15 @@
 												"name": "backslash",
 												"detail": "\\\\b",
 												"range": {
-													"startLineNumber": 20,
+													"startLineNumber": 0,
 													"startColumn": 29,
-													"endLineNumber": 20,
+													"endLineNumber": 0,
 													"endColumn": 32
 												},
 												"selectionRange": {
-													"startLineNumber": 20,
+													"startLineNumber": 0,
 													"startColumn": 29,
-													"endLineNumber": 20,
+													"endLineNumber": 0,
 													"endColumn": 32
 												},
 												"kind": 6,
@@ -873,15 +873,15 @@
 								"name": "name",
 								"detail": "\"name\": \"constant.language.$1.languageId\"",
 								"range": {
-									"startLineNumber": 21,
+									"startLineNumber": 1,
 									"startColumn": 4,
-									"endLineNumber": 21,
+									"endLineNumber": 0,
 									"endColumn": 45
 								},
 								"selectionRange": {
-									"startLineNumber": 21,
+									"startLineNumber": 0,
 									"startColumn": 4,
-									"endLineNumber": 21,
+									"endLineNumber": 0,
 									"endColumn": 45
 								},
 								"kind": 14,
@@ -891,15 +891,15 @@
 										"name": "key",
 										"detail": "name",
 										"range": {
-											"startLineNumber": 21,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 21,
+											"endLineNumber": 0,
 											"endColumn": 9
 										},
 										"selectionRange": {
-											"startLineNumber": 21,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 21,
+											"endLineNumber": 0,
 											"endColumn": 9
 										},
 										"kind": 6,
@@ -910,15 +910,15 @@
 										"name": "constant.language.$1.languageId",
 										"detail": "constant.language.$1.languageId",
 										"range": {
-											"startLineNumber": 21,
+											"startLineNumber": 0,
 											"startColumn": 13,
-											"endLineNumber": 21,
+											"endLineNumber": 0,
 											"endColumn": 44
 										},
 										"selectionRange": {
-											"startLineNumber": 21,
+											"startLineNumber": 0,
 											"startColumn": 13,
-											"endLineNumber": 21,
+											"endLineNumber": 0,
 											"endColumn": 44
 										},
 										"kind": 19,
@@ -928,15 +928,15 @@
 												"name": "scope",
 												"detail": "constant.language.$1.languageId",
 												"range": {
-													"startLineNumber": 21,
+													"startLineNumber": 0,
 													"startColumn": 13,
-													"endLineNumber": 21,
+													"endLineNumber": 0,
 													"endColumn": 44
 												},
 												"selectionRange": {
-													"startLineNumber": 21,
+													"startLineNumber": 0,
 													"startColumn": 13,
-													"endLineNumber": 21,
+													"endLineNumber": 0,
 													"endColumn": 44
 												},
 												"kind": 5,
@@ -946,15 +946,15 @@
 														"name": "replace_capture",
 														"detail": "$1",
 														"range": {
-															"startLineNumber": 21,
+															"startLineNumber": 0,
 															"startColumn": 31,
-															"endLineNumber": 21,
+															"endLineNumber": 0,
 															"endColumn": 33
 														},
 														"selectionRange": {
-															"startLineNumber": 21,
+															"startLineNumber": 0,
 															"startColumn": 31,
-															"endLineNumber": 21,
+															"endLineNumber": 0,
 															"endColumn": 33
 														},
 														"kind": 5,
@@ -973,15 +973,15 @@
 						"name": "string",
 						"detail": "\"string\": {\r\n\t\t\t\"comment\": \"\\\"begin\\\" & \\\"end\\\" ca",
 						"range": {
-							"startLineNumber": 23,
+							"startLineNumber": 2,
 							"startColumn": 3,
-							"endLineNumber": 45,
+							"endLineNumber": 22,
 							"endColumn": 4
 						},
 						"selectionRange": {
-							"startLineNumber": 23,
+							"startLineNumber": 0,
 							"startColumn": 3,
-							"endLineNumber": 45,
+							"endLineNumber": 22,
 							"endColumn": 4
 						},
 						"kind": 11,
@@ -991,15 +991,15 @@
 								"name": "key",
 								"detail": "string",
 								"range": {
-									"startLineNumber": 23,
+									"startLineNumber": 0,
 									"startColumn": 4,
-									"endLineNumber": 23,
+									"endLineNumber": 0,
 									"endColumn": 10
 								},
 								"selectionRange": {
-									"startLineNumber": 23,
+									"startLineNumber": 0,
 									"startColumn": 4,
-									"endLineNumber": 23,
+									"endLineNumber": 0,
 									"endColumn": 10
 								},
 								"kind": 6,
@@ -1010,15 +1010,15 @@
 								"name": "comment",
 								"detail": "\"comment\": \"\\\"begin\\\" & \\\"end\\\" can create a multi",
 								"range": {
-									"startLineNumber": 24,
+									"startLineNumber": 1,
 									"startColumn": 4,
-									"endLineNumber": 24,
+									"endLineNumber": 0,
 									"endColumn": 67
 								},
 								"selectionRange": {
-									"startLineNumber": 24,
+									"startLineNumber": 0,
 									"startColumn": 4,
-									"endLineNumber": 24,
+									"endLineNumber": 0,
 									"endColumn": 67
 								},
 								"kind": 14,
@@ -1028,15 +1028,15 @@
 										"name": "key",
 										"detail": "comment",
 										"range": {
-											"startLineNumber": 24,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 24,
+											"endLineNumber": 0,
 											"endColumn": 12
 										},
 										"selectionRange": {
-											"startLineNumber": 24,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 24,
+											"endLineNumber": 0,
 											"endColumn": 12
 										},
 										"kind": 6,
@@ -1047,15 +1047,15 @@
 										"name": "\\\"begin\\\" & \\\"end\\\" can create a multi-line region",
 										"detail": "\\\"begin\\\" & \\\"end\\\" can create a multi-line region",
 										"range": {
-											"startLineNumber": 24,
+											"startLineNumber": 0,
 											"startColumn": 16,
-											"endLineNumber": 24,
+											"endLineNumber": 0,
 											"endColumn": 66
 										},
 										"selectionRange": {
-											"startLineNumber": 24,
+											"startLineNumber": 0,
 											"startColumn": 16,
-											"endLineNumber": 24,
+											"endLineNumber": 0,
 											"endColumn": 66
 										},
 										"kind": 19,
@@ -1068,15 +1068,15 @@
 								"name": "begin",
 								"detail": "\"begin\": \"\\\"\"",
 								"range": {
-									"startLineNumber": 25,
+									"startLineNumber": 1,
 									"startColumn": 4,
-									"endLineNumber": 25,
+									"endLineNumber": 0,
 									"endColumn": 17
 								},
 								"selectionRange": {
-									"startLineNumber": 25,
+									"startLineNumber": 0,
 									"startColumn": 4,
-									"endLineNumber": 25,
+									"endLineNumber": 0,
 									"endColumn": 17
 								},
 								"kind": 14,
@@ -1086,15 +1086,15 @@
 										"name": "key",
 										"detail": "begin",
 										"range": {
-											"startLineNumber": 25,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 25,
+											"endLineNumber": 0,
 											"endColumn": 10
 										},
 										"selectionRange": {
-											"startLineNumber": 25,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 25,
+											"endLineNumber": 0,
 											"endColumn": 10
 										},
 										"kind": 6,
@@ -1105,15 +1105,15 @@
 										"name": "regex",
 										"detail": "\\\"",
 										"range": {
-											"startLineNumber": 25,
+											"startLineNumber": 0,
 											"startColumn": 14,
-											"endLineNumber": 25,
+											"endLineNumber": 0,
 											"endColumn": 16
 										},
 										"selectionRange": {
-											"startLineNumber": 25,
+											"startLineNumber": 0,
 											"startColumn": 14,
-											"endLineNumber": 25,
+											"endLineNumber": 0,
 											"endColumn": 16
 										},
 										"kind": 23,
@@ -1123,15 +1123,15 @@
 												"name": "backslash",
 												"detail": "\\\"",
 												"range": {
-													"startLineNumber": 25,
+													"startLineNumber": 0,
 													"startColumn": 14,
-													"endLineNumber": 25,
+													"endLineNumber": 0,
 													"endColumn": 16
 												},
 												"selectionRange": {
-													"startLineNumber": 25,
+													"startLineNumber": 0,
 													"startColumn": 14,
-													"endLineNumber": 25,
+													"endLineNumber": 0,
 													"endColumn": 16
 												},
 												"kind": 6,
@@ -1146,15 +1146,15 @@
 								"name": "end",
 								"detail": "\"end\": \"\\\"\"",
 								"range": {
-									"startLineNumber": 26,
+									"startLineNumber": 1,
 									"startColumn": 4,
-									"endLineNumber": 26,
+									"endLineNumber": 0,
 									"endColumn": 15
 								},
 								"selectionRange": {
-									"startLineNumber": 26,
+									"startLineNumber": 0,
 									"startColumn": 4,
-									"endLineNumber": 26,
+									"endLineNumber": 0,
 									"endColumn": 15
 								},
 								"kind": 14,
@@ -1164,15 +1164,15 @@
 										"name": "key",
 										"detail": "end",
 										"range": {
-											"startLineNumber": 26,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 26,
+											"endLineNumber": 0,
 											"endColumn": 8
 										},
 										"selectionRange": {
-											"startLineNumber": 26,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 26,
+											"endLineNumber": 0,
 											"endColumn": 8
 										},
 										"kind": 6,
@@ -1183,15 +1183,15 @@
 										"name": "regex",
 										"detail": "\\\"",
 										"range": {
-											"startLineNumber": 26,
+											"startLineNumber": 0,
 											"startColumn": 12,
-											"endLineNumber": 26,
+											"endLineNumber": 0,
 											"endColumn": 14
 										},
 										"selectionRange": {
-											"startLineNumber": 26,
+											"startLineNumber": 0,
 											"startColumn": 12,
-											"endLineNumber": 26,
+											"endLineNumber": 0,
 											"endColumn": 14
 										},
 										"kind": 23,
@@ -1201,15 +1201,15 @@
 												"name": "backslash",
 												"detail": "\\\"",
 												"range": {
-													"startLineNumber": 26,
+													"startLineNumber": 0,
 													"startColumn": 12,
-													"endLineNumber": 26,
+													"endLineNumber": 0,
 													"endColumn": 14
 												},
 												"selectionRange": {
-													"startLineNumber": 26,
+													"startLineNumber": 0,
 													"startColumn": 12,
-													"endLineNumber": 26,
+													"endLineNumber": 0,
 													"endColumn": 14
 												},
 												"kind": 6,
@@ -1224,15 +1224,15 @@
 								"name": "beginCaptures",
 								"detail": "\"beginCaptures\": {\r\n\t\t\t\t\"0\": {\r\n\t\t\t\t\t\"name\": \"punc",
 								"range": {
-									"startLineNumber": 27,
+									"startLineNumber": 1,
 									"startColumn": 4,
-									"endLineNumber": 31,
+									"endLineNumber": 4,
 									"endColumn": 5
 								},
 								"selectionRange": {
-									"startLineNumber": 27,
+									"startLineNumber": 0,
 									"startColumn": 4,
-									"endLineNumber": 31,
+									"endLineNumber": 4,
 									"endColumn": 5
 								},
 								"kind": 7,
@@ -1242,15 +1242,15 @@
 										"name": "key",
 										"detail": "beginCaptures",
 										"range": {
-											"startLineNumber": 27,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 27,
+											"endLineNumber": 0,
 											"endColumn": 18
 										},
 										"selectionRange": {
-											"startLineNumber": 27,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 27,
+											"endLineNumber": 0,
 											"endColumn": 18
 										},
 										"kind": 6,
@@ -1261,15 +1261,15 @@
 										"name": "0",
 										"detail": "\"0\": {\r\n\t\t\t\t\t\"name\": \"punctuation.definition.strin",
 										"range": {
-											"startLineNumber": 28,
+											"startLineNumber": 1,
 											"startColumn": 5,
-											"endLineNumber": 30,
+											"endLineNumber": 2,
 											"endColumn": 6
 										},
 										"selectionRange": {
-											"startLineNumber": 28,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 30,
+											"endLineNumber": 2,
 											"endColumn": 6
 										},
 										"kind": 15,
@@ -1279,15 +1279,15 @@
 												"name": "key",
 												"detail": "0",
 												"range": {
-													"startLineNumber": 28,
+													"startLineNumber": 0,
 													"startColumn": 6,
-													"endLineNumber": 28,
+													"endLineNumber": 0,
 													"endColumn": 7
 												},
 												"selectionRange": {
-													"startLineNumber": 28,
+													"startLineNumber": 0,
 													"startColumn": 6,
-													"endLineNumber": 28,
+													"endLineNumber": 0,
 													"endColumn": 7
 												},
 												"kind": 6,
@@ -1298,15 +1298,15 @@
 												"name": "name",
 												"detail": "\"name\": \"punctuation.definition.string.begin.langu",
 												"range": {
-													"startLineNumber": 29,
+													"startLineNumber": 1,
 													"startColumn": 6,
-													"endLineNumber": 29,
+													"endLineNumber": 0,
 													"endColumn": 62
 												},
 												"selectionRange": {
-													"startLineNumber": 29,
+													"startLineNumber": 0,
 													"startColumn": 6,
-													"endLineNumber": 29,
+													"endLineNumber": 0,
 													"endColumn": 62
 												},
 												"kind": 14,
@@ -1316,15 +1316,15 @@
 														"name": "key",
 														"detail": "name",
 														"range": {
-															"startLineNumber": 29,
+															"startLineNumber": 0,
 															"startColumn": 7,
-															"endLineNumber": 29,
+															"endLineNumber": 0,
 															"endColumn": 11
 														},
 														"selectionRange": {
-															"startLineNumber": 29,
+															"startLineNumber": 0,
 															"startColumn": 7,
-															"endLineNumber": 29,
+															"endLineNumber": 0,
 															"endColumn": 11
 														},
 														"kind": 6,
@@ -1335,15 +1335,15 @@
 														"name": "punctuation.definition.string.begin.languageId",
 														"detail": "punctuation.definition.string.begin.languageId",
 														"range": {
-															"startLineNumber": 29,
+															"startLineNumber": 0,
 															"startColumn": 15,
-															"endLineNumber": 29,
+															"endLineNumber": 0,
 															"endColumn": 61
 														},
 														"selectionRange": {
-															"startLineNumber": 29,
+															"startLineNumber": 0,
 															"startColumn": 15,
-															"endLineNumber": 29,
+															"endLineNumber": 0,
 															"endColumn": 61
 														},
 														"kind": 19,
@@ -1353,15 +1353,15 @@
 																"name": "scope",
 																"detail": "punctuation.definition.string.begin.languageId",
 																"range": {
-																	"startLineNumber": 29,
+																	"startLineNumber": 0,
 																	"startColumn": 15,
-																	"endLineNumber": 29,
+																	"endLineNumber": 0,
 																	"endColumn": 61
 																},
 																"selectionRange": {
-																	"startLineNumber": 29,
+																	"startLineNumber": 0,
 																	"startColumn": 15,
-																	"endLineNumber": 29,
+																	"endLineNumber": 0,
 																	"endColumn": 61
 																},
 																"kind": 5,
@@ -1380,15 +1380,15 @@
 								"name": "endCaptures",
 								"detail": "\"endCaptures\": {\r\n\t\t\t\t\"0\": {\r\n\t\t\t\t\t\"name\": \"punctu",
 								"range": {
-									"startLineNumber": 32,
+									"startLineNumber": 3,
 									"startColumn": 4,
-									"endLineNumber": 36,
+									"endLineNumber": 4,
 									"endColumn": 5
 								},
 								"selectionRange": {
-									"startLineNumber": 32,
+									"startLineNumber": 0,
 									"startColumn": 4,
-									"endLineNumber": 36,
+									"endLineNumber": 4,
 									"endColumn": 5
 								},
 								"kind": 7,
@@ -1398,15 +1398,15 @@
 										"name": "key",
 										"detail": "endCaptures",
 										"range": {
-											"startLineNumber": 32,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 32,
+											"endLineNumber": 0,
 											"endColumn": 16
 										},
 										"selectionRange": {
-											"startLineNumber": 32,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 32,
+											"endLineNumber": 0,
 											"endColumn": 16
 										},
 										"kind": 6,
@@ -1417,15 +1417,15 @@
 										"name": "0",
 										"detail": "\"0\": {\r\n\t\t\t\t\t\"name\": \"punctuation.definition.strin",
 										"range": {
-											"startLineNumber": 33,
+											"startLineNumber": 1,
 											"startColumn": 5,
-											"endLineNumber": 35,
+											"endLineNumber": 2,
 											"endColumn": 6
 										},
 										"selectionRange": {
-											"startLineNumber": 33,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 35,
+											"endLineNumber": 2,
 											"endColumn": 6
 										},
 										"kind": 15,
@@ -1435,15 +1435,15 @@
 												"name": "key",
 												"detail": "0",
 												"range": {
-													"startLineNumber": 33,
+													"startLineNumber": 0,
 													"startColumn": 6,
-													"endLineNumber": 33,
+													"endLineNumber": 0,
 													"endColumn": 7
 												},
 												"selectionRange": {
-													"startLineNumber": 33,
+													"startLineNumber": 0,
 													"startColumn": 6,
-													"endLineNumber": 33,
+													"endLineNumber": 0,
 													"endColumn": 7
 												},
 												"kind": 6,
@@ -1454,15 +1454,15 @@
 												"name": "name",
 												"detail": "\"name\": \"punctuation.definition.string.end.languag",
 												"range": {
-													"startLineNumber": 34,
+													"startLineNumber": 1,
 													"startColumn": 6,
-													"endLineNumber": 34,
+													"endLineNumber": 0,
 													"endColumn": 60
 												},
 												"selectionRange": {
-													"startLineNumber": 34,
+													"startLineNumber": 0,
 													"startColumn": 6,
-													"endLineNumber": 34,
+													"endLineNumber": 0,
 													"endColumn": 60
 												},
 												"kind": 14,
@@ -1472,15 +1472,15 @@
 														"name": "key",
 														"detail": "name",
 														"range": {
-															"startLineNumber": 34,
+															"startLineNumber": 0,
 															"startColumn": 7,
-															"endLineNumber": 34,
+															"endLineNumber": 0,
 															"endColumn": 11
 														},
 														"selectionRange": {
-															"startLineNumber": 34,
+															"startLineNumber": 0,
 															"startColumn": 7,
-															"endLineNumber": 34,
+															"endLineNumber": 0,
 															"endColumn": 11
 														},
 														"kind": 6,
@@ -1491,15 +1491,15 @@
 														"name": "punctuation.definition.string.end.languageId",
 														"detail": "punctuation.definition.string.end.languageId",
 														"range": {
-															"startLineNumber": 34,
+															"startLineNumber": 0,
 															"startColumn": 15,
-															"endLineNumber": 34,
+															"endLineNumber": 0,
 															"endColumn": 59
 														},
 														"selectionRange": {
-															"startLineNumber": 34,
+															"startLineNumber": 0,
 															"startColumn": 15,
-															"endLineNumber": 34,
+															"endLineNumber": 0,
 															"endColumn": 59
 														},
 														"kind": 19,
@@ -1509,15 +1509,15 @@
 																"name": "scope",
 																"detail": "punctuation.definition.string.end.languageId",
 																"range": {
-																	"startLineNumber": 34,
+																	"startLineNumber": 0,
 																	"startColumn": 15,
-																	"endLineNumber": 34,
+																	"endLineNumber": 0,
 																	"endColumn": 59
 																},
 																"selectionRange": {
-																	"startLineNumber": 34,
+																	"startLineNumber": 0,
 																	"startColumn": 15,
-																	"endLineNumber": 34,
+																	"endLineNumber": 0,
 																	"endColumn": 59
 																},
 																"kind": 5,
@@ -1536,15 +1536,15 @@
 								"name": "name",
 								"detail": "\"name\": \"string.quoted.double.languageId\"",
 								"range": {
-									"startLineNumber": 37,
+									"startLineNumber": 3,
 									"startColumn": 4,
-									"endLineNumber": 37,
+									"endLineNumber": 0,
 									"endColumn": 45
 								},
 								"selectionRange": {
-									"startLineNumber": 37,
+									"startLineNumber": 0,
 									"startColumn": 4,
-									"endLineNumber": 37,
+									"endLineNumber": 0,
 									"endColumn": 45
 								},
 								"kind": 14,
@@ -1554,15 +1554,15 @@
 										"name": "key",
 										"detail": "name",
 										"range": {
-											"startLineNumber": 37,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 37,
+											"endLineNumber": 0,
 											"endColumn": 9
 										},
 										"selectionRange": {
-											"startLineNumber": 37,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 37,
+											"endLineNumber": 0,
 											"endColumn": 9
 										},
 										"kind": 6,
@@ -1573,15 +1573,15 @@
 										"name": "string.quoted.double.languageId",
 										"detail": "string.quoted.double.languageId",
 										"range": {
-											"startLineNumber": 37,
+											"startLineNumber": 0,
 											"startColumn": 13,
-											"endLineNumber": 37,
+											"endLineNumber": 0,
 											"endColumn": 44
 										},
 										"selectionRange": {
-											"startLineNumber": 37,
+											"startLineNumber": 0,
 											"startColumn": 13,
-											"endLineNumber": 37,
+											"endLineNumber": 0,
 											"endColumn": 44
 										},
 										"kind": 19,
@@ -1591,15 +1591,15 @@
 												"name": "scope",
 												"detail": "string.quoted.double.languageId",
 												"range": {
-													"startLineNumber": 37,
+													"startLineNumber": 0,
 													"startColumn": 13,
-													"endLineNumber": 37,
+													"endLineNumber": 0,
 													"endColumn": 44
 												},
 												"selectionRange": {
-													"startLineNumber": 37,
+													"startLineNumber": 0,
 													"startColumn": 13,
-													"endLineNumber": 37,
+													"endLineNumber": 0,
 													"endColumn": 44
 												},
 												"kind": 5,
@@ -1614,15 +1614,15 @@
 								"name": "patterns",
 								"detail": "\"patterns\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"comment\": \"Quad backsl",
 								"range": {
-									"startLineNumber": 38,
+									"startLineNumber": 1,
 									"startColumn": 4,
-									"endLineNumber": 44,
+									"endLineNumber": 6,
 									"endColumn": 5
 								},
 								"selectionRange": {
-									"startLineNumber": 38,
+									"startLineNumber": 0,
 									"startColumn": 4,
-									"endLineNumber": 44,
+									"endLineNumber": 6,
 									"endColumn": 5
 								},
 								"kind": 17,
@@ -1632,15 +1632,15 @@
 										"name": "key",
 										"detail": "patterns",
 										"range": {
-											"startLineNumber": 38,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 38,
+											"endLineNumber": 0,
 											"endColumn": 13
 										},
 										"selectionRange": {
-											"startLineNumber": 38,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 38,
+											"endLineNumber": 0,
 											"endColumn": 13
 										},
 										"kind": 6,
@@ -1651,15 +1651,15 @@
 										"name": "1",
 										"detail": "{\r\n\t\t\t\t\t\"comment\": \"Quad backslash required to mat",
 										"range": {
-											"startLineNumber": 39,
+											"startLineNumber": 1,
 											"startColumn": 5,
-											"endLineNumber": 43,
+											"endLineNumber": 4,
 											"endColumn": 6
 										},
 										"selectionRange": {
-											"startLineNumber": 39,
+											"startLineNumber": 0,
 											"startColumn": 5,
-											"endLineNumber": 43,
+											"endLineNumber": 4,
 											"endColumn": 6
 										},
 										"kind": 15,
@@ -1669,15 +1669,15 @@
 												"name": "comment",
 												"detail": "\"comment\": \"Quad backslash required to match one l",
 												"range": {
-													"startLineNumber": 40,
+													"startLineNumber": 1,
 													"startColumn": 6,
-													"endLineNumber": 40,
+													"endLineNumber": 0,
 													"endColumn": 73
 												},
 												"selectionRange": {
-													"startLineNumber": 40,
+													"startLineNumber": 0,
 													"startColumn": 6,
-													"endLineNumber": 40,
+													"endLineNumber": 0,
 													"endColumn": 73
 												},
 												"kind": 14,
@@ -1687,15 +1687,15 @@
 														"name": "key",
 														"detail": "comment",
 														"range": {
-															"startLineNumber": 40,
+															"startLineNumber": 0,
 															"startColumn": 7,
-															"endLineNumber": 40,
+															"endLineNumber": 0,
 															"endColumn": 14
 														},
 														"selectionRange": {
-															"startLineNumber": 40,
+															"startLineNumber": 0,
 															"startColumn": 7,
-															"endLineNumber": 40,
+															"endLineNumber": 0,
 															"endColumn": 14
 														},
 														"kind": 6,
@@ -1706,15 +1706,15 @@
 														"name": "Quad backslash required to match one literal backs",
 														"detail": "Quad backslash required to match one literal backs",
 														"range": {
-															"startLineNumber": 40,
+															"startLineNumber": 0,
 															"startColumn": 18,
-															"endLineNumber": 40,
+															"endLineNumber": 0,
 															"endColumn": 72
 														},
 														"selectionRange": {
-															"startLineNumber": 40,
+															"startLineNumber": 0,
 															"startColumn": 18,
-															"endLineNumber": 40,
+															"endLineNumber": 0,
 															"endColumn": 72
 														},
 														"kind": 19,
@@ -1727,15 +1727,15 @@
 												"name": "match",
 												"detail": "\"match\": \"\\\\\\\\.\"",
 												"range": {
-													"startLineNumber": 41,
+													"startLineNumber": 1,
 													"startColumn": 6,
-													"endLineNumber": 41,
+													"endLineNumber": 0,
 													"endColumn": 22
 												},
 												"selectionRange": {
-													"startLineNumber": 41,
+													"startLineNumber": 0,
 													"startColumn": 6,
-													"endLineNumber": 41,
+													"endLineNumber": 0,
 													"endColumn": 22
 												},
 												"kind": 14,
@@ -1745,15 +1745,15 @@
 														"name": "key",
 														"detail": "match",
 														"range": {
-															"startLineNumber": 41,
+															"startLineNumber": 0,
 															"startColumn": 7,
-															"endLineNumber": 41,
+															"endLineNumber": 0,
 															"endColumn": 12
 														},
 														"selectionRange": {
-															"startLineNumber": 41,
+															"startLineNumber": 0,
 															"startColumn": 7,
-															"endLineNumber": 41,
+															"endLineNumber": 0,
 															"endColumn": 12
 														},
 														"kind": 6,
@@ -1764,15 +1764,15 @@
 														"name": "regex",
 														"detail": "\\\\\\\\.",
 														"range": {
-															"startLineNumber": 41,
+															"startLineNumber": 0,
 															"startColumn": 16,
-															"endLineNumber": 41,
+															"endLineNumber": 0,
 															"endColumn": 21
 														},
 														"selectionRange": {
-															"startLineNumber": 41,
+															"startLineNumber": 0,
 															"startColumn": 16,
-															"endLineNumber": 41,
+															"endLineNumber": 0,
 															"endColumn": 21
 														},
 														"kind": 23,
@@ -1782,15 +1782,15 @@
 																"name": "backslash",
 																"detail": "\\\\\\\\",
 																"range": {
-																	"startLineNumber": 41,
+																	"startLineNumber": 0,
 																	"startColumn": 16,
-																	"endLineNumber": 41,
+																	"endLineNumber": 0,
 																	"endColumn": 20
 																},
 																"selectionRange": {
-																	"startLineNumber": 41,
+																	"startLineNumber": 0,
 																	"startColumn": 16,
-																	"endLineNumber": 41,
+																	"endLineNumber": 0,
 																	"endColumn": 20
 																},
 																"kind": 6,
@@ -1801,15 +1801,15 @@
 																"name": "literal",
 																"detail": ".",
 																"range": {
-																	"startLineNumber": 41,
+																	"startLineNumber": 0,
 																	"startColumn": 20,
-																	"endLineNumber": 41,
+																	"endLineNumber": 0,
 																	"endColumn": 21
 																},
 																"selectionRange": {
-																	"startLineNumber": 41,
+																	"startLineNumber": 0,
 																	"startColumn": 20,
-																	"endLineNumber": 41,
+																	"endLineNumber": 0,
 																	"endColumn": 21
 																},
 																"kind": 14,
@@ -1824,15 +1824,15 @@
 												"name": "name",
 												"detail": "\"name\": \"constant.character.escape.languageId\"",
 												"range": {
-													"startLineNumber": 42,
+													"startLineNumber": 1,
 													"startColumn": 6,
-													"endLineNumber": 42,
+													"endLineNumber": 0,
 													"endColumn": 52
 												},
 												"selectionRange": {
-													"startLineNumber": 42,
+													"startLineNumber": 0,
 													"startColumn": 6,
-													"endLineNumber": 42,
+													"endLineNumber": 0,
 													"endColumn": 52
 												},
 												"kind": 14,
@@ -1842,15 +1842,15 @@
 														"name": "key",
 														"detail": "name",
 														"range": {
-															"startLineNumber": 42,
+															"startLineNumber": 0,
 															"startColumn": 7,
-															"endLineNumber": 42,
+															"endLineNumber": 0,
 															"endColumn": 11
 														},
 														"selectionRange": {
-															"startLineNumber": 42,
+															"startLineNumber": 0,
 															"startColumn": 7,
-															"endLineNumber": 42,
+															"endLineNumber": 0,
 															"endColumn": 11
 														},
 														"kind": 6,
@@ -1861,15 +1861,15 @@
 														"name": "constant.character.escape.languageId",
 														"detail": "constant.character.escape.languageId",
 														"range": {
-															"startLineNumber": 42,
+															"startLineNumber": 0,
 															"startColumn": 15,
-															"endLineNumber": 42,
+															"endLineNumber": 0,
 															"endColumn": 51
 														},
 														"selectionRange": {
-															"startLineNumber": 42,
+															"startLineNumber": 0,
 															"startColumn": 15,
-															"endLineNumber": 42,
+															"endLineNumber": 0,
 															"endColumn": 51
 														},
 														"kind": 19,
@@ -1879,15 +1879,15 @@
 																"name": "scope",
 																"detail": "constant.character.escape.languageId",
 																"range": {
-																	"startLineNumber": 42,
+																	"startLineNumber": 0,
 																	"startColumn": 15,
-																	"endLineNumber": 42,
+																	"endLineNumber": 0,
 																	"endColumn": 51
 																},
 																"selectionRange": {
-																	"startLineNumber": 42,
+																	"startLineNumber": 0,
 																	"startColumn": 15,
-																	"endLineNumber": 42,
+																	"endLineNumber": 0,
 																	"endColumn": 51
 																},
 																"kind": 5,
@@ -1912,15 +1912,15 @@
 		"name": "$schema",
 		"detail": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
 		"range": {
-			"startLineNumber": 2,
+			"startLineNumber": -40,
 			"startColumn": 2,
-			"endLineNumber": 2,
+			"endLineNumber": 0,
 			"endColumn": 120
 		},
 		"selectionRange": {
-			"startLineNumber": 2,
+			"startLineNumber": 0,
 			"startColumn": 2,
-			"endLineNumber": 2,
+			"endLineNumber": 0,
 			"endColumn": 11
 		},
 		"kind": 14,
@@ -1931,15 +1931,15 @@
 		"name": "name",
 		"detail": "languageId",
 		"range": {
-			"startLineNumber": 3,
+			"startLineNumber": 1,
 			"startColumn": 2,
-			"endLineNumber": 3,
+			"endLineNumber": 0,
 			"endColumn": 22
 		},
 		"selectionRange": {
-			"startLineNumber": 3,
+			"startLineNumber": 0,
 			"startColumn": 2,
-			"endLineNumber": 3,
+			"endLineNumber": 0,
 			"endColumn": 8
 		},
 		"kind": 14,
@@ -1950,15 +1950,15 @@
 		"name": "scopeName",
 		"detail": "source.languageId",
 		"range": {
-			"startLineNumber": 4,
+			"startLineNumber": 1,
 			"startColumn": 2,
-			"endLineNumber": 4,
+			"endLineNumber": 0,
 			"endColumn": 34
 		},
 		"selectionRange": {
-			"startLineNumber": 4,
+			"startLineNumber": 0,
 			"startColumn": 2,
-			"endLineNumber": 4,
+			"endLineNumber": 0,
 			"endColumn": 13
 		},
 		"kind": 14,
@@ -1969,15 +1969,15 @@
 		"name": "patterns",
 		"detail": "",
 		"range": {
-			"startLineNumber": 5,
+			"startLineNumber": 1,
 			"startColumn": 2,
-			"endLineNumber": 15,
+			"endLineNumber": 10,
 			"endColumn": 3
 		},
 		"selectionRange": {
-			"startLineNumber": 5,
+			"startLineNumber": 0,
 			"startColumn": 2,
-			"endLineNumber": 5,
+			"endLineNumber": 0,
 			"endColumn": 12
 		},
 		"kind": 17,
@@ -1987,15 +1987,15 @@
 				"name": "0",
 				"detail": "",
 				"range": {
-					"startLineNumber": 6,
+					"startLineNumber": 1,
 					"startColumn": 3,
-					"endLineNumber": 8,
+					"endLineNumber": 2,
 					"endColumn": 4
 				},
 				"selectionRange": {
-					"startLineNumber": 6,
+					"startLineNumber": 0,
 					"startColumn": 3,
-					"endLineNumber": 8,
+					"endLineNumber": 2,
 					"endColumn": 4
 				},
 				"kind": 1,
@@ -2005,15 +2005,15 @@
 						"name": "include",
 						"detail": "#repo-item",
 						"range": {
-							"startLineNumber": 7,
+							"startLineNumber": 1,
 							"startColumn": 4,
-							"endLineNumber": 7,
+							"endLineNumber": 0,
 							"endColumn": 27
 						},
 						"selectionRange": {
-							"startLineNumber": 7,
+							"startLineNumber": 0,
 							"startColumn": 4,
-							"endLineNumber": 7,
+							"endLineNumber": 0,
 							"endColumn": 13
 						},
 						"kind": 14,
@@ -2026,15 +2026,15 @@
 				"name": "1",
 				"detail": "",
 				"range": {
-					"startLineNumber": 9,
+					"startLineNumber": 2,
 					"startColumn": 3,
-					"endLineNumber": 11,
+					"endLineNumber": 2,
 					"endColumn": 4
 				},
 				"selectionRange": {
-					"startLineNumber": 9,
+					"startLineNumber": 0,
 					"startColumn": 3,
-					"endLineNumber": 11,
+					"endLineNumber": 2,
 					"endColumn": 4
 				},
 				"kind": 1,
@@ -2044,15 +2044,15 @@
 						"name": "include",
 						"detail": "#string",
 						"range": {
-							"startLineNumber": 10,
+							"startLineNumber": 1,
 							"startColumn": 4,
-							"endLineNumber": 10,
+							"endLineNumber": 0,
 							"endColumn": 24
 						},
 						"selectionRange": {
-							"startLineNumber": 10,
+							"startLineNumber": 0,
 							"startColumn": 4,
-							"endLineNumber": 10,
+							"endLineNumber": 0,
 							"endColumn": 13
 						},
 						"kind": 14,
@@ -2065,15 +2065,15 @@
 				"name": "2",
 				"detail": "",
 				"range": {
-					"startLineNumber": 12,
+					"startLineNumber": 2,
 					"startColumn": 3,
-					"endLineNumber": 14,
+					"endLineNumber": 2,
 					"endColumn": 4
 				},
 				"selectionRange": {
-					"startLineNumber": 12,
+					"startLineNumber": 0,
 					"startColumn": 3,
-					"endLineNumber": 14,
+					"endLineNumber": 2,
 					"endColumn": 4
 				},
 				"kind": 1,
@@ -2083,15 +2083,15 @@
 						"name": "include",
 						"detail": "#boolean",
 						"range": {
-							"startLineNumber": 13,
+							"startLineNumber": 1,
 							"startColumn": 4,
-							"endLineNumber": 13,
+							"endLineNumber": 0,
 							"endColumn": 25
 						},
 						"selectionRange": {
-							"startLineNumber": 13,
+							"startLineNumber": 0,
 							"startColumn": 4,
-							"endLineNumber": 13,
+							"endLineNumber": 0,
 							"endColumn": 13
 						},
 						"kind": 14,
@@ -2106,15 +2106,15 @@
 		"name": "repository",
 		"detail": "",
 		"range": {
-			"startLineNumber": 16,
+			"startLineNumber": 3,
 			"startColumn": 2,
-			"endLineNumber": 46,
+			"endLineNumber": 30,
 			"endColumn": 3
 		},
 		"selectionRange": {
-			"startLineNumber": 16,
+			"startLineNumber": 0,
 			"startColumn": 2,
-			"endLineNumber": 16,
+			"endLineNumber": 0,
 			"endColumn": 14
 		},
 		"kind": 1,
@@ -2124,15 +2124,15 @@
 				"name": "repo-item",
 				"detail": "{}",
 				"range": {
-					"startLineNumber": 17,
+					"startLineNumber": 1,
 					"startColumn": 3,
-					"endLineNumber": 17,
+					"endLineNumber": 0,
 					"endColumn": 18
 				},
 				"selectionRange": {
-					"startLineNumber": 17,
+					"startLineNumber": 0,
 					"startColumn": 3,
-					"endLineNumber": 17,
+					"endLineNumber": 0,
 					"endColumn": 14
 				},
 				"kind": 1,
@@ -2143,15 +2143,15 @@
 				"name": "boolean",
 				"detail": "",
 				"range": {
-					"startLineNumber": 18,
+					"startLineNumber": 1,
 					"startColumn": 3,
-					"endLineNumber": 22,
+					"endLineNumber": 4,
 					"endColumn": 4
 				},
 				"selectionRange": {
-					"startLineNumber": 18,
+					"startLineNumber": 0,
 					"startColumn": 3,
-					"endLineNumber": 18,
+					"endLineNumber": 0,
 					"endColumn": 12
 				},
 				"kind": 1,
@@ -2161,15 +2161,15 @@
 						"name": "comment",
 						"detail": "`\\b` is a 0-width word boundary. `$1` references capture group 1",
 						"range": {
-							"startLineNumber": 19,
+							"startLineNumber": 1,
 							"startColumn": 4,
-							"endLineNumber": 19,
+							"endLineNumber": 0,
 							"endColumn": 82
 						},
 						"selectionRange": {
-							"startLineNumber": 19,
+							"startLineNumber": 0,
 							"startColumn": 4,
-							"endLineNumber": 19,
+							"endLineNumber": 0,
 							"endColumn": 13
 						},
 						"kind": 14,
@@ -2180,15 +2180,15 @@
 						"name": "match",
 						"detail": "\\b(true|false)\\b",
 						"range": {
-							"startLineNumber": 20,
+							"startLineNumber": 1,
 							"startColumn": 4,
-							"endLineNumber": 20,
+							"endLineNumber": 0,
 							"endColumn": 33
 						},
 						"selectionRange": {
-							"startLineNumber": 20,
+							"startLineNumber": 0,
 							"startColumn": 4,
-							"endLineNumber": 20,
+							"endLineNumber": 0,
 							"endColumn": 11
 						},
 						"kind": 14,
@@ -2199,15 +2199,15 @@
 						"name": "name",
 						"detail": "constant.language.$1.languageId",
 						"range": {
-							"startLineNumber": 21,
+							"startLineNumber": 1,
 							"startColumn": 4,
-							"endLineNumber": 21,
+							"endLineNumber": 0,
 							"endColumn": 45
 						},
 						"selectionRange": {
-							"startLineNumber": 21,
+							"startLineNumber": 0,
 							"startColumn": 4,
-							"endLineNumber": 21,
+							"endLineNumber": 0,
 							"endColumn": 10
 						},
 						"kind": 14,
@@ -2220,15 +2220,15 @@
 				"name": "string",
 				"detail": "",
 				"range": {
-					"startLineNumber": 23,
+					"startLineNumber": 2,
 					"startColumn": 3,
-					"endLineNumber": 45,
+					"endLineNumber": 22,
 					"endColumn": 4
 				},
 				"selectionRange": {
-					"startLineNumber": 23,
+					"startLineNumber": 0,
 					"startColumn": 3,
-					"endLineNumber": 23,
+					"endLineNumber": 0,
 					"endColumn": 11
 				},
 				"kind": 1,
@@ -2238,15 +2238,15 @@
 						"name": "comment",
 						"detail": "\"begin\" & \"end\" can create a multi-line region",
 						"range": {
-							"startLineNumber": 24,
+							"startLineNumber": 1,
 							"startColumn": 4,
-							"endLineNumber": 24,
+							"endLineNumber": 0,
 							"endColumn": 67
 						},
 						"selectionRange": {
-							"startLineNumber": 24,
+							"startLineNumber": 0,
 							"startColumn": 4,
-							"endLineNumber": 24,
+							"endLineNumber": 0,
 							"endColumn": 13
 						},
 						"kind": 14,
@@ -2257,15 +2257,15 @@
 						"name": "begin",
 						"detail": "\"",
 						"range": {
-							"startLineNumber": 25,
+							"startLineNumber": 1,
 							"startColumn": 4,
-							"endLineNumber": 25,
+							"endLineNumber": 0,
 							"endColumn": 17
 						},
 						"selectionRange": {
-							"startLineNumber": 25,
+							"startLineNumber": 0,
 							"startColumn": 4,
-							"endLineNumber": 25,
+							"endLineNumber": 0,
 							"endColumn": 11
 						},
 						"kind": 14,
@@ -2276,15 +2276,15 @@
 						"name": "end",
 						"detail": "\"",
 						"range": {
-							"startLineNumber": 26,
+							"startLineNumber": 1,
 							"startColumn": 4,
-							"endLineNumber": 26,
+							"endLineNumber": 0,
 							"endColumn": 15
 						},
 						"selectionRange": {
-							"startLineNumber": 26,
+							"startLineNumber": 0,
 							"startColumn": 4,
-							"endLineNumber": 26,
+							"endLineNumber": 0,
 							"endColumn": 9
 						},
 						"kind": 14,
@@ -2295,15 +2295,15 @@
 						"name": "beginCaptures",
 						"detail": "",
 						"range": {
-							"startLineNumber": 27,
+							"startLineNumber": 1,
 							"startColumn": 4,
-							"endLineNumber": 31,
+							"endLineNumber": 4,
 							"endColumn": 5
 						},
 						"selectionRange": {
-							"startLineNumber": 27,
+							"startLineNumber": 0,
 							"startColumn": 4,
-							"endLineNumber": 27,
+							"endLineNumber": 0,
 							"endColumn": 19
 						},
 						"kind": 1,
@@ -2313,15 +2313,15 @@
 								"name": "0",
 								"detail": "",
 								"range": {
-									"startLineNumber": 28,
+									"startLineNumber": 1,
 									"startColumn": 5,
-									"endLineNumber": 30,
+									"endLineNumber": 2,
 									"endColumn": 6
 								},
 								"selectionRange": {
-									"startLineNumber": 28,
+									"startLineNumber": 0,
 									"startColumn": 5,
-									"endLineNumber": 28,
+									"endLineNumber": 0,
 									"endColumn": 8
 								},
 								"kind": 1,
@@ -2331,15 +2331,15 @@
 										"name": "name",
 										"detail": "punctuation.definition.string.begin.languageId",
 										"range": {
-											"startLineNumber": 29,
+											"startLineNumber": 1,
 											"startColumn": 6,
-											"endLineNumber": 29,
+											"endLineNumber": 0,
 											"endColumn": 62
 										},
 										"selectionRange": {
-											"startLineNumber": 29,
+											"startLineNumber": 0,
 											"startColumn": 6,
-											"endLineNumber": 29,
+											"endLineNumber": 0,
 											"endColumn": 12
 										},
 										"kind": 14,
@@ -2354,15 +2354,15 @@
 						"name": "endCaptures",
 						"detail": "",
 						"range": {
-							"startLineNumber": 32,
+							"startLineNumber": 3,
 							"startColumn": 4,
-							"endLineNumber": 36,
+							"endLineNumber": 4,
 							"endColumn": 5
 						},
 						"selectionRange": {
-							"startLineNumber": 32,
+							"startLineNumber": 0,
 							"startColumn": 4,
-							"endLineNumber": 32,
+							"endLineNumber": 0,
 							"endColumn": 17
 						},
 						"kind": 1,
@@ -2372,15 +2372,15 @@
 								"name": "0",
 								"detail": "",
 								"range": {
-									"startLineNumber": 33,
+									"startLineNumber": 1,
 									"startColumn": 5,
-									"endLineNumber": 35,
+									"endLineNumber": 2,
 									"endColumn": 6
 								},
 								"selectionRange": {
-									"startLineNumber": 33,
+									"startLineNumber": 0,
 									"startColumn": 5,
-									"endLineNumber": 33,
+									"endLineNumber": 0,
 									"endColumn": 8
 								},
 								"kind": 1,
@@ -2390,15 +2390,15 @@
 										"name": "name",
 										"detail": "punctuation.definition.string.end.languageId",
 										"range": {
-											"startLineNumber": 34,
+											"startLineNumber": 1,
 											"startColumn": 6,
-											"endLineNumber": 34,
+											"endLineNumber": 0,
 											"endColumn": 60
 										},
 										"selectionRange": {
-											"startLineNumber": 34,
+											"startLineNumber": 0,
 											"startColumn": 6,
-											"endLineNumber": 34,
+											"endLineNumber": 0,
 											"endColumn": 12
 										},
 										"kind": 14,
@@ -2413,15 +2413,15 @@
 						"name": "name",
 						"detail": "string.quoted.double.languageId",
 						"range": {
-							"startLineNumber": 37,
+							"startLineNumber": 3,
 							"startColumn": 4,
-							"endLineNumber": 37,
+							"endLineNumber": 0,
 							"endColumn": 45
 						},
 						"selectionRange": {
-							"startLineNumber": 37,
+							"startLineNumber": 0,
 							"startColumn": 4,
-							"endLineNumber": 37,
+							"endLineNumber": 0,
 							"endColumn": 10
 						},
 						"kind": 14,
@@ -2432,15 +2432,15 @@
 						"name": "patterns",
 						"detail": "",
 						"range": {
-							"startLineNumber": 38,
+							"startLineNumber": 1,
 							"startColumn": 4,
-							"endLineNumber": 44,
+							"endLineNumber": 6,
 							"endColumn": 5
 						},
 						"selectionRange": {
-							"startLineNumber": 38,
+							"startLineNumber": 0,
 							"startColumn": 4,
-							"endLineNumber": 38,
+							"endLineNumber": 0,
 							"endColumn": 14
 						},
 						"kind": 17,
@@ -2450,15 +2450,15 @@
 								"name": "0",
 								"detail": "",
 								"range": {
-									"startLineNumber": 39,
+									"startLineNumber": 1,
 									"startColumn": 5,
-									"endLineNumber": 43,
+									"endLineNumber": 4,
 									"endColumn": 6
 								},
 								"selectionRange": {
-									"startLineNumber": 39,
+									"startLineNumber": 0,
 									"startColumn": 5,
-									"endLineNumber": 43,
+									"endLineNumber": 4,
 									"endColumn": 6
 								},
 								"kind": 1,
@@ -2468,15 +2468,15 @@
 										"name": "comment",
 										"detail": "Quad backslash required to match one literal backslash",
 										"range": {
-											"startLineNumber": 40,
+											"startLineNumber": 1,
 											"startColumn": 6,
-											"endLineNumber": 40,
+											"endLineNumber": 0,
 											"endColumn": 73
 										},
 										"selectionRange": {
-											"startLineNumber": 40,
+											"startLineNumber": 0,
 											"startColumn": 6,
-											"endLineNumber": 40,
+											"endLineNumber": 0,
 											"endColumn": 15
 										},
 										"kind": 14,
@@ -2487,15 +2487,15 @@
 										"name": "match",
 										"detail": "\\\\.",
 										"range": {
-											"startLineNumber": 41,
+											"startLineNumber": 1,
 											"startColumn": 6,
-											"endLineNumber": 41,
+											"endLineNumber": 0,
 											"endColumn": 22
 										},
 										"selectionRange": {
-											"startLineNumber": 41,
+											"startLineNumber": 0,
 											"startColumn": 6,
-											"endLineNumber": 41,
+											"endLineNumber": 0,
 											"endColumn": 13
 										},
 										"kind": 14,
@@ -2506,15 +2506,15 @@
 										"name": "name",
 										"detail": "constant.character.escape.languageId",
 										"range": {
-											"startLineNumber": 42,
+											"startLineNumber": 1,
 											"startColumn": 6,
-											"endLineNumber": 42,
+											"endLineNumber": 0,
 											"endColumn": 52
 										},
 										"selectionRange": {
-											"startLineNumber": 42,
+											"startLineNumber": 0,
 											"startColumn": 6,
-											"endLineNumber": 42,
+											"endLineNumber": 0,
 											"endColumn": 12
 										},
 										"kind": 14,

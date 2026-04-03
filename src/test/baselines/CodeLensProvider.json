@@ -3,11 +3,11 @@
 		"range": {
 			"startLineNumber": 4,
 			"startColumn": 16,
-			"endLineNumber": 4,
+			"endLineNumber": 0,
 			"endColumn": 33
 		},
 		"command": {
-			"title": "0 references",
+			"title": "1 reference",
 			"tooltip": "scopeName: source.languageId",
 			"arguments": [
 				"editor.action.showReferences /999"

@@ -4,91 +4,87 @@
 			"range": {
 				"startLineNumber": 2,
 				"startColumn": 2,
-				"endLineNumber": 2,
+				"endLineNumber": 0,
 				"endColumn": 11
 			},
 			"contents": [
 				{
-					"value": "The&nbsp;Schema&nbsp;used&nbsp;to&nbsp;validate&nbsp;this&nbsp;file",
+					"value": "The Schema used to validate this file",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 0
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 2,
+				"startLineNumber": 0,
 				"startColumn": 13,
-				"endLineNumber": 2,
+				"endLineNumber": 0,
 				"endColumn": 120
 			},
 			"contents": [
 				{
-					"value": "The&nbsp;Schema&nbsp;used&nbsp;to&nbsp;validate&nbsp;this&nbsp;file",
+					"value": "The Schema used to validate this file",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 1
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 3,
+				"startLineNumber": 1,
 				"startColumn": 2,
-				"endLineNumber": 3,
+				"endLineNumber": 0,
 				"endColumn": 8
 			},
 			"contents": [
 				{
-					"value": "The&nbsp;name&nbsp;of&nbsp;your&nbsp;language",
+					"value": "The name of your language",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 2
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 3,
+				"startLineNumber": 0,
 				"startColumn": 10,
-				"endLineNumber": 3,
+				"endLineNumber": 0,
 				"endColumn": 22
 			},
 			"contents": [
 				{
-					"value": "The&nbsp;name&nbsp;of&nbsp;your&nbsp;language",
+					"value": "The name of your language",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 3
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 4,
+				"startLineNumber": 1,
 				"startColumn": 2,
-				"endLineNumber": 4,
+				"endLineNumber": 0,
 				"endColumn": 13
 			},
 			"contents": [
@@ -100,16 +96,15 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 4
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 4,
+				"startLineNumber": 0,
 				"startColumn": 15,
-				"endLineNumber": 4,
+				"endLineNumber": 0,
 				"endColumn": 34
 			},
 			"contents": [
@@ -121,168 +116,160 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 5
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 5,
+				"startLineNumber": 1,
 				"startColumn": 2,
-				"endLineNumber": 5,
+				"endLineNumber": 0,
 				"endColumn": 12
 			},
 			"contents": [
 				{
-					"value": "An&nbsp;array&nbsp;of&nbsp;pattern's&nbsp;to&nbsp;include",
+					"value": "An array of pattern's to include",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 6
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 7,
+				"startLineNumber": 2,
 				"startColumn": 4,
-				"endLineNumber": 7,
+				"endLineNumber": 0,
 				"endColumn": 13
 			},
 			"contents": [
 				{
-					"value": "Reference&nbsp;an&nbsp;item&nbsp;in&nbsp;a&nbsp;repository",
+					"value": "Reference an item in a repository",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 7
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 7,
+				"startLineNumber": 0,
 				"startColumn": 15,
-				"endLineNumber": 7,
+				"endLineNumber": 0,
 				"endColumn": 27
 			},
 			"contents": [
 				{
-					"value": "Reference&nbsp;an&nbsp;item&nbsp;in&nbsp;a&nbsp;repository",
+					"value": "Reference an item in a repository",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 8
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 10,
+				"startLineNumber": 3,
 				"startColumn": 4,
-				"endLineNumber": 10,
+				"endLineNumber": 0,
 				"endColumn": 13
 			},
 			"contents": [
 				{
-					"value": "Reference&nbsp;an&nbsp;item&nbsp;in&nbsp;a&nbsp;repository",
+					"value": "Reference an item in a repository",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 9
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 10,
+				"startLineNumber": 0,
 				"startColumn": 15,
-				"endLineNumber": 10,
+				"endLineNumber": 0,
 				"endColumn": 24
 			},
 			"contents": [
 				{
-					"value": "Reference&nbsp;an&nbsp;item&nbsp;in&nbsp;a&nbsp;repository",
+					"value": "Reference an item in a repository",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 10
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 13,
+				"startLineNumber": 3,
 				"startColumn": 4,
-				"endLineNumber": 13,
+				"endLineNumber": 0,
 				"endColumn": 13
 			},
 			"contents": [
 				{
-					"value": "Reference&nbsp;an&nbsp;item&nbsp;in&nbsp;a&nbsp;repository",
+					"value": "Reference an item in a repository",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 11
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 13,
+				"startLineNumber": 0,
 				"startColumn": 15,
-				"endLineNumber": 13,
+				"endLineNumber": 0,
 				"endColumn": 25
 			},
 			"contents": [
 				{
-					"value": "Reference&nbsp;an&nbsp;item&nbsp;in&nbsp;a&nbsp;repository",
+					"value": "Reference an item in a repository",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 12
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 16,
+				"startLineNumber": 3,
 				"startColumn": 2,
-				"endLineNumber": 16,
+				"endLineNumber": 0,
 				"endColumn": 14
 			},
 			"contents": [
 				{
-					"value": "A&nbsp;dictionary&nbsp;of&nbsp;rules\\\nhttps://code\\.visualstudio\\.com/api/language\\-extensions/syntax\\-highlight\\-guide\\#contributing\\-a\\-basic\\-grammar",
+					"value": "A dictionary of rules\\\nhttps://code\\.visualstudio\\.com/api/language\\-extensions/syntax\\-highlight\\-guide\\#contributing\\-a\\-basic\\-grammar",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
@@ -297,16 +284,15 @@
 						}
 					}
 				}
-			],
-			"id": 13
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 17,
+				"startLineNumber": 1,
 				"startColumn": 3,
-				"endLineNumber": 17,
+				"endLineNumber": 0,
 				"endColumn": 14
 			},
 			"contents": [
@@ -318,16 +304,15 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 14
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 18,
+				"startLineNumber": 1,
 				"startColumn": 3,
-				"endLineNumber": 18,
+				"endLineNumber": 0,
 				"endColumn": 12
 			},
 			"contents": [
@@ -339,16 +324,15 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 15
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 19,
+				"startLineNumber": 1,
 				"startColumn": 4,
-				"endLineNumber": 19,
+				"endLineNumber": 0,
 				"endColumn": 13
 			},
 			"contents": [
@@ -360,16 +344,15 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 16
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 19,
+				"startLineNumber": 0,
 				"startColumn": 15,
-				"endLineNumber": 19,
+				"endLineNumber": 0,
 				"endColumn": 82
 			},
 			"contents": [
@@ -381,16 +364,15 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 17
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 20,
+				"startLineNumber": 1,
 				"startColumn": 5,
-				"endLineNumber": 20,
+				"endLineNumber": 0,
 				"endColumn": 10
 			},
 			"contents": [
@@ -462,14 +444,13 @@
 						}
 					}
 				}
-			],
-			"id": 0
+			]
 		},
 		{
 			"range": {
-				"startLineNumber": 20,
+				"startLineNumber": 0,
 				"startColumn": 4,
-				"endLineNumber": 20,
+				"endLineNumber": 0,
 				"endColumn": 11
 			},
 			"contents": [
@@ -481,16 +462,15 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 18
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 20,
+				"startLineNumber": 0,
 				"startColumn": 13,
-				"endLineNumber": 20,
+				"endLineNumber": 0,
 				"endColumn": 33
 			},
 			"contents": [
@@ -502,21 +482,20 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 19
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 21,
+				"startLineNumber": 1,
 				"startColumn": 4,
-				"endLineNumber": 21,
+				"endLineNumber": 0,
 				"endColumn": 10
 			},
 			"contents": [
 				{
-					"value": "A&nbsp;list&nbsp;of&nbsp;space\\-separated&nbsp;scope\\-names&nbsp;to&nbsp;be&nbsp;assigned&nbsp;to&nbsp;the&nbsp;provided&nbsp;token\\.&nbsp;VSCode&nbsp;will&nbsp;then&nbsp;colour&nbsp;that&nbsp;token&nbsp;using&nbsp;the&nbsp;current&nbsp;theme\\\n\\`comment\\`,&nbsp;\\`string\\`&nbsp;and&nbsp;\\`regex\\`&nbsp;disables&nbsp;bracket&nbsp;matching&nbsp;while&nbsp;\\`meta\\.embedded\\`&nbsp;reenables&nbsp;it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
+					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
@@ -531,21 +510,20 @@
 						}
 					}
 				}
-			],
-			"id": 20
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 21,
+				"startLineNumber": 0,
 				"startColumn": 12,
-				"endLineNumber": 21,
+				"endLineNumber": 0,
 				"endColumn": 45
 			},
 			"contents": [
 				{
-					"value": "A&nbsp;list&nbsp;of&nbsp;space\\-separated&nbsp;scope\\-names&nbsp;to&nbsp;be&nbsp;assigned&nbsp;to&nbsp;the&nbsp;provided&nbsp;token\\.&nbsp;VSCode&nbsp;will&nbsp;then&nbsp;colour&nbsp;that&nbsp;token&nbsp;using&nbsp;the&nbsp;current&nbsp;theme\\\n\\`comment\\`,&nbsp;\\`string\\`&nbsp;and&nbsp;\\`regex\\`&nbsp;disables&nbsp;bracket&nbsp;matching&nbsp;while&nbsp;\\`meta\\.embedded\\`&nbsp;reenables&nbsp;it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
+					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
@@ -560,16 +538,15 @@
 						}
 					}
 				}
-			],
-			"id": 21
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 23,
+				"startLineNumber": 2,
 				"startColumn": 3,
-				"endLineNumber": 23,
+				"endLineNumber": 0,
 				"endColumn": 11
 			},
 			"contents": [
@@ -581,16 +558,15 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 22
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 24,
+				"startLineNumber": 1,
 				"startColumn": 4,
-				"endLineNumber": 24,
+				"endLineNumber": 0,
 				"endColumn": 13
 			},
 			"contents": [
@@ -602,16 +578,15 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 23
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 24,
+				"startLineNumber": 0,
 				"startColumn": 15,
-				"endLineNumber": 24,
+				"endLineNumber": 0,
 				"endColumn": 67
 			},
 			"contents": [
@@ -623,16 +598,15 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 24
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 25,
+				"startLineNumber": 1,
 				"startColumn": 5,
-				"endLineNumber": 25,
+				"endLineNumber": 0,
 				"endColumn": 10
 			},
 			"contents": [
@@ -662,14 +636,13 @@
 						}
 					}
 				}
-			],
-			"id": 1
+			]
 		},
 		{
 			"range": {
-				"startLineNumber": 25,
+				"startLineNumber": 0,
 				"startColumn": 4,
-				"endLineNumber": 25,
+				"endLineNumber": 0,
 				"endColumn": 11
 			},
 			"contents": [
@@ -681,16 +654,15 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 25
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 25,
+				"startLineNumber": 0,
 				"startColumn": 13,
-				"endLineNumber": 25,
+				"endLineNumber": 0,
 				"endColumn": 17
 			},
 			"contents": [
@@ -702,16 +674,15 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 26
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 26,
+				"startLineNumber": 1,
 				"startColumn": 5,
-				"endLineNumber": 26,
+				"endLineNumber": 0,
 				"endColumn": 8
 			},
 			"contents": [
@@ -741,14 +712,13 @@
 						}
 					}
 				}
-			],
-			"id": 2
+			]
 		},
 		{
 			"range": {
-				"startLineNumber": 26,
+				"startLineNumber": 0,
 				"startColumn": 4,
-				"endLineNumber": 26,
+				"endLineNumber": 0,
 				"endColumn": 9
 			},
 			"contents": [
@@ -760,16 +730,15 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 27
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 26,
+				"startLineNumber": 0,
 				"startColumn": 11,
-				"endLineNumber": 26,
+				"endLineNumber": 0,
 				"endColumn": 15
 			},
 			"contents": [
@@ -781,16 +750,15 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 28
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 27,
+				"startLineNumber": 1,
 				"startColumn": 4,
-				"endLineNumber": 27,
+				"endLineNumber": 0,
 				"endColumn": 19
 			},
 			"contents": [
@@ -802,42 +770,40 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 29
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 28,
+				"startLineNumber": 1,
 				"startColumn": 5,
-				"endLineNumber": 28,
+				"endLineNumber": 0,
 				"endColumn": 8
 			},
 			"contents": [
 				{
-					"value": "Target&nbsp;specific&nbsp;capture&nbsp;group",
+					"value": "Target specific capture group",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 30
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 29,
+				"startLineNumber": 1,
 				"startColumn": 6,
-				"endLineNumber": 29,
+				"endLineNumber": 0,
 				"endColumn": 12
 			},
 			"contents": [
 				{
-					"value": "A&nbsp;list&nbsp;of&nbsp;space\\-separated&nbsp;scope\\-names&nbsp;to&nbsp;be&nbsp;assigned&nbsp;to&nbsp;the&nbsp;provided&nbsp;token\\.&nbsp;VSCode&nbsp;will&nbsp;then&nbsp;colour&nbsp;that&nbsp;token&nbsp;using&nbsp;the&nbsp;current&nbsp;theme\\\n\\`comment\\`,&nbsp;\\`string\\`&nbsp;and&nbsp;\\`regex\\`&nbsp;disables&nbsp;bracket&nbsp;matching&nbsp;while&nbsp;\\`meta\\.embedded\\`&nbsp;reenables&nbsp;it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
+					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
@@ -852,21 +818,20 @@
 						}
 					}
 				}
-			],
-			"id": 31
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 29,
+				"startLineNumber": 0,
 				"startColumn": 14,
-				"endLineNumber": 29,
+				"endLineNumber": 0,
 				"endColumn": 62
 			},
 			"contents": [
 				{
-					"value": "A&nbsp;list&nbsp;of&nbsp;space\\-separated&nbsp;scope\\-names&nbsp;to&nbsp;be&nbsp;assigned&nbsp;to&nbsp;the&nbsp;provided&nbsp;token\\.&nbsp;VSCode&nbsp;will&nbsp;then&nbsp;colour&nbsp;that&nbsp;token&nbsp;using&nbsp;the&nbsp;current&nbsp;theme\\\n\\`comment\\`,&nbsp;\\`string\\`&nbsp;and&nbsp;\\`regex\\`&nbsp;disables&nbsp;bracket&nbsp;matching&nbsp;while&nbsp;\\`meta\\.embedded\\`&nbsp;reenables&nbsp;it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
+					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
@@ -881,16 +846,15 @@
 						}
 					}
 				}
-			],
-			"id": 32
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 32,
+				"startLineNumber": 3,
 				"startColumn": 4,
-				"endLineNumber": 32,
+				"endLineNumber": 0,
 				"endColumn": 17
 			},
 			"contents": [
@@ -902,42 +866,40 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 33
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 33,
+				"startLineNumber": 1,
 				"startColumn": 5,
-				"endLineNumber": 33,
+				"endLineNumber": 0,
 				"endColumn": 8
 			},
 			"contents": [
 				{
-					"value": "Target&nbsp;specific&nbsp;capture&nbsp;group",
+					"value": "Target specific capture group",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 34
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 34,
+				"startLineNumber": 1,
 				"startColumn": 6,
-				"endLineNumber": 34,
+				"endLineNumber": 0,
 				"endColumn": 12
 			},
 			"contents": [
 				{
-					"value": "A&nbsp;list&nbsp;of&nbsp;space\\-separated&nbsp;scope\\-names&nbsp;to&nbsp;be&nbsp;assigned&nbsp;to&nbsp;the&nbsp;provided&nbsp;token\\.&nbsp;VSCode&nbsp;will&nbsp;then&nbsp;colour&nbsp;that&nbsp;token&nbsp;using&nbsp;the&nbsp;current&nbsp;theme\\\n\\`comment\\`,&nbsp;\\`string\\`&nbsp;and&nbsp;\\`regex\\`&nbsp;disables&nbsp;bracket&nbsp;matching&nbsp;while&nbsp;\\`meta\\.embedded\\`&nbsp;reenables&nbsp;it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
+					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
@@ -952,21 +914,20 @@
 						}
 					}
 				}
-			],
-			"id": 35
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 34,
+				"startLineNumber": 0,
 				"startColumn": 14,
-				"endLineNumber": 34,
+				"endLineNumber": 0,
 				"endColumn": 60
 			},
 			"contents": [
 				{
-					"value": "A&nbsp;list&nbsp;of&nbsp;space\\-separated&nbsp;scope\\-names&nbsp;to&nbsp;be&nbsp;assigned&nbsp;to&nbsp;the&nbsp;provided&nbsp;token\\.&nbsp;VSCode&nbsp;will&nbsp;then&nbsp;colour&nbsp;that&nbsp;token&nbsp;using&nbsp;the&nbsp;current&nbsp;theme\\\n\\`comment\\`,&nbsp;\\`string\\`&nbsp;and&nbsp;\\`regex\\`&nbsp;disables&nbsp;bracket&nbsp;matching&nbsp;while&nbsp;\\`meta\\.embedded\\`&nbsp;reenables&nbsp;it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
+					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
@@ -981,21 +942,20 @@
 						}
 					}
 				}
-			],
-			"id": 36
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 37,
+				"startLineNumber": 3,
 				"startColumn": 4,
-				"endLineNumber": 37,
+				"endLineNumber": 0,
 				"endColumn": 10
 			},
 			"contents": [
 				{
-					"value": "A&nbsp;list&nbsp;of&nbsp;space\\-separated&nbsp;scope\\-names&nbsp;to&nbsp;be&nbsp;assigned&nbsp;to&nbsp;the&nbsp;provided&nbsp;token\\.&nbsp;VSCode&nbsp;will&nbsp;then&nbsp;colour&nbsp;that&nbsp;token&nbsp;using&nbsp;the&nbsp;current&nbsp;theme\\\n\\`comment\\`,&nbsp;\\`string\\`&nbsp;and&nbsp;\\`regex\\`&nbsp;disables&nbsp;bracket&nbsp;matching&nbsp;while&nbsp;\\`meta\\.embedded\\`&nbsp;reenables&nbsp;it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
+					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
@@ -1010,21 +970,20 @@
 						}
 					}
 				}
-			],
-			"id": 37
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 37,
+				"startLineNumber": 0,
 				"startColumn": 12,
-				"endLineNumber": 37,
+				"endLineNumber": 0,
 				"endColumn": 45
 			},
 			"contents": [
 				{
-					"value": "A&nbsp;list&nbsp;of&nbsp;space\\-separated&nbsp;scope\\-names&nbsp;to&nbsp;be&nbsp;assigned&nbsp;to&nbsp;the&nbsp;provided&nbsp;token\\.&nbsp;VSCode&nbsp;will&nbsp;then&nbsp;colour&nbsp;that&nbsp;token&nbsp;using&nbsp;the&nbsp;current&nbsp;theme\\\n\\`comment\\`,&nbsp;\\`string\\`&nbsp;and&nbsp;\\`regex\\`&nbsp;disables&nbsp;bracket&nbsp;matching&nbsp;while&nbsp;\\`meta\\.embedded\\`&nbsp;reenables&nbsp;it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
+					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
@@ -1039,37 +998,35 @@
 						}
 					}
 				}
-			],
-			"id": 38
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 38,
+				"startLineNumber": 1,
 				"startColumn": 4,
-				"endLineNumber": 38,
+				"endLineNumber": 0,
 				"endColumn": 14
 			},
 			"contents": [
 				{
-					"value": "An&nbsp;array&nbsp;of&nbsp;pattern's&nbsp;to&nbsp;include",
+					"value": "An array of pattern's to include",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 39
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 40,
+				"startLineNumber": 2,
 				"startColumn": 6,
-				"endLineNumber": 40,
+				"endLineNumber": 0,
 				"endColumn": 15
 			},
 			"contents": [
@@ -1081,16 +1038,15 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 40
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 40,
+				"startLineNumber": 0,
 				"startColumn": 17,
-				"endLineNumber": 40,
+				"endLineNumber": 0,
 				"endColumn": 73
 			},
 			"contents": [
@@ -1102,16 +1058,15 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 41
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 41,
+				"startLineNumber": 1,
 				"startColumn": 7,
-				"endLineNumber": 41,
+				"endLineNumber": 0,
 				"endColumn": 12
 			},
 			"contents": [
@@ -1183,14 +1138,13 @@
 						}
 					}
 				}
-			],
-			"id": 3
+			]
 		},
 		{
 			"range": {
-				"startLineNumber": 41,
+				"startLineNumber": 0,
 				"startColumn": 6,
-				"endLineNumber": 41,
+				"endLineNumber": 0,
 				"endColumn": 13
 			},
 			"contents": [
@@ -1202,16 +1156,15 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 42
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 41,
+				"startLineNumber": 0,
 				"startColumn": 15,
-				"endLineNumber": 41,
+				"endLineNumber": 0,
 				"endColumn": 22
 			},
 			"contents": [
@@ -1223,21 +1176,20 @@
 					"supportAlertSyntax": false,
 					"uris": {}
 				}
-			],
-			"id": 43
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 42,
+				"startLineNumber": 1,
 				"startColumn": 6,
-				"endLineNumber": 42,
+				"endLineNumber": 0,
 				"endColumn": 12
 			},
 			"contents": [
 				{
-					"value": "A&nbsp;list&nbsp;of&nbsp;space\\-separated&nbsp;scope\\-names&nbsp;to&nbsp;be&nbsp;assigned&nbsp;to&nbsp;the&nbsp;provided&nbsp;token\\.&nbsp;VSCode&nbsp;will&nbsp;then&nbsp;colour&nbsp;that&nbsp;token&nbsp;using&nbsp;the&nbsp;current&nbsp;theme\\\n\\`comment\\`,&nbsp;\\`string\\`&nbsp;and&nbsp;\\`regex\\`&nbsp;disables&nbsp;bracket&nbsp;matching&nbsp;while&nbsp;\\`meta\\.embedded\\`&nbsp;reenables&nbsp;it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
+					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
@@ -1252,21 +1204,20 @@
 						}
 					}
 				}
-			],
-			"id": 44
+			]
 		}
 	],
 	[
 		{
 			"range": {
-				"startLineNumber": 42,
+				"startLineNumber": 0,
 				"startColumn": 14,
-				"endLineNumber": 42,
+				"endLineNumber": 0,
 				"endColumn": 52
 			},
 			"contents": [
 				{
-					"value": "A&nbsp;list&nbsp;of&nbsp;space\\-separated&nbsp;scope\\-names&nbsp;to&nbsp;be&nbsp;assigned&nbsp;to&nbsp;the&nbsp;provided&nbsp;token\\.&nbsp;VSCode&nbsp;will&nbsp;then&nbsp;colour&nbsp;that&nbsp;token&nbsp;using&nbsp;the&nbsp;current&nbsp;theme\\\n\\`comment\\`,&nbsp;\\`string\\`&nbsp;and&nbsp;\\`regex\\`&nbsp;disables&nbsp;bracket&nbsp;matching&nbsp;while&nbsp;\\`meta\\.embedded\\`&nbsp;reenables&nbsp;it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
+					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
@@ -1281,8 +1232,7 @@
 						}
 					}
 				}
-			],
-			"id": 45
+			]
 		}
 	]
 ]
