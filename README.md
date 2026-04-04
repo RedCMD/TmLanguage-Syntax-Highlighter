@@ -69,7 +69,7 @@ Highlights scope names with their own themed colour in realtime:
 * [Github - Oniguruma: list of all expressions](https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE)
 * [Github - VSCode Oniguruma](https://github.com/microsoft/vscode-oniguruma)
 * [Github - Oniguruma Optimizer](https://github.com/slevithan/oniguruma-parser)
-* [Github - Unit testing](https://github.com/PanAeon/vscode-tmgrammar-test)
+* [Github - Unit testing](https://github.com/serkonda7/textmate-grammar-test)
 * [Github - TmLanguage-Syntax-Highlighter](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter)
 * [Github - Documentation](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/documentation/index.md)
 * [Github - Schema](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/vscode.tmLanguage.schema.json)
@@ -83,12 +83,9 @@ Highlights scope names with their own themed colour in realtime:
 * Finish [CallStack](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/issues/10) viewer
 * Redo TextMate scopeNames [Naming conventions](https://github.com/atom/flight-manual.atom.io/pull/564)
 * Move to LanguageServer
-* Add unit tests [mocha](https://github.com/mochajs/mocha) [vscode-tmgrammar-test](https://github.com/PanAeon/vscode-tmgrammar-test)
-* Improve TreeSitter Query performance: [Node contains `&fieldName`](https://github.com/tree-sitter/tree-sitter/issues/3956), [Caching or Serializing a `TSQuery`](https://github.com/tree-sitter/tree-sitter/issues/1942)
 * Add [FlameGraph](https://www.brendangregg.com/flamegraphs.html) [schema](https://chromedevtools.github.io/devtools-protocol/tot/Profiler/#type-Profile)
 * Update [CHANGELOG.md](/CHANGELOG.md)
 * Fix TreeSitter minified empty repo name
-* Add warnings for invalid [Github Linguist](https://github.com/github-linguist/linguist) errors
 * Parse regexes with [oniguruma-parser](https://github.com/slevithan/oniguruma-parser)
 * Update YAML and Ascii Plist grammars
 * Add auto scopeName suffix detection and completion
