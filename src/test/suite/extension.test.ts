@@ -266,18 +266,19 @@ suite('Extension Tests', async () => {
 		const editorSpaces = await vscode.window.showTextDocument(vscode.Uri.joinPath(fixturesUri, 'DocumentFormattingEditProvider-3spaces.tmLanguage.json'), showTextDocumentOptions);
 		const editorUnformatted = await vscode.window.showTextDocument(vscode.Uri.joinPath(fixturesUri, 'JSON.tmLanguage.json'), showTextDocumentOptions);
 
-		const documentFormatting = await vscode.workspace.openTextDocument({ content: editorUnformatted.document.getText(), language: 'json-textmate', encoding: '\r\n' });
-		const editorFormatting = await vscode.window.showTextDocument(documentFormatting);
+		const documentFormatted = await vscode.workspace.openTextDocument({ content: editorUnformatted.document.getText(), language: 'json-textmate', encoding: '\r\n' });
+		const editorFormatted = await vscode.window.showTextDocument(documentFormatted);
 
-		async function testFormatFile(editor: vscode.TextEditor, editsCount: number, options: vscode.FormattingOptions = { tabSize: 4, insertSpaces: false, }) {
+		const formatActual: vscode.TextEdit[][] = [];
+
+		async function testFormatFile(editor: vscode.TextEditor, options: vscode.FormattingOptions = { tabSize: 4, insertSpaces: false, }) {
 			const edits: vscode.TextEdit[] = await vscode.commands.executeCommand(
 				'_executeFormatDocumentProvider',
-				editorFormatting.document.uri,
+				editorFormatted.document.uri,
 				// VSCode Web crashes without `options`
 				options,
 			);
 			assert.ok(Array.isArray(edits));
-			assert.equal(edits.length, editsCount);
 
 			// Make sure `editor.detectIndentation` is set to false in VSCode Web
 			const editorSettings = vscode.workspace.getConfiguration("editor");
@@ -287,22 +288,52 @@ suite('Extension Tests', async () => {
 			// TODO: TreeSitter broken. can't handle partially minified JSON
 			await vscode.commands.executeCommand('editor.action.formatDocument');
 			await vscode.commands.executeCommand('editor.action.formatDocument');
-			assert.equal(editorFormatting.document.getText(), editor.document.getText());
+
+			formatActual.push(edits);
+
+			if (runTests) {
+				assert.equal(editorFormatted.document.getText(), editor.document.getText());
+			}
+			else {
+				const uint8Array = new TextEncoder().encode(editorFormatted.document.getText());
+				await vscode.workspace.fs.writeFile(editor.document.uri, uint8Array);
+			}
+		}
+		async function assertFormatRange(
+			editor: vscode.TextEditor,
+			// TODO: make assertions line agnostic
+			startLine: number, startCharacter: number, endLine: number, endCharacter: number,
+			options: vscode.FormattingOptions = { tabSize: 4, insertSpaces: false, }
+		) {
+			const range = new vscode.Range(startLine, startCharacter, endLine, endCharacter);
+			const edits: vscode.TextEdit[] = await vscode.commands.executeCommand(
+				'_executeFormatRangeProvider',
+				editor.document.uri,
+				range,
+				// VSCode Web crashes without `options`
+				options,
+			);
+			assert.ok(Array.isArray(edits));
+
+			formatActual.push(edits);
 		}
 
-		await testFormatFile(editorTabs, 15);
-
+		await testFormatFile(editorTabs);
 		// Partially minify document;
-		await editorFormatting.edit(
-			(editBuilder) => {
-				const minifiedText = editorFormatting.document.getText().replaceAll(/\s*[\r\n]+\s*/gm, '');
-				editBuilder.replace(new vscode.Range(0, 0, editorFormatting.document.lineCount, 0), minifiedText + '\n');
+		await editorFormatted.edit(
+			editBuilder => {
+				const minifiedText = editorFormatted.document.getText().replaceAll(/\s*[\r\n]+\s*/gm, '');
+				editBuilder.replace(new vscode.Range(0, 0, editorFormatted.document.lineCount, 0), minifiedText + '\r\n');
 			}
 		);
 		// TODO: TreeSitter broken. can't handle partially minified JSON
-		await testFormatFile(editorSpaces, 34, { tabSize: 3, insertSpaces: true });
+		await testFormatFile(editorSpaces, { tabSize: 3, insertSpaces: true });
+		await testFormatFile(editorTabs);
 
-		await testFormatFile(editorTabs, 31);
+		await assertFormatRange(editorUnformatted, 9, 8, 16, 18);
+		await assertFormatRange(editorUnformatted, 28, 37, 33, 37);
+
+		await assertBaseline(formatActual, 'FormatDocumentProvider.json');
 	});
 
 	test('CodeLensProvider', async () => {

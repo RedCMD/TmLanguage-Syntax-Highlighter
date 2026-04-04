@@ -53,7 +53,7 @@ export const DocumentRangeFormattingEditProvider: vscode.DocumentRangeFormatting
 		const queryString = `(_) @node`;
 		const nestedCaptures = queryNode(jsonTree.rootNode, queryString, startPoint, endPoint);
 
-		let level = -1;
+		let indent = -1;
 		let node!: webTreeSitter.Node;
 		for (const nestedCapture of nestedCaptures) {
 			const nestedNode = nestedCapture.node;
@@ -61,11 +61,11 @@ export const DocumentRangeFormattingEditProvider: vscode.DocumentRangeFormatting
 				break;
 			}
 			node = nestedNode;
-			level += style.tabSize;
+			indent += style.tabSize;
 		}
-		const indent = Math.min(level, node.startPosition.column);
+		indent = Math.min(indent, node.startPosition.column);
 
-		formatChildren(node, textEdits, indent, style);
+		formatChildren(node, textEdits, indent, style, range);
 
 		// vscode.window.showInformationMessage(`FormatRange ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(textEdits)}`);
 		return textEdits;
@@ -133,14 +133,14 @@ export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider =
 };
 
 
-function formatChildren(parentNode: webTreeSitter.Node, textEdits: vscode.TextEdit[], indent: number, style: formattingStyle): boolean {
+function formatChildren(parentNode: webTreeSitter.Node, textEdits: vscode.TextEdit[], indent: number, style: formattingStyle, range?: vscode.Range): boolean {
 	let expand = false;
 
 	for (const node of parentNode.namedChildren) {
 		if (node.isError) {
 			continue;
 		}
-		expand = formatChildren(node, textEdits, indent + style.tabSize, style) || expand;
+		expand = formatChildren(node, textEdits, indent + style.tabSize, style, range) || expand;
 	}
 
 	if (expand === false) {
@@ -183,6 +183,24 @@ function formatChildren(parentNode: webTreeSitter.Node, textEdits: vscode.TextEd
 
 	for (const node of parentNode.children) {
 		if (node.isError) {
+			continue;
+		}
+
+		if (node.isNamed) {
+			continue;
+		}
+
+		if (range && !range.contains(toRange(node))) {
+			switch (node.type) {
+				case '{':
+				case '[':
+					indent += style.tabSize;
+					break;
+				case '}':
+				case ']':
+					indent -= style.tabSize;
+					break;
+			}
 			continue;
 		}
 
