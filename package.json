@@ -723,11 +723,5 @@
 		"typescript": "^6.0.2",
 		"webpack": "^5.105.4",
 		"webpack-cli": "^7.0.2"
-	},
-	"__metadata": {
-		"id": "7f5ff7e8-575f-4fbf-bff6-201486b6327e",
-		"publisherId": "6d229866-9775-4c10-9f86-f22eaa70eb66",
-		"publisherDisplayName": "RedCMD",
-		"installedTimestamp": 1627819702262
 	}
 }
