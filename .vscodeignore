@@ -12,6 +12,7 @@ assets/images/
 **/.vscode/
 **/esm/
 **/test/
+**/tests/
 **/bin/
 
 */**/README*
