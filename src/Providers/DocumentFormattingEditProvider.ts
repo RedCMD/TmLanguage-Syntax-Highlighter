@@ -7,14 +7,16 @@ type formattingStyle = {
 	tabType: ' ' | '\t';
 	tabSize: number;
 	wsBrackets: string;
+	eol: '\r\n' | '\n';
 };
 
-function getFormattingStyle(options?: vscode.FormattingOptions): formattingStyle {
+function getFormattingStyle(options?: vscode.FormattingOptions, document?: vscode.TextDocument): formattingStyle {
 	const bracketStyle = <'tight' | 'default'>vscode.workspace.getConfiguration('json.textmate').get('formattingStyle');
 	const style: formattingStyle = {
 		tabType: options?.insertSpaces ? ' ' : '\t',
 		tabSize: options?.insertSpaces ? options?.tabSize : 1,
 		wsBrackets: bracketStyle == 'tight' ? '' : ' ',
+		eol: document?.eol == vscode.EndOfLine.CRLF ? '\r\n' : '\n',
 	};
 	return style;
 }
@@ -27,7 +29,7 @@ export const DocumentFormattingEditProvider: vscode.DocumentFormattingEditProvid
 		const jsonTree = trees.jsonTree;
 		const textEdits: vscode.TextEdit[] = [];
 
-		const style = getFormattingStyle(options);
+		const style = getFormattingStyle(options, document);
 
 		// const start = performance.now();
 		formatChildren(jsonTree.rootNode, textEdits, 0, style);
@@ -45,7 +47,7 @@ export const DocumentRangeFormattingEditProvider: vscode.DocumentRangeFormatting
 		const jsonTree = trees.jsonTree;
 		const textEdits: vscode.TextEdit[] = [];
 
-		const style = getFormattingStyle(options);
+		const style = getFormattingStyle(options, document);
 
 		const startPoint = toPoint(range.start);
 		const endPoint = toPoint(range.end);
@@ -114,7 +116,7 @@ export const OnTypeFormattingEditProvider: vscode.OnTypeFormattingEditProvider =
 			return;
 		}
 
-		const style = getFormattingStyle(options);
+		const style = getFormattingStyle(options, document);
 
 		let level = 0;
 		let parent = node.parent;
@@ -224,7 +226,7 @@ function formatChildren(parentNode: webTreeSitter.Node, textEdits: vscode.TextEd
 							nextSibling?.startPosition ?? parentNode.endPosition,
 						),
 						expand ?
-							node.type + '\n'.padEnd(indent + 1, style.tabType) :
+							node.type + style.eol + ''.padEnd(indent, style.tabType) :
 							node.type + style.wsBrackets,
 					),
 				);
@@ -241,7 +243,7 @@ function formatChildren(parentNode: webTreeSitter.Node, textEdits: vscode.TextEd
 							node.endPosition,
 						),
 						expand ?
-							'\n'.padEnd(indent + 1, style.tabType) + node.type :
+							style.eol + ''.padEnd(indent, style.tabType) + node.type :
 							style.wsBrackets + node.type,
 					),
 				);
@@ -264,7 +266,7 @@ function formatChildren(parentNode: webTreeSitter.Node, textEdits: vscode.TextEd
 							nextSibling?.startPosition ?? parentNode.endPosition,
 						),
 						expand ?
-							',\n'.padEnd(indent + 2, style.tabType) :
+							',' + style.eol + ''.padEnd(indent, style.tabType) :
 							', ',
 					),
 				);

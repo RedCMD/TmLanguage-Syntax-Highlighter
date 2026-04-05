@@ -84,7 +84,7 @@ suite('Extension Tests', async () => {
 				}
 			},
 			'\t'
-		).replaceAll(/\r?\n/g, '\r\n') + '\r\n';
+		).replaceAll(/[\r\n]+/g, '\r\n') + '\r\n';
 
 		const file = vscode.Uri.joinPath(baselinesUri, filename);
 
@@ -104,7 +104,7 @@ suite('Extension Tests', async () => {
 			// VSCode's IRange is presented differently compared to how its actually stored
 			assert.equal(
 				actualStringified,
-				JSON.stringify(expected, null, '\t').replaceAll(/\r?\n/g, '\r\n') + '\r\n',
+				JSON.stringify(expected, null, '\t').replaceAll(/[\r\n]+/g, '\r\n') + '\r\n',
 			);
 			assert.deepEqual(
 				JSON.parse(actualStringified),
@@ -332,6 +332,7 @@ suite('Extension Tests', async () => {
 			editBuilder => {
 				const minifiedText = editorFormatted.document.getText().replaceAll(/\s*[\r\n]+\s*/gm, '');
 				editBuilder.replace(new vscode.Range(0, 0, editorFormatted.document.lineCount, 0), minifiedText + '\r\n');
+				editBuilder.setEndOfLine(vscode.EndOfLine.CRLF);
 			}
 		);
 		// TODO: TreeSitter broken. can't handle partially minified JSON
@@ -418,7 +419,7 @@ suite('Extension Tests', async () => {
 		const editor = await vscode.window.showTextDocument(uri, showTextDocumentOptions);
 
 		type CodeAction = vscode.CodeAction & {
-			cacheId?: number[];
+			cacheId: number[];
 			isAI: boolean;
 			edit?: vscode.WorkspaceEdit & {
 				edits: {
@@ -446,6 +447,7 @@ suite('Extension Tests', async () => {
 	test('DocumentSymbolProvider', async () => {
 		const uri = vscode.Uri.joinPath(fixturesUri, 'JSON.tmLanguage.json');
 		const editor = await vscode.window.showTextDocument(uri, showTextDocumentOptions);
+		await editor.edit(editBuilder => editBuilder.setEndOfLine(vscode.EndOfLine.CRLF));
 
 		const documentSymbolsActual = await vscode.commands.executeCommand(
 			'_executeDocumentSymbolProvider', uri
