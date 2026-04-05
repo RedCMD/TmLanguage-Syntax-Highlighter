@@ -19,6 +19,7 @@
 		{
 			"comment": " diagnosticsTreeSitterRegexErrors ",
 			"match": "missing ending char (",
+			"match": "missing ending char []",
 			"//": "TODO: TreeSitter should be `'capture_group' is missing ending char ')'`",
 			"match": "(bad",
 			"begin": "(?)Invalid Group syntax",

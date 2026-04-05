@@ -324,6 +324,83 @@
 		"message": "Duplicate object key",
 		"range": [
 			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 10
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"range": [
+			{
+				"line": 0,
+				"character": 4
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"message": "Empty character class",
+		"severity": 0,
+		"source": "ES"
+	},
+	{
+		"range": [
+			{
+				"line": 0,
+				"character": 4
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"message": "empty char-class",
+		"severity": 0,
+		"source": "Oniguruma"
+	},
+	{
+		"range": [
+			{
+				"line": 0,
+				"character": 4
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"message": "missing terminating ] for character class at offset 22",
+		"severity": 0,
+		"source": "PCRE"
+	},
+	{
+		"range": [
+			{
+				"line": 0,
+				"character": 33
+			},
+			{
+				"line": 0,
+				"character": 35
+			}
+		],
+		"message": "'character_class' is missing ending char ']'",
+		"severity": 0,
+		"source": "TreeSitter",
+		"code": "missing"
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
 				"line": 2,
 				"character": 3
 			},

@@ -636,7 +636,7 @@ module.exports = grammar({
 		),
 		character_class: $ => seq(
 			'[',
-			repeat(
+			repeat1(
 				choice(
 					// $.octal,
 					// $.hexadecimal,

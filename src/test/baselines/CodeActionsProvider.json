@@ -3,7 +3,7 @@
 		"title": "Change spelling to 'Did_you_mean'",
 		"diagnostics": [
 			{
-				"startLineNumber": 35,
+				"startLineNumber": 36,
 				"startColumn": 20,
 				"endLineNumber": 0,
 				"endColumn": 32,
@@ -37,7 +37,7 @@
 		"title": "Change spelling to 'source.diagnostic'",
 		"diagnostics": [
 			{
-				"startLineNumber": -32,
+				"startLineNumber": -33,
 				"startColumn": 16,
 				"endLineNumber": 0,
 				"endColumn": 34,
@@ -157,6 +157,39 @@
 							"startColumn": 35,
 							"endLineNumber": 0,
 							"endColumn": 35
+						}
+					},
+					"filename": "fixtures/DiagnosticCollection.tmLanguage.json"
+				}
+			]
+		},
+		"kind": "quickfix",
+		"isAI": false
+	},
+	{
+		"title": "Add missing ']'",
+		"diagnostics": [
+			{
+				"startLineNumber": 1,
+				"startColumn": 34,
+				"endLineNumber": 0,
+				"endColumn": 36,
+				"message": "'character_class' is missing ending char ']'",
+				"source": "TreeSitter",
+				"code": "missing",
+				"severity": 8
+			}
+		],
+		"edit": {
+			"edits": [
+				{
+					"textEdit": {
+						"text": "]",
+						"range": {
+							"startLineNumber": 0,
+							"startColumn": 36,
+							"endLineNumber": 0,
+							"endColumn": 36
 						}
 					},
 					"filename": "fixtures/DiagnosticCollection.tmLanguage.json"
@@ -299,6 +332,11 @@
 			}
 		],
 		"kind": "quickfix.singlePattern",
+		"isAI": false
+	},
+	{
+		"title": "Optimize Regex",
+		"kind": "refactor.rewrite.minify",
 		"isAI": false
 	},
 	{
