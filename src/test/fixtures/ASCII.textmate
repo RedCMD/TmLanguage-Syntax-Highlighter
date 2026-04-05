@@ -1,6 +1,9 @@
 {	'$schema' = 'https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json';
 	name = 'languageId';
 	scopeName = 'source.languageId';
+	injections = {
+		'L:source.scopeName -comment -string,R:source.scopeName.another' = { };
+	};
 	patterns = (
 		{ include = '#repo-item'; },
 		{ include = '#string'; },

@@ -243,6 +243,14 @@ suite('Extension Tests', async () => {
 			// console.log((performance.now() - start).toFixed(), 'ms', fromFile, command, toFile);
 		}
 
+		if (updateTests) {
+			await assertFileConversion('JSON.tmLanguage.json', 'textmate.convertFileToJSON', 'JSON.tmLanguage.json');
+			await assertFileConversion('JSON.tmLanguage.json', 'textmate.convertFileToYAML', 'YAML.tmLanguage.yaml');
+			await assertFileConversion('JSON.tmLanguage.json', 'textmate.convertFileToASCII', 'ASCII.textmate');
+			await assertFileConversion('JSON.tmLanguage.json', 'textmate.convertFileToCSON', 'CSON.tmLanguage.cson');
+			await assertFileConversion('JSON.tmLanguage.json', 'textmate.convertFileToXML', 'XML.tmLanguage');
+		}
+
 		await assertFileConversion('JSON.tmLanguage.json', 'textmate.convertFileToJSON');
 		await assertFileConversion('YAML.tmLanguage.yaml', 'textmate.convertFileToYAML');
 		await assertFileConversion('ASCII.textmate', 'textmate.convertFileToASCII');
@@ -330,8 +338,8 @@ suite('Extension Tests', async () => {
 		await testFormatFile(editorSpaces, { tabSize: 3, insertSpaces: true });
 		await testFormatFile(editorTabs);
 
-		await assertFormatRange(editorUnformatted, 9, 8, 16, 18);
-		await assertFormatRange(editorUnformatted, 28, 37, 33, 37);
+		await assertFormatRange(editorUnformatted, 12, 8, 19, 18);
+		await assertFormatRange(editorUnformatted, 31, 37, 36, 37);
 
 		await assertBaseline(formatActual, 'FormatDocumentProvider.json');
 	});

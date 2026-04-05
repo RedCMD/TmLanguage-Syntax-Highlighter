@@ -71,6 +71,28 @@
 				"startLineNumber": 1,
 				"startColumn": 3,
 				"endLineNumber": 0,
+				"endColumn": 13
+			},
+			"kind": 1
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 1,
+				"startColumn": 33,
+				"endLineNumber": 0,
+				"endColumn": 39
+			},
+			"kind": 1
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 2,
+				"startColumn": 3,
+				"endLineNumber": 0,
 				"endColumn": 11
 			},
 			"kind": 1

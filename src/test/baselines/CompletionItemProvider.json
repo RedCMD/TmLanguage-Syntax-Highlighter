@@ -56,33 +56,6 @@
 				"insertTextRules": 4
 			},
 			{
-				"label": "injections",
-				"extensionId": {
-					"value": "vscode.json-language-features",
-					"_lower": "vscode.json-language-features"
-				},
-				"kind": 9,
-				"documentation": "A dictionary of injections. They do NOT work when the grammar is embedded into another language",
-				"sortText": "injections",
-				"filterText": "\"injections\"",
-				"insertText": "\"injections\"",
-				"range": {
-					"insert": {
-						"startLineNumber": 0,
-						"startColumn": 2,
-						"endLineNumber": 0,
-						"endColumn": 6
-					},
-					"replace": {
-						"startLineNumber": 0,
-						"startColumn": 2,
-						"endLineNumber": 0,
-						"endColumn": 11
-					}
-				},
-				"insertTextRules": 4
-			},
-			{
 				"label": "injectionSelector",
 				"extensionId": {
 					"value": "vscode.json-language-features",
@@ -836,33 +809,6 @@
 				"insertTextRules": 4
 			},
 			{
-				"label": "injections",
-				"extensionId": {
-					"value": "vscode.json-language-features",
-					"_lower": "vscode.json-language-features"
-				},
-				"kind": 9,
-				"documentation": "A dictionary of injections. They do NOT work when the grammar is embedded into another language",
-				"sortText": "injections",
-				"filterText": "\"injections\"",
-				"insertText": "\"injections\"",
-				"range": {
-					"insert": {
-						"startLineNumber": 0,
-						"startColumn": 2,
-						"endLineNumber": 0,
-						"endColumn": 5
-					},
-					"replace": {
-						"startLineNumber": 0,
-						"startColumn": 2,
-						"endLineNumber": 0,
-						"endColumn": 8
-					}
-				},
-				"insertTextRules": 4
-			},
-			{
 				"label": "injectionSelector",
 				"extensionId": {
 					"value": "vscode.json-language-features",
@@ -1191,33 +1137,6 @@
 				"insertTextRules": 4
 			},
 			{
-				"label": "injections",
-				"extensionId": {
-					"value": "vscode.json-language-features",
-					"_lower": "vscode.json-language-features"
-				},
-				"kind": 9,
-				"documentation": "A dictionary of injections. They do NOT work when the grammar is embedded into another language",
-				"sortText": "injections",
-				"filterText": "\"injections\"",
-				"insertText": "\"injections\"",
-				"range": {
-					"insert": {
-						"startLineNumber": 0,
-						"startColumn": 2,
-						"endLineNumber": 0,
-						"endColumn": 7
-					},
-					"replace": {
-						"startLineNumber": 0,
-						"startColumn": 2,
-						"endLineNumber": 0,
-						"endColumn": 13
-					}
-				},
-				"insertTextRules": 4
-			},
-			{
 				"label": "injectionSelector",
 				"extensionId": {
 					"value": "vscode.json-language-features",
@@ -1486,6 +1405,327 @@
 		"incomplete": false,
 		"suggestions": [
 			{
+				"label": "comment",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"sortText": "comment",
+				"filterText": "\"comment\"",
+				"insertText": "\"comment\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 1,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 8
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 14
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "injections",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": "A dictionary of injections. They do NOT work when the grammar is embedded into another language",
+				"sortText": "injections",
+				"filterText": "\"injections\"",
+				"insertText": "\"injections\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 8
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 14
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "injectionSelector",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "Controls which scope-names to inject the grammar into and with what priority. Default is 0, L: is -1 and R: is 1  \nUsed in conjunction with `\"injectTo\"` under `\"grammars\"` in your `package.json` file  \nhttps://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#injection-grammars",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {
+						"https://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#injection-grammars": {
+							"$mid": 1,
+							"path": "/api/language-extensions/syntax-highlight-guide",
+							"scheme": "https",
+							"authority": "code.visualstudio.com",
+							"fragment": "injection-grammars"
+						}
+					}
+				},
+				"sortText": "injectionSelector",
+				"filterText": "\"injectionSelector\"",
+				"insertText": "\"injectionSelector\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 8
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 14
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "//",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": "Alternative comment; because VSCode ignores duplicate `//` keys. Supports all json types",
+				"sortText": "~//",
+				"filterText": "\"//\"",
+				"insertText": "\"//\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 8
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 14
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "fileTypes",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "An array of file extensions your language supports  \n_Not currently supported by VSCode_  \nUse `\"extensions\"` under `\"languages\"` in your `package.json` file instead",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "~fileTypes",
+				"filterText": "\"fileTypes\"",
+				"insertText": "\"fileTypes\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 8
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 14
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "firstLineMatch",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A regex to detect if an open file should get assigned to your language  \n_Not currently supported by VSCode_  \nUse `\"firstLine\"` under `\"languages\"` in your `package.json` file instead",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "~firstLineMatch",
+				"filterText": "\"firstLineMatch\"",
+				"insertText": "\"firstLineMatch\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 8
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 14
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "foldingStartMarker",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A regex to define the start of a folding section  \n_Not currently supported by VSCode_  \nUse `\"folding\"` in your `language-configuration.json` file instead",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "~foldingStartMarker",
+				"filterText": "\"foldingStartMarker\"",
+				"insertText": "\"foldingStartMarker\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 8
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 14
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "foldingStopMarker",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A regex to define the end of the folding section  \n_Not currently supported by VSCode_  \nUse `\"folding\"` in your `language-configuration.json` file instead",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "~foldingStopMarker",
+				"filterText": "\"foldingStopMarker\"",
+				"insertText": "\"foldingStopMarker\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 8
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 14
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "uuid",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": "A Universally Unique IDentifier for this json file",
+				"sortText": "~uuid",
+				"filterText": "\"uuid\"",
+				"insertText": "\"uuid\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 8
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 14
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "version",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": "A link to the current version of the file",
+				"sortText": "~version",
+				"filterText": "\"version\"",
+				"insertText": "\"version\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 8
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 2,
+						"endLineNumber": 0,
+						"endColumn": 14
+					}
+				},
+				"insertTextRules": 4
+			}
+		]
+	},
+	{
+		"incomplete": false,
+		"suggestions": []
+	},
+	{
+		"incomplete": false,
+		"suggestions": [
+			{
 				"label": "patterns",
 				"extensionId": {
 					"value": "vscode.json-language-features",
@@ -1498,7 +1738,7 @@
 				"insertText": "\"patterns\"",
 				"range": {
 					"insert": {
-						"startLineNumber": 1,
+						"startLineNumber": 3,
 						"startColumn": 2,
 						"endLineNumber": 0,
 						"endColumn": 7
@@ -1522,33 +1762,6 @@
 				"sortText": "comment",
 				"filterText": "\"comment\"",
 				"insertText": "\"comment\"",
-				"range": {
-					"insert": {
-						"startLineNumber": 0,
-						"startColumn": 2,
-						"endLineNumber": 0,
-						"endColumn": 7
-					},
-					"replace": {
-						"startLineNumber": 0,
-						"startColumn": 2,
-						"endLineNumber": 0,
-						"endColumn": 12
-					}
-				},
-				"insertTextRules": 4
-			},
-			{
-				"label": "injections",
-				"extensionId": {
-					"value": "vscode.json-language-features",
-					"_lower": "vscode.json-language-features"
-				},
-				"kind": 9,
-				"documentation": "A dictionary of injections. They do NOT work when the grammar is embedded into another language",
-				"sortText": "injections",
-				"filterText": "\"injections\"",
-				"insertText": "\"injections\"",
 				"range": {
 					"insert": {
 						"startLineNumber": 0,
@@ -3588,33 +3801,6 @@
 				"sortText": "comment",
 				"filterText": "\"comment\"",
 				"insertText": "\"comment\"",
-				"range": {
-					"insert": {
-						"startLineNumber": 0,
-						"startColumn": 2,
-						"endLineNumber": 0,
-						"endColumn": 8
-					},
-					"replace": {
-						"startLineNumber": 0,
-						"startColumn": 2,
-						"endLineNumber": 0,
-						"endColumn": 14
-					}
-				},
-				"insertTextRules": 4
-			},
-			{
-				"label": "injections",
-				"extensionId": {
-					"value": "vscode.json-language-features",
-					"_lower": "vscode.json-language-features"
-				},
-				"kind": 9,
-				"documentation": "A dictionary of injections. They do NOT work when the grammar is embedded into another language",
-				"sortText": "injections",
-				"filterText": "\"injections\"",
-				"insertText": "\"injections\"",
 				"range": {
 					"insert": {
 						"startLineNumber": 0,

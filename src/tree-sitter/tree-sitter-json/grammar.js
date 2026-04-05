@@ -427,11 +427,28 @@ module.exports = grammar({
 			$._injection_whitespace,
 		),
 		_injection_whitespace: $ => token(
-			repeat1(
-				choice(
-					/\\u[0-9a-fA-F]{4}/,
-					/\\./,
-					/[^\\"\w.:|()-]/,
+			choice(
+				repeat1(
+					choice(
+						/\\u[0-9a-fA-F]{4}/,
+						/\\./,
+						/[^\\"\w,.:|()-]/,
+					),
+				),
+				seq(
+					choice(
+						')',
+						'|',
+					),
+					prec(
+						-1,
+						repeat(
+							choice(
+								/\\./,
+								/[^\\"]/,
+							),
+						),
+					),
 				),
 			),
 		),

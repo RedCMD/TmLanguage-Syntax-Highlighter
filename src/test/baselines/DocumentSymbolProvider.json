@@ -5,13 +5,13 @@
 		"range": {
 			"startLineNumber": 1,
 			"startColumn": 1,
-			"endLineNumber": 47,
+			"endLineNumber": 50,
 			"endColumn": 1
 		},
 		"selectionRange": {
 			"startLineNumber": 0,
 			"startColumn": 1,
-			"endLineNumber": 47,
+			"endLineNumber": 50,
 			"endColumn": 1
 		},
 		"kind": 0,
@@ -192,10 +192,184 @@
 				]
 			},
 			{
+				"name": "injections",
+				"detail": "\"injections\": {\r\n\t\t\"L:source.scopeName -comment -s",
+				"range": {
+					"startLineNumber": 1,
+					"startColumn": 2,
+					"endLineNumber": 2,
+					"endColumn": 3
+				},
+				"selectionRange": {
+					"startLineNumber": 0,
+					"startColumn": 2,
+					"endLineNumber": 2,
+					"endColumn": 3
+				},
+				"kind": 18,
+				"tags": [],
+				"children": [
+					{
+						"name": "key",
+						"detail": "injections",
+						"range": {
+							"startLineNumber": 0,
+							"startColumn": 3,
+							"endLineNumber": 0,
+							"endColumn": 13
+						},
+						"selectionRange": {
+							"startLineNumber": 0,
+							"startColumn": 3,
+							"endLineNumber": 0,
+							"endColumn": 13
+						},
+						"kind": 6,
+						"tags": [],
+						"children": []
+					},
+					{
+						"name": "1",
+						"detail": "\"L:source.scopeName -comment -string,R:source.scop",
+						"range": {
+							"startLineNumber": 1,
+							"startColumn": 3,
+							"endLineNumber": 0,
+							"endColumn": 71
+						},
+						"selectionRange": {
+							"startLineNumber": 0,
+							"startColumn": 3,
+							"endLineNumber": 0,
+							"endColumn": 71
+						},
+						"kind": 15,
+						"tags": [],
+						"children": [
+							{
+								"name": "key",
+								"detail": "L:source.scopeName -comment -string,R:source.scope",
+								"range": {
+									"startLineNumber": 0,
+									"startColumn": 4,
+									"endLineNumber": 0,
+									"endColumn": 66
+								},
+								"selectionRange": {
+									"startLineNumber": 0,
+									"startColumn": 4,
+									"endLineNumber": 0,
+									"endColumn": 66
+								},
+								"kind": 6,
+								"tags": [],
+								"children": [
+									{
+										"name": "selector",
+										"detail": "L:",
+										"range": {
+											"startLineNumber": 0,
+											"startColumn": 4,
+											"endLineNumber": 0,
+											"endColumn": 6
+										},
+										"selectionRange": {
+											"startLineNumber": 0,
+											"startColumn": 4,
+											"endLineNumber": 0,
+											"endColumn": 6
+										},
+										"kind": 5,
+										"tags": [],
+										"children": []
+									},
+									{
+										"name": "scope",
+										"detail": "source.scopeName",
+										"range": {
+											"startLineNumber": 0,
+											"startColumn": 6,
+											"endLineNumber": 0,
+											"endColumn": 22
+										},
+										"selectionRange": {
+											"startLineNumber": 0,
+											"startColumn": 6,
+											"endLineNumber": 0,
+											"endColumn": 22
+										},
+										"kind": 5,
+										"tags": [],
+										"children": []
+									},
+									{
+										"name": "scope",
+										"detail": "comment",
+										"range": {
+											"startLineNumber": 0,
+											"startColumn": 24,
+											"endLineNumber": 0,
+											"endColumn": 31
+										},
+										"selectionRange": {
+											"startLineNumber": 0,
+											"startColumn": 24,
+											"endLineNumber": 0,
+											"endColumn": 31
+										},
+										"kind": 5,
+										"tags": [],
+										"children": []
+									},
+									{
+										"name": "scope",
+										"detail": "string",
+										"range": {
+											"startLineNumber": 0,
+											"startColumn": 33,
+											"endLineNumber": 0,
+											"endColumn": 39
+										},
+										"selectionRange": {
+											"startLineNumber": 0,
+											"startColumn": 33,
+											"endLineNumber": 0,
+											"endColumn": 39
+										},
+										"kind": 5,
+										"tags": [],
+										"children": []
+									},
+									{
+										"name": "scope",
+										"detail": "R:source.scopeName.another",
+										"range": {
+											"startLineNumber": 0,
+											"startColumn": 40,
+											"endLineNumber": 0,
+											"endColumn": 66
+										},
+										"selectionRange": {
+											"startLineNumber": 0,
+											"startColumn": 40,
+											"endLineNumber": 0,
+											"endColumn": 66
+										},
+										"kind": 5,
+										"tags": [],
+										"children": []
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			{
 				"name": "patterns",
 				"detail": "\"patterns\": [\r\n\t\t{\r\n\t\t\t\"include\": \"#repo-item\"\r\n\t\t",
 				"range": {
-					"startLineNumber": 1,
+					"startLineNumber": 2,
 					"startColumn": 2,
 					"endLineNumber": 10,
 					"endColumn": 3
@@ -1912,7 +2086,7 @@
 		"name": "$schema",
 		"detail": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
 		"range": {
-			"startLineNumber": -40,
+			"startLineNumber": -43,
 			"startColumn": 2,
 			"endLineNumber": 0,
 			"endColumn": 120
@@ -1966,10 +2140,49 @@
 		"children": []
 	},
 	{
-		"name": "patterns",
+		"name": "injections",
 		"detail": "",
 		"range": {
 			"startLineNumber": 1,
+			"startColumn": 2,
+			"endLineNumber": 2,
+			"endColumn": 3
+		},
+		"selectionRange": {
+			"startLineNumber": 0,
+			"startColumn": 2,
+			"endLineNumber": 0,
+			"endColumn": 14
+		},
+		"kind": 1,
+		"tags": [],
+		"children": [
+			{
+				"name": "L:source.scopeName -comment -string,R:source.scopeName.another",
+				"detail": "{}",
+				"range": {
+					"startLineNumber": 1,
+					"startColumn": 3,
+					"endLineNumber": 0,
+					"endColumn": 71
+				},
+				"selectionRange": {
+					"startLineNumber": 0,
+					"startColumn": 3,
+					"endLineNumber": 0,
+					"endColumn": 67
+				},
+				"kind": 1,
+				"tags": [],
+				"children": []
+			}
+		]
+	},
+	{
+		"name": "patterns",
+		"detail": "",
+		"range": {
+			"startLineNumber": 2,
 			"startColumn": 2,
 			"endLineNumber": 10,
 			"endColumn": 3

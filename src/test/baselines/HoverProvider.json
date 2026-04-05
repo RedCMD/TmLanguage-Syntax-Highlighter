@@ -125,6 +125,54 @@
 				"startLineNumber": 1,
 				"startColumn": 2,
 				"endLineNumber": 0,
+				"endColumn": 14
+			},
+			"contents": [
+				{
+					"value": "A dictionary of injections\\. They do NOT work when the grammar is embedded into another language",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 1,
+				"startColumn": 3,
+				"endLineNumber": 0,
+				"endColumn": 67
+			},
+			"contents": [
+				{
+					"value": "An injection selector\\. https://code\\.visualstudio\\.com/api/language\\-extensions/syntax\\-highlight\\-guide\\#injection\\-grammars",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {
+						"https://code\\.visualstudio\\.com/api/language\\-extensions/syntax\\-highlight\\-guide\\#injection\\-grammars": {
+							"$mid": 1,
+							"path": "/api/language\\-extensions/syntax\\-highlight\\-guide\\",
+							"scheme": "https",
+							"authority": "code\\.visualstudio\\.com",
+							"fragment": "injection\\-grammars"
+						}
+					}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 2,
+				"startColumn": 2,
+				"endLineNumber": 0,
 				"endColumn": 12
 			},
 			"contents": [

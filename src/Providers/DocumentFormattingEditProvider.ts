@@ -147,6 +147,7 @@ function formatChildren(parentNode: webTreeSitter.Node, textEdits: vscode.TextEd
 		const namedChildCount = parentNode.namedChildCount;
 		if (namedChildCount > 1) {
 			switch (parentNode.type) {
+				case 'key':
 				case 'value':
 				case 'regex':
 					break;

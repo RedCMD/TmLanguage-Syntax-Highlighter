@@ -8,6 +8,11 @@
 		<string>languageId</string>
 		<key>scopeName</key>
 		<string>source.languageId</string>
+		<key>injections</key>
+		<dict>
+			<key>L:source.scopeName -comment -string,R:source.scopeName.another</key>
+			<dict/>
+		</dict>
 		<key>patterns</key>
 		<array>
 			<dict>
