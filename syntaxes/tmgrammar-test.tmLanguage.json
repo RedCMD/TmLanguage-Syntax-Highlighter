@@ -119,24 +119,24 @@
 					"name": "keyword.control.negate.tmgrammar"
 				},
 				{
+					"match": "\\.[-$./:{}\\w]*",
+					"captures": {
+						"0": {
+							"name": ".$0",
+							"patterns": [
+								{ "include": "#scope" },
+								{ "include": "source.json.textmate#name_scopes" }
+							]
+						}
+					}
+				},
+				{
 					"match": "[-$./:{}\\w]+",
 					"captures": {
 						"0": {
 							"name": "$0",
 							"patterns": [
-								{
-									"begin": "\\b(?>source|text)\\.",
-									"end": "(?![-$./:{}\\w])",
-									"beginCaptures": { "0": { "name": "support.function.tmgrammar" } },
-									"name": "string.scopeName.tmgrammar",
-									"patterns": [
-										{
-											"match": "\\.",
-											"name": "support.function.tmgrammar"
-										},
-										{ "include": "source.json.textmate#name_scopes" }
-									]
-								},
+								{ "include": "#scope" },
 								{ "include": "source.json.textmate#name_scopes" }
 							]
 						}
@@ -146,7 +146,22 @@
 					"match": "[^-$./:{}\\w\\s]+",
 					"name": "invalid.illegal.tmgrammar"
 				}
-			]
+			],
+			"repository": {
+				"scope": {
+					"begin": "\\b(?>source|text|markdown)\\.",
+					"end": "(?![-$./:{}\\w])",
+					"beginCaptures": { "0": { "name": "support.function.tmgrammar" } },
+					"name": "string.scopeName.tmgrammar",
+					"patterns": [
+						{
+							"match": "\\.",
+							"name": "support.function.tmgrammar"
+						},
+						{ "include": "source.json.textmate#name_scopes" }
+					]
+				}
+			}
 		}
 	}
 }

@@ -538,3 +538,12 @@
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.textmate.tmgrammar punctuation.definition.type.end.swift
 >
 #^ source.textmate.tmgrammar
+>// ^^^^^^ .comment
+#^^ source.textmate.tmgrammar comment.line.character.tmgrammar
+#  ^ source.textmate.tmgrammar
+#   ^^^^^^ source.textmate.tmgrammar keyword.control.marker.tmgrammar
+#         ^ source.textmate.tmgrammar
+#          ^ source.textmate.tmgrammar .comment
+#           ^^^^^^^ source.textmate.tmgrammar .comment emphasis.tm
+>
+#^ source.textmate.tmgrammar

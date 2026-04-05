@@ -122,3 +122,5 @@ struct SimpleCharacter {
     % end
 }
 // <- punctuation.definition.type.end.swift
+
+// ^^^^^^ .comment
