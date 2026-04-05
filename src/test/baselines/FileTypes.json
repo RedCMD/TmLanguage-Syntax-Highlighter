@@ -11,8 +11,6 @@
 		"json-textmate": [
 			"fixtures/DefinitionReferenceProvider.tmLanguage.json",
 			"fixtures/DiagnosticCollection.tmLanguage.json",
-			"fixtures/DocumentFormattingEditProvider-3spaces.tmLanguage.json",
-			"fixtures/DocumentFormattingEditProvider-tabs.tmLanguage.json",
 			"fixtures/JSON.tmLanguage.json",
 			"fixtures/fileTypes/JSON.JSON-tmLanguage",
 			"fixtures/fileTypes/firstLineJSON",

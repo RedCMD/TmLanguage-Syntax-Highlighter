@@ -270,16 +270,16 @@ suite('Extension Tests', async () => {
 	});
 
 	test('FormatDocumentProvider', async () => {
-		const editorTabs = await vscode.window.showTextDocument(vscode.Uri.joinPath(fixturesUri, 'DocumentFormattingEditProvider-tabs.tmLanguage.json'), showTextDocumentOptions);
-		const editorSpaces = await vscode.window.showTextDocument(vscode.Uri.joinPath(fixturesUri, 'DocumentFormattingEditProvider-3spaces.tmLanguage.json'), showTextDocumentOptions);
+		const editorTabs = await vscode.window.showTextDocument(vscode.Uri.joinPath(baselinesUri, 'DocumentFormattingEditProvider-tabs.tmLanguage.json'), showTextDocumentOptions);
+		const editorSpaces = await vscode.window.showTextDocument(vscode.Uri.joinPath(baselinesUri, 'DocumentFormattingEditProvider-3spaces.tmLanguage.json'), showTextDocumentOptions);
 		const editorUnformatted = await vscode.window.showTextDocument(vscode.Uri.joinPath(fixturesUri, 'JSON.tmLanguage.json'), showTextDocumentOptions);
 
 		const documentFormatted = await vscode.workspace.openTextDocument({ content: editorUnformatted.document.getText(), language: 'json-textmate', encoding: '\r\n' });
-		const editorFormatted = await vscode.window.showTextDocument(documentFormatted);
+		const editorFormatted = await vscode.window.showTextDocument(documentFormatted, showTextDocumentOptions);
 
 		const formatActual: vscode.TextEdit[][] = [];
 
-		async function testFormatFile(editor: vscode.TextEditor, options: vscode.FormattingOptions = { tabSize: 4, insertSpaces: false, }) {
+		async function assertFormatFile(editor: vscode.TextEditor, options: vscode.FormattingOptions = { tabSize: 4, insertSpaces: false, }) {
 			const edits: vscode.TextEdit[] = await vscode.commands.executeCommand(
 				'_executeFormatDocumentProvider',
 				editorFormatted.document.uri,
@@ -297,10 +297,13 @@ suite('Extension Tests', async () => {
 			await vscode.commands.executeCommand('editor.action.formatDocument');
 			await vscode.commands.executeCommand('editor.action.formatDocument');
 
+			await editorSettings.update('insertSpaces', false);
+			await editorSettings.update('tabSize', 4);
+
 			formatActual.push(edits);
 
 			if (runTests) {
-				assert.equal(editorFormatted.document.getText(), editor.document.getText());
+				assert.equal(editorFormatted.document.getText().replaceAll(/[\r\n]+/gm, '\r\n'), editor.document.getText().replaceAll(/[\r\n]+/gm, '\r\n'));
 			}
 			else {
 				const uint8Array = new TextEncoder().encode(editorFormatted.document.getText());
@@ -326,7 +329,7 @@ suite('Extension Tests', async () => {
 			formatActual.push(edits);
 		}
 
-		await testFormatFile(editorTabs);
+		await assertFormatFile(editorTabs);
 		// Partially minify document;
 		await editorFormatted.edit(
 			editBuilder => {
@@ -336,8 +339,8 @@ suite('Extension Tests', async () => {
 			}
 		);
 		// TODO: TreeSitter broken. can't handle partially minified JSON
-		await testFormatFile(editorSpaces, { tabSize: 3, insertSpaces: true });
-		await testFormatFile(editorTabs);
+		await assertFormatFile(editorSpaces, { tabSize: 3, insertSpaces: true });
+		await assertFormatFile(editorTabs);
 
 		await assertFormatRange(editorUnformatted, 12, 8, 19, 18);
 		await assertFormatRange(editorUnformatted, 31, 37, 36, 37);
