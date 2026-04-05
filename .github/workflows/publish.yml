@@ -34,9 +34,9 @@ jobs:
         run: | # shell
           npm run build
 
-      - name: Run Tests # check grammars are working
+      - name: Run Tests # check everything is working
         run: | # shell
-          npm run test:grammar
+          npm run test:grammar && npm run test:browser --- --headless
 
       - name: Setup Github Actions # allow use of `git push`
         run: | # shell
