@@ -128,6 +128,7 @@ const activeDocuments: {
 		document: vscode.TextDocument;
 		countDown: number;
 		timeout: NodeJS.Timeout | number | undefined; // VSCode vs VSCode Web;
+		activeDiagnostics: boolean;
 	};
 } = {};
 
@@ -148,7 +149,9 @@ export async function initDiagnostics(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.workspace.onDidOpenTextDocument(debouncedDiagnostics),
 		vscode.workspace.onDidChangeTextDocument((edits: vscode.TextDocumentChangeEvent) => {
-			debouncedDiagnostics(edits.document);
+			if (edits.contentChanges.length > 0) {
+				debouncedDiagnostics(edits.document);
+			}
 		}),
 		vscode.workspace.onDidCloseTextDocument((document: vscode.TextDocument) => {
 			delete activeDocuments[document.uri.toString()];
@@ -170,11 +173,13 @@ export function debouncedDiagnostics(document: vscode.TextDocument) {
 
 	// https://github.com/microsoft/vscode/issues/11487
 	const uriString = document.uri.toString();
-	const activeDocument: typeof activeDocuments[string] = activeDocuments[uriString] = activeDocuments[uriString] ?? {
-		document: document,
+	const activeDocument = activeDocuments[uriString] ?? {
+		// document: document,
 		countDown: 0,
 		timeout: undefined,
-	};
+		activeDiagnostics: false,
+	} as typeof activeDocuments[string];
+	activeDocuments[uriString] ??= activeDocument;
 	activeDocument.document = document;
 	activeDocument.countDown++; // waits longer the more edits there are
 
@@ -184,15 +189,27 @@ export function debouncedDiagnostics(document: vscode.TextDocument) {
 		// Wait 50ms and repeatedly execute CallBack
 		activeDocument.timeout = setInterval(
 			async () => {
-				// setInterval() waits for current callback to finish
+				// setInterval() waits for current callback to finish before repeating
 
-				if (activeDocument.countDown < 0) {
-					clearInterval(activeDocument.timeout); // timeout.refresh() doesn't work in VSCode web
-					activeDocument.timeout = undefined;
-					await Diagnostics(activeDocument.document);
+				if (activeDocument.activeDiagnostics) {
+					return;
 				}
 
-				activeDocument.countDown -= 2;
+				if (activeDocument.countDown > 0) {
+					activeDocument.countDown -= 2;
+					return;
+				}
+
+				activeDocument.countDown = 0;
+
+				activeDocument.activeDiagnostics = true;
+				await Diagnostics(activeDocument.document);
+				activeDocument.activeDiagnostics = false;
+
+				if (activeDocument.countDown == 0) { // Cancel any new callbacks when nothing has happened for a while
+					clearInterval(activeDocument.timeout); // timeout.refresh() doesn't work in VSCode web
+					activeDocument.timeout = undefined;
+				}
 			},
 			50, // 50 milliseconds
 		);
@@ -200,9 +217,8 @@ export function debouncedDiagnostics(document: vscode.TextDocument) {
 }
 
 async function Diagnostics(document: vscode.TextDocument) {
-	// vscode.window.showInformationMessage(`Diagnostics${JSON.stringify(document)}`);
 	// const start = performance.now();
-
+	// VSCode has limit of max 500 diagnostics in the editor
 	const diagnostics: Diagnostic[] = [];
 
 	await Promise.allSettled([
@@ -211,14 +227,14 @@ async function Diagnostics(document: vscode.TextDocument) {
 		tryCatchAsync(() => diagnosticsTreeSitterRegexErrors(diagnostics, document), "Diagnostics error:", "TreeSitterRegexErrors"),
 		tryCatchAsync(() => diagnosticsRegularExpressionErrors(diagnostics, document), "Diagnostics error:", "OnigurumaRegexErrors"),
 		tryCatchAsync(() => diagnosticsBrokenIncludes(diagnostics, document), "Diagnostics error:", "BrokenIncludes"),
-		tryCatchAsync(() => diagnosticsUnusedRepos(diagnostics, document), "Diagnostics error:", "UnusedRepos"),
 		tryCatchAsync(() => diagnosticsLinguistCaptures(diagnostics, document), "Diagnostics error:", "LinguistCaptures"),
-		tryCatchAsync(() => diagnosticsHints(diagnostics, document), "Diagnostics error:", "Hints"),
+		tryCatchAsync(() => diagnosticsUnusedRepos(diagnostics, document), "Diagnostics error:", "UnusedRepos"),
 		tryCatchAsync(() => diagnosticsDeadTextMateCode(diagnostics, document), "Diagnostics error:", "DeadTextMateCode"),
+		tryCatchAsync(() => diagnosticsHints(diagnostics, document), "Diagnostics error:", "Hints"),
 	]);
 
 	DiagnosticCollection.set(document.uri, diagnostics);
-	// vscode.window.showInformationMessage(`Diagnostics ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(diagnostics)}`);
+	// vscode.window.showInformationMessage(`Diagnostics ${(performance.now() - start).toFixed(3)}ms ${diagnostics.length}x\n${JSON.stringify(diagnostics)}`);
 }
 
 
