@@ -385,30 +385,43 @@ module.exports = grammar({
 			$._pattern,
 		),
 		injection_string: $ => choice(
-			repeat1($._injection_scopes),
 			seq(
 				optional($._injection_whitespace),
-				choice(
-					alias(
-						token(
-							prec(1,
-								choice(
-									'L:',
-									'R:',
-								),
+				$._injection_selector,
+				repeat($._injection_scopes),
+				repeat(
+					seq(
+						',',
+						optional(
+							seq(
+								optional($._injection_whitespace),
+								$._injection_selector,
 							),
 						),
-						$.selector,
-					),
-					seq(
-						alias(
-							/[_a-zA-Z0-9:.]:/,
-							$.selector,
-						),
-						$._injection_whitespace,
+						repeat($._injection_scopes),
 					),
 				),
-				repeat($._injection_scopes),
+			),
+			repeat1($._injection_scopes),
+		),
+		_injection_selector: $ => choice(
+			alias(
+				token(
+					prec(1,
+						choice(
+							'L:',
+							'R:',
+						),
+					),
+				),
+				$.selector,
+			),
+			seq(
+				alias(
+					/[_a-zA-Z0-9:.]:/,
+					$.selector,
+				),
+				$._injection_whitespace,
 			),
 		),
 		_injection_scopes: $ => choice(
@@ -417,11 +430,15 @@ module.exports = grammar({
 				$.scope,
 			),
 			'-',
-			',',
-			'|',
 			seq(
 				'(',
-				repeat($._injection_scopes),
+				repeat(
+					choice(
+						',',
+						'|',
+						$._injection_scopes
+					),
+				),
 				')',
 			),
 			$._injection_whitespace,

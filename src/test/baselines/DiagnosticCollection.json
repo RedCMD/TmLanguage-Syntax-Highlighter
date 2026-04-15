@@ -1127,25 +1127,6 @@
 		]
 	},
 	{
-		"range": [
-			{
-				"line": -4,
-				"character": 3
-			},
-			{
-				"line": 4,
-				"character": 4
-			}
-		],
-		"message": "\"endCaptures\" requires \"end\" to be present.",
-		"severity": 3,
-		"source": "TextMate",
-		"code": "dead",
-		"tags": [
-			1
-		]
-	},
-	{
 		"severity": "Warning",
 		"message": "Missing property \"patterns\".",
 		"range": [
@@ -1196,25 +1177,6 @@
 		"range": [
 			{
 				"line": 3,
-				"character": 3
-			},
-			{
-				"line": 0,
-				"character": 44
-			}
-		],
-		"message": "\"whileCaptures\" requires \"while\" to be present.",
-		"severity": 3,
-		"source": "TextMate",
-		"code": "dead",
-		"tags": [
-			1
-		]
-	},
-	{
-		"range": [
-			{
-				"line": 0,
 				"character": 3
 			},
 			{
@@ -1518,25 +1480,6 @@
 		"range": [
 			{
 				"line": 0,
-				"character": 3
-			},
-			{
-				"line": 0,
-				"character": 52
-			}
-		],
-		"message": "\"whileCaptures\" requires \"while\" to be present.",
-		"severity": 3,
-		"source": "TextMate",
-		"code": "dead",
-		"tags": [
-			1
-		]
-	},
-	{
-		"range": [
-			{
-				"line": 0,
 				"character": 23
 			},
 			{
@@ -1553,25 +1496,6 @@
 		"range": [
 			{
 				"line": 1,
-				"character": 3
-			},
-			{
-				"line": 0,
-				"character": 30
-			}
-		],
-		"message": "\"endCaptures\" requires \"end\" to be present.",
-		"severity": 3,
-		"source": "TextMate",
-		"code": "dead",
-		"tags": [
-			1
-		]
-	},
-	{
-		"range": [
-			{
-				"line": 0,
 				"character": 3
 			},
 			{

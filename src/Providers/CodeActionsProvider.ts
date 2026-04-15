@@ -549,6 +549,7 @@ function sortJSON(edit: vscode.WorkspaceEdit, jsonTree: webTreeSitter.Tree, uri:
 		(repo) @repo
 		(pattern) @pattern
 		(capture) @capture
+		(injection) @injection
 	`;
 	const sortCaptures = queryNode(rootNode, sortQuery);
 	sortCaptures.reverse(); // inner/bottom up
@@ -608,6 +609,10 @@ function sortJSON(edit: vscode.WorkspaceEdit, jsonTree: webTreeSitter.Tree, uri:
 			// const range = toRange(sibling);
 			// edit.replace(uri, range, text); // Error: Overlapping ranges are not allowed!
 		}
+	}
+
+	if (newRootText == rootNode.text) {
+		return;
 	}
 
 	const range = toRange(rootNode);

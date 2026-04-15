@@ -954,11 +954,11 @@ function diagnosticsDeadTextMateCode(diagnostics: Diagnostic[], document: vscode
 		(injection [(begin) (while) (end) (beginCaptures) (whileCaptures) (endCaptures) (contentName) (applyEndPatternLast)] @begin &match)
 		(injection [(captures) @captures (name) @name (name_scopeName) @name] !match !begin)
 		(injection [(while) @while (end) @end (beginCaptures) @beginCaptures (whileCaptures) @whileCaptures (endCaptures) @endCaptures (contentName) @contentName (applyEndPatternLast) @applyEndPatternLast] !begin)
-		(injection (whileCaptures) @whileCaptures !while)
-		(injection [(endCaptures) @endCaptures (applyEndPatternLast) @applyEndPatternLast] !end)
+		(injection (whileCaptures) @whileCaptures &begin !while)
+		(injection [(endCaptures) @endCaptures (applyEndPatternLast) @applyEndPatternLast] &begin !end)
 		(injection [(begin) (while) (end) (captures) (beginCaptures) (whileCaptures) (endCaptures) (name) (name_scopeName) (contentName) (applyEndPatternLast)] @whileInjection &begin &while !match)
 		(injection (patterns . (key) . ) @patternsEmpty !match !include)
-		(injection (key) @repoEmpty !match !begin !include !patterns)
+		(injection (key) @injectionEmpty !match !begin !include !patterns)
 
 		(pattern (repository) @repositoryPatterns !patterns)
 		(pattern (repository) @repositoryPatterns &match)
@@ -974,8 +974,8 @@ function diagnosticsDeadTextMateCode(diagnostics: Diagnostic[], document: vscode
 		(pattern (captures) @captures !match !while &begin &end &beginCaptures &endCaptures)
 		(pattern (endCaptures) @beginPatterns &while !match !include)
 		(pattern [(while) @while (end) @end (beginCaptures) @beginCaptures (whileCaptures) @whileCaptures (endCaptures) @endCaptures (contentName) @contentName (applyEndPatternLast) @applyEndPatternLast] !begin)
-		(pattern (whileCaptures) @whileCaptures !while)
-		(pattern [(endCaptures) @endCaptures (applyEndPatternLast) @applyEndPatternLast] !end)
+		(pattern (whileCaptures) @whileCaptures &begin !while)
+		(pattern [(endCaptures) @endCaptures (applyEndPatternLast) @applyEndPatternLast] &begin !end)
 		(pattern (patterns . (key) .) @patternsEmpty !match !include)
 		(pattern !match !begin !include !patterns) @patternEmpty
 
@@ -999,6 +999,7 @@ function diagnosticsDeadTextMateCode(diagnostics: Diagnostic[], document: vscode
 			patternEmpty: `Empty "pattern".`,
 			include: `"include" requires "match", "begin" and "patterns" to be absent.`,
 			includeCapture: `"include" requires "patterns" to be present and "patterns" to be absent. Rendering it useless.`,
+			injectionEmpty: `Empty "injection".`,
 			match: `"match" requires "include" to be absent.`,
 			begin: `"begin" requires "match" to be absent.`,
 			beginPatterns: `"begin" requires "match" and "include" to be absent.`,

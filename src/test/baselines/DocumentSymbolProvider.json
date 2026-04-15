@@ -341,17 +341,36 @@
 										"children": []
 									},
 									{
-										"name": "scope",
-										"detail": "R:source.scopeName.another",
+										"name": "selector",
+										"detail": "R:",
 										"range": {
 											"startLineNumber": 0,
 											"startColumn": 40,
+											"endLineNumber": 0,
+											"endColumn": 42
+										},
+										"selectionRange": {
+											"startLineNumber": 0,
+											"startColumn": 40,
+											"endLineNumber": 0,
+											"endColumn": 42
+										},
+										"kind": 5,
+										"tags": [],
+										"children": []
+									},
+									{
+										"name": "scope",
+										"detail": "source.scopeName.another",
+										"range": {
+											"startLineNumber": 0,
+											"startColumn": 42,
 											"endLineNumber": 0,
 											"endColumn": 66
 										},
 										"selectionRange": {
 											"startLineNumber": 0,
-											"startColumn": 40,
+											"startColumn": 42,
 											"endLineNumber": 0,
 											"endColumn": 66
 										},
