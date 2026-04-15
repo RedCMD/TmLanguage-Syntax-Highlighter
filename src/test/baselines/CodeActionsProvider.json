@@ -34,10 +34,486 @@
 		"isAI": false
 	},
 	{
+		"title": "Add missing scope postfix '.diagnostics'",
+		"diagnostics": [
+			{
+				"startLineNumber": 51,
+				"startColumn": 13,
+				"endLineNumber": 0,
+				"endColumn": 29,
+				"message": "ScopeName 'string.scope.one' missing postfix '.diagnostics'",
+				"source": "TextMate",
+				"code": "scopePostfix",
+				"severity": 4
+			}
+		],
+		"edit": {
+			"edits": [
+				{
+					"textEdit": {
+						"text": ".diagnostics",
+						"range": {
+							"startLineNumber": 0,
+							"startColumn": 13,
+							"endLineNumber": 0,
+							"endColumn": 29
+						}
+					},
+					"filename": "fixtures/DiagnosticCollection.tmLanguage.json"
+				}
+			]
+		},
+		"kind": "quickfix.scopePostfix",
+		"isPreferred": true,
+		"isAI": false
+	},
+	{
+		"title": "Add missing scope postfix '.diagnostics'",
+		"diagnostics": [
+			{
+				"startLineNumber": 0,
+				"startColumn": 30,
+				"endLineNumber": 0,
+				"endColumn": 47,
+				"message": "ScopeName 'comment.scope.two' missing postfix '.diagnostics'",
+				"source": "TextMate",
+				"code": "scopePostfix",
+				"severity": 4
+			}
+		],
+		"edit": {
+			"edits": [
+				{
+					"textEdit": {
+						"text": ".diagnostics",
+						"range": {
+							"startLineNumber": 0,
+							"startColumn": 30,
+							"endLineNumber": 0,
+							"endColumn": 47
+						}
+					},
+					"filename": "fixtures/DiagnosticCollection.tmLanguage.json"
+				}
+			]
+		},
+		"kind": "quickfix.scopePostfix",
+		"isPreferred": true,
+		"isAI": false
+	},
+	{
+		"title": "Add missing scope postfix '.diagnostics'",
+		"diagnostics": [
+			{
+				"startLineNumber": 8,
+				"startColumn": 20,
+				"endLineNumber": 0,
+				"endColumn": 78,
+				"message": "ScopeName 'TextMate 2.0 only. maybe GitHub. scopeName removes warning' missing postfix '.diagnostics'",
+				"source": "TextMate",
+				"code": "scopePostfix",
+				"severity": 4
+			}
+		],
+		"edit": {
+			"edits": [
+				{
+					"textEdit": {
+						"text": ".diagnostics",
+						"range": {
+							"startLineNumber": 0,
+							"startColumn": 20,
+							"endLineNumber": 0,
+							"endColumn": 78
+						}
+					},
+					"filename": "fixtures/DiagnosticCollection.tmLanguage.json"
+				}
+			]
+		},
+		"kind": "quickfix.scopePostfix",
+		"isPreferred": true,
+		"isAI": false
+	},
+	{
+		"title": "Add missing scope postfix '.diagnostics'",
+		"diagnostics": [
+			{
+				"startLineNumber": 1,
+				"startColumn": 15,
+				"endLineNumber": 0,
+				"endColumn": 31,
+				"message": "ScopeName 'string.scope.one' missing postfix '.diagnostics'",
+				"source": "TextMate",
+				"code": "scopePostfix",
+				"severity": 4
+			}
+		],
+		"edit": {
+			"edits": [
+				{
+					"textEdit": {
+						"text": ".diagnostics",
+						"range": {
+							"startLineNumber": 0,
+							"startColumn": 15,
+							"endLineNumber": 0,
+							"endColumn": 31
+						}
+					},
+					"filename": "fixtures/DiagnosticCollection.tmLanguage.json"
+				}
+			]
+		},
+		"kind": "quickfix.scopePostfix",
+		"isPreferred": true,
+		"isAI": false
+	},
+	{
+		"title": "Add missing scope postfix '.diagnostics'",
+		"diagnostics": [
+			{
+				"startLineNumber": 0,
+				"startColumn": 32,
+				"endLineNumber": 0,
+				"endColumn": 49,
+				"message": "ScopeName 'comment.scope.two' missing postfix '.diagnostics'",
+				"source": "TextMate",
+				"code": "scopePostfix",
+				"severity": 4
+			}
+		],
+		"edit": {
+			"edits": [
+				{
+					"textEdit": {
+						"text": ".diagnostics",
+						"range": {
+							"startLineNumber": 0,
+							"startColumn": 32,
+							"endLineNumber": 0,
+							"endColumn": 49
+						}
+					},
+					"filename": "fixtures/DiagnosticCollection.tmLanguage.json"
+				}
+			]
+		},
+		"kind": "quickfix.scopePostfix",
+		"isPreferred": true,
+		"isAI": false
+	},
+	{
+		"title": "Change spelling to 'diagnostics'",
+		"diagnostics": [
+			{
+				"startLineNumber": 30,
+				"startColumn": 38,
+				"endLineNumber": 0,
+				"endColumn": 49,
+				"message": "Unknown postfix 'agnostfgics'. Did you mean 'diagnostics'?",
+				"source": "TextMate",
+				"code": "scopePostfix",
+				"severity": 4
+			}
+		],
+		"edit": {
+			"edits": [
+				{
+					"textEdit": {
+						"text": "diagnostics",
+						"range": {
+							"startLineNumber": 0,
+							"startColumn": 38,
+							"endLineNumber": 0,
+							"endColumn": 49
+						}
+					},
+					"filename": "fixtures/DiagnosticCollection.tmLanguage.json"
+				}
+			]
+		},
+		"kind": "quickfix.scopePostfix",
+		"isPreferred": true,
+		"isAI": false
+	},
+	{
+		"title": "Change spelling to 'diagnostics'",
+		"diagnostics": [
+			{
+				"startLineNumber": 1,
+				"startColumn": 38,
+				"endLineNumber": 0,
+				"endColumn": 43,
+				"message": "Unknown postfix 'diagn'. Did you mean 'diagnostics'?",
+				"source": "TextMate",
+				"code": "scopePostfix",
+				"severity": 4
+			}
+		],
+		"edit": {
+			"edits": [
+				{
+					"textEdit": {
+						"text": "diagnostics",
+						"range": {
+							"startLineNumber": 0,
+							"startColumn": 38,
+							"endLineNumber": 0,
+							"endColumn": 43
+						}
+					},
+					"filename": "fixtures/DiagnosticCollection.tmLanguage.json"
+				}
+			]
+		},
+		"kind": "quickfix.scopePostfix",
+		"isPreferred": true,
+		"isAI": false
+	},
+	{
+		"title": "Change spelling to 'comment.line.number-sign.diagnostics'",
+		"diagnostics": [
+			{
+				"startLineNumber": 1,
+				"startColumn": 13,
+				"endLineNumber": 0,
+				"endColumn": 50,
+				"message": "Unknown scopeName 'comment.liane.number-sign.diagnostics'. Did you mean 'comment.line.number-sign.diagnostics'?",
+				"source": "TextMate",
+				"code": "scope",
+				"severity": 4
+			}
+		],
+		"edit": {
+			"edits": [
+				{
+					"textEdit": {
+						"text": "comment.line.number-sign.diagnostics",
+						"range": {
+							"startLineNumber": 0,
+							"startColumn": 13,
+							"endLineNumber": 0,
+							"endColumn": 50
+						}
+					},
+					"filename": "fixtures/DiagnosticCollection.tmLanguage.json"
+				}
+			]
+		},
+		"kind": "quickfix.scopePostfix",
+		"isPreferred": true,
+		"isAI": false
+	},
+	{
+		"title": "Add missing scope postfix '.diagnostics'",
+		"diagnostics": [
+			{
+				"startLineNumber": 5,
+				"startColumn": 13,
+				"endLineNumber": 0,
+				"endColumn": 23,
+				"message": "ScopeName 'string.end' missing postfix '.diagnostics'",
+				"source": "TextMate",
+				"code": "scopePostfix",
+				"severity": 4
+			}
+		],
+		"edit": {
+			"edits": [
+				{
+					"textEdit": {
+						"text": ".diagnostics",
+						"range": {
+							"startLineNumber": 0,
+							"startColumn": 13,
+							"endLineNumber": 0,
+							"endColumn": 23
+						}
+					},
+					"filename": "fixtures/DiagnosticCollection.tmLanguage.json"
+				}
+			]
+		},
+		"kind": "quickfix.scopePostfix",
+		"isPreferred": true,
+		"isAI": false
+	},
+	{
+		"title": "Add missing scope postfix '.diagnostics'",
+		"diagnostics": [
+			{
+				"startLineNumber": 1,
+				"startColumn": 13,
+				"endLineNumber": 0,
+				"endColumn": 23,
+				"message": "ScopeName 'string.two' missing postfix '.diagnostics'",
+				"source": "TextMate",
+				"code": "scopePostfix",
+				"severity": 4
+			}
+		],
+		"edit": {
+			"edits": [
+				{
+					"textEdit": {
+						"text": ".diagnostics",
+						"range": {
+							"startLineNumber": 0,
+							"startColumn": 13,
+							"endLineNumber": 0,
+							"endColumn": 23
+						}
+					},
+					"filename": "fixtures/DiagnosticCollection.tmLanguage.json"
+				}
+			]
+		},
+		"kind": "quickfix.scopePostfix",
+		"isPreferred": true,
+		"isAI": false
+	},
+	{
+		"title": "Change spelling to 'regexp.json'",
+		"diagnostics": [
+			{
+				"startLineNumber": 5,
+				"startColumn": 39,
+				"endLineNumber": 0,
+				"endColumn": 47,
+				"message": "Unknown postfix 'regex.tm'. Did you mean 'regexp.json'?",
+				"source": "TextMate",
+				"code": "scopePostfix",
+				"severity": 4
+			}
+		],
+		"edit": {
+			"edits": [
+				{
+					"textEdit": {
+						"text": "regexp.json",
+						"range": {
+							"startLineNumber": 0,
+							"startColumn": 39,
+							"endLineNumber": 0,
+							"endColumn": 47
+						}
+					},
+					"filename": "fixtures/DiagnosticCollection.tmLanguage.json"
+				}
+			]
+		},
+		"kind": "quickfix.scopePostfix",
+		"isPreferred": true,
+		"isAI": false
+	},
+	{
+		"title": "Change spelling to 'glob.json'",
+		"diagnostics": [
+			{
+				"startLineNumber": 5,
+				"startColumn": 41,
+				"endLineNumber": 0,
+				"endColumn": 52,
+				"message": "Unknown postfix 'glob.string'. Did you mean 'glob.json'?",
+				"source": "TextMate",
+				"code": "scopePostfix",
+				"severity": 4
+			}
+		],
+		"edit": {
+			"edits": [
+				{
+					"textEdit": {
+						"text": "glob.json",
+						"range": {
+							"startLineNumber": 0,
+							"startColumn": 41,
+							"endLineNumber": 0,
+							"endColumn": 52
+						}
+					},
+					"filename": "fixtures/DiagnosticCollection.tmLanguage.json"
+				}
+			]
+		},
+		"kind": "quickfix.scopePostfix",
+		"isPreferred": true,
+		"isAI": false
+	},
+	{
+		"title": "Change spelling to 'json'",
+		"diagnostics": [
+			{
+				"startLineNumber": 1,
+				"startColumn": 39,
+				"endLineNumber": 0,
+				"endColumn": 41,
+				"message": "Unknown postfix 'js'. Did you mean 'json'?",
+				"source": "TextMate",
+				"code": "scopePostfix",
+				"severity": 4
+			}
+		],
+		"edit": {
+			"edits": [
+				{
+					"textEdit": {
+						"text": "json",
+						"range": {
+							"startLineNumber": 0,
+							"startColumn": 39,
+							"endLineNumber": 0,
+							"endColumn": 41
+						}
+					},
+					"filename": "fixtures/DiagnosticCollection.tmLanguage.json"
+				}
+			]
+		},
+		"kind": "quickfix.scopePostfix",
+		"isPreferred": true,
+		"isAI": false
+	},
+	{
+		"title": "Add missing scope postfix '.diagnostics'",
+		"diagnostics": [
+			{
+				"startLineNumber": 1,
+				"startColumn": 13,
+				"endLineNumber": 0,
+				"endColumn": 44,
+				"message": "ScopeName 'token.debug-token.trailing.dot.' missing postfix '.diagnostics'",
+				"source": "TextMate",
+				"code": "scopePostfix",
+				"severity": 4
+			}
+		],
+		"edit": {
+			"edits": [
+				{
+					"textEdit": {
+						"text": ".diagnostics",
+						"range": {
+							"startLineNumber": 0,
+							"startColumn": 13,
+							"endLineNumber": 0,
+							"endColumn": 44
+						}
+					},
+					"filename": "fixtures/DiagnosticCollection.tmLanguage.json"
+				}
+			]
+		},
+		"kind": "quickfix.scopePostfix",
+		"isPreferred": true,
+		"isAI": false
+	},
+	{
 		"title": "Change spelling to 'source.diagnostic'",
 		"diagnostics": [
 			{
-				"startLineNumber": -33,
+				"startLineNumber": -143,
 				"startColumn": 16,
 				"endLineNumber": 0,
 				"endColumn": 34,
@@ -304,7 +780,7 @@
 		"title": "Ignore no reference warnings",
 		"diagnostics": [
 			{
-				"startLineNumber": 62,
+				"startLineNumber": 91,
 				"startColumn": 4,
 				"endLineNumber": 0,
 				"endColumn": 13,
@@ -321,7 +797,7 @@
 		"title": "Extract single rule from \"patterns\"",
 		"diagnostics": [
 			{
-				"startLineNumber": -29,
+				"startLineNumber": -58,
 				"startColumn": 5,
 				"endLineNumber": 0,
 				"endColumn": 13,
@@ -336,87 +812,97 @@
 	},
 	{
 		"title": "Optimize Regex",
-		"kind": "refactor.rewrite.minify",
+		"kind": "refactor.rewrite.minifyRegex",
 		"isAI": false
 	},
 	{
 		"title": "Optimize Regex",
-		"kind": "refactor.rewrite.minify",
+		"kind": "refactor.rewrite.minifyRegex",
 		"isAI": false
 	},
 	{
 		"title": "Optimize Regex",
-		"kind": "refactor.rewrite.minify",
+		"kind": "refactor.rewrite.minifyRegex",
 		"isAI": false
 	},
 	{
 		"title": "Optimize Regex",
-		"kind": "refactor.rewrite.minify",
+		"kind": "refactor.rewrite.minifyRegex",
 		"isAI": false
 	},
 	{
 		"title": "Optimize Regex",
-		"kind": "refactor.rewrite.minify",
+		"kind": "refactor.rewrite.minifyRegex",
 		"isAI": false
 	},
 	{
 		"title": "Optimize Regex",
-		"kind": "refactor.rewrite.minify",
+		"kind": "refactor.rewrite.minifyRegex",
 		"isAI": false
 	},
 	{
 		"title": "Optimize Regex",
-		"kind": "refactor.rewrite.minify",
+		"kind": "refactor.rewrite.minifyRegex",
 		"isAI": false
 	},
 	{
 		"title": "Optimize Regex",
-		"kind": "refactor.rewrite.minify",
+		"kind": "refactor.rewrite.minifyRegex",
 		"isAI": false
 	},
 	{
 		"title": "Optimize Regex",
-		"kind": "refactor.rewrite.minify",
+		"kind": "refactor.rewrite.minifyRegex",
 		"isAI": false
 	},
 	{
 		"title": "Optimize Regex",
-		"kind": "refactor.rewrite.minify",
+		"kind": "refactor.rewrite.minifyRegex",
 		"isAI": false
 	},
 	{
 		"title": "Optimize Regex",
-		"kind": "refactor.rewrite.minify",
+		"kind": "refactor.rewrite.minifyRegex",
 		"isAI": false
 	},
 	{
 		"title": "Optimize Regex",
-		"kind": "refactor.rewrite.minify",
+		"kind": "refactor.rewrite.minifyRegex",
 		"isAI": false
 	},
 	{
 		"title": "Optimize Regex",
-		"kind": "refactor.rewrite.minify",
+		"kind": "refactor.rewrite.minifyRegex",
 		"isAI": false
 	},
 	{
 		"title": "Optimize Regex",
-		"kind": "refactor.rewrite.minify",
+		"kind": "refactor.rewrite.minifyRegex",
 		"isAI": false
 	},
 	{
 		"title": "Optimize Regex",
-		"kind": "refactor.rewrite.minify",
+		"kind": "refactor.rewrite.minifyRegex",
 		"isAI": false
 	},
 	{
 		"title": "Optimize Regex",
-		"kind": "refactor.rewrite.minify",
+		"kind": "refactor.rewrite.minifyRegex",
+		"isAI": false
+	},
+	{
+		"title": "Optimize Regex",
+		"kind": "refactor.rewrite.minifyRegex",
 		"isAI": false
 	},
 	{
 		"title": "Optimize all Regexes",
-		"kind": "refactor.rewrite.minify",
+		"kind": "refactor.rewrite.minifyRegex",
+		"isAI": false
+	},
+	{
+		"title": "Fix all Scopes",
+		"kind": "refactor.rewrite.scopeFix",
 		"isAI": false
 	},
 	{

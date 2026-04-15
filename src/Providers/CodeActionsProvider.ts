@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
 import * as webTreeSitter from 'web-tree-sitter';
 import * as optimizer from 'oniguruma-parser-cjs/optimizer';
-import { closeEnoughQuestionMark, JSONParseStringRelaxed, stringify, wagnerFischer } from "../extension";
-import { getTrees, queryNode, toPosition, toRange } from "../TreeSitter";
+import { JSONParseStringRelaxed, stringify, getSpellingSuggestion } from "../extension";
+import { getTrees, queryNode, toPoint, toPosition, toRange } from "../TreeSitter";
 import { debouncedDiagnostics, Diagnostic } from "../DiagnosticCollection";
 import { unicodeproperties, UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
 
@@ -11,8 +11,9 @@ export const metadata: vscode.CodeActionProviderMetadata = {
 	providedCodeActionKinds: [
 		vscode.CodeActionKind.QuickFix,
 		vscode.CodeActionKind.QuickFix.append('ignore'),
-		vscode.CodeActionKind.RefactorRewrite.append("minify"),
-		vscode.CodeActionKind.RefactorRewrite.append("sort"),
+		vscode.CodeActionKind.RefactorRewrite.append('minifyRegex'),
+		vscode.CodeActionKind.RefactorRewrite.append('sort'),
+		vscode.CodeActionKind.RefactorRewrite.append('scopeFix'),
 	],
 	documentation: undefined,
 };
@@ -85,14 +86,15 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 						continue;
 					}
 
-					const distances = wagnerFischer(property, unicodeproperties);
-					// vscode.window.showInformationMessage(JSON.stringify(distances));
-					const distance = distances[0].distance;
-					if (!closeEnoughQuestionMark(distance, property)) {
+					const suggestion = getSpellingSuggestion(property, unicodeproperties);
+					// const editDistances = levenshteinDistance(property, unicodeproperties);
+					// const editDistance = editDistances[0].distance;
+					if (!suggestion) {
 						continue;
 					}
 
-					const propertyName = UNICODE_PROPERTIES[distances[0].index];
+					// const propertyName = UNICODE_PROPERTIES[editDistances[0].index];
+					const propertyName = UNICODE_PROPERTIES[suggestion.index];
 					edit.replace(document.uri, diagnostic.range, propertyName);
 					codeActions.push({
 						title: `Change spelling to '${propertyName}'`,
@@ -144,10 +146,35 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 						}
 					);
 					break;
+				case 'scope':
+				case 'scopePostfix': {
+					const postfix = message.split("'")[3];
+					if (!postfix) {
+						continue;
+					}
+
+					edit.replace(document.uri, diagnostic.range, postfix);
+					codeActions.push({
+						title: `${postfix.startsWith('.') ? 'Add missing scope postfix' : 'Change spelling to'} '${postfix}'`,
+						kind: vscode.CodeActionKind.QuickFix.append('scopePostfix'),
+						diagnostics: [diagnostic],
+						document: document,
+						isPreferred: true,
+						edit: edit,
+					});
+					break;
+				}
 			}
 		}
 
-		let showAllCodeActions = context.triggerKind == vscode.CodeActionTriggerKind.Invoke;
+		const showCodeActions: Partial<{
+			minifyRegex: boolean;
+			scopePostfix: boolean;
+			jsonSort: boolean;
+			all: boolean;
+		}> = {
+			all: context.triggerKind == vscode.CodeActionTriggerKind.Invoke
+		};
 
 		const trees = getTrees(document);
 		const regexNodes = trees.regexNodes;
@@ -156,28 +183,47 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 			if (parentRange.intersection(range)) {
 				codeActions.push({
 					title: `Optimize Regex`,
-					kind: vscode.CodeActionKind.RefactorRewrite.append("minify"),
+					kind: vscode.CodeActionKind.RefactorRewrite.append('minifyRegex'),
 					document: document,
 					node: regexNode,
 				});
-				showAllCodeActions = true;
+				showCodeActions.minifyRegex = true;
 			}
 		}
 
-		if (showAllCodeActions) {
-			codeActions.push(
-				{
-					title: `Optimize all Regexes`,
-					kind: vscode.CodeActionKind.RefactorRewrite.append("minify"),
-					document: document,
-					node: undefined,
-				},
-				{
-					title: `Sort JSON Keys`,
-					kind: vscode.CodeActionKind.RefactorRewrite.append("sort"),
-					document: document,
-				},
-			);
+		const scopeQuery = `;scm
+			(scopeName) @scopeName
+			(scope) @scope
+		`;
+		const scopeCaptures = queryNode(trees.jsonTree.rootNode, scopeQuery, toPoint(range.start), toPoint(range.end));
+		if (scopeCaptures.length > 0) {
+			showCodeActions.scopePostfix = true;
+		}
+
+		if (showCodeActions.minifyRegex
+			|| showCodeActions.all) {
+			codeActions.push({
+				title: `Optimize all Regexes`,
+				kind: vscode.CodeActionKind.RefactorRewrite.append("minifyRegex"),
+				document: document,
+			});
+		}
+		if (showCodeActions.scopePostfix
+			|| showCodeActions.all) {
+			codeActions.push({
+				title: `Fix all Scopes`,
+				kind: vscode.CodeActionKind.RefactorRewrite.append("scopeFix"),
+				document: document,
+			});
+		}
+		if (showCodeActions.jsonSort
+			|| showCodeActions.all
+			|| codeActions.length > 0) {
+			codeActions.push({
+				title: `Sort JSON Keys`,
+				kind: vscode.CodeActionKind.RefactorRewrite.append("sort"),
+				document: document,
+			});
 		}
 
 		// vscode.window.showInformationMessage(`codeActions ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(codeActions)}`);
@@ -196,7 +242,7 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 		const kind = codeAction.kind?.value;
 
 		switch (kind) {
-			case 'refactor.rewrite.minify':
+			case 'refactor.rewrite.minifyRegex':
 				const regexTrees = trees.regexTrees;
 				if (node) {
 					const rootNode = regexTrees.get(node.id)!.rootNode;
@@ -211,6 +257,22 @@ export const CodeActionsProvider: vscode.CodeActionProvider = {
 			case 'refactor.rewrite.sort':
 				const jsonTree = trees.jsonTree;
 				sortJSON(edit, jsonTree, uri);
+				break;
+			case 'refactor.rewrite.scopeFix':
+				const diagnostics = vscode.languages.getDiagnostics(uri);
+				for (const diagnostic of diagnostics) {
+					switch (diagnostic.code) {
+						case 'scope':
+						case 'scopeName':
+						case 'scopePostfix':
+							const postfix = diagnostic.message.split("'")[3];
+							if (!postfix) {
+								continue;
+							}
+							edit.replace(uri, diagnostic.range, postfix);
+							break;
+					}
+				}
 				break;
 			case 'refactor.extract.singlePattern':
 			case 'quickfix.singlePattern':

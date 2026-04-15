@@ -1,10 +1,10 @@
 import * as vscode from 'vscode';
 import assert from 'assert';
 // import Mocha from 'mocha'; // TODO: Can't get it to work in both VSCode NodeJS and VSCode Web
-import { sleep, stringify, tryCatchAsync } from '../../extension';
-import { IRelaxedExtensionManifest } from '../../extensions';
-import { Diagnostic } from '../../DiagnosticCollection';
-import { triggerCharacters } from '../../Providers/CompletionItemProvider';
+import { getSpellingSuggestion, sleep, stringify, tryCatchAsync } from "../../extension";
+import { IRelaxedExtensionManifest } from "../../extensions";
+import { Diagnostic } from "../../DiagnosticCollection";
+import { triggerCharacters } from "../../Providers/CompletionItemProvider";
 
 const updateTests = process.env.updateTests === "true" ? true : false;
 const runTests = !updateTests;
@@ -184,6 +184,24 @@ suite('Extension Tests', async () => {
 			duration < 100 && duration > 0,
 			`sleep(${time}); took: ${duration.toFixed(3)}ms`
 		);
+	});
+
+	test('spellingSuggestions', () => {
+		assert.ok(getSpellingSuggestion('regex.tm', ['regexp.json']));
+		assert.ok(getSpellingSuggestion('glob.string', ['glob.json']));
+
+		assert.deepStrictEqual(
+			getSpellingSuggestion('ts,', ['js', 'ts', 'jsx', 'tsx']),
+			{
+				candidate: 'ts',
+				distance: 1,
+				index: 1,
+			},
+		);
+
+		assert.ok(!getSpellingSuggestion('end', ['cpp']));
+		assert.ok(!getSpellingSuggestion('name', ['html']));
+		// assert.ok(!getSpellingSuggestion('directive', ['injection']));
 	});
 
 	test('FileTypes', async () => {

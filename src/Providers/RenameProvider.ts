@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { getTrees, queryNode, toPoint, toRange } from "../TreeSitter";
+import { findCandidateScopePostfixes } from "./CompletionItemProvider";
 
 
 const cursorQuery = `;scm
@@ -13,20 +14,47 @@ const cursorQuery = `;scm
 export const RenameProvider: vscode.RenameProvider = {
 	prepareRename(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): vscode.ProviderResult<{ range: vscode.Range; placeholder: string; }> {
 		// vscode.window.showInformationMessage(JSON.stringify("Rename"));
-		const trees = getTrees(document);
-		const jsonTree = trees.jsonTree;
+		const rootNode = getTrees(document).jsonTree.rootNode;
 		const point = toPoint(position);
 
-		const cursorCapture = queryNode(jsonTree.rootNode, cursorQuery, point);
+		const cursorCapture = queryNode(rootNode, cursorQuery, point);
 		if (!cursorCapture) {
 			return Promise.reject('Item not renamable');
 		}
 
-		// const cursorName = cursorCapture.name;
+		const cursorName = cursorCapture.name;
 		const cursorNode = cursorCapture.node;
 		const cursorText = cursorNode.text;
 		const cursorRange = toRange(cursorNode);
 
+		switch (cursorName) {
+			case 'scope':
+				const scopePostfix = cursorText.split('.').pop()!;
+				if (cursorRange.end.translate(0, -scopePostfix.length).isBeforeOrEqual(position)) {
+					const candidateScopes = findCandidateScopePostfixes(rootNode, position);
+					// const candidates = candidateScopes.candidates.sort(
+					// 	(a, b) => {
+					// 		if (a.length < b.length) {
+					// 			return 1;
+					// 		}
+					// 		if (a.length > b.length) {
+					// 			return -1;
+					// 		}
+					// 		return 0;
+					// 	});
+					for (const candidate of candidateScopes.candidatePostfixes) {
+						if (cursorText.endsWith('.' + candidate)) {
+							return {
+								range: new vscode.Range(
+									cursorRange.end.translate(0, -candidate.length),
+									cursorRange.end,
+								),
+								placeholder: candidate,
+							};
+						}
+					}
+				}
+		}
 		// if (cursorName == 'root_scopeName') {
 		// 	const uriPackage = vscode.Uri.joinPath(document.uri, '../../package.json');
 		// 	vscode.workspace.openTextDocument(uriPackage);
@@ -38,11 +66,10 @@ export const RenameProvider: vscode.RenameProvider = {
 	},
 	/* async */ provideRenameEdits(document: vscode.TextDocument, position: vscode.Position, newName: string, token: vscode.CancellationToken): /* Promise< */vscode.WorkspaceEdit | undefined/* > */ {
 		// vscode.window.showInformationMessage(JSON.stringify("RenameEdit"));
-		const trees = getTrees(document);
-		const jsonTree = trees.jsonTree;
+		const rootNode = getTrees(document).jsonTree.rootNode;
 		const point = toPoint(position);
 
-		const cursorCapture = queryNode(jsonTree.rootNode, cursorQuery, point);
+		const cursorCapture = queryNode(rootNode, cursorQuery, point);
 		if (!cursorCapture) {
 			return;
 		}
@@ -52,12 +79,13 @@ export const RenameProvider: vscode.RenameProvider = {
 		const cursorText = cursorNode.text;
 		const cursorRange = toRange(cursorNode);
 
-		const rootScopeName = queryNode(jsonTree.rootNode, `(json (scopeName (value) @scopeName))`).pop()?.node?.text;
+		const rootScopeName = queryNode(rootNode, `(json (scopeName (value) @scopeName))`).pop()?.node?.text;
 
 		const edits: vscode.TextEdit[] = [];
 		const workspaceEdits = new vscode.WorkspaceEdit();
 
 		const uri = document.uri;
+		let scopePostfixCandidate: string;
 
 		let query = ``;
 		switch (cursorName) {
@@ -104,21 +132,50 @@ export const RenameProvider: vscode.RenameProvider = {
 				edits.push(edit);
 				break;
 			case 'scope':
-				query += `;scm
-					((scope) @scope (#eq? @scope "${cursorText}"))
-				`;
+				const scopePostfix = cursorText.split('.').pop()!;
+				if (cursorRange.end.translate(0, -scopePostfix.length).isBeforeOrEqual(position)) {
+					const candidateScopes = findCandidateScopePostfixes(rootNode, position);
+					for (const candidate of candidateScopes.candidatePostfixes) {
+						if (cursorText.endsWith('.' + candidate)) {
+							scopePostfixCandidate = candidate;
+							query = `;scm
+								((scope) @scopePostfix (#match? @scopePostfix "\\\\.${candidate.replaceAll(/[\\|([{}\]).?*+^$]/g, '\\\\$&')}$"))
+							`;
+							break;
+						}
+					}
+				}
+				else {
+					query += `;scm
+						((scope) @scope (#eq? @scope "${cursorText}"))
+					`;
+				}
 				break;
 			default:
 				return;
 		}
 
-		const queryCaptures = queryNode(jsonTree.rootNode, query);
+		const queryCaptures = queryNode(rootNode, query);
 		for (const queryCapture of queryCaptures) {
 			if (queryCapture.name == 'include') {
 				continue;
 			}
-			const node = queryCapture.node;
-			const range = toRange(node);
+
+			const range = toRange(queryCapture);
+
+			if (queryCapture.name == 'scopePostfix') {
+				edits.push(
+					new vscode.TextEdit(
+						new vscode.Range(
+							range.end.translate(0, -scopePostfixCandidate!.length),
+							range.end,
+						),
+						newName,
+					)
+				);
+				continue;
+			}
+
 			const edit = new vscode.TextEdit(range, newName);
 			edits.push(edit);
 		}

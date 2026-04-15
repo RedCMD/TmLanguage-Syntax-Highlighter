@@ -18,7 +18,7 @@
 			"match": "(\\\\k\\<)([a-z]\\w*)(\\>)",
 			"captures": {
 				"1": { "name": "keyword.other.back-reference.named.regexp" },
-				"2": { "name": "entity.name.section.back-reference" },
+				"2": { "name": "entity.name.section.back-reference.regexp" },
 				"3": { "name": "keyword.other.back-reference.named.regexp" }
 			},
 			"name": "keyword.other.back-reference.named.regexp"

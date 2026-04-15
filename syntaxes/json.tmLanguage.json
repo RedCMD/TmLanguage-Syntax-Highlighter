@@ -1462,7 +1462,7 @@
 				},
 				{
 					"match": "\\\\.?|[\"\\x00-\\x1F\\x7F]",
-					"name": "invalid.illegal.json.tm markup.underline regex"
+					"name": "invalid.illegal.json.tm markup.underline.tm regex"
 				}
 			]
 		},

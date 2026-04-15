@@ -225,7 +225,7 @@
 #                                                              ^ source.json.textmate
 #                                                               ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
 #                                                                ^ source.json.textmate punctuation.separator.dictionary.json.tm
->				"2": { "name": "entity.name.section.back-reference" },
+>				"2": { "name": "entity.name.section.back-reference.regexp" },
 #^^^^ source.json.textmate
 #    ^ source.json.textmate
 #     ^ source.json.textmate constant.numeric.json.tm
@@ -239,12 +239,12 @@
 #                ^ source.json.textmate punctuation.definition.string.end.json.tm
 #                 ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #                  ^ source.json.textmate
-#                   ^ source.json.textmate entity.name.section.back-reference punctuation.definition.string.begin.json.tm
-#                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate entity.name.section.back-reference
-#                                                      ^ source.json.textmate entity.name.section.back-reference punctuation.definition.string.end.json.tm
-#                                                       ^ source.json.textmate
-#                                                        ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
-#                                                         ^ source.json.textmate punctuation.separator.dictionary.json.tm
+#                   ^ source.json.textmate entity.name.section.back-reference.regexp punctuation.definition.string.begin.json.tm
+#                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate entity.name.section.back-reference.regexp
+#                                                             ^ source.json.textmate entity.name.section.back-reference.regexp punctuation.definition.string.end.json.tm
+#                                                              ^ source.json.textmate
+#                                                               ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
+#                                                                ^ source.json.textmate punctuation.separator.dictionary.json.tm
 >				"3": { "name": "keyword.other.back-reference.named.regexp" }
 #^^^^ source.json.textmate
 #    ^ source.json.textmate
@@ -536,7 +536,7 @@
 #                                    ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class character-class-range.tm constant.numeric.tm strong
 #                                     ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class character-class-range.tm constant.numeric.tm
 #                                      ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class literal.tm regex
-#                                         ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class punctuation.definition.list.begin.markdown
+#                                         ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class punctuation.definition.list.begin.markdown.tm
 #                                            ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class literal.tm regex
 #                                             ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class character-class-range.tm support.class.tm regex
 #                                              ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class character-class character-class-range.tm support.class.tm strong

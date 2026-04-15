@@ -18971,18 +18971,18 @@
 #                                         ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.class.tm
 #                                          ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
 #                                           ^ source.json.textmate punctuation.separator.dictionary.json.tm
->					"name": "invalid.illegal.json.tm markup.underline regex"
+>					"name": "invalid.illegal.json.tm markup.underline.tm regex"
 #^^^^^ source.json.textmate
 #     ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #      ^^^^ source.json.textmate keyword.property-name.string.name.json.tm
 #          ^ source.json.textmate punctuation.definition.string.end.json.tm
 #           ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #            ^ source.json.textmate
-#             ^ source.json.textmate invalid.illegal.json.tm markup.underline regex punctuation.definition.string.begin.json.tm
+#             ^ source.json.textmate invalid.illegal.json.tm markup.underline.tm regex punctuation.definition.string.begin.json.tm
 #              ^^^^^^^^^^^^^^^^^^^^ source.json.textmate invalid.illegal.json
-#                                  ^^^^^^^^^^^^^^^^^^^^^ source.json.textmate invalid.illegal.json.tm markup.underline regex
-#                                                       ^^^^^ source.json.textmate invalid.illegal.json.tm markup.underline regex emphasis.tm
-#                                                            ^ source.json.textmate invalid.illegal.json.tm markup.underline regex punctuation.definition.string.end.json.tm
+#                                  ^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate invalid.illegal.json.tm markup.underline.tm regex
+#                                                          ^^^^^ source.json.textmate invalid.illegal.json.tm markup.underline.tm regex emphasis.tm
+#                                                               ^ source.json.textmate invalid.illegal.json.tm markup.underline.tm regex punctuation.definition.string.end.json.tm
 >				}
 #^^^^ source.json.textmate
 #    ^ source.json.textmate punctuation.definition.dictionary.end.json.tm

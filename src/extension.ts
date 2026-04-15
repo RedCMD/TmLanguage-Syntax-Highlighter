@@ -127,80 +127,99 @@ export function JSONParseStringRelaxed(string: string) {
 	);
 }
 
-export function closeEnoughQuestionMark(distance: number, text: string): boolean {
-	if (typeof distance != 'number') {
-		return false;
+
+export type spellingSuggestion = {
+	candidate: string;
+	distance: number;
+	index: number;
+};
+// https://github.com/microsoft/TypeScript/blob/55423abe4d029017f19b6e4c32097591994836b4/src/compiler/core.ts#L2155-L2244
+export function getSpellingSuggestion(word: string, candidates: readonly string[], max?: number): spellingSuggestion | undefined {
+	let bestDistance = word.length * 0.5 + 1.15; // If the best result is worse than this, don't bother.
+	if (max) {
+		bestDistance = Math.min(bestDistance, max);
 	}
-	return distance < 1.5 * Math.sqrt(text.length); // more lenient for longer words
+
+	let bestCandidate: string | undefined;
+	let candidateIndex!: number;
+	let index = -1;
+
+	for (const candidate of candidates) {
+		index++;
+		if (candidate && Math.abs(candidate.length - word.length) <= Math.max(2, word.length * 0.34, candidate.length * 0.28)) {
+			if (candidate === word) {
+				continue;
+			}
+			// Only consider candidates less than 3 characters long when they differ by case.
+			// Otherwise, don't bother, since a user would usually notice differences of a 2-character name.
+			if (word.length < 3 && candidate.length < 3 && candidate.toLowerCase() !== word.toLowerCase()) {
+				continue;
+			}
+
+			const distance = levenshteinDistanceWithMax(word, candidate, bestDistance);
+			if (distance === undefined || bestCandidate && distance >= bestDistance) {
+				continue;
+			}
+
+			bestCandidate = candidate;
+			bestDistance = distance;
+			candidateIndex = index;
+		}
+	}
+
+	return bestCandidate ?
+		{
+			candidate: bestCandidate,
+			distance: bestDistance,
+			index: candidateIndex,
+		}
+		: undefined;
 }
 
-type wagnerFischerResult = {
-	distance: number,
-	index: number,
-	string: string | string[],
-};
+// https://github.dev/kodmax/damerau-levenshtein-distance
+// https://richardminerich.com/2012/09/levenshtein-distance-and-the-triangle-inequality/
+// https://www.lemoda.net/text-fuzzy/damerau-levenshtein/
+// const lastCharIndex = Array(256); // All ASCII chars TODO: transposition
 /** Wagner–Fischer algorithm is a dynamic programming algorithm that computes the edit distance between two strings of characters */
-export function wagnerFischer(word: string, directory: string[]): { distance: number, index: number, string: string; }[];
-/** Interestingly this also works with arrays of strings */
-export function wagnerFischer(words: string[], directories: string[][]): { distance: number, index: number, string: string[]; }[];
-export function wagnerFischer(word: string | string[], directory: string[] | string[][]): wagnerFischerResult[] {
-	const distances: wagnerFischerResult[] = [];
-	let index = 0;
+function levenshteinDistanceWithMax(word: string, targetWord: string, max?: number): number | undefined {
+	// Re-use array's
+	let next: number[] = Array(targetWord.length + 1);
+	let prev: number[] = Array.from(next.keys());
 
-	for (const targetWord of directory) {
-		let prev = Array.from(Array(targetWord.length + 1).keys());
-		// let prev = Array(targetWord.length + 1).fill(0);
-
-		let i = 1;
-		for (const char of word) {
-			let next: number[] = Array(targetWord.length + 1);
-			let j = 1;
-			next[0] = i;
-			for (const targetChar of targetWord) {
-				if (char == targetChar) {
-					next[j] = prev[j - 1];
-				}
-				else {
-					next[j] = 1 + Math.min(
-						prev[j],
-						prev[j - 1],
-						next[j - 1],
+	prev[0] = word[0] == targetWord[0] ? 0 : 1;
+	let i = 1;
+	for (const char of word) {
+		let rowMin = i;
+		let j = 1;
+		next[0] = i;
+		for (const targetChar of targetWord) {
+			const distance =
+				char == targetChar // match
+					? prev[j - 1]
+					: Math.min(
+						prev[j] + 1, // delete
+						next[j - 1] + 1, // insert
+						prev[j - 1] + // substitute
+						(char.toLowerCase() == targetChar.toLowerCase()
+							? 0.1 // case difference should be significantly cheaper than other differences
+							: 1.05),
+						// TODO: transposition (damerau)
 					);
-				}
-				j++;
-			}
-			i++;
-			prev = next;
+			next[j] = distance;
+			j++;
+			rowMin = Math.min(rowMin, distance);
 		}
 
-		const distance = {
-			distance: prev[targetWord.length],
-			index: index,
-			string: targetWord,
-			prev: prev,
-		};
-		distances.push(distance);
+		if (max && rowMin > max) {
+			return;
+		}
 
-		index++;
+		i++;
+		[prev, next] = [next, prev];
 	}
 
-	distances.sort((a, b) => {
-		if (a.distance > b.distance) {
-			return 1;
-		}
-		if (a.distance < b.distance) {
-			return -1;
-		}
-		if (a.string.length < b.string.length) {
-			return 1;
-		}
-		if (a.string.length > b.string.length) {
-			return -1;
-		}
-		return 0;
-	});
-
-	return distances;
+	const distance = prev[targetWord.length];
+	return max && distance > max ? undefined : distance;
 }
 
 

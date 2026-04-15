@@ -115,6 +115,35 @@
 				"https://github.com/kkos/oniguruma/blob/08d36110c5670c815ad6d6f969e578049d209080/src/regerror.c#L304-L338",
 				"https://github.com/kkos/oniguruma/blob/08d36110c5670c815ad6d6f969e578049d209080/src/regerror.c#L38"
 			]
+		},
+		{
+			"comment": " diagnosticsScopePostfix ",
+			"match": "(?x)\nUnknown postfix. Did you mean 'diagnostics'?\nUnknown postfix. Did you mean 'diagnostics'?\nUnknown scopeName. Did you mean 'comment.line.number-sign.diagnostics'?\nMissing scope postfix '.diagnostics'\nUnknown postfix. Did you mean 'regexp.json'?\nUnknown postfix. Did you mean 'glob.json'?\nUnknown postfix. Did you mean 'json'?\n",
+			"name": "comment.line.number-sign.diagnostics",
+			"name": "comment.line.number-sign.diagnostics",
+			"name": "comment.line.number-sign.diagnostics",
+			"name": "comment.line.number-sign.diagnostics",
+			"name": "comment.line.number-sign.agnostfgics",
+			"name": "comment.line.number-sign.diagn",
+			"name": "comment.liane.number-sign.diagnostics",
+			"name": "string.cpp",
+			"name": "string.cpp",
+			"name": "string.cpp",
+			"name": "string.cpp",
+			"name": "string.end",
+			"name": "string.two",
+			"name": "keyword.control.anchor.regexp.json",
+			"name": "constant.numeric.regexp.json",
+			"name": "constant.character.class.regexp.json",
+			"name": "string.regexp.json",
+			"name": "constant.character.escape.regex.tm",
+			"name": "invalid.illegal.character-class.end.glob.json",
+			"name": "string.regexp.glob.json",
+			"name": "variable.other.constant.character-class.range.glob.json",
+			"name": "support.class.range.string.glob.json",
+			"name": "punctuation.separator.comma.glob.string",
+			"name": "comment.line.double-slash.js",
+			"name": "token.debug-token.trailing.dot."
 		}
 	],
 	"repository": {

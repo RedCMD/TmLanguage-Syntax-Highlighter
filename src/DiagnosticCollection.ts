@@ -4,9 +4,10 @@ import * as vscodeOniguruma from 'vscode-oniguruma';
 import * as textmateOnigmo from 'vscode-onigmo';
 import * as PCRE from '@syntropiq/libpcre-ts';
 import * as onigurumaToES from 'oniguruma-to-es';
-import { closeEnoughQuestionMark, DocumentSelector, getPackageJSON, JSONParseStringRelaxed, stringify, tryCatchAsync, wagnerFischer } from "./extension";
+import { DocumentSelector, getPackageJSON, JSONParseStringRelaxed, stringify, tryCatchAsync, getSpellingSuggestion, spellingSuggestion } from "./extension";
 import { getLastNode, getTrees, queryNode, toRange, trees } from "./TreeSitter";
 import { ignoreDiagnosticsUnusedRepos } from "./Providers/CodeActionsProvider";
+import { findCandidateScopePostfixes, mergeCandidatesScopePostfix } from "./Providers/CompletionItemProvider";
 import { unicodeproperties } from "./UNICODE_PROPERTIES";
 
 
@@ -228,6 +229,7 @@ async function Diagnostics(document: vscode.TextDocument) {
 		tryCatchAsync(() => diagnosticsRegularExpressionErrors(diagnostics, document), "Diagnostics error:", "OnigurumaRegexErrors"),
 		tryCatchAsync(() => diagnosticsBrokenIncludes(diagnostics, document), "Diagnostics error:", "BrokenIncludes"),
 		tryCatchAsync(() => diagnosticsLinguistCaptures(diagnostics, document), "Diagnostics error:", "LinguistCaptures"),
+		tryCatchAsync(() => diagnosticsScopePostfix(diagnostics, document), "Diagnostics error:", "ScopePostfix"),
 		tryCatchAsync(() => diagnosticsUnusedRepos(diagnostics, document), "Diagnostics error:", "UnusedRepos"),
 		tryCatchAsync(() => diagnosticsDeadTextMateCode(diagnostics, document), "Diagnostics error:", "DeadTextMateCode"),
 		tryCatchAsync(() => diagnosticsHints(diagnostics, document), "Diagnostics error:", "Hints"),
@@ -783,12 +785,11 @@ function diagnosticsBrokenIncludes(diagnostics: Diagnostic[], document: vscode.T
 		for (const repoCapture of repoCaptures) {
 			repoItems.push(repoCapture.node.text);
 		}
-		const distances = wagnerFischer(text, repoItems);
-		const distance = distances[0]?.distance;
+		const suggestion = getSpellingSuggestion(text, repoItems);
 
 		let message = `Cannot find repo name '${text}'`;
-		if (closeEnoughQuestionMark(distance, text)) {
-			message += `. Did you mean '${distances[0].string}'?`;
+		if (suggestion) {
+			message += `. Did you mean '${suggestion.candidate}'?`;
 		}
 		else {
 			if (nestedRepoCaptures.length == 0) {
@@ -1221,6 +1222,140 @@ function diagnosticsHints(diagnostics: Diagnostic[], document: vscode.TextDocume
 	}
 
 	// vscode.window.showInformationMessage(`Hints ${(performance.now() - start).toFixed(3)}ms`);
+}
+
+let prevSelection: vscode.Selection | undefined;
+function diagnosticsScopePostfix(diagnostics: Diagnostic[], document: vscode.TextDocument) {
+	// const start = performance.now();
+	const rootNode = getTrees(document).jsonTree.rootNode;
+
+	const activeTextEditor = vscode.window.activeTextEditor;
+	const selection = activeTextEditor?.document.uri.toString() == document.uri.toString()
+		? activeTextEditor.selection
+		: undefined;
+
+	const candidatePostfixes = findCandidateScopePostfixes(rootNode);
+	if (candidatePostfixes.scopeCaptures.length < 10
+		|| Object.keys(candidatePostfixes.scopes).length < 5) {
+		// Grammar too small to accurately diagnose
+		return;
+	}
+
+	const commonScopes = Object.entries(candidatePostfixes.scopes)
+		.filter(scope => !scope[0].match(/\${?\d|^(meta\.embedded|source|text)\./) && scope[1] > 3)
+		.map(scope => scope[0]);
+
+	nextScope:
+	for (const scopeCapture of candidatePostfixes.scopeCaptures) {
+		// Don't want to be annoying
+		const scope = scopeCapture.node.text;
+		if (scope.indexOf('.') < 1) {
+			continue;
+		}
+
+		if (scopeCapture.name == 'injectionScope'
+			|| scopeCapture.name == 'includeScope'
+		) {
+			// Ignore injectionSelector scopes
+			continue;
+		}
+
+		const parentRange = toRange(scopeCapture.node.parent!);
+		const diagnosticSeverity =
+			prevSelection && selection
+				// && document.version != prevVersion
+				// && !selection.isEqual(prevSelection)
+				&& parentRange.contains(selection)
+				&& new vscode.Range(parentRange.start, parentRange.end.translate(0, 1)).contains(prevSelection)
+				? vscode.DiagnosticSeverity.Hint
+				: vscode.DiagnosticSeverity.Warning;
+		const range = toRange(scopeCapture);
+
+		for (const candidatePostfix of candidatePostfixes.candidatePostfixes) {
+			if (scope.endsWith(candidatePostfix)) {
+				if (candidatePostfixes.scopes[scope] == 1
+					&& scope.length - candidatePostfix.length > 3) {
+					const spellingSuggestion = getSpellingSuggestion(scope, commonScopes, 2);
+					if (spellingSuggestion) {
+						diagnostics.push({
+							range,
+							message: `Unknown scopeName '${scope}'. Did you mean '${spellingSuggestion.candidate}'?`,
+							severity: diagnosticSeverity,
+							source: 'TextMate',
+							code: 'scope',
+						});
+					}
+				}
+				continue nextScope;
+			}
+		}
+
+		if (scope.startsWith('meta.embedded.')
+			|| scope.startsWith('source.')
+			|| scope.startsWith('text.')) {
+			continue nextScope;
+		}
+
+		const mergedScopePostfix = mergeCandidatesScopePostfix(scope, candidatePostfixes.candidatePostfixes);
+		if (mergedScopePostfix.candidatePostfix !== undefined) {
+			diagnostics.push({
+				range: new vscode.Range(
+					new vscode.Position(range.start.line, range.end.character - mergedScopePostfix.subScopePostfix.length),
+					range.end
+				),
+				message: `Unknown postfix '${mergedScopePostfix.subScopePostfix}'. Did you mean '${mergedScopePostfix.candidatePostfix}'?`,
+				severity: diagnosticSeverity,
+				source: 'TextMate',
+				code: 'scopePostfix',
+			});
+			continue nextScope;
+		}
+
+		const suggestions: (spellingSuggestion & { subScope: string; })[] = [];
+		for (const subScope of mergedScopePostfix.subScopes) {
+			const suggestion = getSpellingSuggestion(
+				subScope,
+				candidatePostfixes.candidatePostfixes.filter(
+					(candidate, count, candidates) => !candidate.endsWith('.' + candidates[0])
+				),
+				15,
+			);
+			if (suggestion) {
+				suggestions.push({ ...suggestion, subScope });
+			}
+		}
+		suggestions.sort(
+			(a, b) =>
+				a.distance - b.distance
+				|| a.candidate.length - b.candidate.length
+				|| b.index - a.index
+		);
+		if (suggestions[0]) {
+			diagnostics.push({
+				range: new vscode.Range(
+					new vscode.Position(range.start.line, range.end.character - suggestions[0].subScope.length),
+					range.end,
+				),
+				message: `Unknown postfix '${suggestions[0].subScope}'. Did you mean '${suggestions[0].candidate}'?`,
+				severity: diagnosticSeverity,
+				source: 'TextMate',
+				code: 'scopePostfix',
+			});
+			continue nextScope;
+		}
+
+		diagnostics.push({
+			range,
+			message: `ScopeName '${scope}' missing postfix '.${candidatePostfixes.candidatePostfixes[0]}'`,
+			severity: diagnosticSeverity,
+			source: 'TextMate',
+			code: 'scopePostfix',
+		});
+	}
+
+	prevSelection = selection;
+
+	// vscode.window.showInformationMessage(`ScopePostfix ${(performance.now() - start).toFixed(3)}ms ${document.version}`);
 }
 
 

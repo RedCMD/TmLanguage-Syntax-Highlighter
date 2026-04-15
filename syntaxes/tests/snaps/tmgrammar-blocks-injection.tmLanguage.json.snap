@@ -297,7 +297,7 @@
 #              ^ source.json.textmate meta.match.regexp
 #               ^ source.json.textmate meta.match.regexp punctuation.definition.string.begin.json.tm
 #                ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.class.tm
-#                 ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class punctuation.definition.list.begin.markdown
+#                 ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class punctuation.definition.list.begin.markdown.tm
 #                    ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp character-class literal.tm regex
 #                     ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.class.tm
 #                      ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp keyword.tm

@@ -1031,7 +1031,7 @@
 						},
 						{
 							"match": "\\G\\\\{2}b",
-							"name": "punctuation.definition.list.begin.markdown"
+							"name": "punctuation.definition.list.begin.markdown.tm"
 						},
 						{ "include": "#character-types" },
 						{ "include": "#characters" },
@@ -1737,7 +1737,7 @@
 		"characters": {
 			"comment": "\\a \\e \\f \\n \\r \\t \\v",
 			"match": "\\G\\\\{2}[aefnrtv]",
-			"name": "punctuation.definition.list.begin.markdown"
+			"name": "punctuation.definition.list.begin.markdown.tm"
 		},
 		"dot": {
 			"comment": "\\. cannot be used in character classes",
@@ -1757,7 +1757,7 @@
 		"test": {
 			"comment": "Just a easy spot for testing",
 			"//match": "(*FAIL).",
-			"name": "token.debug-token strong regex"
+			"name": "token.debug-token.tm strong regex"
 		},
 		"_disabled_": {
 			"comment": "Basic visual test",

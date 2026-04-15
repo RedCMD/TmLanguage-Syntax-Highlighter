@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as webTreeSitter from 'web-tree-sitter';
-import { getPackageJSON } from '../extension';
+import { getPackageJSON, stringify } from '../extension';
 import { ITextMateThemingRule } from "../extensions";
 import { getTrees, toRange, toPoint, queryNode, getLastNode, trees, toPosition } from "../TreeSitter";
 import { getScopes } from "../themeScopeColors";
@@ -60,7 +60,7 @@ function insertComma(cursorNode: webTreeSitter.Node, position: vscode.Position) 
 export const CompletionItemProvider: vscode.CompletionItemProvider = {
 	async provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext): Promise<vscode.CompletionList<vscode.CompletionItem> | undefined> {
 		// vscode.window.showInformationMessage(JSON.stringify("Completions"));
-		// const start = performance.now();
+		const start = performance.now();
 
 		const trees = getTrees(document);
 		const tree = trees.jsonTree;
@@ -101,6 +101,8 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 		const cursorNode = cursorCapture.node;
 		const cursorRange = cursorName.endsWith("_new") ? new vscode.Range(position, position) : toRange(cursorNode);
 		const completionItems: CompletionItem[] = [];
+
+		let isIncomplete = false;
 
 		switch (cursorName) {
 			case 'schema':
@@ -403,87 +405,108 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 				break;
 			case 'scope':
 			case 'scope_new':
-				const themeScopes = await getScopes();
-				for (const key in themeScopes) {
-					const scope = themeScopes[key];
-					const standardTokenType = key.match(/\b(?:comment|string|regex|meta\.embedded)\b/);
-					const documentation = new vscode.MarkdownString();
-					documentation.appendMarkdown(
-						`Theme: \`${scope.theme}\`  \n` +
-						`Comment: ${scope.name ? `\`${scope.name}\`` : ''}  \n` +
-						`Foreground: \`${scope.foreground ?? 'editor.foreground'}\`  \n` +
-						`Background: \`${scope.background ?? 'editor.background'}\`  \n` +
-						`FontStyle: ${scope.fontStyle ? `\`${scope.fontStyle}\`` : ''}  \n` +
-						`StandardTokenType: ${standardTokenType ? (standardTokenType[0] == 'meta.embedded' ? '`other`' : `\`${standardTokenType[0]}\``) : ''}`
-					);
-					completionItems.push({
-						label: {
-							label: key,
-							// detail: scope.foreground,
-							description: scope.name,
-						},
-						range: cursorRange,
-						kind: vscode.CompletionItemKind.Color,
-						detail: scope.foreground || scope.background,
-						documentation: documentation,
-					});
-				}
+				{
+					const candidatePostfixes = findCandidateScopePostfixes(rootNode, position);
 
-				const baseTheme = [
-					'',
-					'light',
-					'dark',
-					'hcDark',
-					'hcLight',
-				][vscode.window.activeColorTheme.kind];
-				const builtInThemeRules = builtInThemeColors[baseTheme];
-				for (const builtInThemeRule of builtInThemeRules) {
-					const scope = <string>builtInThemeRule.scope;
-					const settings = builtInThemeRule.settings;
-					const documentation = new vscode.MarkdownString();
-					documentation.appendMarkdown(
-						`Theme: \`${baseTheme}\`  \n` +
-						`Comment: \`VSCode Debug Tokens\`  \n` +
-						`Foreground: \`${settings.foreground}\`  \n` +
-						`Background: \`editor.background\`  \n` +
-						`FontStyle:  \n` +
-						`StandardTokenType:`
-					);
-					completionItems.push({
-						label: {
+					const themeScopes = await getScopes();
+					for (const scope in candidatePostfixes.scopes) {
+						if (themeScopes[scope]) {
+							continue;
+						}
+						completionItems.push({
 							label: scope,
-							description: "VSCode Debug Tokens",
-						},
-						range: cursorRange,
-						kind: vscode.CompletionItemKind.Color,
-						detail: settings.foreground || settings.background,
-						sortText: `~${scope}`,
-						documentation: documentation,
-					});
-				}
-
-				const scopes: string[] = [];
-				const scopeQuery = `;scm
-					(name (value (scope) @scope (.not-match? @scope "^(\\\\$0*[0-9]{1,3})+$")))
-					(contentName (value (scope) @scope (.not-match? @scope "^(\\\\$0*[0-9]{1,3})+$")))
-				`;
-				const scopeCaptures = queryNode(rootNode, scopeQuery);
-				for (const scopeCapture of scopeCaptures) {
-					const scope = scopeCapture.node.text;
-					scopes.push(scope);
-				}
-
-				const uniqueScopes = [...new Set(scopes)];
-				for (const scope of uniqueScopes) {
-					if (themeScopes[scope]) {
-						continue;
+							range: cursorRange,
+							kind: vscode.CompletionItemKind.Text,
+							sortText: ` ${scope}`,
+						});
 					}
-					completionItems.push({
-						label: scope,
-						range: cursorRange,
-						kind: vscode.CompletionItemKind.Text,
-						sortText: ` ${scope}`,
-					});
+
+					if (candidatePostfixes.candidatePostfixes.length == 0) {
+						candidatePostfixes.candidatePostfixes.push('languageId');
+					}
+					const candidateScopePostfix = '.' + candidatePostfixes.candidatePostfixes[0];
+
+					const mergedScopePostfix = mergeCandidatesScopePostfix(candidatePostfixes.cursorScope, candidatePostfixes.candidatePostfixes, true);
+					if (mergedScopePostfix.candidatePostfix !== undefined) {
+						completionItems.push({
+							label: {
+								label: candidatePostfixes.cursorScope,
+								detail: mergedScopePostfix.scopePostfixEnding,
+							},
+							range: cursorRange,
+							kind: vscode.CompletionItemKind.Text,
+							sortText: ` ${candidatePostfixes.cursorScope}`,
+							insertText: candidatePostfixes.cursorScope + mergedScopePostfix.scopePostfixEnding,
+						});
+					}
+
+					for (const scope in themeScopes) {
+						const scopeToken = themeScopes[scope];
+						const standardTokenType = scope.match(/\b(?:comment|string|regex|meta\.embedded)\b/);
+						const documentation = new vscode.MarkdownString();
+						documentation.appendMarkdown(
+							`Theme: \`${scopeToken.theme}\`  \n` +
+							`Comment: ${scopeToken.name ? `\`${scopeToken.name}\`` : ''}  \n` +
+							`Foreground: \`${scopeToken.foreground ?? 'editor.foreground'}\`  \n` +
+							`Background: \`${scopeToken.background ?? 'editor.background'}\`  \n` +
+							`FontStyle: ${scopeToken.fontStyle ? `\`${scopeToken.fontStyle}\`` : ''}  \n` +
+							`StandardTokenType: ${standardTokenType ? (standardTokenType[0] == 'meta.embedded' ? '`other`' : `\`${standardTokenType[0]}\``) : ''}`
+						);
+						completionItems.push({
+							label: {
+								label: scope,
+								detail: scope.endsWith(candidateScopePostfix) ? undefined : candidateScopePostfix,
+								description: scopeToken.name,
+							},
+							range: cursorRange,
+							kind: vscode.CompletionItemKind.Color,
+							detail: scopeToken.foreground || scopeToken.background,
+							documentation: documentation,
+							insertText: scope.endsWith(candidateScopePostfix) ? scope : scope + candidateScopePostfix,
+						});
+					}
+
+
+					const baseTheme = [
+						'',
+						'light',
+						'dark',
+						'hcDark',
+						'hcLight',
+					][vscode.window.activeColorTheme.kind];
+					const builtInThemeRules = builtInThemeColors[baseTheme];
+					for (const builtInThemeRule of builtInThemeRules) {
+						const scope = <string>builtInThemeRule.scope;
+						const settings = builtInThemeRule.settings;
+						const documentation = new vscode.MarkdownString();
+						documentation.appendMarkdown(
+							`Theme: \`${baseTheme}\`  \n` +
+							`Comment: \`VSCode Debug Tokens\`  \n` +
+							`Foreground: \`${settings.foreground}\`  \n` +
+							`Background: \`editor.background\`  \n` +
+							`FontStyle:  \n` +
+							`StandardTokenType:`
+						);
+						completionItems.push({
+							label: {
+								label: scope,
+								detail: candidateScopePostfix,
+								description: "VSCode Debug Tokens",
+							},
+							range: cursorRange,
+							kind: vscode.CompletionItemKind.Color,
+							detail: settings.foreground || settings.background,
+							documentation: documentation,
+							sortText: `~${scope}`,
+							insertText: scope + candidateScopePostfix,
+						});
+					}
+
+					if ((performance.now() - start) < 25) {
+						// Auto add scope postfix continuously
+						isIncomplete = true;
+					}
+					// vscode.window.showInformationMessage(`scopePostfix: ${(performance.now() - start).toFixed(3)}ms ${candidateScopePostfix}`);
 				}
 			/* FallThrough */
 
@@ -522,6 +545,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 					insertText: replaceSnippet,
 					documentation: "Replaced with the corresponding capture's captured text.\nAll leading dots (.) are stripped.",
 				});
+				// vscode.window.showInformationMessage(`replace_capture: ${(performance.now() - start).toFixed(3)}ms`);
 			}
 
 				break;
@@ -634,7 +658,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 		}
 
 
-		const completionList = new vscode.CompletionList(completionItems);
+		const completionList = new vscode.CompletionList(completionItems, isIncomplete);
 		// vscode.window.showInformationMessage(`completionList: ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(completionList)}`);
 		return completionList;
 	},
@@ -831,4 +855,154 @@ function getCaptureGroups(trees: trees, parentNode: webTreeSitter.Node, type: st
 	`;
 	const captures = queryNode(regexNode, query);
 	return captures;
+}
+
+
+export function findCandidateScopePostfixes(rootNode: webTreeSitter.Node): {
+	scopes: { [scope: string]: number; }; // Counts of each unique scope
+	scopeCaptures: webTreeSitter.QueryCapture[];
+	candidatePostfixes: string[];
+};
+export function findCandidateScopePostfixes(rootNode: webTreeSitter.Node, position: vscode.Position): {
+	cursorScope: string;
+	scopes: { [scope: string]: number; };
+	scopeCaptures: webTreeSitter.QueryCapture[];
+	candidatePostfixes: string[];
+};
+export function findCandidateScopePostfixes(rootNode: webTreeSitter.Node, position?: vscode.Position) {
+	// const start = performance.now();
+	const candidateScopePostfixes: { [scope: string]: number; } = {};
+	let cursorScope;
+
+	const rootScopeNameQuery = `;scm
+		(scopeName (value) @scopeName)
+	`;
+	const rootScopeNamePostfixParts = queryNode(rootNode, rootScopeNameQuery).pop()?.node.text.split('.');
+	const maxScopePostfixLength = Math.max(2, rootScopeNamePostfixParts?.length! - 1);
+
+	const scopes: { [scope: string]: number; } = {};
+	const scopeQuery = `;scm
+		(name (value (scope) @scope (.not-match? @scope "^(\\\\$0*[0-9]{1,3})+$")))
+		(contentName (value (scope) @scope (.not-match? @scope "^(\\\\$0*[0-9]{1,3})+$")))
+		(name_scopeName (value (scope) @scope (.not-match? @scope "^(\\\\$0*[0-9]{1,3})+$")))
+		(injectionSelector (value (scope) @injectionScope (.not-match? @injectionScope "^(\\\\$0*[0-9]{1,3})+$")))
+		(include (value (scopeName) @includeScope (.not-match? @includeScope "^(\\\\$0*[0-9]{1,3})+$")))
+	`;
+	const scopeCaptures = queryNode(rootNode, scopeQuery);
+	for (const scopeCapture of scopeCaptures) {
+		const scope = scopeCapture.node.text;
+		const scopePostfixParts = scope.split('.').slice(1).slice(-maxScopePostfixLength);
+		for (let index = 0; index < scopePostfixParts.length; index++) {
+			const scopePostfix = scopePostfixParts.slice(index).join('.');
+			candidateScopePostfixes[scopePostfix] ??= 0;
+			candidateScopePostfixes[scopePostfix]++;
+		}
+
+		if (scopeCapture.name == 'includeScope') {
+			// Ignore Include scopes
+			continue;
+		}
+
+		if (position && toRange(scopeCapture).contains(position)) {
+			// Don't suggest the current scope
+			cursorScope = scope;
+			continue;
+		}
+		scopes[scope] ??= 0;
+		scopes[scope]++;
+	}
+
+	// Try to find the most common/relevant scope postfixes
+	if (rootScopeNamePostfixParts?.length) {
+		for (let index = 1; index < rootScopeNamePostfixParts.length; index++) {
+			const rootScopeNamePostfixPart = rootScopeNamePostfixParts.slice(index).join('.');
+			if (candidateScopePostfixes[rootScopeNamePostfixPart]) {
+				candidateScopePostfixes[rootScopeNamePostfixPart] = candidateScopePostfixes[rootScopeNamePostfixPart] * 2 + 10;
+				break;
+			}
+		}
+	}
+
+	const candidatePostfixes = Object.entries(candidateScopePostfixes)
+		.sort(
+			(a, b) => {
+				if (a[1] < b[1]) {
+					return 2;
+				}
+				if (a[1] > b[1]) {
+					return -2;
+				}
+				if (a[0].length < b[0].length) {
+					return 1;
+				}
+				if (a[0].length > b[0].length) {
+					return -1;
+				}
+				return 0;
+			}
+		)
+		.filter(candidate => candidate[1] > 3)
+		.filter(
+			(candidate, index, candidates) =>
+				!candidates[0][0].endsWith('.' + candidate[0])
+		)
+		.map(candidate => candidate[0]);
+
+	if (rootScopeNamePostfixParts) {
+		candidatePostfixes.push(rootScopeNamePostfixParts?.slice(1).join('.'));
+	}
+
+	// vscode.window.showInformationMessage(`candidateScopePostfixes ${(performance.now() - start).toFixed(3)}ms ${JSON.stringify(candidatePostfixes)}`);
+
+	return {
+		cursorScope,
+		scopes,
+		scopeCaptures,
+		candidatePostfixes,
+	};
+}
+
+export function mergeCandidatesScopePostfix(scope: string, candidates: readonly string[], merge?: boolean) {
+	const subScopes: string[] = [];
+	const scopeParts = scope.split('.');
+
+	// Test main postfix first
+	for (let index = 1; index < scopeParts.length; index++) {
+		const subScopePostfix = scopeParts.slice(index).join('.');
+		if (!subScopePostfix) {
+			continue;
+		}
+		subScopes.push(subScopePostfix);
+
+		const candidatePostfix = candidates[0];
+		if (candidatePostfix.startsWith(subScopePostfix)
+			&& (merge || candidatePostfix.split('.')[0] != subScopePostfix)) {
+			return {
+				scopePostfixEnding: candidatePostfix.slice(subScopePostfix.length),
+				subScopePostfix,
+				candidatePostfix,
+			};
+		}
+	}
+
+	// Test for longest postfix
+	for (let index = 1; index < scopeParts.length; index++) {
+		const subScopePostfix = scopeParts.slice(index).join('.');
+		if (!subScopePostfix) {
+			continue;
+		}
+
+		for (const candidatePostfix of candidates) {
+			if (candidatePostfix.startsWith(subScopePostfix)
+				&& (merge || candidatePostfix/* .split('.')[0] */ != subScopePostfix)) {
+				return {
+					scopePostfixEnding: candidatePostfix.slice(subScopePostfix.length),
+					subScopePostfix,
+					candidatePostfix,
+				};
+			}
+		}
+	}
+
+	return { subScopes };
 }

@@ -14447,16 +14447,16 @@
 #                           ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                            ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
 #                             ^ source.json.textmate punctuation.separator.dictionary.json.tm
->							"name": "punctuation.definition.list.begin.markdown"
+>							"name": "punctuation.definition.list.begin.markdown.tm"
 #^^^^^^^ source.json.textmate
 #       ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #        ^^^^ source.json.textmate keyword.property-name.string.name.json.tm
 #            ^ source.json.textmate punctuation.definition.string.end.json.tm
 #             ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #              ^ source.json.textmate
-#               ^ source.json.textmate punctuation.definition.list.begin.markdown punctuation.definition.string.begin.json.tm
-#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.list.begin.markdown
-#                                                          ^ source.json.textmate punctuation.definition.list.begin.markdown punctuation.definition.string.end.json.tm
+#               ^ source.json.textmate punctuation.definition.list.begin.markdown.tm punctuation.definition.string.begin.json.tm
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.list.begin.markdown.tm
+#                                                             ^ source.json.textmate punctuation.definition.list.begin.markdown.tm punctuation.definition.string.end.json.tm
 >						},
 #^^^^^^ source.json.textmate
 #      ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
@@ -24679,16 +24679,16 @@
 #                               ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp support.class.tm
 #                                ^ source.json.textmate meta.match.regexp punctuation.definition.string.end.json.tm
 #                                 ^ source.json.textmate punctuation.separator.dictionary.json.tm
->			"name": "punctuation.definition.list.begin.markdown"
+>			"name": "punctuation.definition.list.begin.markdown.tm"
 #^^^ source.json.textmate
 #   ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #    ^^^^ source.json.textmate keyword.property-name.string.name.json.tm
 #        ^ source.json.textmate punctuation.definition.string.end.json.tm
 #         ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #          ^ source.json.textmate
-#           ^ source.json.textmate punctuation.definition.list.begin.markdown punctuation.definition.string.begin.json.tm
-#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.list.begin.markdown
-#                                                      ^ source.json.textmate punctuation.definition.list.begin.markdown punctuation.definition.string.end.json.tm
+#           ^ source.json.textmate punctuation.definition.list.begin.markdown.tm punctuation.definition.string.begin.json.tm
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.json.textmate punctuation.definition.list.begin.markdown.tm
+#                                                         ^ source.json.textmate punctuation.definition.list.begin.markdown.tm punctuation.definition.string.end.json.tm
 >		},
 #^^ source.json.textmate
 #  ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
@@ -24891,18 +24891,18 @@
 #               ^^^^^^^^ source.json.textmate string.quoted.double.json.tm
 #                       ^ source.json.textmate string.quoted.double.json.tm punctuation.definition.string.end.json.tm
 #                        ^ source.json.textmate punctuation.separator.dictionary.json.tm
->			"name": "token.debug-token strong regex"
+>			"name": "token.debug-token.tm strong regex"
 #^^^ source.json.textmate
 #   ^ source.json.textmate punctuation.definition.string.begin.json.tm
 #    ^^^^ source.json.textmate keyword.property-name.string.name.json.tm
 #        ^ source.json.textmate punctuation.definition.string.end.json.tm
 #         ^ source.json.textmate punctuation.separator.dictionary.key-value.json.tm
 #          ^ source.json.textmate
-#           ^ source.json.textmate token.debug-token strong regex punctuation.definition.string.begin.json.tm
-#            ^^^^^ source.json.textmate token
-#                 ^^^^^^^^^^^^^^^^^^^^ source.json.textmate token.debug-token strong regex
-#                                     ^^^^^ source.json.textmate token.debug-token strong regex emphasis.tm
-#                                          ^ source.json.textmate token.debug-token strong regex punctuation.definition.string.end.json.tm
+#           ^ source.json.textmate token.debug-token.tm strong regex punctuation.definition.string.begin.json.tm
+#            ^^^^^^^^^^^^^^^^^ source.json.textmate token.debug-token
+#                             ^^^^^^^^^^^ source.json.textmate token.debug-token.tm strong regex
+#                                        ^^^^^ source.json.textmate token.debug-token.tm strong regex emphasis.tm
+#                                             ^ source.json.textmate token.debug-token.tm strong regex punctuation.definition.string.end.json.tm
 >		},
 #^^ source.json.textmate
 #  ^ source.json.textmate punctuation.definition.dictionary.end.json.tm
@@ -25139,13 +25139,13 @@
 #                                                                                                                                                                                                                                   ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                                                                                                                                                                                                                                    ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.tag.tm
 #                                                                                                                                                                                                                                      ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
-#                                                                                                                                                                                                                                       ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.list.begin.markdown
+#                                                                                                                                                                                                                                       ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.list.begin.markdown.tm
 #                                                                                                                                                                                                                                          ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp variable.tm
 #                                                                                                                                                                                                                                             ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.list.begin.markdown.tm
 #                                                                                                                                                                                                                                                ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp markup.bold regex
 #                                                                                                                                                                                                                                                 ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
-#                                                                                                                                                                                                                                                    ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.list.begin.markdown
-#                                                                                                                                                                                                                                                       ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.list.begin.markdown
+#                                                                                                                                                                                                                                                    ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.list.begin.markdown.tm
+#                                                                                                                                                                                                                                                       ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.list.begin.markdown.tm
 #                                                                                                                                                                                                                                                          ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.tag.tm
 #                                                                                                                                                                                                                                                            ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                                                                                                                                                                                                                                                             ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
@@ -25159,19 +25159,19 @@
 #                                                                                                                                                                                                                                                                           ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                                                                                                                                                                                                                                                                            ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.tag.tm
 #                                                                                                                                                                                                                                                                              ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
-#                                                                                                                                                                                                                                                                               ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.list.begin.markdown
+#                                                                                                                                                                                                                                                                               ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.list.begin.markdown.tm
 #                                                                                                                                                                                                                                                                                  ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.tag.tm
 #                                                                                                                                                                                                                                                                                    ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                                                                                                                                                                                                                                                                                     ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.tag.tm
 #                                                                                                                                                                                                                                                                                       ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
 #                                                                                                                                                                                                                                                                                        ^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.tag.tm
 #                                                                                                                                                                                                                                                                                          ^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp entity.name.label.tm strong regex
-#                                                                                                                                                                                                                                                                                           ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.list.begin.markdown
+#                                                                                                                                                                                                                                                                                           ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.list.begin.markdown.tm
 #                                                                                                                                                                                                                                                                                              ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
-#                                                                                                                                                                                                                                                                                                 ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.list.begin.markdown
+#                                                                                                                                                                                                                                                                                                 ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.list.begin.markdown.tm
 #                                                                                                                                                                                                                                                                                                    ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp variable.language.tm
 #                                                                                                                                                                                                                                                                                                       ^^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp constant.numeric.json.tm
-#                                                                                                                                                                                                                                                                                                           ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.list.begin.markdown
+#                                                                                                                                                                                                                                                                                                           ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.list.begin.markdown.tm
 #                                                                                                                                                                                                                                                                                                              ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp variable.other.enummember.tm
 #                                                                                                                                                                                                                                                                                                                 ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp punctuation.definition.list.begin.markdown.tm
 #                                                                                                                                                                                                                                                                                                                    ^^^ source.json.textmate meta.match.regexp meta.embedded.json.textmate.regexp variable.tm

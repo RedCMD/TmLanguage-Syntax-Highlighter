@@ -1625,6 +1625,22 @@
 			},
 			{
 				"line": 0,
+				"character": 28
+			}
+		],
+		"message": "ScopeName 'string.scope.one' missing postfix '.diagnostics'",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "scopePostfix"
+	},
+	{
+		"range": [
+			{
+				"line": 0,
+				"character": 12
+			},
+			{
+				"line": 0,
 				"character": 46
 			}
 		],
@@ -1632,6 +1648,22 @@
 		"severity": 3,
 		"source": "TextMate",
 		"code": "spaceScopes"
+	},
+	{
+		"range": [
+			{
+				"line": 0,
+				"character": 29
+			},
+			{
+				"line": 0,
+				"character": 46
+			}
+		],
+		"message": "ScopeName 'comment.scope.two' missing postfix '.diagnostics'",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "scopePostfix"
 	},
 	{
 		"range": [
@@ -1720,7 +1752,55 @@
 	{
 		"range": [
 			{
-				"line": 4,
+				"line": 2,
+				"character": 19
+			},
+			{
+				"line": 0,
+				"character": 77
+			}
+		],
+		"message": "ScopeName 'TextMate 2.0 only. maybe GitHub. scopeName removes warning' missing postfix '.diagnostics'",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "scopePostfix"
+	},
+	{
+		"range": [
+			{
+				"line": 1,
+				"character": 14
+			},
+			{
+				"line": 0,
+				"character": 30
+			}
+		],
+		"message": "ScopeName 'string.scope.one' missing postfix '.diagnostics'",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "scopePostfix"
+	},
+	{
+		"range": [
+			{
+				"line": 0,
+				"character": 31
+			},
+			{
+				"line": 0,
+				"character": 48
+			}
+		],
+		"message": "ScopeName 'comment.scope.two' missing postfix '.diagnostics'",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "scopePostfix"
+	},
+	{
+		"range": [
+			{
+				"line": 1,
 				"character": 5
 			},
 			{
@@ -2045,9 +2125,553 @@
 		"source": "PCRE"
 	},
 	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
 		"range": [
 			{
-				"line": 13,
+				"line": 14,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"range": [
+			{
+				"line": 0,
+				"character": 37
+			},
+			{
+				"line": 0,
+				"character": 48
+			}
+		],
+		"message": "Unknown postfix 'agnostfgics'. Did you mean 'diagnostics'?",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "scopePostfix"
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"range": [
+			{
+				"line": 0,
+				"character": 37
+			},
+			{
+				"line": 0,
+				"character": 42
+			}
+		],
+		"message": "Unknown postfix 'diagn'. Did you mean 'diagnostics'?",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "scopePostfix"
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"range": [
+			{
+				"line": 0,
+				"character": 12
+			},
+			{
+				"line": 0,
+				"character": 49
+			}
+		],
+		"message": "Unknown scopeName 'comment.liane.number-sign.diagnostics'. Did you mean 'comment.line.number-sign.diagnostics'?",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "scope"
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"range": [
+			{
+				"line": 0,
+				"character": 12
+			},
+			{
+				"line": 0,
+				"character": 22
+			}
+		],
+		"message": "ScopeName 'string.end' missing postfix '.diagnostics'",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "scopePostfix"
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"range": [
+			{
+				"line": 0,
+				"character": 12
+			},
+			{
+				"line": 0,
+				"character": 22
+			}
+		],
+		"message": "ScopeName 'string.two' missing postfix '.diagnostics'",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "scopePostfix"
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"range": [
+			{
+				"line": 0,
+				"character": 38
+			},
+			{
+				"line": 0,
+				"character": 46
+			}
+		],
+		"message": "Unknown postfix 'regex.tm'. Did you mean 'regexp.json'?",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "scopePostfix"
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"range": [
+			{
+				"line": 0,
+				"character": 40
+			},
+			{
+				"line": 0,
+				"character": 51
+			}
+		],
+		"message": "Unknown postfix 'glob.string'. Did you mean 'glob.json'?",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "scopePostfix"
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"range": [
+			{
+				"line": 0,
+				"character": 38
+			},
+			{
+				"line": 0,
+				"character": 40
+			}
+		],
+		"message": "Unknown postfix 'js'. Did you mean 'json'?",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "scopePostfix"
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"range": [
+			{
+				"line": 0,
+				"character": 12
+			},
+			{
+				"line": 0,
+				"character": 43
+			}
+		],
+		"message": "ScopeName 'token.debug-token.trailing.dot.' missing postfix '.diagnostics'",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "scopePostfix"
+	},
+	{
+		"range": [
+			{
+				"line": 4,
 				"character": 3
 			},
 			{
