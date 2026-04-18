@@ -29,7 +29,7 @@ export const grammarLanguages: {
 			grammar: grammar;
 		};
 	};
-	scopeName: { [name: ScopeName]: grammar; };
+	scopeName: Partial<{ [name: ScopeName]: grammar; }>;
 } = {
 	languageId: {},
 	scopeName: {},
@@ -46,54 +46,63 @@ function parseExtensions() {
 		const builtIn = extension.packageJSON.isBuiltin; // Lower priority
 		const dev = extension.packageJSON.isUnderDevelopment; // Higher priority
 		const priority = dev ? -1 : builtIn ? 1 : 0;
+
 		const grammars = extension.packageJSON.contributes?.grammars;
 		if (Array.isArray(grammars)) {
 			for (const grammar of grammars) {
 				const scopeName = grammar.scopeName;
-				if (scopeName) {
-					const path = grammar.path;
-					if (path) {
-						const extensionUri = extension.extensionUri;
-						const uri = vscode.Uri.joinPath(extensionUri, path);
-						if (uri.scheme == 'untitled') {
-							vscode.window.showWarningMessage(`TextMate: Invalid grammar path: ${path} in ${extensionUri.fsPath}`);
-							console.log(`TextMate: Invalid grammar path: ${path} in ${extensionUri.fsPath}`);
-						}
-						grammarLanguages.scopeName[scopeName] = {
-							grammarPath: path,
-							extensionUri: extension.extensionUri,
-							uri: uri,
-							injectionScopes: grammarLanguages.scopeName[scopeName]?.injectionScopes ?? [],
+				if (!scopeName) {
+					continue;
+				}
+
+				const path = grammar.path;
+				if (!path) {
+					continue;
+				}
+
+				const extensionUri = extension.extensionUri;
+				const uri = vscode.Uri.joinPath(extensionUri, path);
+				if (uri.scheme == 'untitled') {
+					vscode.window.showWarningMessage(`TextMate: Invalid grammar path: ${path} in ${extensionUri.fsPath}`);
+					console.warn(`TextMate: Invalid grammar path: ${path} in ${extensionUri.fsPath}`);
+				}
+
+				if (grammarLanguages.scopeName[scopeName]) {
+					grammarLanguages.scopeName[scopeName].grammarPath = path;
+					grammarLanguages.scopeName[scopeName].extensionUri = extension.extensionUri;
+					grammarLanguages.scopeName[scopeName].uri = uri;
+				}
+				else {
+					grammarLanguages.scopeName[scopeName] = {
+						grammarPath: path,
+						extensionUri: extension.extensionUri,
+						uri: uri,
+						injectionScopes: [],
+					};
+				}
+
+				const injectTo = grammar.injectTo;
+				if (Array.isArray(injectTo)) {
+					for (const injectToScopeName of injectTo) {
+						grammarLanguages.scopeName[injectToScopeName] ??= {
+							grammarPath: '',
+							extensionUri: null,
+							uri: null,
+							injectionScopes: [],
 						};
+						grammarLanguages.scopeName[injectToScopeName].injectionScopes.push(scopeName);
+					}
+				}
 
-						const injectTo = grammar.injectTo;
-						if (Array.isArray(injectTo)) {
-							for (const injectToScopeName of injectTo) {
-								if (!grammarLanguages.scopeName[injectToScopeName]) {
-									grammarLanguages.scopeName[injectToScopeName] = {
-										grammarPath: '',
-										extensionUri: null,
-										uri: null,
-										injectionScopes: [],
-									};
-								}
-								const injectionScopes = grammarLanguages.scopeName[injectToScopeName].injectionScopes;
-								injectionScopes.push(scopeName);
-								grammarLanguages.scopeName[injectToScopeName].injectionScopes = injectionScopes;
-							}
-						}
-
-						const language = grammar.language;
-						if (typeof language === 'string') {
-							if (!grammarLanguages.languageId[language] ||
-								grammarLanguages.languageId[language].priority >= priority) { // VSCode picks the last extension
-								grammarLanguages.languageId[language] = {
-									priority: priority,
-									scopeName: scopeName,
-									grammar: grammarLanguages.scopeName[scopeName],
-								};
-							}
-						}
+				const language = grammar.language;
+				if (typeof language === 'string') {
+					if (!grammarLanguages.languageId[language] ||
+						grammarLanguages.languageId[language].priority >= priority) { // VSCode picks the last extension
+						grammarLanguages.languageId[language] = {
+							priority: priority,
+							scopeName: scopeName,
+							grammar: grammarLanguages.scopeName[scopeName]!,
+						};
 					}
 				}
 			}
