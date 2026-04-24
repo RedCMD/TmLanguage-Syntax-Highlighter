@@ -425,12 +425,13 @@ function diagnosticsRegularExpressionErrors(diagnostics: Diagnostic[], document:
 			continue;
 		}
 
+		const parentParent = regexNode.parent!.parent!;
 		let groupCaptures!: webTreeSitter.QueryCapture[];
 
 		const regex: string = JSONParseStringRelaxed(text);
 		const hasBackreferences = (key.text == 'end' || key.text == 'while') && /\\[0-9]/.test(regex);
-		const beginNode = hasBackreferences ? getLastNode(regexNode.parent!.parent!, 'begin')?.childForFieldName('regex') : null;
-		if (beginNode) {
+		const beginNode = getLastNode(parentParent, 'begin')?.childForFieldName('regex');
+		if (hasBackreferences && beginNode) {
 			const beginRegex = trees.regexTrees.get(beginNode.id)?.rootNode;
 			if (!beginRegex) {
 				continue;
@@ -445,6 +446,43 @@ function diagnosticsRegularExpressionErrors(diagnostics: Diagnostic[], document:
 			groupCaptures = queryNode(beginRegex, captureGroupQuery);
 		}
 
+		let matchesEmptyString = false;
+		const testRegexEmptyString = (testRegex: (regex: string) => any): void => {
+			if (matchesEmptyString) {
+				return;
+			}
+			if (/\\[AG]/.test(regex)) {
+				return;
+			}
+			let beginEndRegexNode = beginNode;
+			try {
+				switch (key.text) {
+					case 'match':
+						matchesEmptyString = true;
+						return;
+					case 'begin':
+						if (getLastNode(parentParent, 'while')?.childForFieldName('regex')) {
+							return;
+						}
+						beginEndRegexNode = getLastNode(parentParent, 'end')?.childForFieldName('regex');
+					case 'end':
+						if (!beginEndRegexNode
+							|| (!/\\\\[AG]/.test(beginEndRegexNode.text)
+								&& testRegex(JSONParseStringRelaxed(beginEndRegexNode.text))
+								&& !(
+									/^(true|0*[1-9][0-9]*)$/.test(
+										getLastNode(parentParent, 'applyEndPatternLast')?.lastNamedChild!.text ?? ''
+									)
+									&& getLastNode(parentParent, 'patterns')?.lastNamedChild?.namedChildCount
+								))) {
+							matchesEmptyString = true;
+						}
+					case 'while':
+					default:
+						return;
+				}
+			} catch (error) { }
+		};
 
 		const startTimeOniguruma = performance.now();
 		let errorCodeOniguruma: string;
@@ -475,9 +513,15 @@ function diagnosticsRegularExpressionErrors(diagnostics: Diagnostic[], document:
 				replacedRegex = replacedRegex.replaceAll(/\\[0-9]+/g, ''); // All non-existent backreferences are removed
 			}
 
+			// Does not throw if regex invalid
 			const scanner = new vscodeOniguruma.OnigScanner([replacedRegex]) as OnigScanner;
 			const onigBinding = scanner._onigBinding;
 			errorCodeOniguruma = onigBinding.UTF8ToString(onigBinding._getLastOnigError());
+
+			// Still matches if regex invalid
+			if (!errorCodeOniguruma && scanner.findNextMatchSync("", 0) && !matchesEmptyString) {
+				testRegexEmptyString(regex => new vscodeOniguruma.OnigScanner([regex]).findNextMatchSync("", 0));
+			}
 
 			scanner.dispose();
 		} catch (error: any) {
@@ -519,6 +563,10 @@ function diagnosticsRegularExpressionErrors(diagnostics: Diagnostic[], document:
 			const scanner = new textmateOnigmo.OnigScanner([replacedRegex]) as OnigmoScanner;
 			const onigBinding = scanner._onigBinding;
 			errorCodeOnigmo = onigBinding.UTF8ToString(onigBinding._getLastOnigError());
+
+			if (scanner.findNextMatchSync("", 0) && !matchesEmptyString) {
+				testRegexEmptyString(regex => new textmateOnigmo.OnigScanner([regex]).findNextMatchSync("", 0));
+			}
 
 			scanner.dispose();
 		} catch (error: any) {
@@ -575,6 +623,13 @@ function diagnosticsRegularExpressionErrors(diagnostics: Diagnostic[], document:
 					pcreConstants.DUPNAMES | pcreConstants.UTF8 | pcreConstants.NEWLINE_ANYCRLF,
 				);
 
+				if (PCRERegex.test("", 0) && !matchesEmptyString) {
+					testRegexEmptyString(regex => pcre.compile(
+						regex,
+						pcreConstants.DUPNAMES | pcreConstants.UTF8 | pcreConstants.NEWLINE_ANYCRLF,
+					).test("", 0));
+				}
+
 				const regexTree = trees.regexTrees.get(regexNode.id);
 				if (regexTree) {
 					const intersectionQuery = `;scm
@@ -624,7 +679,15 @@ function diagnosticsRegularExpressionErrors(diagnostics: Diagnostic[], document:
 					allowOrphanBackrefs: hasBackreferences,
 				},
 			};
+			// throws error if regex invalid
 			const jsRegex = onigurumaToES.toRegExpDetails(regex, options);
+
+			if (new RegExp(jsRegex.pattern, jsRegex.flags).test("") && !matchesEmptyString) {
+				testRegexEmptyString(regex => {
+					const jsRegex = onigurumaToES.toRegExpDetails(regex, options);
+					return new RegExp(jsRegex.pattern, jsRegex.flags).test("");
+				});
+			}
 		} catch (error: any) {
 			errorCodeES = error?.message || String(error);
 		}
@@ -639,65 +702,82 @@ function diagnosticsRegularExpressionErrors(diagnostics: Diagnostic[], document:
 				range: range,
 				message: errorCodeOniguruma + (timeOniguruma >= 1 ? timeMessageOniguruma : ''),
 				severity: vscode.DiagnosticSeverity.Error,
-				source: 'Oniguruma',
+				source: 'TextMate',
+				code: 'Oniguruma',
 			});
 			if (errorCodeOnigmo !== errorCodeOniguruma || Math.abs(timeOniguruma - timeOnigmo) > 10) {
 				diagnostics.push({
 					range: range,
 					message: errorCodeOnigmo + (timeOnigmo >= 1 ? timeMessageOnigmo : ''),
 					severity: vscode.DiagnosticSeverity.Error,
-					source: 'Onigmo',
+					source: 'TextMate',
+					code: 'Onigmo',
 				});
 			}
 			diagnostics.push({
 				range: range,
 				message: errorCodePCRE + (timePCRE >= 1 ? timeMessagePCRE : ''),
 				severity: vscode.DiagnosticSeverity.Error,
-				source: 'PCRE',
+				source: 'TextMate',
+				code: 'PCRE',
 			});
 			diagnostics.push({
 				range: range,
 				message: errorCodeES + (timeES >= 1 ? timeMessageES : ''),
 				severity: vscode.DiagnosticSeverity.Error,
-				source: 'ES',
-			});
-
-			continue;
-		}
-
-		if (errorCodeOniguruma) {
-			diagnostics.push({
-				range: range,
-				message: `Regex incompatible with VSCode TextMate${timeOniguruma >= 1 ? timeMessageOniguruma : ''} (Oniguruma v6.9.8)\n${errorCodeOniguruma}`,
-				severity: vscode.DiagnosticSeverity.Error,
-				source: 'Oniguruma',
+				source: 'TextMate',
+				code: 'ES',
 			});
 		}
+		else {
+			if (errorCodeOniguruma) {
+				diagnostics.push({
+					range: range,
+					message: `Regex incompatible with VSCode TextMate${timeOniguruma >= 1 ? timeMessageOniguruma : ''} (Oniguruma v6.9.8)\n${errorCodeOniguruma}`,
+					severity: vscode.DiagnosticSeverity.Error,
+					source: 'TextMate',
+					code: 'Oniguruma',
+				});
+			}
 
-		if (errorCodeOnigmo) {
+			if (errorCodeOnigmo) {
+				diagnostics.push({
+					range: range,
+					message: `Regex incompatible with TextMate 2.0${timeOnigmo >= 1 ? timeMessageOnigmo : ''} (Onigmo v5.13.5)\n${errorCodeOnigmo}`,
+					severity: vscode.DiagnosticSeverity.Warning,
+					source: 'TextMate',
+					code: 'Onigmo',
+				});
+			}
+
+			if (errorCodePCRE) {
+				diagnostics.push({
+					range: range,
+					message: `Regex incompatible with Github-Linguist${timePCRE >= 1 ? timeMessagePCRE : ''} (PCRE v8.36)\n${errorCodePCRE}`,
+					severity: vscode.DiagnosticSeverity.Warning,
+					source: 'TextMate',
+					code: 'PCRE',
+				});
+			}
+
+			if (errorCodeES) {
+				diagnostics.push({
+					range: range,
+					message: `Regex incompatible with Shiki${timeES >= 1 ? timeMessageES : ''} (oniguruma-to-es)\n${errorCodeES}`,
+					severity: vscode.DiagnosticSeverity.Warning,
+					source: 'TextMate',
+					code: 'ES',
+				});
+			}
+		}
+
+		if (matchesEmptyString) {
 			diagnostics.push({
 				range: range,
-				message: `Regex incompatible with TextMate 2.0${timeOnigmo >= 1 ? timeMessageOnigmo : ''} (Onigmo v5.13.5)\n${errorCodeOnigmo}`,
+				message: `Regex matches the empty string "". This can cause the TextMate engine to loop indefinitely.`,
 				severity: vscode.DiagnosticSeverity.Warning,
-				source: 'Onigmo',
-			});
-		}
-
-		if (errorCodePCRE) {
-			diagnostics.push({
-				range: range,
-				message: `Regex incompatible with Github-Linguist${timePCRE >= 1 ? timeMessagePCRE : ''} (PCRE v8.36)\n${errorCodePCRE}`,
-				severity: vscode.DiagnosticSeverity.Warning,
-				source: 'PCRE',
-			});
-		}
-
-		if (errorCodeES) {
-			diagnostics.push({
-				range: range,
-				message: `Regex incompatible with Shiki${timeES >= 1 ? timeMessageES : ''} (oniguruma-to-es)\n${errorCodeES}`,
-				severity: vscode.DiagnosticSeverity.Warning,
-				source: 'ES',
+				source: 'TextMate',
+				code: 'EmptyRegex'
 			});
 		}
 	}

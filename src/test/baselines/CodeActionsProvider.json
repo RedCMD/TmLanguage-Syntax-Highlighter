@@ -207,7 +207,7 @@
 		"title": "Change spelling to 'diagnostics'",
 		"diagnostics": [
 			{
-				"startLineNumber": 30,
+				"startLineNumber": 51,
 				"startColumn": 38,
 				"endLineNumber": 0,
 				"endColumn": 49,
@@ -513,7 +513,7 @@
 		"title": "Change spelling to 'source.diagnostic'",
 		"diagnostics": [
 			{
-				"startLineNumber": -143,
+				"startLineNumber": -164,
 				"startColumn": 16,
 				"endLineNumber": 0,
 				"endColumn": 34,
@@ -780,7 +780,7 @@
 		"title": "Ignore no reference warnings",
 		"diagnostics": [
 			{
-				"startLineNumber": 91,
+				"startLineNumber": 112,
 				"startColumn": 4,
 				"endLineNumber": 0,
 				"endColumn": 13,
@@ -797,7 +797,7 @@
 		"title": "Extract single rule from \"patterns\"",
 		"diagnostics": [
 			{
-				"startLineNumber": -58,
+				"startLineNumber": -79,
 				"startColumn": 5,
 				"endLineNumber": 0,
 				"endColumn": 13,
@@ -808,6 +808,56 @@
 			}
 		],
 		"kind": "quickfix.singlePattern",
+		"isAI": false
+	},
+	{
+		"title": "Optimize Regex",
+		"kind": "refactor.rewrite.minifyRegex",
+		"isAI": false
+	},
+	{
+		"title": "Optimize Regex",
+		"kind": "refactor.rewrite.minifyRegex",
+		"isAI": false
+	},
+	{
+		"title": "Optimize Regex",
+		"kind": "refactor.rewrite.minifyRegex",
+		"isAI": false
+	},
+	{
+		"title": "Optimize Regex",
+		"kind": "refactor.rewrite.minifyRegex",
+		"isAI": false
+	},
+	{
+		"title": "Optimize Regex",
+		"kind": "refactor.rewrite.minifyRegex",
+		"isAI": false
+	},
+	{
+		"title": "Optimize Regex",
+		"kind": "refactor.rewrite.minifyRegex",
+		"isAI": false
+	},
+	{
+		"title": "Optimize Regex",
+		"kind": "refactor.rewrite.minifyRegex",
+		"isAI": false
+	},
+	{
+		"title": "Optimize Regex",
+		"kind": "refactor.rewrite.minifyRegex",
+		"isAI": false
+	},
+	{
+		"title": "Optimize Regex",
+		"kind": "refactor.rewrite.minifyRegex",
+		"isAI": false
+	},
+	{
+		"title": "Optimize Regex",
+		"kind": "refactor.rewrite.minifyRegex",
 		"isAI": false
 	},
 	{

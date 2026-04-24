@@ -100,20 +100,41 @@
 		},
 		{
 			"comment": " diagnosticsRegularExpressionErrors ",
-			"match": "(*FAIL) Regex incompatible with TextMate 2.0 target of repeat operator is not specified",
-			"begin": "(:)",
-			"end": "\\2 Regex incompatible with TextMate 2.0\n invalid backref number/nameOnigmo\n Regex incompatible with Github-Linguist \nreference to non-existent subpattern at offset 3PCRE",
-			"while": "(?\\1)Invalid or unsupported group option",
-			"match": "[A-Za-z\\x80-\\x{10FFFF}&&[^∙∘×★⊗⊘⊙⊛⊠⊡∩∧⊓±⊕⊖⊞⊟∪∨⊔]]Character Class Intersection && is not supported",
-			"match": "(?#unmatched parentheses at offset 45 PCRE\\))",
-			"//": [
-				"Certain <name> based error codes often break when getting to the <name> part",
-				"Seems to always affect oniguruma",
-				"But Onigmo is randomized",
-				"Probably a buffer overflow",
-				"https://github.com/textmate/Onigmo/blob/Onigmo-5.13.5/regerror.c",
-				"https://github.com/kkos/oniguruma/blob/08d36110c5670c815ad6d6f969e578049d209080/src/regerror.c#L304-L338",
-				"https://github.com/kkos/oniguruma/blob/08d36110c5670c815ad6d6f969e578049d209080/src/regerror.c#L38"
+			"patterns": [
+				{
+					"match": "(*FAIL) Regex incompatible with TextMate 2.0 target of repeat operator is not specified",
+					"begin": "(:)",
+					"end": "\\2 Regex incompatible with TextMate 2.0\n invalid backref number/nameOnigmo\n Regex incompatible with Github-Linguist \nreference to non-existent subpattern at offset 3PCRE",
+					"while": "(?\\1)Invalid or unsupported group option",
+					"match": "[A-Za-z\\x80-\\x{10FFFF}&&[^∙∘×★⊗⊘⊙⊛⊠⊡∩∧⊓±⊕⊖⊞⊟∪∨⊔]]Character Class Intersection && is not supported",
+					"match": "(?#unmatched parentheses at offset 45 PCRE\\))",
+					"//": [
+						"Certain <name> based error codes often break when getting to the <name> part",
+						"Seems to always affect oniguruma",
+						"But Onigmo is randomized",
+						"Probably a buffer overflow",
+						"https://github.com/textmate/Onigmo/blob/Onigmo-5.13.5/regerror.c",
+						"https://github.com/kkos/oniguruma/blob/08d36110c5670c815ad6d6f969e578049d209080/src/regerror.c#L304-L338",
+						"https://github.com/kkos/oniguruma/blob/08d36110c5670c815ad6d6f969e578049d209080/src/regerror.c#L38"
+					]
+				},
+				{
+					"begin": "(?<=^|---|>|})",
+					"end": "(?=<|{|$)",
+					"captures": { "0": { "patterns": [ { "match": ".*" } ] } }
+				},
+				{
+					"begin": "^",
+					"end": "$",
+					"while": "^"
+				},
+				{ "match": "\\G[^]:]{,20}" },
+				{
+					"begin": "|",
+					"end": "",
+					"applyEndPatternLast": 1,
+					"patterns": [ { "match": ".?" } ]
+				}
 			]
 		},
 		{

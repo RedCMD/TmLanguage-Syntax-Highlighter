@@ -271,7 +271,8 @@
 		],
 		"message": "Unclosed group",
 		"severity": 0,
-		"source": "ES"
+		"source": "TextMate",
+		"code": "ES"
 	},
 	{
 		"range": [
@@ -286,7 +287,8 @@
 		],
 		"message": "end pattern with unmatched parenthesis",
 		"severity": 0,
-		"source": "Oniguruma"
+		"source": "TextMate",
+		"code": "Oniguruma"
 	},
 	{
 		"range": [
@@ -301,7 +303,8 @@
 		],
 		"message": "missing ) at offset 21",
 		"severity": 0,
-		"source": "PCRE"
+		"source": "TextMate",
+		"code": "PCRE"
 	},
 	{
 		"range": [
@@ -348,7 +351,8 @@
 		],
 		"message": "Empty character class",
 		"severity": 0,
-		"source": "ES"
+		"source": "TextMate",
+		"code": "ES"
 	},
 	{
 		"range": [
@@ -363,7 +367,8 @@
 		],
 		"message": "empty char-class",
 		"severity": 0,
-		"source": "Oniguruma"
+		"source": "TextMate",
+		"code": "Oniguruma"
 	},
 	{
 		"range": [
@@ -378,7 +383,8 @@
 		],
 		"message": "missing terminating ] for character class at offset 22",
 		"severity": 0,
-		"source": "PCRE"
+		"source": "TextMate",
+		"code": "PCRE"
 	},
 	{
 		"range": [
@@ -425,7 +431,8 @@
 		],
 		"message": "Unclosed group",
 		"severity": 0,
-		"source": "ES"
+		"source": "TextMate",
+		"code": "ES"
 	},
 	{
 		"range": [
@@ -440,7 +447,8 @@
 		],
 		"message": "end pattern with unmatched parenthesis",
 		"severity": 0,
-		"source": "Oniguruma"
+		"source": "TextMate",
+		"code": "Oniguruma"
 	},
 	{
 		"range": [
@@ -455,7 +463,8 @@
 		],
 		"message": "missing ) at offset 4",
 		"severity": 0,
-		"source": "PCRE"
+		"source": "TextMate",
+		"code": "PCRE"
 	},
 	{
 		"range": [
@@ -505,7 +514,8 @@
 		],
 		"message": "Regex incompatible with Shiki (oniguruma-to-es)\nInvalid or unsupported group option \"(?)\"",
 		"severity": 1,
-		"source": "ES"
+		"source": "TextMate",
+		"code": "ES"
 	},
 	{
 		"range": [
@@ -520,7 +530,8 @@
 		],
 		"message": "Regex incompatible with TextMate 2.0 (Onigmo v5.13.5)\nundefined group option",
 		"severity": 1,
-		"source": "Onigmo"
+		"source": "TextMate",
+		"code": "Onigmo"
 	},
 	{
 		"range": [
@@ -535,7 +546,8 @@
 		],
 		"message": "Regex incompatible with VSCode TextMate (Oniguruma v6.9.8)\nundefined group option",
 		"severity": 0,
-		"source": "Oniguruma"
+		"source": "TextMate",
+		"code": "Oniguruma"
 	},
 	{
 		"range": [
@@ -585,7 +597,8 @@
 		],
 		"message": "Quantifier requires a repeatable token",
 		"severity": 0,
-		"source": "ES"
+		"source": "TextMate",
+		"code": "ES"
 	},
 	{
 		"range": [
@@ -600,7 +613,8 @@
 		],
 		"message": "nothing to repeat at offset 0",
 		"severity": 0,
-		"source": "PCRE"
+		"source": "TextMate",
+		"code": "PCRE"
 	},
 	{
 		"range": [
@@ -615,7 +629,8 @@
 		],
 		"message": "target of repeat operator is not specified",
 		"severity": 0,
-		"source": "Oniguruma"
+		"source": "TextMate",
+		"code": "Oniguruma"
 	},
 	{
 		"range": [
@@ -1243,6 +1258,22 @@
 	{
 		"range": [
 			{
+				"line": 0,
+				"character": 30
+			},
+			{
+				"line": 0,
+				"character": 35
+			}
+		],
+		"message": "Regex matches the empty string \"\". This can cause the TextMate engine to loop indefinitely.",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "EmptyRegex"
+	},
+	{
+		"range": [
+			{
 				"line": 1,
 				"character": 3
 			},
@@ -1794,12 +1825,12 @@
 		"message": "Matches multiple schemas when only one must validate.",
 		"range": [
 			{
-				"line": 4,
-				"character": 2
+				"line": 7,
+				"character": 4
 			},
 			{
 				"line": 0,
-				"character": 3
+				"character": 5
 			}
 		]
 	},
@@ -1808,12 +1839,12 @@
 		"message": "Duplicate object key",
 		"range": [
 			{
-				"line": 2,
-				"character": 3
+				"line": 1,
+				"character": 5
 			},
 			{
 				"line": 0,
-				"character": 10
+				"character": 12
 			}
 		],
 		"source": "json-textmate",
@@ -1823,26 +1854,27 @@
 		"range": [
 			{
 				"line": 0,
-				"character": 4
+				"character": 6
 			},
 			{
 				"line": 0,
-				"character": 9
+				"character": 11
 			}
 		],
 		"message": "Regex incompatible with TextMate 2.0 (Onigmo v5.13.5)\ntarget of repeat operator is not specified",
 		"severity": 1,
-		"source": "Onigmo"
+		"source": "TextMate",
+		"code": "Onigmo"
 	},
 	{
 		"range": [
 			{
 				"line": 1,
-				"character": 3
+				"character": 5
 			},
 			{
 				"line": 0,
-				"character": 17
+				"character": 19
 			}
 		],
 		"message": "\"begin\" requires \"match\" and \"include\" to be absent.",
@@ -1857,11 +1889,11 @@
 		"range": [
 			{
 				"line": 1,
-				"character": 3
+				"character": 5
 			},
 			{
 				"line": 0,
-				"character": 185
+				"character": 187
 			}
 		],
 		"message": "\"begin\" requires \"match\" and \"include\" to be absent.",
@@ -1876,11 +1908,11 @@
 		"range": [
 			{
 				"line": 0,
-				"character": 3
+				"character": 5
 			},
 			{
 				"line": 0,
-				"character": 185
+				"character": 187
 			}
 		],
 		"message": "\"end\" requires \"begin\" to be present and \"while\" to be absent.",
@@ -1895,41 +1927,43 @@
 		"range": [
 			{
 				"line": 0,
-				"character": 4
+				"character": 6
 			},
 			{
 				"line": 0,
-				"character": 7
+				"character": 9
 			}
 		],
 		"message": "Regex incompatible with Github-Linguist (PCRE v8.36)\nreference to non-existent subpattern at offset 173",
 		"severity": 1,
-		"source": "PCRE"
+		"source": "TextMate",
+		"code": "PCRE"
 	},
 	{
 		"range": [
 			{
 				"line": 0,
-				"character": 4
+				"character": 6
 			},
 			{
 				"line": 0,
-				"character": 7
+				"character": 9
 			}
 		],
 		"message": "Regex incompatible with TextMate 2.0 (Onigmo v5.13.5)\ninvalid backref number/name",
 		"severity": 1,
-		"source": "Onigmo"
+		"source": "TextMate",
+		"code": "Onigmo"
 	},
 	{
 		"range": [
 			{
 				"line": 1,
-				"character": 3
+				"character": 5
 			},
 			{
 				"line": 0,
-				"character": 55
+				"character": 57
 			}
 		],
 		"message": "\"begin\" requires \"match\" and \"include\" to be absent.",
@@ -1944,26 +1978,27 @@
 		"range": [
 			{
 				"line": 0,
-				"character": 4
+				"character": 6
 			},
 			{
 				"line": 0,
-				"character": 9
+				"character": 11
 			}
 		],
 		"message": "Regex incompatible with Shiki (oniguruma-to-es)\nInvalid or unsupported group option \"(?\\1)\"",
 		"severity": 1,
-		"source": "ES"
+		"source": "TextMate",
+		"code": "ES"
 	},
 	{
 		"range": [
 			{
 				"line": 0,
-				"character": 14
+				"character": 16
 			},
 			{
 				"line": 0,
-				"character": 15
+				"character": 17
 			}
 		],
 		"message": "'(?...)' Invalid Group syntax",
@@ -1977,11 +2012,11 @@
 		"range": [
 			{
 				"line": 1,
-				"character": 3
+				"character": 5
 			},
 			{
 				"line": 0,
-				"character": 10
+				"character": 12
 			}
 		],
 		"source": "json-textmate",
@@ -1991,31 +2026,33 @@
 		"range": [
 			{
 				"line": 0,
-				"character": 4
+				"character": 6
 			},
 			{
 				"line": 0,
-				"character": 9
+				"character": 11
 			}
 		],
 		"message": "Regex incompatible with Github-Linguist (PCRE v8.36)\nCharacter Class Intersection \"&&\" is not supported",
 		"severity": 1,
-		"source": "PCRE"
+		"source": "TextMate",
+		"code": "PCRE"
 	},
 	{
 		"range": [
 			{
 				"line": 0,
-				"character": 4
+				"character": 6
 			},
 			{
 				"line": 0,
-				"character": 9
+				"character": 11
 			}
 		],
 		"message": "Regex incompatible with Shiki (oniguruma-to-es)\nMultibyte code \"\\x80\" incomplete or invalid in Oniguruma",
 		"severity": 1,
-		"source": "ES"
+		"source": "TextMate",
+		"code": "ES"
 	},
 	{
 		"severity": "Warning",
@@ -2023,11 +2060,11 @@
 		"range": [
 			{
 				"line": 1,
-				"character": 3
+				"character": 5
 			},
 			{
 				"line": 0,
-				"character": 10
+				"character": 12
 			}
 		],
 		"source": "json-textmate",
@@ -2037,23 +2074,153 @@
 		"range": [
 			{
 				"line": 0,
-				"character": 4
+				"character": 6
+			},
+			{
+				"line": 0,
+				"character": 11
+			}
+		],
+		"message": "Regex incompatible with Github-Linguist (PCRE v8.36)\nunmatched parentheses at offset 45",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "PCRE"
+	},
+	{
+		"range": [
+			{
+				"line": 0,
+				"character": 6
+			},
+			{
+				"line": 0,
+				"character": 11
+			}
+		],
+		"message": "Regex matches the empty string \"\". This can cause the TextMate engine to loop indefinitely.",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "EmptyRegex"
+	},
+	{
+		"range": [
+			{
+				"line": 12,
+				"character": 6
+			},
+			{
+				"line": 0,
+				"character": 11
+			}
+		],
+		"message": "Regex matches the empty string \"\". This can cause the TextMate engine to loop indefinitely.",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "EmptyRegex"
+	},
+	{
+		"range": [
+			{
+				"line": 1,
+				"character": 6
 			},
 			{
 				"line": 0,
 				"character": 9
 			}
 		],
-		"message": "Regex incompatible with Github-Linguist (PCRE v8.36)\nunmatched parentheses at offset 45",
+		"message": "Regex matches the empty string \"\". This can cause the TextMate engine to loop indefinitely.",
 		"severity": 1,
-		"source": "PCRE"
+		"source": "TextMate",
+		"code": "EmptyRegex"
+	},
+	{
+		"range": [
+			{
+				"line": 1,
+				"character": 43
+			},
+			{
+				"line": 0,
+				"character": 48
+			}
+		],
+		"message": "Regex matches the empty string \"\". This can cause the TextMate engine to loop indefinitely.",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "EmptyRegex"
+	},
+	{
+		"severity": "Warning",
+		"message": "Matches multiple schemas when only one must validate.",
+		"range": [
+			{
+				"line": 2,
+				"character": 4
+			},
+			{
+				"line": 0,
+				"character": 5
+			}
+		]
+	},
+	{
+		"range": [
+			{
+				"line": 2,
+				"character": 5
+			},
+			{
+				"line": 0,
+				"character": 15
+			}
+		],
+		"message": "\"end\" requires \"begin\" to be present and \"while\" to be absent.",
+		"severity": 3,
+		"source": "TextMate",
+		"code": "dead",
+		"tags": [
+			1
+		]
+	},
+	{
+		"range": [
+			{
+				"line": 0,
+				"character": 6
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"message": "Regex matches the empty string \"\". This can cause the TextMate engine to loop indefinitely.",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "EmptyRegex"
+	},
+	{
+		"range": [
+			{
+				"line": 8,
+				"character": 22
+			},
+			{
+				"line": 0,
+				"character": 27
+			}
+		],
+		"message": "Regex matches the empty string \"\". This can cause the TextMate engine to loop indefinitely.",
+		"severity": 1,
+		"source": "TextMate",
+		"code": "EmptyRegex"
 	},
 	{
 		"severity": "Warning",
 		"message": "Duplicate object key",
 		"range": [
 			{
-				"line": 14,
+				"line": 7,
 				"character": 3
 			},
 			{
