@@ -63,7 +63,7 @@
 		"test:update": "npm run build && npm run test:extension:update && npm run test:grammar:update",
 		"test:grammar": "textmate-grammar-snap ./syntaxes/**/*.* --outdir ./syntaxes/tests/snaps/ --grammar \"./syntaxes/tests/yaml-*.tmLanguage.json\"",
 		"test:grammar:update": "npm run test:grammar -- --updateSnapshot",
-		"test:extension": "vscode-test --timeout 30000 --slow 1000 --inline-diffs true",
+		"test:extension": "vscode-test --code-version=insiders --timeout 30000 --slow 1000 --inline-diffs true",
 		"test:extension:update": "npm run test:extension --- --config .vscode-test.update.mjs",
 		"test:browser": "vscode-test-web --extensionDevelopmentPath=. --extensionTestsPath=out/web/test.js ./src/test/",
 		"open-in-browser": "vscode-test-web --extensionDevelopmentPath=. ."
