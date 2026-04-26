@@ -272,19 +272,17 @@ suite('Extension Tests', async () => {
 		await assertFileConversion('JSON.tmLanguage.json', 'textmate.convertFileToJSON');
 		await assertFileConversion('YAML.tmLanguage.yaml', 'textmate.convertFileToYAML');
 		await assertFileConversion('ASCII.textmate', 'textmate.convertFileToASCII');
+		await assertFileConversion('XML.tmLanguage', 'textmate.convertFileToXML');
 
-		// TODO: Conversion to XML/CSON doesn't work in VSCode Web atm
+		// TODO: Conversion to CSON doesn't work in VSCode Web atm
 		if (typeof navigator === 'object') {
 			// TODO: Conversion from CSON is buggy. skipping test
 			// https://github.com/fabiospampinato/cson2json/issues/1
 			// await testFileConversion('CSON.tmLanguage.cson', 'textmate.convertFileToJSON', 'JSON.tmLanguage.json');
-			await assertFileConversion('XML.tmLanguage', 'textmate.convertFileToJSON', 'JSON.tmLanguage.json');
-
 			return;
 		}
 
 		await assertFileConversion('CSON.tmLanguage.cson', 'textmate.convertFileToCSON');
-		await assertFileConversion('XML.tmLanguage', 'textmate.convertFileToXML');
 	});
 
 	test('FormatDocumentProvider', async () => {

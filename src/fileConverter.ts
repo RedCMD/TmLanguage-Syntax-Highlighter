@@ -92,9 +92,6 @@ async function convertFileTo(newLanguage: Language, document?: vscode.TextDocume
 				});
 				break;
 			case 'XML':
-				if (typeof navigator !== 'undefined') {
-					throw new Error("TextMate: Conversion to XML is not available in VSCode Web atm");
-				}
 				newText = XML.build(parsedDocument, { indent: indent });
 				break;
 			case 'ASCII':

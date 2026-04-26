@@ -36,7 +36,7 @@
 	"capabilities": {
 		"virtualWorkspaces": {
 			"supported": true,
-			"description": "DropEdit and file conversion to CSON/XML do not work in VSCode Web"
+			"description": "DropEdit and file conversion to CSON does not work in VSCode Web"
 		},
 		"untrustedWorkspaces": {
 			"supported": true,
@@ -669,8 +669,7 @@
 				"command": "textmate.convertFileToXML",
 				"title": "Convert file to XML",
 				"category": "TextMate",
-				"icon": "assets/TextMate-file-icon.svg",
-				"enablement": "!isWeb"
+				"icon": "assets/TextMate-file-icon.svg"
 			},
 			{
 				"command": "textmate.convertFileToASCII",
@@ -694,7 +693,7 @@
 		"date-and-time": "3.6.0",
 		"oniguruma-parser-cjs": "^0.0.1",
 		"oniguruma-to-es": "^4.3.5",
-		"plist": "^3.1.0",
+		"plist": "^4.0.0",
 		"vscode-onigmo": "^2.0.1",
 		"vscode-oniguruma": "1.7.0",
 		"web-tree-sitter": "file:node_modules_linked/web-tree-sitter",
