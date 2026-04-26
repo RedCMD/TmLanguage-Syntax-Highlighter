@@ -1272,7 +1272,7 @@ function diagnosticsHints(diagnostics: Diagnostic[], document: vscode.TextDocume
 			case 'contentName':
 				const text = node.text;
 				const scopes = text.split(' ');
-				const firstSubScopes = text.match(/^[^ ]+(?=\.[^ ]* )/)?.[0];
+				const firstSubScopes = scopes[0].split('.').slice(0, -1).join('.');
 				diagnostics.push({
 					range: range,
 					message: `TextMate 2.0 and Github-Linguist handle space separated scopes differently to VSCode TextMate.
@@ -1283,7 +1283,9 @@ function diagnosticsHints(diagnostics: Diagnostic[], document: vscode.TextDocume
 								  However their theme parser will split scopes on spaces.
 								  So effectively only the first sub-scope(s) \`${firstSubScopes ?? ''}\` can ever be matched against.
 								${name == 'name' ? 'TextMate 2.0 allows you to use "scopeName" to override "name".' : ''}`.replaceAll('\t', ''),
-					severity: firstSubScopes ? vscode.DiagnosticSeverity.Hint : vscode.DiagnosticSeverity.Warning,
+					severity: firstSubScopes || scopes[0].match(/^\.*\$\d$/)
+						? vscode.DiagnosticSeverity.Hint
+						: vscode.DiagnosticSeverity.Warning,
 					source: 'TextMate',
 					code: 'spaceScopes',
 					node: node,

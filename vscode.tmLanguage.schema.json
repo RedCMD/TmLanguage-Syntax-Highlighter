@@ -1033,9 +1033,9 @@
 			"$ref": "#/definitions/name-content"
 		},
 		"scopeName": {
-			"markdownDescription": "A single scopeName to be assigned to the provided token. Overrides `\"name\"`.  \n_Not currently supported by VSCode_",
+			"markdownDescription": "A single scopeName to be assigned to the provided token.  \nOverrides `\"name\"`.  \nDoes not support separating scopes by spaces.  \n_Not currently supported by VSCode_",
 			"type": "string",
-			"anyOf": [
+			"allOf": [
 				{ "pattern": "^([\\w\\-.]|\\$\\d+|\\${\\d+(:[^}]*)?})*$" },
 				{ "$ref": "#/definitions/name-content" }
 			]

@@ -84,15 +84,13 @@
 		},
 		{
 			"comment": " diagnosticsHints ",
-			"name": "string.scope.one comment.scope.two",
+			"name": "string.scope.one.diagnostics comment.scope.two.diagnostics",
 			"contentName": "bigger warning with no period in the first scope",
-			"match": "TextMate 2.0 and Github-Linguist handle space separated scopes differently to VSCode TextMate"
-		},
-		{
+			"match": "TextMate 2.0 and Github-Linguist handle space separated scopes differently to VSCode TextMate",
 			"patterns": [
 				{
 					"match": "Patterns array not required for a single rule",
-					"scopeName": "TextMate 2.0 only. maybe GitHub. scopeName removes warning",
+					"scopeName": "TextMate.2 0 only. maybe GitHub. scopeName removes warning",
 					"name": "string.scope.one comment.scope.two",
 					"contentName": "scopeName doesn't affect contentName"
 				}

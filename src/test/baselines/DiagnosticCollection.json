@@ -1580,45 +1580,13 @@
 			},
 			{
 				"line": 0,
-				"character": 28
+				"character": 70
 			}
 		],
-		"message": "ScopeName 'string.scope.one' missing postfix '.diagnostics'",
-		"severity": 1,
-		"source": "TextMate",
-		"code": "scopePostfix"
-	},
-	{
-		"range": [
-			{
-				"line": 0,
-				"character": 12
-			},
-			{
-				"line": 0,
-				"character": 46
-			}
-		],
-		"message": "TextMate 2.0 and Github-Linguist handle space separated scopes differently to VSCode TextMate.\nVSCode will split the scopes on spaces.\n  `string.scope.one comment.scope.two` will apply 2 different scopes; `string.scope.one`, `comment.scope.two`.\nTextMate and Github will not split the scopes.\n  They instead will try to match against the literal singular scopeName `string.scope.one comment.scope.two`.\n  However their theme parser will split scopes on spaces.\n  So effectively only the first sub-scope(s) `string.scope` can ever be matched against.\nTextMate 2.0 allows you to use \"scopeName\" to override \"name\".",
+		"message": "TextMate 2.0 and Github-Linguist handle space separated scopes differently to VSCode TextMate.\nVSCode will split the scopes on spaces.\n  `string.scope.one.diagnostics comment.scope.two.diagnostics` will apply 2 different scopes; `string.scope.one.diagnostics`, `comment.scope.two.diagnostics`.\nTextMate and Github will not split the scopes.\n  They instead will try to match against the literal singular scopeName `string.scope.one.diagnostics comment.scope.two.diagnostics`.\n  However their theme parser will split scopes on spaces.\n  So effectively only the first sub-scope(s) `string.scope.one` can ever be matched against.\nTextMate 2.0 allows you to use \"scopeName\" to override \"name\".",
 		"severity": 3,
 		"source": "TextMate",
 		"code": "spaceScopes"
-	},
-	{
-		"range": [
-			{
-				"line": 0,
-				"character": 29
-			},
-			{
-				"line": 0,
-				"character": 46
-			}
-		],
-		"message": "ScopeName 'comment.scope.two' missing postfix '.diagnostics'",
-		"severity": 1,
-		"source": "TextMate",
-		"code": "scopePostfix"
 	},
 	{
 		"range": [
@@ -1677,25 +1645,28 @@
 	{
 		"range": [
 			{
-				"line": 4,
-				"character": 4
+				"line": 2,
+				"character": 3
 			},
 			{
-				"line": 0,
-				"character": 12
+				"line": 7,
+				"character": 4
 			}
 		],
-		"message": "Patterns array not required for a single rule.",
+		"message": "\"patterns\" requires \"match\" and \"include\" to be absent.",
 		"severity": 3,
 		"source": "TextMate",
-		"code": "singlePattern"
+		"code": "dead",
+		"tags": [
+			1
+		]
 	},
 	{
 		"severity": "Warning",
 		"message": "Missing property \"begin\".",
 		"range": [
 			{
-				"line": 1,
+				"line": -6,
 				"character": 4
 			},
 			{
@@ -1705,9 +1676,23 @@
 		]
 	},
 	{
+		"severity": "Warning",
+		"message": "String does not match the pattern of \"^([\\w\\-.]|\\$\\d+|\\${\\d+(:[^}]*)?})*$\".",
 		"range": [
 			{
 				"line": 2,
+				"character": 18
+			},
+			{
+				"line": 0,
+				"character": 78
+			}
+		]
+	},
+	{
+		"range": [
+			{
+				"line": 0,
 				"character": 19
 			},
 			{
@@ -1715,7 +1700,7 @@
 				"character": 77
 			}
 		],
-		"message": "ScopeName 'TextMate 2.0 only. maybe GitHub. scopeName removes warning' missing postfix '.diagnostics'",
+		"message": "ScopeName 'TextMate.2 0 only. maybe GitHub. scopeName removes warning' missing postfix '.diagnostics'",
 		"severity": 1,
 		"source": "TextMate",
 		"code": "scopePostfix"

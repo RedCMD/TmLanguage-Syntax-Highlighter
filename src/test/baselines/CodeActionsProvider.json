@@ -37,79 +37,11 @@
 		"title": "Add missing scope postfix '.diagnostics'",
 		"diagnostics": [
 			{
-				"startLineNumber": 51,
-				"startColumn": 13,
-				"endLineNumber": 0,
-				"endColumn": 29,
-				"message": "ScopeName 'string.scope.one' missing postfix '.diagnostics'",
-				"source": "TextMate",
-				"code": "scopePostfix",
-				"severity": 4
-			}
-		],
-		"edit": {
-			"edits": [
-				{
-					"textEdit": {
-						"text": ".diagnostics",
-						"range": {
-							"startLineNumber": 0,
-							"startColumn": 13,
-							"endLineNumber": 0,
-							"endColumn": 29
-						}
-					},
-					"filename": "fixtures/DiagnosticCollection.tmLanguage.json"
-				}
-			]
-		},
-		"kind": "quickfix.scopePostfix",
-		"isPreferred": true,
-		"isAI": false
-	},
-	{
-		"title": "Add missing scope postfix '.diagnostics'",
-		"diagnostics": [
-			{
-				"startLineNumber": 0,
-				"startColumn": 30,
-				"endLineNumber": 0,
-				"endColumn": 47,
-				"message": "ScopeName 'comment.scope.two' missing postfix '.diagnostics'",
-				"source": "TextMate",
-				"code": "scopePostfix",
-				"severity": 4
-			}
-		],
-		"edit": {
-			"edits": [
-				{
-					"textEdit": {
-						"text": ".diagnostics",
-						"range": {
-							"startLineNumber": 0,
-							"startColumn": 30,
-							"endLineNumber": 0,
-							"endColumn": 47
-						}
-					},
-					"filename": "fixtures/DiagnosticCollection.tmLanguage.json"
-				}
-			]
-		},
-		"kind": "quickfix.scopePostfix",
-		"isPreferred": true,
-		"isAI": false
-	},
-	{
-		"title": "Add missing scope postfix '.diagnostics'",
-		"diagnostics": [
-			{
-				"startLineNumber": 8,
+				"startLineNumber": 57,
 				"startColumn": 20,
 				"endLineNumber": 0,
 				"endColumn": 78,
-				"message": "ScopeName 'TextMate 2.0 only. maybe GitHub. scopeName removes warning' missing postfix '.diagnostics'",
+				"message": "ScopeName 'TextMate.2 0 only. maybe GitHub. scopeName removes warning' missing postfix '.diagnostics'",
 				"source": "TextMate",
 				"code": "scopePostfix",
 				"severity": 4
@@ -513,7 +445,7 @@
 		"title": "Change spelling to 'source.diagnostic'",
 		"diagnostics": [
 			{
-				"startLineNumber": -164,
+				"startLineNumber": -162,
 				"startColumn": 16,
 				"endLineNumber": 0,
 				"endColumn": 34,
@@ -780,7 +712,7 @@
 		"title": "Ignore no reference warnings",
 		"diagnostics": [
 			{
-				"startLineNumber": 112,
+				"startLineNumber": 110,
 				"startColumn": 4,
 				"endLineNumber": 0,
 				"endColumn": 13,
@@ -791,23 +723,6 @@
 			}
 		],
 		"kind": "quickfix.ignore",
-		"isAI": false
-	},
-	{
-		"title": "Extract single rule from \"patterns\"",
-		"diagnostics": [
-			{
-				"startLineNumber": -79,
-				"startColumn": 5,
-				"endLineNumber": 0,
-				"endColumn": 13,
-				"message": "Patterns array not required for a single rule.",
-				"source": "TextMate",
-				"code": "singlePattern",
-				"severity": 1
-			}
-		],
-		"kind": "quickfix.singlePattern",
 		"isAI": false
 	},
 	{
