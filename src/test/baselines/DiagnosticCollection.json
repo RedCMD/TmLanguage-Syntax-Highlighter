@@ -349,7 +349,7 @@
 				"character": 9
 			}
 		],
-		"message": "Empty character class",
+		"message": "Unclosed character class (started with \"]\")",
 		"severity": 0,
 		"source": "TextMate",
 		"code": "ES"

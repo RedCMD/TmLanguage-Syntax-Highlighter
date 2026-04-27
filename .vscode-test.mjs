@@ -10,7 +10,7 @@ export const config = {
 	workspaceFolder: './src/test/',
 	mocha: {
 		reporterOptions: {
-			maxDiffSize: 100000
+			maxDiffSize: 48000
 		}
 	}
 };

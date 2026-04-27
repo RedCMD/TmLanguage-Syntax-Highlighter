@@ -2,18 +2,16 @@
 	[],
 	[],
 	[],
-	[],
-	[],
 	[
 		{
 			"originSelectionRange": {
-				"startLineNumber": 4,
+				"startLineNumber": 3,
 				"startColumn": 16,
 				"endLineNumber": 0,
 				"endColumn": 33
 			},
 			"range": {
-				"startLineNumber": -3,
+				"startLineNumber": -2,
 				"startColumn": 1,
 				"endLineNumber": 24,
 				"endColumn": 1001
@@ -32,7 +30,7 @@
 	[
 		{
 			"originSelectionRange": {
-				"startLineNumber": 5,
+				"startLineNumber": 4,
 				"startColumn": 17,
 				"endLineNumber": 0,
 				"endColumn": 27

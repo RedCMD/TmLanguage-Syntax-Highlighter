@@ -93,7 +93,7 @@ suite('Extension Tests', async () => {
 			const decoder = new TextDecoder();
 			const expectedStringified = decoder.decode(uint8Array);
 
-			const expected: vscode.Diagnostic[] = JSON.parse(expectedStringified);
+			const expected: any[] = JSON.parse(expectedStringified);
 			assert.ok(Array.isArray(expected), `Expected array. Got ${typeof expected}`);
 			assert.ok(expected.length > 0, "Expected array was empty. Run `npm run test:extension:update`");
 
@@ -105,10 +105,12 @@ suite('Extension Tests', async () => {
 			assert.equal(
 				actualStringified,
 				JSON.stringify(expected, null, '\t').replaceAll(/[\r\n]+/g, '\r\n') + '\r\n',
+				`Failed stringified assertion on file ${filename}`
 			);
 			assert.deepEqual(
-				JSON.parse(actualStringified),
+				JSON.parse(actualStringified) as any[],
 				expected,
+				`Failed parsed assertion on file ${filename}`
 			);
 		}
 		else {
@@ -570,7 +572,7 @@ suite('Extension Tests', async () => {
 
 		await assertStrings(editor, assertRename);
 
-		await assertRename(19, 7, "LogicalBinary");
+		await assertRename(18, 7, "LogicalBinary");
 
 		await assertBaseline(renamesActual, 'RenameProvider.json');
 
@@ -611,13 +613,13 @@ suite('Extension Tests', async () => {
 
 		await assertStrings(editor, assertDefinition);
 
-		await assertDefinition(22, 31);
+		await assertDefinition(21, 31);
 
 		await assertBaseline(definitionsActual, 'DefinitionReferenceProvider.json');
 	});
 
 	test('CompletionItemProvider', async () => {
-		const uri = vscode.Uri.joinPath(fixturesUri, 'JSON.tmLanguage.json');
+		const uri = vscode.Uri.joinPath(fixturesUri, 'DefinitionReferenceProvider.tmLanguage.json');
 		const editor = await vscode.window.showTextDocument(uri, showTextDocumentOptions);
 
 		type CompletionList = vscode.CompletionList<vscode.CompletionItem> & {
