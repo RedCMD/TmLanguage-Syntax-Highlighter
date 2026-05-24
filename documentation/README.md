@@ -124,6 +124,7 @@ Todo:
   - [vscode-syntax-highlighting-tester](https://github.com/Steffeeen/vscode-syntax-highlighting-tester) Steffeeen
   - [textmate-grammar-test](https://github.com/serkonda7/textmate-grammar-test) serkonda7
   - [vscode-tmgrammar-test](https://github.com/PanAeon/vscode-tmgrammar-test) PanAeon
+  - [textmate-validate](https://github.com/carlwr/textmate-validate) carlwr
 * Playgrounds
   - [NovaLightshow](https://novalightshow.netlify.app/) Nixinova
   - [textmate-grammars-themes](https://textmate-grammars-themes.netlify.app/) Shiki
