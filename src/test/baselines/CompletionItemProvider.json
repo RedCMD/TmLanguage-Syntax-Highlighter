@@ -92368,7 +92368,7 @@
 			{
 				"label": {
 					"label": "string.quoted.double.lang",
-					"detail": "uageId"
+					"detail": ".completion"
 				},
 				"extensionId": {
 					"value": "RedCMD.tmlanguage-syntax-highlighter",
@@ -92376,7 +92376,7 @@
 				},
 				"kind": 18,
 				"sortText": " string.quoted.double.lang",
-				"insertText": "string.quoted.double.languageId",
+				"insertText": "string.quoted.double.lang.completion",
 				"range": {
 					"startLineNumber": 0,
 					"startColumn": 13,

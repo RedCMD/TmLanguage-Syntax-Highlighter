@@ -418,6 +418,36 @@ function diagnosticsRegularExpressionErrors(diagnostics: Diagnostic[], document:
 	const trees = getTrees(document);
 	const regexNodes = trees.regexNodes;
 
+	const isMarkdownCodeblockInjectionRegex = /(\b|_)(markdown|markdownblock|codeblock|inject|injection)(\b|_)/;
+	let isMarkdownCodeblockInjectionGrammar = 0;
+	if (isMarkdownCodeblockInjectionRegex.test(document.fileName)) {
+		isMarkdownCodeblockInjectionGrammar++;
+	}
+	const injectionScopesQuery = `;scm
+		(name_display (value) @name)
+		(scopeName (value) @scopeName)
+		(injectionSelector (value (selector) . (scope) @injection))
+	`;
+	const injectionCaptures = queryNode(trees.jsonTree.rootNode, injectionScopesQuery);
+	for (const injectionCapture of injectionCaptures) {
+		const text = injectionCapture.node.text;
+		// vscode.window.showInformationMessage(text);
+		switch (injectionCapture.name) {
+			case 'name':
+			case 'scopeName':
+				if (isMarkdownCodeblockInjectionRegex.test(text)) {
+					isMarkdownCodeblockInjectionGrammar++;
+				}
+				break;
+			case 'injection':
+				if (text == 'text.html.markdown'
+					|| text == 'markup.fenced_code.block.markdown') {
+					isMarkdownCodeblockInjectionGrammar++;
+				}
+				break;
+		}
+	}
+
 	for (const regexNode of regexNodes.values()) {
 		const text = regexNode.text;
 		const key = regexNode.previousNamedSibling;
@@ -744,7 +774,7 @@ function diagnosticsRegularExpressionErrors(diagnostics: Diagnostic[], document:
 				diagnostics.push({
 					range: range,
 					message: `Regex incompatible with TextMate 2.0${timeOnigmo >= 1 ? timeMessageOnigmo : ''} (Onigmo v5.13.5)\n${errorCodeOnigmo}`,
-					severity: vscode.DiagnosticSeverity.Warning,
+					severity: isMarkdownCodeblockInjectionGrammar > 1 ? vscode.DiagnosticSeverity.Hint : vscode.DiagnosticSeverity.Warning,
 					source: 'TextMate',
 					code: 'Onigmo',
 				});
@@ -754,7 +784,7 @@ function diagnosticsRegularExpressionErrors(diagnostics: Diagnostic[], document:
 				diagnostics.push({
 					range: range,
 					message: `Regex incompatible with Github-Linguist${timePCRE >= 1 ? timeMessagePCRE : ''} (PCRE v8.36)\n${errorCodePCRE}`,
-					severity: vscode.DiagnosticSeverity.Warning,
+					severity: isMarkdownCodeblockInjectionGrammar > 1 ? vscode.DiagnosticSeverity.Hint : vscode.DiagnosticSeverity.Warning,
 					source: 'TextMate',
 					code: 'PCRE',
 				});
@@ -764,7 +794,7 @@ function diagnosticsRegularExpressionErrors(diagnostics: Diagnostic[], document:
 				diagnostics.push({
 					range: range,
 					message: `Regex incompatible with Shiki${timeES >= 1 ? timeMessageES : ''} (oniguruma-to-es)\n${errorCodeES}`,
-					severity: vscode.DiagnosticSeverity.Warning,
+					severity: isMarkdownCodeblockInjectionGrammar > 1 ? vscode.DiagnosticSeverity.Hint : vscode.DiagnosticSeverity.Warning,
 					source: 'TextMate',
 					code: 'ES',
 				});
@@ -1358,7 +1388,7 @@ function diagnosticsScopePostfix(diagnostics: Diagnostic[], document: vscode.Tex
 			if (scope.endsWith(candidatePostfix)) {
 				if (candidatePostfixes.scopes[scope] == 1
 					&& scope.length - candidatePostfix.length > 3) {
-					const spellingSuggestion = getSpellingSuggestion(scope, commonScopes, 1.99);
+					const spellingSuggestion = getSpellingSuggestion(scope, commonScopes.filter(scope => scope.endsWith(candidatePostfix)), 1.99);
 					if (spellingSuggestion) {
 						diagnostics.push({
 							range,
@@ -1428,7 +1458,7 @@ function diagnosticsScopePostfix(diagnostics: Diagnostic[], document: vscode.Tex
 		}
 
 		diagnostics.push({
-			range,
+			range: new vscode.Range(range.end, range.end),
 			message: `ScopeName '${scope}' missing postfix '.${candidatePostfixes.candidatePostfixes[0]}'`,
 			severity: diagnosticSeverity,
 			source: 'TextMate',

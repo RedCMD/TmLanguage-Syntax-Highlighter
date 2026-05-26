@@ -384,25 +384,28 @@ module.exports = grammar({
 			$.injection_string,
 			$._pattern,
 		),
-		injection_string: $ => choice(
-			seq(
-				optional($._injection_whitespace),
-				$._injection_selector,
-				repeat($._injection_scopes),
-				repeat(
-					seq(
-						',',
-						optional(
-							seq(
-								optional($._injection_whitespace),
-								$._injection_selector,
-							),
+		injection_string: $ => seq(
+			choice(
+				seq(
+					optional($._injection_whitespace),
+					$._injection_selector,
+					repeat($._injection_scopes),
+
+				),
+				repeat1($._injection_scopes),
+			),
+			repeat(
+				seq(
+					',',
+					optional(
+						seq(
+							optional($._injection_whitespace),
+							$._injection_selector,
 						),
-						repeat($._injection_scopes),
 					),
+					repeat($._injection_scopes),
 				),
 			),
-			repeat1($._injection_scopes),
 		),
 		_injection_selector: $ => choice(
 			alias(

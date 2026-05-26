@@ -898,7 +898,7 @@ export function findCandidateScopePostfixes(rootNode: webTreeSitter.Node, positi
 		for (let index = 0; index < scopePostfixParts.length; index++) {
 			const scopePostfix = scopePostfixParts.slice(index).join('.');
 			candidateScopePostfixes[scopePostfix] ??= 0;
-			candidateScopePostfixes[scopePostfix]++;
+			candidateScopePostfixes[scopePostfix] += scopeCapture.name == 'injectionScope' ? 0.5 : 1;
 		}
 
 		if (scopeCapture.name == 'includeScope') {
@@ -944,7 +944,10 @@ export function findCandidateScopePostfixes(rootNode: webTreeSitter.Node, positi
 				return 0;
 			}
 		)
-		.filter(candidate => candidate[1] > 3)
+		.filter(
+			(candidate, index, candidates) =>
+				candidate[1] > 3 /* || candidate[1] >= candidates[4][1] */
+		)
 		.filter(
 			(candidate, index, candidates) =>
 				!candidates[0][0].endsWith('.' + candidate[0])
@@ -955,7 +958,7 @@ export function findCandidateScopePostfixes(rootNode: webTreeSitter.Node, positi
 		candidatePostfixes.push(rootScopeNamePostfixParts?.slice(1).join('.'));
 	}
 
-	// vscode.window.showInformationMessage(`candidateScopePostfixes ${(performance.now() - start).toFixed(3)}ms ${JSON.stringify(candidatePostfixes)}`);
+	// vscode.window.showInformationMessage(`candidateScopePostfixes ${(performance.now() - start).toFixed(3)}ms\n${JSON.stringify(candidatePostfixes)}\n${JSON.stringify(candidateScopePostfixes)}`);
 
 	return {
 		cursorScope,
