@@ -1,9 +1,9 @@
 import * as vscode from 'vscode';
 import * as YAML from 'yaml';
 import * as XML from 'plist';
-import * as CSON from 'cson-parser';
 import * as DATE from 'date-and-time';
-import CSON2JSON from 'cson2json';
+import * as coffeescript from 'coffeescript';
+import { stringify } from './extension';
 
 
 export function initFileConverter(context: vscode.ExtensionContext) {
@@ -20,6 +20,7 @@ export function initFileConverter(context: vscode.ExtensionContext) {
 type Language = 'JSON' | 'YAML' | 'XML' | 'ASCII' | 'CSON';
 
 async function convertFileTo(newLanguage: Language, document?: vscode.TextDocument) {
+	// const start = performance.now();
 	if (!document) {
 		const activeTextEditor = vscode.window.activeTextEditor;
 		if (!activeTextEditor) {
@@ -47,11 +48,7 @@ async function convertFileTo(newLanguage: Language, document?: vscode.TextDocume
 					parsedDocument = parseAsciiPLIST(text);
 					break;
 				case 'CSON':
-					if (CSON.parse) {
-						parsedDocument = CSON.parse(text);
-						break;
-					}
-					parsedDocument = CSON2JSON.default(text);
+					parsedDocument = parseCSON(text);
 					break;
 			}
 		} catch (error: any) {
@@ -83,7 +80,11 @@ async function convertFileTo(newLanguage: Language, document?: vscode.TextDocume
 	try {
 		switch (newLanguage) {
 			case 'JSON':
-				newText = JSON.stringify(parsedDocument, null, indent);
+				newText = JSON.stringify(
+					parsedDocument,
+					(key, value) => value instanceof RegExp ? value.source : value,
+					indent
+				);
 				break;
 			case 'YAML':
 				newText = YAML.stringify(parsedDocument, {
@@ -98,10 +99,7 @@ async function convertFileTo(newLanguage: Language, document?: vscode.TextDocume
 				newText = stringifyAsciiPLIST(parsedDocument, indent);
 				break;
 			case 'CSON':
-				if (!CSON.stringify) {
-					throw new Error("TextMate: Conversion to CSON is not available in VSCode Web atm");
-				}
-				newText = CSON.stringify(parsedDocument, undefined, indent);
+				newText = stringifyCSON(parsedDocument, indent);
 				break;
 			default:
 				return;
@@ -115,6 +113,7 @@ async function convertFileTo(newLanguage: Language, document?: vscode.TextDocume
 		preview: true,
 		preserveFocus: true,
 	};
+	// vscode.window.showInformationMessage(`convertFileTo ${(performance.now() - start).toFixed(3)}ms`);
 	return await vscode.window.showTextDocument(newDocument, options);
 }
 
@@ -205,7 +204,6 @@ function rankLanguages(document: vscode.TextDocument): Language[] {
 	}
 	return rankedLanguages;
 }
-
 
 
 /* == ASCII PLIST == */
@@ -509,8 +507,388 @@ function parseAsciiPLIST(string: string): Value {
 			/(?<comma>,)/,
 			/(?<semiColon>;)/,
 			/(?<invalid>.)/,
-		].map((regex: RegExp): string => regex.source).join('|'),
+		].map(regex => regex.source).join('|'),
 		'gm',
 	);
 	return parseElement(regex, string);
+}
+
+
+/* == CSON == */
+
+type CSONValue = CSONDictionary | CSONValue[] | string | number | bigint | boolean | null | undefined;
+type CSONDictionary = {
+	[key: string]: CSONValue;
+};
+
+function stringifyCSON(value: CSONValue, indent: string = '\t', level: number = 0): string {
+	switch (typeof value) {
+		case 'undefined':
+			return 'undefined';
+
+		// https://github.com/jashkenas/coffeescript/blob/main/src/lexer.coffee#L1341-L1347
+		case 'string':
+			// Unquoted string
+			if (level < 0 && /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(value)) {
+				return value;
+			}
+
+			// Heredoc
+			if (value.match(/\n/)) {
+				if ((value.match(/'''|(?<=')''|(?<='')'/g)?.length ?? 0) <= (value.match(/"""|(?<=")""|(?<="")"|#{/g)?.length ?? 0)) {
+					// Heredoc Single quotes
+					return `'''${('\n' + value).replaceAll(/\\|'''|(?<=')''|(?<='')'/g, "\\$&").replaceAll(/\r?\n|\r/g, '$&' + indent.repeat(level + 1))}\n${indent.repeat(level)}'''`;
+				}
+
+				// Heredoc Double quotes
+				return `"""${('\n' + value).replaceAll(/\\|"""|(?<=")""|(?<="")"|#{/g, "\\$&").replaceAll(/\r?\n|\r/g, '$&' + indent.repeat(level + 1))}\n${indent.repeat(level)}"""`;
+			}
+
+			return ((value.match(/'/g)?.length ?? 0) <= (value.match(/"|#{/g)?.length ?? 0)
+				// Single quotes
+				? `'${value.replaceAll(/\\|'/g, "\\$&")}'`
+				// Double quotes
+				: `"${value.replaceAll(/\\|"|#{/g, "\\$&")}"`)
+				.replaceAll(/[\x00-\x1F]/g, unicode => {
+					const codePoint = unicode.codePointAt(0)!;
+					if (codePoint <= 0x1F) {
+						switch (codePoint) {
+							case 0x00: return '\\0'; // null
+							case 0x08: return '\\b'; // backspace
+							case 0x09: return '\\t'; // tab
+							case 0x0A: return '\\n'; // newline
+							case 0x0B: return '\\v'; // vertical tab
+							case 0x0C: return '\\f'; // form feed
+							case 0x0D: return '\\r'; // carriage return
+						}
+					}
+					// if (codePoint <= 0x7F) {
+					// 	return unicode;
+					// }
+					if (codePoint <= 0xFF) {
+						return `\\x${codePoint.toString(16).padStart(2, '0')}`;
+					}
+					if (codePoint <= 0xFFFF) {
+						return `\\u${codePoint.toString(16).padStart(4, '0')}`;
+					}
+					return `\\u{${codePoint.toString(16)}}`;
+				});
+
+		case 'bigint':
+		case 'number':
+			return value.toString();
+
+		case 'boolean':
+			return value ? 'true' : 'false';
+
+		case 'object':
+			if (value == null) {
+				return 'null';
+			}
+
+			if (value instanceof RegExp) {
+				return `/${value.source}/${value.flags}`;
+			}
+
+			if (Array.isArray(value)) {
+				if (value.length === 0) {
+					return '[]';
+				}
+
+				if (value.length === 1) {
+					const childValue = value[0];
+					if (typeof childValue !== 'object'
+						|| childValue === null
+						|| childValue instanceof RegExp) {
+						return `[ ${stringifyCSON(childValue, indent, level)} ]`;
+					}
+				}
+				else {
+					if (
+						value.every(childValue =>
+							typeof childValue === 'object'
+							&& childValue !== null
+							&& !(childValue instanceof RegExp)
+							&& !Array.isArray(childValue))
+					) {
+						const elements = (value as CSONDictionary[]).map(childValue => {
+							const inline = Object.keys(childValue).length === 1;
+							const beforeIndent = inline ? ' ' : `\n${indent.repeat(level + 2)}`;
+							const afterIndent = inline ? ' ' : `\n${indent.repeat(level + 1)}`;
+							return `${indent.repeat(level + 1)}{${beforeIndent}${stringifyCSON(childValue, indent, level + 2)}${afterIndent}}`;
+						});
+						return `[\n${elements.join('\n')}\n${indent.repeat(level)}]`;
+					}
+				}
+
+				const elements = value.map(element => `\n${indent.repeat(level + 1)}${stringifyCSON(element, indent, level + 1)}`);
+				return `[${elements.join('')}\n${indent.repeat(level)}]`;
+			}
+
+			const entires = Object.entries(value);
+			if (entires.length == 0) {
+				return '{}';
+			}
+			if (entires.length == 1) {
+				const childValue = entires[0][1];
+				if (typeof childValue !== 'object'
+					|| childValue == null
+					|| childValue instanceof RegExp) {
+					return `${stringifyCSON(entires[0][0], indent, -1)}: ${stringifyCSON(childValue, indent, level + 1)}`;
+				}
+			}
+
+			return `${entires
+				.map(entry => {
+					const childValue = entry[1];
+					const inline = typeof childValue !== 'object'
+						|| childValue == null
+						|| Array.isArray(childValue)
+						|| Object.keys(childValue).length == 0;
+					return `${stringifyCSON(entry[0], indent, -1)}:${inline ? ' ' : `\n${indent.repeat(level + 1)}`}${stringifyCSON(childValue, indent, inline ? level : level + 1)}`;
+				}).join(`\n${indent.repeat(level)}`)
+				}`;
+
+		case 'function':
+			return '"<function>"';
+		case 'symbol':
+			return '"<symbol>"';
+
+		default:
+			throw new Error(`Unsupported value type ${typeof value}`);
+	}
+};
+
+
+function nodeTypeString(csNode: Object): string {
+	return csNode.constructor.name ?? csNode.constructor.toString().match(/^function\s*([^(\s]+)/)![1];
+}
+
+function syntaxErrorMessage(csNode: coffeescript.ASTNode, msg: string) {
+	const ref = csNode.locationData as coffeescript.JisonLocationData;
+	const lineIdx = ref.first_line;
+	const columnIdx = ref.first_column;
+	let line = -1;
+	let column = -1;
+	if (lineIdx != null) {
+		line = lineIdx + 1;
+	}
+	if (columnIdx != null) {
+		column = columnIdx + 1;
+	}
+	return `Syntax error on line ${line}, column ${column}: ${msg}`;
+}
+
+function transformKey(csNode: coffeescript.ASTNode) {
+	const type = nodeTypeString(csNode);
+	if (type !== 'Value') {
+		throw new SyntaxError(syntaxErrorMessage(csNode, `${type} used as key`));
+	}
+	const value = csNode.base!.value as string;
+	switch (value.charAt(0)) {
+		case "'":
+		case '"':
+			return parseString(csNode.base!);
+		default:
+			return value;
+	}
+}
+
+function parseString(node: coffeescript.ASTNode) {
+	const value = node.value as string;
+	// @ts-expect-error
+	switch (node.delimiter) {
+		case '"':
+		case "'":
+			return value.slice(1, -1).replaceAll(
+				/\\(?:u{[0-9A-Fa-f]+}|u[0-9A-Fa-f]{4}|x[0-9A-Fa-f]{2}|.)?/g,
+				escapeString => {
+					const escapeChar = escapeString.charAt(1);
+					switch (escapeChar) {
+						case 'u': // unicode \u0000
+							const unicodeString = escapeString.charAt(2) == '{'
+								? escapeString.slice(3, -1)
+								: escapeString.slice(2, 6);
+							const unicodeCode = parseInt(unicodeString, 16);
+							return String.fromCodePoint(unicodeCode);
+						case 'x': // ascii \x00
+							const hexadecimalString = escapeString.slice(2, 4);
+							const hexadecimalCode = parseInt(hexadecimalString, 16);
+							return String.fromCodePoint(hexadecimalCode);
+						case 'b': return '\b'; // backspace
+						case 'f': return '\f'; // form feed
+						case 'n': return '\n'; // newline
+						case 'r': return '\r'; // carriage return
+						case 't': return '\t'; // tab
+						case 'v': return '\v'; // vertical tab
+						case '0': return '\0'; // null
+						default:
+							return escapeChar;
+					}
+				}
+			);
+		case '/':
+		case '///':
+			const match = value.match(/^\/(?<pattern>.*)\/(?<flags>\w*)$/);
+			return new RegExp(match!.groups!.pattern!, match!.groups!.flags!);
+	// // @ts-expect-error
+	// return new RegExp(node.originalValue, node.flags);
+		default:
+			try {
+				return JSON.parse(value) as boolean | number | null;
+			} catch (error: any) {
+				throw new SyntaxError(syntaxErrorMessage(node, error.message));
+			}
+	}
+}
+
+const nodeTransforms/* : { [key: string]: TransformNode; } */ = {
+	Block: function Block(node: coffeescript.ASTNode, transformNode: TransformNode) {
+		const expressions = node.expressions;
+		if (!expressions || expressions.length !== 1) {
+			throw new SyntaxError(
+				syntaxErrorMessage(node, 'One top level value expected')
+			);
+		}
+		return transformNode(expressions[0]);
+	},
+	Root: function Root(node: coffeescript.ASTNode, transformNode: TransformNode) {
+		const expressions = node.body!.expressions;
+		if (!expressions || expressions.length !== 1) {
+			throw new SyntaxError(
+				syntaxErrorMessage(node, 'One top level value expected')
+			);
+		}
+		return transformNode(expressions[0]);
+	},
+	Value: function Value(node: coffeescript.ASTNode, transformNode: TransformNode) {
+		return transformNode(node.base!);
+	},
+	Bool: function Bool(node: coffeescript.ASTNode) {
+		return node.val === 'true';
+	},
+	BooleanLiteral: function BooleanLiteral(node: coffeescript.ASTNode) {
+		return node.value === 'true';
+	},
+	Null: function Null() {
+		return null;
+	},
+	NullLiteral: function NullLiteral() {
+		return null;
+	},
+	Literal: function Literal(node: coffeescript.ASTNode) {
+		return parseString(node);
+	},
+	NumberLiteral: function NumberLiteral(node: coffeescript.ASTNode) {
+		return Number(node.value);
+	},
+	StringLiteral: function StringLiteral(node: coffeescript.ASTNode) {
+		return parseString(node);
+	},
+	RegexLiteral: function RegexLiteral(node: coffeescript.ASTNode) {
+		return parseString(node);
+	},
+	Arr: function Arr(node: coffeescript.ASTNode, transformNode: TransformNode) {
+		return node.objects!.map(transformNode as (csNode: coffeescript.ASTNode) => ReturnType<TransformNode>);
+	},
+	Obj: function Obj(node: coffeescript.ASTNode, transformNode: TransformNode, reviver: NonNullable<Parameters<typeof parseCSON>[1]>) {
+		return node.properties!.reduce((outObject: { [key: string]: ReturnType<TransformNode>; }, property) => {
+			const variable = property.variable;
+			if (!variable) {
+				return outObject;
+			}
+
+			const keyName = transformKey(variable) as string;
+			const value = transformNode(property.value as coffeescript.ASTNode);
+			outObject[keyName] = reviver.call(outObject, keyName, value);
+			return outObject;
+		}, {});
+	},
+	Op: function Op(node: coffeescript.ASTNode, transformNode: TransformNode) {
+		if (node.second != null) {
+			const left = transformNode(node.first!) as number;
+			const right = transformNode(node.second) as number;
+			switch (node.operator) {
+				case '-':
+					return left - right;
+				case '+':
+					return left + right;
+				case '*':
+					return left * right;
+				case '/':
+					return left / right;
+				case '%':
+					return left % right;
+				case '&':
+					return left & right;
+				case '|':
+					return left | right;
+				case '^':
+					return left ^ right;
+				case '<<':
+					return left << right;
+				case '>>>':
+					return left >>> right;
+				case '>>':
+					return left >> right;
+				default:
+					throw new SyntaxError(
+						syntaxErrorMessage(node, `Unknown binary operator ${node.operator}`)
+					);
+			}
+		} else {
+			switch (node.operator) {
+				case '-':
+					return -(transformNode(node.first!) as number);
+				case '~':
+					return ~(transformNode(node.first!) as number);
+				default:
+					throw new SyntaxError(
+						syntaxErrorMessage(node, `Unknown unary operator ${node.operator}`)
+					);
+			}
+		}
+	},
+	Parens: function Parens(node: coffeescript.ASTNode, transformNode: TransformNode) {
+		const expressions = node.body!.expressions as coffeescript.ASTNode[];
+		if (!expressions || expressions.length !== 1) {
+			throw new SyntaxError(
+				syntaxErrorMessage(node, 'Parenthesis may only contain one expression')
+			);
+		}
+		return transformNode(expressions[0]);
+	},
+};
+
+function defaultReviver(key: string, value: any): any {
+	return value;
+}
+
+type TransformNode = (
+	csNode: coffeescript.ASTNode,
+	transformNode?: TransformNode,
+	reviver?: NonNullable<Parameters<typeof parseCSON>[1]>
+) => string | number | boolean | RegExp | coffeescript.ASTNode | null/* ReturnType<typeof nodeTransforms[keyof typeof nodeTransforms]> */;
+function parseCSON(text: string, reviver?: (this: any, key: string, value: any) => any): any {
+	reviver ??= defaultReviver;
+	if (typeof reviver !== 'function') {
+		throw new TypeError('reviver has to be a function');
+	}
+
+	const transformNode = (csNode: coffeescript.ASTBody) => {
+		const type = nodeTypeString(csNode) as keyof typeof nodeTransforms;
+		const transform = nodeTransforms[type];
+		if (!transform) {
+			throw new SyntaxError(syntaxErrorMessage(csNode, `Unexpected ${type}`));
+		}
+		return transform(csNode, transformNode as TransformNode, reviver);
+	};
+
+	const coffeeAst = coffeescript.nodes(text);
+	// vscode.window.showInformationMessage(JSON.stringify(coffeeAst, stringify));
+
+	const parsed = transformNode(coffeeAst);
+
+	const contextObj = { '': parsed };
+	return reviver.call(contextObj, '', parsed);
 }

@@ -94,13 +94,22 @@ export function stringify(this: any, key: string, value: any): any {
 		return null;
 	}
 	if (value instanceof Map) {
-		if (key == "_grammars") {
+		if (key === "_grammars") {
 			return Array.from(value.keys());
 		}
 		return Array.from(value.entries());
 	}
+	if (value instanceof RegExp) {
+		return value.source;
+	}
 	if (key.startsWith("HEAP")) {
-		return "<error>";
+		return `<${key}>`;
+	}
+	if (key === 'properties') {
+		return "<properties>";
+	}
+	if (key === 'locationData') {
+		return "<locationData>";
 	}
 	return value;
 }

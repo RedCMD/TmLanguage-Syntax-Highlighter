@@ -4,15 +4,9 @@ scopeName: 'source.languageId'
 injections:
 	'L:source.scopeName -comment -string,R:source.scopeName.another': {}
 patterns: [
-	{
-		include: '#repo-item'
-	}
-	{
-		include: '#string'
-	}
-	{
-		include: '#boolean'
-	}
+	{ include: '#repo-item' }
+	{ include: '#string' }
+	{ include: '#boolean' }
 ]
 repository:
 	'repo-item': {}
@@ -32,9 +26,7 @@ repository:
 				name: 'punctuation.definition.string.end.languageId'
 		name: 'string.quoted.double.languageId'
 		patterns: [
-			{
-				comment: 'Quad backslash required to match one literal backslash'
-				match: '\\\\.'
-				name: 'constant.character.escape.languageId'
-			}
+			comment: 'Quad backslash required to match one literal backslash'
+			match: '\\\\.'
+			name: 'constant.character.escape.languageId'
 		]

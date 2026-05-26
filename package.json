@@ -36,7 +36,7 @@
 	"capabilities": {
 		"virtualWorkspaces": {
 			"supported": true,
-			"description": "DropEdit and file conversion to CSON does not work in VSCode Web"
+			"description": "DropEdit does not work in VSCode Web"
 		},
 		"untrustedWorkspaces": {
 			"supported": true,
@@ -681,15 +681,13 @@
 				"command": "textmate.convertFileToCSON",
 				"title": "Convert file to CSON",
 				"category": "TextMate",
-				"icon": "assets/TextMate-file-icon.svg",
-				"enablement": "!isWeb"
+				"icon": "assets/TextMate-file-icon.svg"
 			}
 		]
 	},
 	"dependencies": {
 		"@syntropiq/libpcre-ts": "file:node_modules_linked/@syntropiq/libpcre-ts",
-		"cson-parser": "^4.0.9",
-		"cson2json": "file:node_modules_linked/cson2json",
+		"coffeescript": "^2.7.0",
 		"date-and-time": "3.6.0",
 		"oniguruma-parser-cjs": "^0.0.1",
 		"oniguruma-to-es": "^4.3.6",
@@ -701,6 +699,7 @@
 	},
 	"devDependencies": {
 		"@types/assert": "^1.5.11",
+		"@types/coffeescript": "^2.5.7",
 		"@types/emscripten": "^1.41.5",
 		"@types/mocha": "^10.0.10",
 		"@types/node": "^25.6.0",

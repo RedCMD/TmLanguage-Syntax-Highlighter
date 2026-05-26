@@ -32,7 +32,6 @@ const webExtensionConfig = {
 		alias: {
 			// provides alternate implementation for node module and source files
 			// process: "process/browser",
-			'cson-parser': false, // cson-parser doesn't work with webpack. Disable it for VSCode Web
 		},
 		fallback: {
 			// Webpack 5 no longer polyfills Node.js core modules automatically.
