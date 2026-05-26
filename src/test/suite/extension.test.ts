@@ -4,7 +4,6 @@ import assert from 'assert';
 import { getSpellingSuggestion, sleep, stringify, tryCatchAsync } from "../../extension";
 import { IRelaxedExtensionManifest } from "../../extensions";
 import { Diagnostic } from "../../DiagnosticCollection";
-import { triggerCharacters } from "../../Providers/CompletionItemProvider";
 
 const updateTests = process.env.updateTests === "true" ? true : false;
 const runTests = !updateTests;
@@ -100,17 +99,43 @@ suite('Extension Tests', async () => {
 			assert.equal(
 				actual.length,
 				expected.length,
+				`Expected array length to match on file ${filename}`
+			);
+			const actualFiltered = JSON.parse(actualStringified) as any[];
+			for (let i = 0; i < actualFiltered.length; i++) {
+				for (const key in actualFiltered[i]) {
+					const array = actualFiltered[i][key];
+					if (Array.isArray(array)) {
+						assert.equal(
+							array.length,
+							expected[i][key].length,
+							`Expected array length at index ${i} to match on file ${filename}`
+						);
+						for (let j = 0; j < array.length; j++) {
+							assert.deepEqual(
+								array[j],
+								expected[i][key][j],
+								`Failed parsed assertion at index ${i} ${key} ${j} on file ${filename}`
+							);
+						}
+					}
+				}
+				assert.deepEqual(
+					actualFiltered[i],
+					expected[i],
+					`Failed parsed assertion at index ${i} on file ${filename}`
+				);
+			}
+			assert.deepEqual(
+				JSON.parse(actualStringified) as any[],
+				expected,
+				`Failed parsed assertion on file ${filename}`
 			);
 			// VSCode's IRange is presented differently compared to how its actually stored
 			assert.equal(
 				actualStringified,
 				JSON.stringify(expected, null, '\t').replaceAll(/[\r\n]+/g, '\r\n') + '\r\n',
 				`Failed stringified assertion on file ${filename}`
-			);
-			assert.deepEqual(
-				JSON.parse(actualStringified) as any[],
-				expected,
-				`Failed parsed assertion on file ${filename}`
 			);
 		}
 		else {
@@ -619,7 +644,7 @@ suite('Extension Tests', async () => {
 	});
 
 	test('CompletionItemProvider', async () => {
-		const uri = vscode.Uri.joinPath(fixturesUri, 'DefinitionReferenceProvider.tmLanguage.json');
+		const uri = vscode.Uri.joinPath(fixturesUri, 'CompletionItemProvider.tmLanguage.json');
 		const editor = await vscode.window.showTextDocument(uri, showTextDocumentOptions);
 
 		type CompletionList = vscode.CompletionList<vscode.CompletionItem> & {
@@ -641,7 +666,7 @@ suite('Extension Tests', async () => {
 			const position = typeof positionOrLine == 'number' ? new vscode.Position(positionOrLine, character!) : positionOrLine;
 			const completions = await vscode.commands.executeCommand(
 				'_executeCompletionItemProvider',
-				uri, position, triggerCharacters.join(''), /* itemResolveCount */
+				uri, position, undefined, /* maxItemsToResolveCount */
 			) as CompletionList;
 
 			completions.suggestions = completions.suggestions.filter((suggestion) => {
@@ -733,7 +758,7 @@ suite('Extension Tests', async () => {
 
 
 	// test('sleep', async () => {
-	// 	await sleep(10000);
+	// 	await sleep(20000);
 	// });
 });
 

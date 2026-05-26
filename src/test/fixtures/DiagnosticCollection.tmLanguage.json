@@ -162,7 +162,12 @@
 			"name": "support.class.range.string.glob.json",
 			"name": "punctuation.separator.comma.glob.string",
 			"name": "comment.line.double-slash.js",
-			"name": "token.debug-token.trailing.dot."
+			"name": "token.debug-token.trailing.dot.",
+			"name": "support.function.construct.php",
+			"name": "support.function.construct.php",
+			"name": "support.function.construct.php",
+			"name": "support.function.construct.php",
+			"name": "support.function.constructor.php"
 		}
 	],
 	"repository": {

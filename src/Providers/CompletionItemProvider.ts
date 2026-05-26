@@ -153,7 +153,7 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 										label: grammar.scopeName || `source.${grammar.language}`,
 										description: grammar.language,
 									},
-									documentation: documentPath,
+									documentation: relativePath,
 									range: cursorRange,
 									kind: vscode.CompletionItemKind.Variable,
 								});
@@ -426,18 +426,20 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 					}
 					const candidateScopePostfix = '.' + candidatePostfixes.candidatePostfixes[0];
 
-					const mergedScopePostfix = mergeCandidatesScopePostfix(candidatePostfixes.cursorScope, candidatePostfixes.candidatePostfixes, true);
-					if (mergedScopePostfix.candidatePostfix !== undefined) {
-						completionItems.push({
-							label: {
-								label: candidatePostfixes.cursorScope,
-								detail: mergedScopePostfix.scopePostfixEnding,
-							},
-							range: cursorRange,
-							kind: vscode.CompletionItemKind.Text,
-							sortText: ` ${candidatePostfixes.cursorScope}`,
-							insertText: candidatePostfixes.cursorScope + mergedScopePostfix.scopePostfixEnding,
-						});
+					if (candidatePostfixes.cursorScope) {
+						const mergedScopePostfix = mergeCandidatesScopePostfix(candidatePostfixes.cursorScope, candidatePostfixes.candidatePostfixes, true);
+						if (mergedScopePostfix.candidatePostfix !== undefined) {
+							completionItems.push({
+								label: {
+									label: candidatePostfixes.cursorScope,
+									detail: mergedScopePostfix.candidatePostfixEnding,
+								},
+								range: cursorRange,
+								kind: vscode.CompletionItemKind.Text,
+								sortText: ` ${candidatePostfixes.cursorScope}`,
+								insertText: candidatePostfixes.cursorScope + mergedScopePostfix.candidatePostfixEnding,
+							});
+						}
 					}
 
 					for (const scope in themeScopes) {
@@ -864,7 +866,7 @@ export function findCandidateScopePostfixes(rootNode: webTreeSitter.Node): {
 	candidatePostfixes: string[];
 };
 export function findCandidateScopePostfixes(rootNode: webTreeSitter.Node, position: vscode.Position): {
-	cursorScope: string;
+	cursorScope: string | undefined;
 	scopes: { [scope: string]: number; };
 	scopeCaptures: webTreeSitter.QueryCapture[];
 	candidatePostfixes: string[];
@@ -886,6 +888,7 @@ export function findCandidateScopePostfixes(rootNode: webTreeSitter.Node, positi
 		(contentName (value (scope) @scope (.not-match? @scope "^(\\\\$0*[0-9]{1,3})+$")))
 		(name_scopeName (value (scope) @scope (.not-match? @scope "^(\\\\$0*[0-9]{1,3})+$")))
 		(injectionSelector (value (scope) @injectionScope (.not-match? @injectionScope "^(\\\\$0*[0-9]{1,3})+$")))
+		(injections (injection (key (scope) @injectionScope (.not-match? @injectionScope "^(\\\\$0*[0-9]{1,3})+$"))))
 		(include (value (scopeName) @includeScope (.not-match? @includeScope "^(\\\\$0*[0-9]{1,3})+$")))
 	`;
 	const scopeCaptures = queryNode(rootNode, scopeQuery);
@@ -962,7 +965,7 @@ export function findCandidateScopePostfixes(rootNode: webTreeSitter.Node, positi
 	};
 }
 
-export function mergeCandidatesScopePostfix(scope: string, candidates: readonly string[], merge?: boolean) {
+export function mergeCandidatesScopePostfix(scope: string, candidates: readonly string[], forceMerge?: boolean) {
 	const subScopes: string[] = [];
 	const scopeParts = scope.split('.');
 
@@ -976,11 +979,11 @@ export function mergeCandidatesScopePostfix(scope: string, candidates: readonly 
 
 		const candidatePostfix = candidates[0];
 		if (candidatePostfix.startsWith(subScopePostfix)
-			&& (merge || candidatePostfix.split('.')[0] != subScopePostfix)) {
+			&& (forceMerge || candidatePostfix.split('.')[0] != subScopePostfix)) {
 			return {
-				scopePostfixEnding: candidatePostfix.slice(subScopePostfix.length),
 				subScopePostfix,
 				candidatePostfix,
+				candidatePostfixEnding: candidatePostfix.slice(subScopePostfix.length),
 			};
 		}
 	}
@@ -988,20 +991,28 @@ export function mergeCandidatesScopePostfix(scope: string, candidates: readonly 
 	// Test for longest postfix
 	for (let index = 1; index < scopeParts.length; index++) {
 		const subScopePostfix = scopeParts.slice(index).join('.');
-		if (!subScopePostfix) {
+		if (!subScopePostfix && !forceMerge) {
 			continue;
 		}
 
 		for (const candidatePostfix of candidates) {
 			if (candidatePostfix.startsWith(subScopePostfix)
-				&& (merge || candidatePostfix/* .split('.')[0] */ != subScopePostfix)) {
+				&& (forceMerge || candidatePostfix/* .split('.')[0] */ != subScopePostfix)) {
 				return {
-					scopePostfixEnding: candidatePostfix.slice(subScopePostfix.length),
 					subScopePostfix,
 					candidatePostfix,
+					candidatePostfixEnding: candidatePostfix.slice(subScopePostfix.length),
 				};
 			}
 		}
+	}
+
+	if (forceMerge) {
+		return {
+			subScopePostfix: scope,
+			candidatePostfix: candidates[0],
+			candidatePostfixEnding: '.' + candidates[0],
+		};
 	}
 
 	return { subScopes };

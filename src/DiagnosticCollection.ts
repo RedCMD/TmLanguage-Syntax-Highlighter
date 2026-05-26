@@ -1358,7 +1358,7 @@ function diagnosticsScopePostfix(diagnostics: Diagnostic[], document: vscode.Tex
 			if (scope.endsWith(candidatePostfix)) {
 				if (candidatePostfixes.scopes[scope] == 1
 					&& scope.length - candidatePostfix.length > 3) {
-					const spellingSuggestion = getSpellingSuggestion(scope, commonScopes, 2);
+					const spellingSuggestion = getSpellingSuggestion(scope, commonScopes, 1.99);
 					if (spellingSuggestion) {
 						diagnostics.push({
 							range,

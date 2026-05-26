@@ -13,13 +13,13 @@
 			"range": {
 				"startLineNumber": -2,
 				"startColumn": 1,
-				"endLineNumber": 24,
+				"endLineNumber": 32,
 				"endColumn": 1001
 			},
 			"targetSelectionRange": {
 				"startLineNumber": 0,
 				"startColumn": 1,
-				"endLineNumber": 25,
+				"endLineNumber": 33,
 				"endColumn": 1
 			},
 			"filename": "fixtures/package.json"

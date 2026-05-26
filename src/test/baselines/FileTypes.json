@@ -9,6 +9,7 @@
 			"fixtures/CSON.tmLanguage.cson"
 		],
 		"json-textmate": [
+			"fixtures/CompletionItemProvider.tmLanguage.json",
 			"fixtures/DefinitionReferenceProvider.tmLanguage.json",
 			"fixtures/DiagnosticCollection.tmLanguage.json",
 			"fixtures/JSON.tmLanguage.json",

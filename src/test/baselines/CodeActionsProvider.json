@@ -712,7 +712,7 @@
 		"title": "Ignore no reference warnings",
 		"diagnostics": [
 			{
-				"startLineNumber": 110,
+				"startLineNumber": 115,
 				"startColumn": 4,
 				"endLineNumber": 0,
 				"endColumn": 13,

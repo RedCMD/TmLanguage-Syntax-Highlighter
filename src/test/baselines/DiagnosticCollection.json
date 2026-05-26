@@ -2745,6 +2745,86 @@
 		"code": "scopePostfix"
 	},
 	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
+		"severity": "Warning",
+		"message": "Duplicate object key",
+		"range": [
+			{
+				"line": 1,
+				"character": 3
+			},
+			{
+				"line": 0,
+				"character": 9
+			}
+		],
+		"source": "json-textmate",
+		"code": 520
+	},
+	{
 		"range": [
 			{
 				"line": 4,

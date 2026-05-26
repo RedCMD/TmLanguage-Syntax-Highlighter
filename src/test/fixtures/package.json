@@ -17,6 +17,14 @@
 			{
 				"scopeName": "source.languageId",
 				"path": "./JSON.tmLanguage.json"
+			},
+			{
+				"language": "completion",
+				"scopeName": "source.completion",
+				"path": "./CompletionItemProvider.tmLanguage.json",
+				"injectTo": [
+					"source.completion"
+				]
 			}
 		]
 	}

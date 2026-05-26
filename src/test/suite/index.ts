@@ -2,7 +2,7 @@
 require('mocha/mocha');
 
 // reporterOptions crashes vscode-test-web cause wtf
-(Mocha.reporters.Base as typeof Mocha.reporters.Base & { maxDiffSize: number; }).maxDiffSize = 48000;
+(Mocha.reporters.Base as typeof Mocha.reporters.Base & { maxDiffSize: number; }).maxDiffSize = 32768;
 
 export function run(): Promise<void> {
 	return new Promise((c, e) => {

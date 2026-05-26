@@ -1,0 +1,31 @@
+{
+	"name": "",
+	"scopeName": "source.completion",
+	"injections": { "L:source.languageId meta.languageId -comment.languageId -string.languageId": { } },
+	"patterns": [
+		{ "include": "" },
+		{ "include": "#string" },
+		{ "include": "#boolean" },
+		{ "include": "source.completion" },
+		{ "include": "source.completion#aaaaaaaaaaaaaaaaaaa" },
+		{ "name": "" },
+		{ "name": "comment" },
+		{ "name": "token.debug" },
+		{ "name": "punctuation" }
+	],
+	"repository": {
+		"": {
+			"match": "\\p{Ll} "
+		},
+		"string": {
+			"begin": "(R)?(\")",
+			"end": "\"",
+			"beginCaptures": {
+				"1": { "name": "string.quoted.byte.raw.comp" },
+				"2": { "name": "punctuation.definition.string.begin.completion" }
+			},
+			"endCaptures": { "0": { "name": "punctuation.definition.string.end.completion" } },
+			"name": "string.quoted.double.lang"
+		}
+	}
+}
