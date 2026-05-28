@@ -282,6 +282,292 @@
 			"description": "A dictionary of rules\nhttps://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#contributing-a-basic-grammar",
 			"type": "object",
 			"properties": {
+				"comments": {
+					"markdownDescription": "A repository item. Reference using:\n\n\t\"include\": \"#comments\"",
+					"$ref": "#/definitions/repo",
+					"defaultSnippets": [
+						{
+							"label": "Comments",
+							"body": {
+								"patterns": [
+									{
+										"begin": "/\\\\*\\\\*(?!/)",
+										"end": "\\\\*/",
+										"beginCaptures": { "0": { "name": "punctuation.definition.comment.begin.${1:languageId}" } },
+										"endCaptures": { "0": { "name": "punctuation.definition.comment.end.${1:languageId}" } },
+										"name": "comment.block.documentation.${1:languageId}"
+									},
+									{
+										"begin": "/\\\\*",
+										"end": "\\\\*/",
+										"beginCaptures": { "0": { "name": "punctuation.definition.comment.begin.${1:languageId}" } },
+										"endCaptures": { "0": { "name": "punctuation.definition.comment.end.${1:languageId}" } },
+										"name": "comment.block.${1:languageId}"
+									},
+									{
+										"begin": "//",
+										"end": "$",
+										"beginCaptures": { "0": { "name": "punctuation.definition.comment.${1:languageId}" } },
+										"name": "comment.line.double-slash.${1:languageId}"
+									}
+								]
+							}
+						}
+					]
+				},
+				"strings": {
+					"markdownDescription": "A repository item. Reference using:\n\n\t\"include\": \"#strings\"",
+					"$ref": "#/definitions/repo",
+					"defaultSnippets": [
+						{
+							"label": "Strings",
+							"body": {
+								"patterns": [
+									{
+										"begin": "\"",
+										"end": "\"",
+										"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.${1:languageId}" } },
+										"endCaptures": { "0": { "name": "punctuation.definition.string.end.${1:languageId}" } },
+										"name": "string.quoted.double.${1:languageId}",
+										"patterns": [ { "include": "#escapes" } ]
+									},
+									{
+										"begin": "'",
+										"end": "'",
+										"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.${1:languageId}" } },
+										"endCaptures": { "0": { "name": "punctuation.definition.string.end.${1:languageId}" } },
+										"name": "string.quoted.single.${1:languageId}",
+										"applyEndPatternLast": 1,
+										"patterns": [
+											{
+												"match": "''",
+												"name": "constant.character.escape.${1:languageId}"
+											}
+										]
+									},
+									{
+										"begin": "`",
+										"end": "`",
+										"beginCaptures": { "0": { "name": "punctuation.definition.string.begin.${1:languageId}" } },
+										"endCaptures": { "0": { "name": "punctuation.definition.string.end.${1:languageId}" } },
+										"name": "string.template.${1:languageId}",
+										"patterns": [
+											{ "include": "#escapes" },
+											{
+												"match": "\\\\\\\\[${]",
+												"name": "constant.character.escape.${1:languageId}"
+											},
+											{
+												"begin": "\\\\${",
+												"end": "}",
+												"beginCaptures": { "0": { "name": "punctuation.definition.template-expression.begin.begin.${1:languageId}" } },
+												"endCaptures": { "0": { "name": "punctuation.definition.template-expression.begin.end.${1:languageId}" } },
+												"name": "meta.embedded.template.${1:languageId}",
+												"patterns": [ { "include": "^\"\\$self\"" } ]
+											}
+										]
+									}
+								],
+								"repository": {
+									"escapes": {
+										"patterns": [
+											{
+												"match": "\\\\\\\\[0-9a-fA-F]{4}",
+												"name": "constant.character.escape.unicode.${1:languageId}"
+											},
+											{
+												"match": "\\\\\\\\[\"\\\\\\\\/bfnrt]",
+												"name": "constant.character.escape.${1:languageId}"
+											},
+											{
+												"match": "\\\\\\\\.",
+												"name": "invalid.illegal.unrecognized-string-escape.${1:languageId}"
+											}
+										]
+									}
+								}
+							}
+						}
+					]
+				},
+				"boolean": {
+					"markdownDescription": "A repository item. Reference using:\n\n\t\"include\": \"#boolean\"",
+					"$ref": "#/definitions/repo",
+					"defaultSnippets": [
+						{
+							"label": "Boolean",
+							"body": {
+								"match": "\\\\b(true|false|null)\\\\b",
+								"name": "^\"constant.language.\\$1.${1:languageId}\""
+							}
+						}
+					]
+				},
+				"keywords": {
+					"markdownDescription": "A repository item. Reference using:\n\n\t\"include\": \"#keywords\"",
+					"$ref": "#/definitions/repo",
+					"defaultSnippets": [
+						{
+							"label": "Keyword",
+							"body": {
+								"match": "\\\\b(if|else|then|for|do|while|switch|case|default|continue|break|try|catch|finally|throw|await|async|import|export)\\\\b",
+								"name": "^\"keyword.control.\\$1.${1:languageId}\""
+							}
+						}
+					]
+				},
+				"numeric": {
+					"markdownDescription": "A repository item. Reference using:\n\n\t\"include\": \"#numeric\"",
+					"$ref": "#/definitions/repo",
+					"defaultSnippets": [
+						{
+							"label": "Numeric",
+							"body": {
+								"patterns": [
+									{
+										"match": "\\\\b0[bB][01]+\\\\b",
+										"name": "constant.numeric.binary.${1:languageId}"
+									},
+									{
+										"match": "\\\\b0[oO][0-7]+\\\\b",
+										"name": "constant.numeric.octal.${1:languageId}"
+									},
+									{
+										"match": "\\\\b0[xX][0-9A-Fa-f]+\\\\b",
+										"name": "constant.numeric.hexadecimal.${1:languageId}"
+									},
+									{
+										"match": "\\\\b[0-9]+(?=[eE.])(\\\\\\\\.[0-9]+)?(?:[eE][-+]?[0-9]+)?\\\\b",
+										"name": "constant.numeric.float.${1:languageId}"
+									},
+									{
+										"match": "\\\\b[0-9]+\\\\b",
+										"name": "constant.numeric.${1:languageId}"
+									}
+								]
+							}
+						}
+					]
+				},
+				"function": {
+					"markdownDescription": "A repository item. Reference using:\n\n\t\"include\": \"#function\"",
+					"$ref": "#/definitions/repo",
+					"defaultSnippets": [
+						{
+							"label": "Function",
+							"body": {
+								"begin": "([a-zA-Z_][a-zA-Z0-9_]*)\\\\s*(\\\\()",
+								"end": "\\\\)",
+								"beginCaptures": {
+									"1": { "name": "entity.name.function.${1:languageId}" },
+									"2": { "name": "punctuation.definition.function.begin.${1:languageId}" }
+								},
+								"endCaptures": { "0": { "name": "punctuation.definition.function.end.${1:languageId}" } },
+								"name": "meta.function.${1:languageId}",
+								"patterns": [ { "include": "^\"\\$self\"" } ]
+							}
+						}
+					]
+				},
+				"operators": {
+					"markdownDescription": "A repository item. Reference using:\n\n\t\"include\": \"#operators\"",
+					"$ref": "#/definitions/repo",
+					"defaultSnippets": [
+						{
+							"label": "Operators",
+							"body": {
+								"patterns": [
+									{
+										"match": "==|!=|<=|>=|<(?!<)|>(?!>)",
+										"name": "keyword.operator.comparison.${1:languageId}"
+									},
+									{
+										"match": "[-%&*+/?]=|<<=|>>=|=",
+										"name": "keyword.operator.assignment.${1:languageId}"
+									},
+									{
+										"match": "&&|\\\\|\\\\||!",
+										"name": "keyword.operator.logical.${1:languageId}"
+									},
+									{
+										"match": "[&^|~]|<<|>>",
+										"name": "keyword.operator.bitwise.${1:languageId}"
+									},
+									{
+										"match": "\\\\+\\\\+|--|[-%*+/]",
+										"name": "keyword.operator.arithmetic.${1:languageId}"
+									}
+								]
+							}
+						}
+					]
+				},
+				"punctuation": {
+					"markdownDescription": "A repository item. Reference using:\n\n\t\"include\": \"#punctuation\"",
+					"$ref": "#/definitions/repo",
+					"defaultSnippets": [
+						{
+							"label": "Punctuation",
+							"body": {
+								"patterns": [
+									{
+										"match": ";",
+										"name": "punctuation.terminator.${1:languageId}"
+									},
+									{
+										"match": ",",
+										"name": "punctuation.separator.comma.${1:languageId}"
+									},
+									{
+										"match": ":",
+										"name": "punctuation.separator.colon.${1:languageId}"
+									},
+									{
+										"match": "\\.",
+										"name": "punctuation.accessor.dot.${1:languageId}"
+									}
+								]
+							}
+						}
+					]
+				},
+				"brackets": {
+					"markdownDescription": "A repository item. Reference using:\n\n\t\"include\": \"#brackets\"",
+					"$ref": "#/definitions/repo",
+					"defaultSnippets": [
+						{
+							"label": "Brackets",
+							"body": {
+								"patterns": [
+									{
+										"begin": "\\(",
+										"end": "\\)",
+										"beginCaptures": { "0": { "name": "punctuation.section.begin.bracket.round.${1:languageId}" } },
+										"endCaptures": { "0": { "name": "punctuation.section.end.bracket.round.${1:languageId}" } },
+										"name": "meta.bracket.parenthesis.${1:languageId}",
+										"patterns": [ { "include": "$self" } ]
+									},
+									{
+										"begin": "\\[",
+										"end": "]",
+										"beginCaptures": { "0": { "name": "punctuation.section.begin.bracket.square.${1:languageId}" } },
+										"endCaptures": { "0": { "name": "punctuation.section.end.bracket.square.${1:languageId}" } },
+										"name": "meta.bracket.square.${1:languageId}",
+										"patterns": [ { "include": "$self" } ]
+									},
+									{
+										"begin": "{",
+										"end": "}",
+										"beginCaptures": { "0": { "name": "punctuation.section.begin.bracket.curly.${1:languageId}" } },
+										"endCaptures": { "0": { "name": "punctuation.section.end.bracket.curly.${1:languageId}" } },
+										"name": "meta.bracket.curly.${1:languageId}",
+										"patterns": [ { "include": "$self" } ]
+									}
+								]
+							}
+						}
+					]
+				},
 				"$self": {
 					"description": "Internal VSCode TextMate node. Is overridden at parse time",
 					"$ref": "#/definitions/repo",
@@ -294,16 +580,10 @@
 				}
 			},
 			"additionalProperties": {
-				"markdownDescription": "A repository item. Reference using `\"include\": \"#...\"`",
+				"markdownDescription": "A repository item. Reference using:\n\n\t\"include\": \"#...\"",
 				"$ref": "#/definitions/repo"
 			},
-			"defaultSnippets": [
-				{
-					"label": "Repo-item",
-					"markdownDescription": "\t\"repository\": {\n\t\t\"repo-item\": {\n\n\t\t}\n\t}",
-					"body": { "${1:repo-item}": { } }
-				}
-			]
+			"default": { }
 		},
 		"repo": {
 			"allOf": [
@@ -326,8 +606,7 @@
 					}
 				},
 				{ "$ref": "#/definitions/pattern" }
-			],
-			"default": { }
+			]
 		},
 		"patterns": {
 			"description": "An array of pattern's to include",

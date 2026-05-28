@@ -52380,6 +52380,312 @@
 				"insertTextRules": 0
 			},
 			{
+				"label": "boolean",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#boolean\"",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "boolean",
+				"filterText": "\"boolean\"",
+				"insertText": "\"boolean\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 4
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 5
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "brackets",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#brackets\"",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "brackets",
+				"filterText": "\"brackets\"",
+				"insertText": "\"brackets\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 4
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 5
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "comments",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#comments\"",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "comments",
+				"filterText": "\"comments\"",
+				"insertText": "\"comments\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 4
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 5
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "function",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#function\"",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "function",
+				"filterText": "\"function\"",
+				"insertText": "\"function\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 4
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 5
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "keywords",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#keywords\"",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "keywords",
+				"filterText": "\"keywords\"",
+				"insertText": "\"keywords\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 4
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 5
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "numeric",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#numeric\"",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "numeric",
+				"filterText": "\"numeric\"",
+				"insertText": "\"numeric\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 4
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 5
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "operators",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#operators\"",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "operators",
+				"filterText": "\"operators\"",
+				"insertText": "\"operators\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 4
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 5
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "punctuation",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#punctuation\"",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "punctuation",
+				"filterText": "\"punctuation\"",
+				"insertText": "\"punctuation\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 4
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 5
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "strings",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#strings\"",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "strings",
+				"filterText": "\"strings\"",
+				"insertText": "\"strings\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 4
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 5
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
 				"label": "repo-item",
 				"extensionId": {
 					"value": "RedCMD.tmlanguage-syntax-highlighter",
@@ -67337,6 +67643,312 @@
 					"endColumn": 10
 				},
 				"insertTextRules": 0
+			},
+			{
+				"label": "boolean",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#boolean\"",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "boolean",
+				"filterText": "\"boolean\"",
+				"insertText": "\"boolean\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 7
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 11
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "brackets",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#brackets\"",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "brackets",
+				"filterText": "\"brackets\"",
+				"insertText": "\"brackets\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 7
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 11
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "comments",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#comments\"",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "comments",
+				"filterText": "\"comments\"",
+				"insertText": "\"comments\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 7
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 11
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "function",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#function\"",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "function",
+				"filterText": "\"function\"",
+				"insertText": "\"function\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 7
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 11
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "keywords",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#keywords\"",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "keywords",
+				"filterText": "\"keywords\"",
+				"insertText": "\"keywords\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 7
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 11
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "numeric",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#numeric\"",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "numeric",
+				"filterText": "\"numeric\"",
+				"insertText": "\"numeric\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 7
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 11
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "operators",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#operators\"",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "operators",
+				"filterText": "\"operators\"",
+				"insertText": "\"operators\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 7
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 11
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "punctuation",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#punctuation\"",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "punctuation",
+				"filterText": "\"punctuation\"",
+				"insertText": "\"punctuation\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 7
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 11
+					}
+				},
+				"insertTextRules": 4
+			},
+			{
+				"label": "strings",
+				"extensionId": {
+					"value": "vscode.json-language-features",
+					"_lower": "vscode.json-language-features"
+				},
+				"kind": 9,
+				"documentation": {
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#strings\"",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				},
+				"sortText": "strings",
+				"filterText": "\"strings\"",
+				"insertText": "\"strings\"",
+				"range": {
+					"insert": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 7
+					},
+					"replace": {
+						"startLineNumber": 0,
+						"startColumn": 3,
+						"endLineNumber": 0,
+						"endColumn": 11
+					}
+				},
+				"insertTextRules": 4
 			},
 			{
 				"label": "repo-item",
