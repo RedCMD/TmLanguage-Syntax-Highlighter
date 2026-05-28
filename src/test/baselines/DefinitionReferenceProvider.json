@@ -84,7 +84,7 @@
 				"endColumn": 24
 			},
 			"range": {
-				"startLineNumber": 17,
+				"startLineNumber": 19,
 				"startColumn": 3,
 				"endLineNumber": 14,
 				"endColumn": 4
@@ -102,13 +102,13 @@
 	[
 		{
 			"originSelectionRange": {
-				"startLineNumber": -16,
+				"startLineNumber": -18,
 				"startColumn": 17,
 				"endLineNumber": 0,
 				"endColumn": 25
 			},
 			"range": {
-				"startLineNumber": 11,
+				"startLineNumber": 13,
 				"startColumn": 3,
 				"endLineNumber": 4,
 				"endColumn": 4
@@ -126,7 +126,7 @@
 	[
 		{
 			"originSelectionRange": {
-				"startLineNumber": -8,
+				"startLineNumber": -10,
 				"startColumn": 4,
 				"endLineNumber": 0,
 				"endColumn": 13
@@ -180,13 +180,13 @@
 			"range": {
 				"startLineNumber": 0,
 				"startColumn": 3,
-				"endLineNumber": 5,
+				"endLineNumber": 7,
 				"endColumn": 4
 			},
 			"targetSelectionRange": {
 				"startLineNumber": 0,
 				"startColumn": 3,
-				"endLineNumber": 5,
+				"endLineNumber": 7,
 				"endColumn": 4
 			},
 			"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"
@@ -204,14 +204,14 @@
 			"range": {
 				"startLineNumber": 0,
 				"startColumn": 5,
-				"endLineNumber": 0,
-				"endColumn": 16
+				"endLineNumber": 2,
+				"endColumn": 6
 			},
 			"targetSelectionRange": {
 				"startLineNumber": 0,
 				"startColumn": 5,
-				"endLineNumber": 0,
-				"endColumn": 16
+				"endLineNumber": 2,
+				"endColumn": 6
 			},
 			"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"
 		}
@@ -228,22 +228,24 @@
 			"range": {
 				"startLineNumber": 0,
 				"startColumn": 5,
-				"endLineNumber": 0,
-				"endColumn": 16
+				"endLineNumber": 2,
+				"endColumn": 6
 			},
 			"targetSelectionRange": {
 				"startLineNumber": 0,
 				"startColumn": 5,
-				"endLineNumber": 0,
-				"endColumn": 16
+				"endLineNumber": 2,
+				"endColumn": 6
 			},
 			"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"
 		}
 	],
+	[],
+	[],
 	[
 		{
 			"originSelectionRange": {
-				"startLineNumber": 3,
+				"startLineNumber": 5,
 				"startColumn": 4,
 				"endLineNumber": 0,
 				"endColumn": 11

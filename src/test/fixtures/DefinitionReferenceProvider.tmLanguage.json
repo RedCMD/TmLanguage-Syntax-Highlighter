@@ -13,7 +13,9 @@
 		"nest": {
 			"include": "#nest",
 			"repository": {
-				"nest": { }
+				"nest": {
+					"name": "no.postfix"
+				}
 			}
 		},
 		"boolean": {

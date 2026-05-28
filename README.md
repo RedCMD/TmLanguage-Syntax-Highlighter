@@ -88,8 +88,6 @@ Highlights scope names with their own themed colour in realtime:
 * Fix TreeSitter minified empty repo name
 * Parse regexes with [oniguruma-parser](https://github.com/slevithan/oniguruma-parser)
 * Update YAML and Ascii Plist grammars
-* Add auto scopeName suffix detection and completion
-* [F2] Rename sub.scopes
 * Support Atom
 * Fix include scopeName highlight (ignore #repo suffix)
 * Add note for single patterns array inside repo

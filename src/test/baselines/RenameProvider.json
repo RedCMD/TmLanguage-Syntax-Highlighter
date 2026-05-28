@@ -148,7 +148,7 @@
 				"textEdit": {
 					"text": "gnirts",
 					"range": {
-						"startLineNumber": 17,
+						"startLineNumber": 19,
 						"startColumn": 4,
 						"endLineNumber": 0,
 						"endColumn": 10
@@ -161,7 +161,7 @@
 	{
 		"renamePrepare": {
 			"range": {
-				"startLineNumber": -16,
+				"startLineNumber": -18,
 				"startColumn": 18,
 				"endLineNumber": 0,
 				"endColumn": 25
@@ -185,7 +185,7 @@
 				"textEdit": {
 					"text": "naeloob",
 					"range": {
-						"startLineNumber": 11,
+						"startLineNumber": 13,
 						"startColumn": 4,
 						"endLineNumber": 0,
 						"endColumn": 11
@@ -198,7 +198,7 @@
 	{
 		"renamePrepare": {
 			"range": {
-				"startLineNumber": -8,
+				"startLineNumber": -10,
 				"startColumn": 4,
 				"endLineNumber": 0,
 				"endColumn": 13
@@ -419,7 +419,32 @@
 	{
 		"renamePrepare": {
 			"range": {
-				"startLineNumber": 5,
+				"startLineNumber": 3,
+				"startColumn": 18,
+				"endLineNumber": 0,
+				"endColumn": 25
+			},
+			"text": "postfix"
+		},
+		"workspaceEdits": [
+			{
+				"textEdit": {
+					"text": "xiftsop",
+					"range": {
+						"startLineNumber": 0,
+						"startColumn": 18,
+						"endLineNumber": 0,
+						"endColumn": 25
+					}
+				},
+				"filename": "fixtures/DefinitionReferenceProvider.tmLanguage.json"
+			}
+		]
+	},
+	{
+		"renamePrepare": {
+			"range": {
+				"startLineNumber": 4,
 				"startColumn": 4,
 				"endLineNumber": 0,
 				"endColumn": 11
@@ -443,7 +468,7 @@
 				"textEdit": {
 					"text": "naeloob",
 					"range": {
-						"startLineNumber": -11,
+						"startLineNumber": -13,
 						"startColumn": 18,
 						"endLineNumber": 0,
 						"endColumn": 25
@@ -456,7 +481,7 @@
 	{
 		"renamePrepare": {
 			"range": {
-				"startLineNumber": 14,
+				"startLineNumber": 16,
 				"startColumn": 13,
 				"endLineNumber": 0,
 				"endColumn": 44
@@ -505,7 +530,7 @@
 				"textEdit": {
 					"text": "gnirts",
 					"range": {
-						"startLineNumber": -17,
+						"startLineNumber": -19,
 						"startColumn": 18,
 						"endLineNumber": 0,
 						"endColumn": 24
@@ -518,7 +543,7 @@
 	{
 		"renamePrepare": {
 			"range": {
-				"startLineNumber": 21,
+				"startLineNumber": 23,
 				"startColumn": 39,
 				"endLineNumber": 0,
 				"endColumn": 85
@@ -642,7 +667,7 @@
 				"textEdit": {
 					"text": "LogicalBinary",
 					"range": {
-						"startLineNumber": -11,
+						"startLineNumber": -13,
 						"startColumn": 18,
 						"endLineNumber": 0,
 						"endColumn": 25

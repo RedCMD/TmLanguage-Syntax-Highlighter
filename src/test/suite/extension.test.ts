@@ -509,7 +509,7 @@ suite('Extension Tests', async () => {
 		const editor = await vscode.window.showTextDocument(uri, showTextDocumentOptions);
 
 		type RenamePrepare = /* vscode.Range | */ {
-			range: vscode.Range;
+			range: IRange;
 			text: string;
 		};
 		interface WorkspaceEdit {
@@ -528,6 +528,7 @@ suite('Extension Tests', async () => {
 			text: string;
 			// eol?: model.EndOfLineSequence;
 		}
+		/* One indexed */
 		interface IRange {
 			readonly startLineNumber: number;
 			readonly startColumn: number;
@@ -553,18 +554,16 @@ suite('Extension Tests', async () => {
 			const position = typeof positionOrLine == 'number' ? new vscode.Position(positionOrLine, character!) : positionOrLine;
 			const renamePrepare = await tryCatchAsync(vscode.commands.executeCommand('_executePrepareRename', uri, position)) as RenamePrepare | undefined;
 			if (typeof character == 'number') {
-				assert.ok(renamePrepare);
+				assert.ok(renamePrepare, `Rename assertion fail at ${uri.fsPath}:${position.line + 1}:${position.character}${newName ? ` newName: '${newName}'` : ''}`);
 			}
-			else {
-				if (!renamePrepare) {
-					return;
-				}
+			else if (!renamePrepare) {
+				return;
 			}
 
 			if (!renamePrepare.text) {
-				console.log(JSON.stringify(renamePrepare));
+				console.warn("Empty Rename:", JSON.stringify(position), JSON.stringify(renamePrepare));
 			}
-			newName = newName || renamePrepare.text.split('').reverse().join('');
+			newName ||= renamePrepare.text.split('').reverse().join('');
 			const workspaceEdit = await vscode.commands.executeCommand('_executeDocumentRenameProvider', uri, position, newName) as WorkspaceEdit;
 			const workspaceEdits = workspaceEdit.edits;
 
@@ -588,7 +587,7 @@ suite('Extension Tests', async () => {
 
 		await assertStrings(editor, assertRename);
 
-		await assertRename(18, 7, "LogicalBinary");
+		await assertRename(20, 7, "LogicalBinary");
 
 		await assertBaseline(renamesActual, 'RenameProvider.json');
 
@@ -629,7 +628,7 @@ suite('Extension Tests', async () => {
 
 		await assertStrings(editor, assertDefinition);
 
-		await assertDefinition(21, 31);
+		await assertDefinition(23, 31);
 
 		await assertBaseline(definitionsActual, 'DefinitionReferenceProvider.json');
 	});

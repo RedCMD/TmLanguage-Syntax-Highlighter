@@ -29,19 +29,13 @@ export const RenameProvider: vscode.RenameProvider = {
 
 		switch (cursorName) {
 			case 'scope':
+				if (!cursorText.includes('.')) {
+					break;
+				}
+
 				const scopePostfix = cursorText.split('.').pop()!;
 				if (cursorRange.end.translate(0, -scopePostfix.length).isBeforeOrEqual(position)) {
 					const candidateScopes = findCandidateScopePostfixes(rootNode, position);
-					// const candidates = candidateScopes.candidates.sort(
-					// 	(a, b) => {
-					// 		if (a.length < b.length) {
-					// 			return 1;
-					// 		}
-					// 		if (a.length > b.length) {
-					// 			return -1;
-					// 		}
-					// 		return 0;
-					// 	});
 					for (const candidate of candidateScopes.candidatePostfixes) {
 						if (cursorText.endsWith('.' + candidate)) {
 							return {
@@ -53,6 +47,14 @@ export const RenameProvider: vscode.RenameProvider = {
 							};
 						}
 					}
+
+					return {
+						range: new vscode.Range(
+							cursorRange.end.translate(0, -scopePostfix.length),
+							cursorRange.end,
+						),
+						placeholder: scopePostfix,
+					};
 				}
 		}
 		// if (cursorName == 'root_scopeName') {
@@ -143,6 +145,12 @@ export const RenameProvider: vscode.RenameProvider = {
 							`;
 							break;
 						}
+					}
+					if (!query) {
+						scopePostfixCandidate = scopePostfix;
+						query = `;scm
+							((scope) @scopePostfix (#match? @scopePostfix "\\\\.${scopePostfix.replaceAll(/[\\|([{}\]).?*+^$]/g, '\\\\$&')}$"))
+						`;
 					}
 				}
 				else {
