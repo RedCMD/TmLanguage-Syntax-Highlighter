@@ -12,6 +12,7 @@
 			"fixtures/CompletionItemProvider.tmLanguage.json",
 			"fixtures/DefinitionReferenceProvider.tmLanguage.json",
 			"fixtures/DiagnosticCollection.tmLanguage.json",
+			"fixtures/HoverProvider.tmLanguage.json",
 			"fixtures/JSON.tmLanguage.json",
 			"fixtures/fileTypes/JSON.JSON-tmLanguage",
 			"fixtures/fileTypes/firstLineJSON",

@@ -1,0 +1,33 @@
+{
+	"name": "HoverProvider",
+	"scopeName": "source.hover",
+	"patterns": [
+		{ "include": "#frontMatter" },
+		{ "include": "#boolean" }
+	],
+	"repository": {
+		"frontMatter": {
+			"begin": "\\A(?=(-{3,}))",
+			"end": "^ {,3}\\1-*[ \\t]*$|^[ \\t]*\\.{3}$",
+			"applyEndPatternLast": 1,
+			"endCaptures": { "0": { "name": "punctuation.definition.end.frontmatter" } },
+			"patterns": [
+				{
+					"begin": "\\A(-{3,})(.*)$",
+					"while": "^(?! {,3}\\1-*[ \\t]*$|[ \\t]*\\.{3}$)",
+					"beginCaptures": {
+						"1": { "name": "punctuation.definition.begin.frontmatter" },
+						"2": { "name": "comment.frontmatter" }
+					},
+					"contentName": "meta.embedded.block.frontmatter",
+					"patterns": [ { "include": "source.yaml" } ]
+				}
+			]
+		},
+		"boolean": {
+			"comment": "`\\b` is a 0-width word boundary. `$1` references capture group 1",
+			"match": "\\b(true|false)\\b",
+			"name": "constant.language.$1.hover"
+		}
+	}
+}

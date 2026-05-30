@@ -5,46 +5,6 @@
 				"startLineNumber": 2,
 				"startColumn": 2,
 				"endLineNumber": 0,
-				"endColumn": 11
-			},
-			"contents": [
-				{
-					"value": "The Schema used to validate this file",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 0,
-				"startColumn": 13,
-				"endLineNumber": 0,
-				"endColumn": 120
-			},
-			"contents": [
-				{
-					"value": "The Schema used to validate this file",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 1,
-				"startColumn": 2,
-				"endLineNumber": 0,
 				"endColumn": 8
 			},
 			"contents": [
@@ -65,7 +25,7 @@
 				"startLineNumber": 0,
 				"startColumn": 10,
 				"endLineNumber": 0,
-				"endColumn": 22
+				"endColumn": 25
 			},
 			"contents": [
 				{
@@ -105,7 +65,7 @@
 				"startLineNumber": 0,
 				"startColumn": 15,
 				"endLineNumber": 0,
-				"endColumn": 34
+				"endColumn": 29
 			},
 			"contents": [
 				{
@@ -125,54 +85,6 @@
 				"startLineNumber": 1,
 				"startColumn": 2,
 				"endLineNumber": 0,
-				"endColumn": 14
-			},
-			"contents": [
-				{
-					"value": "A dictionary of injections\\. They do NOT work when the grammar is embedded into another language",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 1,
-				"startColumn": 3,
-				"endLineNumber": 0,
-				"endColumn": 67
-			},
-			"contents": [
-				{
-					"value": "An injection selector\\. https://code\\.visualstudio\\.com/api/language\\-extensions/syntax\\-highlight\\-guide\\#injection\\-grammars",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {
-						"https://code\\.visualstudio\\.com/api/language\\-extensions/syntax\\-highlight\\-guide\\#injection\\-grammars": {
-							"$mid": 1,
-							"path": "/api/language\\-extensions/syntax\\-highlight\\-guide\\",
-							"scheme": "https",
-							"authority": "code\\.visualstudio\\.com",
-							"fragment": "injection\\-grammars"
-						}
-					}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 2,
-				"startColumn": 2,
-				"endLineNumber": 0,
 				"endColumn": 12
 			},
 			"contents": [
@@ -190,127 +102,87 @@
 	[
 		{
 			"range": {
+				"startLineNumber": 1,
+				"startColumn": 5,
+				"endLineNumber": 0,
+				"endColumn": 14
+			},
+			"contents": [
+				{
+					"value": "Reference an item in a repository",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 16,
+				"endLineNumber": 0,
+				"endColumn": 30
+			},
+			"contents": [
+				{
+					"value": "Reference an item in a repository",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 1,
+				"startColumn": 5,
+				"endLineNumber": 0,
+				"endColumn": 14
+			},
+			"contents": [
+				{
+					"value": "Reference an item in a repository",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 16,
+				"endLineNumber": 0,
+				"endColumn": 26
+			},
+			"contents": [
+				{
+					"value": "Reference an item in a repository",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
 				"startLineNumber": 2,
-				"startColumn": 4,
-				"endLineNumber": 0,
-				"endColumn": 13
-			},
-			"contents": [
-				{
-					"value": "Reference an item in a repository",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 0,
-				"startColumn": 15,
-				"endLineNumber": 0,
-				"endColumn": 27
-			},
-			"contents": [
-				{
-					"value": "Reference an item in a repository",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 3,
-				"startColumn": 4,
-				"endLineNumber": 0,
-				"endColumn": 13
-			},
-			"contents": [
-				{
-					"value": "Reference an item in a repository",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 0,
-				"startColumn": 15,
-				"endLineNumber": 0,
-				"endColumn": 24
-			},
-			"contents": [
-				{
-					"value": "Reference an item in a repository",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 3,
-				"startColumn": 4,
-				"endLineNumber": 0,
-				"endColumn": 13
-			},
-			"contents": [
-				{
-					"value": "Reference an item in a repository",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 0,
-				"startColumn": 15,
-				"endLineNumber": 0,
-				"endColumn": 25
-			},
-			"contents": [
-				{
-					"value": "Reference an item in a repository",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 3,
 				"startColumn": 2,
 				"endLineNumber": 0,
 				"endColumn": 14
@@ -341,11 +213,11 @@
 				"startLineNumber": 1,
 				"startColumn": 3,
 				"endLineNumber": 0,
-				"endColumn": 14
+				"endColumn": 16
 			},
 			"contents": [
 				{
-					"value": "A repository item. Reference using `\"include\": \"#...\"`",
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#...\"",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
@@ -359,13 +231,743 @@
 		{
 			"range": {
 				"startLineNumber": 1,
+				"startColumn": 5,
+				"endLineNumber": 0,
+				"endColumn": 10
+			},
+			"contents": [
+				{
+					"value": "Regular Expression just like `\"match\"`  \nStarts a region that _can_ span multiple lines. When used in conjunction with a `\"end\"`/`\"while\"` key  \nRules can be nested inside the block with the `\"patterns\"` key  \nAn anchor is placed after the `\"begin\"` rule; that you can then match with `\\\\G`  \n**\\*WARNING\\*** If `\"begin\"` matches the newline `\\n`. The `\\\\G` anchor is then placed at the beginning of the _next_ line  \n\n```json-textmate-regex\nExample: (\\\\s*)(#*)(\\\")\n```\n---\n[Translation](https://github.com/slevithan/oniguruma-to-es) from [Oniguruma](https://github.com/kkos/oniguruma/blob/master/doc/RE) to [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions): \n```javascript\n/^(?=(-{3,}))/v\n```\n",
+					"supportThemeIcons": false,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {
+						"https://github.com/slevithan/oniguruma-to-es": {
+							"$mid": 1,
+							"path": "/slevithan/oniguruma-to-es",
+							"scheme": "https",
+							"authority": "github.com"
+						},
+						"https://github.com/kkos/oniguruma/blob/master/doc/RE": {
+							"$mid": 1,
+							"path": "/kkos/oniguruma/blob/master/doc/RE",
+							"scheme": "https",
+							"authority": "github.com"
+						},
+						"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions": {
+							"$mid": 1,
+							"path": "/en-US/docs/Web/JavaScript/Guide/Regular_expressions",
+							"scheme": "https",
+							"authority": "developer.mozilla.org"
+						}
+					}
+				}
+			]
+		},
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 4,
+				"endLineNumber": 0,
+				"endColumn": 11
+			},
+			"contents": [
+				{
+					"value": "",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 13,
+				"endLineNumber": 0,
+				"endColumn": 29
+			},
+			"contents": [
+				{
+					"value": "",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 1,
+				"startColumn": 5,
+				"endLineNumber": 0,
+				"endColumn": 8
+			},
+			"contents": [
+				{
+					"value": "Regular Expression just like `\"match\"`  \nEnds the block started by `\"begin\"`  \n`\"end\"` has priority over rules inside the `\"patterns\"` array  \n**\\*WARNING\\*** Rules inside `\"patterns\"` can 'overmatch' the `\"end\"` rule. Effectively 'pushing' it out  \n(Captures) inside the `\"begin\"` key can be referenced here with regex back-references `\\\\1`  \n\n```json-textmate-regex\nExample: (\\\")(\\\\2)\n```\n---\n[Translation](https://github.com/slevithan/oniguruma-to-es) from [Oniguruma](https://github.com/kkos/oniguruma/blob/master/doc/RE) to [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions): \n```javascript\n/(?<=^|\\n(?!$)) {0,3}\\1-*[ \\t]*(?=$|\\n)|(?<=^|\\n(?!$))[ \\t]*\\.{3}(?=$|\\n)()/v\n```\n",
+					"supportThemeIcons": false,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {
+						"https://github.com/slevithan/oniguruma-to-es": {
+							"$mid": 1,
+							"path": "/slevithan/oniguruma-to-es",
+							"scheme": "https",
+							"authority": "github.com"
+						},
+						"https://github.com/kkos/oniguruma/blob/master/doc/RE": {
+							"$mid": 1,
+							"path": "/kkos/oniguruma/blob/master/doc/RE",
+							"scheme": "https",
+							"authority": "github.com"
+						},
+						"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions": {
+							"$mid": 1,
+							"path": "/en-US/docs/Web/JavaScript/Guide/Regular_expressions",
+							"scheme": "https",
+							"authority": "developer.mozilla.org"
+						}
+					}
+				}
+			]
+		},
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 4,
+				"endLineNumber": 0,
+				"endColumn": 9
+			},
+			"contents": [
+				{
+					"value": "",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 11,
+				"endLineNumber": 0,
+				"endColumn": 48
+			},
+			"contents": [
+				{
+					"value": "",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 1,
+				"startColumn": 4,
+				"endLineNumber": 0,
+				"endColumn": 25
+			},
+			"contents": [
+				{
+					"value": "Controls if the `\"end\"` pattern should attempt to match before or after the `\"patterns\"` array  \n`0`, `false` and `null` will disable it. `true` and numbers != `0` will enable it",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 1,
+				"startColumn": 4,
+				"endLineNumber": 0,
+				"endColumn": 17
+			},
+			"contents": [
+				{
+					"value": "Allows you to assign `scopeNames`/retokenize the captured text  \nOnly applies to `\"end\"`  \nOverrides `\"captures\"`",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 21,
+				"endLineNumber": 0,
+				"endColumn": 24
+			},
+			"contents": [
+				{
+					"value": "Target specific capture group",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 28,
+				"endLineNumber": 0,
+				"endColumn": 34
+			},
+			"contents": [
+				{
+					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {
+						"https://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions": {
+							"$mid": 1,
+							"path": "/manual/en/language\\_grammars\\",
+							"scheme": "https",
+							"authority": "macromates\\.com",
+							"fragment": "naming\\_conventions"
+						}
+					}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 36,
+				"endLineNumber": 0,
+				"endColumn": 76
+			},
+			"contents": [
+				{
+					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {
+						"https://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions": {
+							"$mid": 1,
+							"path": "/manual/en/language\\_grammars\\",
+							"scheme": "https",
+							"authority": "macromates\\.com",
+							"fragment": "naming\\_conventions"
+						}
+					}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 1,
+				"startColumn": 4,
+				"endLineNumber": 0,
+				"endColumn": 14
+			},
+			"contents": [
+				{
+					"value": "An array of pattern's to include",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 2,
+				"startColumn": 7,
+				"endLineNumber": 0,
+				"endColumn": 12
+			},
+			"contents": [
+				{
+					"value": "Regular Expression just like `\"match\"`  \nStarts a region that _can_ span multiple lines. When used in conjunction with a `\"end\"`/`\"while\"` key  \nRules can be nested inside the block with the `\"patterns\"` key  \nAn anchor is placed after the `\"begin\"` rule; that you can then match with `\\\\G`  \n**\\*WARNING\\*** If `\"begin\"` matches the newline `\\n`. The `\\\\G` anchor is then placed at the beginning of the _next_ line  \n\n```json-textmate-regex\nExample: (\\\\s*)(#*)(\\\")\n```\n---\n[Translation](https://github.com/slevithan/oniguruma-to-es) from [Oniguruma](https://github.com/kkos/oniguruma/blob/master/doc/RE) to [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions): \n```javascript\n/^(-{3,})([^\\n]*)(?=$|\\n)/v\n```\n",
+					"supportThemeIcons": false,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {
+						"https://github.com/slevithan/oniguruma-to-es": {
+							"$mid": 1,
+							"path": "/slevithan/oniguruma-to-es",
+							"scheme": "https",
+							"authority": "github.com"
+						},
+						"https://github.com/kkos/oniguruma/blob/master/doc/RE": {
+							"$mid": 1,
+							"path": "/kkos/oniguruma/blob/master/doc/RE",
+							"scheme": "https",
+							"authority": "github.com"
+						},
+						"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions": {
+							"$mid": 1,
+							"path": "/en-US/docs/Web/JavaScript/Guide/Regular_expressions",
+							"scheme": "https",
+							"authority": "developer.mozilla.org"
+						}
+					}
+				}
+			]
+		},
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 6,
+				"endLineNumber": 0,
+				"endColumn": 13
+			},
+			"contents": [
+				{
+					"value": "",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 15,
+				"endLineNumber": 0,
+				"endColumn": 32
+			},
+			"contents": [
+				{
+					"value": "",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 1,
+				"startColumn": 7,
+				"endLineNumber": 0,
+				"endColumn": 12
+			},
+			"contents": [
+				{
+					"value": "Regular Expression just like `\"match\"`  \nContinues the block started by `\"begin\"`  \n**\\*WARNING\\*** [VSCode's TextMate Engine](https://github.com/microsoft/vscode-textmate) implements `\"while\"` slightly [differently](https://github.com/microsoft/vscode-textmate/issues/241) to how [Apple's TextMate 2.0 Application](https://macromates.com/) has  \nUnlike `\"end\"`, `\"while\"` is line-based, not character-based. It is only checked once per line (starting on the line after the `\"begin\"`)  \nIf it matches then the _rest_ of the line is now part of the block (same also applies to the `\"begin\"` rule)  \nRules can be nested inside the block with the `\"patterns\"` key  \nVSCode: `\"while\"` is always tested first, before any inner `\"patterns\"`  \nVSCode: When `\"while\"` doesn't match, all unfinished/unclosed patterns are terminated and the `\"begin\"`/`\"while\"` block is then finished/closed  \nApple: `\"begin\"`&`\"end\"` rules can 'push' the `\"while\"` rule to the next line  \nAn anchor is placed after each `\"while\"` rule; that you can then match with `\\\\G`  \nApple: A `\\G` anchor is also placed at the beginning of the _next_ line  \n(Captures) inside the `\"begin\"` key can be referenced here with regex back-references `\\\\1`  \n\n```json-textmate-regex\nExample: ^\\\\1(?!\\\\s*\\\")\n```\n---\n[Translation](https://github.com/slevithan/oniguruma-to-es) from [Oniguruma](https://github.com/kkos/oniguruma/blob/master/doc/RE) to [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions): \n```javascript\n/(?<=^|\\n(?!$))(?! {0,3}\\1-*[ \\t]*(?=$|\\n)|[ \\t]*\\.{3}(?=$|\\n))()/v\n```\n",
+					"supportThemeIcons": false,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {
+						"https://github.com/microsoft/vscode-textmate": {
+							"$mid": 1,
+							"path": "/microsoft/vscode-textmate",
+							"scheme": "https",
+							"authority": "github.com"
+						},
+						"https://github.com/microsoft/vscode-textmate/issues/241": {
+							"$mid": 1,
+							"path": "/microsoft/vscode-textmate/issues/241",
+							"scheme": "https",
+							"authority": "github.com"
+						},
+						"https://macromates.com/": {
+							"$mid": 1,
+							"path": "/",
+							"scheme": "https",
+							"authority": "macromates.com"
+						},
+						"https://github.com/slevithan/oniguruma-to-es": {
+							"$mid": 1,
+							"path": "/slevithan/oniguruma-to-es",
+							"scheme": "https",
+							"authority": "github.com"
+						},
+						"https://github.com/kkos/oniguruma/blob/master/doc/RE": {
+							"$mid": 1,
+							"path": "/kkos/oniguruma/blob/master/doc/RE",
+							"scheme": "https",
+							"authority": "github.com"
+						},
+						"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions": {
+							"$mid": 1,
+							"path": "/en-US/docs/Web/JavaScript/Guide/Regular_expressions",
+							"scheme": "https",
+							"authority": "developer.mozilla.org"
+						}
+					}
+				}
+			]
+		},
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 6,
+				"endLineNumber": 0,
+				"endColumn": 13
+			},
+			"contents": [
+				{
+					"value": "",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 15,
+				"endLineNumber": 0,
+				"endColumn": 55
+			},
+			"contents": [
+				{
+					"value": "",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 1,
+				"startColumn": 6,
+				"endLineNumber": 0,
+				"endColumn": 21
+			},
+			"contents": [
+				{
+					"value": "Allows you to assign `scopeNames`/retokenize the captured text  \nOnly applies to `\"begin\"`  \nOverrides `\"captures\"`",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 1,
+				"startColumn": 7,
+				"endLineNumber": 0,
+				"endColumn": 10
+			},
+			"contents": [
+				{
+					"value": "Target specific capture group",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 14,
+				"endLineNumber": 0,
+				"endColumn": 20
+			},
+			"contents": [
+				{
+					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {
+						"https://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions": {
+							"$mid": 1,
+							"path": "/manual/en/language\\_grammars\\",
+							"scheme": "https",
+							"authority": "macromates\\.com",
+							"fragment": "naming\\_conventions"
+						}
+					}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 22,
+				"endLineNumber": 0,
+				"endColumn": 64
+			},
+			"contents": [
+				{
+					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {
+						"https://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions": {
+							"$mid": 1,
+							"path": "/manual/en/language\\_grammars\\",
+							"scheme": "https",
+							"authority": "macromates\\.com",
+							"fragment": "naming\\_conventions"
+						}
+					}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 1,
+				"startColumn": 7,
+				"endLineNumber": 0,
+				"endColumn": 10
+			},
+			"contents": [
+				{
+					"value": "Target specific capture group",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 14,
+				"endLineNumber": 0,
+				"endColumn": 20
+			},
+			"contents": [
+				{
+					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {
+						"https://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions": {
+							"$mid": 1,
+							"path": "/manual/en/language\\_grammars\\",
+							"scheme": "https",
+							"authority": "macromates\\.com",
+							"fragment": "naming\\_conventions"
+						}
+					}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 22,
+				"endLineNumber": 0,
+				"endColumn": 43
+			},
+			"contents": [
+				{
+					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {
+						"https://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions": {
+							"$mid": 1,
+							"path": "/manual/en/language\\_grammars\\",
+							"scheme": "https",
+							"authority": "macromates\\.com",
+							"fragment": "naming\\_conventions"
+						}
+					}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 2,
+				"startColumn": 6,
+				"endLineNumber": 0,
+				"endColumn": 19
+			},
+			"contents": [
+				{
+					"value": "Same as `\"name\"`, but only applies to inside a `\"begin\"` - `\"end\"`/`\"while\"` region",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 21,
+				"endLineNumber": 0,
+				"endColumn": 54
+			},
+			"contents": [
+				{
+					"value": "Same as `\"name\"`, but only applies to inside a `\"begin\"` - `\"end\"`/`\"while\"` region",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 1,
+				"startColumn": 6,
+				"endLineNumber": 0,
+				"endColumn": 16
+			},
+			"contents": [
+				{
+					"value": "An array of pattern's to include",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 22,
+				"endLineNumber": 0,
+				"endColumn": 31
+			},
+			"contents": [
+				{
+					"value": "Reference an item in a repository",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 0,
+				"startColumn": 33,
+				"endLineNumber": 0,
+				"endColumn": 46
+			},
+			"contents": [
+				{
+					"value": "Reference an item in a repository",
+					"isTrusted": false,
+					"supportThemeIcons": true,
+					"supportHtml": false,
+					"supportAlertSyntax": false,
+					"uris": {}
+				}
+			]
+		}
+	],
+	[
+		{
+			"range": {
+				"startLineNumber": 4,
 				"startColumn": 3,
 				"endLineNumber": 0,
 				"endColumn": 12
 			},
 			"contents": [
 				{
-					"value": "A repository item. Reference using `\"include\": \"#...\"`",
+					"value": "A repository item. Reference using:\n\n\t\"include\": \"#boolean\"",
 					"isTrusted": false,
 					"supportThemeIcons": true,
 					"supportHtml": false,
@@ -567,701 +1169,7 @@
 				"startLineNumber": 0,
 				"startColumn": 12,
 				"endLineNumber": 0,
-				"endColumn": 45
-			},
-			"contents": [
-				{
-					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {
-						"https://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions": {
-							"$mid": 1,
-							"path": "/manual/en/language\\_grammars\\",
-							"scheme": "https",
-							"authority": "macromates\\.com",
-							"fragment": "naming\\_conventions"
-						}
-					}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 2,
-				"startColumn": 3,
-				"endLineNumber": 0,
-				"endColumn": 11
-			},
-			"contents": [
-				{
-					"value": "A repository item. Reference using `\"include\": \"#...\"`",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 1,
-				"startColumn": 4,
-				"endLineNumber": 0,
-				"endColumn": 13
-			},
-			"contents": [
-				{
-					"value": "",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 0,
-				"startColumn": 15,
-				"endLineNumber": 0,
-				"endColumn": 67
-			},
-			"contents": [
-				{
-					"value": "",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 1,
-				"startColumn": 5,
-				"endLineNumber": 0,
-				"endColumn": 10
-			},
-			"contents": [
-				{
-					"value": "Regular Expression just like `\"match\"`  \nStarts a region that _can_ span multiple lines. When used in conjunction with a `\"end\"`/`\"while\"` key  \nRules can be nested inside the block with the `\"patterns\"` key  \nAn anchor is placed after the `\"begin\"` rule; that you can then match with `\\\\G`  \n**\\*WARNING\\*** If `\"begin\"` matches the newline `\\n`. The `\\\\G` anchor is then placed at the beginning of the _next_ line  \n\n```json-textmate-regex\nExample: (\\\\s*)(#*)(\\\")\n```\n---\n[Translation](https://github.com/slevithan/oniguruma-to-es) from [Oniguruma](https://github.com/kkos/oniguruma/blob/master/doc/RE) to [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions): \n```javascript\n/\"/v\n```\n",
-					"supportThemeIcons": false,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {
-						"https://github.com/slevithan/oniguruma-to-es": {
-							"$mid": 1,
-							"path": "/slevithan/oniguruma-to-es",
-							"scheme": "https",
-							"authority": "github.com"
-						},
-						"https://github.com/kkos/oniguruma/blob/master/doc/RE": {
-							"$mid": 1,
-							"path": "/kkos/oniguruma/blob/master/doc/RE",
-							"scheme": "https",
-							"authority": "github.com"
-						},
-						"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions": {
-							"$mid": 1,
-							"path": "/en-US/docs/Web/JavaScript/Guide/Regular_expressions",
-							"scheme": "https",
-							"authority": "developer.mozilla.org"
-						}
-					}
-				}
-			]
-		},
-		{
-			"range": {
-				"startLineNumber": 0,
-				"startColumn": 4,
-				"endLineNumber": 0,
-				"endColumn": 11
-			},
-			"contents": [
-				{
-					"value": "",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 0,
-				"startColumn": 13,
-				"endLineNumber": 0,
-				"endColumn": 17
-			},
-			"contents": [
-				{
-					"value": "",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 1,
-				"startColumn": 5,
-				"endLineNumber": 0,
-				"endColumn": 8
-			},
-			"contents": [
-				{
-					"value": "Regular Expression just like `\"match\"`  \nEnds the block started by `\"begin\"`  \n`\"end\"` has priority over rules inside the `\"patterns\"` array  \n**\\*WARNING\\*** Rules inside `\"patterns\"` can 'overmatch' the `\"end\"` rule. Effectively 'pushing' it out  \n(Captures) inside the `\"begin\"` key can be referenced here with regex back-references `\\\\1`  \n\n```json-textmate-regex\nExample: (\\\")(\\\\2)\n```\n---\n[Translation](https://github.com/slevithan/oniguruma-to-es) from [Oniguruma](https://github.com/kkos/oniguruma/blob/master/doc/RE) to [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions): \n```javascript\n/\"/v\n```\n",
-					"supportThemeIcons": false,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {
-						"https://github.com/slevithan/oniguruma-to-es": {
-							"$mid": 1,
-							"path": "/slevithan/oniguruma-to-es",
-							"scheme": "https",
-							"authority": "github.com"
-						},
-						"https://github.com/kkos/oniguruma/blob/master/doc/RE": {
-							"$mid": 1,
-							"path": "/kkos/oniguruma/blob/master/doc/RE",
-							"scheme": "https",
-							"authority": "github.com"
-						},
-						"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions": {
-							"$mid": 1,
-							"path": "/en-US/docs/Web/JavaScript/Guide/Regular_expressions",
-							"scheme": "https",
-							"authority": "developer.mozilla.org"
-						}
-					}
-				}
-			]
-		},
-		{
-			"range": {
-				"startLineNumber": 0,
-				"startColumn": 4,
-				"endLineNumber": 0,
-				"endColumn": 9
-			},
-			"contents": [
-				{
-					"value": "",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 0,
-				"startColumn": 11,
-				"endLineNumber": 0,
-				"endColumn": 15
-			},
-			"contents": [
-				{
-					"value": "",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 1,
-				"startColumn": 4,
-				"endLineNumber": 0,
-				"endColumn": 19
-			},
-			"contents": [
-				{
-					"value": "Allows you to assign `scopeNames`/retokenize the captured text  \nOnly applies to `\"begin\"`  \nOverrides `\"captures\"`",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 1,
-				"startColumn": 5,
-				"endLineNumber": 0,
-				"endColumn": 8
-			},
-			"contents": [
-				{
-					"value": "Target specific capture group",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 1,
-				"startColumn": 6,
-				"endLineNumber": 0,
-				"endColumn": 12
-			},
-			"contents": [
-				{
-					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {
-						"https://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions": {
-							"$mid": 1,
-							"path": "/manual/en/language\\_grammars\\",
-							"scheme": "https",
-							"authority": "macromates\\.com",
-							"fragment": "naming\\_conventions"
-						}
-					}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 0,
-				"startColumn": 14,
-				"endLineNumber": 0,
-				"endColumn": 62
-			},
-			"contents": [
-				{
-					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {
-						"https://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions": {
-							"$mid": 1,
-							"path": "/manual/en/language\\_grammars\\",
-							"scheme": "https",
-							"authority": "macromates\\.com",
-							"fragment": "naming\\_conventions"
-						}
-					}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 3,
-				"startColumn": 4,
-				"endLineNumber": 0,
-				"endColumn": 17
-			},
-			"contents": [
-				{
-					"value": "Allows you to assign `scopeNames`/retokenize the captured text  \nOnly applies to `\"end\"`  \nOverrides `\"captures\"`",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 1,
-				"startColumn": 5,
-				"endLineNumber": 0,
-				"endColumn": 8
-			},
-			"contents": [
-				{
-					"value": "Target specific capture group",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 1,
-				"startColumn": 6,
-				"endLineNumber": 0,
-				"endColumn": 12
-			},
-			"contents": [
-				{
-					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {
-						"https://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions": {
-							"$mid": 1,
-							"path": "/manual/en/language\\_grammars\\",
-							"scheme": "https",
-							"authority": "macromates\\.com",
-							"fragment": "naming\\_conventions"
-						}
-					}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 0,
-				"startColumn": 14,
-				"endLineNumber": 0,
-				"endColumn": 60
-			},
-			"contents": [
-				{
-					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {
-						"https://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions": {
-							"$mid": 1,
-							"path": "/manual/en/language\\_grammars\\",
-							"scheme": "https",
-							"authority": "macromates\\.com",
-							"fragment": "naming\\_conventions"
-						}
-					}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 3,
-				"startColumn": 4,
-				"endLineNumber": 0,
-				"endColumn": 10
-			},
-			"contents": [
-				{
-					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {
-						"https://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions": {
-							"$mid": 1,
-							"path": "/manual/en/language\\_grammars\\",
-							"scheme": "https",
-							"authority": "macromates\\.com",
-							"fragment": "naming\\_conventions"
-						}
-					}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 0,
-				"startColumn": 12,
-				"endLineNumber": 0,
-				"endColumn": 45
-			},
-			"contents": [
-				{
-					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {
-						"https://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions": {
-							"$mid": 1,
-							"path": "/manual/en/language\\_grammars\\",
-							"scheme": "https",
-							"authority": "macromates\\.com",
-							"fragment": "naming\\_conventions"
-						}
-					}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 1,
-				"startColumn": 4,
-				"endLineNumber": 0,
-				"endColumn": 14
-			},
-			"contents": [
-				{
-					"value": "An array of pattern's to include",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 2,
-				"startColumn": 6,
-				"endLineNumber": 0,
-				"endColumn": 15
-			},
-			"contents": [
-				{
-					"value": "",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 0,
-				"startColumn": 17,
-				"endLineNumber": 0,
-				"endColumn": 73
-			},
-			"contents": [
-				{
-					"value": "",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 1,
-				"startColumn": 7,
-				"endLineNumber": 0,
-				"endColumn": 12
-			},
-			"contents": [
-				{
-					"value": "Regular Expression to match, (capture) and apply `scopeNames` to text  \n[VSCode TextMate](https://github.com/microsoft/vscode-textmate) uses the [Oniguruma](https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE) regex dialect  \n[TextMate 2.0](https://macromates.com/) uses the [Onigmo](https://github.com/textmate/Onigmo/blob/Onigmo-5.13.5/doc/RE) regex dialect  \n[Github-Linguist](https://github.com/github-linguist/linguist) uses the [PCRE](https://github.com/vmg/libpcre) regex dialect  \n[Shikijs](https://github.com/shikijs/shiki) uses the [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions) regex dialect  \n\n```json-textmate-regex\nExample: \\\\b(true|false)\\\\b\n```\n---\n[Translation](https://github.com/slevithan/oniguruma-to-es) from [Oniguruma](https://github.com/kkos/oniguruma/blob/master/doc/RE) to [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions): \n```javascript\n/\\\\[^\\n]/v\n```\n",
-					"supportThemeIcons": false,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {
-						"https://github.com/microsoft/vscode-textmate": {
-							"$mid": 1,
-							"path": "/microsoft/vscode-textmate",
-							"scheme": "https",
-							"authority": "github.com"
-						},
-						"https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE": {
-							"$mid": 1,
-							"path": "/kkos/oniguruma/blob/v6.9.8/doc/RE",
-							"scheme": "https",
-							"authority": "github.com"
-						},
-						"https://macromates.com/": {
-							"$mid": 1,
-							"path": "/",
-							"scheme": "https",
-							"authority": "macromates.com"
-						},
-						"https://github.com/textmate/Onigmo/blob/Onigmo-5.13.5/doc/RE": {
-							"$mid": 1,
-							"path": "/textmate/Onigmo/blob/Onigmo-5.13.5/doc/RE",
-							"scheme": "https",
-							"authority": "github.com"
-						},
-						"https://github.com/github-linguist/linguist": {
-							"$mid": 1,
-							"path": "/github-linguist/linguist",
-							"scheme": "https",
-							"authority": "github.com"
-						},
-						"https://github.com/vmg/libpcre": {
-							"$mid": 1,
-							"path": "/vmg/libpcre",
-							"scheme": "https",
-							"authority": "github.com"
-						},
-						"https://github.com/shikijs/shiki": {
-							"$mid": 1,
-							"path": "/shikijs/shiki",
-							"scheme": "https",
-							"authority": "github.com"
-						},
-						"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions": {
-							"$mid": 1,
-							"path": "/en-US/docs/Web/JavaScript/Guide/Regular_expressions",
-							"scheme": "https",
-							"authority": "developer.mozilla.org"
-						},
-						"https://github.com/slevithan/oniguruma-to-es": {
-							"$mid": 1,
-							"path": "/slevithan/oniguruma-to-es",
-							"scheme": "https",
-							"authority": "github.com"
-						},
-						"https://github.com/kkos/oniguruma/blob/master/doc/RE": {
-							"$mid": 1,
-							"path": "/kkos/oniguruma/blob/master/doc/RE",
-							"scheme": "https",
-							"authority": "github.com"
-						}
-					}
-				}
-			]
-		},
-		{
-			"range": {
-				"startLineNumber": 0,
-				"startColumn": 6,
-				"endLineNumber": 0,
-				"endColumn": 13
-			},
-			"contents": [
-				{
-					"value": "",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 0,
-				"startColumn": 15,
-				"endLineNumber": 0,
-				"endColumn": 22
-			},
-			"contents": [
-				{
-					"value": "",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 1,
-				"startColumn": 6,
-				"endLineNumber": 0,
-				"endColumn": 12
-			},
-			"contents": [
-				{
-					"value": "A list of space\\-separated scope\\-names to be assigned to the provided token\\. VSCode will then colour that token using the current theme\\\n\\`comment\\`, \\`string\\` and \\`regex\\` disables bracket matching while \\`meta\\.embedded\\` reenables it\\\nhttps://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions",
-					"isTrusted": false,
-					"supportThemeIcons": true,
-					"supportHtml": false,
-					"supportAlertSyntax": false,
-					"uris": {
-						"https://macromates\\.com/manual/en/language\\_grammars\\#naming\\_conventions": {
-							"$mid": 1,
-							"path": "/manual/en/language\\_grammars\\",
-							"scheme": "https",
-							"authority": "macromates\\.com",
-							"fragment": "naming\\_conventions"
-						}
-					}
-				}
-			]
-		}
-	],
-	[
-		{
-			"range": {
-				"startLineNumber": 0,
-				"startColumn": 14,
-				"endLineNumber": 0,
-				"endColumn": 52
+				"endColumn": 40
 			},
 			"contents": [
 				{

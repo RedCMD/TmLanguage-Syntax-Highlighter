@@ -704,7 +704,7 @@ suite('Extension Tests', async () => {
 	});
 
 	test('HoverProvider', async () => {
-		const uri = vscode.Uri.joinPath(fixturesUri, 'JSON.tmLanguage.json');
+		const uri = vscode.Uri.joinPath(fixturesUri, 'HoverProvider.tmLanguage.json');
 		const editor = await vscode.window.showTextDocument(uri, showTextDocumentOptions);
 
 		const hoversActual: vscode.Hover[][] = [];
