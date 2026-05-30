@@ -11,6 +11,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const TerserPlugin = require('terser-webpack-plugin');
 
 /** @type WebpackConfig */
 const webExtensionConfig = {
@@ -70,6 +71,27 @@ const webExtensionConfig = {
 	infrastructureLogging: {
 		level: "log", // enables logging required for problem matchers
 	},
+	optimization: {
+		// minimize: true,
+		minimizer: [
+			new TerserPlugin({
+				terserOptions: {
+					// keep_fnames: true, // Prevents renaming of ALL functions
+					// keep_classnames: true, // Optional: Prevents renaming of classes
+					mangle: {
+						// These won't be renamed
+						reserved: [
+							'StringLiteral', 'NullLiteral', 'InfinityLiteral', 'UndefinedLiteral', 'BooleanLiteral', 'PassthroughLiteral', 'Parens'
+						],
+						// TODO:
+						// reserved: [
+						// 	'extend', 'addDataToNode', 'CodeFragment', 'HoistTarget', 'Directive', 'Literal', 'PassthroughLiteral', 'ComputedPropertyName', 'FuncDirectiveReturn', 'YieldReturn', 'AwaitReturn', 'MetaProperty', 'JSXTag', 'JSXExpressionContainer', 'JSXEmptyExpression', 'JSXText', 'JSXAttribute', 'JSXAttributes', 'JSXNamespacedName', 'SuperCall', 'Super', 'Extends', 'Access', 'Index', 'Range', 'Slice', 'ObjectProperty', 'ExecutableClassBody', 'ClassProperty', 'ClassPrototypeProperty', 'ModuleDeclaration', 'ImportDeclaration', 'ImportClause', 'ExportDeclaration', 'ExportNamedDeclaration', 'ExportDefaultDeclaration', 'ExportAllDeclaration', 'ModuleSpecifierList', 'ImportSpecifierList', 'ExportSpecifierList', 'ModuleSpecifier', 'ImportSpecifier', 'ImportDefaultSpecifier', 'ImportNamespaceSpecifier', 'ExportSpecifier', 'DynamicImportCall', 'FuncGlyph', 'Param', 'Elision', 'In', 'TemplateElement', 'Interpolation', 'EmptyInterpolation', 'SwitchWhen', 'mergeLocationData', 'mergeAstLocationData', 'jisonLocationDataToAstLocationData'
+						// ],
+					},
+				},
+			}),
+		],
+	}
 };
 
 module.exports = [webExtensionConfig];

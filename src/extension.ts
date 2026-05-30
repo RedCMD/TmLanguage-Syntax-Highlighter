@@ -82,12 +82,16 @@ export function sleep(milliseconds: number) {
 
 export function stringify(this: any, key: string, value: any): any {
 	if (typeof value === 'function') {
-		return "<function>";
+		if (key === 'constructor') {
+			return "<function>";
+		}
+		return (value as Function).toString();
 	}
 	if (typeof value === 'symbol') {
 		return "<symbol>";
 	}
 	if (typeof value === 'undefined') {
+		// return null;
 		return "<undefined>";
 	}
 	if (value === null) {
@@ -100,7 +104,8 @@ export function stringify(this: any, key: string, value: any): any {
 		return Array.from(value.entries());
 	}
 	if (value instanceof RegExp) {
-		return value.source;
+		return `</${value.source}/${value.flags}>`;
+		// return `/${value.source}/${value.flags}`;
 	}
 	if (key.startsWith("HEAP")) {
 		return `<${key}>`;
@@ -110,6 +115,21 @@ export function stringify(this: any, key: string, value: any): any {
 	}
 	if (key === 'locationData') {
 		return "<locationData>";
+	}
+	if (Array.isArray(value)) {
+		return value;
+	}
+	if (typeof value === 'object') {
+		// return value;
+		const nonEnumerableObject: { [key: string]: any; } = {};
+		nonEnumerableObject.constructor = value.constructor.toString();
+
+		// Get all property names, including non-enumerable ones
+		Object.getOwnPropertyNames(value).forEach(key => {
+			nonEnumerableObject[key] = value[key];
+		});
+
+		return nonEnumerableObject;
 	}
 	return value;
 }

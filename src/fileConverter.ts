@@ -19,6 +19,7 @@ export function initFileConverter(context: vscode.ExtensionContext) {
 
 type Language = 'JSON' | 'YAML' | 'XML' | 'ASCII' | 'CSON';
 
+let activeDocument: vscode.TextDocument;
 async function convertFileTo(newLanguage: Language, document?: vscode.TextDocument) {
 	// const start = performance.now();
 	if (!document) {
@@ -28,6 +29,7 @@ async function convertFileTo(newLanguage: Language, document?: vscode.TextDocume
 		}
 		document = activeTextEditor.document;
 	}
+	activeDocument = document;
 
 	let parsedDocument: any;
 	const text = document.getText();
@@ -82,7 +84,7 @@ async function convertFileTo(newLanguage: Language, document?: vscode.TextDocume
 			case 'JSON':
 				newText = JSON.stringify(
 					parsedDocument,
-					(key, value) => value instanceof RegExp ? value.source : value,
+					(key, value) => value instanceof RegExp ? value.source /* `/${value.source}/${value.flags}` */ : value,
 					indent
 				);
 				break;
@@ -535,6 +537,10 @@ function stringifyCSON(value: CSONValue, indent: string = '\t', level: number = 
 
 			// Heredoc
 			if (value.match(/\n/)) {
+				if (level < 0) {
+					level = 0;
+				}
+
 				if ((value.match(/'''|(?<=')''|(?<='')'/g)?.length ?? 0) <= (value.match(/"""|(?<=")""|(?<="")"|#{/g)?.length ?? 0)) {
 					// Heredoc Single quotes
 					return `'''${('\n' + value).replaceAll(/\\|'''|(?<=')''|(?<='')'/g, "\\$&").replaceAll(/\r?\n|\r/g, '$&' + indent.repeat(level + 1))}\n${indent.repeat(level)}'''`;
@@ -659,48 +665,172 @@ function stringifyCSON(value: CSONValue, indent: string = '\t', level: number = 
 	}
 };
 
+function syntaxErrorCSON(csNode: ASTNode | ASTBody, errorMessage: string | Error) {
+	const text = activeDocument.getText();
+	const filename = activeDocument.fileName.match(/[^\\/]+$/)?.[0];
 
-function nodeTypeString(csNode: Object): string {
-	return csNode.constructor.name ?? csNode.constructor.toString().match(/^function\s*([^(\s]+)/)![1];
+	// try {
+	// 	// @ts-expect-error
+	// 	return coffeescript.helpers.throwSyntaxError(message, csNode.locationData) as SyntaxError;
+	// } catch (error: unknown) {
+	// 	// try {
+	// 	// 	// @ts-expect-error
+	// 	// 	return coffeescript.helpers.updateSyntaxError(error as SyntaxError, text, filename) as SyntaxError;
+	// 	// } catch (error: unknown) { }
+	// }
+
+	const location = csNode.locationData as coffeescript.JisonLocationData;
+	const line = location.first_line;
+	const column = location.first_column;
+	const column_last = location.last_column;
+	const code = text.split('\n')[line].slice(column, column_last + 1);
+	const marker = '^'.repeat(column_last - column + 1);
+
+	if (typeof errorMessage === 'string') {
+		const syntaxError = new SyntaxError(`${filename}:${line + 1}:${column + 1}\n${errorMessage}\n${code}\n${marker}`);
+		// @ts-expect-error
+		syntaxError.location = location;
+		return syntaxError;
+	}
+
+	errorMessage.message = `${errorMessage.message}\n${filename}:${line + 1}:${column + 1}\n${code}\n${marker}`;
+	return errorMessage;
 }
 
-function syntaxErrorMessage(csNode: coffeescript.ASTNode, msg: string) {
-	const ref = csNode.locationData as coffeescript.JisonLocationData;
-	const lineIdx = ref.first_line;
-	const columnIdx = ref.first_column;
-	let line = -1;
-	let column = -1;
-	if (lineIdx != null) {
-		line = lineIdx + 1;
-	}
-	if (columnIdx != null) {
-		column = columnIdx + 1;
-	}
-	return `Syntax error on line ${line}, column ${column}: ${msg}`;
+function defaultReviver(key: string, value: CSONValue) {
+	return value;
 }
 
-function transformKey(csNode: coffeescript.ASTNode) {
-	const type = nodeTypeString(csNode);
-	if (type !== 'Value') {
-		throw new SyntaxError(syntaxErrorMessage(csNode, `${type} used as key`));
-	}
-	const value = csNode.base!.value as string;
-	switch (value.charAt(0)) {
-		case "'":
-		case '"':
-			return parseString(csNode.base!);
-		default:
-			return value;
-	}
-}
+type ASTBody = {
+	body: {
+		expressions: ASTNode[];
+		locationData: coffeescript.LocationData;
+	};
+	isAsync: boolean;
+	locationData: coffeescript.LocationData;
+	astType: ({ }: { level: number; }) => 'File';
+};
+type ASTNode = {
+	astType: ({ }: { level: number; }) => 'MemberExpression' | 'Program' | 'ClassBody' | 'BlockStatement' | 'BigIntLiteral' | 'NumericLiteral' | 'Identifier' | 'StringLiteral' | 'RegExpLiteral' | 'PassthroughLiteral' | 'JSXIdentifier' | 'ContinueStatement' | 'BreakStatement' | 'DebuggerStatement' | 'ThisExpression' | 'NullLiteral' | 'BooleanLiteral' | 'ReturnStatement' | 'JSXMemberExpression' | 'OptionalMemberExpression' | 'CommentBlock' | 'CommentLine' | 'JSXFragment' | 'JSXElement' | 'NewExpression' | 'OptionalCallExpression' | 'CallExpression' | 'InterpolatedRegExpLiteral' | 'TaggedTemplateExpression' | 'ObjectPattern' | 'ObjectExpression' | 'ArrayPattern' | 'ArrayExpression' | 'ClassDeclaration' | 'ClassExpression' | 'Import' | 'AssignmentPattern' | 'AssignmentExpression' | 'ClassMethod' | 'ArrowFunctionExpression' | 'FunctionExpression' | 'JSXSpreadAttribute' | 'RestElement' | 'SpreadElement' | 'WhileStatement' | 'AwaitExpression' | 'YieldExpression' | 'ChainedComparison' | 'LogicalExpression' | 'UpdateExpression' | 'UnaryExpression' | 'BinaryExpression' | 'TryStatement' | 'CatchClause' | 'ThrowStatement' | 'TemplateLiteral' | 'For' | 'SwitchStatement' | 'IfStatement' | 'ConditionalExpression' | 'SequenceExpression' | 'Parens';
+	locationData: coffeescript.LocationData;
+} &
+	Partial<{
+		array: boolean | ASTNode;
+		asKey: boolean;
+		args: ASTNode[];
+		base: ASTNode;
+		body: /* ASTBody | */ ASTNode;
+		bound: boolean;
+		boundFuncs: ASTNode[];
+		cases: ASTNode[][];
+		classBody: boolean;
+		comments: string[];
+		condition: ASTNode;
+		context: string;
+		elseBody: ASTNode | null;
+		expression: ASTNode;
+		expressions: ASTNode[];
+		first: ASTNode;
+		flip: boolean;
+		generated: boolean;
+		guard: ASTNode;
+		index: ASTNode;
+		isChain: boolean;
+		isGenerator: boolean;
+		isNew: boolean;
+		isSuper: boolean;
+		name: ASTNode;
+		negated: boolean;
+		object: boolean | ASTNode;
+		objects: ASTNode[];
+		operator: string;
+		otherwise: ASTNode;
+		own: boolean;
+		param: boolean;
+		params: ASTNode[];
+		parent: ASTNode | null;
+		parsedValue: any;
+		pattern: boolean;
+		properties: ASTNode[];
+		range: boolean | coffeescript.ASTNodeRange[];
+		returns: boolean;
+		subject: ASTNode;
+		second: ASTNode;
+		soak: boolean;
+		source: ASTNode;
+		subpattern: boolean;
+		this: boolean;
+		val: string;
+		value: ASTNode | string;
+		variable: ASTNode;
+	}>;
 
-function parseString(node: coffeescript.ASTNode) {
-	const value = node.value as string;
-	// @ts-expect-error
-	switch (node.delimiter) {
-		case '"':
-		case "'":
-			return value.slice(1, -1).replaceAll(
+// type Reviver = (this: any, key: string, value: any) => any;
+type ValueCSON = string | number | boolean | undefined | null | RegExp | ValueCSON[] | { [key: string]: ValueCSON; };
+
+let activeNodeCSON: ASTNode | ASTBody;
+function parseNodeCSON(csNode: ASTNode | ASTBody, reviver: (this: { [key: string]: ValueCSON; }, key: string, value: ValueCSON) => ValueCSON): ValueCSON {
+	activeNodeCSON = csNode;
+	const nodeType = csNode.astType({ level: 0 });
+	csNode = csNode as ASTNode; // TODO: Cause TypeScript broken on astType() function return type
+	switch (nodeType) {
+		case 'File': // Root
+			csNode = csNode as unknown as ASTBody; // TODO: Cause TypeScript broken
+		/* FallThrough */
+		case 'Parens':
+			const expressions = csNode.body!.expressions; // Block
+			if (expressions?.length === 1) {
+				return parseNodeCSON(expressions[0], reviver);
+			}
+			throw syntaxErrorCSON(csNode, nodeType == 'File' ? 'One top level value expected' : 'Parenthesis may only contain one expression');
+		case 'MemberExpression': // Value
+			return parseNodeCSON(csNode.base!, reviver);
+		case 'ObjectExpression': // Obj
+			return csNode.objects!.reduce((outObject: { [key: string]: ValueCSON; }, node, index, array) => {
+				const variable = node.variable; // Assign
+				if (!variable) {
+					return outObject;
+				}
+
+				const type = variable.astType({ level: 0 });
+				if (type !== 'MemberExpression') { // String
+					throw syntaxErrorCSON(variable, `${type} used as key`);
+				}
+
+				const keyName = parseNodeCSON(variable.base!, reviver) as string;
+				const value = parseNodeCSON(node.value as ASTNode, reviver);
+				outObject[keyName] = reviver.call(outObject, keyName, value);
+
+				return outObject;
+			}, {});
+		case 'ArrayExpression':
+			return csNode.objects!.map(value => parseNodeCSON(value, reviver));
+		case 'Identifier':
+			switch (csNode.constructor.name) {
+				case 'InfinityLiteral':
+					return Infinity;
+				case 'NaNLiteral':
+					return NaN;
+				case 'UndefinedLiteral':
+					return undefined;
+				case 'PropertyName': // PropertyName: value
+					return csNode.value as string;
+				default:
+					if ('parsedValue' in csNode) {
+						return csNode.parsedValue;
+					}
+					if (typeof csNode.value === 'string') {
+						return csNode.value;
+					}
+				case 'IdentifierLiteral': // variable
+				case 'ComputedPropertyName': // [ComputedPropertyName]: value
+				case 'DefaultLiteral': // EXPORT DEFAULT
+					// console.log(JSON.stringify(csNode, stringify));
+					throw syntaxErrorCSON(csNode, `Unsupported Literal type Identifier:${csNode.constructor.name}`);
+			}
+		case 'StringLiteral': // StringLiteral
+			const string = csNode.value as string;
+			return string.slice(1, -1).replaceAll(
 				/\\(?:u{[0-9A-Fa-f]+}|u[0-9A-Fa-f]{4}|x[0-9A-Fa-f]{2}|.)?/g,
 				escapeString => {
 					const escapeChar = escapeString.charAt(1);
@@ -727,168 +857,101 @@ function parseString(node: coffeescript.ASTNode) {
 					}
 				}
 			);
-		case '/':
-		case '///':
-			const match = value.match(/^\/(?<pattern>.*)\/(?<flags>\w*)$/);
+		case 'RegExpLiteral':
+			const regex = csNode.value as string;
+			const match = regex.match(/^\/(?<pattern>.*)\/(?<flags>\w*)$/);
 			return new RegExp(match!.groups!.pattern!, match!.groups!.flags!);
-	// // @ts-expect-error
-	// return new RegExp(node.originalValue, node.flags);
-		default:
-			try {
-				return JSON.parse(value) as boolean | number | null;
-			} catch (error: any) {
-				throw new SyntaxError(syntaxErrorMessage(node, error.message));
+		case 'BigIntLiteral': // NumberLiteral
+			return csNode.value as string
+		case 'NumericLiteral':
+			// return Number(csNode.value as string);
+			// @ts-expect-error
+			return coffeescript.helpers.parseNumber(csNode.value as string) as number;
+		case 'BooleanLiteral':
+			return csNode.value === 'true';
+		case 'NullLiteral':
+			return null;
+		case 'PassthroughLiteral':
+			if (csNode.generated) {
+				return null;
 			}
+			return csNode.value as string;
+		case 'UpdateExpression': // Op
+		case 'UnaryExpression': // Op, Existence
+			let value = parseNodeCSON(csNode.first!, reviver) as any;
+			switch (csNode.operator) {
+				case '++': return value++;
+				case '--': return value--;
+
+				case '-': return -value;
+				case '~': return ~value;
+			}
+		/* FallThrough */
+		case 'LogicalExpression': // Op
+		case 'BinaryExpression': // Op
+			const left = parseNodeCSON(csNode.first!, reviver) as any;
+			const right = parseNodeCSON(csNode.second!, reviver) as any;
+			switch (csNode.operator) {
+				case '||': return left || right;
+				case '&&': return left & right;
+				case '?': return left ?? right;
+
+				case '-': return left - right;
+				case '+': return left + right;
+				case '*': return left * right;
+				case '/': return left / right;
+				case '%': return left % right;
+				case '&': return left & right;
+				case '|': return left | right;
+				case '^': return left ^ right;
+				case '>': return left > right;
+				case '<': return left < right;
+				case '>=': return left >= right;
+				case '<=': return left <= right;
+				case '<<': return left << right;
+				case '>>': return left >> right;
+				case '===': return left === right;
+				case '!==': return left !== right;
+				case '>>>': return left >>> right;
+				case 'in':
+					if (Array.isArray(right)) {
+						return right.indexOf(left) >= 0;
+					}
+					return left in right;
+
+				case '//': return Math.floor(left / right);
+				case '%%': return left % right;
+				default:
+					throw syntaxErrorCSON(csNode, `Unknown ${nodeType.replace('Expression', '')} operator ${csNode.operator}`);
+			}
+
+		default:
+			if (typeof csNode.value === 'string') {
+				console.warn(syntaxErrorCSON(csNode, `Unexpected node type ${nodeType}`));
+				return csNode.value;
+			}
+			// console.log(JSON.stringify(csNode, stringify));
+			throw syntaxErrorCSON(csNode, `Unexpected node type ${nodeType /* satisfies never */}`);
 	}
 }
 
-const nodeTransforms/* : { [key: string]: TransformNode; } */ = {
-	Block: function Block(node: coffeescript.ASTNode, transformNode: TransformNode) {
-		const expressions = node.expressions;
-		if (!expressions || expressions.length !== 1) {
-			throw new SyntaxError(
-				syntaxErrorMessage(node, 'One top level value expected')
-			);
-		}
-		return transformNode(expressions[0]);
-	},
-	Root: function Root(node: coffeescript.ASTNode, transformNode: TransformNode) {
-		const expressions = node.body!.expressions;
-		if (!expressions || expressions.length !== 1) {
-			throw new SyntaxError(
-				syntaxErrorMessage(node, 'One top level value expected')
-			);
-		}
-		return transformNode(expressions[0]);
-	},
-	Value: function Value(node: coffeescript.ASTNode, transformNode: TransformNode) {
-		return transformNode(node.base!);
-	},
-	Bool: function Bool(node: coffeescript.ASTNode) {
-		return node.val === 'true';
-	},
-	BooleanLiteral: function BooleanLiteral(node: coffeescript.ASTNode) {
-		return node.value === 'true';
-	},
-	Null: function Null() {
-		return null;
-	},
-	NullLiteral: function NullLiteral() {
-		return null;
-	},
-	Literal: function Literal(node: coffeescript.ASTNode) {
-		return parseString(node);
-	},
-	NumberLiteral: function NumberLiteral(node: coffeescript.ASTNode) {
-		return Number(node.value);
-	},
-	StringLiteral: function StringLiteral(node: coffeescript.ASTNode) {
-		return parseString(node);
-	},
-	RegexLiteral: function RegexLiteral(node: coffeescript.ASTNode) {
-		return parseString(node);
-	},
-	Arr: function Arr(node: coffeescript.ASTNode, transformNode: TransformNode) {
-		return node.objects!.map(transformNode as (csNode: coffeescript.ASTNode) => ReturnType<TransformNode>);
-	},
-	Obj: function Obj(node: coffeescript.ASTNode, transformNode: TransformNode, reviver: NonNullable<Parameters<typeof parseCSON>[1]>) {
-		return node.properties!.reduce((outObject: { [key: string]: ReturnType<TransformNode>; }, property) => {
-			const variable = property.variable;
-			if (!variable) {
-				return outObject;
-			}
-
-			const keyName = transformKey(variable) as string;
-			const value = transformNode(property.value as coffeescript.ASTNode);
-			outObject[keyName] = reviver.call(outObject, keyName, value);
-			return outObject;
-		}, {});
-	},
-	Op: function Op(node: coffeescript.ASTNode, transformNode: TransformNode) {
-		if (node.second != null) {
-			const left = transformNode(node.first!) as number;
-			const right = transformNode(node.second) as number;
-			switch (node.operator) {
-				case '-':
-					return left - right;
-				case '+':
-					return left + right;
-				case '*':
-					return left * right;
-				case '/':
-					return left / right;
-				case '%':
-					return left % right;
-				case '&':
-					return left & right;
-				case '|':
-					return left | right;
-				case '^':
-					return left ^ right;
-				case '<<':
-					return left << right;
-				case '>>>':
-					return left >>> right;
-				case '>>':
-					return left >> right;
-				default:
-					throw new SyntaxError(
-						syntaxErrorMessage(node, `Unknown binary operator ${node.operator}`)
-					);
-			}
-		} else {
-			switch (node.operator) {
-				case '-':
-					return -(transformNode(node.first!) as number);
-				case '~':
-					return ~(transformNode(node.first!) as number);
-				default:
-					throw new SyntaxError(
-						syntaxErrorMessage(node, `Unknown unary operator ${node.operator}`)
-					);
-			}
-		}
-	},
-	Parens: function Parens(node: coffeescript.ASTNode, transformNode: TransformNode) {
-		const expressions = node.body!.expressions as coffeescript.ASTNode[];
-		if (!expressions || expressions.length !== 1) {
-			throw new SyntaxError(
-				syntaxErrorMessage(node, 'Parenthesis may only contain one expression')
-			);
-		}
-		return transformNode(expressions[0]);
-	},
-};
-
-function defaultReviver(key: string, value: any): any {
-	return value;
-}
-
-type TransformNode = (
-	csNode: coffeescript.ASTNode,
-	transformNode?: TransformNode,
-	reviver?: NonNullable<Parameters<typeof parseCSON>[1]>
-) => string | number | boolean | RegExp | coffeescript.ASTNode | null/* ReturnType<typeof nodeTransforms[keyof typeof nodeTransforms]> */;
 function parseCSON(text: string, reviver?: (this: any, key: string, value: any) => any): any {
 	reviver ??= defaultReviver;
 	if (typeof reviver !== 'function') {
 		throw new TypeError('reviver has to be a function');
 	}
 
-	const transformNode = (csNode: coffeescript.ASTBody) => {
-		const type = nodeTypeString(csNode) as keyof typeof nodeTransforms;
-		const transform = nodeTransforms[type];
-		if (!transform) {
-			throw new SyntaxError(syntaxErrorMessage(csNode, `Unexpected ${type}`));
+	try {
+		const coffeeAst = coffeescript.nodes(text) as unknown as ASTBody;
+		// vscode.window.showInformationMessage(JSON.stringify(coffeeAst, stringify));
+		// vscode.window.showInformationMessage(coffeescript.compile(text));
+		const parsed = parseNodeCSON(coffeeAst, reviver);
+		return reviver.call({ '': parsed }, '', parsed);
+
+	} catch (error: any) {
+		if (!error.location) {
+			error = syntaxErrorCSON(activeNodeCSON, error as Error);
 		}
-		return transform(csNode, transformNode as TransformNode, reviver);
-	};
-
-	const coffeeAst = coffeescript.nodes(text);
-	// vscode.window.showInformationMessage(JSON.stringify(coffeeAst, stringify));
-
-	const parsed = transformNode(coffeeAst);
-
-	const contextObj = { '': parsed };
-	return reviver.call(contextObj, '', parsed);
+		throw error;
+	}
 }
