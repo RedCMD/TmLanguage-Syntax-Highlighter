@@ -161,7 +161,10 @@ export function getSpellingSuggestion(word: string, candidates: readonly string[
 			}
 			// Only consider candidates less than 3 characters long when they differ by case.
 			// Otherwise, don't bother, since a user would usually notice differences of a 2-character name.
-			if (word.length < 3 && candidate.length < 3 && candidate.toLowerCase() !== word.toLowerCase()) {
+			if (word.length < 3
+				&& candidate.length < 3
+				&& word.length !== candidate.length
+				&& candidate.toLowerCase() !== word.toLowerCase()) {
 				continue;
 			}
 

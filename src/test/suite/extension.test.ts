@@ -42,7 +42,7 @@ suite('Extension Tests', async () => {
 		let prevLineNumber = 0;
 		const actualStringified = JSON.stringify(
 			actual,
-			(key, value) => {
+			(key: string, value: unknown): any => {
 				switch (key) {
 					case 'uri':
 					case 'resource':
@@ -53,12 +53,11 @@ suite('Extension Tests', async () => {
 						return undefined;
 
 					case 'message':
-						return value.replace(/\s+\(\d+ms\)/, '');
+						return (value as string).replace(/\s+\(\d+ms\)/, '');
 
 					case 'id':
-						if (typeof value == 'number') {
+						if (typeof value === 'number') {
 							return undefined;
-
 						}
 						return value;
 
@@ -66,24 +65,24 @@ suite('Extension Tests', async () => {
 					case 'start':
 					case 'startLineNumber':
 						if (UseRelativeLineNumbers) {
-							const relativeLineNumber = value - prevLineNumber;
+							const relativeLineNumber = value as number - prevLineNumber;
 							prevLineNumber = value as number;
 							return relativeLineNumber;
 						}
-						return value;
+						return value as number;
 					case 'end':
 					case 'endLineNumber':
 						if (UseRelativeLineNumbers) {
-							return value - prevLineNumber;
+							return value as number - prevLineNumber;
 						}
-						return value;
+						return value as number;
 
 					default:
-						return value;
+						return value as any;
 				}
 			},
 			'\t'
-		).replaceAll(/[\r\n]+/g, '\r\n') + '\r\n';
+		).replaceAll(/[\r\n]+|$/g, '\r\n');
 
 		const file = vscode.Uri.joinPath(baselinesUri, filename);
 
@@ -134,7 +133,7 @@ suite('Extension Tests', async () => {
 			// VSCode's IRange is presented differently compared to how its actually stored
 			assert.equal(
 				actualStringified,
-				JSON.stringify(expected, null, '\t').replaceAll(/[\r\n]+/g, '\r\n') + '\r\n',
+				JSON.stringify(expected, null, '\t').replaceAll(/[\r\n]+|$/g, '\r\n'),
 				`Failed stringified assertion on file ${filename}`
 			);
 		}

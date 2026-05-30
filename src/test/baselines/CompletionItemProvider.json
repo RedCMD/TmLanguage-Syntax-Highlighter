@@ -2045,7 +2045,7 @@
 				},
 				"kind": 1,
 				"documentation": {
-					"value": "\n```json-textmate\n\"\": {\r\n\t\t\t\"match\": \"\\\\p{Ll} \"\r\n\t\t}\n```\n",
+					"value": "\n```json-textmate\n\"\": {\n\t\"match\": \"\\\\p{Ll} \"\n}\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -2105,7 +2105,7 @@
 				},
 				"kind": 1,
 				"documentation": {
-					"value": "\n```json-textmate\n\"string\": {\r\n\t\t\t\"begin\": \"(R)?(\\\")\",\r\n\t\t\t\"end\": \"\\\"\",\r\n\t\t\t\"beginCaptures\": {\r\n\t\t\t\t\"1\": { \"name\": \"string.quoted.byte.raw.comp\" },\r\n\t\t\t\t\"2\": { \"name\": \"punctuation.definition.string.begin.completion\" }\r\n\t\t\t},\r\n\t\t\t\"endCaptures\": { \"0\": { \"name\": \"punctuation.definition.string.end.completion\" } },\r\n\t\t\t\"name\": \"string.quoted.double.lang\"\r\n\t\t}\n```\n",
+					"value": "\n```json-textmate\n\"string\": {\n\t\"begin\": \"(R)?(\\\")\",\n\t\"end\": \"\\\"\",\n\t\"beginCaptures\": {\n\t\t\"1\": { \"name\": \"string.quoted.byte.raw.comp\" },\n\t\t\"2\": { \"name\": \"punctuation.definition.string.begin.completion\" }\n\t},\n\t\"endCaptures\": { \"0\": { \"name\": \"punctuation.definition.string.end.completion\" } },\n\t\"name\": \"string.quoted.double.lang\"\n}\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -2132,7 +2132,7 @@
 				},
 				"kind": 5,
 				"documentation": {
-					"value": "\n```json-textmate\n\"patterns\": [\r\n\t\t{ \"include\": \"\" },\r\n\t\t{ \"include\": \"#string\" },\r\n\t\t{ \"include\": \"#boolean\" },\r\n\t\t{ \"include\": \"source.completion\" },\r\n\t\t{ \"include\": \"source.completion#aaaaaaaaaaaaaaaaaaa\" },\r\n\t\t{ \"name\": \"\" },\r\n\t\t{ \"name\": \"comment\" },\r\n\t\t{ \"name\": \"token.debug\" },\r\n\t\t{ \"name\": \"punctuation\" }\r\n\t]\n```\n",
+					"value": "\n```json-textmate\n\"patterns\": [\n\t{ \"include\": \"\" },\n\t{ \"include\": \"#string\" },\n\t{ \"include\": \"#boolean\" },\n\t{ \"include\": \"source.completion\" },\n\t{ \"include\": \"source.completion#aaaaaaaaaaaaaaaaaaa\" },\n\t{ \"name\": \"\" },\n\t{ \"name\": \"comment\" },\n\t{ \"name\": \"token.debug\" },\n\t{ \"name\": \"punctuation\" }\n]\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -6172,7 +6172,7 @@
 				},
 				"kind": 1,
 				"documentation": {
-					"value": "\n```json-textmate\n\"\": {\r\n\t\t\t\"match\": \"\\\\p{Ll} \"\r\n\t\t}\n```\n",
+					"value": "\n```json-textmate\n\"\": {\n\t\"match\": \"\\\\p{Ll} \"\n}\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -6232,7 +6232,7 @@
 				},
 				"kind": 1,
 				"documentation": {
-					"value": "\n```json-textmate\n\"string\": {\r\n\t\t\t\"begin\": \"(R)?(\\\")\",\r\n\t\t\t\"end\": \"\\\"\",\r\n\t\t\t\"beginCaptures\": {\r\n\t\t\t\t\"1\": { \"name\": \"string.quoted.byte.raw.comp\" },\r\n\t\t\t\t\"2\": { \"name\": \"punctuation.definition.string.begin.completion\" }\r\n\t\t\t},\r\n\t\t\t\"endCaptures\": { \"0\": { \"name\": \"punctuation.definition.string.end.completion\" } },\r\n\t\t\t\"name\": \"string.quoted.double.lang\"\r\n\t\t}\n```\n",
+					"value": "\n```json-textmate\n\"string\": {\n\t\"begin\": \"(R)?(\\\")\",\n\t\"end\": \"\\\"\",\n\t\"beginCaptures\": {\n\t\t\"1\": { \"name\": \"string.quoted.byte.raw.comp\" },\n\t\t\"2\": { \"name\": \"punctuation.definition.string.begin.completion\" }\n\t},\n\t\"endCaptures\": { \"0\": { \"name\": \"punctuation.definition.string.end.completion\" } },\n\t\"name\": \"string.quoted.double.lang\"\n}\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -6259,7 +6259,7 @@
 				},
 				"kind": 5,
 				"documentation": {
-					"value": "\n```json-textmate\n\"patterns\": [\r\n\t\t{ \"include\": \"\" },\r\n\t\t{ \"include\": \"#string\" },\r\n\t\t{ \"include\": \"#boolean\" },\r\n\t\t{ \"include\": \"source.completion\" },\r\n\t\t{ \"include\": \"source.completion#aaaaaaaaaaaaaaaaaaa\" },\r\n\t\t{ \"name\": \"\" },\r\n\t\t{ \"name\": \"comment\" },\r\n\t\t{ \"name\": \"token.debug\" },\r\n\t\t{ \"name\": \"punctuation\" }\r\n\t]\n```\n",
+					"value": "\n```json-textmate\n\"patterns\": [\n\t{ \"include\": \"\" },\n\t{ \"include\": \"#string\" },\n\t{ \"include\": \"#boolean\" },\n\t{ \"include\": \"source.completion\" },\n\t{ \"include\": \"source.completion#aaaaaaaaaaaaaaaaaaa\" },\n\t{ \"name\": \"\" },\n\t{ \"name\": \"comment\" },\n\t{ \"name\": \"token.debug\" },\n\t{ \"name\": \"punctuation\" }\n]\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -10299,7 +10299,7 @@
 				},
 				"kind": 1,
 				"documentation": {
-					"value": "\n```json-textmate\n\"\": {\r\n\t\t\t\"match\": \"\\\\p{Ll} \"\r\n\t\t}\n```\n",
+					"value": "\n```json-textmate\n\"\": {\n\t\"match\": \"\\\\p{Ll} \"\n}\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -10359,7 +10359,7 @@
 				},
 				"kind": 1,
 				"documentation": {
-					"value": "\n```json-textmate\n\"string\": {\r\n\t\t\t\"begin\": \"(R)?(\\\")\",\r\n\t\t\t\"end\": \"\\\"\",\r\n\t\t\t\"beginCaptures\": {\r\n\t\t\t\t\"1\": { \"name\": \"string.quoted.byte.raw.comp\" },\r\n\t\t\t\t\"2\": { \"name\": \"punctuation.definition.string.begin.completion\" }\r\n\t\t\t},\r\n\t\t\t\"endCaptures\": { \"0\": { \"name\": \"punctuation.definition.string.end.completion\" } },\r\n\t\t\t\"name\": \"string.quoted.double.lang\"\r\n\t\t}\n```\n",
+					"value": "\n```json-textmate\n\"string\": {\n\t\"begin\": \"(R)?(\\\")\",\n\t\"end\": \"\\\"\",\n\t\"beginCaptures\": {\n\t\t\"1\": { \"name\": \"string.quoted.byte.raw.comp\" },\n\t\t\"2\": { \"name\": \"punctuation.definition.string.begin.completion\" }\n\t},\n\t\"endCaptures\": { \"0\": { \"name\": \"punctuation.definition.string.end.completion\" } },\n\t\"name\": \"string.quoted.double.lang\"\n}\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -10386,7 +10386,7 @@
 				},
 				"kind": 5,
 				"documentation": {
-					"value": "\n```json-textmate\n\"patterns\": [\r\n\t\t{ \"include\": \"\" },\r\n\t\t{ \"include\": \"#string\" },\r\n\t\t{ \"include\": \"#boolean\" },\r\n\t\t{ \"include\": \"source.completion\" },\r\n\t\t{ \"include\": \"source.completion#aaaaaaaaaaaaaaaaaaa\" },\r\n\t\t{ \"name\": \"\" },\r\n\t\t{ \"name\": \"comment\" },\r\n\t\t{ \"name\": \"token.debug\" },\r\n\t\t{ \"name\": \"punctuation\" }\r\n\t]\n```\n",
+					"value": "\n```json-textmate\n\"patterns\": [\n\t{ \"include\": \"\" },\n\t{ \"include\": \"#string\" },\n\t{ \"include\": \"#boolean\" },\n\t{ \"include\": \"source.completion\" },\n\t{ \"include\": \"source.completion#aaaaaaaaaaaaaaaaaaa\" },\n\t{ \"name\": \"\" },\n\t{ \"name\": \"comment\" },\n\t{ \"name\": \"token.debug\" },\n\t{ \"name\": \"punctuation\" }\n]\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -14426,7 +14426,7 @@
 				},
 				"kind": 1,
 				"documentation": {
-					"value": "\n```json-textmate\n\"\": {\r\n\t\t\t\"match\": \"\\\\p{Ll} \"\r\n\t\t}\n```\n",
+					"value": "\n```json-textmate\n\"\": {\n\t\"match\": \"\\\\p{Ll} \"\n}\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -14486,7 +14486,7 @@
 				},
 				"kind": 1,
 				"documentation": {
-					"value": "\n```json-textmate\n\"string\": {\r\n\t\t\t\"begin\": \"(R)?(\\\")\",\r\n\t\t\t\"end\": \"\\\"\",\r\n\t\t\t\"beginCaptures\": {\r\n\t\t\t\t\"1\": { \"name\": \"string.quoted.byte.raw.comp\" },\r\n\t\t\t\t\"2\": { \"name\": \"punctuation.definition.string.begin.completion\" }\r\n\t\t\t},\r\n\t\t\t\"endCaptures\": { \"0\": { \"name\": \"punctuation.definition.string.end.completion\" } },\r\n\t\t\t\"name\": \"string.quoted.double.lang\"\r\n\t\t}\n```\n",
+					"value": "\n```json-textmate\n\"string\": {\n\t\"begin\": \"(R)?(\\\")\",\n\t\"end\": \"\\\"\",\n\t\"beginCaptures\": {\n\t\t\"1\": { \"name\": \"string.quoted.byte.raw.comp\" },\n\t\t\"2\": { \"name\": \"punctuation.definition.string.begin.completion\" }\n\t},\n\t\"endCaptures\": { \"0\": { \"name\": \"punctuation.definition.string.end.completion\" } },\n\t\"name\": \"string.quoted.double.lang\"\n}\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -14513,7 +14513,7 @@
 				},
 				"kind": 5,
 				"documentation": {
-					"value": "\n```json-textmate\n\"patterns\": [\r\n\t\t{ \"include\": \"\" },\r\n\t\t{ \"include\": \"#string\" },\r\n\t\t{ \"include\": \"#boolean\" },\r\n\t\t{ \"include\": \"source.completion\" },\r\n\t\t{ \"include\": \"source.completion#aaaaaaaaaaaaaaaaaaa\" },\r\n\t\t{ \"name\": \"\" },\r\n\t\t{ \"name\": \"comment\" },\r\n\t\t{ \"name\": \"token.debug\" },\r\n\t\t{ \"name\": \"punctuation\" }\r\n\t]\n```\n",
+					"value": "\n```json-textmate\n\"patterns\": [\n\t{ \"include\": \"\" },\n\t{ \"include\": \"#string\" },\n\t{ \"include\": \"#boolean\" },\n\t{ \"include\": \"source.completion\" },\n\t{ \"include\": \"source.completion#aaaaaaaaaaaaaaaaaaa\" },\n\t{ \"name\": \"\" },\n\t{ \"name\": \"comment\" },\n\t{ \"name\": \"token.debug\" },\n\t{ \"name\": \"punctuation\" }\n]\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -14972,7 +14972,7 @@
 					1
 				],
 				"documentation": {
-					"value": "\n```json-textmate\n\"patterns\": [\r\n\t\t{ \"include\": \"\" },\r\n\t\t{ \"include\": \"#string\" },\r\n\t\t{ \"include\": \"#boolean\" },\r\n\t\t{ \"include\": \"source.completion\" },\r\n\t\t{ \"include\": \"source.completion#aaaaaaaaaaaaaaaaaaa\" },\r\n\t\t{ \"name\": \"\" },\r\n\t\t{ \"name\": \"comment\" },\r\n\t\t{ \"name\": \"token.debug\" },\r\n\t\t{ \"name\": \"punctuation\" }\r\n\t]\n```\n",
+					"value": "\n```json-textmate\n\"patterns\": [\n\t{ \"include\": \"\" },\n\t{ \"include\": \"#string\" },\n\t{ \"include\": \"#boolean\" },\n\t{ \"include\": \"source.completion\" },\n\t{ \"include\": \"source.completion#aaaaaaaaaaaaaaaaaaa\" },\n\t{ \"name\": \"\" },\n\t{ \"name\": \"comment\" },\n\t{ \"name\": \"token.debug\" },\n\t{ \"name\": \"punctuation\" }\n]\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -15005,7 +15005,7 @@
 				},
 				"kind": 1,
 				"documentation": {
-					"value": "\n```json-textmate\n\"\": {\r\n\t\t\t\"match\": \"\\\\p{Ll} \"\r\n\t\t}\n```\n",
+					"value": "\n```json-textmate\n\"\": {\n\t\"match\": \"\\\\p{Ll} \"\n}\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -15031,7 +15031,7 @@
 				},
 				"kind": 1,
 				"documentation": {
-					"value": "\n```json-textmate\n\"string\": {\r\n\t\t\t\"begin\": \"(R)?(\\\")\",\r\n\t\t\t\"end\": \"\\\"\",\r\n\t\t\t\"beginCaptures\": {\r\n\t\t\t\t\"1\": { \"name\": \"string.quoted.byte.raw.comp\" },\r\n\t\t\t\t\"2\": { \"name\": \"punctuation.definition.string.begin.completion\" }\r\n\t\t\t},\r\n\t\t\t\"endCaptures\": { \"0\": { \"name\": \"punctuation.definition.string.end.completion\" } },\r\n\t\t\t\"name\": \"string.quoted.double.lang\"\r\n\t\t}\n```\n",
+					"value": "\n```json-textmate\n\"string\": {\n\t\"begin\": \"(R)?(\\\")\",\n\t\"end\": \"\\\"\",\n\t\"beginCaptures\": {\n\t\t\"1\": { \"name\": \"string.quoted.byte.raw.comp\" },\n\t\t\"2\": { \"name\": \"punctuation.definition.string.begin.completion\" }\n\t},\n\t\"endCaptures\": { \"0\": { \"name\": \"punctuation.definition.string.end.completion\" } },\n\t\"name\": \"string.quoted.double.lang\"\n}\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -18642,7 +18642,7 @@
 				},
 				"kind": 1,
 				"documentation": {
-					"value": "\n```json-textmate\n\"\": {\r\n\t\t\t\"match\": \"\\\\p{Ll} \"\r\n\t\t}\n```\n",
+					"value": "\n```json-textmate\n\"\": {\n\t\"match\": \"\\\\p{Ll} \"\n}\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -18702,7 +18702,7 @@
 				},
 				"kind": 1,
 				"documentation": {
-					"value": "\n```json-textmate\n\"string\": {\r\n\t\t\t\"begin\": \"(R)?(\\\")\",\r\n\t\t\t\"end\": \"\\\"\",\r\n\t\t\t\"beginCaptures\": {\r\n\t\t\t\t\"1\": { \"name\": \"string.quoted.byte.raw.comp\" },\r\n\t\t\t\t\"2\": { \"name\": \"punctuation.definition.string.begin.completion\" }\r\n\t\t\t},\r\n\t\t\t\"endCaptures\": { \"0\": { \"name\": \"punctuation.definition.string.end.completion\" } },\r\n\t\t\t\"name\": \"string.quoted.double.lang\"\r\n\t\t}\n```\n",
+					"value": "\n```json-textmate\n\"string\": {\n\t\"begin\": \"(R)?(\\\")\",\n\t\"end\": \"\\\"\",\n\t\"beginCaptures\": {\n\t\t\"1\": { \"name\": \"string.quoted.byte.raw.comp\" },\n\t\t\"2\": { \"name\": \"punctuation.definition.string.begin.completion\" }\n\t},\n\t\"endCaptures\": { \"0\": { \"name\": \"punctuation.definition.string.end.completion\" } },\n\t\"name\": \"string.quoted.double.lang\"\n}\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -18729,7 +18729,7 @@
 				},
 				"kind": 5,
 				"documentation": {
-					"value": "\n```json-textmate\n\"patterns\": [\r\n\t\t{ \"include\": \"\" },\r\n\t\t{ \"include\": \"#string\" },\r\n\t\t{ \"include\": \"#boolean\" },\r\n\t\t{ \"include\": \"source.completion\" },\r\n\t\t{ \"include\": \"source.completion#aaaaaaaaaaaaaaaaaaa\" },\r\n\t\t{ \"name\": \"\" },\r\n\t\t{ \"name\": \"comment\" },\r\n\t\t{ \"name\": \"token.debug\" },\r\n\t\t{ \"name\": \"punctuation\" }\r\n\t]\n```\n",
+					"value": "\n```json-textmate\n\"patterns\": [\n\t{ \"include\": \"\" },\n\t{ \"include\": \"#string\" },\n\t{ \"include\": \"#boolean\" },\n\t{ \"include\": \"source.completion\" },\n\t{ \"include\": \"source.completion#aaaaaaaaaaaaaaaaaaa\" },\n\t{ \"name\": \"\" },\n\t{ \"name\": \"comment\" },\n\t{ \"name\": \"token.debug\" },\n\t{ \"name\": \"punctuation\" }\n]\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -19188,7 +19188,7 @@
 					1
 				],
 				"documentation": {
-					"value": "\n```json-textmate\n\"patterns\": [\r\n\t\t{ \"include\": \"\" },\r\n\t\t{ \"include\": \"#string\" },\r\n\t\t{ \"include\": \"#boolean\" },\r\n\t\t{ \"include\": \"source.completion\" },\r\n\t\t{ \"include\": \"source.completion#aaaaaaaaaaaaaaaaaaa\" },\r\n\t\t{ \"name\": \"\" },\r\n\t\t{ \"name\": \"comment\" },\r\n\t\t{ \"name\": \"token.debug\" },\r\n\t\t{ \"name\": \"punctuation\" }\r\n\t]\n```\n",
+					"value": "\n```json-textmate\n\"patterns\": [\n\t{ \"include\": \"\" },\n\t{ \"include\": \"#string\" },\n\t{ \"include\": \"#boolean\" },\n\t{ \"include\": \"source.completion\" },\n\t{ \"include\": \"source.completion#aaaaaaaaaaaaaaaaaaa\" },\n\t{ \"name\": \"\" },\n\t{ \"name\": \"comment\" },\n\t{ \"name\": \"token.debug\" },\n\t{ \"name\": \"punctuation\" }\n]\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -19221,7 +19221,7 @@
 				},
 				"kind": 1,
 				"documentation": {
-					"value": "\n```json-textmate\n\"\": {\r\n\t\t\t\"match\": \"\\\\p{Ll} \"\r\n\t\t}\n```\n",
+					"value": "\n```json-textmate\n\"\": {\n\t\"match\": \"\\\\p{Ll} \"\n}\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,
@@ -19247,7 +19247,7 @@
 				},
 				"kind": 1,
 				"documentation": {
-					"value": "\n```json-textmate\n\"string\": {\r\n\t\t\t\"begin\": \"(R)?(\\\")\",\r\n\t\t\t\"end\": \"\\\"\",\r\n\t\t\t\"beginCaptures\": {\r\n\t\t\t\t\"1\": { \"name\": \"string.quoted.byte.raw.comp\" },\r\n\t\t\t\t\"2\": { \"name\": \"punctuation.definition.string.begin.completion\" }\r\n\t\t\t},\r\n\t\t\t\"endCaptures\": { \"0\": { \"name\": \"punctuation.definition.string.end.completion\" } },\r\n\t\t\t\"name\": \"string.quoted.double.lang\"\r\n\t\t}\n```\n",
+					"value": "\n```json-textmate\n\"string\": {\n\t\"begin\": \"(R)?(\\\")\",\n\t\"end\": \"\\\"\",\n\t\"beginCaptures\": {\n\t\t\"1\": { \"name\": \"string.quoted.byte.raw.comp\" },\n\t\t\"2\": { \"name\": \"punctuation.definition.string.begin.completion\" }\n\t},\n\t\"endCaptures\": { \"0\": { \"name\": \"punctuation.definition.string.end.completion\" } },\n\t\"name\": \"string.quoted.double.lang\"\n}\n```\n",
 					"supportThemeIcons": false,
 					"supportHtml": false,
 					"supportAlertSyntax": false,

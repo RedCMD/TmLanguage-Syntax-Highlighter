@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as webTreeSitter from 'web-tree-sitter';
 import { getPackageJSON, stringify } from '../extension';
-import { ITextMateThemingRule } from "../extensions";
+import { IRelaxedExtension, ITextMateThemingRule } from "../extensions";
 import { getTrees, toRange, toPoint, queryNode, getLastNode, trees, toPosition } from "../TreeSitter";
 import { getScopes } from "../themeScopeColors";
 import { UNICODE_PROPERTIES } from "../UNICODE_PROPERTIES";
@@ -291,14 +291,19 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 			}
 			case 'include':
 				const rootPatternsQuery = `(json (patterns) @patterns)`;
-				const rootPatternsText = queryNode(rootNode, rootPatternsQuery).pop()?.node?.text;
+				const rootPatternsNode = queryNode(rootNode, rootPatternsQuery).pop()?.node;
 
 				const selfLabel: vscode.CompletionItemLabel = {
 					label: '$self',
 					description: 'Includes the current grammar file',
 				};
 				const selfDocumentation = new vscode.MarkdownString();
-				selfDocumentation.appendCodeblock(rootPatternsText || '"patterns": []', 'json-textmate');
+				selfDocumentation.appendCodeblock(
+					rootPatternsNode
+						? prettifyNodeJSON(rootPatternsNode)
+						: '"patterns": []',
+					'json-textmate'
+				);
 				const selfCompletionItem: vscode.CompletionItem = {
 					label: selfLabel,
 					documentation: selfDocumentation,
@@ -346,38 +351,29 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 					}
 				}
 
-				for (const extension of vscode.extensions.all) {
+				for (const extension of vscode.extensions.all as IRelaxedExtension[]) {
 					const grammars = extension.packageJSON?.contributes?.grammars;
-					if (grammars) {
+					if (Array.isArray(grammars)) {
 						const cursorText = cursorNode.text;
 						for (const grammar of grammars) {
 							const grammarScopeName = grammar.scopeName;
 							if (grammarScopeName) {
 								const grammarDocumentation = new vscode.MarkdownString();
 								if (cursorScopeName == grammarScopeName) {
-									const grammarUri = vscode.Uri.joinPath(extension.extensionUri, grammar.path);
+									const grammarUri = vscode.Uri.joinPath(extension.extensionUri, grammar.path!);
 									const grammarDocument = await vscode.workspace.openTextDocument(grammarUri);
 									const grammarTree = getTrees(grammarDocument).jsonTree;
 
 									repoCompletionItems(completionItems, grammarTree, cursorRange, cursorScopeName);
 
 									if (cursorText == grammarScopeName) {
-										const grammarPatternsText = queryNode(grammarTree.rootNode, rootPatternsQuery).pop()?.node?.text;
-										// grammarDocumentation.appendCodeblock(grammarPatternsText, 'json-textmate'); // if Word Wrap worked
-										if (grammarPatternsText) {
-											let grammarDocText: string;
-											if (grammarDocument.lineCount == 1) {
-												try {
-													const parsedPatterns = JSON.parse('{' + grammarPatternsText + '}');
-													grammarDocText = '"patterns": ' + JSON.stringify(parsedPatterns.patterns, null, 2).slice(0, 99900);
-												} catch (error) {
-													grammarDocText = grammarPatternsText.slice(0, 1000); // How to enable Word Wrap?
-												}
-											}
-											else {
-												grammarDocText = grammarPatternsText.slice(0, 99900);
-											}
-											grammarDocumentation.appendCodeblock(grammarDocText, 'json-textmate'); // but no, it doesn't work....
+										const grammarPatternsNode = queryNode(grammarTree.rootNode, rootPatternsQuery).pop()?.node;
+										if (grammarPatternsNode) {
+											// grammarDocumentation.appendCodeblock(grammarPatternsNode.text, 'json-textmate'); // if Word Wrap worked
+											grammarDocumentation.appendCodeblock(
+												prettifyNodeJSON(grammarPatternsNode),
+												'json-textmate'
+											);
 										}
 									}
 								}
@@ -708,6 +704,27 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 };
 
 
+function prettifyNodeJSON(node: webTreeSitter.Node): string {
+	const text = node.text;
+	const startColumn = node.startPosition.column;
+	if (text.includes('\n')) {
+		return text.replaceAll(new RegExp(`\r?\n[ \t]{0,${startColumn}}`, 'g'), '\n').slice(0, 99900);
+	}
+
+	try {
+		const repoParsed = JSON.parse('{' + text + '}');
+		const key = Object.keys(repoParsed)[0];
+		return `"${key}": ${JSON.stringify(repoParsed[key], null, 2).slice(0, 99900)}`;
+	} catch (error) {
+		try {
+			const repoParsed = JSON.parse(text);
+			return JSON.stringify(repoParsed, null, 2).slice(0, 99900);
+		} catch (error) {
+			return text.slice(0, 1000); // How to enable Word Wrap?
+		}
+	}
+}
+
 function repoCompletionItems(completionItems: CompletionItem[], tree: webTreeSitter.Tree, cursorRange: vscode.Range, scopeName?: string): void {
 	const rootNode = tree.rootNode;
 
@@ -739,22 +756,12 @@ function repoCompletionItems(completionItems: CompletionItem[], tree: webTreeSit
 			description: commentText,
 		};
 
-		const repoNodeParentText = repoParent.text;
-		let repoDocText: string;
-		if (rootNode.startPosition.row == rootNode.endPosition.row) {
-			try {
-				const repoParsed = JSON.parse('{' + repoNodeParentText + '}');
-				repoDocText = `"${repoText}": ` + JSON.stringify(repoParsed[repoText], null, 2).slice(0, 99900);
-			} catch (error) {
-				repoDocText = repoNodeParentText.slice(0, 1000); // How to enable Word Wrap?
-			}
-		}
-		else {
-			repoDocText = repoNodeParentText.slice(0, 99900);
-		}
 		const documentation = new vscode.MarkdownString();
-		documentation.appendCodeblock(repoDocText, 'json-textmate');
-		// documentation.appendCodeblock(parentRepoNodeText, 'json-textmate'); // if Word Wrap worked
+		documentation.appendCodeblock(
+			prettifyNodeJSON(repoParent),
+			'json-textmate'
+		);
+		// documentation.appendCodeblock(repoParent.text, 'json-textmate'); // if Word Wrap worked
 
 		const repoCompletionItem: vscode.CompletionItem = {
 			label: repoLabel,
@@ -895,13 +902,18 @@ export function findCandidateScopePostfixes(rootNode: webTreeSitter.Node, positi
 	for (const scopeCapture of scopeCaptures) {
 		const scope = scopeCapture.node.text;
 		const scopePostfixParts = scope.split('.').slice(1).slice(-maxScopePostfixLength);
+		const name = scopeCapture.name;
 		for (let index = 0; index < scopePostfixParts.length; index++) {
 			const scopePostfix = scopePostfixParts.slice(index).join('.');
 			candidateScopePostfixes[scopePostfix] ??= 0;
-			candidateScopePostfixes[scopePostfix] += scopeCapture.name == 'injectionScope' ? 0.5 : 1;
+			candidateScopePostfixes[scopePostfix] +=
+				name == 'injectionScope' ? 0.5
+					: name == 'includeScope' ? 1.5
+						: scope.startsWith("meta.embedded.") ? 2
+							: 1;
 		}
 
-		if (scopeCapture.name == 'includeScope') {
+		if (name == 'includeScope') {
 			// Ignore Include scopes
 			continue;
 		}
@@ -946,7 +958,7 @@ export function findCandidateScopePostfixes(rootNode: webTreeSitter.Node, positi
 		)
 		.filter(
 			(candidate, index, candidates) =>
-				candidate[1] > 3 /* || candidate[1] >= candidates[4][1] */
+				candidate[1] >= 3 /* || candidate[1] >= candidates[4][1] */
 		)
 		.filter(
 			(candidate, index, candidates) =>
