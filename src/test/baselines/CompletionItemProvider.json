@@ -1,6 +1,5 @@
 [
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "$schema",
@@ -344,7 +343,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": {
@@ -389,7 +387,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "scopeName",
@@ -740,7 +737,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": {
@@ -806,7 +802,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "$schema",
@@ -1150,11 +1145,9 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": []
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "patterns",
@@ -1498,7 +1491,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "applyEndPatternLast",
@@ -2033,7 +2025,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": {
@@ -5625,7 +5616,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "applyEndPatternLast",
@@ -6160,7 +6150,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": {
@@ -9752,7 +9741,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "applyEndPatternLast",
@@ -10287,7 +10275,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": {
@@ -13879,7 +13866,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "applyEndPatternLast",
@@ -14414,7 +14400,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": {
@@ -18095,7 +18080,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "applyEndPatternLast",
@@ -18630,7 +18614,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": {
@@ -22311,7 +22294,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "applyEndPatternLast",
@@ -22846,7 +22828,6 @@
 		]
 	},
 	{
-		"incomplete": true,
 		"suggestions": [
 			{
 				"label": "comment.languageId",
@@ -29717,7 +29698,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "applyEndPatternLast",
@@ -30252,7 +30232,6 @@
 		]
 	},
 	{
-		"incomplete": true,
 		"suggestions": [
 			{
 				"label": {
@@ -37143,7 +37122,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "applyEndPatternLast",
@@ -37678,7 +37656,6 @@
 		]
 	},
 	{
-		"incomplete": true,
 		"suggestions": [
 			{
 				"label": "comment.languageId",
@@ -44552,7 +44529,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "applyEndPatternLast",
@@ -45087,7 +45063,6 @@
 		]
 	},
 	{
-		"incomplete": true,
 		"suggestions": [
 			{
 				"label": "comment.languageId",
@@ -51961,7 +51936,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "$schema",
@@ -52353,7 +52327,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "boolean",
@@ -52712,7 +52685,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "name",
@@ -53247,7 +53219,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "^",
@@ -67618,7 +67589,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "boolean",
@@ -67977,7 +67947,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "begin",
@@ -69731,7 +69700,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "end",
@@ -70145,7 +70113,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "Regular expression",
@@ -70184,7 +70151,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "applyEndPatternLast",
@@ -70606,7 +70572,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "0",
@@ -70691,7 +70656,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "name",
@@ -70864,7 +70828,6 @@
 		]
 	},
 	{
-		"incomplete": true,
 		"suggestions": [
 			{
 				"label": "comment.languageId",
@@ -77738,7 +77701,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "0",
@@ -77823,7 +77785,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "name",
@@ -77996,7 +77957,6 @@
 		]
 	},
 	{
-		"incomplete": true,
 		"suggestions": [
 			{
 				"label": "comment.languageId",
@@ -84870,7 +84830,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "endCaptures",
@@ -85292,7 +85251,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "0",
@@ -85377,7 +85335,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "name",
@@ -85550,7 +85507,6 @@
 		]
 	},
 	{
-		"incomplete": true,
 		"suggestions": [
 			{
 				"label": "comment.languageId",
@@ -92424,7 +92380,6 @@
 		]
 	},
 	{
-		"incomplete": false,
 		"suggestions": [
 			{
 				"label": "applyEndPatternLast",
@@ -92839,7 +92794,6 @@
 		]
 	},
 	{
-		"incomplete": true,
 		"suggestions": [
 			{
 				"label": "comment.languageId",

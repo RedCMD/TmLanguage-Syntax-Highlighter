@@ -48,6 +48,7 @@ suite('Extension Tests', async () => {
 					case 'resource':
 					case 'node':
 					case 'cacheId':
+					case 'incomplete':
 						// Causes too much noise in diffs
 						// Remove them
 						return undefined;
