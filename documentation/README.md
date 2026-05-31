@@ -79,6 +79,7 @@ List of TextMate engines and their Regex engines:
 * [tmengine](https://github.com/AaravMalani/tmengine) - Python
 * [textmate-highlight](https://github.com/asottile-archive/textmate-highlight) - Python
 * [textfriend](https://github.com/mountainstorm/textfriend) - Python
+* [gopher-textmate](https://github.com/andersonpem/gopher-textmate) - Go
 
 [regex.tmLanguage.json](https://github.com/RedCMD/TmLanguage-Syntax-Highlighter/blob/main/syntaxes/regex.tmLanguage.json).  
 `\\K` [Keep](https://github.com/kkos/oniguruma/blob/v6.9.8/doc/RE#L183) effectively moves the start position of the captured text.  
