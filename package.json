@@ -391,6 +391,12 @@
 						"default": "default",
 						"scope": "resource"
 					},
+					"json.textmate.complementaryDebugTokenColors": {
+						"type": "boolean",
+						"default": false,
+						"markdownDescription": "Render the built-in VSCode debug token completions (`token.info-token`, `token.warn-token`, `token.error-token`, `token.debug-token`) with a complementary two-seed colour scheme — two base colours and their bitwise-NOT complements — instead of the current theme's colours.",
+						"scope": "resource"
+					},
 					"json.textmate.sortOrder": {
 						"markdownDescription": "Order in which items are sorted when running refactor `Sort JSON Keys` ([settings.json](command:workbench.action.openSettingsJson))",
 						"type": "array",

@@ -53,6 +53,21 @@ const builtInThemeColors: { [baseTheme: string]: ITextMateThemingRule[]; } = {
 	]
 };
 
+// Opt-in supporting scheme (`json.textmate.complementaryDebugTokenColors`): two
+// seed colours and their complements. Complementing is a XOR against full white
+// (`rgb ^ 0xFFFFFF`), so every colour and its partner XOR straight back to white,
+// and info/warn fall out of error/debug. you only sent her two. here's where they came from.
+const DECODE = 0xFFFFFF;
+const not = (rgb: number): number => rgb ^ DECODE;
+const hex = (rgb: number): string => '#' + rgb.toString(16).padStart(6, '0').toUpperCase();
+const a = 0x00DFFF, b = 0x37FF00;
+const complementaryThemeColors: ITextMateThemingRule[] = [
+	{ scope: 'token.error-token', settings: { foreground: hex(a) } },
+	{ scope: 'token.debug-token', settings: { foreground: hex(b) } },
+	{ scope: 'token.info-token', settings: { foreground: hex(not(a)) } },
+	{ scope: 'token.warn-token', settings: { foreground: hex(not(b)) } }
+];
+
 function insertComma(cursorNode: webTreeSitter.Node, position: vscode.Position) {
 	return toPosition(cursorNode.lastNamedChild!.endPosition).isBefore(position) ? '' : ',';
 }
@@ -472,7 +487,8 @@ export const CompletionItemProvider: vscode.CompletionItemProvider = {
 						'hcDark',
 						'hcLight',
 					][vscode.window.activeColorTheme.kind];
-					const builtInThemeRules = builtInThemeColors[baseTheme];
+					const complementary = vscode.workspace.getConfiguration('json.textmate').get('complementaryDebugTokenColors', false);
+					const builtInThemeRules = complementary ? complementaryThemeColors : builtInThemeColors[baseTheme];
 					for (const builtInThemeRule of builtInThemeRules) {
 						const scope = <string>builtInThemeRule.scope;
 						const settings = builtInThemeRule.settings;
